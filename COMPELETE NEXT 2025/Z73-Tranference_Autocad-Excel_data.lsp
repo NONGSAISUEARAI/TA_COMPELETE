@@ -112,7 +112,7 @@
     (defun LM:getdynpropvalue ( blk prp )
         (setq prp (strcase prp))
         (vl-some '(lambda ( x ) (if (= prp (strcase (vla-get-propertyname x))) (vlax-get x 'value)))
-            d(vlax-invoke blk 'getdynamicblockproperties)
+            (vlax-invoke blk 'getdynamicblockproperties)
         )
     )
   ;; Set Dynamic Block Property Value  -  Lee Mac
@@ -3195,7 +3195,6 @@
     (TA:Count_item_in_list_ blk_list_ )
   )
 
-  
 
 ;
 ;Excel_sub_func
@@ -8257,8 +8256,8 @@
 
 
 
-(defun c:PPline_Expdata () 
- 
+(defun c:PPline_Expdata1 () 
+
   ;while_select_block_on_condition_
       (setq target_EFname_ nil)
       (while (= target_EFname_ nil)
@@ -8384,36 +8383,36 @@
               )
               (setq dyn_filter_ (list 
                                   (setq dyn_heading_ (mapcar 'car 
-                                                             (vl-remove-if 
-                                                               '(lambda (x) 
+                                                            (vl-remove-if 
+                                                              '(lambda (x) 
                                                                   (wcmatch 
                                                                     (strcase (car x))
                                                                     "*POINT*"
                                                                   )
                                                                 )
-                                                               (TA:remove_val_list_rev02_ 
-                                                                 "Origin"
-                                                                 (setq dyn_all_ (LM-TA:getdynprops+vals 
+                                                              (TA:remove_val_list_rev02_ 
+                                                                "Origin"
+                                                                (setq dyn_all_ (LM-TA:getdynprops+vals 
                                                                                   target_block_obj_
                                                                                 )
-                                                                 )
-                                                               )
-                                                             )
-                                                     )
+                                                                )
+                                                              )
+                                                            )
+                                                    )
                                   )
                                   (setq dyn_data_ (mapcar 'cadr 
                                                           (vl-remove-if 
                                                             '(lambda (x) 
-                                                               (wcmatch 
-                                                                 (strcase (car x))
-                                                                 "*POINT*"
-                                                               )
-                                                             )
+                                                              (wcmatch 
+                                                                (strcase (car x))
+                                                                "*POINT*"
+                                                              )
+                                                            )
                                                             (TA:remove_val_list_rev02_ 
                                                               "Origin"
                                                               (setq dyn_all_ (LM-TA:getdynprops+vals 
-                                                                               target_block_obj_
-                                                                             )
+                                                                              target_block_obj_
+                                                                            )
                                                               )
                                                             )
                                                           )
@@ -8732,7 +8731,7 @@
     (alert "Tranfer Data Finish")
   ;
 )
-(defun c:PPline_Expdata2_DAFT2_ () 
+(defun c:PPline_Expdata2_DAFT3_ () 
  
   ;while_select_block_on_condition_
       (setq target_EFname_ nil)
@@ -8949,7 +8948,6 @@
     (alert "Tranfer Data Finish")
   ;
 )
-
 
 
 ;  (vlax-dump-object (nth 0 (vlax-invoke target_block_obj_ 'getdynamicblockproperties)))
