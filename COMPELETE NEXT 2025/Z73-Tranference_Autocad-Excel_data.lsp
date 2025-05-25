@@ -3195,6 +3195,7 @@
     (TA:Count_item_in_list_ blk_list_ )
   )
 
+  
 
 ;
 ;Excel_sub_func
@@ -9033,161 +9034,144 @@
 
   
 
-  (setq row_ 1)
-  (setq col_ 0)
-  (setq start_time_ (strcat 
-                      (substr (rtos (getvar "cdate") 2 8) 10 2)
-                      (substr (rtos (getvar "cdate") 2 8) 12 2)
-                      "."
-                      (substr (rtos (getvar "cdate") 2 8) 14 4)
-                    )
-  )
-  (foreach sub_list_ main_list_
-    (setq col_ 1)
-    (if 
-      (= (listp sub_list_) T)
-      (progn
-        (foreach sub_list_value_ sub_list_  ;(setq list_l_ (list 5 65 3 65 32 5 5  5 5 91 4 5 5))
-          (vlax-put 
-            (vlax-variant-value 
-              (vlax-get-property 
-                (vlax-get _worksheet_obj_ 'Cells)
-                'Item
-                row_
-                col_
-              )
+(setq row_ 1)
+(setq col_ 0)
+(setq start_time_ (strcat 
+                    (substr (rtos (getvar "cdate") 2 8) 10 2)
+                    (substr (rtos (getvar "cdate") 2 8) 12 2)
+                    "."
+                    (substr (rtos (getvar "cdate") 2 8) 14 4)
+                  )
+)
+(foreach sub_list_ main_list_
+  (setq col_ 1)
+  (if 
+    (= (listp sub_list_) T)
+    (progn
+      (foreach sub_list_value_ sub_list_  ;(setq list_l_ (list 5 65 3 65 32 5 5  5 5 91 4 5 5))
+        (vlax-put 
+          (vlax-variant-value 
+            (vlax-get-property 
+              (vlax-get _worksheet_obj_ 'Cells)
+              'Item
+              row_
+              col_
             )
-            'Value
-            sub_list_value_
           )
-          (setq col_ (+ col_ 1))
+          'Value
+          sub_list_value_
         )
+        (setq col_ (+ col_ 1))
+      )
+    )
+  )
+  (setq row_ (+ row_ 1))
+)
+(setq finish_time_ (strcat 
+                    (substr (rtos (getvar "cdate") 2 8) 10 2)
+                    (substr (rtos (getvar "cdate") 2 8) 12 2)
+                    "."
+                    (substr (rtos (getvar "cdate") 2 8) 14 4)
+                  )
+)
+(- (atof finish_time_) (atof start_time_))
+
+
+
+(setq start_time_ (strcat 
+                    (substr (rtos (getvar "cdate") 2 8) 10 2)
+                    (substr (rtos (getvar "cdate") 2 8) 12 2)
+                    "."
+                    (substr (rtos (getvar "cdate") 2 8) 14 4)
+                  )
+)
+;preloop_and_while 
+  (setq main_list_i 0)
+  (setq row_ 1)
+  (while (< main_list_i (length main_list_))
+    (setq sub_list_ (nth  main_list_i main_list_))
+    (if 
+      (= (listp main_list_) T)
+      (progn
+        ;preloop_and_while
+          (setq sub_list_i 0)
+          (setq col_ 1)
+          (while (< sub_list_i (length sub_list_))
+            (setq sub_list_value_ (nth  sub_list_i sub_list_))
+              (vlax-put (vlax-variant-value (vlax-get-property (vlax-get _worksheet_obj_ 'Cells) 'Item row_ col_)) 'Value sub_list_value_)
+            (setq col_ (+ col_ 1))
+            (setq sub_list_i (+ sub_list_i 1))
+          )
+        ;
       )
     )
     (setq row_ (+ row_ 1))
+    (setq main_list_i (+ main_list_i 1))
   )
-  (setq finish_time_ (strcat 
-                      (substr (rtos (getvar "cdate") 2 8) 10 2)
-                      (substr (rtos (getvar "cdate") 2 8) 12 2)
-                      "."
-                      (substr (rtos (getvar "cdate") 2 8) 14 4)
-                    )
-  )
-  (- (atof finish_time_) (atof start_time_))
+;
+(setq finish_time_ (strcat 
+                    (substr (rtos (getvar "cdate") 2 8) 10 2)
+                    (substr (rtos (getvar "cdate") 2 8) 12 2)
+                    "."
+                    (substr (rtos (getvar "cdate") 2 8) 14 4)
+                  )
+)
+(- (atof finish_time_) (atof start_time_))
 
 
+(defun TA:Excel_foreach_input_list_dataset_R1C1 (_worksheet_obj_ row_start_ col_start_ main_list_  )
+  ;Note By Code_Developer
+    ;principle of coodework is designed for input data list to Excel appication via list/gruop data,
+    ;Can specify R1C1 via argument (row_start_ col_start_)
 
-  (setq start_time_ (strcat 
-                      (substr (rtos (getvar "cdate") 2 8) 10 2)
-                      (substr (rtos (getvar "cdate") 2 8) 12 2)
-                      "."
-                      (substr (rtos (getvar "cdate") 2 8) 14 4)
-                    )
-  )
-  ;preloop_and_while 
-    (setq main_list_i 0)
-    (setq row_ 1)
-    (while (< main_list_i (length main_list_))
-      (setq sub_list_ (nth  main_list_i main_list_))
-      (if 
-        (= (listp main_list_) T)
-        (progn
-          ;preloop_and_while
-            (setq sub_list_i 0)
-            (setq col_ 1)
-            (while (< sub_list_i (length sub_list_))
-              (setq sub_list_value_ (nth  sub_list_i sub_list_))
-                (vlax-put (vlax-variant-value (vlax-get-property (vlax-get _worksheet_obj_ 'Cells) 'Item row_ col_)) 'Value sub_list_value_)
-              (setq col_ (+ col_ 1))
-              (setq sub_list_i (+ sub_list_i 1))
-            )
-          ;
-        )
-      )
-      (setq row_ (+ row_ 1))
-      (setq main_list_i (+ main_list_i 1))
-    )
-  ;
-  (setq finish_time_ (strcat 
-                      (substr (rtos (getvar "cdate") 2 8) 10 2)
-                      (substr (rtos (getvar "cdate") 2 8) 12 2)
-                      "."
-                      (substr (rtos (getvar "cdate") 2 8) 14 4)
-                    )
-  )
-  (- (atof finish_time_) (atof start_time_))
+    ;Precautions when using this program 
+      ;The argument main_list_ must contain data in the form of a main list that groups multiple sublists.
+      ;Each sublist holds detailed data intended for display purposes.
+      ;Example
+        ; (setq mainlist ;main list_
+        ;                (list 
+        ;                  (list 54 68 6 6 32 68 3 65 6 35 65 3 35 61 64 95 3) ;sub list_
+        ;                  (list 54 68 6 6 32 68 3 65 6 35 65 3 35 61 64 95 3) ;sub list_
+        ;                  (list 54 68 6 6 32 68 3 65 6 35 65 3 35 61 64 95 3) ;sub list_
+        ;                  (list 54 68 6 6 32 68 3 65 6 35 65 3 35 61 64 95 3) ;sub list_
+        ;                )
+        ; )
+        ;Precautions when using this program 
+          ;The argument main_list_ must contain data in the form of a main list that groups multiple sublists.
+          ;Each sublist holds detailed data intended for display purposes.
+          ;Example 1
+            ; mainlist_
+            ; └─ sublist
+            ;    └─ sublist of sublist (maximun Below lv.3 )
+            ; └─ sublist
+            ;    └─ sublist of sublist (maximun Below lv.3 )
 
-
-  (defun TA:Excel_foreach_input_list_dataset_R1C1 (_worksheet_obj_ row_start_ col_start_ main_list_  )
-    ;Note By Code_Developer
-      ;principle of coodework is designed for input data list to Excel appication via list/gruop data,
-      ;Can specify R1C1 via argument (row_start_ col_start_)
-
-      ;Precautions when using this program 
-        ;The argument main_list_ must contain data in the form of a main list that groups multiple sublists.
-        ;Each sublist holds detailed data intended for display purposes.
-        ;Example
-          ; (setq mainlist ;main list_
-          ;                (list 
-          ;                  (list 54 68 6 6 32 68 3 65 6 35 65 3 35 61 64 95 3) ;sub list_
-          ;                  (list 54 68 6 6 32 68 3 65 6 35 65 3 35 61 64 95 3) ;sub list_
-          ;                  (list 54 68 6 6 32 68 3 65 6 35 65 3 35 61 64 95 3) ;sub list_
-          ;                  (list 54 68 6 6 32 68 3 65 6 35 65 3 35 61 64 95 3) ;sub list_
-          ;                )
-          ; )
-          ;Precautions when using this program 
-            ;The argument main_list_ must contain data in the form of a main list that groups multiple sublists.
-            ;Each sublist holds detailed data intended for display purposes.
-            ;Example 1
-              ; mainlist_
-              ; └─ sublist
-              ;    └─ sublist of sublist (maximun Below lv.3 )
-              ; └─ sublist
-              ;    └─ sublist of sublist (maximun Below lv.3 )
-
-              ; (setq mainlist ;main list_
-              ;                (list 
-              ;                  (list 54 68 6 6 32 68 3 65 6 35 65 3 35 61 64 95 3) ;sub list_
-              ;                  (list 54 68 6 6 32 68 3 65 6 35 65 (list "A" "B" "C" "D") 3 35 61 64 95 3) ;sub list_
-              ;                  (list 54 68 6 6 32 68 3 65 6 35 65 3 35 61 64 95 3) ;sub list_
-              ;                  (list 54 68 6 6 (list "A" "B" "C" "D") 32 68 3 65 6 35 65 3 35 61 64 95 3) ;sub list_
-              ;                )
-              ; )
-            ;
+            ; (setq mainlist ;main list_
+            ;                (list 
+            ;                  (list 54 68 6 6 32 68 3 65 6 35 65 3 35 61 64 95 3) ;sub list_
+            ;                  (list 54 68 6 6 32 68 3 65 6 35 65 (list "A" "B" "C" "D") 3 35 61 64 95 3) ;sub list_
+            ;                  (list 54 68 6 6 32 68 3 65 6 35 65 3 35 61 64 95 3) ;sub list_
+            ;                  (list 54 68 6 6 (list "A" "B" "C" "D") 32 68 3 65 6 35 65 3 35 61 64 95 3) ;sub list_
+            ;                )
+            ; )
           ;
         ;
       ;
     ;
-    ;
-    ; ;Example_argument_
-    ;   (setq row_start_ 1)
-    ;   (setq col_start_ 1)
-    ; ;
-      (foreach sub_group_ main_list_
-        (setq col_ col_start_)
-        (if 
-          (= (listp sub_group_) T)
-          (progn
-            (foreach sub_list_ sub_group_  ; ← ลูปชั้นที่ 2
-              (if (listp sub_list_)
-                (foreach sub_value_ sub_list_  ; ← ลูปชั้นที่ 3
-                  (progn
-                    (vlax-put
-                      (vlax-variant-value
-                        (vlax-get-property
-                          (vlax-get _worksheet_obj_ 'Cells)
-                          'Item
-                          row_start_
-                          col_
-                        )
-                      )
-                      'Value
-                      sub_value_
-                    )
-                    (setq col_ (+ col_ 1))
-                  )
-                )
-                ;; ถ้า sub_list_ ไม่ใช่ list → แปลว่าเป็นค่าธรรมดา (อาจอยู่แค่ 2 ชั้น)
+  ;
+  ;
+  ; ;Example_argument_
+  ;   (setq row_start_ 1)
+  ;   (setq col_start_ 1)
+  ; ;
+    (foreach sub_group_ main_list_
+      (setq col_ col_start_)
+      (if 
+        (= (listp sub_group_) T)
+        (progn
+          (foreach sub_list_ sub_group_  ; ← ลูปชั้นที่ 2
+            (if (listp sub_list_)
+              (foreach sub_value_ sub_list_  ; ← ลูปชั้นที่ 3
                 (progn
                   (vlax-put
                     (vlax-variant-value
@@ -9199,322 +9183,339 @@
                       )
                     )
                     'Value
-                    sub_list_
+                    sub_value_
                   )
                   (setq col_ (+ col_ 1))
                 )
               )
+              ;; ถ้า sub_list_ ไม่ใช่ list → แปลว่าเป็นค่าธรรมดา (อาจอยู่แค่ 2 ชั้น)
+              (progn
+                (vlax-put
+                  (vlax-variant-value
+                    (vlax-get-property
+                      (vlax-get _worksheet_obj_ 'Cells)
+                      'Item
+                      row_start_
+                      col_
+                    )
+                  )
+                  'Value
+                  sub_list_
+                )
+                (setq col_ (+ col_ 1))
+              )
             )
           )
         )
-
-        (setq row_start_ (+ row_start_ 1))
       )
-  )
-  (TA:Excel_foreach_input_list_dataset_R1C1 _worksheet_obj_ 3 5 main_list_  )
-  (defun TA:Excel_while_input_list_data_R1C1 (_worksheet_obj_ row_start_ col_start_ main_list_  )
-    ;Note By Code_Developer
-      ;principle of coodework is designed for input data list to Excel appication via list/gruop data,
-      ;Can specify R1C1 via argument (row_start_ col_start_)
 
-      ;Precautions when using this program 
-        ;The argument main_list_ must contain data in the form of a main list that groups multiple sublists.
-        ;Each sublist holds detailed data intended for display purposes.
-        ;Example 1
-          ; mainlist_
-          ; └─ sublist
-          ;    └─ sublist of sublist (maximun Below lv.3 )
-          ; └─ sublist
-          ;    └─ sublist of sublist (maximun Below lv.3 )
+      (setq row_start_ (+ row_start_ 1))
+    )
+)
+(TA:Excel_foreach_input_list_dataset_R1C1 _worksheet_obj_ 3 5 main_list_  )
+(defun TA:Excel_while_input_list_data_R1C1 (_worksheet_obj_ row_start_ col_start_ main_list_  )
+  ;Note By Code_Developer
+    ;principle of coodework is designed for input data list to Excel appication via list/gruop data,
+    ;Can specify R1C1 via argument (row_start_ col_start_)
 
-          ; (setq mainlist ;main list_
-          ;                (list 
-          ;                  (list 54 68 6 6 32 68 3 65 6 35 65 3 35 61 64 95 3) ;sub list_
-          ;                  (list 54 68 6 6 32 68 3 65 6 35 65 (list "A" "B" "C" "D") 3 35 61 64 95 3) ;sub list_
-          ;                  (list 54 68 6 6 32 68 3 65 6 35 65 3 35 61 64 95 3) ;sub list_
-          ;                  (list 54 68 6 6 (list "A" "B" "C" "D") 32 68 3 65 6 35 65 3 35 61 64 95 3) ;sub list_
-          ;                )
-          ; )
-        ;
+    ;Precautions when using this program 
+      ;The argument main_list_ must contain data in the form of a main list that groups multiple sublists.
+      ;Each sublist holds detailed data intended for display purposes.
+      ;Example 1
+        ; mainlist_
+        ; └─ sublist
+        ;    └─ sublist of sublist (maximun Below lv.3 )
+        ; └─ sublist
+        ;    └─ sublist of sublist (maximun Below lv.3 )
+
+        ; (setq mainlist ;main list_
+        ;                (list 
+        ;                  (list 54 68 6 6 32 68 3 65 6 35 65 3 35 61 64 95 3) ;sub list_
+        ;                  (list 54 68 6 6 32 68 3 65 6 35 65 (list "A" "B" "C" "D") 3 35 61 64 95 3) ;sub list_
+        ;                  (list 54 68 6 6 32 68 3 65 6 35 65 3 35 61 64 95 3) ;sub list_
+        ;                  (list 54 68 6 6 (list "A" "B" "C" "D") 32 68 3 65 6 35 65 3 35 61 64 95 3) ;sub list_
+        ;                )
+        ; )
       ;
     ;
-    ;
-    ;Example_argument_
-      ; (setq row_start_ 1)
-      ; (setq col_start_ 0)
-    ;
-    ;preloop_and_while 
-      (setq main_list_i 0)
-      (setq row_ row_start_)
-      (while (< main_list_i (length main_list_))
-        (setq sub_list_ (nth  main_list_i main_list_))
-        (if 
-          (= (listp main_list_) T)
-          (progn
-            ;preloop_and_while
-              (setq sub_list_i 0)
-              (setq col_ col_start_)
-              (while (< sub_list_i (length sub_list_))
-                (setq sub_list_value_ (nth  sub_list_i sub_list_))
-                  (if (= (listp sub_list_value_ ) T)
-                    (progn
-                      ;preloop_and_while
-                        (setq sub_list_value_i 0)
-                        (while (< sub_list_value_i (length sub_list_value_))
-                          (setq sub_list_value_ofsubvalue_ (nth  sub_list_value_i sub_list_value_))
-                            (vlax-put (vlax-variant-value (vlax-get-property (vlax-get _worksheet_obj_ 'Cells) 'Item row_ col_)) 'Value sub_list_value_ofsubvalue_)
-                            (setq col_ (+ col_ 1))
-                          (setq sub_list_value_i (+ sub_list_value_i 1))
-                        )
-                      ;
-                    )
-                    (vlax-put (vlax-variant-value (vlax-get-property (vlax-get _worksheet_obj_ 'Cells) 'Item row_ col_)) 'Value sub_list_value_)
+  ;
+  ;
+  ;Example_argument_
+    ; (setq row_start_ 1)
+    ; (setq col_start_ 0)
+  ;
+  ;preloop_and_while 
+    (setq main_list_i 0)
+    (setq row_ row_start_)
+    (while (< main_list_i (length main_list_))
+      (setq sub_list_ (nth  main_list_i main_list_))
+      (if 
+        (= (listp main_list_) T)
+        (progn
+          ;preloop_and_while
+            (setq sub_list_i 0)
+            (setq col_ col_start_)
+            (while (< sub_list_i (length sub_list_))
+              (setq sub_list_value_ (nth  sub_list_i sub_list_))
+                (if (= (listp sub_list_value_ ) T)
+                  (progn
+                    ;preloop_and_while
+                      (setq sub_list_value_i 0)
+                      (while (< sub_list_value_i (length sub_list_value_))
+                        (setq sub_list_value_ofsubvalue_ (nth  sub_list_value_i sub_list_value_))
+                          (vlax-put (vlax-variant-value (vlax-get-property (vlax-get _worksheet_obj_ 'Cells) 'Item row_ col_)) 'Value sub_list_value_ofsubvalue_)
+                          (setq col_ (+ col_ 1))
+                        (setq sub_list_value_i (+ sub_list_value_i 1))
+                      )
+                    ;
                   )
-                (setq col_ (+ col_ 1))
-                (setq sub_list_i (+ sub_list_i 1))
-              )
-            ;
-          )
+                  (vlax-put (vlax-variant-value (vlax-get-property (vlax-get _worksheet_obj_ 'Cells) 'Item row_ col_)) 'Value sub_list_value_)
+                )
+              (setq col_ (+ col_ 1))
+              (setq sub_list_i (+ sub_list_i 1))
+            )
+          ;
         )
-        (setq row_ (+ row_ 1))
-        (setq main_list_i (+ main_list_i 1))
       )
-    ;
-  )
+      (setq row_ (+ row_ 1))
+      (setq main_list_i (+ main_list_i 1))
+    )
+  ;
+)
+(TA:Excel_while_input_list_data_R1C1 _worksheet_obj_ 4 1 main_list_ )
+
+(setq start_time_ (strcat 
+                    (substr (rtos (getvar "cdate") 2 8) 10 2)
+                    (substr (rtos (getvar "cdate") 2 8) 12 2)
+                    "."
+                    (substr (rtos (getvar "cdate") 2 8) 14 4)
+                  )
+)
   (TA:Excel_while_input_list_data_R1C1 _worksheet_obj_ 4 1 main_list_ )
 
-  (setq start_time_ (strcat 
-                      (substr (rtos (getvar "cdate") 2 8) 10 2)
-                      (substr (rtos (getvar "cdate") 2 8) 12 2)
-                      "."
-                      (substr (rtos (getvar "cdate") 2 8) 14 4)
-                    )
-  )
-    (TA:Excel_while_input_list_data_R1C1 _worksheet_obj_ 4 1 main_list_ )
+(setq finish_time_ (strcat 
+                    (substr (rtos (getvar "cdate") 2 8) 10 2)
+                    (substr (rtos (getvar "cdate") 2 8) 12 2)
+                    "."
+                    (substr (rtos (getvar "cdate") 2 8) 14 4)
+                  )
+)
+(- (atof finish_time_) (atof start_time_))
 
-  (setq finish_time_ (strcat 
-                      (substr (rtos (getvar "cdate") 2 8) 10 2)
-                      (substr (rtos (getvar "cdate") 2 8) 12 2)
-                      "."
-                      (substr (rtos (getvar "cdate") 2 8) 14 4)
-                    )
-  )
-  (- (atof finish_time_) (atof start_time_))
+(setq start_time_ (strcat 
+                    (substr (rtos (getvar "cdate") 2 8) 10 2)
+                    (substr (rtos (getvar "cdate") 2 8) 12 2)
+                    "."
+                    (substr (rtos (getvar "cdate") 2 8) 14 4)
+                  )
+)
+  (TA:Excel_foreach_input_list_dataset_R1C1 _worksheet_obj_ 1 1 main_list_  )
 
-  (setq start_time_ (strcat 
-                      (substr (rtos (getvar "cdate") 2 8) 10 2)
-                      (substr (rtos (getvar "cdate") 2 8) 12 2)
-                      "."
-                      (substr (rtos (getvar "cdate") 2 8) 14 4)
-                    )
-  )
-    (TA:Excel_foreach_input_list_dataset_R1C1 _worksheet_obj_ 1 1 main_list_  )
-
-  (setq finish_time_ (strcat 
-                      (substr (rtos (getvar "cdate") 2 8) 10 2)
-                      (substr (rtos (getvar "cdate") 2 8) 12 2)
-                      "."
-                      (substr (rtos (getvar "cdate") 2 8) 14 4)
-                    )
-  )
-  (- (atof finish_time_) (atof start_time_))
+(setq finish_time_ (strcat 
+                    (substr (rtos (getvar "cdate") 2 8) 10 2)
+                    (substr (rtos (getvar "cdate") 2 8) 12 2)
+                    "."
+                    (substr (rtos (getvar "cdate") 2 8) 14 4)
+                  )
+)
+(- (atof finish_time_) (atof start_time_))
 
 
 
 
-  (defun c:Caddata_to_Exceldata_C3EE ()
-    
-    
-    ;selection_set_for_fillter_blk_name
-      (if  ;pre_select_ssget_or_post_select_ssget
-        (=
-          (setq ss_pre_filter_set_xx_ (ssget "i"
-                                            (list
-                                              (cons 0 "INSERT") ;type of object
-                                              ; (cons 8 "000 - GRID")   ;kind of layer
-                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                              ; (cons 62 1)           ;kind of color call sign with color code index
-                                            )
-                                      )
-          )
-          nil
+(defun c:Caddata_to_Exceldata_C3EE ()
+  
+  
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
         )
-        (progn
-          (setq ss_pre_filter_set_xx_ (ssget
-                                            (list
-                                              (cons 0 "INSERT") ;type of object
-                                              ; (cons 8 "000 - GRID")   ;kind of layer
-                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                              ; (cons 62 1)           ;kind of color call sign with color code index
-                                            )
-                                      )
-          )
-        )
-        (sslength ss_pre_filter_set_xx_)
+        nil
       )
-    ;
-    ;filter_selection_set_process 
-      (setq sst_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ (setq EF_name_val (LM:effectivename (vlax-ename->vla-object (car (entsel "specify name block for flter Ef name "))))) ) )
-    ;
-    ;main_idea_get_properties_data_ process_
-      ; (setq sst_ (ssget)) ;uncomment incase don't use fillter Sub FUNC or testing
-      ;preloop_and_while
-        (setq sst_i 0)
-        (setq sst_properties_mainlist_ ())
-        (setq sst_properties_sublist_ ())
-        (while (< sst_i (sslength sst_))
-          (setq sst_ename_ (ssname sst_ sst_i))
-            (setq sst_obj_ (vlax-ename->vla-object sst_ename_))
-            (setq sst_obj_std_list_ (list ;main standard propertie
-                              (setq sst_obj_handle (vla-get-handle sst_obj_)) ;sub standard propertie
-                              (setq Layout_name_data (vla-get-Name (vla-get-ActiveLayout (vla-get-ActiveDocument (vlax-get-Acad-Object) ) ) ))
-                              (setq target_block_obj_EFname_data (LM:effectivename sst_obj_))
-                              (setq target_block_obj_color_data (vla-get-color sst_obj_))
-                              (setq target_block_obj_layer_data (vla-get-layer sst_obj_))
-                              (setq target_block_obj_linetype_data (vla-get-linetype sst_obj_))
-                              (setq target_block_obj_ins_x_data (car (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint sst_obj_)))))
-                              (setq target_block_obj_ins_y_data (cadr (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint sst_obj_)))))
-                              (setq target_block_obj_ins_z_data (caddr (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint sst_obj_)))))
-                              (setq target_block_obj_Rotation_data (rad-to-deg (vla-get-rotation sst_obj_)))      
-                            )
-            )
-            (if (= (vla-get-isdynamicblock sst_obj_) ) ;dynamic_properties_list_
-              (progn
-                (setq sst_obj_dyn_val_list (mapcar 'cadr 
-                                                  (vl-remove-if 
-                                                    '(lambda (x) 
-                                                        (wcmatch 
-                                                          (strcase (car x))
-                                                          "*POINT*"
-                                                        )
-                                                      )
-                                                    (TA:remove_val_list_rev02_ 
-                                                      "Origin"
-                                                      (setq sst_obj_dyn_all_ (LM-TA:getdynprops+vals 
-                                                                        sst_obj_
-                                                                      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;filter_selection_set_process 
+    (setq sst_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ (setq EF_name_val (LM:effectivename (vlax-ename->vla-object (car (entsel "specify name block for flter Ef name "))))) ) )
+  ;
+  ;main_idea_get_properties_data_ process_
+    ; (setq sst_ (ssget)) ;uncomment incase don't use fillter Sub FUNC or testing
+    ;preloop_and_while
+      (setq sst_i 0)
+      (setq sst_properties_mainlist_ ())
+      (setq sst_properties_sublist_ ())
+      (while (< sst_i (sslength sst_))
+        (setq sst_ename_ (ssname sst_ sst_i))
+          (setq sst_obj_ (vlax-ename->vla-object sst_ename_))
+          (setq sst_obj_std_list_ (list ;main standard propertie
+                            (setq sst_obj_handle (vla-get-handle sst_obj_)) ;sub standard propertie
+                            (setq Layout_name_data (vla-get-Name (vla-get-ActiveLayout (vla-get-ActiveDocument (vlax-get-Acad-Object) ) ) ))
+                            (setq target_block_obj_EFname_data (LM:effectivename sst_obj_))
+                            (setq target_block_obj_color_data (vla-get-color sst_obj_))
+                            (setq target_block_obj_layer_data (vla-get-layer sst_obj_))
+                            (setq target_block_obj_linetype_data (vla-get-linetype sst_obj_))
+                            (setq target_block_obj_ins_x_data (car (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint sst_obj_)))))
+                            (setq target_block_obj_ins_y_data (cadr (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint sst_obj_)))))
+                            (setq target_block_obj_ins_z_data (caddr (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint sst_obj_)))))
+                            (setq target_block_obj_Rotation_data (rad-to-deg (vla-get-rotation sst_obj_)))      
+                          )
+          )
+          (if (= (vla-get-isdynamicblock sst_obj_) ) ;dynamic_properties_list_
+            (progn
+              (setq sst_obj_dyn_val_list (mapcar 'cadr 
+                                                (vl-remove-if 
+                                                  '(lambda (x) 
+                                                      (wcmatch 
+                                                        (strcase (car x))
+                                                        "*POINT*"
                                                       )
                                                     )
+                                                  (TA:remove_val_list_rev02_ 
+                                                    "Origin"
+                                                    (setq sst_obj_dyn_all_ (LM-TA:getdynprops+vals 
+                                                                      sst_obj_
+                                                                    )
+                                                    )
                                                   )
-                                          )
-                )
+                                                )
+                                        )
               )
             )
-            (if (= (vla-get-hasattributes sst_obj_) :vlax-true) ;attribute_properties_list_
-              (progn
-                (setq sst_obj_att_val_list (LM:vl-getattributevalue-val-TA-Modifies sst_obj_ ) )
-              )
+          )
+          (if (= (vla-get-hasattributes sst_obj_) :vlax-true) ;attribute_properties_list_
+            (progn
+              (setq sst_obj_att_val_list (LM:vl-getattributevalue-val-TA-Modifies sst_obj_ ) )
             )
-            (if (= sst_i 0) ;for create  tag one time 
-              (progn
-                (setq sst_tag_mainlist_ ())
-                (if (= (vla-get-isdynamicblock sst_obj_))  ;dynamic_properties_list_
-                  (progn 
-                    (setq sst_obj_dyn_tag_list (mapcar 'car
-                                                        (vl-remove-if 
-                                                          '(lambda (x) 
-                                                            (wcmatch 
-                                                              (strcase (car x))
-                                                              "*POINT*"
-                                                            )
-                                                          )
-                                                          (TA:remove_val_list_rev02_ 
-                                                            "Origin"
-                                                            (setq sst_obj_dyn_all_ (LM-TA:getdynprops+vals 
-                                                                                    sst_obj_
-                                                                                  )
-                                                            )
+          )
+          (if (= sst_i 0) ;for create  tag one time 
+            (progn
+              (setq sst_tag_mainlist_ ())
+              (if (= (vla-get-isdynamicblock sst_obj_))  ;dynamic_properties_list_
+                (progn 
+                  (setq sst_obj_dyn_tag_list (mapcar 'car
+                                                      (vl-remove-if 
+                                                        '(lambda (x) 
+                                                          (wcmatch 
+                                                            (strcase (car x))
+                                                            "*POINT*"
                                                           )
                                                         )
-                                                )
-                    )
+                                                        (TA:remove_val_list_rev02_ 
+                                                          "Origin"
+                                                          (setq sst_obj_dyn_all_ (LM-TA:getdynprops+vals 
+                                                                                  sst_obj_
+                                                                                )
+                                                          )
+                                                        )
+                                                      )
+                                              )
                   )
                 )
-                (if (= (vla-get-hasattributes sst_obj_) :vlax-true) ;attribute_properties_list_
-                  (progn
-                    (setq sst_obj_att_tag_list (LM:vl-getattributevalue-tag-TA-Modifies sst_obj_ ) )
-                  )
+              )
+              (if (= (vla-get-hasattributes sst_obj_) :vlax-true) ;attribute_properties_list_
+                (progn
+                  (setq sst_obj_att_tag_list (LM:vl-getattributevalue-tag-TA-Modifies sst_obj_ ) )
                 )
-                (setq sst_tag_mainlist_
-                  (list
-                    (append 
-                      (list
-                        "Handle"
-                        "Layout"
-                        "Name_block"
-                        "Color"
-                        "Layer"
-                        "Linetype"
-                        "position_X"
-                        "position_Y"
-                        "position_Z"
-                        "Rotation(DEG)"
-                      )
-                      sst_obj_dyn_tag_list
-                      sst_obj_att_tag_list
+              )
+              (setq sst_tag_mainlist_
+                (list
+                  (append 
+                    (list
+                      "Handle"
+                      "Layout"
+                      "Name_block"
+                      "Color"
+                      "Layer"
+                      "Linetype"
+                      "position_X"
+                      "position_Y"
+                      "position_Z"
+                      "Rotation(DEG)"
                     )
+                    sst_obj_dyn_tag_list
+                    sst_obj_att_tag_list
                   )
                 )
               )
             )
-          
+          )
+        
 
+        
           
-            
-          
-          
-            (setq sst_properties_sublist_ (append sst_obj_std_list_ (list sst_obj_dyn_val_list) (list sst_obj_att_val_list))) 
-            (setq sst_properties_mainlist_ (cons sst_properties_sublist_ sst_properties_mainlist_))
-          (setq sst_i (+ sst_i 1))
-        )
-      ;
-    ;
-    (setq st_time_ (TA:start_time_for_record_))
-    ;export_properties_data_to_Excel
-      (setq Excel_lasted_worksheet_obj_ (TA:Excel_Open-Excel_ 1 1)) ;Sub-FUNC for oepn Excel Appication_
-      (TA:Excel_foreach_input_list_dataset_R1C1 ;Sub-FUNC create properties data list to Excel (tag list_)
-        Excel_lasted_worksheet_obj_ 
-        1
-        1
-        sst_tag_mainlist_
-      )
-      (TA:Excel_foreach_input_list_dataset_R1C1 ;Sub-FUNC create properties data list to Excel (content list_)
-        Excel_lasted_worksheet_obj_ 
-        2
-        1
-        sst_properties_mainlist_
+        
+        
+          (setq sst_properties_sublist_ (append sst_obj_std_list_ (list sst_obj_dyn_val_list) (list sst_obj_att_val_list))) 
+          (setq sst_properties_mainlist_ (cons sst_properties_sublist_ sst_properties_mainlist_))
+        (setq sst_i (+ sst_i 1))
       )
     ;
-    (setq st_time_1 (TA:start_time_for_record_))
-    (alert (strcat 
-             "total use time \n"
-             (rtos 
-               (- 
-               (+ 
-                 (* 3600 (atof (substr st_time_1 1 2)))
-                 (* 60 (atof (substr st_time_1 3 2)))
-                 (atof (substr st_time_1 6 2))
-               )
-               (+ 
-                 (* 3600 (atof (substr st_time_ 1 2)))
-                 (* 60 (atof (substr st_time_ 3 2)))
-                 (atof (substr st_time_ 6 2))
-               )
-             )
-               2 0
-             )
-             " second"
-           )
+  ;
+  (setq st_time_ (TA:start_time_for_record_))
+  ;export_properties_data_to_Excel
+    (setq Excel_lasted_worksheet_obj_ (TA:Excel_Open-Excel_ 1 1)) ;Sub-FUNC for oepn Excel Appication_
+    (TA:Excel_foreach_input_list_dataset_R1C1 ;Sub-FUNC create properties data list to Excel (tag list_)
+      Excel_lasted_worksheet_obj_ 
+      1
+      1
+      sst_tag_mainlist_
     )
+    (TA:Excel_foreach_input_list_dataset_R1C1 ;Sub-FUNC create properties data list to Excel (content list_)
+      Excel_lasted_worksheet_obj_ 
+      2
+      1
+      sst_properties_mainlist_
+    )
+  ;
+  (setq st_time_1 (TA:start_time_for_record_))
+  (alert (strcat 
+            "total use time \n"
+            (rtos 
+              (- 
+              (+ 
+                (* 3600 (atof (substr st_time_1 1 2)))
+                (* 60 (atof (substr st_time_1 3 2)))
+                (atof (substr st_time_1 6 2))
+              )
+              (+ 
+                (* 3600 (atof (substr st_time_ 1 2)))
+                (* 60 (atof (substr st_time_ 3 2)))
+                (atof (substr st_time_ 6 2))
+              )
+            )
+              2 0
+            )
+            " second"
+          )
   )
+)
 
-  (setq VLA-OBJECT-Worksheet Excel_lasted_worksheet_obj_ )
+(setq VLA-OBJECT-Worksheet Excel_lasted_worksheet_obj_ )
 
-  
 
-  
-  
-  
+
+
+
+
 
 
 
