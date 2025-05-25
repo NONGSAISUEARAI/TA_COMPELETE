@@ -5061,6 +5061,7 @@
         
       )
     )
+
   ;
   ;symbol_FUNC_
     (defun c:add_breakline_to_rectangle_ADBK ()
@@ -15996,6 +15997,7 @@
                             "000_C03"
                             "000_C04"
                             "000_C05"
+                            "000_C05A"
                             "000_C06"
                             "000_C07"
                             "000_C08"
@@ -16032,166 +16034,240 @@
           patt_name_mainlist_area_C03 0
           patt_name_mainlist_area_C04 0
           patt_name_mainlist_area_C05 0
+          patt_name_mainlist_area_C05A 0
           patt_name_mainlist_area_C06 0
           patt_name_mainlist_area_C07 0
           patt_name_mainlist_area_C08 0
           patt_name_mainlist_area_C09 0
           patt_name_mainlist_area_C10 0
           patt_name_mainlist_area_C11 0
+          patt_name_mainlist_area_C12 0
+          patt_name_mainlist_area_W01 0
+          patt_name_mainlist_area_W02 0
+          patt_name_mainlist_area_W03 0
+          patt_name_mainlist_area_W04 0
+          patt_name_mainlist_area_W05 0
+          patt_name_mainlist_area_W06 0
+          patt_name_mainlist_area_W07 0
+          patt_name_mainlist_area_W08 0
+          patt_name_mainlist_area_W09 0
+          patt_name_mainlist_area_W10 0
+          patt_name_mainlist_area_W11 0
+          patt_name_mainlist_area_W12 0
+          patt_name_mainlist_area_W13 0
+          patt_name_mainlist_area_W14 0
+          patt_name_mainlist_area_W15 0
+          patt_name_mainlist_area_W16 0
+          patt_name_mainlist_area_W17 0
+          patt_name_mainlist_area_W18 0
+          patt_name_mainlist_area_W19 0
+          patt_name_mainlist_area_W20 0
+          patt_name_mainlist_area_W21 0
+          patt_name_mainlist_area_W22 0
     )
     ;preloop_and_while
       (setq patt_name_mainlist_i 0)
       (while (< patt_name_mainlist_i (length patt_name_mainlist_))
         (setq patt_name_mainlist_name_ (car (nth  patt_name_mainlist_i patt_name_mainlist_)))
         (setq patt_name_mainlist_area_ (cadr (nth  patt_name_mainlist_i patt_name_mainlist_)))
-        (cond 
-          ( ;Harea_case_0
-           (and 
-             (= patt_name_mainlist_name_ (nth 0 mainlist_Ceiling))
-           )
-           (progn 
-             (setq patt_name_mainlist_area_C01 (+ patt_name_mainlist_area_C01 
-                                                  patt_name_mainlist_area_
-                                               )
-             )
-           )
+          (cond 
+            ( ;Harea_case_0
+            (and (= patt_name_mainlist_name_ (nth 0 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_C01 (+ patt_name_mainlist_area_C01 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_1
+            (and (= patt_name_mainlist_name_ (nth 1 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_C02 (+ patt_name_mainlist_area_C02 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_2
+            (and (= patt_name_mainlist_name_ (nth 2 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_C03 (+ patt_name_mainlist_area_C03 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_3
+            (and (= patt_name_mainlist_name_ (nth 3 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_C04 (+ patt_name_mainlist_area_C04 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_4
+            (and (= patt_name_mainlist_name_ (nth 4 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_C05 (+ patt_name_mainlist_area_C05 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_5
+            (and (= patt_name_mainlist_name_ (nth 5 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_C05A (+ patt_name_mainlist_area_C05A patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_6
+            (and (= patt_name_mainlist_name_ (nth 6 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_C06 (+ patt_name_mainlist_area_C06 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_7
+            (and (= patt_name_mainlist_name_ (nth 7 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_C07 (+ patt_name_mainlist_area_C07 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_8
+            (and (= patt_name_mainlist_name_ (nth 8 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_C08 (+ patt_name_mainlist_area_C08 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_9
+            (and (= patt_name_mainlist_name_ (nth 9 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_C09 (+ patt_name_mainlist_area_C09 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_10
+            (and (= patt_name_mainlist_name_ (nth 10 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_C10 (+ patt_name_mainlist_area_C10 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_11
+            (and (= patt_name_mainlist_name_ (nth 11 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_C11 (+ patt_name_mainlist_area_C11 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_12
+            (and (= patt_name_mainlist_name_ (nth 12 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_C12 (+ patt_name_mainlist_area_C12 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W1
+            (and (= patt_name_mainlist_name_ (nth 13 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W01 (+ patt_name_mainlist_area_W01 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W2
+            (and (= patt_name_mainlist_name_ (nth 14 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W02 (+ patt_name_mainlist_area_W02 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W3
+            (and (= patt_name_mainlist_name_ (nth 15 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W03 (+ patt_name_mainlist_area_W03 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W4
+            (and (= patt_name_mainlist_name_ (nth 16 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W04 (+ patt_name_mainlist_area_W04 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W5
+            (and (= patt_name_mainlist_name_ (nth 17 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W05 (+ patt_name_mainlist_area_W05 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W6
+            (and (= patt_name_mainlist_name_ (nth 18 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W06 (+ patt_name_mainlist_area_W06 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W7
+            (and (= patt_name_mainlist_name_ (nth 19 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W07 (+ patt_name_mainlist_area_W07 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W8
+            (and (= patt_name_mainlist_name_ (nth 20 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W08 (+ patt_name_mainlist_area_W08 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W9
+            (and (= patt_name_mainlist_name_ (nth 21 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W09 (+ patt_name_mainlist_area_W09 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W10
+            (and (= patt_name_mainlist_name_ (nth 22 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W10 (+ patt_name_mainlist_area_W10 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W11
+            (and (= patt_name_mainlist_name_ (nth 23 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W11 (+ patt_name_mainlist_area_W11 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W12
+            (and (= patt_name_mainlist_name_ (nth 24 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W12 (+ patt_name_mainlist_area_W12 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W13
+            (and (= patt_name_mainlist_name_ (nth 25 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W13 (+ patt_name_mainlist_area_W13 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W14
+            (and (= patt_name_mainlist_name_ (nth 26 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W14 (+ patt_name_mainlist_area_W14 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W15
+            (and (= patt_name_mainlist_name_ (nth 27 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W15 (+ patt_name_mainlist_area_W15 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W16
+            (and (= patt_name_mainlist_name_ (nth 28 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W16 (+ patt_name_mainlist_area_W16 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W17
+            (and (= patt_name_mainlist_name_ (nth 29 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W17 (+ patt_name_mainlist_area_W17 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W18
+            (and (= patt_name_mainlist_name_ (nth 30 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W18 (+ patt_name_mainlist_area_W18 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W19
+            (and (= patt_name_mainlist_name_ (nth 31 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W19 (+ patt_name_mainlist_area_W19 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W20
+            (and (= patt_name_mainlist_name_ (nth 32 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W20 (+ patt_name_mainlist_area_W20 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W21
+            (and (= patt_name_mainlist_name_ (nth 33 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W21 (+ patt_name_mainlist_area_W21 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W22
+            (and (= patt_name_mainlist_name_ (nth 34 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W22 (+ patt_name_mainlist_area_W22 patt_name_mainlist_area_)))
+            )
           )
-          ( ;Harea_case_1
-           (and 
-             (= patt_name_mainlist_name_ (nth 1 mainlist_Ceiling))
-           )
-           (progn 
-             (setq patt_name_mainlist_area_C02 (+ patt_name_mainlist_area_C02 
-                                                  patt_name_mainlist_area_
-                                               )
-             )
-           )
-          )
-          ( ;Harea_case_2
-           (and 
-             (= patt_name_mainlist_name_ (nth 2 mainlist_Ceiling))
-           )
-           (progn 
-             (setq patt_name_mainlist_area_C03 (+ patt_name_mainlist_area_C03 
-                                                  patt_name_mainlist_area_
-                                               )
-             )
-           )
-          )
-          ( ;Harea_case_3
-           (and 
-             (= patt_name_mainlist_name_ (nth 3 mainlist_Ceiling))
-           )
-           (progn 
-             (setq patt_name_mainlist_area_C04 (+ patt_name_mainlist_area_C04 
-                                                  patt_name_mainlist_area_
-                                               )
-             )
-           )
-          )
-          ( ;Harea_case_4
-           (and 
-             (= patt_name_mainlist_name_ (nth 4 mainlist_Ceiling))
-           )
-           (progn 
-             (setq patt_name_mainlist_area_C05 (+ patt_name_mainlist_area_C05 
-                                                  patt_name_mainlist_area_
-                                               )
-             )
-           )
-          )
-          ( ;Harea_case_5
-           (and 
-             (= patt_name_mainlist_name_ (nth 5 mainlist_Ceiling))
-           )
-           (progn 
-             (setq patt_name_mainlist_area_C06 (+ patt_name_mainlist_area_C06 
-                                                  patt_name_mainlist_area_
-                                               )
-             )
-           )
-          )
-          ( ;Harea_case_6
-           (and 
-             (= patt_name_mainlist_name_ (nth 6 mainlist_Ceiling))
-           )
-           (progn 
-             (setq patt_name_mainlist_area_C07 (+ patt_name_mainlist_area_C07 
-                                                  patt_name_mainlist_area_
-                                               )
-             )
-           )
-          )
-          ( ;Harea_case_7
-           (and 
-             (= patt_name_mainlist_name_ (nth 7 mainlist_Ceiling))
-           )
-           (progn 
-             (setq patt_name_mainlist_area_C08 (+ patt_name_mainlist_area_C08 
-                                                  patt_name_mainlist_area_
-                                               )
-             )
-           )
-          )
-          ( ;Harea_case_8
-           (and 
-             (= patt_name_mainlist_name_ (nth 8 mainlist_Ceiling))
-           )
-           (progn 
-             (setq patt_name_mainlist_area_C09 (+ patt_name_mainlist_area_C09 
-                                                  patt_name_mainlist_area_
-                                               )
-             )
-           )
-          )
-          ( ;Harea_case_9
-           (and 
-             (= patt_name_mainlist_name_ (nth 9 mainlist_Ceiling))
-           )
-           (progn 
-             (setq patt_name_mainlist_area_C10 (+ patt_name_mainlist_area_C10 
-                                                  patt_name_mainlist_area_
-                                               )
-             )
-           )
-          )
-          ( ;Harea_case_10
-           (and 
-             (= patt_name_mainlist_name_ (nth 10 mainlist_Ceiling))
-           )
-           (progn 
-             (setq patt_name_mainlist_area_C11 (+ patt_name_mainlist_area_C11 
-                                                  patt_name_mainlist_area_
-                                               )
-             )
-           )
-          )
-        )
+
         
         (setq patt_name_mainlist_i (+ patt_name_mainlist_i 1))
       )
     ;
     (setq all_area_list_ (list 
-                           (list patt_name_mainlist_area_C01 
-                                 patt_name_mainlist_area_C02 patt_name_mainlist_area_C03 
-                                 patt_name_mainlist_area_C04 patt_name_mainlist_area_C05 
-                                 patt_name_mainlist_area_C06 patt_name_mainlist_area_C07 
-                                 patt_name_mainlist_area_C08 patt_name_mainlist_area_C09 
-                                 patt_name_mainlist_area_C10 patt_name_mainlist_area_C11
+                           (list  patt_name_mainlist_area_C01 
+                                  patt_name_mainlist_area_C02 
+                                  patt_name_mainlist_area_C03 
+                                  patt_name_mainlist_area_C04 
+                                  patt_name_mainlist_area_C05 
+                                  patt_name_mainlist_area_C06 
+                                  patt_name_mainlist_area_C07 
+                                  patt_name_mainlist_area_C08 
+                                  patt_name_mainlist_area_C09 
+                                  patt_name_mainlist_area_C10 
+                                  patt_name_mainlist_area_C11
+                                  patt_name_mainlist_area_C11 
+                                  patt_name_mainlist_area_C12 
+                                  patt_name_mainlist_area_W01 
+                                  patt_name_mainlist_area_W02 
+                                  patt_name_mainlist_area_W03 
+                                  patt_name_mainlist_area_W04 
+                                  patt_name_mainlist_area_W05 
+                                  patt_name_mainlist_area_W06 
+                                  patt_name_mainlist_area_W07 
+                                  patt_name_mainlist_area_W08 
+                                  patt_name_mainlist_area_W09
+                                  patt_name_mainlist_area_W10 
+                                  patt_name_mainlist_area_W11 
+                                  patt_name_mainlist_area_W12 
+                                  patt_name_mainlist_area_W13 
+                                  patt_name_mainlist_area_W14 
+                                  patt_name_mainlist_area_W15 
+                                  patt_name_mainlist_area_W16 
+                                  patt_name_mainlist_area_W17 
+                                  patt_name_mainlist_area_W18 
+                                  patt_name_mainlist_area_W19 
+                                  patt_name_mainlist_area_W20 
+                                  patt_name_mainlist_area_W21 
+                                  patt_name_mainlist_area_W22
                            )
                          )
     )
     (setq Excel_lasted_worksheet_obj_ (TA:Excel_Open-Excel_ 1 1))
     (TA:EXCEL_autofit_column_ Excel_lasted_worksheet_obj_)
-    (TA:Excel_input_data_R1C1 Excel_lasted_worksheet_obj_ 2 1 (getvar "dwgname"))
-    (TA:Excel_foreach_input_list_dataset_R1C1 Excel_lasted_worksheet_obj_ 2 2 (list mainlist_Ceiling ))
-    (TA:Excel_foreach_input_list_dataset_R1C1 Excel_lasted_worksheet_obj_ 3 2 all_area_list_)
+    (TA:Excel_input_data_R1C1 Excel_lasted_worksheet_obj_ 3 1 (getvar "dwgname"))
+    (TA:Excel_foreach_input_list_dataset_R1C1 Excel_lasted_worksheet_obj_ 2 5 (list mainlist_Ceiling ))
+    (TA:Excel_foreach_input_list_dataset_R1C1 Excel_lasted_worksheet_obj_ 3 5 all_area_list_)
   ;
 )
-(defun c:select_hacth_SsH ()
-  
-
-(setq ss_pre_filter_set_xx_ (ssget
+(defun c:Hatch_to_Excel_H3Excel ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
                                           (list
                                             (cons 0 "HATCH") ;type of object
                                             ; (cons 8 "000 - GRID")   ;kind of layer
@@ -16200,26 +16276,342 @@
                                           )
                                     )
         )
-
-(command "pselect"  ss_pre_filter_set_xx_  "" )
-)
-(defun c:select_hacth_SSB ()
-  
-
-(setq ss_pre_filter_set_xx_ (ssget
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
                                           (list
-                                            (cons 0 "INSERT") ;type of object
+                                            (cons 0 "HATCH") ;type of object
                                             ; (cons 8 "000 - GRID")   ;kind of layer
                                             ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                             ; (cons 62 1)           ;kind of color call sign with color code index
                                           )
                                     )
         )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq patt_name_mainlist_ ())
+    (setq patt_name_name_hatch_list_ ())
+    (setq ss_pre_filter_set_xx_i 0)
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+      
+      (setq ss_pre_filter_set_xx_obj_patt_name_ (vla-get-patternname ss_pre_filter_set_xx_obj_))
+      (setq ss_pre_filter_set_xx_obj_Harea_ (/ (vla-get-area ss_pre_filter_set_xx_obj_) 1000000 ))
+      
+      (setq patt_name_name_hatch_list_ (cons  ss_pre_filter_set_xx_obj_patt_name_ patt_name_name_hatch_list_))
+      (setq patt_name_sublist_ (list ss_pre_filter_set_xx_obj_patt_name_ ss_pre_filter_set_xx_obj_Harea_  ))
+      (setq patt_name_mainlist_ (cons patt_name_sublist_ patt_name_mainlist_))
+      
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+  ;preloop_and_while
+    (setq mainlist_Ceiling (list 
+                            "000_C01"
+                            "000_C02"
+                            "000_C03"
+                            "000_C04"
+                            "000_C05"
+                            "000_C05A"
+                            "000_C06"
+                            "000_C07"
+                            "000_C08"
+                            "000_C09"
+                            "000_C10"
+                            "000_C11"
+                            "000_C12"
+                            "000_W01"
+                            "000_W02"
+                            "000_W03"
+                            "000_W04"
+                            "000_W05"
+                            "000_W06"
+                            "000_W07"
+                            "000_W08"
+                            "000_W09"
+                            "000_W10"
+                            "000_W11"
+                            "000_W12"
+                            "000_W13"
+                            "000_W14"
+                            "000_W15"
+                            "000_W16"
+                            "000_W17"
+                            "000_W18"
+                            "000_W19"
+                            "000_W20"
+                            "000_W21"
+                            "000_W22"
+                           )
+    )
+    (setq patt_name_mainlist_area_C01 0
+          patt_name_mainlist_area_C02 0
+          patt_name_mainlist_area_C03 0
+          patt_name_mainlist_area_C04 0
+          patt_name_mainlist_area_C05 0
+          patt_name_mainlist_area_C05A 0
+          patt_name_mainlist_area_C06 0
+          patt_name_mainlist_area_C07 0
+          patt_name_mainlist_area_C08 0
+          patt_name_mainlist_area_C09 0
+          patt_name_mainlist_area_C10 0
+          patt_name_mainlist_area_C11 0
+          patt_name_mainlist_area_C12 0
+          patt_name_mainlist_area_W01 0
+          patt_name_mainlist_area_W02 0
+          patt_name_mainlist_area_W03 0
+          patt_name_mainlist_area_W04 0
+          patt_name_mainlist_area_W05 0
+          patt_name_mainlist_area_W06 0
+          patt_name_mainlist_area_W07 0
+          patt_name_mainlist_area_W08 0
+          patt_name_mainlist_area_W09 0
+          patt_name_mainlist_area_W10 0
+          patt_name_mainlist_area_W11 0
+          patt_name_mainlist_area_W12 0
+          patt_name_mainlist_area_W13 0
+          patt_name_mainlist_area_W14 0
+          patt_name_mainlist_area_W15 0
+          patt_name_mainlist_area_W16 0
+          patt_name_mainlist_area_W17 0
+          patt_name_mainlist_area_W18 0
+          patt_name_mainlist_area_W19 0
+          patt_name_mainlist_area_W20 0
+          patt_name_mainlist_area_W21 0
+          patt_name_mainlist_area_W22 0
+    )
+    ;preloop_and_while
+      (setq patt_name_mainlist_i 0)
+      (while (< patt_name_mainlist_i (length patt_name_mainlist_))
+        (setq patt_name_mainlist_name_ (car (nth  patt_name_mainlist_i patt_name_mainlist_)))
+        (setq patt_name_mainlist_area_ (cadr (nth  patt_name_mainlist_i patt_name_mainlist_)))
+          (cond 
+            ( ;Harea_case_0
+            (and (= patt_name_mainlist_name_ (nth 0 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_C01 (+ patt_name_mainlist_area_C01 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_1
+            (and (= patt_name_mainlist_name_ (nth 1 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_C02 (+ patt_name_mainlist_area_C02 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_2
+            (and (= patt_name_mainlist_name_ (nth 2 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_C03 (+ patt_name_mainlist_area_C03 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_3
+            (and (= patt_name_mainlist_name_ (nth 3 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_C04 (+ patt_name_mainlist_area_C04 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_4
+            (and (= patt_name_mainlist_name_ (nth 4 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_C05 (+ patt_name_mainlist_area_C05 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_5
+            (and (= patt_name_mainlist_name_ (nth 5 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_C05A (+ patt_name_mainlist_area_C05A patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_6
+            (and (= patt_name_mainlist_name_ (nth 6 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_C06 (+ patt_name_mainlist_area_C06 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_7
+            (and (= patt_name_mainlist_name_ (nth 7 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_C07 (+ patt_name_mainlist_area_C07 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_8
+            (and (= patt_name_mainlist_name_ (nth 8 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_C08 (+ patt_name_mainlist_area_C08 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_9
+            (and (= patt_name_mainlist_name_ (nth 9 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_C09 (+ patt_name_mainlist_area_C09 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_10
+            (and (= patt_name_mainlist_name_ (nth 10 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_C10 (+ patt_name_mainlist_area_C10 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_11
+            (and (= patt_name_mainlist_name_ (nth 11 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_C11 (+ patt_name_mainlist_area_C11 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_12
+            (and (= patt_name_mainlist_name_ (nth 12 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_C12 (+ patt_name_mainlist_area_C12 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W1
+            (and (= patt_name_mainlist_name_ (nth 13 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W01 (+ patt_name_mainlist_area_W01 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W2
+            (and (= patt_name_mainlist_name_ (nth 14 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W02 (+ patt_name_mainlist_area_W02 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W3
+            (and (= patt_name_mainlist_name_ (nth 15 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W03 (+ patt_name_mainlist_area_W03 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W4
+            (and (= patt_name_mainlist_name_ (nth 16 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W04 (+ patt_name_mainlist_area_W04 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W5
+            (and (= patt_name_mainlist_name_ (nth 17 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W05 (+ patt_name_mainlist_area_W05 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W6
+            (and (= patt_name_mainlist_name_ (nth 18 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W06 (+ patt_name_mainlist_area_W06 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W7
+            (and (= patt_name_mainlist_name_ (nth 19 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W07 (+ patt_name_mainlist_area_W07 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W8
+            (and (= patt_name_mainlist_name_ (nth 20 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W08 (+ patt_name_mainlist_area_W08 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W9
+            (and (= patt_name_mainlist_name_ (nth 21 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W09 (+ patt_name_mainlist_area_W09 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W10
+            (and (= patt_name_mainlist_name_ (nth 22 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W10 (+ patt_name_mainlist_area_W10 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W11
+            (and (= patt_name_mainlist_name_ (nth 23 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W11 (+ patt_name_mainlist_area_W11 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W12
+            (and (= patt_name_mainlist_name_ (nth 24 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W12 (+ patt_name_mainlist_area_W12 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W13
+            (and (= patt_name_mainlist_name_ (nth 25 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W13 (+ patt_name_mainlist_area_W13 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W14
+            (and (= patt_name_mainlist_name_ (nth 26 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W14 (+ patt_name_mainlist_area_W14 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W15
+            (and (= patt_name_mainlist_name_ (nth 27 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W15 (+ patt_name_mainlist_area_W15 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W16
+            (and (= patt_name_mainlist_name_ (nth 28 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W16 (+ patt_name_mainlist_area_W16 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W17
+            (and (= patt_name_mainlist_name_ (nth 29 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W17 (+ patt_name_mainlist_area_W17 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W18
+            (and (= patt_name_mainlist_name_ (nth 30 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W18 (+ patt_name_mainlist_area_W18 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W19
+            (and (= patt_name_mainlist_name_ (nth 31 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W19 (+ patt_name_mainlist_area_W19 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W20
+            (and (= patt_name_mainlist_name_ (nth 32 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W20 (+ patt_name_mainlist_area_W20 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W21
+            (and (= patt_name_mainlist_name_ (nth 33 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W21 (+ patt_name_mainlist_area_W21 patt_name_mainlist_area_)))
+            )
+            ( ;Harea_case_W22
+            (and (= patt_name_mainlist_name_ (nth 34 mainlist_Ceiling)))
+            (progn (setq patt_name_mainlist_area_W22 (+ patt_name_mainlist_area_W22 patt_name_mainlist_area_)))
+            )
+          )
 
-(command "pselect"  ss_pre_filter_set_xx_  "" )
+        
+        (setq patt_name_mainlist_i (+ patt_name_mainlist_i 1))
+      )
+    ;
+    (setq all_area_list_ (list 
+                           (list  patt_name_mainlist_area_C01 
+                                  patt_name_mainlist_area_C02 
+                                  patt_name_mainlist_area_C03 
+                                  patt_name_mainlist_area_C04 
+                                  patt_name_mainlist_area_C05 
+                                  patt_name_mainlist_area_C06 
+                                  patt_name_mainlist_area_C07 
+                                  patt_name_mainlist_area_C08 
+                                  patt_name_mainlist_area_C09 
+                                  patt_name_mainlist_area_C10 
+                                  patt_name_mainlist_area_C11
+                                  patt_name_mainlist_area_C11 
+                                  patt_name_mainlist_area_C12 
+                                  patt_name_mainlist_area_W01 
+                                  patt_name_mainlist_area_W02 
+                                  patt_name_mainlist_area_W03 
+                                  patt_name_mainlist_area_W04 
+                                  patt_name_mainlist_area_W05 
+                                  patt_name_mainlist_area_W06 
+                                  patt_name_mainlist_area_W07 
+                                  patt_name_mainlist_area_W08 
+                                  patt_name_mainlist_area_W09
+                                  patt_name_mainlist_area_W10 
+                                  patt_name_mainlist_area_W11 
+                                  patt_name_mainlist_area_W12 
+                                  patt_name_mainlist_area_W13 
+                                  patt_name_mainlist_area_W14 
+                                  patt_name_mainlist_area_W15 
+                                  patt_name_mainlist_area_W16 
+                                  patt_name_mainlist_area_W17 
+                                  patt_name_mainlist_area_W18 
+                                  patt_name_mainlist_area_W19 
+                                  patt_name_mainlist_area_W20 
+                                  patt_name_mainlist_area_W21 
+                                  patt_name_mainlist_area_W22
+                           )
+                         )
+    )
+    (setq Excel_lasted_worksheet_obj_ (TA:Excel_Open-Excel_ 1 1))
+    (TA:EXCEL_autofit_column_ Excel_lasted_worksheet_obj_)
+    (TA:Excel_input_data_R1C1 Excel_lasted_worksheet_obj_ 3 2 (getvar "dwgname"))
+    (TA:Excel_foreach_input_list_dataset_R1C1 Excel_lasted_worksheet_obj_ 2 6 (list mainlist_Ceiling ))
+    (TA:Excel_foreach_input_list_dataset_R1C1 Excel_lasted_worksheet_obj_ 3 6 all_area_list_)
+  ;
+  (c:Special-Hatch_to_Excel_SH2Excel)
+)
+(defun c:select_hacth_SsH ()
+  (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "HATCH") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+
+  (command "pselect"  ss_pre_filter_set_xx_  "" )
+)
+(defun c:select_hacth_SSB ()
+  (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+
+  (command "pselect"  ss_pre_filter_set_xx_  "" )
 )
 
-(defun c:erh_ ()
+(defun c:finderrorhatcharea_fear_ ()
   
 
   (setq sss_ (ssget 
@@ -16252,6 +16644,86 @@
   ;
   (command "pselect"  sss_set_ "" )
 )
+
+(defun c:Special-Hatch_to_Excel_SH2Excel ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000TYP_MATT_LENGTH"))
+  
+  ;preloop_and_while
+    (setq spec_mat (list 
+                    "LIGTHING BOOM"
+                    "SC05A"
+                    "SC05B"
+                   )
+    )
+    (setq LIGTHING_boom_val 0
+          SC05A_val          0
+          SC05B_val          0
+    )
+    (setq ss_pre_filter_set_xx_i 0)
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+      (setq mat_name_ (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "MATT_NAME"))
+      (setq H (/ (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "H") 1000))
+      (cond
+          ( ;Harea_case_W22
+            (and (= mat_name_ (nth 0 spec_mat)))
+            (progn (setq LIGTHING_boom_val (+ LIGTHING_boom_val H)))
+          )
+          ( ;Harea_case_W22
+            (and (= mat_name_ (nth 1 spec_mat)))
+            (progn (setq SC05A_val (+ SC05A_val H)))
+          )
+          ( ;Harea_case_W22
+            (and (= mat_name_ (nth 2 spec_mat)))
+            (progn (setq SC05B_val (+ SC05B_val H)))
+          )
+      )
+      (setq spec-matt_val_list_ (list 
+                                  LIGTHING_boom_val
+                                  SC05A_val
+                                  SC05B_val
+                                )
+      )
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+      ; (setq Excel_lasted_worksheet_obj_ (TA:Excel_Open-Excel_ 1 1))
+      ; (TA:EXCEL_autofit_column_ Excel_lasted_worksheet_obj_)
+      (TA:Excel_input_data_R1C1 Excel_lasted_worksheet_obj_ 3 2 (getvar "dwgname"))
+      (TA:Excel_foreach_input_list_dataset_R1C1 Excel_lasted_worksheet_obj_ 2 3 (list spec_mat ))
+      (TA:Excel_foreach_input_list_dataset_R1C1 Excel_lasted_worksheet_obj_ 3 3 (list spec-matt_val_list_))
+  ;
+)
+
+
 
 
 
@@ -18074,7 +18546,8 @@
               (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6301"    "*"))   T)
               (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6307"    "*"))   T)
 
-              (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6408.2"  "*"))   T)
+              (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6408"  "*"))   T)
+              (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6409"  "*"))   T)
 
               (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6500"    "*"))   T)
               
@@ -18492,9 +18965,3 @@
   
 )
 
-
-
-"SSSSSSSSSSSSSSSSSSSSSSSSSSSS"
-"SSSSSSSSSSSSSSSSSSSSSSSSSSSS"
-"SSSSSSSSSSSSSSSSSSSSSSSSSSSS"
-"SSSSSSSSSSSSSSSSSSSSSSSSSSSS"
