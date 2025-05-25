@@ -3530,6 +3530,15 @@
       
       
     )
+
+    (if (= 1 2)
+      (progn
+        (setq ss_ename_ (car (entsel "specify Object")))
+        (setq ss_obj_ (vlax-ename->vla-object ss_ename_))
+        (TA:Assembly_des-name-block_ ss_obj_)
+        
+      )
+    )
     
   ;
   ;dynamic_block_FUNC
