@@ -3531,7 +3531,7 @@
       
     )
 
-    (if (= 1 2)
+    (if (= 1 2) ;vvvvvv
       (progn
         (setq ss_ename_ (car (entsel "specify Object")))
         (setq ss_obj_ (vlax-ename->vla-object ss_ename_))
