@@ -3388,9 +3388,11 @@
     (defun TA:Assembly_des-name-block_ (blk_obj_ )
       ; (setq blk_ename_ (car (entsel "specify Object")))
       ; (setq blk_obj_ (vlax-ename->vla-object blk_ename_))
+      ; (setq blk_obj_ target_block_obj_)
       (setq blk_list_ ())
       (if (= (vla-get-objectname blk_obj_) "AcDbBlockReference")
         (progn
+          (setq blk_ename_ (vlax-vla-object->ename blk_obj_) )
           (setq blkname (cdr (assoc 2 (entget blk_ename_))))
           (setq bdef (tblobjname "BLOCK" blkname))
           (if (= (vl-prin1-to-string (type bdef)) "ENAME")
@@ -3407,9 +3409,12 @@
 
                     (setq nested_obj_ (vlax-ename->vla-object nested))
                     (setq block-editor_des-name (vla-get-comments (vla-Item (vla-get-Blocks (vla-get-ActiveDocument (vlax-get-acad-object))) (LM:effectivename nested_obj_))))
-                    (LM:getvisibilityparametername nested_obj_)
-                    (LM:getdynpropvalue nested_obj_ (LM:getvisibilityparametername nested_obj_))
-                    (if (= (vla-get-visible nested_obj_) :vlax-true)
+                    (if 
+                      (and 
+                        (= (vla-get-visible nested_obj_) :vlax-true)
+                        (/= (LM:getvisibilityparametername nested_obj_) nil)
+                        (LM:getdynpropvalue nested_obj_ (LM:getvisibilityparametername nested_obj_))
+                      )
                       (progn
                         (princ (strcat "\n  └─ Nested block: " (LM:effectivename nested_obj_)) )
                         (setq blk_list_ (cons
@@ -3525,6 +3530,7 @@
       
       
     )
+    
   ;
   ;dynamic_block_FUNC
     ;dynamic_Alminium_sheet_FUNC
@@ -18479,3 +18485,4 @@
 
 
 
+"SSSSSSSSSSSSSSSSSSSSSSSSSSSS"
