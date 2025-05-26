@@ -1,4 +1,4 @@
-;ALL KK
+;ALL KKk
   ;Effective Block Name Funcition Lee Mac
     ;; Effective Block Name  -  Lee Mac
       ;; obj - [vla] VLA Block Reference object
