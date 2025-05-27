@@ -1,4 +1,4 @@
-;ALL  ssssssssssasfasdfdg
+;ALL  20250527_1115
   ;Effective Block Name Funcition Lee Mac
     ;; Effective Block Name  -  Lee Mac
       ;; obj - [vla] VLA Block Reference object
@@ -16257,9 +16257,10 @@
                            )
                          )
     )
+    (length (car all_area_list_))
     (setq Excel_lasted_worksheet_obj_ (TA:Excel_Open-Excel_ 1 1))
     (TA:EXCEL_autofit_column_ Excel_lasted_worksheet_obj_)
-    (TA:Excel_input_data_R1C1 Excel_lasted_worksheet_obj_ 3 1 (getvar "dwgname"))
+    (TA:Excel_input_data_R1C1 Excel_lasted_worksheet_obj_ 3 2 (getvar "dwgname"))
     (TA:Excel_foreach_input_list_dataset_R1C1 Excel_lasted_worksheet_obj_ 2 5 (list mainlist_Ceiling ))
     (TA:Excel_foreach_input_list_dataset_R1C1 Excel_lasted_worksheet_obj_ 3 5 all_area_list_)
   ;
@@ -16297,20 +16298,24 @@
     (setq patt_name_mainlist_ ())
     (setq patt_name_name_hatch_list_ ())
     (setq ss_pre_filter_set_xx_i 0)
-    (while 
-      (and
-        (/= ss_pre_filter_set_xx_ nil)
-        (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-      )
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
       (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
       (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
-      
       (setq ss_pre_filter_set_xx_obj_patt_name_ (vla-get-patternname ss_pre_filter_set_xx_obj_))
-      (setq ss_pre_filter_set_xx_obj_Harea_ (/ (vla-get-area ss_pre_filter_set_xx_obj_) 1000000 ))
+      (if 
+        (or 
+          (= (wcmatch ss_pre_filter_set_xx_obj_patt_name_ "000_C*") T)
+          (= (wcmatch ss_pre_filter_set_xx_obj_patt_name_ "000_W*") T)
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_obj_Harea_ (/ (vla-get-area ss_pre_filter_set_xx_obj_) 1000000 ))
+          (setq patt_name_name_hatch_list_ (cons  ss_pre_filter_set_xx_obj_patt_name_ patt_name_name_hatch_list_))
+          (setq patt_name_sublist_ (list ss_pre_filter_set_xx_obj_patt_name_ ss_pre_filter_set_xx_obj_Harea_  ))
+          (setq patt_name_mainlist_ (cons patt_name_sublist_ patt_name_mainlist_))
+        )
+      )
       
-      (setq patt_name_name_hatch_list_ (cons  ss_pre_filter_set_xx_obj_patt_name_ patt_name_name_hatch_list_))
-      (setq patt_name_sublist_ (list ss_pre_filter_set_xx_obj_patt_name_ ss_pre_filter_set_xx_obj_Harea_  ))
-      (setq patt_name_mainlist_ (cons patt_name_sublist_ patt_name_mainlist_))
+      
       
       (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
     )
@@ -16390,6 +16395,7 @@
           patt_name_mainlist_area_W21 0
           patt_name_mainlist_area_W22 0
     )
+    (length (car all_area_list_))
     ;preloop_and_while
       (setq patt_name_mainlist_i 0)
       (while (< patt_name_mainlist_i (length patt_name_mainlist_))
@@ -16548,13 +16554,13 @@
                                   patt_name_mainlist_area_C03 
                                   patt_name_mainlist_area_C04 
                                   patt_name_mainlist_area_C05 
+                                  patt_name_mainlist_area_C05A 
                                   patt_name_mainlist_area_C06 
                                   patt_name_mainlist_area_C07 
                                   patt_name_mainlist_area_C08 
                                   patt_name_mainlist_area_C09 
                                   patt_name_mainlist_area_C10 
                                   patt_name_mainlist_area_C11
-                                  patt_name_mainlist_area_C11 
                                   patt_name_mainlist_area_C12 
                                   patt_name_mainlist_area_W01 
                                   patt_name_mainlist_area_W02 
@@ -16679,7 +16685,12 @@
       (sslength ss_pre_filter_set_xx_)
     )
   ;
-  (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000TYP_MATT_LENGTH"))
+  (if (/= ss_pre_filter_set_xx_ nil)
+    (progn
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000TYP_MATT_LENGTH"))
+    )
+  )
+  
   
   ;preloop_and_while
     (setq spec_mat (list 
@@ -16693,7 +16704,11 @@
           SC05B_val          0
     )
     (setq ss_pre_filter_set_xx_i 0)
-    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+    (while 
+      (and 
+        (/= ss_pre_filter_set_xx_ nil)
+        (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      )
       (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
       (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
       (setq mat_name_ (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "MATT_NAME"))
@@ -16847,7 +16862,7 @@
 )
       
 (defun c:Select_by_color_SBC_ ()
-  (setq input_color_ (cond ( (getint (strcat "\nspecify get rotation\n<" (rtos (setq input_color_ (cond (input_color_) (1.0) ) ) ) "> : " ) ) ) (input_color_) ) )
+  (setq input_color_ (cond ( (getint (strcat "\nspecify get color \n<" (rtos (setq input_color_ (cond (input_color_) (1.0) ) ) ) "> : " ) ) ) (input_color_) ) )
   (if  ;pre_select_ssget_or_post_select_ssget
     (= 
       (setq ss_pre_filter_set_xx_ (ssget "i" 
@@ -18495,7 +18510,7 @@
   )
   ;
 )
-(defun c:PPLINE-ITD_detect_bubble_Sym_bsf ()
+(defun c:PPLINE-ITD_detect_bubble_Sym_asf ()
   ;selection_set_for_fillter_blk_name
     (if  ;pre_select_ssget_or_post_select_ssget
       (=
@@ -18524,7 +18539,7 @@
       (sslength ss_pre_filter_set_xx_)
     )
   ;
-  (setq ss_pre_filter_set_xx_filter_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "A$C51E56039"))
+  (setq ss_pre_filter_set_xx_filter_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "ROOM"))
   ;preloop_and_while
     (setq ss_pre_filter_set_xx_filter_i 0)
     (while (< ss_pre_filter_set_xx_filter_i (sslength ss_pre_filter_set_xx_filter_))
@@ -18534,31 +18549,10 @@
         (cond
           (;vla-get-color_case_17
             (or 
-              (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6103"    "*"))   T)
-              (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6104"    "*"))   T)
-              (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6150"    "*"))   T)
-              (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6151"    "*"))   T)
-              (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6152"    "*"))   T)
-              (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6153"    "*"))   T)
-
-              (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6250"    "*"))   T)
-              (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6251"    "*"))   T)
-              (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6252"    "*"))   T)
-              (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6271"    "*"))   T)
-              (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6272"    "*"))   T)
-              (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6274"    "*"))   T)
-
-              (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6301"    "*"))   T)
-              (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6307"    "*"))   T)
-
-              (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6408"  "*"))   T)
-              (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6409"  "*"))   T)
-
-              (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6500"    "*"))   T)
+              (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "room_name") (strcat "*" "TICKET"    "*"))   T)
               
-              (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6505"    "*"))   T)
-              
-              (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6600"    "*"))   T)
+              (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "room_name") (strcat "*" "OPERATIONS"    "*"))   T)
+ 
             )
             (progn
               (vla-put-color ss_pre_filter_set_xx_filter_obj_ 241)
@@ -18597,6 +18591,175 @@
         
       
       (setq ss_pre_filter_set_xx_filter_i (+ ss_pre_filter_set_xx_filter_i 1))
+    )
+  ;
+  (c:PPLINE-ITD_detect_room_num_Rsf)
+)
+(defun c:PPLINE-ITD_detect_bubble_Sym_bsf ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "x"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ; (setq ss_pre_filter_set_xx_filter_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "A$C51E56039"))
+  ; (setq ss_pre_filter_set_xx_filter_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "q"))
+  (setq ss_pre_filter_set_xx_filter_ ss_pre_filter_set_xx_)
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_filter_i 0)
+    (while (< ss_pre_filter_set_xx_filter_i (sslength ss_pre_filter_set_xx_filter_))
+      (setq ss_pre_filter_set_xx_filter_ename_ (ssname ss_pre_filter_set_xx_filter_ ss_pre_filter_set_xx_filter_i))
+      (setq ss_pre_filter_set_xx_filter_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_filter_ename_))
+      (if 
+        (and 
+          (= (vla-get-hasattributes ss_pre_filter_set_xx_filter_obj_) :vlax-true)
+          (/= (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") nil)
+        )
+        (progn
+          (cond
+            (;vla-get-color_case_17
+              (or 
+                (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6004"    "*"))   T)
+                
+                (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6103"    "*"))   T)
+                (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6104"    "*"))   T)
+                (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6150"    "*"))   T)
+                (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6151"    "*"))   T)
+                (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6152"    "*"))   T)
+                (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6153"    "*"))   T)
+
+                (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6250"    "*"))   T)
+                (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6251"    "*"))   T)
+                (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6252"    "*"))   T)
+                (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6264"    "*"))   T)
+                (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6271"    "*"))   T)
+                (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6272"    "*"))   T)
+                (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6274"    "*"))   T)
+
+                (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6301"    "*"))   T)
+                (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6307"    "*"))   T)
+
+                (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6403"  "*"))   T)
+                (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6408"  "*"))   T)
+                (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6409"  "*"))   T)
+                (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6414"  "*"))   T)
+
+                (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6500"    "*"))   T)
+                
+                (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6505"    "*"))   T)
+                
+                (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6600"    "*"))   T)
+              )
+              (progn
+                (vla-put-color ss_pre_filter_set_xx_filter_obj_ 241)
+                (setq ssbox (TA:ename+vla-getboundingbox  ss_pre_filter_set_xx_filter_obj_))
+                (command "ATTSYNC" "S" ss_pre_filter_set_xx_filter_ename_ "Y" )
+                
+                (setq ssssset_ (ssget "C" (cadr ssbox)  (caddr ssbox)
+                                              (list 
+                                                (cons 0 "LEADER") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                            )
+                )
+                ;preloop_and_while
+                  (setq ssssset_i 0)
+                  (while (and (/= ssssset_ nil )(< ssssset_i (sslength ssssset_)))
+                    (setq ssssset_ename_ (ssname ssssset_ ssssset_i))
+                    (setq ssssset_obj_ (vlax-ename->vla-object ssssset_ename_))
+                      (if 
+                        (= (vla-get-objectname ssssset_obj_) "AcDbLeader")
+                        (progn 
+                          (vla-put-color ssssset_obj_ 241)
+                          (vla-put-dimensionlinecolor ssssset_obj_ 241)
+                          
+                        )
+                      )
+                    (setq ssssset_i (+ ssssset_i 1))
+                  )
+                ;
+                (princ "vla-get-color_case_17")
+              )
+            )
+          )
+        )
+      )
+        
+      
+      (setq ss_pre_filter_set_xx_filter_i (+ ss_pre_filter_set_xx_filter_i 1))
+    )
+  ;
+)
+(defun c:PPLINE-ITD_detect_room_num_Rsf ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "x"
+                                          (list
+                                            (cons 0 "text") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "text") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+      (setq ss_pre_filter_set_xx_text_val_ (vla-get-textstring ss_pre_filter_set_xx_obj_))
+      (if 
+        (or 
+          (= (wcmatch ss_pre_filter_set_xx_text_val_ (strcat "*" "6563"    "*"))   T)
+          (= (wcmatch ss_pre_filter_set_xx_text_val_ (strcat "*" "6562"    "*"))   T)
+        )
+        (progn
+          (vla-put-color ss_pre_filter_set_xx_obj_ 241)
+        )
+      )
+  
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
     )
   ;
 )
@@ -18688,7 +18851,7 @@
       (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
         (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
         (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
-        (if (= (wcmatch (setq wallnum_ (vla-get-tagstring ss_pre_filter_set_xx_obj_  )) "*C0*") T)
+        (if (= (wcmatch (setq wallnum_ (vla-get-tagstring ss_pre_filter_set_xx_obj_  )) "*C*") T)
           (progn
             (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
             
