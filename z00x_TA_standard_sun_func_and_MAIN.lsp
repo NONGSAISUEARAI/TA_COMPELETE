@@ -1,4 +1,3 @@
-;ALL  20250527_1115
 ;ALL  20250528_1201
   ;Effective Block Name Funcition Lee Mac
     ;; Effective Block Name  -  Lee Mac
@@ -18794,7 +18793,6 @@
       (=
         (setq ss_pre_filter_set_xx_ (ssget "x"
                                           (list
-                                            (cons 0 "text") ;type of object
                                             (cons 0 "mtext,text") ;type of object
                                             ; (cons 8 "000 - GRID")   ;kind of layer
                                             ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
@@ -18807,7 +18805,6 @@
       (progn
         (setq ss_pre_filter_set_xx_ (ssget
                                           (list
-                                            (cons 0 "text") ;type of object
                                             (cons 0 "mtext,text") ;type of object
                                             ; (cons 8 "000 - GRID")   ;kind of layer
                                             ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
@@ -19212,96 +19209,99 @@
 
 
 (defun c:centermeasure () ;command base on c:PPLINE_300HK_insCHanging_
-    ;selection_set_for_fillter_blk_name
-      (if  ;pre_select_ssget_or_post_select_ssget
-        (=
-          (setq ss_pre_filter_set_xx_ (ssget "i"
-                                            (list
-                                              (cons 0 "LWPOLYLINE,LINE") ;type of object
-                                              ; (cons 8 "000 - GRID")   ;kind of layer
-                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                              ; (cons 62 1)           ;kind of color call sign with color code index
-                                            )
-                                      )
-          )
-          nil
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "LWPOLYLINE,LINE") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
         )
-        (progn
-          (setq ss_pre_filter_set_xx_ (ssget
-                                            (list
-                                              (cons 0 "LWPOLYLINE,LINE") ;type of object
-                                              ; (cons 8 "000 - GRID")   ;kind of layer
-                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                              ; (cons 62 1)           ;kind of color call sign with color code index
-                                            )
-                                      )
-          )
-        )
-        (sslength ss_pre_filter_set_xx_)
+        nil
       )
-      ;user_input_
-        (setq distance_measure_ 1200)
-      ;
-      ;preloop_and_while
-        (setq ss_pre_filter_set_xx_i 0)
-        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-          ;main Line PLine Properties
-            (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
-            (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
-            (setq ss_pre_filter_set_xx_obj_angle  (vla-get-angle ss_pre_filter_set_xx_obj_))
-            (setq ss_pre_filter_set_xx_obj_length (vla-get-length ss_pre_filter_set_xx_obj_))
-            (setq distance_measure_ (if (< ss_pre_filter_set_xx_obj_length 1200) (progn (fix (- ss_pre_filter_set_xx_obj_length 100 ))) distance_measure_)) 
-            (setq ss_pre_filter_set_xx_obj_fragment_length_ (/ (- ss_pre_filter_set_xx_obj_length (* (fix (/ ss_pre_filter_set_xx_obj_length distance_measure_)) distance_measure_) ) 2))
-            (setq ss_pre_filter_set_xx_obj_time_full_length_ (fix (/ ss_pre_filter_set_xx_obj_length distance_measure_)))
-            (if (= ss_pre_filter_set_xx_obj_fragment_length_ 0) ;incase for number spcaing distance
-              (progn
-                (setq ss_pre_filter_set_xx_obj_time_full_length_ ss_pre_filter_set_xx_obj_time_full_length_ )
-              )
-              (setq ss_pre_filter_set_xx_obj_time_full_length_ (+ 2 ss_pre_filter_set_xx_obj_time_full_length_) )
-            )
-            ;preloop_and_while measure_spcaing_distance
-              (setq measure_length_ ())
-              (setq time_i 0)
-              (while (< time_i ss_pre_filter_set_xx_obj_time_full_length_)
-                (if 
-                  (or (= time_i 0) (= time_i (- ss_pre_filter_set_xx_obj_time_full_length_ 1)) )
-                  (progn
-                    (setq measure_length_ (cons ss_pre_filter_set_xx_obj_fragment_length_ measure_length_))
-                  )
-                  (setq measure_length_ (cons distance_measure_ measure_length_))
-                )
-                (setq time_i (+ time_i 1))
-              )       
-            ;
-            ;preloop_and_while measure_val_distance
-              (setq measure_length_i 0)
-              (setq finish_measure_length_ 0)
-              (setq finish_measure_length_result ())
-              (while (< measure_length_i (length measure_length_))
-                (setq measure_length_ename_ (nth  measure_length_i measure_length_))
-                (setq finish_measure_length_ (+ finish_measure_length_ measure_length_ename_)) 
-                (setq finish_measure_length_result (cons finish_measure_length_ finish_measure_length_result))
-                (setq measure_length_i (+ measure_length_i 1))
-              )
-            ;
-          ;
-          ;insertion_process
-            (foreach x (vl-remove (nth (- (length finish_measure_length_result) 1) (reverse finish_measure_length_result) ) (reverse finish_measure_length_result) )
-              (TA:vla-insertblock 
-                "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET"
-                (vlax-curve-getpointatdist ss_pre_filter_set_xx_obj_ x)
-                1
-                ss_pre_filter_set_xx_obj_angle
-              )
-              ;new_blk_entlast object
-                (setq newblk_ename (entlast))
-                (setq newblk_obj (vlax-ename->vla-object newblk_ename))
-                (LM:setdynpropvalue newblk_obj (LM:getvisibilityparametername new_hanging_obj_) "2_top_view" )
-              ;
-            )
-          ;
-          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "LWPOLYLINE,LINE") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
         )
-      ;
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+    ;user_input_
+      (setq distance_measure_ 1200)
     ;
-  )
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        ;main Line PLine Properties
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+          (setq ss_pre_filter_set_xx_obj_angle  (vla-get-angle ss_pre_filter_set_xx_obj_))
+          (setq ss_pre_filter_set_xx_obj_length (vla-get-length ss_pre_filter_set_xx_obj_))
+          (setq distance_measure_ (if (< ss_pre_filter_set_xx_obj_length 1200) (progn (fix (- ss_pre_filter_set_xx_obj_length 100 ))) distance_measure_)) 
+          (setq ss_pre_filter_set_xx_obj_fragment_length_ (/ (- ss_pre_filter_set_xx_obj_length (* (fix (/ ss_pre_filter_set_xx_obj_length distance_measure_)) distance_measure_) ) 2))
+          (setq ss_pre_filter_set_xx_obj_time_full_length_ (fix (/ ss_pre_filter_set_xx_obj_length distance_measure_)))
+          (if (= ss_pre_filter_set_xx_obj_fragment_length_ 0) ;incase for number spcaing distance
+            (progn
+              (setq ss_pre_filter_set_xx_obj_time_full_length_ ss_pre_filter_set_xx_obj_time_full_length_ )
+            )
+            (setq ss_pre_filter_set_xx_obj_time_full_length_ (+ 2 ss_pre_filter_set_xx_obj_time_full_length_) )
+          )
+          ;preloop_and_while measure_spcaing_distance
+            (setq measure_length_ ())
+            (setq time_i 0)
+            (while (< time_i ss_pre_filter_set_xx_obj_time_full_length_)
+              (if 
+                (or (= time_i 0) (= time_i (- ss_pre_filter_set_xx_obj_time_full_length_ 1)) )
+                (progn
+                  (setq measure_length_ (cons ss_pre_filter_set_xx_obj_fragment_length_ measure_length_))
+                )
+                (setq measure_length_ (cons distance_measure_ measure_length_))
+              )
+              (setq time_i (+ time_i 1))
+            )       
+          ;
+          ;preloop_and_while measure_val_distance
+            (setq measure_length_i 0)
+            (setq finish_measure_length_ 0)
+            (setq finish_measure_length_result ())
+            (while (< measure_length_i (length measure_length_))
+              (setq measure_length_ename_ (nth  measure_length_i measure_length_))
+              (setq finish_measure_length_ (+ finish_measure_length_ measure_length_ename_)) 
+              (setq finish_measure_length_result (cons finish_measure_length_ finish_measure_length_result))
+              (setq measure_length_i (+ measure_length_i 1))
+            )
+          ;
+        ;
+        ;insertion_process
+          (foreach x (vl-remove (nth (- (length finish_measure_length_result) 1) (reverse finish_measure_length_result) ) (reverse finish_measure_length_result) )
+            (TA:vla-insertblock 
+              "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET"
+              (vlax-curve-getpointatdist ss_pre_filter_set_xx_obj_ x)
+              1
+              ss_pre_filter_set_xx_obj_angle
+            )
+            ;new_blk_entlast object
+              (setq newblk_ename (entlast))
+              (setq newblk_obj (vlax-ename->vla-object newblk_ename))
+              (LM:setdynpropvalue newblk_obj (LM:getvisibilityparametername new_hanging_obj_) "2_top_view" )
+            ;
+          )
+        ;
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+  ;
+)
+
+
+
