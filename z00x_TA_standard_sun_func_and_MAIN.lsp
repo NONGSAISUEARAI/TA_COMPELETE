@@ -1,4 +1,4 @@
-;ALL  20250529 1150
+;ALL  20250530 0124
   ;Effective Block Name Funcition Lee Mac
     ;; Effective Block Name  -  Lee Mac
       ;; obj - [vla] VLA Block Reference object
@@ -7320,7 +7320,7 @@
         (setq Excel_lasted_worksheet_obj_ Excel_lasted_worksheet_obj_)
       ;
     )
-    (defun TA:EXCEL_autofit_column_ (_worksheet_obj_)
+    (defun TA:EXCEL_autofit_column_ (_worksheet_obj_ coloumn_cell)
       (vlax-invoke-method
         (vlax-variant-value 
           (vlax-get-property 
@@ -7329,7 +7329,7 @@
               "columns"
             )
             "item"
-            1 
+            coloumn_cell
           )
         )
         'autofit
@@ -7450,7 +7450,26 @@
           (setq row_start_ (+ row_start_ 1))
         )
     )
-
+    (defun TA:EXCEL_all-cut-copy_row_ (_worksheet_obj_ row_cell method-argument-type)
+      ;Note By Code_Developer
+        ;input argument-type = 'copy
+        ;input argument-type = 'cut
+      ;
+      (vlax-invoke-method
+        (vlax-variant-value 
+          (vlax-get-property 
+            (vlax-get-property 
+              _worksheet_obj_ 
+              "rows"
+            )
+            "item"
+             row_cell
+          )
+        )
+        method-argument-type
+      )
+    )
+    
 
 
 
@@ -16292,10 +16311,10 @@
     )
     (length (car all_area_list_))
     (setq Excel_lasted_worksheet_obj_ (TA:Excel_Open-Excel_ 1 1))
-    (TA:EXCEL_autofit_column_ Excel_lasted_worksheet_obj_)
     (TA:Excel_input_data_R1C1 Excel_lasted_worksheet_obj_ 3 2 (getvar "dwgname"))
     (TA:Excel_foreach_input_list_dataset_R1C1 Excel_lasted_worksheet_obj_ 2 5 (list mainlist_Ceiling ))
     (TA:Excel_foreach_input_list_dataset_R1C1 Excel_lasted_worksheet_obj_ 3 5 all_area_list_)
+    (TA:EXCEL_autofit_column_ Excel_lasted_worksheet_obj_ 2)
   ;
 )
 (defun c:Hatch_to_Excel_H3Excel ()
@@ -16621,12 +16640,13 @@
                          )
     )
     (setq Excel_lasted_worksheet_obj_ (TA:Excel_Open-Excel_ 1 1))
-    (TA:EXCEL_autofit_column_ Excel_lasted_worksheet_obj_)
+    (TA:EXCEL_autofit_column_ Excel_lasted_worksheet_obj_ 1)
     (TA:Excel_input_data_R1C1 Excel_lasted_worksheet_obj_ 3 2 (getvar "dwgname"))
     (TA:Excel_foreach_input_list_dataset_R1C1 Excel_lasted_worksheet_obj_ 2 6 (list mainlist_Ceiling ))
     (TA:Excel_foreach_input_list_dataset_R1C1 Excel_lasted_worksheet_obj_ 3 6 all_area_list_)
   ;
   (c:Special-Hatch_to_Excel_SH2Excel)
+  (TA:EXCEL_all-cut-copy_row_ Excel_lasted_worksheet_obj_ 3 'cut)
 )
 (defun c:select_hacth_SsH ()
   (setq ss_pre_filter_set_xx_ (ssget
@@ -16769,7 +16789,7 @@
       (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
     )
       ; (setq Excel_lasted_worksheet_obj_ (TA:Excel_Open-Excel_ 1 1))
-      ; (TA:EXCEL_autofit_column_ Excel_lasted_worksheet_obj_)
+      ; (TA:EXCEL_autofit_column_ Excel_lasted_worksheet_obj_ 1)
       (TA:Excel_input_data_R1C1 Excel_lasted_worksheet_obj_ 3 2 (getvar "dwgname"))
       (TA:Excel_foreach_input_list_dataset_R1C1 Excel_lasted_worksheet_obj_ 2 3 (list spec_mat ))
       (TA:Excel_foreach_input_list_dataset_R1C1 Excel_lasted_worksheet_obj_ 3 3 (list spec-matt_val_list_))
@@ -18740,6 +18760,7 @@
                 (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6414"  "*"))   T)
 
                 (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6500"    "*"))   T)
+                (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6507"    "*"))   T)
                 
                 (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6505"    "*"))   T)
                 
@@ -19193,20 +19214,128 @@
   (setq pl_ename_ (car (entsel "specify Object 1")))
   (setq pl_obj_ (vlax-ename->vla-object pl_ename_))
   (setq pl_obj_length_ (vla-get-length pl_obj_))
-  (setq input_pt (getpoint "specify point"))
   
-  (setq pl2_ename_ (car (entsel "specify Object 2")))
-  (setq pl2_obj_ (vlax-ename->vla-object pl2_ename_))
-  (setq pl2_obj_length_ (vla-get-length pl2_obj_))
+  (initget "Yes No")
+  (setq ss_ ;Detect the variable's result in case of a function error
+    (vl-catch-all-apply 
+      (function 
+        (lambda () 
+          (setq DELETE_OBJ_ (not (eq "No" (getkword "\nKeep Existing point with object? [Yes/No] <Y>: "))))
+        )
+      )
+    )
+  )
+  (if 
+    (or 
+      (wcmatch (vl-princ-to-string ss_) "*error*")
+      (= ss_ T )
+    )
+    (progn
+      (setq input_pt input_pt)
+    )
+    (setq input_pt (getpoint "specify point"))
+  )
+
+  ; (setq pl2_ename_ (car (entsel "specify Object 2"))) ;method 1
+  ; (setq pl2_obj_ (vlax-ename->vla-object pl2_ename_)) ;method 1
+  ; (setq pl2_obj_length_ (vla-get-length pl2_obj_))    ;method 1
+  (setvar "osmode" 0)
+  ; (setq pl2_obj_length_ (cond ( (getreal (strcat "\nspecify distance_measure_ <" (rtos (setq pl2_obj_length_ (cond (pl2_obj_length_) (10) ) ) ) "> : " ) ) ) (pl2_obj_length_) ) ) ;method 2
+  (setq pl2_obj_length_ (vla-get-elevation pl_obj_) ) ;method 3
   
 
   (setq pt_3 (polar input_pt 0 pl_obj_length_))
-  (setq pt_4 (polar pt_3 1.57  pl2_obj_length_))
+  (setq pt_4 (polar pt_3 (deg-to-rad 90)  pl2_obj_length_))
   (command "rectangle" input_pt  pt_4)
+  ;new_blk_entlast object
+    (setq new_rec_ename (entlast))
+    (setq new_rec_obj_ (vlax-ename->vla-object new_rec_ename))
+    (setq input_pt (nth 1 (cadr (TA:Get_Pline_vertext_ins_point_ new_rec_ename))))
+  ;
   
   
+  (setvar "osmode" 1215)
 )
+(defun c:Selection-foldPLine_SSFPLL ()
+  
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "lwpolyline") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "lwpolyline") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  (initget "Yes No")
+  (setq ss_ ;Detect the variable's result in case of a function error
+    (vl-catch-all-apply 
+      (function 
+        (lambda () 
+          (setq DELETE_OBJ_ (not (eq "No" (getkword "\nKeep Existing point with object? [Yes/No] <Y>: "))))
+        )
+      )
+    )
+  )
+  (if 
+    (or 
+      (wcmatch (vl-princ-to-string ss_) "*error*")
+      (= ss_ T )
+    )
+    (progn
+      (setq input_pt input_pt)
+    )
+    (setq input_pt (getpoint "specify point"))
+  )
+  ; (setq pl2_ename_ (car (entsel "specify Object 2"))) ;method 1
+  ; (setq pl2_obj_ (vlax-ename->vla-object pl2_ename_)) ;method 1
+  ; (setq pl2_obj_length_ (vla-get-length pl2_obj_))    ;method 1
+  (setvar "osmode" 0)
+  ; (setq pl2_obj_length_ (cond ( (getreal (strcat "\nspecify distance_measure_ <" (rtos (setq pl2_obj_length_ (cond (pl2_obj_length_) (10) ) ) ) "> : " ) ) ) (pl2_obj_length_) ) ) ;method 2
+   ;method 3
+  ;preloop_and_while
+    (setq i 0)
+    (while (< i (sslength ss_pre_filter_set_xx_))
+      (setq pl_ename_ (ssname ss_pre_filter_set_xx_ i))
+      (setq pl_obj_ (vlax-ename->vla-object pl_ename_))
+      (setq pl_obj_length_ (vla-get-length pl_obj_))
+      (setq pl2_obj_length_ (vla-get-elevation pl_obj_) )  ;method 3
+    
+      
 
+      (setq pt_3 (polar input_pt 0 pl_obj_length_))
+      (setq pt_4 (polar pt_3 (deg-to-rad 90)  pl2_obj_length_))
+      (command "rectangle" input_pt  pt_4)
+      ;new_blk_entlast object
+        (setq new_rec_ename (entlast))
+        (setq new_rec_obj_ (vlax-ename->vla-object new_rec_ename))
+        (setq input_pt (nth 1 (cadr (TA:Get_Pline_vertext_ins_point_ new_rec_ename))))
+      ;
+      (setq i (+ i 1))
+    )
+  ;
+  
+  (setvar "osmode" 1215)
+)
 
 (defun c:Center_measure_ccmea_ () ;command base on c:PPLINE_300HK_insCHanging_
   ;selection_set_for_fillter_blk_name
@@ -19338,3 +19467,46 @@
 
 
 
+(defun c:w8 ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "lwpolyline") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "lwpolyline") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+      (vla-put-color ss_pre_filter_set_xx_obj_ 20)
+        (vlax-dump-object ss_pre_filter_set_xx_obj_)
+      (vla-put-ConstantWidth ss_pre_filter_set_xx_obj_ 150)
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+  
+  
+)
