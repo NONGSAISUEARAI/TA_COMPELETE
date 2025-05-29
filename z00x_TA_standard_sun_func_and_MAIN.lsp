@@ -1,3 +1,4 @@
+;ALL  20250529 1150
   ;Effective Block Name Funcition Lee Mac
     ;; Effective Block Name  -  Lee Mac
       ;; obj - [vla] VLA Block Reference object
