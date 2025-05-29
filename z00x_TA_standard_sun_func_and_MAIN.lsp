@@ -1,4 +1,3 @@
-;ALL  20250528_1201
   ;Effective Block Name Funcition Lee Mac
     ;; Effective Block Name  -  Lee Mac
       ;; obj - [vla] VLA Block Reference object
@@ -4700,7 +4699,7 @@
           (progn 
             (setq ss_pre_filter_set_xx_ (ssget 
                                           (list 
-                                            (cons 0 "lwpolyline") ;type of object
+                                            (cons 0 "lwpolyline,region") ;type of object
                                             ; (cons 8 "000 - GRID")   ;kind of layer
                                             ; (cons 2 "000-GRIDLINE_DYN")       ;kind of nameblock
                                             ; (cons 62 1)           ;kind of color call sign with color code index
@@ -9275,7 +9274,7 @@
 
 
 
-(defun c:Selection_make_boudary_line_SSBOL ()
+(defun c:Selection_multi_boudary_line_SSMBOL ()
   ;selection_set_for_fillter_blk_name
     (if  ;pre_select_ssget_or_post_select_ssget
       (=
@@ -19208,7 +19207,7 @@
 )
 
 
-(defun c:centermeasure () ;command base on c:PPLINE_300HK_insCHanging_
+(defun c:Center_measure_ccmea_ () ;command base on c:PPLINE_300HK_insCHanging_
   ;selection_set_for_fillter_blk_name
     (if  ;pre_select_ssget_or_post_select_ssget
       (=
@@ -19226,7 +19225,7 @@
       (progn
         (setq ss_pre_filter_set_xx_ (ssget
                                           (list
-                                            (cons 0 "LWPOLYLINE,LINE") ;type of object
+                                            (cons 0 "ARC,LWPOLYLINE,LINE") ;type of object
                                             ; (cons 8 "000 - GRID")   ;kind of layer
                                             ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                             ; (cons 62 1)           ;kind of color call sign with color code index
@@ -19237,7 +19236,9 @@
       (sslength ss_pre_filter_set_xx_)
     )
     ;user_input_
-      (setq distance_measure_ 1200)
+      ; (setq distance_measure_ 1200) ;input by code
+      (setq fargment_gap_length_ 100) ;input by user
+      (setq distance_measure_ (cond ( (getreal (strcat "\nspecify distance_measure_ <" (rtos (setq distance_measure_ (cond (distance_measure_) (10) ) ) ) "> : " ) ) ) (distance_measure_) ) ) ;input by user
     ;
     ;preloop_and_while
       (setq ss_pre_filter_set_xx_i 0)
@@ -19245,9 +19246,40 @@
         ;main Line PLine Properties
           (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
           (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
-          (setq ss_pre_filter_set_xx_obj_angle  (vla-get-angle ss_pre_filter_set_xx_obj_))
-          (setq ss_pre_filter_set_xx_obj_length (vla-get-length ss_pre_filter_set_xx_obj_))
-          (setq distance_measure_ (if (< ss_pre_filter_set_xx_obj_length 1200) (progn (fix (- ss_pre_filter_set_xx_obj_length 100 ))) distance_measure_)) 
+          (cond 
+            ; ( ;object type condition_case_1 ปิดชั่วคราว อรอพัฒนา
+            ;  (and 
+            ;    (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbArc")
+            ;  )
+            ;  (progn 
+            ;    (setq ss_pre_filter_set_xx_obj_length (vla-get-arclength ss_pre_filter_set_xx_obj_))
+            ;    (princ "object type condition_case_1")
+            ;  )
+            ; )
+            ( ;object type condition_case_2
+             (and
+               (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbLine")
+             )
+             (progn 
+               (setq ss_pre_filter_set_xx_obj_angle (vla-get-angle ss_pre_filter_set_xx_obj_))
+               (setq ss_pre_filter_set_xx_obj_length (vla-get-length ss_pre_filter_set_xx_obj_))
+               (princ "object type condition_case_2")
+             )
+            )
+            ( ;object type condition_case_3
+             (and
+               (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbPolyline")
+               (<= (length (cadr (TA:Get_Pline_vertext_ins_point_ ss_pre_filter_set_xx_ename_))) 2)
+             )
+             (progn 
+               (setq ss_pre_filter_set_xx_obj_length (vla-get-length ss_pre_filter_set_xx_obj_))
+               (setq ss_pre_filter_set_xx_obj_angle (angle (car (cadr (TA:Get_Pline_vertext_ins_point_ ss_pre_filter_set_xx_ename_))) (cadr (cadr (TA:Get_Pline_vertext_ins_point_ ss_pre_filter_set_xx_ename_)))))
+               (princ "object type condition_case_3")
+             )
+            )
+          )
+          
+          (setq distance_measure_ (if (< ss_pre_filter_set_xx_obj_length distance_measure_) (progn (fix (- ss_pre_filter_set_xx_obj_length fargment_gap_length_ ))) distance_measure_)) 
           (setq ss_pre_filter_set_xx_obj_fragment_length_ (/ (- ss_pre_filter_set_xx_obj_length (* (fix (/ ss_pre_filter_set_xx_obj_length distance_measure_)) distance_measure_) ) 2))
           (setq ss_pre_filter_set_xx_obj_time_full_length_ (fix (/ ss_pre_filter_set_xx_obj_length distance_measure_)))
           (if (= ss_pre_filter_set_xx_obj_fragment_length_ 0) ;incase for number spcaing distance
@@ -19285,7 +19317,7 @@
         ;insertion_process
           (foreach x (vl-remove (nth (- (length finish_measure_length_result) 1) (reverse finish_measure_length_result) ) (reverse finish_measure_length_result) )
             (TA:vla-insertblock 
-              "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET"
+              "xc1m"
               (vlax-curve-getpointatdist ss_pre_filter_set_xx_obj_ x)
               1
               ss_pre_filter_set_xx_obj_angle
@@ -19293,7 +19325,7 @@
             ;new_blk_entlast object
               (setq newblk_ename (entlast))
               (setq newblk_obj (vlax-ename->vla-object newblk_ename))
-              (LM:setdynpropvalue newblk_obj (LM:getvisibilityparametername new_hanging_obj_) "2_top_view" )
+              ; (LM:setdynpropvalue newblk_obj (LM:getvisibilityparametername new_hanging_obj_) "2_top_view" )
             ;
           )
         ;

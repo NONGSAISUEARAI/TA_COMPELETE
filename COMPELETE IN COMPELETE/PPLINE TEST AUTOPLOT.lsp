@@ -123,6 +123,55 @@
     )
   ;
 ;
+;Shell_FUNC
+  ;Copy to clipboard FUNC
+    (defun TA:copytext->clipboard (clipboard_text)
+      ;sub FUNC สำหรับในคัดลอก text ให้อยู่ clipboard สำหรับ ctrl+v ในอนาคต
+      ;มีฟังชั่นแบบนี้ด้วยหรอ ถามจริง
+      (vlax-invoke
+        (vlax-get
+          (vlax-get (setq htmlfile (vlax-create-object "htmlfile")) 'ParentWindow)
+          'ClipBoardData
+        )
+        'SetData
+        "Text"
+        clipboard_text ;input อะไรลงไป
+      )
+    )
+  ;
+  ;create_shortcut_FUNC
+    (defun TA:create_shortcut_file (targetPath shortcutPath shortcutName )
+      ;Note By Code_Developer
+      ;As following argument name targetPath shortcutName shortcutPath_ must be Englist letter only 
+      ;
+      ; ;user_input for example process
+        ; ; (setq targetPath    "C:\\xvba_modules-bb\\test.txt") ;argument example
+        ; (setq targetPath  "C:\\TA\\TA_WORK\\000-AREA_PP29-AR-1305-A.pdf") ;argument example
+        ; ; (setq shortcutPath    "C:\\xvba_modules-bb\\")       ;argument example
+        ; (setq shortcutName "x1111test")                    ;argument example
+        (setq shortcutPath_  (strcat shortcutPath shortcutName ".lnk"))
+      ; ;
+      ;get vla-object shell appication
+        (setq shell (vlax-create-object "WScript.Shell"))
+        (setq shortcut (vlax-invoke-method shell 'CreateShortcut shortcutPath_))
+      ;
+      ;put properties shortcut object
+        (vlax-put-property shortcut 'TargetPath targetPath)
+        (vlax-put-property shortcut 'WindowStyle 1)
+        (vlax-put-property shortcut 'Description "My Shortcut Description")
+      ;
+      ;create shotcut to shortcutPath
+        (vlax-invoke-method shortcut 'Save)
+      ;clean object
+        (vlax-release-object shortcut)
+        (vlax-release-object shell)
+      ;
+      (princ "\nShortcut created successfully.")
+      (princ)
+    )
+  ;
+;
+
 
 
 (defun c:find_xref_ ()
@@ -240,7 +289,7 @@
     )
   ;
   ;plot process
-    (if (findfile (setq filename (strcat "" (getvar 'DWGPREFIX) (LM:StringSubst "" ".dwg" (getvar 'DWGNAME)) (getvar "ctab") ".pdf"))) 
+    (if (findfile (setq filename (strcat "" (getvar 'DWGPREFIX) (LM:StringSubst "" ".dwg" (getvar 'DWGNAME))  ".pdf"))) 
       (vl-file-delete filename)
     )
     (command "-plot" 
@@ -297,6 +346,131 @@
     ;         "Y"
         
     ; )
+  ;
+)
+(defun c:RUNC_plot ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "x"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            (cons 410 (getvar "CTAB"))
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget "X"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            (cons 410 (getvar "CTAB"))
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (setq External_ref_ename_ ())
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+      (vl-prin1-to-string (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+      
+      (if
+        (and
+          ; (= (sslength ss_pre_filter_set_xx_) 1)
+          (= (wcmatch (strcase (vl-princ-to-string ss_pre_filter_set_xx_obj_)) "*IACADEXTERNALREFERENCE*") T)
+        )
+        (progn
+          (setq External_ref_ename_ ss_pre_filter_set_xx_ename_ )
+          (setq main_bol (LM:boundingbox (vlax-ename->vla-object External_ref_ename_)))
+        )
+      )
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+  ;plot process
+    (if 
+      (findfile 
+        (setq filename (strcat "" 
+                               "C:\\TA\\TA_WORK\\รถไฟฟ้า\\PPLINE ITD\\ไฟล์ข้อมูลแบบ แปลน , รูปด้าน , รูปตัด รถไฟฟ้่าสายสีม่วง สัญญา 5 21-06-67\\PP29 BANG PAKOK STATION\\PP29 automation plottter\\"
+                               (LM:StringSubst "" ".dwg" (getvar 'DWGNAME) )
+                               ".pdf"
+                       )
+        )
+      )
+      (vl-file-delete filename)
+    )
+    (command "-plot" 
+            "Yes" ;Detailed Plot Configuration?
+            (getvar "ctab")
+            "DWG To PDF.pc3" ;Printer Name
+            "ISO_full_bleed_A3_(420.00_x_297.00_mm)" ;Paper Size
+            ;paper_size ;Paper Size
+            "m" ;Paper Units Millimeters
+            "Landscape" ;Orientation
+            "No" ;Plot Upside Down
+            "window" ;Plot Area
+            (nth 0 main_bol) ;vla-getboundingbox
+            (nth 2 main_bol) ;vla-getboundingbox
+            ;llpt				;Lower left corner of window
+            ;urpt				;Upper right corner of window
+            "Fit" ;Plot Scale	"Fit"
+            "Center" ;Plot Offset
+            "yes" ;Use Plot Style?
+            "TA3 - FOR NORMIE.ctb" ;Plot Style Name
+            "Yes" ;Plot Lineweights?
+            "" ;Enter shade plot setting ["As displayed"/"Wireframe"/"Hidden"/"Visual styles"/"Rendered"]
+            "N"
+            "N"
+            filename ; Name file and Location
+            "Y"
+            "Y"
+        
+    )
+    ;backup plot command process
+      ; (command "-plot" 
+      ;         "Yes" ;Detailed Plot Configuration?
+      ;         (getvar "ctab")
+      ;         "DWG To PDF.pc3" ;Printer Name
+      ;         "ISO_full_bleed_A3_(420.00_x_297.00_mm)" ;Paper Size
+      ;         ;paper_size ;Paper Size
+      ;         "m" ;Paper Units Millimeters
+      ;         "Landscape" ;Orientation
+      ;         "No" ;Plot Upside Down
+      ;         "Extents" ;Plot Area
+      ;         ; (nth 0 main_bol) ;vla-getboundingbox
+      ;         ; (nth 3 main_bol) ;vla-getboundingbox
+      ;         ;llpt				;Lower left corner of window
+      ;         ;urpt				;Upper right corner of window
+      ;         "Fit" ;Plot Scale	"Fit"
+      ;         "Center" ;Plot Offset
+      ;         "yes" ;Use Plot Style?
+      ;         "TA3 - FOR NORMIE.ctb" ;Plot Style Name
+      ;         "Yes" ;Plot Lineweights?
+      ;         "" ;Enter shade plot setting ["As displayed"/"Wireframe"/"Hidden"/"Visual styles"/"Rendered"]
+      ;         "N"
+      ;         "N"
+      ;         filename ; Name file and Location
+      ;         "Y"
+      ;         "Y"
+      ; )
+    ;
+  
+    ;create shortcut process  (root from SUB_FUNC)
+      ;kuy folder แม่งเสือกมีภาษาไทย หอยหลอดเอ้ย !!!!!!!
+    ;
   ;
 )
 
