@@ -1,3 +1,4 @@
+;ALL  20250530 0124
 ;Bounding_Box_FUNC_
   ;; Selection Set Bounding Box  -  Lee Mac
   ;; Returns a list of the lower-left and upper-right WCS coordinates of a
@@ -404,7 +405,24 @@
     (if 
       (findfile 
         (setq filename (strcat "" 
-                               "C:\\TA\\TA_WORK\\รถไฟฟ้า\\PPLINE ITD\\ไฟล์ข้อมูลแบบ แปลน , รูปด้าน , รูปตัด รถไฟฟ้่าสายสีม่วง สัญญา 5 21-06-67\\PP29 BANG PAKOK STATION\\PP29 automation plottter\\"
+                               (if (= (getenv "COMPUTERNAME") "DESKTOP-FSRT7SI" )
+                                (progn
+                                  (strcat "C:\\TA WORK\\ไฟล์ข้อมูลแบบ แปลน , รูปด้าน , รูปตัด รถไฟฟ้่าสายสีม่วง สัญญา 5 21-06-67\\PP29 BANG PAKOK STATION\\" 
+                                          (strcat 
+                                            (substr (getvar 'dwgname) (+ (vl-string-search "PP" (getvar 'dwgname) 0 ) 1 ) 4 )
+                                            " automation plottter"
+                                          )
+                                          "\\"
+                                  )
+                                )
+                                (strcat "C:\\TA\\TA_WORK\\รถไฟฟ้า\\PPLINE ITD\\ไฟล์ข้อมูลแบบ แปลน , รูปด้าน , รูปตัด รถไฟฟ้่าสายสีม่วง สัญญา 5 21-06-67\\PP29 BANG PAKOK STATION\\" 
+                                          (strcat 
+                                            (substr (getvar 'dwgname) (+ (vl-string-search "PP" (getvar 'dwgname) 0 ) 1 ) 4 )
+                                            " automation plottter"
+                                          )
+                                          "\\"
+                                  )
+                               )
                                (LM:StringSubst "" ".dwg" (getvar 'DWGNAME) )
                                ".pdf"
                        )
@@ -483,8 +501,8 @@
 ;   )
 ;   (command "zoom" "a") 
 ;   (c:find_xref_)
-;   (c:RUN_plot)
+;   (c:RUNc_plot)
 ;   (command "close" "n" )
 ; ;  
 
-;ssss
+; ;ssss
