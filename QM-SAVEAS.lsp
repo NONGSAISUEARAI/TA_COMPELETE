@@ -1,3 +1,4 @@
+;update 20250601 2311
 (defun c:qmsave ()
   (setq FILEPATH (getvar "DWGPREFIX"))
   (setq FILENAME (getvar "DWGNAME"))
@@ -23,6 +24,7 @@
 
 )
 (defun c:ARqmsave ()
+  (command "zoom" "E" )
   (setq FILEPATH (getvar "DWGPREFIX"))
   (setq FILENAME (getvar "DWGNAME"))
   (setq sum (strcat FILEPATH (strcat "000-AREA_" FILENAME)))

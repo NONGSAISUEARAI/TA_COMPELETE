@@ -1,4 +1,4 @@
-;ALL  20250530 0124
+;update 20250601 2311
 ;Bounding_Box_FUNC_
   ;; Selection Set Bounding Box  -  Lee Mac
   ;; Returns a list of the lower-left and upper-right WCS coordinates of a
@@ -59,6 +59,29 @@
             )
         )
     )
+;
+;Remove&Edit List Function Lee Mac
+  (defun LM:RemoveNth (n l / i) 
+    ;;  Arguments:                                              ;;
+    ;;  n - index of item to remove (zero based)                ;;
+    ;;  l - list from which item is to be removed               ;;
+      (setq i -1)
+      (vl-remove-if '(lambda (x) (= (setq i (1+ i)) n)) l)
+  )
+  (defun LM:str->lst ( str del / len lst pos )
+    (setq len (1+ (strlen del)))
+    (while (setq pos (vl-string-search del str))
+        (setq lst (cons (substr str 1 pos) lst)
+              str (substr str (+ pos len))
+        )
+    )
+    (reverse (cons str lst))
+  )
+  (defun LM:lst->str ( lst del / str )
+    (setq str (car lst))
+    (foreach itm (cdr lst) (setq str (strcat str del itm)))
+    str
+  )
 ;
 ;Text_FUNC_
   (defun LM:StringSubst (new old str / inc len) 
@@ -407,7 +430,7 @@
         (setq filename (strcat "" 
                                (if (= (getenv "COMPUTERNAME") "DESKTOP-FSRT7SI" )
                                 (progn
-                                  (strcat "C:\\TA WORK\\ไฟล์ข้อมูลแบบ แปลน , รูปด้าน , รูปตัด รถไฟฟ้่าสายสีม่วง สัญญา 5 21-06-67\\PP29 BANG PAKOK STATION\\" 
+                                  (strcat "C:\\TA WORK\\ไฟล์ข้อมูลแบบ แปลน , รูปด้าน , รูปตัด รถไฟฟ้่าสายสีม่วง สัญญา 5 21-06-67\\" (nth 3 (LM:str->lst (getvar "dwgprefix") "\\")) "\\" 
                                           (strcat 
                                             (substr (getvar 'dwgname) (+ (vl-string-search "PP" (getvar 'dwgname) 0 ) 1 ) 4 )
                                             " automation plottter"
@@ -415,7 +438,7 @@
                                           "\\"
                                   )
                                 )
-                                (strcat "C:\\TA\\TA_WORK\\รถไฟฟ้า\\PPLINE ITD\\ไฟล์ข้อมูลแบบ แปลน , รูปด้าน , รูปตัด รถไฟฟ้่าสายสีม่วง สัญญา 5 21-06-67\\PP29 BANG PAKOK STATION\\" 
+                                (strcat "C:\\TA\\TA_WORK\\รถไฟฟ้า\\PPLINE ITD\\ไฟล์ข้อมูลแบบ แปลน , รูปด้าน , รูปตัด รถไฟฟ้่าสายสีม่วง สัญญา 5 21-06-67\\" (nth 5 (LM:str->lst (getvar "dwgprefix") "\\")) "\\" 
                                           (strcat 
                                             (substr (getvar 'dwgname) (+ (vl-string-search "PP" (getvar 'dwgname) 0 ) 1 ) 4 )
                                             " automation plottter"
@@ -492,8 +515,7 @@
   ;
 )
 
-; ;automation_Process
-;   ;(alert "SS")
+; ; automation_Process
 ;   (if (= (getvar "ctab") "Model") ;move model
 ;     (progn
 ;       (setvar "ctab" (nth 1 (getdrawinglayouts (getvar "dwgname"))))
