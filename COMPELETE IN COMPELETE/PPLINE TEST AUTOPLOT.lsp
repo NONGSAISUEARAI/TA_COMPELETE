@@ -516,15 +516,15 @@
 )
 
 ; ; automation_Process
-;   (if (= (getvar "ctab") "Model") ;move model
-;     (progn
-;       (setvar "ctab" (nth 1 (getdrawinglayouts (getvar "dwgname"))))
-;     )
-;   )
-;   (command "zoom" "a") 
-;   (c:find_xref_)
-;   (c:RUNc_plot)
-;   (command "close" "n" )
-; ;  
+  (if (= (getvar "ctab") "Model") ;move model
+    (progn
+      (setvar "ctab" (nth 1 (getdrawinglayouts (getvar "dwgname"))))
+    )
+  )
+  (command "zoom" "a") 
+  (c:find_xref_)
+  (c:RUNc_plot)
+  (command "close" "n" )
+;  
 
 ; ;ssss

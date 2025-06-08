@@ -992,8 +992,18 @@
     (defun c:select_layout_number_LayNum_ ()
       (setq input_layout_number (cond ( (getint (strcat "\nspecify get color \n<" (rtos (setq input_layout_number (cond (input_layout_number) (1.0) ) ) ) "> : " ) ) ) (input_layout_number) ) )
       (setq layout_list_ (getdrawinglayouts (getvar "dwgname")))
-      (setvar "ctab" (nth input_layout_number layout_list_ ) )
+      (setvar "ctab" (nth (fix input_layout_number) layout_list_ ) )
     )
+    (defun c:go-to-model_2model ()
+      (setvar "ctab" "model")
+    )
+    (defun c:select_layout_number_2Layout ()
+      (setq layout_list_ (getdrawinglayouts (getvar "dwgname")))
+      (setvar "ctab" (nth 1 layout_list_ ) )
+      (command "zoom" "extent" )
+      (command "qsave")
+    )    
+
   ;
   ;Get_Data Function Ta Trai
     (defun TA:get_name_block_in_drawing (mode)
@@ -4893,8 +4903,10 @@
           )
         )
          
-        (setq hatch_ename_getang_ (cond ( (getreal (strcat "\nspecify angle<" (rtos (setq hatch_ename_getang_ (cond (hatch_ename_getang_) (hatch_ename_getsc_) ) ) ) "> : " ) ) ) (hatch_ename_getang_) ) )
-        (setq hatch_ename_getsc_ (cond ( (getreal (strcat "\nspecify scale<" (rtos (setq hatch_ename_getsc_ (cond (hatch_ename_getsc_) (hatch_ename_getsc_) ) ) ) "> : " ) ) ) (hatch_ename_getsc_) ) )
+        ; (setq hatch_ename_getang_ (cond ( (getreal (strcat "\nspecify angle<" (rtos (setq hatch_ename_getang_ (cond (hatch_ename_getang_) (hatch_ename_getsc_) ) ) ) "> : " ) ) ) (hatch_ename_getang_) ) )
+        (setq hatch_ename_getang_ 45 )
+        (setq hatch_ename_getsc_ 750 )
+        ; (setq hatch_ename_getsc_ (cond ( (getreal (strcat "\nspecify scale<" (rtos (setq hatch_ename_getsc_ (cond (hatch_ename_getsc_) (hatch_ename_getsc_) ) ) ) "> : " ) ) ) (hatch_ename_getsc_) ) )
       ;
       ;preloop_and_while
         (setq ss_pre_filter_set_xx_i 0)
@@ -6470,7 +6482,7 @@
           (=
             (setq ss_pre_filter_set_xx_ (ssget "i"
                                               (list
-                                                (cons 0 "INSERT") ;type of object
+                                                (cons 0 "INSERT,line,lwpolyline") ;type of object
                                                 ; (cons 8 "000 - GRID")   ;kind of layer
                                                 ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                                 ; (cons 62 1)           ;kind of color call sign with color code index
@@ -6482,7 +6494,7 @@
           (progn
             (setq ss_pre_filter_set_xx_ (ssget
                                               (list
-                                                (cons 0 "INSERT") ;type of object
+                                                (cons 0 "INSERT,line,lwpolyline") ;type of object
                                                 ; (cons 8 "000 - GRID")   ;kind of layer
                                                 ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                                 ; (cons 62 1)           ;kind of color call sign with color code index
@@ -16995,6 +17007,7 @@
           (TA:Excel_input_data_R1C1 Excel_lasted_worksheet_obj_ 3 2 (getvar "dwgname"))
         )
       )
+      (TA:Excel_input_data_R1C1 Excel_lasted_worksheet_obj_ 3 2 (getvar "dwgname"))
       (TA:Excel_foreach_input_list_dataset_R1C1 Excel_lasted_worksheet_obj_ 2 3 (list spec_mat ))
       (TA:Excel_foreach_input_list_dataset_R1C1 Excel_lasted_worksheet_obj_ 3 3 (list spec-matt_val_list_))
   ;
@@ -19089,6 +19102,7 @@
                   (= (wcmatch (LM:lst->str (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_filter_obj_ ) "_" ) (strcat "*" "6255"    "*"))   T)
                   (= (wcmatch (LM:lst->str (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_filter_obj_ ) "_" ) (strcat "*" "6257"    "*"))   T)
                   (= (wcmatch (LM:lst->str (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_filter_obj_ ) "_" ) (strcat "*" "6264"    "*"))   T)
+                  (= (wcmatch (LM:lst->str (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_filter_obj_ ) "_" ) (strcat "*" "6267"    "*"))   T)
                   (= (wcmatch (LM:lst->str (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_filter_obj_ ) "_" ) (strcat "*" "6269"    "*"))   T)
                   (= (wcmatch (LM:lst->str (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_filter_obj_ ) "_" ) (strcat "*" "6271"    "*"))   T)
                   (= (wcmatch (LM:lst->str (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_filter_obj_ ) "_" ) (strcat "*" "6272"    "*"))   T)
@@ -19124,7 +19138,7 @@
                    
                   (setq ss_pre_filter_set_xx_filter_max_ (list (+ (car (caddr ssbox) ) 12) (+ (cadr (caddr ssbox) ) 12) 0))
                   (setq ssbox (list "just input no reason" ss_pre_filter_set_xx_filter_min_ ss_pre_filter_set_xx_filter_max_))
-                  (command "ATTSYNC" "S" ss_pre_filter_set_xx_filter_ename_ "Y" )
+                  (command "ATTSYNC" "S" ss_pre_filter_set_xx_filter_ename_ "Y" )           
                   (setq ssssset_ (ssget "C" (cadr ssbox)  (caddr ssbox)
                                                 (list 
                                                   (cons 0 "LEADER,LINE,LWPOLYLINE,POLYLINE") ;type of object
