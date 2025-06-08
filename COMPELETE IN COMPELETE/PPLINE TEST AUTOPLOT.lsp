@@ -1,4 +1,4 @@
-;update 20250601 2311
+;update 20250608 1204
 ;Bounding_Box_FUNC_
   ;; Selection Set Bounding Box  -  Lee Mac
   ;; Returns a list of the lower-left and upper-right WCS coordinates of a
@@ -438,7 +438,7 @@
                                           "\\"
                                   )
                                 )
-                                (strcat "C:\\TA\\TA_WORK\\รถไฟฟ้า\\PPLINE ITD\\ไฟล์ข้อมูลแบบ แปลน , รูปด้าน , รูปตัด รถไฟฟ้่าสายสีม่วง สัญญา 5 21-06-67\\" (nth 5 (LM:str->lst (getvar "dwgprefix") "\\")) "\\" 
+                                (strcat "C:\\TA\\TA_WORK\\รถไฟฟ้า\\PPLINE ITD\\ไฟล์ข้อมูลแบบ แปลน , รูปด้าน , รูปตัด รถไฟฟ้่าสายสีม่วง สัญญา 5 21-06-67\\" (nth 6 (LM:str->lst (getvar "dwgprefix") "\\")) "\\" 
                                           (strcat 
                                             (substr (getvar 'dwgname) (+ (vl-string-search "PP" (getvar 'dwgname) 0 ) 1 ) 4 )
                                             " automation plottter"

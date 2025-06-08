@@ -1,4 +1,4 @@
-;update 20250601 2311
+;update 20250608 1204
   ;Effective Block Name Funcition Lee Mac
     ;; Effective Block Name  -  Lee Mac
       ;; obj - [vla] VLA Block Reference object
@@ -1100,6 +1100,7 @@
             (= (vla-get-objectname obj) "AcDbLine")
             (= (vla-get-objectname obj) "AcDbPolyline")
             (= (vla-get-objectname obj) "AcDbBlockReference") 
+            (= (vla-get-objectname obj) "AcDbArc") 
           )
         (progn
           ;get_data
@@ -1123,7 +1124,7 @@
       )
     )
     (defun TA:ss_vla-getboundingbox (sss_)
-      (setq sss_ (ssget))
+      ; (setq sss_ (ssget))
       (cond
         (;type_case_1
             (and
@@ -1517,7 +1518,7 @@
       ;get_data_
         (setq main_border_obj_ (vlax-ename->vla-object main_border_))
         (setq obj (vla-get-objectname main_border_obj_)) ;For Check objectname
-        (if (or (= obj "AcDbPolyline") (= obj "AcDbBlockReference")) 
+        (if (or (= obj "AcDbPolyline") (= obj "AcDbBlockReference") (= obj "AcDbArc")) 
           (progn 
             (setq main_border_obj_boline_ (TA:ename+vla-getboundingbox main_border_obj_))
             (setq min_crood (cadr main_border_obj_boline_))
@@ -19066,16 +19067,22 @@
                   (= (wcmatch (LM:lst->str (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_filter_obj_ ) "_" ) (strcat "*" "TICKET OFFICE" "*") )   T)
                   (= (wcmatch (LM:lst->str (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_filter_obj_ ) "_" ) (strcat "*" "SOR. RM." "*") )   T)
                   (= (wcmatch (LM:lst->str (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_filter_obj_ ) "_" ) (strcat "*" "STORE" "*") )   T)
+                  (= (wcmatch (LM:lst->str (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_filter_obj_ ) "_" ) (strcat "*" "SERVICE COLUMN" "*") )   T)
+                  (= (wcmatch (LM:lst->str (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_filter_obj_ ) "_" ) (strcat "*" "ESCAPE SHAFT" "*") )   T)
                   
                   (= (wcmatch (LM:lst->str (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_filter_obj_ ) "_" ) (strcat "*" "6004"    "*"))   T)
+                  (= (wcmatch (LM:lst->str (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_filter_obj_ ) "_" ) (strcat "*" "6050"    "*"))   T)
                 
                   (= (wcmatch (LM:lst->str (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_filter_obj_ ) "_" ) (strcat "*" "6103"    "*"))   T)
+                  (= (wcmatch (LM:lst->str (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_filter_obj_ ) "_" ) (strcat "*" "6104"    "*"))   T)
                   (= (wcmatch (LM:lst->str (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_filter_obj_ ) "_" ) (strcat "*" "6104"    "*"))   T)
                   (= (wcmatch (LM:lst->str (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_filter_obj_ ) "_" ) (strcat "*" "6150"    "*"))   T)
                   (= (wcmatch (LM:lst->str (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_filter_obj_ ) "_" ) (strcat "*" "6151"    "*"))   T)
                   (= (wcmatch (LM:lst->str (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_filter_obj_ ) "_" ) (strcat "*" "6152"    "*"))   T)
                   (= (wcmatch (LM:lst->str (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_filter_obj_ ) "_" ) (strcat "*" "6153"    "*"))   T)
 
+                  (= (wcmatch (LM:lst->str (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_filter_obj_ ) "_" ) (strcat "*" "6205"    "*"))   T)
+                  
                   (= (wcmatch (LM:lst->str (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_filter_obj_ ) "_" ) (strcat "*" "6250"    "*"))   T)
                   (= (wcmatch (LM:lst->str (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_filter_obj_ ) "_" ) (strcat "*" "6251"    "*"))   T)
                   (= (wcmatch (LM:lst->str (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_filter_obj_ ) "_" ) (strcat "*" "6252"    "*"))   T)
@@ -19095,6 +19102,7 @@
                   (= (wcmatch (LM:lst->str (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_filter_obj_ ) "_" ) (strcat "*" "6403"  "*"))   T)
                   (= (wcmatch (LM:lst->str (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_filter_obj_ ) "_" ) (strcat "*" "6408"  "*"))   T)
                   (= (wcmatch (LM:lst->str (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_filter_obj_ ) "_" ) (strcat "*" "6409"  "*"))   T)
+                  (= (wcmatch (LM:lst->str (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_filter_obj_ ) "_" ) (strcat "*" "6411"  "*"))   T)
                   (= (wcmatch (LM:lst->str (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_filter_obj_ ) "_" ) (strcat "*" "6413"  "*"))   T)
                   (= (wcmatch (LM:lst->str (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_filter_obj_ ) "_" ) (strcat "*" "6414"  "*"))   T)
                   (= (wcmatch (LM:lst->str (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_filter_obj_ ) "_" ) (strcat "*" "6416"  "*"))   T)
@@ -19111,11 +19119,15 @@
                 (progn
                   (vla-put-color ss_pre_filter_set_xx_filter_obj_ 241)
                   (setq ssbox (TA:ename+vla-getboundingbox  ss_pre_filter_set_xx_filter_obj_))
+                   
+                  (setq ss_pre_filter_set_xx_filter_min_ (list (- (car (cadr ssbox) ) 12) (- (cadr (cadr ssbox) ) 12) 0))
+                   
+                  (setq ss_pre_filter_set_xx_filter_max_ (list (+ (car (caddr ssbox) ) 12) (+ (cadr (caddr ssbox) ) 12) 0))
+                  (setq ssbox (list "just input no reason" ss_pre_filter_set_xx_filter_min_ ss_pre_filter_set_xx_filter_max_))
                   (command "ATTSYNC" "S" ss_pre_filter_set_xx_filter_ename_ "Y" )
-                  
                   (setq ssssset_ (ssget "C" (cadr ssbox)  (caddr ssbox)
                                                 (list 
-                                                  (cons 0 "LEADER") ;type of object
+                                                  (cons 0 "LEADER,LINE,LWPOLYLINE,POLYLINE") ;type of object
                                                   ; (cons 8 "000 - GRID")   ;kind of layer
                                                   ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                                   ; (cons 62 1)           ;kind of color call sign with color code index
@@ -19131,8 +19143,17 @@
                           (= (vla-get-objectname ssssset_obj_) "AcDbLeader")
                           (progn 
                             (vla-put-color ssssset_obj_ 241)
-                            (vla-put-dimensionlinecolor ssssset_obj_ 241)
+                            (vla-put-dimensionlinecolor ssssset_obj_ 0)
                             
+                          )
+                        )
+                        (if 
+                          (or 
+                            (= (vla-get-objectname ssssset_obj_) "AcDbPolyline")
+                            (= (vla-get-objectname ssssset_obj_) "AcDbLine")
+                          )
+                          (progn 
+                            (vla-put-color ssssset_obj_ 241)
                           )
                         )
                       (setq ssssset_i (+ ssssset_i 1))
@@ -19163,11 +19184,10 @@
                   (vla-put-color ss_pre_filter_set_xx_filter_obj_ 241)
                   (setq ss_pre_filter_set_xx_filter_obj_getboundingbox (vla-getboundingbox ss_pre_filter_set_xx_filter_obj_ 'min_ 'max_)) 
                   (setq ss_pre_filter_set_xx_filter_min_ (vlax-safearray->list min_)) 
-                  (setq ss_pre_filter_set_xx_filter_min_ (list (- (car ss_pre_filter_set_xx_filter_min_ ) 10) (- (cadr ss_pre_filter_set_xx_filter_min_ ) 10) 0))
+                  (setq ss_pre_filter_set_xx_filter_min_ (list (- (car ss_pre_filter_set_xx_filter_min_ ) 12) (- (cadr ss_pre_filter_set_xx_filter_min_ ) 12) 0))
                   (setq ss_pre_filter_set_xx_filter_max_ (vlax-safearray->list max_)) 
-                  (setq ss_pre_filter_set_xx_filter_max_ (list (+ (car ss_pre_filter_set_xx_filter_max_ ) 10) (+ (cadr ss_pre_filter_set_xx_filter_max_ ) 10) 0))
+                  (setq ss_pre_filter_set_xx_filter_max_ (list (+ (car ss_pre_filter_set_xx_filter_max_ ) 12) (+ (cadr ss_pre_filter_set_xx_filter_max_ ) 12) 0))
                   (setq ssbox (list "just input no reason" ss_pre_filter_set_xx_filter_min_ ss_pre_filter_set_xx_filter_max_))
-                  
                   
                   (setq ssssset_ (ssget "C" (cadr ssbox)  (caddr ssbox)
                                                 (list 
@@ -19187,7 +19207,7 @@
                           (= (vla-get-objectname ssssset_obj_) "AcDbLeader")
                           (progn 
                             (vla-put-color ssssset_obj_ 241)
-                            (vla-put-dimensionlinecolor ssssset_obj_ 241)
+                            (vla-put-dimensionlinecolor ssssset_obj_ 0)
                             
                           )
                         )
@@ -19349,7 +19369,8 @@
         (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
         (if (= (wcmatch (setq wallnum_ (vla-get-tagstring ss_pre_filter_set_xx_obj_  )) "*C*") T)
           (progn
-            (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+            ; (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+            (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-textalignmentpoint ss_pre_filter_set_xx_obj_))))
             
             (setq ss_pre_filter_set_xx_obj_rotation_ (vla-get-rotation ss_pre_filter_set_xx_obj_ ))
             (setq wallnum_ (vla-get-tagstring ss_pre_filter_set_xx_obj_  ))
@@ -19430,7 +19451,7 @@
 )
 (defun c:clean_color_blockedit_clblk ()
   ;preloop_and_while
-    (setq clean_ (list "A$C51E56039" "A$C4DDA0FFF" "A$C5A3415F0" ))
+    (setq clean_ (list "A$C51E56039" "A$C4DDA0FFF" "A$C5A3415F0" "A$C5A3415F0" ))
     (setq clean_i 0)
     (while (< clean_i (length clean_))
       (setq clean_ename_ (nth  clean_i clean_))
@@ -19539,7 +19560,7 @@
 
 
 
-(defun C:selection_return_axis_Z_SSreaz_ ()
+(defun C:selection_return_axis_Z0_SSreaz_ ()
   ;return Z 0
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget
@@ -19660,6 +19681,9 @@
         (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
       )
     ;
+  ;
+  ;add on FUNC. 
+    (graphscr)
   ;
 )
 
@@ -20010,3 +20034,65 @@
   
 )
 
+
+
+
+(defun c:connect_line_CONL ()
+  (setq T1_ename_ (car (entsel "specify Object")))
+  (setq T1_obj_ (vlax-ename->vla-object T1_ename_))
+  (setq T2_ename_ (car (entsel "specify Object")))
+  (setq T2_obj_ (vlax-ename->vla-object T2_ename_))
+  (setq T1_obj_start_end_pt_ (list
+                                  (setq T1_obj_startpt_ (vlax-safearray->list
+                                                             (vlax-variant-value ( vla-get-startpoint T1_obj_ ))
+                                                           )
+                                  )
+                                  (setq T1_obj_endpt_ (vlax-safearray->list
+                                                            (vlax-variant-value ( vla-get-endpoint T1_obj_ ))
+                                                         )
+                                  )
+                                )
+  )
+  (setq T2_obj_start_end_pt_ (list
+                                  (setq T2_obj_startpt_ (vlax-safearray->list
+                                                             (vlax-variant-value ( vla-get-startpoint T2_obj_ ))
+                                                           )
+                                  )
+                                  (setq T2_obj_endpt_ (vlax-safearray->list
+                                                            (vlax-variant-value ( vla-get-endpoint T2_obj_ ))
+                                                         )
+                                  )
+                                )
+  )
+  (command "pline" T1_obj_startpt_ T2_obj_startpt_ "" )
+  ;new_blk_entlast object
+    (setq L1_ename (entlast))
+    (setq L1_obj (vlax-ename->vla-object L1_ename))
+  ;
+  (command "pline" T1_obj_endpt_ T2_obj_endpt_  "")
+  ;new_blk_entlast object
+    (setq L2_ename (entlast))
+    (setq L2_obj (vlax-ename->vla-object L2_ename))
+  ;
+  (setq newSS_ (ssadd))
+  (sslength newSS_)
+  (setq newSS_ (ssadd T1_ename_   newSS_) )
+  (setq newSS_ (ssadd T2_ename_   newSS_) )
+  (setq newSS_ (ssadd L1_ename   newSS_) )
+  (setq newSS_ (ssadd L2_ename   newSS_) )
+  (command "pedit"  "m" newSS_ "" "Y" "J" "" ""  )
+  
+  
+)
+
+(defun c:Arc_to_Pline_A2P ()
+  (setq arc_ename_ (car (entsel "specify Object")))
+  (setq arc_obj_ (vlax-ename->vla-object arc_ename_))
+  (command "pedit"  "m" arc_ename_ ""  "Y" "" )
+  ;new_blk_entlast object
+    (setq pline_ename (entlast))
+    (setq pline_obj (vlax-ename->vla-object pline_ename))
+    (vla-put-ConstantWidth pline_obj 3)
+  ;
+  
+)
