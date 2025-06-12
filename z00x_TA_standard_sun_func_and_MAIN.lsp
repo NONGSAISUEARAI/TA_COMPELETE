@@ -1,4 +1,4 @@
-;update 20250612 1409
+;update 20250613 0220
   ;Effective Block Name Funcition Lee Mac
     ;; Effective Block Name  -  Lee Mac
       ;; obj - [vla] VLA Block Reference object
@@ -1050,7 +1050,14 @@
     (defun c:go-to-model_2model ()
       (setvar "ctab" "model")
     )
-    (defun c:select_layout_number_2Layout ()
+    (defun c:select_layout_number_2LayoutClose_2LAC ()
+      (setq layout_list_ (getdrawinglayouts (getvar "dwgname")))
+      (setvar "ctab" (nth 1 layout_list_ ) )
+      (command "zoom" "extent" )
+      (command "qsave")
+      (command "close")
+    )    
+    (defun c:select_layout_number_2Layout_2LAA ()
       (setq layout_list_ (getdrawinglayouts (getvar "dwgname")))
       (setvar "ctab" (nth 1 layout_list_ ) )
       (command "zoom" "extent" )
@@ -7807,7 +7814,109 @@
       )
     ;
   ;
-
+  ;FINDER_FUNC_
+    (defun TA:blockname_finder_ (ss_pre_filter_set_xx_ finding_mode_value_ text_list_ )
+      ;user_input
+        (setq finding_screw_mode_                    "1 = *wildcard*") 
+        (setq font_search_                           "2 = *Character") 
+        (setq back_search_                           "3 = Character*") 
+        ; (setq finding_mode_value_ (cond ((getint (strcat finding_screw_mode_ "\n" font_search_ "\n" back_search_ "\n" "<" (rtos (setq finding_mode_value_ (cond (finding_mode_value_) (1.0) ) ) ) "> : " ) ) ) (finding_mode_value_) ) )
+      ;
+      ;selection_set_for_fillter_blk_name
+        ; (if  ;pre_select_ssget_or_post_select_ssget
+        ;   (=
+        ;     (setq ss_pre_filter_set_xx_ (ssget "x"
+        ;                                       (list
+        ;                                         (cons 0 "INSERT") ;type of object
+        ;                                         ; (cons 8 "000 - GRID")   ;kind of layer
+        ;                                         ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+        ;                                         ; (cons 62 1)           ;kind of color call sign with color code index
+        ;                                       )
+        ;                                 )
+        ;     )
+        ;     nil
+        ;   )
+        ;   (progn
+        ;     (setq ss_pre_filter_set_xx_ (ssget
+        ;                                       (list
+        ;                                         (cons 0 "INSERT") ;type of object
+        ;                                         ; (cons 8 "000 - GRID")   ;kind of layer
+        ;                                         ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+        ;                                         ; (cons 62 1)           ;kind of color call sign with color code index
+        ;                                       )
+        ;                                 )
+        ;     )
+        ;   )
+        ;   (sslength ss_pre_filter_set_xx_)
+        ; )
+      ;
+      (if (/= ss_pre_filter_set_xx_ nil)
+        (progn
+          ;preloop_and_while
+            (setq ss_pre_filter_set_xx_i 0)
+            (setq selection_target_ (ssadd))
+            (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+              (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+              (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+                ;preloop_and_while
+                  (if (= (vl-princ-to-string (type text_list_)) "LIST")
+                      (progn
+                          (setq text_list_i 0)
+                          (while (< text_list_i (length text_list_))
+                            (setq text_list_ename_ (nth  text_list_i text_list_))
+                              (cond
+                                (;if 
+                                  (and
+                                    (= finding_mode_value_ 1)
+                                    (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_ )) (strcase (strcat "*" text_list_ename_  "*"))) T) ;form_1
+                                    ; (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6264" "*") ) T ) ;form_2
+                                  )
+                                  (progn
+                                    (setq selection_target_ (ssadd  ss_pre_filter_set_xx_ename_ selection_target_))
+                                  )
+                                )
+                                (;if 
+                                  (and
+                                    (= finding_mode_value_ 2)
+                                    (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_ )) (strcase (strcat "*" text_list_ename_  ))) T) ;form_1
+                                    ; (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6264" "*") ) T ) ;form_2
+                                  )
+                                  (progn
+                                    (setq selection_target_ (ssadd ss_pre_filter_set_xx_ename_ selection_target_))
+                                  )
+                                )
+                                (;if 
+                                  (and
+                                    (= finding_mode_value_ 3)
+                                    (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_ )) (strcase (strcat  text_list_ename_  "*"))) T) ;form_1
+                                    ; (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_filter_obj_ "NOOO") (strcat "*" "6264" "*") ) T ) ;form_2
+                                  )
+                                  (progn
+                                    (setq selection_target_ (ssadd  ss_pre_filter_set_xx_ename_ selection_target_))
+                                  )
+                                )
+                              )      
+                            (setq text_list_i (+ text_list_i 1))
+                          )
+                        ;
+                      )
+                      (princ "argument is not array list")
+                  )
+                ;      
+              (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+            )
+          ;
+          ;selection_object_process
+            ; (length selection_target_)
+            ; (command "pselect"  selection_target_ "" )
+            (setq selection_target_ selection_target_)
+            
+          ;
+        )
+      )
+      (setq selection_target_ selection_target_)
+    )
+  ;
 
 
 
@@ -16074,9 +16183,39 @@
     
     (command "rename" "b" efname_ (LM:StringSubst "" ".dwg" (strcat namefile_ "_CSD-PLAN")) )
   )
-  (defun c:PPLINE_CKST_XCV1RENBLK ()
-    (setq sstarget_ (ssget))
+  (defun c:PPLINE_CKST_XCV1RENBLK () 
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq sstarget_ (ssget "i"
+                                            (list
+                                              ; (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          ; (setq sstarget_ (ssget
+          ;                                   (list
+          ;                                     ; (cons 0 "INSERT") ;type of object
+          ;                                     ; (cons 8 "000 - GRID")   ;kind of layer
+          ;                                     ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+          ;                                     ; (cons 62 1)           ;kind of color call sign with color code index
+          ;                                   )
+          ;                             )
+          ; )
+          G1 ;temp
+        )
+        (sslength sstarget_)
+      )
+    ;
+    (setvar "osmode" 41)
     (setq pttarget_ (getpoint "specify point for basepoint"))
+    (setvar "osmode" 1215)
     (setq namefile_ (getvar "dwgname"))
     (command "_block"   (LM:StringSubst "" ".dwg" (strcat namefile_ "_CSD-PLAN")) pttarget_  sstarget_ "" )
     (TA:vla-insertblock 
@@ -16090,6 +16229,36 @@
       (setq sss_obj (vlax-ename->vla-object sss_ename))
       (command "_copybase" pttarget_ sss_ename ""    )
     ;
+  )
+  (defun c:PPLINE_CKST_blockname_finder_csdfind ()
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "x"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+    (TA:blockname_finder_ ss_pre_filter_set_xx_ 1 (list "CSD-PLAN"))
+    (command "pselect"  selection_target_ "" )
   )
 ;
 ;Method Installation
@@ -20667,57 +20836,7 @@
 ;
 
 
-
-
-;tempolary_code for working w/ CKST CSD PLAN
-;ch line
-  ;selection_set_for_fillter_blk_name
-    (if  ;pre_select_ssget_or_post_select_ssget
-      (=
-        (setq ss_pre_filter_set_xx_ (ssget "x"
-                                          (list
-                                            (cons 0 "line") ;type of object
-                                            (cons 8 "A-ANNO-MATC")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-        nil
-      )
-      (progn
-        (setq ss_pre_filter_set_xx_ (ssget
-                                          (list
-                                            (cons 0 "line") ;type of object
-                                            (cons 8 "A-ANNO-MATC")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-      )
-      
-    )
-  ;
-  ;preloop_and_while
-    (if (/= ss_pre_filter_set_xx_ nil) 
-      (progn 
-        (setq ss_pre_filter_set_xx_i 0)
-        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_)) 
-          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i ) )
-          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
-
-          (vla-put-color ss_pre_filter_set_xx_obj_ 2)
-
-
-          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
-        )
-        ;
-      )
-    )
-  ;
-;
-;ch mtext
+(defun c:find_master_plan_fimas ()
   ;selection_set_for_fillter_blk_name
     (if  ;pre_select_ssget_or_post_select_ssget
       (=
@@ -20751,69 +20870,226 @@
     (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
       (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
       (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
-      (vla-put-backgroundfill ss_pre_filter_set_xx_obj_ 0)
-      (vla-put-color ss_pre_filter_set_xx_obj_ 8)
+      (if (= (wcmatch (strcase (vla-get-textstring ss_pre_filter_set_xx_obj_)) "*MASTER*" ) T)
+        (progn
+          (vla-put-color ss_pre_filter_set_xx_obj_ 6)
+        )
+      )
       (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
     )
   ;
-;
-;ch background block
-  ;selection_set_for_fillter_blk_name
-    (if  ;pre_select_ssget_or_post_select_ssget
-      (=
-        (setq ss_pre_filter_set_xx_ (ssget "x"
-                                          (list
-                                            (cons 0 "INSERT") ;type of object
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-        nil
-      )
-      (progn
-        (setq ss_pre_filter_set_xx_ (ssget
-                                          (list
-                                            (cons 0 "INSERT") ;type of object
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-      )
-      (sslength ss_pre_filter_set_xx_)
-    )
-  ;
-  ;preloop_and_while
-    (setq ss_pre_filter_set_xx_i 0)
-    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
-      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+)
 
-        (if (= (wcmatch (LM:effectivename ss_pre_filter_set_xx_obj_ ) "*View Reference - M_View Reference*") T)
-          (progn
-            (setq blk_obj_ (vlax-ename->vla-object (entnext  ss_pre_filter_set_xx_ename_ )))
-              (if (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbBlockReference")
-                (progn
-                  (setq blkname (cdr (assoc 2 (entget ss_pre_filter_set_xx_ename_))))
-                  (setq bdef (tblobjname "BLOCK" blkname))
-                  (if (= (vl-prin1-to-string (type bdef)) "ENAME")
-                    (progn
-                      (setq nested (entnext bdef))
-                      (vla-put-color (vlax-ename->vla-object nested) 8)
-                      (vla-put-backgroundfill (vlax-ename->vla-object nested) 0)
-                      
+;csd
+  (command "ucsicon" "or")
+  ;tempolary_code for working w/ CKST CSD PLAN
+  ;ch line
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "x"
+                                            (list
+                                              (cons 0 "line") ;type of object
+                                              (cons 8 "A-ANNO-MATC")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ 
+                 (ssget
+                                            (list
+                                              (cons 0 "line") ;type of object
+                                              (cons 8 "A-ANNO-MATC")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        
+      )
+    ;
+    ;preloop_and_while
+      (if (/= ss_pre_filter_set_xx_ nil) 
+        (progn 
+          (setq ss_pre_filter_set_xx_i 0)
+          (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_)) 
+            (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i ) )
+            (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+
+            (vla-put-color ss_pre_filter_set_xx_obj_ 2)
+
+
+            (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+          )
+          ;
+        )
+      )
+    ;
+  ;
+  ;ch mtext
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "x"
+                                            (list
+                                              (cons 0 "mtext") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "mtext") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+        (vla-put-backgroundfill ss_pre_filter_set_xx_obj_ 0)
+        (vla-put-color ss_pre_filter_set_xx_obj_ 8)
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+  ;
+  ;ch background block
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "x"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+
+          (if (= (wcmatch (LM:effectivename ss_pre_filter_set_xx_obj_ ) "*View Reference - M_View Reference*") T)
+            (progn
+              (setq blk_obj_ (vlax-ename->vla-object (entnext  ss_pre_filter_set_xx_ename_ )))
+                (if (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbBlockReference")
+                  (progn
+                    (setq blkname (cdr (assoc 2 (entget ss_pre_filter_set_xx_ename_))))
+                    (setq bdef (tblobjname "BLOCK" blkname))
+                    (if (= (vl-prin1-to-string (type bdef)) "ENAME")
+                      (progn
+                        (setq nested (entnext bdef))
+                        (vla-put-color (vlax-ename->vla-object nested) 8)
+                        (vla-put-backgroundfill (vlax-ename->vla-object nested) 0)
+                        
+                      )
                     )
                   )
                 )
-              )
+            )
+          )
+
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+  ;
+  (c:go-to-model_2model)
+
+
+
+  ;selection for mk blk
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "x"
+                                            (list
+                                              ; (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                              (cons 410 "model")
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              ; (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                              (cons 410 "model")
+                                            )
+                                      )
           )
         )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    (defun LM:ssboundingbox ( sel / idx llp ls1 ls2 obj urp )
+          (repeat (setq idx (sslength sel))
+              (setq obj (vlax-ename->vla-object (ssname sel (setq idx (1- idx)))))
+              (if (and (vlax-method-applicable-p obj 'getboundingbox)
+                      (not (vl-catch-all-error-p (vl-catch-all-apply 'vla-getboundingbox (list obj 'llp 'urp))))
+                  )
+                  (setq ls1 (cons (vlax-safearray->list llp) ls1)
+                        ls2 (cons (vlax-safearray->list urp) ls2)
+                  )
+              )
+          )
+          (if (and ls1 ls2)
+              (mapcar '(lambda ( a b ) (apply 'mapcar (cons a b))) '(min max) (list ls1 ls2))
+          )
+      )
+    (setq sss (LM:ssboundingbox ss_pre_filter_set_xx_))
+    (c:PPLINE_CKST_CSDfilter_)
 
-      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    (command "pselect"  (setq g1 (ssget "C" (car sss) (cadr sss))) "" )
+    (c:PPLINE_CKST_CSDvilter_)
+    (defun c:gf1 ()
+      (command "pselect"  g1 "" )
     )
+    (c:PPLINE_CKST_XCV1RENBLK)
   ;
 ;
-    
+
+

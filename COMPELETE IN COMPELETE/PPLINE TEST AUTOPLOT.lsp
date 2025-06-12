@@ -1,4 +1,4 @@
-;update 20250608 1204
+;update 20250613 0220
 ;Bounding_Box_FUNC_
   ;; Selection Set Bounding Box  -  Lee Mac
   ;; Returns a list of the lower-left and upper-right WCS coordinates of a
@@ -514,17 +514,137 @@
     ;
   ;
 )
-
-; ; automation_Process
-  (if (= (getvar "ctab") "Model") ;move model
-    (progn
-      (setvar "ctab" (nth 1 (getdrawinglayouts (getvar "dwgname"))))
+(defun c:RUNPPEL_plot ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "x"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            (cons 410 (getvar "CTAB"))
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget "X"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            (cons 410 (getvar "CTAB"))
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
     )
-  )
-  (command "zoom" "a") 
-  (c:find_xref_)
-  (c:RUNc_plot)
-  (command "close" "n" )
-;  
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (setq External_ref_ename_ ())
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+      (vl-prin1-to-string (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+      
+      (if
+        (and
+          ; (= (sslength ss_pre_filter_set_xx_) 1)
+          (= (wcmatch (strcase (vl-princ-to-string ss_pre_filter_set_xx_obj_)) "*IACADEXTERNALREFERENCE*") T)
+        )
+        (progn
+          (setq External_ref_ename_ ss_pre_filter_set_xx_ename_ )
+          (setq main_bol (LM:boundingbox (vlax-ename->vla-object External_ref_ename_)))
+        )
+      )
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+  ;plot process
+    (setq filename (strcat 
+                     "C:\\TA WORK\\ไฟล์ข้อมูลแบบ แปลน , รูปด้าน , รูปตัด รถไฟฟ้่าสายสีม่วง สัญญา 5 21-06-67\\PP27 DAO KHANONG STATION\\PP27 automation plottter\\"
+                     (LM:StringSubst "" ".dwg" (getvar 'DWGNAME) )
+                      ".pdf"
+                   )
+    )
+    (command "-plot" 
+            "Yes" ;Detailed Plot Configuration?
+            (getvar "ctab")
+            "DWG To PDF.pc3" ;Printer Name
+            "ISO_full_bleed_A3_(420.00_x_297.00_mm)" ;Paper Size
+            ;paper_size ;Paper Size
+            "m" ;Paper Units Millimeters
+            "Landscape" ;Orientation
+            "No" ;Plot Upside Down
+            "window" ;Plot Area
+            (nth 0 main_bol) ;vla-getboundingbox
+            (nth 2 main_bol) ;vla-getboundingbox
+            ;llpt				;Lower left corner of window
+            ;urpt				;Upper right corner of window
+            "Fit" ;Plot Scale	"Fit"
+            "Center" ;Plot Offset
+            "yes" ;Use Plot Style?
+            "TA3 - FOR NORMIE.ctb" ;Plot Style Name
+            "Yes" ;Plot Lineweights?
+            "" ;Enter shade plot setting ["As displayed"/"Wireframe"/"Hidden"/"Visual styles"/"Rendered"]
+            "N"
+            "N"
+            filename ; Name file and Location
+            "Y"
+            "Y"
+        
+    )
+    ;backup plot command process
+      ; (command "-plot" 
+      ;         "Yes" ;Detailed Plot Configuration?
+      ;         (getvar "ctab")
+      ;         "DWG To PDF.pc3" ;Printer Name
+      ;         "ISO_full_bleed_A3_(420.00_x_297.00_mm)" ;Paper Size
+      ;         ;paper_size ;Paper Size
+      ;         "m" ;Paper Units Millimeters
+      ;         "Landscape" ;Orientation
+      ;         "No" ;Plot Upside Down
+      ;         "Extents" ;Plot Area
+      ;         ; (nth 0 main_bol) ;vla-getboundingbox
+      ;         ; (nth 3 main_bol) ;vla-getboundingbox
+      ;         ;llpt				;Lower left corner of window
+      ;         ;urpt				;Upper right corner of window
+      ;         "Fit" ;Plot Scale	"Fit"
+      ;         "Center" ;Plot Offset
+      ;         "yes" ;Use Plot Style?
+      ;         "TA3 - FOR NORMIE.ctb" ;Plot Style Name
+      ;         "Yes" ;Plot Lineweights?
+      ;         "" ;Enter shade plot setting ["As displayed"/"Wireframe"/"Hidden"/"Visual styles"/"Rendered"]
+      ;         "N"
+      ;         "N"
+      ;         filename ; Name file and Location
+      ;         "Y"
+      ;         "Y"
+      ; )
+    ;
+  
+    ;create shortcut process  (root from SUB_FUNC)
+      ;kuy folder แม่งเสือกมีภาษาไทย หอยหลอดเอ้ย !!!!!!!
+    ;
+  ;
+)
+
+; ; ; automation_Process
+;   (if (= (getvar "ctab") "Model") ;move model
+;     (progn
+;       (setvar "ctab" (nth 1 (getdrawinglayouts (getvar "dwgname"))))
+;     )
+;   )
+;   (command "zoom" "a") 
+;   (c:find_xref_)
+;   (c:RUNPPEL_plot)
+;   (command "close" "n" )
+; ;  
 
 ; ;ssss
