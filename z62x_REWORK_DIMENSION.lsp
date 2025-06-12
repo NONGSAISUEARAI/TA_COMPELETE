@@ -1,3 +1,4 @@
+;update 20250612 1409
 (vl-load-com)
 ;Dynamic Funcion
   ;; Get Dynamic Block Property Value  -  Lee Mac
@@ -4088,3 +4089,139 @@
 )
 
 
+
+(defun c:insert_grid_line_insGL ()
+  ;Note By Code_Developer
+  ;This command is designed to work exclusively with a block named '000-GRID_LINE_DYN'.
+  ;Highest work flow W/ 4 Rectangle shape 
+  ;Limitation must use W/ 4 Rectangle shape and first vertex must stay on lowest of rectangle
+  ;
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "lwpolyline,insert") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "lwpolyline,insert") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;user_input_
+    (setq offset_val_ (cond ( (getint (strcat "\nSpecify Level <" (rtos (setq offset_val_ (cond (offset_val_) (1.0) ) ) ) "> : " ) ) ) (offset_val_) ) )
+  ; 
+  (setvar "osmode" 0)
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+      (setq ss_pre_filter_set_xx_obj_getboundingbox (vla-getboundingbox ss_pre_filter_set_xx_obj_ 'min_ 'max_)) 
+      (setq new_bounddary_low (vlax-safearray->list min_)) 
+      (setq new_bounddary_high (vlax-safearray->list max_)) 
+      
+      (command "rectangle" new_bounddary_low new_bounddary_high )
+      
+      ;new_blk_entlast object
+        (setq sss_ename (entlast))
+        (setq sss_obj (vlax-ename->vla-object sss_ename))
+        (setq sss_vertex_ (cadr (TA:Get_Pline_vertext_ins_point_ sss_ename)))
+        (setq sss_vertex_1_ (nth 0 sss_vertex_ ))
+        (setq sss_vertex_2_ (nth 1 sss_vertex_ ))
+        (setq sss_vertex_3_ (nth 2 sss_vertex_ ))
+        (setq sss_vertex_4_ (nth 3 sss_vertex_ ))
+      ;
+      
+        ;set_1
+          (TA:vla-insertblock 
+            "000-GRID_LINE_DYN"
+            sss_vertex_4_
+            1
+            0
+          )
+          ;new_blk_entlast object
+            (setq grid_blk_ename (entlast))
+            (setq grid_blk_obj (vlax-ename->vla-object grid_blk_ename))
+            (vla-put-layer grid_blk_obj "000 - GRID") 
+            (vla-put-rotation grid_blk_obj (deg-to-rad 0)) 
+
+            (LM:setdynpropvalue grid_blk_obj "H"  (distance sss_vertex_4_ sss_vertex_1_ ))
+            (LM:setdynpropvalue grid_blk_obj "OFFSET"  offset_val_)
+          ;
+        ;
+        ;set_2
+          (TA:vla-insertblock 
+            "000-GRID_LINE_DYN"
+            sss_vertex_3_
+            1
+            0
+          )
+          ;new_blk_entlast object
+            (setq grid_blk_ename (entlast))
+            (setq grid_blk_obj (vlax-ename->vla-object grid_blk_ename))
+            (vla-put-layer grid_blk_obj "000 - GRID") 
+            (vla-put-rotation grid_blk_obj (deg-to-rad 0)) 
+
+            (LM:setdynpropvalue grid_blk_obj "H"  (distance sss_vertex_3_ sss_vertex_2_ ))
+            (LM:setdynpropvalue grid_blk_obj "OFFSET"  offset_val_)
+        ;
+        ;set_3
+          (TA:vla-insertblock 
+            "000-GRID_LINE_DYN"
+            sss_vertex_4_
+            1
+            0
+          )
+          ;new_blk_entlast object
+            (setq grid_blk_ename (entlast))
+            (setq grid_blk_obj (vlax-ename->vla-object grid_blk_ename))
+            (vla-put-layer grid_blk_obj "000 - GRID") 
+            (vla-put-rotation grid_blk_obj (deg-to-rad 90)) 
+
+            (LM:setdynpropvalue grid_blk_obj "H"  (distance sss_vertex_4_ sss_vertex_3_ ))
+            (LM:setdynpropvalue grid_blk_obj "OFFSET"  offset_val_)
+          ;
+        ;
+        ;set_4
+          (TA:vla-insertblock 
+            "000-GRID_LINE_DYN"
+            sss_vertex_1_
+            1
+            0
+          )
+          ;new_blk_entlast object
+            (setq grid_blk_ename (entlast))
+            (setq grid_blk_obj (vlax-ename->vla-object grid_blk_ename))
+            (vla-put-layer grid_blk_obj "000 - GRID") 
+            (vla-put-rotation grid_blk_obj (deg-to-rad 90)) 
+
+            (LM:setdynpropvalue grid_blk_obj "H"  (distance sss_vertex_1_ sss_vertex_2_ ))
+            (LM:setdynpropvalue grid_blk_obj "OFFSET"  offset_val_)
+          ;
+        ;
+
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+  ;delete_process
+    (vla-delete sss_obj )
+  ;
+  (setvar "osmode" 1215)
+)

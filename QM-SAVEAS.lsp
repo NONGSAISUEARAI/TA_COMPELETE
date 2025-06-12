@@ -1,4 +1,4 @@
-;update 20250601 2311
+;update 20250612 1409
 (defun c:qmsave ()
   (setq FILEPATH (getvar "DWGPREFIX"))
   (setq FILENAME (getvar "DWGNAME"))
