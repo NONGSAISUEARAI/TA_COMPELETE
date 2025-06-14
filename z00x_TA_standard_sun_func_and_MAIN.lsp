@@ -1,4 +1,4 @@
-;update 20250613 0220
+;update 20250614 2028
   ;Effective Block Name Funcition Lee Mac
     ;; Effective Block Name  -  Lee Mac
       ;; obj - [vla] VLA Block Reference object
@@ -3727,7 +3727,64 @@
       
       
     )
-
+    (defun c:MKblk () 
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq sstarget_ (ssget "i"
+                                              (list
+                                                ; (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq sstarget_ (ssget
+                                              (list
+                                                ; (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength sstarget_)
+        )
+      ;
+      (setq blk_prefix_name_ ;Get-string by keep previous value
+          (if
+            (or
+              (/= (setq blk_prefix_name_val (getstring (strcat "\nSpecify Pattern name <" (if blk_prefix_name_ blk_prefix_name_ "") ">: ") ) ) "" )
+            )
+              (progn
+                (setq blk_prefix_name_ blk_prefix_name_val)
+                (setq blk_prefix_name_keep_val_ blk_prefix_name_val)
+              )
+            (setq blk_prefix_name_val blk_prefix_name_keep_val_)
+          )
+      )
+      (setvar "osmode" 1215)
+      (setq pttarget_ (getpoint "specify point for basepoint"))
+      (setvar "osmode" 1215)
+      (setq namefile_ (getvar "dwgname"))
+      (command "_block"   (LM:StringSubst "" ".dwg" (strcat namefile_ "_CSD-PLAN")) pttarget_  sstarget_ "" )
+      (TA:vla-insertblock 
+        (LM:StringSubst "" ".dwg" (strcat namefile_ "_CSD-PLAN")) 
+        pttarget_
+        1
+        0
+      )
+      ;new_blk_entlast object
+        (setq sss_ename (entlast))
+        (setq sss_obj (vlax-ename->vla-object sss_ename))
+        (command "_copybase" pttarget_ sss_ename ""    )
+      ;
+    )
     (if (= 1 2) ;vvvvvv
       (progn
         (setq ss_ename_ (car (entsel "specify Object")))
@@ -7916,13 +7973,396 @@
       )
       (setq selection_target_ selection_target_)
     )
+    (defun c:find_area_ ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "lwpolyline") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget 
+                                              (list
+                                                (cons 0 "lwpolyline") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (setq area_i 0)
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_hon_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+          (setq ss_pre_filter_set_xx_hon_obj_area_ (vla-get-area ss_pre_filter_set_xx_hon_obj_ ))
+          (setq area_i (+ area_i ss_pre_filter_set_xx_hon_obj_area_))
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;  
+      ;convert sq.mm to sq.m
+        (setq ss_pre_filter_set_xx_hon_obj_area_sqm (/ area_i 1000000))
+      ;
+      (alert (strcat (rtos ss_pre_filter_set_xx_hon_obj_area_sqm 2 2 ) " " "sq.m"))
+    )
+    (defun c:find_total_length_fiTL ()
+ 
+      ;selection_set_for_fillter_blk_name
+        ; (if  ;pre_select_ssget_or_post_select_ssget
+        ;   (=
+        ;     (setq ss_pre_filter_set_xx_ (ssget "i"
+        ;                                       (list
+        ;                                         (cons 0 "lwpolyline") ;type of object
+        ;                                         ; (cons 8 "000 - GRID")   ;kind of layer
+        ;                                         ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+        ;                                         ; (cons 62 1)           ;kind of color call sign with color code index
+        ;                                       )
+        ;                                 )
+        ;     )
+        ;     nil
+        ;   )
+        ;   (progn
+        ;     (setq ss_pre_filter_set_xx_ (ssget
+        ;                                       (list
+        ;                                         (cons 0 "lwpolyline") ;type of object
+        ;                                         ; (cons 8 "000 - GRID")   ;kind of layer
+        ;                                         ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+        ;                                         ; (cons 62 1)           ;kind of color call sign with color code index
+        ;                                       )
+        ;                                 )
+        ;     )
+        ;   )
+        ;   (sslength ss_pre_filter_set_xx_)
+        ; )
+      ;
+
+      (setq ss_pre_filter_set_xx_ (ssget "c" ss1 ss2(list (cons 0 "lwpolyline"))))
+      (setq mainfinder_ename_ (car (entsel "specify Object")))
+      (setq mainfinder_obj_ (vlax-ename->vla-object mainfinder_ename_))
+      (setq mainfinder_obj_length (vla-get-length mainfinder_obj_))
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (setq sstarget_ (ssadd))
+        (setq sstarget_ (ssadd mainfinder_ename_ sstarget_))
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+          (setq ss_pre_filter_set_xx_obj_TL (vla-get-length ss_pre_filter_set_xx_obj_))
+          (if (= ss_pre_filter_set_xx_obj_TL mainfinder_obj_length )
+            (progn
+              (setq sstarget_ (ssadd ss_pre_filter_set_xx_ename_ sstarget_ ))
+              (vla-move ss_pre_filter_set_xx_obj_  (vlax-3d-point ss1) (vlax-3d-point  ss11 (cadr ss1 ) 0) )
+            )
+          )
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+      (setq ss11 (+ ss11 10))
+      
+    )
+    (defun c:foo ()
+      (setq ss1 (getpoint))
+      (setq ss2 (getpoint))
+      (setq ss11 (+ (car ss1) 10) )
+      (setq ss11 (+ ss11 20) )
+    )
+    (defun c:fihand ()
+      (setq handent_
+        (list 
+          (list "4EB8F0")
+          (list "4EB308")
+          (list "4EB31A")
+          (list "4EB32C")
+          (list "4EB33E")
+          (list "4EB350")
+          (list "4EB3E0")
+          (list "4EB3F2")
+          (list "4EB404")
+          (list "4EB416")
+          (list "4EB428")
+          (list "4EB4A6")
+          (list "4EB4B8")
+          (list "4EB4CA")
+          (list "4EB4DC")
+          (list "4EB4EE")
+          (list "4EB56C")
+          (list "4EB57E")
+          (list "4EB590")
+          (list "4EB5A2")
+          (list "4EB5B4")
+          (list "4EB632")
+          (list "4EB644")
+          (list "4EB656")
+          (list "4EB668")
+          (list "4EB67A")
+          (list "4EB8DE")
+          (list "4F5ED7")
+          (list "4F5EF3")
+          (list "4F5EC9" "4EB2F6")
+          (list "4EB6E6" "4EB362")
+          (list "4EB6F8" "4EB3CE")
+          (list "4EB70A" "4EB43A")
+          (list "4EB71C" "4EB494")
+          (list "4EB72E" "4EB500")
+          (list "4EB740" "4EB55A")
+          (list "4EB752" "4EB5C6")
+          (list "4EB764" "4EB620")
+          (list "4EB776" "4EB68C")
+          (list "4EB860")
+          (list "4EB79A" "4F5F2B")
+          (list "4F5EAD" "4EB788" "4EB7AC" "4F5F01")
+          (list "4F5F0F" "4F5F1D")
+          (list "4F5EE5")
+          (list "4EB374")
+          (list "4EB386")
+          (list "4EB398")
+          (list "4EB44C")
+          (list "4EB45E")
+          (list "4EB470")
+          (list "4EB512")
+          (list "4EB524")
+          (list "4EB536")
+          (list "4EB5D8")
+          (list "4EB5EA")
+          (list "4EB5FC")
+          (list "4EB69E")
+          (list "4EB6B0")
+          (list "4EB6C2")
+          (list "4EB872")
+          (list "4EB3AA")
+          (list "4EB482")
+          (list "4EB548")
+          (list "4EB60E")
+          (list "4EB6D4")
+          (list "4F5EBB")
+          (list "4F5E9F")
+        )
+      )
+
+      ;preloop_and_while
+        (setq handent_i 0)
+        (setq handent_selection_ (ssadd))
+        (while (< handent_i (length handent_))
+          (setq GTP (getpoint "SSSSSSSSSSS"))
+          (setq handent_list_ (nth  handent_i handent_))
+          (if (= (listp handent_list_) T )
+            (progn
+              ;preloop_and_while
+                (setq handent_list_i 0)
+                (while (< handent_list_i (length handent_list_))
+                  (setq handent_list_ename_ (nth  handent_list_i handent_list_))
+                  (setq handent_list_obj_ (vlax-ename->vla-object (handent handent_list_ename_)))
+                  (vla-move handent_list_obj_ (vlax-3d-point (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint handent_list_obj_)))) (vlax-3d-point GTP))
+                  ; (setq handent_selection_ (ssadd (handent handent_list_ename_ ) handent_selection_  ))
+                  (setq handent_list_i (+ handent_list_i 1))
+                )
+              ;
+            )
+            ; (setq handent_selection_ (ssadd (handent handent_list_ ) handent_selection_  ))
+          )
+          (setq handent_i (+ handent_i 1))
+        )
+      ;
+      
+      
+    )
+    
+
+
   ;
-
-
-
-
-
-
+  ;TITLE DRAWING FUNC
+    (defun c:sort_heading_number_sorH ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      (setq sorted_list_ercheck_ nil)
+      (if (= (vl-prin1-to-string (TA:corrd_sorting_group (TA:standard_list_croodinate+ename (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000 - HEADING NAME REV02-2" )) 1 )) "(nil)")
+        (progn
+          (setq sorted_list_ (TA:standard_list_croodinate+ename (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000 - HEADING NAME REV02-2" )))
+          (setq sorted_list_ercheck_ T)
+        )
+        (setq sorted_list_ (TA:corrd_sorting_group (TA:standard_list_croodinate+ename (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000 - HEADING NAME REV02-2" )) 1 ))
+      )
+      
+      ;ErrorDetect_
+        (if ;Detect the variable's result in case of a function error
+          (= 
+            (wcmatch
+              (vl-princ-to-string
+                (setq variable_error_checking
+                  (vl-catch-all-apply 
+                    (function 
+                      (lambda () 
+                        (setq sorted_list_num_ (cond ( (getint (strcat "\nspecify get heading_number \n<" (rtos (setq sorted_list_num (cond (sorted_list_num) (1.0) ) ) ) "> : " ) ) ) (sorted_list_num) ) )
+                      )
+                    )
+                  )
+                )
+              )
+              "*nil*,*error*"
+            )
+            nil
+          )
+          (progn
+            (setq sorted_list_num sorted_list_num_)
+          )
+        )
+      ;
+      ;preloop_and_while sorting overall heaing title
+        (setq sorted_list_i 0)
+        (while (< sorted_list_i (length sorted_list_))
+          (setq sorted_list_main_ (nth  sorted_list_i sorted_list_))
+          ;preloop_and_while sub heading in sorting list 
+            (setq sorted_list_main_i 0)
+            (while (< sorted_list_main_i (length sorted_list_main_))
+              (if (= sorted_list_ercheck_ T)
+                (progn
+                  (setq sorted_list_main_ename_ (nth  sorted_list_main_i (cdr sorted_list_main_)))
+                  (setq sorted_list_main_i (+ (length sorted_list_main_)  1))
+                )
+                (setq sorted_list_main_ename_ (cadr (nth  sorted_list_main_i sorted_list_main_)))
+              )
+              
+              (setq sorted_list_main_ename_obj_ (vlax-ename->vla-object sorted_list_main_ename_))
+              (LM:vl-setattributevalue sorted_list_main_ename_obj_ "LO" sorted_list_num)
+              (LM:vl-setattributevalue sorted_list_main_ename_obj_ "DETAIL_NO." sorted_list_num)
+              
+              (setq sorted_list_num (+ sorted_list_num 1))
+              (setq sorted_list_main_i (+ sorted_list_main_i 1))
+            )
+          ;
+          (setq sorted_list_i (+ sorted_list_i 1))
+        )
+      ;
+    )
+    (defun c:sort_box_number_sorB ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      (setq sorted_list_ercheck_ nil)
+      (if (= (vl-prin1-to-string (TA:corrd_sorting_group (TA:standard_list_croodinate+ename (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "PANEL_SET.NO." )) 1 )) "(nil)")
+        (progn
+          (setq sorted_list_ (TA:standard_list_croodinate+ename (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "PANEL_SET.NO." )))
+          (setq sorted_list_ercheck_ T)
+        )
+        (setq sorted_list_ (TA:corrd_sorting_group (TA:standard_list_croodinate+ename (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "PANEL_SET.NO." )) 1 ))
+      )
+      
+      ;ErrorDetect_
+        (if ;Detect the variable's result in case of a function error
+          (= 
+            (wcmatch
+              (vl-princ-to-string
+                (setq variable_error_checking
+                  (vl-catch-all-apply 
+                    (function 
+                      (lambda () 
+                        (setq sorted_list_num_ (cond ( (getint (strcat "\nspecify get heading_number \n<" (rtos (setq sorted_list_num (cond (sorted_list_num) (1.0) ) ) ) "> : " ) ) ) (sorted_list_num) ) )
+                      )
+                    )
+                  )
+                )
+              )
+              "*nil*,*error*"
+            )
+            nil
+          )
+          (progn
+            (setq sorted_list_num sorted_list_num_)
+          )
+        )
+      ;
+      ;preloop_and_while sorting overall heaing title
+        (setq sorted_list_i 0)
+        (while (< sorted_list_i (length sorted_list_))
+          (setq sorted_list_main_ (nth  sorted_list_i sorted_list_))
+          ;preloop_and_while sub heading in sorting list 
+            (setq sorted_list_main_i 0)
+            (while (< sorted_list_main_i (length sorted_list_main_))
+              (if (= sorted_list_ercheck_ T)
+                (progn
+                  (setq sorted_list_main_ename_ (nth  sorted_list_main_i (cdr sorted_list_main_)))
+                  (setq sorted_list_main_i (+ (length sorted_list_main_)  1))
+                )
+                (setq sorted_list_main_ename_ (cadr (nth  sorted_list_main_i sorted_list_main_)))
+              )
+              
+              (setq sorted_list_main_ename_obj_ (vlax-ename->vla-object sorted_list_main_ename_))
+              (LM:vl-setattributevalue sorted_list_main_ename_obj_ "PANEL_SET.NO." sorted_list_num)
+              (LM:vl-setattributevalue sorted_list_main_ename_obj_ "PANEL_SET.NO." sorted_list_num)
+              
+              (setq sorted_list_num (+ sorted_list_num 1))
+              (setq sorted_list_main_i (+ sorted_list_main_i 1))
+            )
+          ;
+          (setq sorted_list_i (+ sorted_list_i 1))
+        )
+      ;
+    )
+  ;
   ;Common_commmand 
     (defun c:stamp_layer_to_model ()
       ;user_inpput for specify point
@@ -8724,48 +9164,7 @@
     ;
   )
 
-  (defun c:sumArea_ ()
-    ;selection_set_for_fillter_blk_name
-      (if  ;pre_select_ssget_or_post_select_ssget
-        (=
-          (setq ss_pre_filter_set_xx_ (ssget "i"
-                                            (list
-                                              (cons 0 "lwpolyline") ;type of object
-                                              ; (cons 8 "000 - GRID")   ;kind of layer
-                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                              ; (cons 62 1)           ;kind of color call sign with color code index
-                                            )
-                                      )
-          )
-          nil
-        )
-        (progn
-          (setq ss_pre_filter_set_xx_ (ssget 
-                                            (list
-                                              (cons 0 "lwpolyline") ;type of object
-                                              ; (cons 8 "000 - GRID")   ;kind of layer
-                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                              ; (cons 62 1)           ;kind of color call sign with color code index
-                                            )
-                                      )
-          )
-        )
-        (sslength ss_pre_filter_set_xx_)
-      )
-    ;
-    ;preloop_and_while
-      (setq sum_area_ 0)
-      (setq ss_pre_filter_set_xx_i 0)
-      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
-        (setq ss_pre_filter_set_xx_hon_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
-        (setq ss_pre_filter_set_xx_ojb_get_area_ (vla-get-area ss_pre_filter_set_xx_hon_obj_))
-        (setq sum_area_ (+ sum_area_ ss_pre_filter_set_xx_ojb_get_area_) )
-        
-        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
-      )
-    ;
-  )
+
 
   (defun TA:delete_duplucate_coord_list_ (coord_list_ user_input_case less-than_symbol )
     ;Note By Code_Developer
@@ -9391,416 +9790,81 @@
 
 
 ;RASTER MACHNE FUNC
-(defun c:Foldline_ ()
-  ;Foldline_process_
-  (setq input_PT (Getpoint "specify point"))
-  (setvar "osmode" 0)
-  (setq PL_ename_ (car (entsel "specify Object")))
-  (setq PL_L_ (TA:get_vertex_len_ PL_ename_ )) 
-  ;preloop_and_while
-    (setq PL_L_i 0)
-    (while (< PL_L_i (length PL_L_))
-      (setq PL_x (nth  PL_L_i PL_L_))
-      (setq PL_xyz (list 
-                     (+ PL_x (car input_PT)) 
-                     (cadr input_PT) 
-                     0
-                   )
-      )
-      (command "line"
-               input_PT
-               PL_xyz
-               ""
-      )
-      (if 
-        (or
-          (= PL_L_i 0)
-          (= PL_L_i 2)
-          (= PL_L_i 4)
-          (= PL_L_i 6)
-          (= PL_L_i 8)
-          (= PL_L_i 10)
-          (= PL_L_i 12)
-          (= PL_L_i 14)
-          (= PL_L_i 16)
-          )
-        (progn
-          (vla-put-color (vlax-ename->vla-object (entlast)) 3)
-        )
-        (vla-put-color (vlax-ename->vla-object (entlast)) 1)
-      )
-      
-      (setq input_PT PL_xyz )
-      (setq PL_L_i (+ PL_L_i 1))
-    )
-  ;
-  (setvar "osmode" 1215)
-)
-(defun c:F0 () ;คำสั่งหมุนแบบง่าย
-  ;selection_set
-    (if  ;pre_select_ssget_or_post_select_ssget
-      (= 
-        (setq ss_pre_filter_set_xx_ (ssget "I" 
-                                          (list 
-                                            (cons 0 "LINE") ;type of object
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-        nil
-      )
-      (progn 
-        (setq ss_pre_filter_set_xx_ (ssget 
-                                      (list 
-                                        (cons 0 "LINE") ;type of object
-                                        ; (cons 8 "000 - GRID")   ;kind of layer
-                                        ; (cons 2 "000-GRIDLINE_DYN")       ;kind of nameblock
-                                        ; (cons 62 1)           ;kind of color call sign with color code index
-                                      )
-                                    )
-        )
-      )
-      (sslength ss_pre_filter_set_xx_)
-    )
-  ;
-
-  (initget "Yes No")
-  (setq ss_ ;Detect the variable's result in case of a function error
-    (vl-catch-all-apply 
-      (function 
-        (lambda () 
-          (setq DELETE_OBJ_ (not (eq "No" (getkword "\nKeep Existing point with object? [Yes/No] <Y>: "))))
-        )
-      )
-    )
-  )
-  (if (and (= ss_ nil)  )
-    (progn
-      
-      (setq input_RO_PT_ (car (entsel "Specify block "))
-          input_RO_PT_ins (vlax-safearray->list (vlax-variant-value(vla-get-insertionpoint (vlax-ename->vla-object input_RO_PT_ ))))
-      )
-    )
-    (setq input_RO_PT_ins (vlax-safearray->list (vlax-variant-value(vla-get-insertionpoint (vlax-ename->vla-object input_RO_PT_ )))))
-    
-  )
-  
-  
-  (command "rotate" ss_pre_filter_set_xx_ "" input_RO_PT_ins 90)
-)
-(defun c:F90 () ;คำสั่งหมุนแบบง่าย
-  ;selection_set
-    (if  ;pre_select_ssget_or_post_select_ssget
-      (= 
-        (setq ss_pre_filter_set_xx_ (ssget "I" 
-                                          (list 
-                                            (cons 0 "LINE") ;type of object
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-        nil
-      )
-      (progn 
-        (setq ss_pre_filter_set_xx_ (ssget 
-                                      (list 
-                                        (cons 0 "LINE") ;type of object
-                                        ; (cons 8 "000 - GRID")   ;kind of layer
-                                        ; (cons 2 "000-GRIDLINE_DYN")       ;kind of nameblock
-                                        ; (cons 62 1)           ;kind of color call sign with color code index
-                                      )
-                                    )
-        )
-      )
-      (sslength ss_pre_filter_set_xx_)
-    )
-  ;
-
-  (initget "Yes No")
-  (setq ss_ ;Detect the variable's result in case of a function error
-    (vl-catch-all-apply 
-      (function 
-        (lambda () 
-          (setq DELETE_OBJ_ (not (eq "No" (getkword "\nKeep Existing point with object? [Yes/No] <Y>: "))))
-        )
-      )
-    )
-  )
-  (if (and (= ss_ nil)  )
-    (progn
-      
-      (setq input_RO_PT_ (car (entsel "Specify block "))
-          input_RO_PT_ins (vlax-safearray->list (vlax-variant-value(vla-get-insertionpoint (vlax-ename->vla-object input_RO_PT_ ))))
-      )
-    )
-    (setq input_RO_PT_ins (vlax-safearray->list (vlax-variant-value(vla-get-insertionpoint (vlax-ename->vla-object input_RO_PT_ )))))
-    
-  )
-  
-  
-  (command "rotate" ss_pre_filter_set_xx_ "" input_RO_PT_ins 270)
-)
-(defun c:QMM () ;คำสั่งหมุนแบบง่าย
-  ;selection_set
-    (if  ;pre_select_ssget_or_post_select_ssget
-      (= 
-        (setq ss_pre_filter_set_xx_ (ssget "I" 
-                                          (list 
-                                            (cons 0 "LINE") ;type of object
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-        nil
-      )
-      (progn 
-        (setq ss_pre_filter_set_xx_ (ssget 
-                                      (list 
-                                        (cons 0 "LINE") ;type of object
-                                        ; (cons 8 "000 - GRID")   ;kind of layer
-                                        ; (cons 2 "000-GRIDLINE_DYN")       ;kind of nameblock
-                                        ; (cons 62 1)           ;kind of color call sign with color code index
-                                      )
-                                    )
-        )
-      )
-      (sslength ss_pre_filter_set_xx_)
-    )
-  ;
-
-  (initget "Yes No")
-  (setq ss_ ;Detect the variable's result in case of a function error
-    (vl-catch-all-apply 
-      (function 
-        (lambda () 
-          (setq DELETE_OBJ_ (not (eq "No" (getkword "\nKeep Existing point with object? [Yes/No] <Y>: "))))
-        )
-      )
-    )
-  )
-  (if (and (= ss_ nil)  )
-    (progn
-      
-      (setq input_RO_PT_ (car (entsel "Specify block "))
-          input_RO_PT_ins (vlax-safearray->list (vlax-variant-value(vla-get-insertionpoint (vlax-ename->vla-object input_RO_PT_ ))))
-      )
-    )
-    (setq input_RO_PT_ins (vlax-safearray->list (vlax-variant-value(vla-get-insertionpoint (vlax-ename->vla-object input_RO_PT_ )))))
-    
-  )
-  (setq input_RO_PT_ins_end (list (+ 250 (car input_RO_PT_ins)) (cadr input_RO_PT_ins) 0) )
-  
-  (command "mirror" ss_pre_filter_set_xx_ "" input_RO_PT_ins input_RO_PT_ins_end "Y"  )
-  
-  
-  
-)
-(defun c:STAMP_START_CIRCLE_AT_LINE_CCL ()
-  ;selection_set
-    (if  ;pre_select_ssget_or_post_select_ssget
-      (= 
-        (setq ss_pre_filter_set_xx_ (ssget "I" 
-                                          (list 
-                                            (cons 0 "LINE") ;type of object
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-        nil
-      )
-      (progn 
-        (setq ss_pre_filter_set_xx_ (ssget 
-                                      (list 
-                                        (cons 0 "LINE") ;type of object
-                                        ; (cons 8 "000 - GRID")   ;kind of layer
-                                        ; (cons 2 "000-GRIDLINE_DYN")       ;kind of nameblock
-                                        ; (cons 62 1)           ;kind of color call sign with color code index
-                                      )
-                                    )
-        )
-      )
-      (sslength ss_pre_filter_set_xx_)
-    )
-  ;
-  ;preloop_and_while
-    (setq ss_pre_filter_set_xx_i 0)
-    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
-      (setq new_pt_line_ (TA:Get_line_ins_point_ ss_pre_filter_set_xx_ename_ ))
-      (command "circle" (car new_pt_line_ ) 3  )
-      
-   
-      (if (= ss_pre_filter_set_xx_i 0)
-        (progn
-          (command "circle" (cadr new_pt_line_ ) 3  )
-        )
-      )
-      
-      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
-      
-    )
-  ;  
-  
-  
-)
-
-
-
-(defun c:Selection_multi_boudary_line_SSMBOL ()
-  ;selection_set_for_fillter_blk_name
-    (if  ;pre_select_ssget_or_post_select_ssget
-      (=
-        (setq ss_pre_filter_set_xx_ (ssget "i"
-                                          (list
-                                            (cons 0 "INSERT") ;type of object
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-        nil
-      )
-      (progn
-        (setq ss_pre_filter_set_xx_ (ssget 
-                                          (list
-                                            (cons 0 "INSERT") ;type of object
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-      )
-      (sslength ss_pre_filter_set_xx_)
-    )
-  ;
-  ;preloop_and_while
-    (setq ss_pre_filter_set_xx_i 0)
-    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
-      (setq lower_upper_inspoint_ (TA:Find_boundary_line_ ss_pre_filter_set_xx_ename_))
-          (command "rectangle" (car lower_upper_inspoint_) (cadr lower_upper_inspoint_))
-      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
-    )
-  ; 
-)
-(defun c:find_area_ ()
-  ;selection_set_for_fillter_blk_name
-    (if  ;pre_select_ssget_or_post_select_ssget
-      (=
-        (setq ss_pre_filter_set_xx_ (ssget "i"
-                                          (list
-                                            (cons 0 "lwpolyline") ;type of object
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-        nil
-      )
-      (progn
-        (setq ss_pre_filter_set_xx_ (ssget 
-                                          (list
-                                            (cons 0 "lwpolyline") ;type of object
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-      )
-      (sslength ss_pre_filter_set_xx_)
-    )
-  ;
-
-  ;preloop_and_while
-    (setq ss_pre_filter_set_xx_i 0)
-    (setq area_i 0)
-    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
-      (setq ss_pre_filter_set_xx_hon_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
-      (setq ss_pre_filter_set_xx_hon_obj_area_ (vla-get-area ss_pre_filter_set_xx_hon_obj_ ))
-      (setq area_i (+ area_i ss_pre_filter_set_xx_hon_obj_area_))
-      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
-    )
-  ;  
-)
-
-
-
-
-
-
-(defun c:add_sorted_point->list_ ()
-  (setq MAIN_BLK_ename_ (car (entsel "specify Object")))
-  (setq Main_BLK_obj_ (vlax-ename->vla-object Main_BLK_ename_))
-  (setq k1_ (rad-to-deg (vla-get-angle Main_BLK_obj_ )))
-  (setq k2_ (vla-get-length Main_BLK_obj_ ))
-  (setq k3_ (list k1_ k2_))
-  (setq sum (cons k3_ sum ))
-)
-(defun TAS:MAKE_AREA_SELECTION (test_point_)
-  ;example_user_input_
-    ; (setq test_point_ (getpoint))
+  (defun c:Foldline_ ()
+    ;Foldline_process_
+    (setq input_PT (Getpoint "specify point"))
     (setvar "osmode" 0)
-  ;
-  ;existing_area_list_
-    (setq selection_area_list_ (list (list 40.5877 50.9799) 
-                                    (list 77.3102 106.0)
-                                    (list 167.31 12.0)
-                                    (list 128.925 37.0)
-                                    (list 90.0 13.7238)
-                                    (list 180.0 215.348)
-                                    (list 270.0 312.079)
-                                    (list 3.42803e-14 380.03)
-                                    (list 90.0 127.355)
-                                    (list 180.0 191.728)
-                                    (list 90.0 3.0)
-                              )
-    )
-  ;
-  ;preloop_and_while
-    (setq sumpoint_ ())
-    (setq selection_area_list_i 0)
-    (while (< selection_area_list_i (length selection_area_list_))
-      (setq selection_area_list_ang_ (car (nth  selection_area_list_i selection_area_list_)))
-      (setq selection_area_list_length_ (cadr (nth  selection_area_list_i selection_area_list_)))
-      (setq test_point_in_ test_point_)
-      (setq test_point_out_ (polar 
-                              test_point_in_
-                              (deg-to-rad selection_area_list_ang_)
-                              selection_area_list_length_
-                            )
+    (setq PL_ename_ (car (entsel "specify Object")))
+    (setq PL_L_ (TA:get_vertex_len_ PL_ename_ )) 
+    ;preloop_and_while
+      (setq PL_L_i 0)
+      (while (< PL_L_i (length PL_L_))
+        (setq PL_x (nth  PL_L_i PL_L_))
+        (setq PL_xyz (list 
+                      (+ PL_x (car input_PT)) 
+                      (cadr input_PT) 
+                      0
+                    )
+        )
+        (command "line"
+                input_PT
+                PL_xyz
+                ""
+        )
+        (if 
+          (or
+            (= PL_L_i 0)
+            (= PL_L_i 2)
+            (= PL_L_i 4)
+            (= PL_L_i 6)
+            (= PL_L_i 8)
+            (= PL_L_i 10)
+            (= PL_L_i 12)
+            (= PL_L_i 14)
+            (= PL_L_i 16)
+            )
+          (progn
+            (vla-put-color (vlax-ename->vla-object (entlast)) 3)
+          )
+          (vla-put-color (vlax-ename->vla-object (entlast)) 1)
+        )
+        
+        (setq input_PT PL_xyz )
+        (setq PL_L_i (+ PL_L_i 1))
       )
-      (setq test_point_ test_point_out_)
-      ; (command "point" test_point_ )
-      (setq sumpoint_ (cons test_point_ sumpoint_))
-      (setq selection_area_list_i (+ selection_area_list_i 1))
-    )
+    ;
     (setvar "osmode" 1215)
-    (princ (setq sumpoint_ (reverse sumpoint_)))
-  ;
-)
-(defun c:E1TEST ()
-  
-  ;preset_user_input_
-    (setq method_1                                  "1 = fold up 90") 
-    (setq method_2                                  "2 = fold up 0") 
-    (setq method_3                                  "3 = move ") 
-    (setq method_4                                  "4 = mirror ") 
-    (setq method_5                                  "5 = copy step ") 
-  ;
-  ;user_input_
+  )
+  (defun c:F0 () ;คำสั่งหมุนแบบง่าย
+    ;selection_set
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (= 
+          (setq ss_pre_filter_set_xx_ (ssget "I" 
+                                            (list 
+                                              (cons 0 "LINE") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn 
+          (setq ss_pre_filter_set_xx_ (ssget 
+                                        (list 
+                                          (cons 0 "LINE") ;type of object
+                                          ; (cons 8 "000 - GRID")   ;kind of layer
+                                          ; (cons 2 "000-GRIDLINE_DYN")       ;kind of nameblock
+                                          ; (cons 62 1)           ;kind of color call sign with color code index
+                                        )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+
     (initget "Yes No")
     (setq ss_ ;Detect the variable's result in case of a function error
       (vl-catch-all-apply 
@@ -9813,332 +9877,581 @@
     )
     (if (and (= ss_ nil)  )
       (progn
-        (setq input_RO_PT_    (car (entsel "Specify block "))
-              input_RO_PT_ins (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint (vlax-ename->vla-object input_RO_PT_)) ) )
-              input_RO_BOL_ (TA:ename+vla-getboundingbox (vlax-ename->vla-object input_RO_PT_))
-              
+        
+        (setq input_RO_PT_ (car (entsel "Specify block "))
+            input_RO_PT_ins (vlax-safearray->list (vlax-variant-value(vla-get-insertionpoint (vlax-ename->vla-object input_RO_PT_ ))))
         )
-        (setq distance1_ (LM:getdynpropvalue (vlax-ename->vla-object input_RO_PT_ ) "distance1" ))
-        (setq distance1x_ distance1_)
-        (setq offset_pt_ 100)
-        (setq ii-i 1)
       )
-      (setq input_RO_PT_ins (vlax-safearray->list (vlax-variant-value(vla-get-insertionpoint (vlax-ename->vla-object input_RO_PT_ ))))
-            input_RO_BOL_ (TA:ename+vla-getboundingbox (vlax-ename->vla-object input_RO_PT_))
-            
+      (setq input_RO_PT_ins (vlax-safearray->list (vlax-variant-value(vla-get-insertionpoint (vlax-ename->vla-object input_RO_PT_ )))))
+      
+    )
+    
+    
+    (command "rotate" ss_pre_filter_set_xx_ "" input_RO_PT_ins 90)
+  )
+  (defun c:F90 () ;คำสั่งหมุนแบบง่าย
+    ;selection_set
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (= 
+          (setq ss_pre_filter_set_xx_ (ssget "I" 
+                                            (list 
+                                              (cons 0 "LINE") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn 
+          (setq ss_pre_filter_set_xx_ (ssget 
+                                        (list 
+                                          (cons 0 "LINE") ;type of object
+                                          ; (cons 8 "000 - GRID")   ;kind of layer
+                                          ; (cons 2 "000-GRIDLINE_DYN")       ;kind of nameblock
+                                          ; (cons 62 1)           ;kind of color call sign with color code index
+                                        )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+
+    (initget "Yes No")
+    (setq ss_ ;Detect the variable's result in case of a function error
+      (vl-catch-all-apply 
+        (function 
+          (lambda () 
+            (setq DELETE_OBJ_ (not (eq "No" (getkword "\nKeep Existing point with object? [Yes/No] <Y>: "))))
+          )
+        )
       )
     )
-  ;
-  ;ss area
-    (setq ssset_boundary_ (ssget "WP" 
-                                (setq input_RO_PT_ins_PT_LIST (TAS:MAKE_AREA_SELECTION (list 
-                                                                                         (+ 0.01 (car input_RO_PT_ins))
-                                                                                         (cadr input_RO_PT_ins)
-                                                                                         (caddr input_RO_PT_ins)
-                                                                                       ) 
-                                                              ) 
-                                )
-                                (list 
-                                  (cons 0 "line")
-                                )
-                          )
+    (if (and (= ss_ nil)  )
+      (progn
+        
+        (setq input_RO_PT_ (car (entsel "Specify block "))
+            input_RO_PT_ins (vlax-safearray->list (vlax-variant-value(vla-get-insertionpoint (vlax-ename->vla-object input_RO_PT_ ))))
+        )
+      )
+      (setq input_RO_PT_ins (vlax-safearray->list (vlax-variant-value(vla-get-insertionpoint (vlax-ename->vla-object input_RO_PT_ )))))
+      
     )
-  
-  ;
-  ;preloop_and_while_
-    (setq LV_1_ans_ nil)
-    (while (/= (vl-catch-all-error-p LV_1_ans_ ) T)
-      ;error_detect_
-      (setq LV_1_ans_ ;Detect the variable's result in case of a function error
+    
+    
+    (command "rotate" ss_pre_filter_set_xx_ "" input_RO_PT_ins 270)
+  )
+  (defun c:QMM () ;คำสั่งหมุนแบบง่าย
+    ;selection_set
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (= 
+          (setq ss_pre_filter_set_xx_ (ssget "I" 
+                                            (list 
+                                              (cons 0 "LINE") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn 
+          (setq ss_pre_filter_set_xx_ (ssget 
+                                        (list 
+                                          (cons 0 "LINE") ;type of object
+                                          ; (cons 8 "000 - GRID")   ;kind of layer
+                                          ; (cons 2 "000-GRIDLINE_DYN")       ;kind of nameblock
+                                          ; (cons 62 1)           ;kind of color call sign with color code index
+                                        )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+
+    (initget "Yes No")
+    (setq ss_ ;Detect the variable's result in case of a function error
+      (vl-catch-all-apply 
+        (function 
+          (lambda () 
+            (setq DELETE_OBJ_ (not (eq "No" (getkword "\nKeep Existing point with object? [Yes/No] <Y>: "))))
+          )
+        )
+      )
+    )
+    (if (and (= ss_ nil)  )
+      (progn
+        
+        (setq input_RO_PT_ (car (entsel "Specify block "))
+            input_RO_PT_ins (vlax-safearray->list (vlax-variant-value(vla-get-insertionpoint (vlax-ename->vla-object input_RO_PT_ ))))
+        )
+      )
+      (setq input_RO_PT_ins (vlax-safearray->list (vlax-variant-value(vla-get-insertionpoint (vlax-ename->vla-object input_RO_PT_ )))))
+      
+    )
+    (setq input_RO_PT_ins_end (list (+ 250 (car input_RO_PT_ins)) (cadr input_RO_PT_ins) 0) )
+    
+    (command "mirror" ss_pre_filter_set_xx_ "" input_RO_PT_ins input_RO_PT_ins_end "Y"  )
+    
+    
+    
+  )
+  (defun c:STAMP_START_CIRCLE_AT_LINE_CCL ()
+    ;selection_set
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (= 
+          (setq ss_pre_filter_set_xx_ (ssget "I" 
+                                            (list 
+                                              (cons 0 "LINE") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn 
+          (setq ss_pre_filter_set_xx_ (ssget 
+                                        (list 
+                                          (cons 0 "LINE") ;type of object
+                                          ; (cons 8 "000 - GRID")   ;kind of layer
+                                          ; (cons 2 "000-GRIDLINE_DYN")       ;kind of nameblock
+                                          ; (cons 62 1)           ;kind of color call sign with color code index
+                                        )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq new_pt_line_ (TA:Get_line_ins_point_ ss_pre_filter_set_xx_ename_ ))
+        (command "circle" (car new_pt_line_ ) 3  )
+        
+    
+        (if (= ss_pre_filter_set_xx_i 0)
+          (progn
+            (command "circle" (cadr new_pt_line_ ) 3  )
+          )
+        )
+        
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        
+      )
+    ;  
+    
+    
+  )
+  (defun TAS:MAKE_AREA_SELECTION (test_point_)
+    ;example_user_input_
+      ; (setq test_point_ (getpoint))
+      (setvar "osmode" 0)
+    ;
+    ;existing_area_list_
+      (setq selection_area_list_ (list (list 40.5877 50.9799) 
+                                      (list 77.3102 106.0)
+                                      (list 167.31 12.0)
+                                      (list 128.925 37.0)
+                                      (list 90.0 13.7238)
+                                      (list 180.0 215.348)
+                                      (list 270.0 312.079)
+                                      (list 3.42803e-14 380.03)
+                                      (list 90.0 127.355)
+                                      (list 180.0 191.728)
+                                      (list 90.0 3.0)
+                                )
+      )
+    ;
+    ;preloop_and_while
+      (setq sumpoint_ ())
+      (setq selection_area_list_i 0)
+      (while (< selection_area_list_i (length selection_area_list_))
+        (setq selection_area_list_ang_ (car (nth  selection_area_list_i selection_area_list_)))
+        (setq selection_area_list_length_ (cadr (nth  selection_area_list_i selection_area_list_)))
+        (setq test_point_in_ test_point_)
+        (setq test_point_out_ (polar 
+                                test_point_in_
+                                (deg-to-rad selection_area_list_ang_)
+                                selection_area_list_length_
+                              )
+        )
+        (setq test_point_ test_point_out_)
+        ; (command "point" test_point_ )
+        (setq sumpoint_ (cons test_point_ sumpoint_))
+        (setq selection_area_list_i (+ selection_area_list_i 1))
+      )
+      (setvar "osmode" 1215)
+      (princ (setq sumpoint_ (reverse sumpoint_)))
+    ;
+  )
+  (defun c:E1TEST ()
+    
+    ;preset_user_input_
+      (setq method_1                                  "1 = fold up 90") 
+      (setq method_2                                  "2 = fold up 0") 
+      (setq method_3                                  "3 = move ") 
+      (setq method_4                                  "4 = mirror ") 
+      (setq method_5                                  "5 = copy step ") 
+    ;
+    ;user_input_
+      (initget "Yes No")
+      (setq ss_ ;Detect the variable's result in case of a function error
         (vl-catch-all-apply 
           (function 
             (lambda () 
-              (setq LV_1_ans_int_ (cond ( (getint (strcat method_1 "\n" method_2 "\n" method_3 "\n" method_4 "\n" method_5 "\n<" (rtos (setq LV_1_ans_int_ (cond (LV_1_ans_int_) (1.0) ) ) ) "> : " ) ) ) (LV_1_ans_int_) ) )
-              
+              (setq DELETE_OBJ_ (not (eq "No" (getkword "\nKeep Existing point with object? [Yes/No] <Y>: "))))
             )
           )
         )
       )
-      (if (= (vl-catch-all-error-p LV_1_ans_ ) T)
+      (if (and (= ss_ nil)  )
         (progn
-          (vl-catch-all-error-message LV_1_ans_ )
+          (setq input_RO_PT_    (car (entsel "Specify block "))
+                input_RO_PT_ins (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint (vlax-ename->vla-object input_RO_PT_)) ) )
+                input_RO_BOL_ (TA:ename+vla-getboundingbox (vlax-ename->vla-object input_RO_PT_))
+                
+          )
+          (setq distance1_ (LM:getdynpropvalue (vlax-ename->vla-object input_RO_PT_ ) "distance1" ))
+          (setq distance1x_ distance1_)
+          (setq offset_pt_ 100)
+          (setq ii-i 1)
+        )
+        (setq input_RO_PT_ins (vlax-safearray->list (vlax-variant-value(vla-get-insertionpoint (vlax-ename->vla-object input_RO_PT_ ))))
+              input_RO_BOL_ (TA:ename+vla-getboundingbox (vlax-ename->vla-object input_RO_PT_))
+              
         )
       )
-      ;
-      
-      ;condition_for_folding_control
-        (cond
-          (;raster_case_1
-            (and
-              (= LV_1_ans_int_ 1)
-              (/= (vl-catch-all-error-p LV_1_ans_ ) T)
-            )
-            (progn
-              
-              (command "rotate" ssset_boundary_ "" input_RO_PT_ins 270)
-              (princ "raster_case_1")
-            )
-          )
-          (;raster_case_2
-            (and
-              (= LV_1_ans_int_ 2)
-              (/= (vl-catch-all-error-p LV_1_ans_ ) T)
-            )
-            (progn
-              
-              (command "rotate" ssset_boundary_ "" input_RO_PT_ins 90)
-              (princ "raster_case_2")
-            )
-          )
-          (;raster_case_3
-            (and
-              (= LV_1_ans_int_ 3)
-              (/= (vl-catch-all-error-p LV_1_ans_ ) T)
-            )
-            (progn
-              (setq ss_L_ (ssget "C" 
-                              (list (+ (car input_RO_PT_ins) -500) 
-                                    (+ (cadr input_RO_PT_ins) -5)
-                                    0
-                              )
-                              (list (+ (car input_RO_PT_ins) 500) 
-                                    (+ (cadr input_RO_PT_ins) 5)
-                                    0
-                              )
-                              (list (cons 0 "line") )
-                      )
+    ;
+    ;ss area
+      (setq ssset_boundary_ (ssget "WP" 
+                                  (setq input_RO_PT_ins_PT_LIST (TAS:MAKE_AREA_SELECTION (list 
+                                                                                          (+ 0.01 (car input_RO_PT_ins))
+                                                                                          (cadr input_RO_PT_ins)
+                                                                                          (caddr input_RO_PT_ins)
+                                                                                        ) 
+                                                                ) 
+                                  )
+                                  (list 
+                                    (cons 0 "line")
+                                  )
+                            )
+      )
+    
+    ;
+    ;preloop_and_while_
+      (setq LV_1_ans_ nil)
+      (while (/= (vl-catch-all-error-p LV_1_ans_ ) T)
+        ;error_detect_
+        (setq LV_1_ans_ ;Detect the variable's result in case of a function error
+          (vl-catch-all-apply 
+            (function 
+              (lambda () 
+                (setq LV_1_ans_int_ (cond ( (getint (strcat method_1 "\n" method_2 "\n" method_3 "\n" method_4 "\n" method_5 "\n<" (rtos (setq LV_1_ans_int_ (cond (LV_1_ans_int_) (1.0) ) ) ) "> : " ) ) ) (LV_1_ans_int_) ) )
+                
               )
-              ; (command "rectangle" (list (+ (car input_RO_PT_ins) -500) (+ (cadr input_RO_PT_ins) -5) 0 ) (list (+ (car input_RO_PT_ins) 500) (+ (cadr input_RO_PT_ins) 5) 0 ) )
-              ;preloop_and_while
-                (setq ss_L_i 0)
-                (setq startpt_sum_list_ ())
-                (while (< ss_L_i (sslength ss_L_))
-                  (setq ss_L_ename_ (ssname ss_L_ ss_L_i))
-                  (setq ss_L_obj_ (vlax-ename->vla-object ss_L_ename_))
-                  (if 
-                    (or 
-                      (= (rad-to-deg (vla-get-angle ss_L_obj_)) 0)
-                      (= (rad-to-deg (vla-get-angle ss_L_obj_)) 180)
-                    )
-                    (progn
-                      (setq ss_L_ename_obj_start_end_pt_ (list 
-                                                          (setq ss_L_ename_obj_startpt_ ( vlax-safearray->list ( vlax-variant-value ( vla-get-startpoint ss_L_obj_ ) ) ) )
-                                                          (setq ss_L_ename_obj_endpt_ ( vlax-safearray->list ( vlax-variant-value ( vla-get-endpoint ss_L_obj_ ) ) ) )
-                                                        )
-                      )
-                      (setq startpt_sum_list_ (cons ss_L_ename_obj_startpt_ startpt_sum_list_))
-                    )
-                  )
-                  (setq ss_L_i (+ ss_L_i 1))
+            )
+          )
+        )
+        (if (= (vl-catch-all-error-p LV_1_ans_ ) T)
+          (progn
+            (vl-catch-all-error-message LV_1_ans_ )
+          )
+        )
+        ;
+        
+        ;condition_for_folding_control
+          (cond
+            (;raster_case_1
+              (and
+                (= LV_1_ans_int_ 1)
+                (/= (vl-catch-all-error-p LV_1_ans_ ) T)
+              )
+              (progn
+                
+                (command "rotate" ssset_boundary_ "" input_RO_PT_ins 270)
+                (princ "raster_case_1")
+              )
+            )
+            (;raster_case_2
+              (and
+                (= LV_1_ans_int_ 2)
+                (/= (vl-catch-all-error-p LV_1_ans_ ) T)
+              )
+              (progn
+                
+                (command "rotate" ssset_boundary_ "" input_RO_PT_ins 90)
+                (princ "raster_case_2")
+              )
+            )
+            (;raster_case_3
+              (and
+                (= LV_1_ans_int_ 3)
+                (/= (vl-catch-all-error-p LV_1_ans_ ) T)
+              )
+              (progn
+                (setq ss_L_ (ssget "C" 
+                                (list (+ (car input_RO_PT_ins) -500) 
+                                      (+ (cadr input_RO_PT_ins) -5)
+                                      0
+                                )
+                                (list (+ (car input_RO_PT_ins) 500) 
+                                      (+ (cadr input_RO_PT_ins) 5)
+                                      0
+                                )
+                                (list (cons 0 "line") )
+                        )
                 )
-                ;TA:stanndard_lambda_sorting
-                  (setq startpt_sum_list_sorted_ (vl-sort startpt_sum_list_  ;bigest open indent list
-                                                          (function 
-                                                            (lambda (a b) 
-                                                              (< (car a) (car b))
-                                                            )
+                ; (command "rectangle" (list (+ (car input_RO_PT_ins) -500) (+ (cadr input_RO_PT_ins) -5) 0 ) (list (+ (car input_RO_PT_ins) 500) (+ (cadr input_RO_PT_ins) 5) 0 ) )
+                ;preloop_and_while
+                  (setq ss_L_i 0)
+                  (setq startpt_sum_list_ ())
+                  (while (< ss_L_i (sslength ss_L_))
+                    (setq ss_L_ename_ (ssname ss_L_ ss_L_i))
+                    (setq ss_L_obj_ (vlax-ename->vla-object ss_L_ename_))
+                    (if 
+                      (or 
+                        (= (rad-to-deg (vla-get-angle ss_L_obj_)) 0)
+                        (= (rad-to-deg (vla-get-angle ss_L_obj_)) 180)
+                      )
+                      (progn
+                        (setq ss_L_ename_obj_start_end_pt_ (list 
+                                                            (setq ss_L_ename_obj_startpt_ ( vlax-safearray->list ( vlax-variant-value ( vla-get-startpoint ss_L_obj_ ) ) ) )
+                                                            (setq ss_L_ename_obj_endpt_ ( vlax-safearray->list ( vlax-variant-value ( vla-get-endpoint ss_L_obj_ ) ) ) )
                                                           )
-                                                ) ;bigest close indent listLV_2_
+                        )
+                        (setq startpt_sum_list_ (cons ss_L_ename_obj_startpt_ startpt_sum_list_))
+                      )
+                    )
+                    (setq ss_L_i (+ ss_L_i 1))
+                  )
+                  ;TA:stanndard_lambda_sorting
+                    (setq startpt_sum_list_sorted_ (vl-sort startpt_sum_list_  ;bigest open indent list
+                                                            (function 
+                                                              (lambda (a b) 
+                                                                (< (car a) (car b))
+                                                              )
+                                                            )
+                                                  ) ;bigest close indent listLV_2_
+                    )
+                  ;
+                ;
+                ;preloop_and_while
+                  (setq LV_3_ans_ nil)
+                  (setq move_i 0)
+                  (while (/= (vl-catch-all-error-p LV_3_ans_ ) T)
+                    ;error_detect_
+                    (setq LV_3_ans_ ;Detect the variable's result in case of a function error
+                      (vl-catch-all-apply 
+                        (function 
+                          (lambda () 
+                            (setq LV_3_ans_int_ (cond ( (getint (strcat "\nspecify get move to point\n<" (rtos (setq LV_3_ans_int_ (cond (LV_3_ans_int_) (1.0) ) ) ) "> : " ) ) ) (LV_3_ans_int_) ) )
+                          )
+                        )
+                      )
+                    )
+                    (if (= (vl-catch-all-error-p LV_3_ans_ ) T)
+                      (progn
+                        (vl-catch-all-error-message LV_3_ans_ )
+                      )
+                    )
+                    ;
+                    ;
+                    (if 
+                      (and 
+                        (= LV_3_ans_ 1)
+                        (< move_i (- (length startpt_sum_list_sorted_ ) 1) )
+                      )
+                      (progn
+                        (setq move_i (+ move_i LV_3_ans_))
+                          (vla-move 
+                            (vlax-ename->vla-object input_RO_PT_)
+                            (vlax-3d-point (setq aa_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint (vlax-ename->vla-object input_RO_PT_))))))
+                            (vlax-3d-point (nth (atoi (rtos move_i 2 0)) startpt_sum_list_sorted_ ))
+                          )
+                      )
+                    )
+                    (if (or 
+                          (= move_i (- (length startpt_sum_list_sorted_ ) 1) )
+                        )
+                      (progn
+                        (setq move_i -1)
+                      )
+                    )
+                    ;
+                  )
+                  (setq input_RO_PT_ins (vlax-safearray->list 
+                                          (vlax-variant-value (vla-get-insertionpoint (vlax-ename->vla-object input_RO_PT_) ) )
+                                        )
+                        input_RO_BOL_   (TA:ename+vla-getboundingbox (vlax-ename->vla-object input_RO_PT_) )
+                  )
+                  (setq ssset_boundary_ (ssget "WP" 
+                                              (setq input_RO_PT_ins_PT_LIST (TAS:MAKE_AREA_SELECTION 
+                                                                              (list 
+                                                                                (+ 0.01 (car input_RO_PT_ins ) ) 
+                                                                                (cadr input_RO_PT_ins) 
+                                                                                (caddr input_RO_PT_ins) 
+                                                                              )
+                                                                            )
+                                              )
+                                              (list 
+                                                (cons 0 "line")
+                                              )
+                                        )
+                  )
+                  
+                ;
+                (princ "raster_case_3")
+              )
+            )
+            (;raster_case_4
+              (and
+                (= LV_1_ans_int_ 4)
+                (/= (vl-catch-all-error-p LV_1_ans_ ) T)
+              )
+              (progn
+                (setq input_RO_PT_ins (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint (vlax-ename->vla-object input_RO_PT_)))))
+                (setq input_RO_BOL_ (TA:ename+vla-getboundingbox (vlax-ename->vla-object input_RO_PT_)))   
+                (setq ss_L_minror_ (ssget "C" 
+                                (cadr input_RO_BOL_)
+                                (caddr input_RO_BOL_)
+                                
+                                (list (cons 0 "line") )
+                        )
+                )
+                ;preloop_and_while
+                  (setq LV_4_ans_ nil)
+                  (setq mirror_i 0)
+                  (while (/= (vl-catch-all-error-p LV_4_ans_ ) T)
+                    ;error_detect_
+                    (setq LV_4_ans_ ;Detect the variable's result in case of a function error
+                      (vl-catch-all-apply 
+                        (function 
+                          (lambda () 
+                            (setq LV_4_ans_int_ (cond ( (getint (strcat "\nspecify get miror to point \n0 = Ver 1 = Hon\n<" (rtos (setq LV_4_ans_int_ (cond (LV_4_ans_int_) (1.0) ) ) ) "> : " ) ) ) (LV_4_ans_int_) ) )
+                          )
+                        )
+                      )
+                    )
+                    (if (= (vl-catch-all-error-p LV_4_ans_ ) T)
+                      (progn
+                        (vl-catch-all-error-message LV_4_ans_ )
+                      )
+                    )
+                    ;
+                    (cond
+                      (;mirror_case_1
+                        (and
+                            (= LV_4_ans_ 0)
+                            (/= (vl-catch-all-error-p LV_4_ans_ ) T)
+                        )
+                        (progn
+                          (setq input_RO_PT_ins_end (list (+ 0 (car input_RO_PT_ins)) (+ 500 (cadr input_RO_PT_ins)) 0) )
+                          (command "mirror" ss_L_minror_ "" input_RO_PT_ins input_RO_PT_ins_end "Y"  )
+                          (princ "mirror_case_1")
+                        )
+                      )
+                      (;mirror_case_2
+                        (and
+                            (= LV_4_ans_ 1)
+                            (/= (vl-catch-all-error-p LV_4_ans_ ) T)
+                        )
+                        (progn
+                          (setq input_RO_PT_ins_end (list (+ 500 (car input_RO_PT_ins)) (+ 0 (cadr input_RO_PT_ins)) 0) )
+                          (command "mirror" ss_L_minror_ "" input_RO_PT_ins input_RO_PT_ins_end "Y"  )
+                          (princ "mirror_case_2")
+                        )
+                      )
+                      
+                      
+                    )
+                    
+                    
+                    ;
                   )
                 ;
-              ;
-              ;preloop_and_while
-                (setq LV_3_ans_ nil)
-                (setq move_i 0)
-                (while (/= (vl-catch-all-error-p LV_3_ans_ ) T)
-                  ;error_detect_
-                  (setq LV_3_ans_ ;Detect the variable's result in case of a function error
-                    (vl-catch-all-apply 
-                      (function 
-                        (lambda () 
-                          (setq LV_3_ans_int_ (cond ( (getint (strcat "\nspecify get move to point\n<" (rtos (setq LV_3_ans_int_ (cond (LV_3_ans_int_) (1.0) ) ) ) "> : " ) ) ) (LV_3_ans_int_) ) )
-                        )
-                      )
-                    )
-                  )
-                  (if (= (vl-catch-all-error-p LV_3_ans_ ) T)
-                    (progn
-                      (vl-catch-all-error-message LV_3_ans_ )
-                    )
-                  )
-                  ;
-                  ;
-                  (if 
-                    (and 
-                      (= LV_3_ans_ 1)
-                      (< move_i (- (length startpt_sum_list_sorted_ ) 1) )
-                    )
-                    (progn
-                      (setq move_i (+ move_i LV_3_ans_))
-                        (vla-move 
-                          (vlax-ename->vla-object input_RO_PT_)
-                          (vlax-3d-point (setq aa_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint (vlax-ename->vla-object input_RO_PT_))))))
-                          (vlax-3d-point (nth (atoi (rtos move_i 2 0)) startpt_sum_list_sorted_ ))
-                        )
-                    )
-                  )
-                  (if (or 
-                        (= move_i (- (length startpt_sum_list_sorted_ ) 1) )
-                      )
-                    (progn
-                      (setq move_i -1)
-                    )
-                  )
-                  ;
-                )
-                (setq input_RO_PT_ins (vlax-safearray->list 
-                                        (vlax-variant-value (vla-get-insertionpoint (vlax-ename->vla-object input_RO_PT_) ) )
-                                      )
-                      input_RO_BOL_   (TA:ename+vla-getboundingbox (vlax-ename->vla-object input_RO_PT_) )
-                )
                 (setq ssset_boundary_ (ssget "WP" 
-                                            (setq input_RO_PT_ins_PT_LIST (TAS:MAKE_AREA_SELECTION 
-                                                                            (list 
-                                                                              (+ 0.01 (car input_RO_PT_ins ) ) 
-                                                                              (cadr input_RO_PT_ins) 
-                                                                              (caddr input_RO_PT_ins) 
-                                                                            )
-                                                                          )
-                                            )
-                                            (list 
-                                              (cons 0 "line")
-                                            )
-                                      )
+                                  (setq input_RO_PT_ins_PT_LIST (TAS:MAKE_AREA_SELECTION (list 
+                                                                                          (+ 0.01 (car input_RO_PT_ins))
+                                                                                          (cadr input_RO_PT_ins)
+                                                                                          (caddr input_RO_PT_ins)
+                                                                                        ) 
+                                                                ) 
+                                  )
+                                  (list 
+                                    (cons 0 "line")
+                                  )
+                            )
                 )
-                
-              ;
-              (princ "raster_case_3")
-            )
-          )
-          (;raster_case_4
-            (and
-              (= LV_1_ans_int_ 4)
-              (/= (vl-catch-all-error-p LV_1_ans_ ) T)
-            )
-            (progn
-              (setq input_RO_PT_ins (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint (vlax-ename->vla-object input_RO_PT_)))))
-              (setq input_RO_BOL_ (TA:ename+vla-getboundingbox (vlax-ename->vla-object input_RO_PT_)))   
-              (setq ss_L_minror_ (ssget "C" 
-                              (cadr input_RO_BOL_)
-                              (caddr input_RO_BOL_)
-                              
-                              (list (cons 0 "line") )
-                      )
+                (princ "raster_case_4")
               )
-              ;preloop_and_while
-                (setq LV_4_ans_ nil)
-                (setq mirror_i 0)
-                (while (/= (vl-catch-all-error-p LV_4_ans_ ) T)
-                  ;error_detect_
-                  (setq LV_4_ans_ ;Detect the variable's result in case of a function error
-                    (vl-catch-all-apply 
-                      (function 
-                        (lambda () 
-                          (setq LV_4_ans_int_ (cond ( (getint (strcat "\nspecify get miror to point \n0 = Ver 1 = Hon\n<" (rtos (setq LV_4_ans_int_ (cond (LV_4_ans_int_) (1.0) ) ) ) "> : " ) ) ) (LV_4_ans_int_) ) )
+            )
+            (;raster_case_5
+              (and
+                (= LV_1_ans_int_ 5)
+                (/= (vl-catch-all-error-p LV_1_ans_ ) T)
+              )
+              (progn
+                (setq ss_copy_ (ssget "C" 
+                                (cadr input_RO_BOL_)
+                                (caddr input_RO_BOL_)
+                                
+                                (list (cons 0 "line,insert") )
                         )
-                      )
-                    )
-                  )
-                  (if (= (vl-catch-all-error-p LV_4_ans_ ) T)
-                    (progn
-                      (vl-catch-all-error-message LV_4_ans_ )
-                    )
-                  )
-                  ;
-                  (cond
-                    (;mirror_case_1
-                      (and
-                          (= LV_4_ans_ 0)
-                          (/= (vl-catch-all-error-p LV_4_ans_ ) T)
-                      )
-                      (progn
-                        (setq input_RO_PT_ins_end (list (+ 0 (car input_RO_PT_ins)) (+ 500 (cadr input_RO_PT_ins)) 0) )
-                        (command "mirror" ss_L_minror_ "" input_RO_PT_ins input_RO_PT_ins_end "Y"  )
-                        (princ "mirror_case_1")
-                      )
-                    )
-                    (;mirror_case_2
-                      (and
-                          (= LV_4_ans_ 1)
-                          (/= (vl-catch-all-error-p LV_4_ans_ ) T)
-                      )
-                      (progn
-                        (setq input_RO_PT_ins_end (list (+ 500 (car input_RO_PT_ins)) (+ 0 (cadr input_RO_PT_ins)) 0) )
-                        (command "mirror" ss_L_minror_ "" input_RO_PT_ins input_RO_PT_ins_end "Y"  )
-                        (princ "mirror_case_2")
-                      )
-                    )
-                    
-                    
-                  )
-                  
-                  
-                  ;
                 )
-              ;
-              (setq ssset_boundary_ (ssget "WP" 
-                                (setq input_RO_PT_ins_PT_LIST (TAS:MAKE_AREA_SELECTION (list 
-                                                                                         (+ 0.01 (car input_RO_PT_ins))
-                                                                                         (cadr input_RO_PT_ins)
-                                                                                         (caddr input_RO_PT_ins)
-                                                                                       ) 
-                                                              ) 
-                                )
-                                (list 
-                                  (cons 0 "line")
-                                )
-                          )
-              )
-              (princ "raster_case_4")
-            )
-          )
-          (;raster_case_5
-            (and
-              (= LV_1_ans_int_ 5)
-              (/= (vl-catch-all-error-p LV_1_ans_ ) T)
-            )
-            (progn
-              (setq ss_copy_ (ssget "C" 
-                              (cadr input_RO_BOL_)
-                              (caddr input_RO_BOL_)
-                              
-                              (list (cons 0 "line,insert") )
-                      )
-              )
-              (sslength ss_copy_)
-              
-              ;copy_process
-                (setq new_copy_insertion_point_ (list 
-                                                  (nth 0 (cadr input_RO_BOL_))
-                                                  (- (- (nth 1 (cadr input_RO_BOL_)) distance1x_  ) offset_pt_)
-                                                  0
-                                                )
-                )
-                (setq sssssssss (LM:vl-setattributevalue (vlax-ename->vla-object input_RO_PT_ ) "step_no." ii-i )  )
-                (command "copy" ss_copy_ "" ( cadr input_RO_BOL_) new_copy_insertion_point_ )
+                (sslength ss_copy_)
                 
-                (setq distance1x_ (+ distance1x_ distance1_))  
-                (setq offset_pt_ (+ offset_pt_ 100))  
-                (setq ii-i (+ ii-i 1))  
-              ;
-              (princ "raster_case_5")
+                ;copy_process
+                  (setq new_copy_insertion_point_ (list 
+                                                    (nth 0 (cadr input_RO_BOL_))
+                                                    (- (- (nth 1 (cadr input_RO_BOL_)) distance1x_  ) offset_pt_)
+                                                    0
+                                                  )
+                  )
+                  (setq sssssssss (LM:vl-setattributevalue (vlax-ename->vla-object input_RO_PT_ ) "step_no." ii-i )  )
+                  (command "copy" ss_copy_ "" ( cadr input_RO_BOL_) new_copy_insertion_point_ )
+                  
+                  (setq distance1x_ (+ distance1x_ distance1_))  
+                  (setq offset_pt_ (+ offset_pt_ 100))  
+                  (setq ii-i (+ ii-i 1))  
+                ;
+                (princ "raster_case_5")
+              )
             )
-          )
-          (;raster_case_5
-            (and
-              (vl-catch-all-error-p LV_1_ans_ )
+            (;raster_case_5
+              (and
+                (vl-catch-all-error-p LV_1_ans_ )
+                  
+              )
+              (progn
                 
-            )
-            (progn
-              
-              (princ "raster_case_6")
+                (princ "raster_case_6")
+              )
             )
           )
-        )
-      ;
-    )
-  ;
-)
+        ;
+      )
+    ;
+  )
+;
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -13467,133 +13780,167 @@
 
 (defun c:temp_PPLINE_INSERTION_BRACKET_INSBKK_ ()
   (setq PLine_ename_ (car (entsel "specify Object")))
-
-  (if (= (vla-get-objectname (vlax-ename->vla-object PLine_ename_)) "AcDbPolyline")
-    (progn
-      (setq pline_pt_ (TA:Get_Pline_vertext_ins_point_ PLine_ename_))
-      ; (TA:get_vertex_len_ PLine_ename_)
-    ;
-      (setq pline_pt_1pt (TA:midpoint (nth 0 (nth 1 pline_pt_)) (nth 1 (nth 1 pline_pt_)) ))
-      (setq pline_pt_1dist (distance (nth 0 (nth 1 pline_pt_)) (nth 1 (nth 1 pline_pt_)) ))
-      (setq pline_pt_1angle (angle (nth 0 (nth 1 pline_pt_)) (nth 1 (nth 1 pline_pt_)) ))
-        (command "insert" "000 - DYNAMIC_VIEW_ASSCESSORIES_FAMELINE_ALEXTR._EQ.ANGLE-PROFILE_25x25mm._AG-25_COMBINE_VIEW" pline_pt_1pt 1 0 )
-        (setq new_bk_ename_ (entlast))
-        (setq new_bk_obj_ (vlax-ename->vla-object new_bk_ename_))
-        (LM:setdynpropvalue new_bk_obj_ "view" "4_side_L_view")
-        (LM:setdynpropvalue new_bk_obj_ "array_width" pline_pt_1dist )
-        (LM:setdynpropvalue new_bk_obj_ "Flip state1" 1 )
-        
-      (setq pline_pt_2pt (TA:midpoint (nth 1 (nth 1 pline_pt_)) (nth 2 (nth 1 pline_pt_)) ))
-      (setq pline_pt_2dist (distance (nth 1 (nth 1 pline_pt_)) (nth 2 (nth 1 pline_pt_)) ))
-      (setq pline_pt_2angle (rad-to-deg (angle (nth 1 (nth 1 pline_pt_)) (nth 2 (nth 1 pline_pt_)) )))
-        (command "insert" "000 - DYNAMIC_VIEW_ASSCESSORIES_FAMELINE_ALEXTR._EQ.ANGLE-PROFILE_25x25mm._AG-25_COMBINE_VIEW" pline_pt_2pt 1 pline_pt_2angle )
-        (setq new_bk_ename_ (entlast))
-        (setq new_bk_obj_ (vlax-ename->vla-object new_bk_ename_))
-        (LM:setdynpropvalue new_bk_obj_ "view" "4_side_L_view")
-        (LM:setdynpropvalue new_bk_obj_ "array_width" pline_pt_2dist )
-        (LM:setdynpropvalue new_bk_obj_ "Flip state1" 1 )
-          
-      
-      
-      (setq pline_pt_3pt (TA:midpoint (nth 2 (nth 1 pline_pt_)) (nth 3 (nth 1 pline_pt_)) ))
-      (setq pline_pt_3dist (distance (nth 2 (nth 1 pline_pt_)) (nth 3 (nth 1 pline_pt_)) ))
-      (setq pline_pt_3angle (rad-to-deg (angle (nth 2 (nth 1 pline_pt_)) (nth 3 (nth 1 pline_pt_)) )))
-        (command "insert" "000 - DYNAMIC_VIEW_ASSCESSORIES_FAMELINE_ALEXTR._EQ.ANGLE-PROFILE_25x25mm._AG-25_COMBINE_VIEW" pline_pt_3pt 1 pline_pt_3angle )
-        (setq new_bk_ename_ (entlast))
-        (setq new_bk_obj_ (vlax-ename->vla-object new_bk_ename_))
-        (LM:setdynpropvalue new_bk_obj_ "view" "4_side_L_view")
-        (LM:setdynpropvalue new_bk_obj_ "array_width" pline_pt_3dist )
-        (LM:setdynpropvalue new_bk_obj_ "Flip state1" 1 )
-      
-      (setq pline_pt_4pt (TA:midpoint (nth 3 (nth 1 pline_pt_)) (nth 0 (nth 1 pline_pt_)) ))
-      (setq pline_pt_4dist (distance (nth 3 (nth 1 pline_pt_)) (nth 0 (nth 1 pline_pt_)) ))
-      (setq pline_pt_4angle (rad-to-deg (angle (nth 3 (nth 1 pline_pt_)) (nth 0 (nth 1 pline_pt_)) )))
-        (command "insert" "000 - DYNAMIC_VIEW_ASSCESSORIES_FAMELINE_ALEXTR._EQ.ANGLE-PROFILE_25x25mm._AG-25_COMBINE_VIEW" pline_pt_4pt 1 pline_pt_4angle )
-        (setq new_bk_ename_ (entlast))
-        (setq new_bk_obj_ (vlax-ename->vla-object new_bk_ename_))
-        (LM:setdynpropvalue new_bk_obj_ "view" "4_side_L_view")
-        (LM:setdynpropvalue new_bk_obj_ "array_width" pline_pt_4dist )
-        (LM:setdynpropvalue new_bk_obj_ "Flip state1" 1 )
-    ;
-      
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq SS_Line_ename_ (ssget "i"
+                                          (list
+                                            (cons 0 "lwpolyline") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq SS_Line_ename_ (ssget
+                                          (list
+                                            (cons 0 "lwpolyline") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength SS_Line_ename_)
     )
-  )
-  (if (= (vla-get-objectname (vlax-ename->vla-object PLine_ename_)) "AcDbBlockReference")
-    (progn
-      (setq new_dyn_obj_ (vlax-ename->vla-object PLine_ename_))
-      (setq new_dyn_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint new_dyn_obj_))))
-      (setq point1_xy_
-        (list
-          (setq point1_x (+ (car new_dyn_obj_ins_) (LM:getdynpropvalue new_dyn_obj_ "position1 x" )))
-          (setq point1_y (+ (cadr new_dyn_obj_ins_) (LM:getdynpropvalue new_dyn_obj_ "position1 y" )))
-        )
-      )
-      (setq point2_xy_
-        (list
-          (setq point2_x (+ (car new_dyn_obj_ins_) (LM:getdynpropvalue new_dyn_obj_ "position2 x" )))
-          (setq point2_y (+ (cadr new_dyn_obj_ins_) (LM:getdynpropvalue new_dyn_obj_ "position2 y" )))
-        )
-      )
-      (setq point3_xy_
-        (list
-          (setq point3_x (+ (car new_dyn_obj_ins_) (LM:getdynpropvalue new_dyn_obj_ "position3 x" )))
-          (setq point3_y (+ (cadr new_dyn_obj_ins_) (LM:getdynpropvalue new_dyn_obj_ "position3 y" )))
-        )
-      )
-      (setq point4_xy_
-        (list
-          (setq point4_x (+ (car new_dyn_obj_ins_) (LM:getdynpropvalue new_dyn_obj_ "position4 x" )))
-          (setq point4_y (+ (cadr new_dyn_obj_ins_) (LM:getdynpropvalue new_dyn_obj_ "position4 y" )))
-        )
-      )
-      (setq pline_pt_ (list "sss" (list point1_xy_ point2_xy_ point3_xy_ point4_xy_ )))
-      ;
-        (setq pline_pt_1pt (TA:midpoint (nth 0 (nth 1 pline_pt_)) (nth 1 (nth 1 pline_pt_)) ))
-        (setq pline_pt_1dist (distance (nth 0 (nth 1 pline_pt_)) (nth 1 (nth 1 pline_pt_)) ))
-        (setq pline_pt_1angle (angle (nth 0 (nth 1 pline_pt_)) (nth 1 (nth 1 pline_pt_)) ))
-          (command "insert" "000 - DYNAMIC_VIEW_ASSCESSORIES_FAMELINE_ALEXTR._EQ.ANGLE-PROFILE_25x25mm._AG-25_COMBINE_VIEW" pline_pt_1pt 1 0 )
-          (setq new_bk_ename_ (entlast))
-          (setq new_bk_obj_ (vlax-ename->vla-object new_bk_ename_))
-          (LM:setdynpropvalue new_bk_obj_ "view" "4_side_L_view")
-          (LM:setdynpropvalue new_bk_obj_ "array_width" pline_pt_1dist )
-          (LM:setdynpropvalue new_bk_obj_ "move" 50 )
-          (LM:setdynpropvalue new_bk_obj_ "Flip state1" 1 )
-          
-        (setq pline_pt_2pt (TA:midpoint (nth 1 (nth 1 pline_pt_)) (nth 2 (nth 1 pline_pt_)) ))
-        (setq pline_pt_2dist (distance (nth 1 (nth 1 pline_pt_)) (nth 2 (nth 1 pline_pt_)) ))
-        (setq pline_pt_2angle (rad-to-deg (angle (nth 1 (nth 1 pline_pt_)) (nth 2 (nth 1 pline_pt_)) )))
-          (command "insert" "000 - DYNAMIC_VIEW_ASSCESSORIES_FAMELINE_ALEXTR._EQ.ANGLE-PROFILE_25x25mm._AG-25_COMBINE_VIEW" pline_pt_2pt 1 pline_pt_2angle )
-          (setq new_bk_ename_ (entlast))
-          (setq new_bk_obj_ (vlax-ename->vla-object new_bk_ename_))
-          (LM:setdynpropvalue new_bk_obj_ "view" "4_side_L_view")
-          (LM:setdynpropvalue new_bk_obj_ "array_width" pline_pt_2dist )
-          (LM:setdynpropvalue new_bk_obj_ "move" 50 )
-          (LM:setdynpropvalue new_bk_obj_ "Flip state1" 1 )
+  ;preloop_and_while
+    (setq SS_Line_ename_i 0)
+    (while (< SS_Line_ename_i (sslength SS_Line_ename_))
+      (setq PLine_ename_ (ssname SS_Line_ename_ SS_Line_ename_i))
+        (if (= (vla-get-objectname (vlax-ename->vla-object PLine_ename_)) "AcDbPolyline")
+          (progn
+            (setq pline_pt_ (TA:Get_Pline_vertext_ins_point_ PLine_ename_))
+            ; (TA:get_vertex_len_ PLine_ename_)
+          ;
+            (setq pline_pt_1pt (TA:midpoint (nth 0 (nth 1 pline_pt_)) (nth 1 (nth 1 pline_pt_)) ))
+            (setq pline_pt_1dist (distance (nth 0 (nth 1 pline_pt_)) (nth 1 (nth 1 pline_pt_)) ))
+            (setq pline_pt_1angle (angle (nth 0 (nth 1 pline_pt_)) (nth 1 (nth 1 pline_pt_)) ))
+              (command "insert" "000 - DYNAMIC_VIEW_ASSCESSORIES_FAMELINE_ALEXTR._EQ.ANGLE-PROFILE_25x25mm._AG-25_COMBINE_VIEW" pline_pt_1pt 0.001 0 )
+              (setq new_bk_ename_ (entlast))
+              (setq new_bk_obj_ (vlax-ename->vla-object new_bk_ename_))
+              (LM:setdynpropvalue new_bk_obj_ "view" "4_side_L_view")
+              (LM:setdynpropvalue new_bk_obj_ "array_width" pline_pt_1dist )
+              (LM:setdynpropvalue new_bk_obj_ "Flip state1" 1 )
+              
+            (setq pline_pt_2pt (TA:midpoint (nth 1 (nth 1 pline_pt_)) (nth 2 (nth 1 pline_pt_)) ))
+            (setq pline_pt_2dist (distance (nth 1 (nth 1 pline_pt_)) (nth 2 (nth 1 pline_pt_)) ))
+            (setq pline_pt_2angle (rad-to-deg (angle (nth 1 (nth 1 pline_pt_)) (nth 2 (nth 1 pline_pt_)) )))
+              (command "insert" "000 - DYNAMIC_VIEW_ASSCESSORIES_FAMELINE_ALEXTR._EQ.ANGLE-PROFILE_25x25mm._AG-25_COMBINE_VIEW" pline_pt_2pt 0.001 pline_pt_2angle )
+              (setq new_bk_ename_ (entlast))
+              (setq new_bk_obj_ (vlax-ename->vla-object new_bk_ename_))
+              (LM:setdynpropvalue new_bk_obj_ "view" "4_side_L_view")
+              (LM:setdynpropvalue new_bk_obj_ "array_width" pline_pt_2dist )
+              (LM:setdynpropvalue new_bk_obj_ "Flip state1" 1 )
+                
             
-        
-        
-        (setq pline_pt_3pt (TA:midpoint (nth 2 (nth 1 pline_pt_)) (nth 3 (nth 1 pline_pt_)) ))
-        (setq pline_pt_3dist (distance (nth 2 (nth 1 pline_pt_)) (nth 3 (nth 1 pline_pt_)) ))
-        (setq pline_pt_3angle (rad-to-deg (angle (nth 2 (nth 1 pline_pt_)) (nth 3 (nth 1 pline_pt_)) )))
-          (command "insert" "000 - DYNAMIC_VIEW_ASSCESSORIES_FAMELINE_ALEXTR._EQ.ANGLE-PROFILE_25x25mm._AG-25_COMBINE_VIEW" pline_pt_3pt 1 pline_pt_3angle )
-          (setq new_bk_ename_ (entlast))
-          (setq new_bk_obj_ (vlax-ename->vla-object new_bk_ename_))
-          (LM:setdynpropvalue new_bk_obj_ "view" "4_side_L_view")
-          (LM:setdynpropvalue new_bk_obj_ "array_width" pline_pt_3dist )
-          (LM:setdynpropvalue new_bk_obj_ "Flip state1" 1 )
-        
-        (setq pline_pt_4pt (TA:midpoint (nth 3 (nth 1 pline_pt_)) (nth 0 (nth 1 pline_pt_)) ))
-        (setq pline_pt_4dist (distance (nth 3 (nth 1 pline_pt_)) (nth 0 (nth 1 pline_pt_)) ))
-        (setq pline_pt_4angle (rad-to-deg (angle (nth 3 (nth 1 pline_pt_)) (nth 0 (nth 1 pline_pt_)) )))
-          (command "insert" "000 - DYNAMIC_VIEW_ASSCESSORIES_FAMELINE_ALEXTR._EQ.ANGLE-PROFILE_25x25mm._AG-25_COMBINE_VIEW" pline_pt_4pt 1 pline_pt_4angle )
-          (setq new_bk_ename_ (entlast))
-          (setq new_bk_obj_ (vlax-ename->vla-object new_bk_ename_))
-          (LM:setdynpropvalue new_bk_obj_ "view" "4_side_L_view")
-          (LM:setdynpropvalue new_bk_obj_ "array_width" pline_pt_4dist )
-          (LM:setdynpropvalue new_bk_obj_ "Flip state1" 1 )
-      ;
+            
+            (setq pline_pt_3pt (TA:midpoint (nth 2 (nth 1 pline_pt_)) (nth 3 (nth 1 pline_pt_)) ))
+            (setq pline_pt_3dist (distance (nth 2 (nth 1 pline_pt_)) (nth 3 (nth 1 pline_pt_)) ))
+            (setq pline_pt_3angle (rad-to-deg (angle (nth 2 (nth 1 pline_pt_)) (nth 3 (nth 1 pline_pt_)) )))
+              (command "insert" "000 - DYNAMIC_VIEW_ASSCESSORIES_FAMELINE_ALEXTR._EQ.ANGLE-PROFILE_25x25mm._AG-25_COMBINE_VIEW" pline_pt_3pt 0.001 pline_pt_3angle )
+              (setq new_bk_ename_ (entlast))
+              (setq new_bk_obj_ (vlax-ename->vla-object new_bk_ename_))
+              (LM:setdynpropvalue new_bk_obj_ "view" "4_side_L_view")
+              (LM:setdynpropvalue new_bk_obj_ "array_width" pline_pt_3dist )
+              (LM:setdynpropvalue new_bk_obj_ "Flip state1" 1 )
+            
+            (setq pline_pt_4pt (TA:midpoint (nth 3 (nth 1 pline_pt_)) (nth 0 (nth 1 pline_pt_)) ))
+            (setq pline_pt_4dist (distance (nth 3 (nth 1 pline_pt_)) (nth 0 (nth 1 pline_pt_)) ))
+            (setq pline_pt_4angle (rad-to-deg (angle (nth 3 (nth 1 pline_pt_)) (nth 0 (nth 1 pline_pt_)) )))
+              (command "insert" "000 - DYNAMIC_VIEW_ASSCESSORIES_FAMELINE_ALEXTR._EQ.ANGLE-PROFILE_25x25mm._AG-25_COMBINE_VIEW" pline_pt_4pt 0.001 pline_pt_4angle )
+              (setq new_bk_ename_ (entlast))
+              (setq new_bk_obj_ (vlax-ename->vla-object new_bk_ename_))
+              (LM:setdynpropvalue new_bk_obj_ "view" "4_side_L_view")
+              (LM:setdynpropvalue new_bk_obj_ "array_width" pline_pt_4dist )
+              (LM:setdynpropvalue new_bk_obj_ "Flip state1" 1 )
+          ;
+            
+          )
+        )
+        (if (= (vla-get-objectname (vlax-ename->vla-object PLine_ename_)) "AcDbBlockReference")
+          (progn
+            (setq new_dyn_obj_ (vlax-ename->vla-object PLine_ename_))
+            (setq new_dyn_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint new_dyn_obj_))))
+            (setq point1_xy_
+              (list
+                (setq point1_x (+ (car new_dyn_obj_ins_) (LM:getdynpropvalue new_dyn_obj_ "position1 x" )))
+                (setq point1_y (+ (cadr new_dyn_obj_ins_) (LM:getdynpropvalue new_dyn_obj_ "position1 y" )))
+              )
+            )
+            (setq point2_xy_
+              (list
+                (setq point2_x (+ (car new_dyn_obj_ins_) (LM:getdynpropvalue new_dyn_obj_ "position2 x" )))
+                (setq point2_y (+ (cadr new_dyn_obj_ins_) (LM:getdynpropvalue new_dyn_obj_ "position2 y" )))
+              )
+            )
+            (setq point3_xy_
+              (list
+                (setq point3_x (+ (car new_dyn_obj_ins_) (LM:getdynpropvalue new_dyn_obj_ "position3 x" )))
+                (setq point3_y (+ (cadr new_dyn_obj_ins_) (LM:getdynpropvalue new_dyn_obj_ "position3 y" )))
+              )
+            )
+            (setq point4_xy_
+              (list
+                (setq point4_x (+ (car new_dyn_obj_ins_) (LM:getdynpropvalue new_dyn_obj_ "position4 x" )))
+                (setq point4_y (+ (cadr new_dyn_obj_ins_) (LM:getdynpropvalue new_dyn_obj_ "position4 y" )))
+              )
+            )
+            (setq pline_pt_ (list "sss" (list point1_xy_ point2_xy_ point3_xy_ point4_xy_ )))
+            ;
+              (setq pline_pt_1pt (TA:midpoint (nth 0 (nth 1 pline_pt_)) (nth 1 (nth 1 pline_pt_)) ))
+              (setq pline_pt_1dist (distance (nth 0 (nth 1 pline_pt_)) (nth 1 (nth 1 pline_pt_)) ))
+              (setq pline_pt_1angle (angle (nth 0 (nth 1 pline_pt_)) (nth 1 (nth 1 pline_pt_)) ))
+                (command "insert" "000 - DYNAMIC_VIEW_ASSCESSORIES_FAMELINE_ALEXTR._EQ.ANGLE-PROFILE_25x25mm._AG-25_COMBINE_VIEW" pline_pt_1pt 0.001 0 )
+                (setq new_bk_ename_ (entlast))
+                (setq new_bk_obj_ (vlax-ename->vla-object new_bk_ename_))
+                (LM:setdynpropvalue new_bk_obj_ "view" "4_side_L_view")
+                (LM:setdynpropvalue new_bk_obj_ "array_width" pline_pt_1dist )
+                (LM:setdynpropvalue new_bk_obj_ "move" 50 )
+                (LM:setdynpropvalue new_bk_obj_ "Flip state1" 1 )
+                
+              (setq pline_pt_2pt (TA:midpoint (nth 1 (nth 1 pline_pt_)) (nth 2 (nth 1 pline_pt_)) ))
+              (setq pline_pt_2dist (distance (nth 1 (nth 1 pline_pt_)) (nth 2 (nth 1 pline_pt_)) ))
+              (setq pline_pt_2angle (rad-to-deg (angle (nth 1 (nth 1 pline_pt_)) (nth 2 (nth 1 pline_pt_)) )))
+                (command "insert" "000 - DYNAMIC_VIEW_ASSCESSORIES_FAMELINE_ALEXTR._EQ.ANGLE-PROFILE_25x25mm._AG-25_COMBINE_VIEW" pline_pt_2pt 0.001 pline_pt_2angle )
+                (setq new_bk_ename_ (entlast))
+                (setq new_bk_obj_ (vlax-ename->vla-object new_bk_ename_))
+                (LM:setdynpropvalue new_bk_obj_ "view" "4_side_L_view")
+                (LM:setdynpropvalue new_bk_obj_ "array_width" pline_pt_2dist )
+                (LM:setdynpropvalue new_bk_obj_ "move" 50 )
+                (LM:setdynpropvalue new_bk_obj_ "Flip state1" 1 )
+                  
+              
+              
+              (setq pline_pt_3pt (TA:midpoint (nth 2 (nth 1 pline_pt_)) (nth 3 (nth 1 pline_pt_)) ))
+              (setq pline_pt_3dist (distance (nth 2 (nth 1 pline_pt_)) (nth 3 (nth 1 pline_pt_)) ))
+              (setq pline_pt_3angle (rad-to-deg (angle (nth 2 (nth 1 pline_pt_)) (nth 3 (nth 1 pline_pt_)) )))
+                (command "insert" "000 - DYNAMIC_VIEW_ASSCESSORIES_FAMELINE_ALEXTR._EQ.ANGLE-PROFILE_25x25mm._AG-25_COMBINE_VIEW" pline_pt_3pt 0.001 pline_pt_3angle )
+                (setq new_bk_ename_ (entlast))
+                (setq new_bk_obj_ (vlax-ename->vla-object new_bk_ename_))
+                (LM:setdynpropvalue new_bk_obj_ "view" "4_side_L_view")
+                (LM:setdynpropvalue new_bk_obj_ "array_width" pline_pt_3dist )
+                (LM:setdynpropvalue new_bk_obj_ "Flip state1" 1 )
+              
+              (setq pline_pt_4pt (TA:midpoint (nth 3 (nth 1 pline_pt_)) (nth 0 (nth 1 pline_pt_)) ))
+              (setq pline_pt_4dist (distance (nth 3 (nth 1 pline_pt_)) (nth 0 (nth 1 pline_pt_)) ))
+              (setq pline_pt_4angle (rad-to-deg (angle (nth 3 (nth 1 pline_pt_)) (nth 0 (nth 1 pline_pt_)) )))
+                (command "insert" "000 - DYNAMIC_VIEW_ASSCESSORIES_FAMELINE_ALEXTR._EQ.ANGLE-PROFILE_25x25mm._AG-25_COMBINE_VIEW" pline_pt_4pt 0.001 pline_pt_4angle )
+                (setq new_bk_ename_ (entlast))
+                (setq new_bk_obj_ (vlax-ename->vla-object new_bk_ename_))
+                (LM:setdynpropvalue new_bk_obj_ "view" "4_side_L_view")
+                (LM:setdynpropvalue new_bk_obj_ "array_width" pline_pt_4dist )
+                (LM:setdynpropvalue new_bk_obj_ "Flip state1" 1 )
+            ;
+          )
+        )
+      (setq SS_Line_ename_i (+ SS_Line_ename_i 1))
     )
-  )
+  ;
+  ;
 )
 (defun c:temp_PPLINE_INSERTION_STLINE ()
   (setq PLine_ename_ (car (entsel "specify Object")))
@@ -20356,7 +20703,6 @@
   
   (setvar "osmode" 1215)
 )
-
 (defun c:Center_measure_ccmea_ () ;command base on c:PPLINE_300HK_insCHanging_
   ;selection_set_for_fillter_blk_name
     (if  ;pre_select_ssget_or_post_select_ssget
@@ -20387,9 +20733,151 @@
     )
     ;user_input_
       ; (setq distance_measure_ 1200) ;input by code
-      (setq fargment_gap_length_ 100) ;input by user
+      (setq fargment_gap_length_ ) ;input by user
       (setq distance_measure_ (cond ( (getreal (strcat "\nspecify distance_measure_ <" (rtos (setq distance_measure_ (cond (distance_measure_) (10) ) ) ) "> : " ) ) ) (distance_measure_) ) ) ;input by user
       (setq EFname_string_ (getstring "specify Effectivename string"))
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        ;main Line PLine Properties
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+          (cond 
+            ; ( ;object type condition_case_1 ปิดชั่วคราว อรอพัฒนา
+            ;  (and 
+            ;    (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbArc")
+            ;  )
+            ;  (progn 
+            ;    (setq ss_pre_filter_set_xx_obj_length (vla-get-arclength ss_pre_filter_set_xx_obj_))
+            ;    (princ "object type condition_case_1")
+            ;  )
+            ; )
+            ( ;object type condition_case_2
+             (and
+               (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbLine")
+             )
+             (progn 
+               (setq ss_pre_filter_set_xx_obj_angle (vla-get-angle ss_pre_filter_set_xx_obj_))
+               (setq ss_pre_filter_set_xx_obj_length (vla-get-length ss_pre_filter_set_xx_obj_))
+               (princ "object type condition_case_2")
+             )
+            )
+            ( ;object type condition_case_3
+             (and
+               (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbPolyline")
+               (<= (length (cadr (TA:Get_Pline_vertext_ins_point_ ss_pre_filter_set_xx_ename_))) 2)
+             )
+             (progn 
+               (setq ss_pre_filter_set_xx_obj_length (vla-get-length ss_pre_filter_set_xx_obj_))
+               (setq ss_pre_filter_set_xx_obj_angle (angle (car (cadr (TA:Get_Pline_vertext_ins_point_ ss_pre_filter_set_xx_ename_))) (cadr (cadr (TA:Get_Pline_vertext_ins_point_ ss_pre_filter_set_xx_ename_)))))
+               (princ "object type condition_case_3")
+             )
+            )
+            ( ;object type condition_case_4
+             (and
+               (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbArc")
+               (<= (length (cadr (TA:Get_Pline_vertext_ins_point_ ss_pre_filter_set_xx_ename_))) 2)
+             )
+             (progn 
+               (setq ss_pre_filter_set_xx_obj_length (vla-get-arclength ss_pre_filter_set_xx_obj_))
+               (princ "object type condition_case_4")
+             )
+            )
+          )
+          
+          (setq distance_measure_ (if (< ss_pre_filter_set_xx_obj_length distance_measure_) (progn (fix (- ss_pre_filter_set_xx_obj_length fargment_gap_length_ ))) distance_measure_)) 
+          (setq ss_pre_filter_set_xx_obj_fragment_length_ (/ (- ss_pre_filter_set_xx_obj_length (* (fix (/ ss_pre_filter_set_xx_obj_length distance_measure_)) distance_measure_) ) 2))
+          (setq ss_pre_filter_set_xx_obj_time_full_length_ (fix (/ ss_pre_filter_set_xx_obj_length distance_measure_)))
+          (if (= ss_pre_filter_set_xx_obj_fragment_length_ 0) ;incase for number spcaing distance
+            (progn
+              (setq ss_pre_filter_set_xx_obj_time_full_length_ (+ 3 ss_pre_filter_set_xx_obj_time_full_length_) )
+            )
+            (setq ss_pre_filter_set_xx_obj_time_full_length_ (+ 2 ss_pre_filter_set_xx_obj_time_full_length_) )
+          )
+          ;preloop_and_while measure_spcaing_distance
+            (setq measure_length_ ())
+            (setq time_i 0)
+            (while (< time_i ss_pre_filter_set_xx_obj_time_full_length_)
+              (if 
+                (or (= time_i 0) (= time_i (- ss_pre_filter_set_xx_obj_time_full_length_ 1)) )
+                (progn
+                  (setq measure_length_ (cons ss_pre_filter_set_xx_obj_fragment_length_ measure_length_))
+                )
+                (setq measure_length_ (cons distance_measure_ measure_length_))
+              )
+              (setq time_i (+ time_i 1))
+            )       
+          ;
+          ;preloop_and_while measure_val_distance
+            (setq measure_length_i 0)
+            (setq finish_measure_length_ 0)
+            (setq finish_measure_length_result ())
+            (while (< measure_length_i (length measure_length_))
+              (setq measure_length_ename_ (nth  measure_length_i measure_length_))
+              (setq finish_measure_length_ (+ finish_measure_length_ measure_length_ename_)) 
+              (setq finish_measure_length_result (cons finish_measure_length_ finish_measure_length_result))
+              (setq measure_length_i (+ measure_length_i 1))
+            )
+          ;
+        ;
+        ;insertion_process
+          (if (> distance_measure_ 0)
+            (progn
+              (foreach x (vl-remove (nth (- (length finish_measure_length_result) 1) (reverse finish_measure_length_result) ) (reverse finish_measure_length_result) )
+                (TA:vla-insertblock 
+                  EFname_string_
+                  (vlax-curve-getpointatdist ss_pre_filter_set_xx_obj_ x)
+                  1
+                  ss_pre_filter_set_xx_obj_angle
+                )
+                ;new_blk_entlast object
+                  (setq newblk_ename (entlast))
+                  (setq newblk_obj (vlax-ename->vla-object newblk_ename))
+                  ; (LM:setdynpropvalue newblk_obj (LM:getvisibilityparametername new_hanging_obj_) "2_top_view" )
+                ;
+              )
+            )
+          )
+        ;
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+  ;
+)
+(defun c:Center_measure_ccm2_ () ;command base on c:PPLINE_300HK_insCHanging_
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "ARC,LWPOLYLINE,LINE,arc") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "ARC,LWPOLYLINE,LINE,arc") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+    ;user_input_
+      ; (setq distance_measure_ 1200) ;input by code
+      (setq fargment_gap_length_ 1 ) ;input by user
+      (setq distance_measure_ (cond ( (getreal (strcat "\nspecify distance_measure_ <" (rtos (setq distance_measure_ (cond (distance_measure_) (10) ) ) ) "> : " ) ) ) (distance_measure_) ) ) ;input by user
+      (setq EFname_string_ "xx1")
     ;
     ;preloop_and_while
       (setq ss_pre_filter_set_xx_i 0)
@@ -20778,62 +21266,7 @@
 
 
 
-;TITLE DRAWING FUNC
-  (defun c:sort_heading_number_ ()
-    ;selection_set_for_fillter_blk_name
-      (if  ;pre_select_ssget_or_post_select_ssget
-        (=
-          (setq ss_pre_filter_set_xx_ (ssget "i"
-                                            (list
-                                              (cons 0 "INSERT") ;type of object
-                                              ; (cons 8 "000 - GRID")   ;kind of layer
-                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                              ; (cons 62 1)           ;kind of color call sign with color code index
-                                            )
-                                      )
-          )
-          nil
-        )
-        (progn
-          (setq ss_pre_filter_set_xx_ (ssget
-                                            (list
-                                              (cons 0 "INSERT") ;type of object
-                                              ; (cons 8 "000 - GRID")   ;kind of layer
-                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                              ; (cons 62 1)           ;kind of color call sign with color code index
-                                            )
-                                      )
-          )
-        )
-        (sslength ss_pre_filter_set_xx_)
-      )
-    ;
-    (setq sorted_list_ (TA:corrd_sorting_group (TA:standard_list_croodinate+ename (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000 - HEADING NAME REV02-2" )) 1 ))
-    ;preloop_and_while sorting overall heaing title
-      (setq sorted_list_i 0)
-      (setq sorted_list_num 1)
-      (while (< sorted_list_i (length sorted_list_))
-        (setq sorted_list_main_ (nth  sorted_list_i sorted_list_))
-        ;preloop_and_while sub heading in sorting list 
-          (setq sorted_list_main_i 0)
-          (while (< sorted_list_main_i (length sorted_list_main_))
-            (setq sorted_list_main_ename_ (cadr (nth  sorted_list_main_i sorted_list_main_)))
-            (setq sorted_list_main_ename_obj_ (vlax-ename->vla-object sorted_list_main_ename_))
-            (LM:vl-setattributevalue sorted_list_main_ename_obj_ "LO" sorted_list_num)
-            (LM:vl-setattributevalue sorted_list_main_ename_obj_ "DETAIL_NO." sorted_list_num)
-            
-            (setq sorted_list_num (+ sorted_list_num 1))
-            (setq sorted_list_main_i (+ sorted_list_main_i 1))
-          )
-        ;
-        (setq sorted_list_i (+ sorted_list_i 1))
-      )
-    ;
-  )
 
-
-
-;
 
 
 (defun c:find_master_plan_fimas ()
@@ -21093,3 +21526,555 @@
 ;
 
 
+;cuting_plan_FUNC_
+  (defun c:stamp_handle_panel_hand_ ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "001 - DYNAMIC REC&SSQ SHAPE SOLID_startpoint"))
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+          (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "ON_PANEL_SIZE_NO." (vla-get-handle ss_pre_filter_set_xx_obj_ ))
+
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+    ;
+  )
+
+  (defun c:make_cuting_plan_x_axis_mkxCPL ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ssPA_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ssPA_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ssPA_pre_filter_set_xx_)
+      )
+    ;
+    (setq ssPA_pre_filter_set_xx_ (TA:EF_Filter_ssPA_set_ ssPA_pre_filter_set_xx_ "001 - DYNAMIC REC&SSQ SHAPE SOLID_startpoint"))
+    ;preloop_and_while
+      (setq ssPA_pre_filter_set_xx_i 0)
+      (setq panel_list_ ())
+      (while (< ssPA_pre_filter_set_xx_i (sslength ssPA_pre_filter_set_xx_))
+        (setq ssPA_pre_filter_set_xx_ename_ (ssname ssPA_pre_filter_set_xx_ ssPA_pre_filter_set_xx_i))
+        (setq ssPA_pre_filter_set_xx_obj_ (vlax-ename->vla-object ssPA_pre_filter_set_xx_ename_))
+        (setq panel_list_
+          (cons 
+            (list 
+              ssPA_pre_filter_set_xx_ename_
+              ssPA_pre_filter_set_xx_obj_
+              (LM:getdynpropvalue ssPA_pre_filter_set_xx_obj_ "W")
+            )
+            panel_list_
+          )
+        )
+        (setq ssPA_pre_filter_set_xx_i (+ ssPA_pre_filter_set_xx_i 1))
+      )
+    ;
+    ;
+    ;TA:stanndard_lambda_sorting
+      (setq panel_list_sorted_ (vl-sort panel_list_  ;bigest open indent list
+                                                (function 
+                                                  (lambda (a b) 
+                                                    (> (caddr a) (caddr b))
+                                                  )
+                                                )
+                            ) ;bigest close indent list
+      )
+    ;
+    ;preloop_and_while
+      (setq panel_list_sorted_i 0)
+      (setq x_move 0)
+      (while (< panel_list_sorted_i (length panel_list_sorted_))
+        (setq panel_list_sorted_ename_ (car (nth  panel_list_sorted_i panel_list_sorted_)))
+        (setq panel_list_sorted_obj_ (vlax-ename->vla-object panel_list_sorted_ename_))
+        (if (/= panel_list_sorted_i 0)
+          (progn
+              (vla-move 
+                panel_list_sorted_obj_ 
+                (vlax-3d-point (setq panel_list_sorted_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint panel_list_sorted_obj_)))))
+                (vlax-3d-point 
+                  (+ (car panel_list_sorted_obj_ins_) x_move)
+                  (cadr panel_list_sorted_obj_ins_)
+                  (caddr panel_list_sorted_obj_ins_)
+                )
+              )
+              (setq x_move (+ (+ (+ (caddr (nth (- panel_list_sorted_i 1) panel_list_sorted_)) x_move) 0.04) 0.005))
+          )
+          (setq x_move (+(+ (+ (caddr (nth panel_list_sorted_i panel_list_sorted_)) x_move ) 0.04 ) 0.005 ) )
+        )
+        (setq panel_list_sorted_i (+ panel_list_sorted_i 1))
+      )
+    ;
+  )
+  (defun c:make_cuting_plan_y_axis_mkyCPL ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "001 - DYNAMIC REC&SSQ SHAPE SOLID_startpoint"))
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (setq panel_list_ ())
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+        (setq panel_list_
+          (cons 
+            (list 
+              ss_pre_filter_set_xx_ename_
+              ss_pre_filter_set_xx_obj_
+              (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "H")
+            )
+            panel_list_
+          )
+        )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+
+    ;TA:stanndard_lambda_sorting
+      (setq panel_list_sorted_ (vl-sort panel_list_  ;bigest open indent list
+                                                (function 
+                                                  (lambda (a b) 
+                                                    (> (caddr a) (caddr b))
+                                                  )
+                                                )
+                            ) ;bigest close indent list
+      )
+    ;
+    ;preloop_and_while
+      (setq panel_list_sorted_i 0)
+      (setq x_move 0)
+      (while (< panel_list_sorted_i (length panel_list_sorted_))
+        (setq panel_list_sorted_ename_ (car (nth  panel_list_sorted_i panel_list_sorted_)))
+        (setq panel_list_sorted_obj_ (vlax-ename->vla-object panel_list_sorted_ename_))
+        (if (/= panel_list_sorted_i 0)
+          (progn
+              (vla-move 
+                panel_list_sorted_obj_ 
+                (vlax-3d-point (setq panel_list_sorted_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint panel_list_sorted_obj_)))))
+                (vlax-3d-point 
+                  (car panel_list_sorted_obj_ins_)
+                  (+ (cadr panel_list_sorted_obj_ins_) x_move)
+                  (caddr panel_list_sorted_obj_ins_)
+                )
+              )
+              (setq x_move (+ (+ (+ (caddr (nth (- panel_list_sorted_i 1) panel_list_sorted_)) x_move) 0.04) 0.005))
+          )
+          (setq x_move (+(+ (+ (caddr (nth panel_list_sorted_i panel_list_sorted_)) x_move ) 0.04 ) 0.005 ) )
+        )
+        (setq panel_list_sorted_i (+ panel_list_sorted_i 1))
+      )
+    ;
+  )
+
+
+  (defun TA:make_cuting_plan_XY_axis_mkyCPL (ss_pre_filter_set_xx_ mode_xy)
+    ; ;selection_set_for_fillter_blk_name
+    ;   (if  ;pre_select_ssget_or_post_select_ssget
+    ;     (=
+    ;       (setq ss_pre_filter_set_xx_ (ssget "i"
+    ;                                         (list
+    ;                                           (cons 0 "INSERT") ;type of object
+    ;                                           ; (cons 8 "000 - GRID")   ;kind of layer
+    ;                                           ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+    ;                                           ; (cons 62 1)           ;kind of color call sign with color code index
+    ;                                         )
+    ;                                   )
+    ;       )
+    ;       nil
+    ;     )
+    ;     (progn
+    ;       (setq ss_pre_filter_set_xx_ (ssget
+    ;                                         (list
+    ;                                           (cons 0 "INSERT") ;type of object
+    ;                                           ; (cons 8 "000 - GRID")   ;kind of layer
+    ;                                           ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+    ;                                           ; (cons 62 1)           ;kind of color call sign with color code index
+    ;                                         )
+    ;                                   )
+    ;       )
+    ;     )
+    ;     (sslength ss_pre_filter_set_xx_)
+    ;   )
+    ; ;
+    (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "001 - DYNAMIC REC&SSQ SHAPE SOLID_startpoint"))
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (setq panel_list_ ())
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+        (setq panel_list_
+          (cons 
+            (list 
+              ss_pre_filter_set_xx_ename_
+              ss_pre_filter_set_xx_obj_
+              (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ 
+                (if (= mode_xy "x")
+                  (progn
+                    "W"
+                  )
+                  "H"
+                )
+              )
+            )
+            panel_list_
+          )
+        )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+
+    ;TA:stanndard_lambda_sorting
+      (setq panel_list_sorted_ (vl-sort panel_list_  ;bigest open indent list
+                                                (function 
+                                                  (lambda (a b) 
+                                                    (> (caddr a) (caddr b))
+                                                  )
+                                                )
+                            ) ;bigest close indent list
+      )
+    ;
+    ;preloop_and_while
+      (setq panel_list_sorted_i 0)
+      (setq x_move 0)
+      (while (< panel_list_sorted_i (length panel_list_sorted_))
+        (setq panel_list_sorted_ename_ (car (nth  panel_list_sorted_i panel_list_sorted_)))
+        (setq panel_list_sorted_obj_ (vlax-ename->vla-object panel_list_sorted_ename_))
+        (if (/= panel_list_sorted_i 0)
+          (progn
+              (vla-move 
+                panel_list_sorted_obj_ 
+                (vlax-3d-point (setq panel_list_sorted_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint panel_list_sorted_obj_)))))
+                (if (= mode_xy "x")
+                  (progn
+                    (vlax-3d-point 
+                      (+ (car panel_list_sorted_obj_ins_) x_move)
+                      (cadr panel_list_sorted_obj_ins_)
+                      (caddr panel_list_sorted_obj_ins_)
+                    )
+                  )
+                  (vlax-3d-point 
+                    (car panel_list_sorted_obj_ins_)
+                    (+ (cadr panel_list_sorted_obj_ins_) x_move)
+                    (caddr panel_list_sorted_obj_ins_)
+                  )
+                )
+                
+              )
+              (setq x_move (+ (+ (+ (caddr (nth (- panel_list_sorted_i 1) panel_list_sorted_)) x_move) 0.04) 0.005))
+          )
+          (setq x_move (+(+ (+ (caddr (nth panel_list_sorted_i panel_list_sorted_)) x_move ) 0.04 ) 0.005 ) )
+        )
+        (setq panel_list_sorted_i (+ panel_list_sorted_i 1))
+      )
+    ;
+  )
+
+  (defun c:make_cuting_plan_xy_MKXXYYCPL ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              (cons 8 "000 - CUTTING_SYMBOL")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    (setq ss_pre_filter_set_xx_ (TA:corrd_sorting_group (TA:standard_list_croodinate+ename (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "PANEL_SET.NO." )) 1 ))
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xxx_i 0)
+      (while (< ss_pre_filter_set_xxx_i (+ 1 (length ss_pre_filter_set_xx_)))
+        (setq ss_pre_filter_set_xx_list_ (nth  ss_pre_filter_set_xxx_i ss_pre_filter_set_xx_))
+        ;preloop_and_while
+          (setq ss_pre_filter_set_xx_list_i 0)
+          (while (< ss_pre_filter_set_xx_list_i (length ss_pre_filter_set_xx_list_))
+            (setq ss_pre_filter_set_xx_list_ename_ (cadr (nth  ss_pre_filter_set_xx_list_i ss_pre_filter_set_xx_list_)))
+            (setq ss_pre_filter_set_xx_list_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_list_ename_))
+            (setq ss_pre_filter_set_xx_list_obj_getboundingbox (vla-getboundingbox ss_pre_filter_set_xx_list_obj_ 'min_ 'max_)) 
+            (setq ss_pre_filter_set_xx_list_min_ (vlax-safearray->list min_)) 
+            (setq ss_pre_filter_set_xx_list_max_ (vlax-safearray->list max_)) 
+            
+            (command "zoom" "o" ss_pre_filter_set_xx_list_ename_ "")
+            (LM:vl-setattributevalue 
+              ss_pre_filter_set_xx_list_obj_ 
+              "sort_axis"  
+              (setq axis_string_ ;Get-string by keep previous value
+                  (if
+                    (or
+                      (/= (setq axis_string_val (getstring (strcat "\nSpecify Pattern name <" (if axis_string_ axis_string_ "") ">: ") ) ) "" )
+                    )
+                      (progn
+                        (setq axis_string_ axis_string_val)
+                        (setq axis_string_keep_val_ axis_string_val)
+                      )
+                    (setq axis_string_val axis_string_keep_val_)
+                  )
+              ) 
+            )
+            
+            (setq ssPA_pre_filter_set_xx_ (ssget "w"  ss_pre_filter_set_xx_list_min_  ss_pre_filter_set_xx_list_max_
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              (cons 8 "A11_ALU.SOLID SHEET")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+            )
+            (sslength ssPA_pre_filter_set_xx_)
+            (setq ssPA_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ssPA_pre_filter_set_xx_ "001 - DYNAMIC REC&SSQ SHAPE SOLID_startpoint" ))
+            (setq mode_xy (LM:vl-getattributevalue ss_pre_filter_set_xx_list_obj_ "sort_axis" ))
+            (TA:make_cuting_plan_XY_axis_mkyCPL ssPA_pre_filter_set_xx_ mode_xy )
+
+
+            
+
+
+
+
+
+
+            
+            
+
+            
+            (setq ss_pre_filter_set_xx_list_i (+ ss_pre_filter_set_xx_list_i 1))
+          )
+        ;
+        (setq ss_pre_filter_set_xxx_i (+ ss_pre_filter_set_xxx_i 1))
+      )
+    ;
+  )
+
+  (defun c:sent_panel_to_cuting-plan_Pa2CP ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq fullsize_ss_set_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq fullsize_ss_set_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength fullsize_ss_set_)
+      )
+    ;
+    (setq fullsize_ss_set_ (TA:corrd_sorting_group (TA:standard_list_croodinate+ename (TA:EF_Filter_ss_set_ fullsize_ss_set_ "PANEL_SET.NO." )) 1 ))
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "001 - DYNAMIC REC&SSQ SHAPE SOLID_startpoint" ))
+    ; ;preloop_and_while
+    ;   (setq max-num_ ())
+    ;   (setq ss_pre_filter_set_xx_i 0)
+    ;   (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+    ;     (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+    ;     (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+    ;     (setq max-num_ (vl-sort (cons (atof (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "FULL_SIZE_NO.")) max-num_) '<)  )
+    ;     (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    ;   )
+    ; ;
+    ; ;preloop_and_while
+    ;   (setq max-num_i 0)
+    ;   (while (< max-num_i (length max-num_))
+    ;     (setvar "osmode" 1024)
+    ;     (setq TGP (getpoint "specify point for insert full size"))
+    ;     (setvar "osmode" 1215)
+    ;     ;preloop_and_while
+    ;       (setq ss_pre_filter_set_xx_i 0)
+        
+    ;       (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+    ;         (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+    ;         (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+    ;         (setq ss_pre_filter_set_xx_obj_number_ (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "FULL_SIZE_NO."))
+    ;           (if (= (atof ss_pre_filter_set_xx_obj_number_)  max-num_i)
+    ;             (progn
+    ;               (vla-copy ss_pre_filter_set_xx_obj_)
+    ;               (vla-move 
+    ;                 (setq newblk_obj_ (vlax-ename->vla-object (entlast))) 
+    ;                 (vlax-3d-point (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint newblk_obj_))))
+    ;                 (vlax-3d-point TGP)
+                    
+    ;               )
+    ;             )
+    ;           )
+    ;         (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    ;       )
+    ;     ;
+    ;     (setq max-num_i (+ max-num_i 1))
+    ;   )
+    ; ;
+    ;preloop_and_while
+      (setq fullsize_ss_set_i 0)
+      (while (< fullsize_ss_set_i (length fullsize_ss_set_))
+        (setq fullsize_ss_set_list_ (nth fullsize_ss_set_i fullsize_ss_set_))
+        ;preloop_and_while
+          (setq fullsize_ss_set_list_i 0)
+          (while (< fullsize_ss_set_list_i (length fullsize_ss_set_list_))
+            (setq fullsize_ss_set_list_ename_ (cadr (nth  fullsize_ss_set_list_i fullsize_ss_set_list_)))
+            (setq fullsize_ss_set_list_obj_ (vlax-ename->vla-object fullsize_ss_set_list_ename_))
+            (setq fullsize_ss_set_list_obj_panel_no_ (atof (LM:vl-getattributevalue fullsize_ss_set_list_obj_ "PANEL_SET.NO." )))
+              ;preloop_and_while
+                (setq ss_pre_filter_set_xx_i 0)
+              
+                (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+                  (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+                  (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+                  (setq ss_pre_filter_set_xx_obj_number_ (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "FULL_SIZE_NO."))
+                    (if (= (atof ss_pre_filter_set_xx_obj_number_)  fullsize_ss_set_list_obj_panel_no_)
+                      (progn
+                        (vla-copy ss_pre_filter_set_xx_obj_)
+                        (vla-move 
+                          (setq newblk_obj_ (vlax-ename->vla-object (entlast))) 
+                          (vlax-3d-point (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint newblk_obj_))))
+                          (vlax-3d-point (car (nth  fullsize_ss_set_list_i fullsize_ss_set_list_)))
+                          
+                        )
+                      )
+                    )
+                  (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+                )
+              ;
+            
+            (setq fullsize_ss_set_list_i (+ fullsize_ss_set_list_i 1))
+          )
+        ;
+        (setq fullsize_ss_set_i (+ fullsize_ss_set_i 1))
+      )
+    ;
+  )
+;
