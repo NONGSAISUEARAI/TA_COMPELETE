@@ -1,3 +1,4 @@
+;update 20250616 0252
 ;Effective Block Name Funcition Lee Mac
   ;; Effective Block Name  -  Lee Mac
     ;; obj - [vla] VLA Block Reference object
@@ -6424,7 +6425,7 @@
                     (vla-put-rotation Handle_obj_ (deg-to-rad (nth 9 Overall_rangecell_data_list_ )) )
                   )
                 )
-                (if (and (/= (strcase Overall_rangecell_data_handle_RTOS_ ) "HANDLE") (= (vla-get-hasattributes Handle_obj_) :vlax-true) (= get_att_val_ 1)) 
+                (if (and (/= (strcase Overall_rangecell_data_handle_RTOS_ ) "HANDLE") (= (vla-get-hasattributes Handle_obj_) :vlax-true) (= get_att_val_ 1))  
                   (progn 
                     (setq att_start 10)
                     (setq att_i 10)
@@ -6456,15 +6457,15 @@
                 (if (and (/= (strcase Overall_rangecell_data_handle_RTOS_ ) "HANDLE") (= (vla-get-isdynamicblock Handle_obj_) :vlax-true) (= get_dyn_val_ 1) )
                   (progn
                     (setq dyn_start att_i  )
-                    (setq Handle_obj_dyn_list_ (LM-TA:getdynprops Handle_obj_))
-                    (setq Handle_obj_dyn_list_length_ (length (LM-TA:getdynprops Handle_obj_)))
+                    (setq Handle_obj_dyn_list_ (vl-remove "Origin" (LM-TA:getdynprops Handle_obj_)))
+                    (setq Handle_obj_dyn_list_length_ (length (vl-remove "Origin" (LM-TA:getdynprops Handle_obj_))))
                     (setq Handle_obj_dyn_list_i 0)
                     (setq final_length (- (+ dyn_start  Handle_obj_dyn_list_length_) 1))
                     ;preloop_and_while
                       (setq Handle_obj_dyn_list_i 0)
                       (while 
                         (<= dyn_start final_length)
-                        (setq Handle_obj_dyn_list_tag_ (nth Handle_obj_dyn_list_i Handle_obj_dyn_list_))
+                        (setq Handle_obj_dyn_list_tag_ (nth Handle_obj_dyn_list_i (vl-remove "Origin" Handle_obj_dyn_list_)))
                         (if (/= Handle_obj_dyn_list_tag_ "Origin")
                           (progn
                             (LM:setdynpropvalue 
@@ -6472,11 +6473,12 @@
                               Handle_obj_dyn_list_tag_
                               (nth dyn_start Overall_rangecell_data_list_)
                             )
+                            
                           )
                         )
                         
-                        
                         (setq dyn_start (+ dyn_start 1))
+                        
                         (setq Handle_obj_dyn_list_i (+ Handle_obj_dyn_list_i 1))
                       )
                     ;
@@ -9449,8 +9451,9 @@
                       "position_Z"
                       "Rotation(DEG)"
                     )
-                    sst_obj_dyn_tag_list
                     sst_obj_att_tag_list
+                    sst_obj_dyn_tag_list
+                    
                   )
                 )
               )
@@ -9462,7 +9465,7 @@
           
         
         
-          (setq sst_properties_sublist_ (append sst_obj_std_list_ (list sst_obj_dyn_val_list) (list sst_obj_att_val_list))) 
+          (setq sst_properties_sublist_ (append sst_obj_std_list_  (list sst_obj_att_val_list) (list sst_obj_dyn_val_list))) 
           (setq sst_properties_mainlist_ (cons sst_properties_sublist_ sst_properties_mainlist_))
         (setq sst_i (+ sst_i 1))
       )
@@ -9508,9 +9511,6 @@
 )
 
 (setq VLA-OBJECT-Worksheet Excel_lasted_worksheet_obj_ )
-
-
-
 
 
 
