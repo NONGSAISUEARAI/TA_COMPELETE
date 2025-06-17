@@ -21202,22 +21202,6 @@
     )
     ;user_input_
       ; (setq distance_measure_ 1200) ;input by code
-<<<<<<< HEAD
-      (setq fargment_gap_length_ 200) ;input by user
-      (setq distance_measure_pre (cond ( (getreal (strcat "\nspecify distance_measure_ <" (rtos (setq distance_measure_pre (cond (distance_measure_pre) (10) ) ) ) "> : " ) ) ) (distance_measure_pre) ) ) ;input by user
-      (setq EFname_string_ ;Get-string by keep previous value
-          (if
-            (or
-              (/= (setq EFname_string_val (getstring (strcat "\nSpecify Pattern name <" (if EFname_string_ EFname_string_ "") ">: ") ) ) "" )
-            )
-              (progn
-                (setq EFname_string_ EFname_string_val)
-                (setq EFname_string_keep_val_ EFname_string_val)
-              )
-            (setq EFname_string_val EFname_string_keep_val_)
-          )
-      )
-=======
       (setq fargment_gap_length_ 10) ;input by user
       (setq distance_measure_ (cond ( (getreal (strcat "\nspecify distance_measure_ <" (rtos (setq distance_measure_ (cond (distance_measure_) (10) ) ) ) "> : " ) ) ) (distance_measure_) ) ) ;input by user
       ; (setq EFname_string_ ;Get-string by keep previous value
@@ -21236,7 +21220,6 @@
       (setq blk_obj_ (vlax-ename->vla-object blk_ename_))
       (setq EFname_string_ (LM:effectivename blk_obj_))
       
->>>>>>> a97bf6592e1915d0ce7d1c7b2425d2aac64ac2d4
     ;
     ;preloop_and_while
       (setq ss_pre_filter_set_xx_i 0)
@@ -23045,12 +23028,6 @@
 )
 
 
-<<<<<<< HEAD
-
-
-
-
-=======
 (defun c:inssteel ()
   ;selection_set_for_fillter_blk_name
     (if  ;pre_select_ssget_or_post_select_ssget
@@ -23461,4 +23438,3 @@
   ;
 )
 
->>>>>>> a97bf6592e1915d0ce7d1c7b2425d2aac64ac2d4
