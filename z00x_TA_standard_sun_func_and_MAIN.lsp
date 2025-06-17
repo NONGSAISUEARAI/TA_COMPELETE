@@ -20860,9 +20860,20 @@
     )
     ;user_input_
       ; (setq distance_measure_ 1200) ;input by code
-      (setq fargment_gap_length_ 10) ;input by user
-      (setq distance_measure_ (cond ( (getreal (strcat "\nspecify distance_measure_ <" (rtos (setq distance_measure_ (cond (distance_measure_) (10) ) ) ) "> : " ) ) ) (distance_measure_) ) ) ;input by user
-      (setq EFname_string_ (getstring "specify Effectivename string"))
+      (setq fargment_gap_length_ 200) ;input by user
+      (setq distance_measure_pre (cond ( (getreal (strcat "\nspecify distance_measure_ <" (rtos (setq distance_measure_pre (cond (distance_measure_pre) (10) ) ) ) "> : " ) ) ) (distance_measure_pre) ) ) ;input by user
+      (setq EFname_string_ ;Get-string by keep previous value
+          (if
+            (or
+              (/= (setq EFname_string_val (getstring (strcat "\nSpecify Pattern name <" (if EFname_string_ EFname_string_ "") ">: ") ) ) "" )
+            )
+              (progn
+                (setq EFname_string_ EFname_string_val)
+                (setq EFname_string_keep_val_ EFname_string_val)
+              )
+            (setq EFname_string_val EFname_string_keep_val_)
+          )
+      )
     ;
     ;preloop_and_while
       (setq ss_pre_filter_set_xx_i 0)
@@ -20913,7 +20924,7 @@
             )
           )
           
-          (setq distance_measure_ (if (< ss_pre_filter_set_xx_obj_length distance_measure_) (progn (fix (- ss_pre_filter_set_xx_obj_length fargment_gap_length_ ))) distance_measure_)) 
+          (setq distance_measure_ (if (< ss_pre_filter_set_xx_obj_length distance_measure_pre) (progn (fix (- ss_pre_filter_set_xx_obj_length fargment_gap_length_ ))) distance_measure_pre)) 
           (setq ss_pre_filter_set_xx_obj_fragment_length_ (/ (- ss_pre_filter_set_xx_obj_length (* (fix (/ ss_pre_filter_set_xx_obj_length distance_measure_)) distance_measure_) ) 2))
           (setq ss_pre_filter_set_xx_obj_time_full_length_ (fix (/ ss_pre_filter_set_xx_obj_length distance_measure_)))
           (if (= ss_pre_filter_set_xx_obj_fragment_length_ 0) ;incase for number spcaing distance
@@ -22669,3 +22680,9 @@
     )
   ;
 )
+
+
+
+
+
+
