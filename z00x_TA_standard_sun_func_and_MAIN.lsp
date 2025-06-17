@@ -3922,6 +3922,25 @@
       ;
 
     )
+    (defun c:make_cutting_plan_dyndip ()
+      (setq pt (getpoint "inputpoint"))
+      (command "point" pt)
+      (command "zoom" "o" (entlast) "")
+      
+      ;new_blk_entlast object
+        (TA:vla-insertblock "000 - DYNAMIC SYMBOL DIRECTION PAINT" pt 1 0 )
+        (setq sym_ename (entlast))
+        (setq sym_obj (vlax-ename->vla-object sym_ename))
+        (setq pt2 (polar pt (deg-to-rad 90) 2))
+      ;
+
+      ;new_blk_entlast object
+        (command "_bparameter" "R" pt 4 "0" "" 1)
+        
+        (command "_bparameter" "L" pt pt2 pt2 1)
+        (command "BACTIONTOOL"  "R"    )
+        (command "BACTIONTOOL"  "T"    )          
+    )
   ;
   ;dynamic_block_FUNC
     ;dynamic_Alminium_sheet_FUNC
@@ -22895,6 +22914,61 @@
       )
     ;
     (command "pselect"  selection_target_ "" )
+  )
+  (defun c:make_cutting_plan_stamp_direction_paint_mkdip ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "001 - DYNAMIC REC&SSQ SHAPE SOLID_startpoint"))
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+
+        (setq W (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "w" ))
+        (setq H (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "h" ))
+
+        (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "coil_direction_move_ x" (/ W 2))
+        (LM:setdynpropvalue ss_pre_filter_set_xx_obj_   "coil_direction_move_ y" (/ h 2))
+        (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "coil_direction_sc_" (/   w 10 ))
+        (if (or 
+              (> H W)
+              (> (*  (- H W) -1) 190)
+            )
+          (progn
+            (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "distance1" (fix (/   W 4)))
+          )
+          (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "distance1" (fix (/ h 25)))
+        )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
   )
 ;
 
