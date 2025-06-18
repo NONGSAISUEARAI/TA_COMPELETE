@@ -1105,7 +1105,7 @@
       )
     )
     (defun TA:ss_vla-getboundingbox (sss_)
-      (setq sss_ (ssget))
+      ; (setq sss_ (ssget))
       (cond
         (;type_case_1
             (and
