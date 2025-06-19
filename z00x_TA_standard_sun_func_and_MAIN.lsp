@@ -1,4 +1,4 @@
-;update 20250619 0200
+;update 20250619 2308
   ;Effective Block Name Funcition Lee Mac
     ;; Effective Block Name  -  Lee Mac
       ;; obj - [vla] VLA Block Reference object
@@ -1062,7 +1062,12 @@
       (setvar "ctab" (nth 1 layout_list_ ) )
       (command "zoom" "extent" )
       (command "qsave")
-    )    
+    )   
+    (defun c:gethandle ()
+      (setq get_ename_ (car (entsel "specify Object")))
+      (setq get_obj_ (vlax-ename->vla-object get_ename_))
+      (princ (vla-get-handle get_obj_))
+    )
 
   ;
   ;Get_Data Function Ta Trai
@@ -22615,7 +22620,7 @@
           nil
         )
         (progn
-          (setq ss_pre_filter_set_xx_ (ssget
+          (setq ss_pre_filter_set_xx_   (ssget
                                             (list
                                               (cons 0 "INSERT") ;type of object
                                               (cons 8 "000 - CUTTING_SYMBOL")   ;kind of layer
@@ -23685,7 +23690,6 @@
   
 )
 (defun c:insbl () 
-  (setq sss_ (ssget ))
   (setvar "osmode" 0)
   (setq ssssasas (TA:ss_vla-getboundingbox sss_))
   (TA:vla-insertblock "001 - DYNAMIC REC&SSQ SHAPE SOLID_startpoint" (car ssssasas) 1 0  )
@@ -23706,7 +23710,7 @@
   (LM:vl-setattributevalue newfullsize_obj "W" (rtos W 2 2))
   (LM:vl-setattributevalue newfullsize_obj "qty." (getstring "input qty"))
   (command "draworder" newfullsize_ename "" "B" )
-  
+  (setvar "osmode" 1215)
   (vla-move newfullsize_obj 
             (vlax-3d-point (setq newfullsize_obj_ins (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint newfullsize_obj)))))
             (vlax-3d-point (getpoint))
@@ -23803,3 +23807,10 @@
 )
 
 
+(defun c:sc11 ()
+  (setq sc_ename_ (car (entsel "specify Object")))
+  (setq sc_obj_ (vlax-ename->vla-object sc_ename_))
+  (vlax-dump-object sc_obj_)
+  (setq sc_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint sc_obj_))))
+  (command "scale" sc_ename_ "" sc_obj_ins_ 10000)
+)
