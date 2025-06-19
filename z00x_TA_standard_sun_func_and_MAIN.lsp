@@ -3753,12 +3753,17 @@
       
     )
     (defun c:MKblk () 
+      (if (= iii nil)
+        (progn
+          (setq iii 0)
+        )
+      )
       ;selection_set_for_fillter_blk_name
         (if  ;pre_select_ssget_or_post_select_ssget
           (=
             (setq sstarget_ (ssget "i"
                                               (list
-                                                ; (cons 0 "INSERT") ;type of object
+                                                (cons 0 "INSERT") ;type of object
                                                 ; (cons 8 "000 - GRID")   ;kind of layer
                                                 ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                                 ; (cons 62 1)           ;kind of color call sign with color code index
@@ -3770,7 +3775,7 @@
           (progn
             (setq sstarget_ (ssget
                                               (list
-                                                ; (cons 0 "INSERT") ;type of object
+                                                (cons 0 "INSERT") ;type of object
                                                 ; (cons 8 "000 - GRID")   ;kind of layer
                                                 ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                                 ; (cons 62 1)           ;kind of color call sign with color code index
@@ -3794,14 +3799,16 @@
       ;       (setq blk_prefix_name_val blk_prefix_name_keep_val_)
       ;     )
       ; )
-      (setvar "osmode" 1215)
-      (setq pttarget_ (getpoint "specify point for basepoint"))
-      (setvar "osmode" 1215)
+      ; (setvar "osmode" 1215)
+      ; (setq pttarget_ (getpoint "specify point for basepoint"))
+      ; (setvar "osmode" 1215)
+      (setq pttarget_ (TA:ss_vla-getboundingbox sstarget_))
       (setq namefile_ (getvar "dwgname"))
-      (setq name_ename_ (car (entsel "specify EF name")))
-      (setq name_obj_ (vlax-ename->vla-object name_ename_))
-      (LM:StringSubst "-" "/" (vla-get-textstring name_obj_))
-      (command "_block"   (LM:StringSubst "" ".dwg" (strcat namefile_ "_" (LM:StringSubst "-" "/" (vla-get-textstring name_obj_)) )) pttarget_  sstarget_ "" )
+      ; (setq name_ename_ (car (entsel "specify EF name")))
+      ; (setq name_obj_ (vlax-ename->vla-object name_ename_))
+      ; (LM:StringSubst "-" "/" (vla-get-textstring name_obj_))
+      ; (command "_block"   (LM:StringSubst "" ".dwg" (strcat namefile_ "_" (LM:StringSubst "-" "/" (vla-get-textstring name_obj_)) )) pttarget_  sstarget_ "" )
+      (command "_block"   (strcat namefile_ "_" "000_TA_CUTTING_PLAN_REV01-" (setq iii (+ iii 1))) pttarget_  sstarget_ "" )
       (TA:vla-insertblock 
         (LM:StringSubst "" ".dwg" (strcat namefile_ "_" (LM:StringSubst "-" "/" (vla-get-textstring name_obj_)) "_" (rtos (vla-get-length name_obj_ ) 2 2))) 
         pttarget_
@@ -23663,12 +23670,38 @@
   ; (setq W (cond ( (getreal (strcat "\nspecify_dynamic_scale_<" (rtos (setq W (cond (W) (1.0) ) ) ) "> : " ) ) ) (W) ) )
   ; (setq H (cond ( (getreal (strcat "\nspecify_dynamic_scale_<" (rtos (setq H (cond (H) (1.0) ) ) ) "> : " ) ) ) (H) ) )
   
-  (LM:setdynpropvalue newfullsize_obj "W" 3000 )
+  (LM:setdynpropvalue newfullsize_obj "W" 2440 )
   (LM:setdynpropvalue newfullsize_obj "H" 1250)
   (command "draworder" newfullsize_ename "" "B" )
   
   
   
+)
+(defun c:inspolylinefull () 
+  (setq sss_ (ssget (list (cons 0 "lwpolyline"))))
+  ;preloop_and_while
+    (setq sss_i 0)
+    (while (< sss_i (sslength sss_))
+      (setq sss_ename_ (ssname sss_ sss_i))
+      (setq sss_obj_ (vlax-ename->vla-object  sss_ename_))
+      (setq sss_obj_getboundingbox (vla-getboundingbox sss_obj_ 'min_ 'max_)) 
+      (setq sss_min_ (vlax-safearray->list min_)) 
+      (setq sss_max_ (vlax-safearray->list max_)) 
+      (setvar "osmode" 0)
+      (TA:vla-insertblock "001 - DYNAMIC FULL SIZE SHEET" sss_min_ 1 0  )
+  ;new_blk_entlast object
+        (setq newfullsize_ename (entlast))
+        (setq newfullsize_obj (vlax-ename->vla-object newfullsize_ename))
+  ;
+  ; (setq W (cond ( (getreal (strcat "\nspecify_dynamic_scale_<" (rtos (setq W (cond (W) (1.0) ) ) ) "> : " ) ) ) (W) ) )
+  ; (setq H (cond ( (getreal (strcat "\nspecify_dynamic_scale_<" (rtos (setq H (cond (H) (1.0) ) ) ) "> : " ) ) ) (H) ) )
+  
+        (LM:setdynpropvalue newfullsize_obj "W" 2440 )
+        (LM:setdynpropvalue newfullsize_obj "H" 1250)
+        (command "draworder" newfullsize_ename "" "B" )
+      (setq sss_i (+ sss_i 1))
+    )
+  ;
 )
 (defun c:insf1ull () 
   (setq sss_ (ssget (list (cons 0 "insert"))))
@@ -23684,8 +23717,13 @@
   (setq cutsize_ (LM:roundup (distance (car ssssasas) (list (car (cadr ssssasas)) (cadr (car ssssasas)) 0)) 20))
   (LM:setdynpropvalue newfullsize_obj "W" cutsize_ )
   (LM:setdynpropvalue newfullsize_obj "H" 1250)
-  (command "draworder" newfullsize_ename "" "B" )
-  
+  (command "draworder" newfullsize_ename "" "F" )
+  (if (> cutsize_ 3000)
+    (progn
+      (alert (rtos cutsize_ ))
+      (vla-put-color newfullsize_obj 1)
+    )
+  )
   
   
 )
@@ -23814,3 +23852,430 @@
   (setq sc_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint sc_obj_))))
   (command "scale" sc_ename_ "" sc_obj_ins_ 10000)
 )
+
+  (defun c:d+ ()
+    ;user_input_
+      (initget "Yes No")
+      (setq ss_ ;Detect the variable's result in case of a function error
+        (vl-catch-all-apply 
+          (function 
+            (lambda () 
+              (setq DELETE_OBJ_ (not (eq "No" (getkword "\nKeep Existing point with object? [Yes/No] <Y>: "))))
+            )
+          )
+        )
+      )
+      (if (or (= ss_ nil) (= (vl-prin1-to-string ss_) "#<%catch-all-apply-error%>")  )
+        (progn
+          ;selection_set_for_fillter_blk_name
+            (if  ;pre_select_ssget_or_post_select_ssget
+              (=
+                (setq ss_pre_filter_set_xx_ (ssget "i"
+                                                  (list
+                                                    (cons 0 "INSERT") ;type of object
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+                nil
+              )
+              (progn
+                (setq ss_pre_filter_set_xx_ (ssget 
+                                                  (list
+                                                    (cons 0 "INSERT") ;type of object
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+              )
+              (sslength ss_pre_filter_set_xx_)
+            )
+          ;
+          ;
+            ; (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000TYP-LINE_AND_ARRAY_@400mm._TYPE2_"))
+          ;
+          ;preloop_and_while
+            (setq ss_pre_filter_set_xx_i 0)
+            (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+              (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+                  (setq sss_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+                  (setq get_l (LM:getdynpropvalue sss_obj_ "distance1" ) )
+                  (LM:setdynpropvalue sss_obj_ "distance1" (+ get_l 20) )
+              (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+            )
+          ;
+        
+        )
+      )
+      (if (and (/= ss_ nil) (/= (vl-prin1-to-string ss_) "#<%catch-all-apply-error%>")  )
+        (progn
+          (setq ss_pre_filter_set_xx_i 0)
+          (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_)) 
+            (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i ) )
+            (setq sss_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+            (setq get_l (LM:getdynpropvalue sss_obj_ "distance1"))
+            (LM:setdynpropvalue sss_obj_ "distance1" (+ get_l 20))
+            (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+          )
+        )
+        
+      )
+    ;
+
+  )
+  (defun c:d- ()
+    ;user_input_
+      (initget "Yes No")
+      (setq ss_ ;Detect the variable's result in case of a function error
+        (vl-catch-all-apply 
+          (function 
+            (lambda () 
+              (setq DELETE_OBJ_ (not (eq "No" (getkword "\nKeep Existing point with object? [Yes/No] <Y>: "))))
+            )
+          )
+        )
+      )
+      (if (or (= ss_ nil) (= (vl-prin1-to-string ss_) "#<%catch-all-apply-error%>")  )
+        (progn
+          ;selection_set_for_fillter_blk_name
+            (if  ;pre_select_ssget_or_post_select_ssget
+              (=
+                (setq ss_pre_filter_set_xx_ (ssget "i"
+                                                  (list
+                                                    (cons 0 "INSERT") ;type of object
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+                nil
+              )
+              (progn
+                (setq ss_pre_filter_set_xx_ (ssget 
+                                                  (list
+                                                    (cons 0 "INSERT") ;type of object
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+              )
+              (sslength ss_pre_filter_set_xx_)
+            )
+          ;
+          ;
+            ; (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000TYP-LINE_AND_ARRAY_@400mm._TYPE2_"))
+          ;
+          ;preloop_and_while
+            (setq ss_pre_filter_set_xx_i 0)
+            (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+              (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+                  (setq sss_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+                  (setq get_l (LM:getdynpropvalue sss_obj_ "distance1" ) )
+                  (LM:setdynpropvalue sss_obj_ "distance1" (- get_l 20) )
+              (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+            )
+          ;
+        
+        )
+      )
+      (if (and (/= ss_ nil) (/= (vl-prin1-to-string ss_) "#<%catch-all-apply-error%>")  )
+        (progn
+          (setq ss_pre_filter_set_xx_i 0)
+          (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_)) 
+            (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i ) )
+            (setq sss_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+            (setq get_l (LM:getdynpropvalue sss_obj_ "distance1"))
+            (LM:setdynpropvalue sss_obj_ "distance1" (- get_l 20))
+            (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+          )
+        )
+        
+      )
+    ;
+
+  )
+  (defun c:dc+ ()
+    ;user_input_
+      (initget "Yes No")
+      (setq ss_ ;Detect the variable's result in case of a function error
+        (vl-catch-all-apply 
+          (function 
+            (lambda () 
+              (setq DELETE_OBJ_ (not (eq "No" (getkword "\nKeep Existing point with object? [Yes/No] <Y>: "))))
+            )
+          )
+        )
+      )
+      (if (or (= ss_ nil) (= (vl-prin1-to-string ss_) "#<%catch-all-apply-error%>")  )
+        (progn
+          ;selection_set_for_fillter_blk_name
+            (if  ;pre_select_ssget_or_post_select_ssget
+              (=
+                (setq ss_pre_filter_set_xx_ (ssget "i"
+                                                  (list
+                                                    (cons 0 "INSERT") ;type of object
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+                nil
+              )
+              (progn
+                (setq ss_pre_filter_set_xx_ (ssget 
+                                                  (list
+                                                    (cons 0 "INSERT") ;type of object
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+              )
+              (sslength ss_pre_filter_set_xx_)
+            )
+          ;
+          ;
+            ; (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000TYP-LINE_AND_ARRAY_@400mm._TYPE2_"))
+          ;
+          ;preloop_and_while
+            (setq ss_pre_filter_set_xx_i 0)
+            (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+              (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+                (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+                (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+
+                (setq W (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "w" ))
+                (setq H (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "h" ))
+                (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "h" (rtos H 2 2) )
+                (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "W" (rtos W 2 2) )
+        
+
+                (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "coil_direction_move_ x" (/ W 2))
+                (LM:setdynpropvalue ss_pre_filter_set_xx_obj_   "coil_direction_move_ y" (/ h 2))
+                (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "coil_direction_sc_" (/   w 7 ))
+              (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+            )
+          ;
+        
+        )
+      )
+      (if (and (/= ss_ nil) (/= (vl-prin1-to-string ss_) "#<%catch-all-apply-error%>")  )
+        (progn
+          (setq ss_pre_filter_set_xx_i 0)
+          (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_)) 
+              (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+                (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+                (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+
+                (setq W (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "w" ))
+                (setq H (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "h" ))
+                (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "h" (rtos H 2 2) )
+                (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "W" (rtos W 2 2) )
+        
+
+                (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "coil_direction_move_ x" (/ W 2))
+                (LM:setdynpropvalue ss_pre_filter_set_xx_obj_   "coil_direction_move_ y" (/ h 2))
+                (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "coil_direction_sc_" (/   w 7 ))
+            (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+          )
+        )
+        
+      )
+    ;
+
+  )
+  (defun c:dc+ ()
+    ;user_input_
+      (initget "Yes No")
+      (setq ss_ ;Detect the variable's result in case of a function error
+        (vl-catch-all-apply 
+          (function 
+            (lambda () 
+              (setq DELETE_OBJ_ (not (eq "No" (getkword "\nKeep Existing point with object? [Yes/No] <Y>: "))))
+            )
+          )
+        )
+      )
+      (if (or (= ss_ nil) (= (vl-prin1-to-string ss_) "#<%catch-all-apply-error%>")  )
+        (progn
+          ;selection_set_for_fillter_blk_name
+            (if  ;pre_select_ssget_or_post_select_ssget
+              (=
+                (setq ss_pre_filter_set_xx_ (ssget "i"
+                                                  (list
+                                                    (cons 0 "INSERT") ;type of object
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+                nil
+              )
+              (progn
+                (setq ss_pre_filter_set_xx_ (ssget 
+                                                  (list
+                                                    (cons 0 "INSERT") ;type of object
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+              )
+              (sslength ss_pre_filter_set_xx_)
+            )
+          ;
+          ;
+            ; (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000TYP-LINE_AND_ARRAY_@400mm._TYPE2_"))
+          ;
+          ;preloop_and_while
+            (setq ss_pre_filter_set_xx_i 0)
+            (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+              (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+                (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+                (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+
+                (setq W (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "w" ))
+                (setq H (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "h" ))
+                (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "h" (rtos H 2 2) )
+                (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "W" (rtos W 2 2) )
+        
+
+                (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "coil_direction_move_ x" (/ W 2))
+                (LM:setdynpropvalue ss_pre_filter_set_xx_obj_   "coil_direction_move_ y" (/ h 2))
+
+                (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "coil_direction_sc_" (+ (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "coil_direction_sc_" ) 20))
+              (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+            )
+          ;
+        
+        )
+      )
+      (if (and (/= ss_ nil) (/= (vl-prin1-to-string ss_) "#<%catch-all-apply-error%>")  )
+        (progn
+          (setq ss_pre_filter_set_xx_i 0)
+          (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_)) 
+              (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+                (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+                (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+
+                (setq W (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "w" ))
+                (setq H (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "h" ))
+                (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "h" (rtos H 2 2) )
+                (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "W" (rtos W 2 2) )
+        
+
+                (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "coil_direction_move_ x" (/ W 2))
+                (LM:setdynpropvalue ss_pre_filter_set_xx_obj_   "coil_direction_move_ y" (/ h 2))
+                (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "coil_direction_sc_" (+ (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "coil_direction_sc_" ) 20))
+            (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+          )
+        )
+        
+      )
+    ;
+
+  )
+  (defun c:dc- ()
+    ;user_input_
+      (initget "Yes No")
+      (setq ss_ ;Detect the variable's result in case of a function error
+        (vl-catch-all-apply 
+          (function 
+            (lambda () 
+              (setq DELETE_OBJ_ (not (eq "No" (getkword "\nKeep Existing point with object? [Yes/No] <Y>: "))))
+            )
+          )
+        )
+      )
+      (if (or (= ss_ nil) (= (vl-prin1-to-string ss_) "#<%catch-all-apply-error%>")  )
+        (progn
+          ;selection_set_for_fillter_blk_name
+            (if  ;pre_select_ssget_or_post_select_ssget
+              (=
+                (setq ss_pre_filter_set_xx_ (ssget "i"
+                                                  (list
+                                                    (cons 0 "INSERT") ;type of object
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+                nil
+              )
+              (progn
+                (setq ss_pre_filter_set_xx_ (ssget 
+                                                  (list
+                                                    (cons 0 "INSERT") ;type of object
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+              )
+              (sslength ss_pre_filter_set_xx_)
+            )
+          ;
+          ;
+            ; (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000TYP-LINE_AND_ARRAY_@400mm._TYPE2_"))
+          ;
+          ;preloop_and_while
+            (setq ss_pre_filter_set_xx_i 0)
+            (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+              (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+                (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+                (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+
+                (setq W (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "w" ))
+                (setq H (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "h" ))
+                (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "h" (rtos H 2 2) )
+                (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "W" (rtos W 2 2) )
+        
+
+                (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "coil_direction_move_ x" (/ W 2))
+                (LM:setdynpropvalue ss_pre_filter_set_xx_obj_   "coil_direction_move_ y" (/ h 2))
+
+                (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "coil_direction_sc_" (- (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "coil_direction_sc_" ) 20))
+              (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+            )
+          ;
+        
+        )
+      )
+      (if (and (/= ss_ nil) (/= (vl-prin1-to-string ss_) "#<%catch-all-apply-error%>")  )
+        (progn
+          (setq ss_pre_filter_set_xx_i 0)
+          (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_)) 
+              (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+                (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+                (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+
+                (setq W (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "w" ))
+                (setq H (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "h" ))
+                (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "h" (rtos H 2 2) )
+                (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "W" (rtos W 2 2) )
+        
+
+                (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "coil_direction_move_ x" (/ W 2))
+                (LM:setdynpropvalue ss_pre_filter_set_xx_obj_   "coil_direction_move_ y" (/ h 2))
+                (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "coil_direction_sc_" (- (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "coil_direction_sc_" ) 20))
+            (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+          )
+        )
+        
+      )
+    ;
+
+  )
