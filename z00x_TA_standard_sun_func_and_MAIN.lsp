@@ -1,4 +1,4 @@
-;update 20250619 2308
+;update 20250622 0229
   ;Effective Block Name Funcition Lee Mac
     ;; Effective Block Name  -  Lee Mac
       ;; obj - [vla] VLA Block Reference object
@@ -3753,17 +3753,12 @@
       
     )
     (defun c:MKblk () 
-      (if (= iii nil)
-        (progn
-          (setq iii 0)
-        )
-      )
       ;selection_set_for_fillter_blk_name
         (if  ;pre_select_ssget_or_post_select_ssget
           (=
             (setq sstarget_ (ssget "i"
                                               (list
-                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 0 "INSERT") ;type of object
                                                 ; (cons 8 "000 - GRID")   ;kind of layer
                                                 ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                                 ; (cons 62 1)           ;kind of color call sign with color code index
@@ -3775,7 +3770,7 @@
           (progn
             (setq sstarget_ (ssget
                                               (list
-                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 0 "INSERT") ;type of object
                                                 ; (cons 8 "000 - GRID")   ;kind of layer
                                                 ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                                 ; (cons 62 1)           ;kind of color call sign with color code index
@@ -3799,16 +3794,14 @@
       ;       (setq blk_prefix_name_val blk_prefix_name_keep_val_)
       ;     )
       ; )
-      ; (setvar "osmode" 1215)
-      ; (setq pttarget_ (getpoint "specify point for basepoint"))
-      ; (setvar "osmode" 1215)
-      (setq pttarget_ (TA:ss_vla-getboundingbox sstarget_))
+      (setvar "osmode" 1215)
+      (setq pttarget_ (getpoint "specify point for basepoint"))
+      (setvar "osmode" 1215)
       (setq namefile_ (getvar "dwgname"))
-      ; (setq name_ename_ (car (entsel "specify EF name")))
-      ; (setq name_obj_ (vlax-ename->vla-object name_ename_))
-      ; (LM:StringSubst "-" "/" (vla-get-textstring name_obj_))
-      ; (command "_block"   (LM:StringSubst "" ".dwg" (strcat namefile_ "_" (LM:StringSubst "-" "/" (vla-get-textstring name_obj_)) )) pttarget_  sstarget_ "" )
-      (command "_block"   (strcat namefile_ "_" "000_TA_CUTTING_PLAN_REV01-" (setq iii (+ iii 1))) pttarget_  sstarget_ "" )
+      (setq name_ename_ (car (entsel "specify EF name")))
+      (setq name_obj_ (vlax-ename->vla-object name_ename_))
+      (LM:StringSubst "-" "/" (vla-get-textstring name_obj_))
+      (command "_block"   (LM:StringSubst "" ".dwg" (strcat namefile_ "_" (LM:StringSubst "-" "/" (vla-get-textstring name_obj_)) )) pttarget_  sstarget_ "" )
       (TA:vla-insertblock 
         (LM:StringSubst "" ".dwg" (strcat namefile_ "_" (LM:StringSubst "-" "/" (vla-get-textstring name_obj_)) "_" (rtos (vla-get-length name_obj_ ) 2 2))) 
         pttarget_
@@ -3821,7 +3814,7 @@
         (command "_copybase" pttarget_ sss_ename ""    )
       ;
     )
-    (defun c:MKblk () 
+    (defun c:MKPartBLK () 
       ;selection_set_for_fillter_blk_name
         (if  ;pre_select_ssget_or_post_select_ssget
           (=
@@ -3863,8 +3856,11 @@
       ;       (setq blk_prefix_name_val blk_prefix_name_keep_val_)
       ;     )
       ; )
+
       (setvar "osmode" 1215)
-      (setq pttarget_ (getpoint "specify point for basepoint"))
+      ; (setq pttarget_ (getpoint "specify point for basepoint"))
+      (setq ssssasas (TA:ss_vla-getboundingbox sstarget_))
+      (setq pttarget_ (car ssssasas))
       (setvar "osmode" 1215)
       (setq namefile_ (getvar "dwgname"))
       (setq name_ename_ (car (entsel "specify EF name")))
@@ -3886,6 +3882,12 @@
                       )
                     )
       )
+      (if (testexpr)
+        (progn
+          (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
+          (setq block-def (vla-Item (vla-get-Blocks doc) block-name))
+        )
+      )
       (command "_block"  
                nameblk 
                pttarget_ 
@@ -3901,6 +3903,111 @@
         (setq sss_obj (vlax-ename->vla-object sss_ename))
         (command "_copybase" pttarget_ sss_ename ""    )
       ;
+    )
+    (defun c:MKPartBLK_MKP1 () 
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq sstarget_ (ssget "i"
+                                              (list
+                                                ; (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq sstarget_ (ssget
+                                              (list
+                                                ; (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength sstarget_)
+        )
+      (setvar "osmode" 1215)
+      ; (setq pttarget_ (getpoint "specify point for basepoint"))
+      (setq ssssasas (TA:ss_vla-getboundingbox sstarget_))
+      (setq pttarget_ (car ssssasas))
+      (command "ponit" pttarget_)
+      (setq pttarget_torr (list 
+                        (+ (car (car ssssasas)) 2.5)
+                        (+ (cadr (car ssssasas)) 2.5)
+                        
+                      )
+      )
+      
+      (setvar "osmode" 1215)
+      (setq namefile_ (getvar "dwgname"))
+      (setq name_ename_ (car (entsel "specify EF name")))
+      (setq name_obj_ (vlax-ename->vla-object name_ename_))
+      (setq nameblk (LM:StringSubst 
+                      ""
+                      ","
+                      (LM:StringSubst 
+                        ""
+                        ".dwg"
+                        (strcat 
+                          namefile_
+                          "_"
+                          "PJ23-030-"
+                          (LM:StringSubst "-" "/" (vla-get-textstring name_obj_))
+                          ; (rtos (fix (* (car (TA:get_vertex_len_ (ssname sstarget_ 0))) 1000 ) ) 2 0 )
+                          ; "mm."
+                        )
+                      )
+                    )
+      )
+      (if 
+        (or 
+          (wcmatch
+            (vl-princ-to-string
+              (vl-catch-all-apply 
+                (function 
+                  (lambda () 
+                    (vla-Item (vla-get-Blocks doc) nameblk)
+                  )
+                )
+              )
+            )
+            "*error*,*IAcadBlock*"
+          )
+        )
+        (progn
+          (if 
+            (and
+              (wcmatch
+                (vl-princ-to-string
+                  (vl-catch-all-apply 
+                    (function 
+                      (lambda () 
+                        (vla-delete (vla-Item (vla-get-Blocks doc) nameblk) )
+                      )
+                    )
+                  )
+                )
+                "*error*,*IAcadBlock*"
+              )
+            )
+            (progn
+              (command "_block" nameblk pttarget_torr sstarget_ "" )
+              (TA:vla-insertblock nameblk pttarget_torr 1 0 )
+            )
+          )
+        )
+      )
+      ; ;new_blk_entlast object
+      ;   (setq sss_ename (entlast))
+      ;   (setq sss_obj (vlax-ename->vla-object sss_ename))
+      ;   (command "_copybase" pttarget_ sss_ename ""    )
+      ; ;
     )
     (if (= 1 2) ;vvvvvv
       (progn
@@ -9213,11 +9320,12 @@
           (setq 2dblank_len_val_width_ (nth  2dblank_len_val_i 2dblank_len_val_))
           
           ;main_idea_
-              
+            (command "insert" "001 - DYNAMIC REC&SSQ SHAPE BLANKSIZE_startpoint" inserttion_point_ 1 0 )
             (setq new_dynamic_block_ (entlast))
             (setq new_dynamic_block_obj_ (vlax-ename->vla-object new_dynamic_block_))
             (LM:setdynpropvalue new_dynamic_block_obj_ "H" user_input_height_)
             (LM:setdynpropvalue new_dynamic_block_obj_ "W" 2dblank_len_val_width_)
+            (LM:setdynpropvalue new_dynamic_block_obj_ "visibility1" "3.FOLDING_LINE")
           ;
           ;incaseloop_coordinate_x_axis
             (setq inserttion_point_ (list
@@ -23670,41 +23778,15 @@
   ; (setq W (cond ( (getreal (strcat "\nspecify_dynamic_scale_<" (rtos (setq W (cond (W) (1.0) ) ) ) "> : " ) ) ) (W) ) )
   ; (setq H (cond ( (getreal (strcat "\nspecify_dynamic_scale_<" (rtos (setq H (cond (H) (1.0) ) ) ) "> : " ) ) ) (H) ) )
   
-  (LM:setdynpropvalue newfullsize_obj "W" 2440 )
+  (LM:setdynpropvalue newfullsize_obj "W" 3000 )
   (LM:setdynpropvalue newfullsize_obj "H" 1250)
   (command "draworder" newfullsize_ename "" "B" )
   
   
   
 )
-(defun c:inspolylinefull () 
-  (setq sss_ (ssget (list (cons 0 "lwpolyline"))))
-  ;preloop_and_while
-    (setq sss_i 0)
-    (while (< sss_i (sslength sss_))
-      (setq sss_ename_ (ssname sss_ sss_i))
-      (setq sss_obj_ (vlax-ename->vla-object  sss_ename_))
-      (setq sss_obj_getboundingbox (vla-getboundingbox sss_obj_ 'min_ 'max_)) 
-      (setq sss_min_ (vlax-safearray->list min_)) 
-      (setq sss_max_ (vlax-safearray->list max_)) 
-      (setvar "osmode" 0)
-      (TA:vla-insertblock "001 - DYNAMIC FULL SIZE SHEET" sss_min_ 1 0  )
-  ;new_blk_entlast object
-        (setq newfullsize_ename (entlast))
-        (setq newfullsize_obj (vlax-ename->vla-object newfullsize_ename))
-  ;
-  ; (setq W (cond ( (getreal (strcat "\nspecify_dynamic_scale_<" (rtos (setq W (cond (W) (1.0) ) ) ) "> : " ) ) ) (W) ) )
-  ; (setq H (cond ( (getreal (strcat "\nspecify_dynamic_scale_<" (rtos (setq H (cond (H) (1.0) ) ) ) "> : " ) ) ) (H) ) )
-  
-        (LM:setdynpropvalue newfullsize_obj "W" 2440 )
-        (LM:setdynpropvalue newfullsize_obj "H" 1250)
-        (command "draworder" newfullsize_ename "" "B" )
-      (setq sss_i (+ sss_i 1))
-    )
-  ;
-)
 (defun c:insf1ull () 
-  (setq sss_ (ssget (list (cons 0 "insert"))))
+  (setq sss_ (ssget (list (cons 0 "insert,polyline"))))
   (setvar "osmode" 0)
   (setq ssssasas (TA:ss_vla-getboundingbox sss_))
   (TA:vla-insertblock "001 - DYNAMIC FULL SIZE SHEET" (car ssssasas) 1 0  )
@@ -23717,17 +23799,93 @@
   (setq cutsize_ (LM:roundup (distance (car ssssasas) (list (car (cadr ssssasas)) (cadr (car ssssasas)) 0)) 20))
   (LM:setdynpropvalue newfullsize_obj "W" cutsize_ )
   (LM:setdynpropvalue newfullsize_obj "H" 1250)
-  (command "draworder" newfullsize_ename "" "F" )
-  (if (> cutsize_ 3000)
-    (progn
-      (alert (rtos cutsize_ ))
-      (vla-put-color newfullsize_obj 1)
+  (command "draworder" newfullsize_ename "" "B" )
+)
+(defun c:insf2ull () 
+  ;get-part-data-process
+    (setq blk_ename_ (car (entsel "specify Object")))
+      (setq blk_obj_ (vlax-ename->vla-object blk_ename_))
+      (setq blkname (cdr (assoc 2 (entget blk_ename_))))
+      (setq bdef (tblobjname "BLOCK" blkname))
+      (if (= (vla-get-objectname blk_obj_) "AcDbBlockReference")
+        (progn
+          (setq blkname (cdr (assoc 2 (entget blk_ename_))))
+          (setq bdef (tblobjname "BLOCK" blkname))
+          (if (= (vl-prin1-to-string (type bdef)) "ENAME")
+            (progn
+              (setq nested (entnext bdef))
+              (setq nested_stop 0)
+              (setq nested_obj_txtstring_ nil)
+              (while 
+                (and nested 
+                    (/= (cdr (assoc 0 (entget nested))) "ENDBLK") 
+                    (= nested_stop 0)
+                )
+                (if (= (cdr (assoc 0 (entget nested))) "TEXT")
+                  (progn 
+                    (setq nested_obj_ (vlax-ename->vla-object nested))
+                    (setq nested_obj_txtstring_ (vla-get-textstring nested_obj_))
+                    (setq nested_stop 1)
+                  )
+                )
+                (setq nested (entnext nested))
+              )
+            )
+          )
+        )
+      )
+    (setq blk_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint blk_obj_))))
+    (setq blk_obj_getboundingbox (vla-getboundingbox blk_obj_ 'min_ 'max_)) 
+    (setq blk_min_ (vlax-safearray->list min_)) 
+    (setq blk_max_ (vlax-safearray->list max_)) 
+    
+    (setq blk_max-Rbot (list (car  blk_max_ ) (cadr blk_min_) 0))
+    
+    (setq blk_max-Ltop (list (car blk_min_) (cadr blk_max_) 0))
+
+  ;
+  ;insertion block
+    (setvar "osmode" 0)
+    (setq ssssasas (list  blk_min_ blk_max_ blk_max-Rbot blk_max-Ltop))
+    (TA:vla-insertblock "001 - DYNAMIC REC&SSQ SHAPE SOLID_startpoint" blk_obj_ins_ 1 0  )
+  ;
+  ;new_blk_entlast object
+    (setq newfullsize_ename (entlast))
+    (setq newfullsize_obj (vlax-ename->vla-object newfullsize_ename))
+    (setq cutsize_x (- (distance blk_min_ blk_max-Rbot) 5))
+    (setq cutsize_y (- (distance blk_min_ blk_max-Ltop) 5))
+    (setq W (LM:setdynpropvalue newfullsize_obj "W" cutsize_x ))
+    (setq H (LM:setdynpropvalue newfullsize_obj "H" cutsize_y))
+    (LM:setdynpropvalue newfullsize_obj "coil_direction_move_ x" (/ W 2))
+    (LM:setdynpropvalue newfullsize_obj   "coil_direction_move_ y" (/ h 2))
+    (LM:setdynpropvalue newfullsize_obj   "coil_direction_sc_" (/ (/ (/ (/ h 2) 2) 2) 2))
+  
+    (if (> W H)
+      (progn
+        (LM:setdynpropvalue newfullsize_obj   "distance1" (/ H 2))
+      )
     )
-  )
-  
-  
+    (if (< W H)
+      (progn
+        (LM:setdynpropvalue newfullsize_obj   "distance1" (/ W 2))
+      )
+    )
+    (LM:vl-setattributevalue newfullsize_obj "CODE_PANEL" (if (= nested_obj_txtstring_ nil) (progn "nil no name block ") nested_obj_txtstring_)  )
+    (LM:vl-setattributevalue newfullsize_obj "W" (rtos W 2 2))
+    (LM:vl-setattributevalue newfullsize_obj "H" (rtos H 2 2))
+    (LM:vl-setattributevalue newfullsize_obj "REF-BLOCK" (strcat (getvar "dwgprefix") (getvar "dwgname") "(" blkname ")" ))
+  ;
+  (command "draworder" newfullsize_ename "" "B" )
+  (setvar "osmode" 1215)
 )
 (defun c:insbl () 
+  (setq sss_ 
+    (ssget 
+        ; (list 
+        ;   ; (cons 0 "lwpolyline,line")
+        ; )
+    )
+  )
   (setvar "osmode" 0)
   (setq ssssasas (TA:ss_vla-getboundingbox sss_))
   (TA:vla-insertblock "001 - DYNAMIC REC&SSQ SHAPE SOLID_startpoint" (car ssssasas) 1 0  )
@@ -23753,7 +23911,7 @@
             (vlax-3d-point (setq newfullsize_obj_ins (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint newfullsize_obj)))))
             (vlax-3d-point (getpoint))
   )
-  (command "erase" sss_ "")
+  ; (command "erase" sss_ "")
 )
 
 
@@ -23852,8 +24010,7 @@
   (setq sc_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint sc_obj_))))
   (command "scale" sc_ename_ "" sc_obj_ins_ 10000)
 )
-
-  (defun c:d+ ()
+(defun c:d+ ()
     ;user_input_
       (initget "Yes No")
       (setq ss_ ;Detect the variable's result in case of a function error
