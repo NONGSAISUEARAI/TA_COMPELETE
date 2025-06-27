@@ -1,4 +1,4 @@
-;update 20250624 1247
+;update 20250627 0245
   ;Effective Block Name Funcition Lee Mac
     ;; Effective Block Name  -  Lee Mac
       ;; obj - [vla] VLA Block Reference object
@@ -2685,7 +2685,7 @@
           )
           (;visibility_mode_case_2
             (and
-                (= visibility_mode_value_ 2)
+                (= visibility_mode_value_ 2) 
             )
             (progn
                 (setq visibility_list_ (list
@@ -2714,6 +2714,14 @@
                                         "3_"
                                         "4_"
                                         "5_"
+                                        "6_"
+                                        "7_"
+                                        "8_"
+                                        "9_"
+                                        "10_"
+                                        "11_"
+                                        "12_"
+                                        "13_"
                                       )
                 )
                 (princ "visibility_mode_case_3")
@@ -24500,3 +24508,122 @@
     ;
 
   )
+
+
+(defun c:ro+ ()
+    ;user_input_
+      (initget "Yes No")
+      (setq ss_ ;Detect the variable's result in case of a function error
+        (vl-catch-all-apply 
+          (function 
+            (lambda () 
+              (setq DELETE_OBJ_ (not (eq "No" (getkword "\nKeep Existing point with object? [Yes/No] <Y>: "))))
+            )
+          )
+        )
+      )
+      (if (and (= ss_ nil)  )
+        (progn
+          (if  ;pre_select_ssget_or_post_select_ssget
+            (=
+              (setq ss_pre_filter_set_xx_ (ssget "i"
+                                                (list
+                                                  (cons 0 "INSERT") ;type of object
+                                                  ; (cons 8 "000 - GRID")   ;kind of layer
+                                                  ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                  ; (cons 62 1)           ;kind of color call sign with color code index
+                                                )
+                                          )
+              )
+              nil
+            )
+            (progn
+              (setq ss_pre_filter_set_xx_ (ssget
+                                                (list
+                                                  (cons 0 "INSERT") ;type of object
+                                                  ; (cons 8 "000 - GRID")   ;kind of layer
+                                                  ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                  ; (cons 62 1)           ;kind of color call sign with color code index
+                                                )
+                                          )
+              )
+            )
+            (sslength ss_pre_filter_set_xx_)
+          )
+        )
+      )
+    ;
+    ;preloop_and_while_
+      (setq LV_1_ans_ nil)
+      (while (/= (vl-catch-all-error-p LV_1_ans_ ) T)
+        ;error_detect_
+          (setq LV_1_ans_ ;Detect the variable's result in case of a function error
+            (vl-catch-all-apply 
+              (function 
+                (lambda () 
+                  (setq LV_1_ans_int_ (cond ( (getint (strcat method_1 "\n" method_2 "\n" method_3 "\n" method_4 "\n" method_5 "\n<" (rtos (setq LV_1_ans_int_ (cond (LV_1_ans_int_) (1.0) ) ) ) "> : " ) ) ) (LV_1_ans_int_) ) )
+                  
+                )
+              )
+            )
+          )
+          (if (= (vl-catch-all-error-p LV_1_ans_ ) T)
+            (progn
+              (vl-catch-all-error-message LV_1_ans_ )
+            )
+          )
+        ;
+        
+        ;condition_for_folding_control
+          (cond
+            (;raster_case_1
+              (and
+                (= LV_1_ans_int_ 1)
+                (/= (vl-catch-all-error-p LV_1_ans_ ) T)
+              )
+              (progn
+                ;preloop_and_while
+                  (setq ss_pre_filter_set_xx_i 0)
+                  (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+                    (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+                    (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+                    (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+                    (vla-put-rotation ss_pre_filter_set_xx_obj_ (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation ss_pre_filter_set_xx_obj_  )) +1)) )
+                    (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+                  )
+                ;
+                (princ "raster_case_1")
+              )
+            )
+            (;raster_case_2
+              (and
+                (= LV_1_ans_int_ 2)
+                (/= (vl-catch-all-error-p LV_1_ans_ ) T)
+              )
+              (progn
+                (setq ss_pre_filter_set_xx_i 0)
+                (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+                  (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+                  (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+                  (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+                  (vla-put-rotation ss_pre_filter_set_xx_obj_ (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation ss_pre_filter_set_xx_obj_  )) -1)) )
+                  (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+                )
+                (princ "raster_case_2")
+              )
+            )
+            (;raster_case_5
+              (and
+                (vl-catch-all-error-p LV_1_ans_ )
+                  
+              )
+              (progn
+                
+                (princ "raster_case_6")
+              )
+            )
+          )
+        ;
+      )
+    ; 
+)
