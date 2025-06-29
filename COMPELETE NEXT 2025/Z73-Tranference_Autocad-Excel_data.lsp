@@ -1,4 +1,4 @@
-;update 20250616 0252
+;update 20250629 1708
 ;Effective Block Name Funcition Lee Mac
   ;; Effective Block Name  -  Lee Mac
     ;; obj - [vla] VLA Block Reference object
@@ -321,7 +321,9 @@
                           (vl-string-subst "" "6" 
                             (vl-string-subst "" "7" 
                               (vl-string-subst "" "8" 
-                                (vl-string-subst "" "9" remove_list_ename_))))))))))
+                                (vl-string-subst "" "9" 
+                                  (vl-string-subst "" "10" 
+                                    (vl-string-subst "" "11" remove_list_ename_))))))))))))
             )
             (setq remove_list_value_ (cons renew_list_ename_ remove_list_value_ ))
             (setq remove_list_i (+ remove_list_i 1))
@@ -339,7 +341,9 @@
                     (vl-string-subst "" "6" 
                       (vl-string-subst "" "7" 
                         (vl-string-subst "" "8" 
-                          (vl-string-subst "" "9" remove_list_))))))))))
+                          (vl-string-subst "" "9" 
+                            (vl-string-subst "" "10" 
+                              (vl-string-subst "" "11" remove_list_))))))))))))
       )
     )
   )
@@ -1000,7 +1004,7 @@
       )
       (setq result found)
   )
-  (defun TA:member_position (str_name_ pos member_list_)
+  (defun TA:member_position (str_name_  member_list_)
       (setq member_list_i 0)
       (setq result_found_val ())
       (setq found nil)
@@ -1009,16 +1013,16 @@
               ; (/= found T)
             )
         (setq member_list_val (nth member_list_i member_list_))
-        (if (= str_name_ (nth pos member_list_val))
+        (if (= (strcase str_name_) (strcase member_list_val))
           (progn
             ; (setq found T)
-            (setq result_found_val (cons member_list_val result_found_val))          
+            (setq result_found_val (cons member_list_i result_found_val))          
           )
             (setq found nil)
         )
         (setq member_list_i (+ member_list_i 1))
       )
-      (setq result result_found_val)
+      (setq result (reverse result_found_val))
   )
   (defun remove_member_list_ (num_ point_list_)
     (setq new_list_ ())
@@ -3788,6 +3792,22 @@
     ;
   )    
   (defun TA_EXCEL_RangecellName_to_R1C1 (RangeCellName_list_)
+    (setq col-list '("_sym_" "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" 
+                     "o" "p" "q" "r" "s" "t" "u" "v" "w" "x" "y" "z" "aa" "ab" "ac" 
+                     "ad" "ae" "af" "ag" "ah" "ai" "aj" "ak" "al" "am" "an" "ao" "ap" 
+                     "aq" "ar" "as" "at" "au" "av" "aw" "ax" "ay" "az" "ba" "bb" "bc" 
+                     "bd" "be" "bf" "bg" "bh" "bi" "bj" "bk" "bl" "bm" "bn" "bo" "bp" 
+                     "bq" "br" "bs" "bt" "bu" "bv" "bw" "bx" "by" "bz" "ca" "cb" "cc" 
+                     "cd" "ce" "cf" "cg" "ch" "ci" "cj" "ck" "cl" "cm" "cn" "co" "cp" 
+                     "cq" "cr" "cs" "ct" "cu" "cv" "cw" "cx" "cy" "cz" "da" "db" "dc" 
+                     "dd" "de" "df" "dg" "dh" "di" "dj" "dk" "dl" "dm" "dn" "do" "dp" 
+                     "dq" "dr" "ds" "dt" "du" "dv" "dw" "dx" "dy" "dz" "ea" "eb" "ec" 
+                     "ed" "ee" "ef" "eg" "eh" "ei" "ej" "ek" "el" "em" "en" "eo" "ep" 
+                     "eq" "er" "es" "et" "eu" "ev" "ew" "ex" "ey" "ez" "fa" "fb" "fc" 
+                     "fd" "fe" "ff" "fg" "fh" "fi" "fj" "fk" "fl" "fm" "fn" "fo" "fp" 
+                     "fq" "fr" "fs" "ft" "fu" "fv" "fw" "fx" "fy" "fz"
+                    )
+    )
     ;preloop_and_while
       (setq RangeCellName_list_i 0)
       (setq r1c1_list_ ())
@@ -3798,7 +3818,7 @@
         
         (setq R1C1_data_ 
                 (list 
-                  (setq RangeCellName_list_col_ (TA_EXCEL_RangeCOL_to_C1 RangeCellName_list_col_ ) )
+                  (setq RangeCellName_list_col_ (car (TA:member_position RangeCellName_list_col_ col-list)) )
                   (atoi RangeCellName_list_row_)
                 )
         )
@@ -3812,6 +3832,19 @@
     ;
   )
   (defun TA_EXCEL_RangeCOL_to_C1 (col)
+    (setq len (strlen col)) ; หาความยาวของตัวอักษร
+    (setq result 0)
+    (setq i 0)
+    
+    ;; loop ผ่านตัวอักษรแต่ละตัวในคอลัมน์
+    (repeat len
+      (setq char (strcase (substr col (1+ i) 1))) ; เอาตัวอักษรทีละตัว
+      (setq result (+ result (* (- (ascii char) 64) (expt 26 (- len (1+ i)))))) ; คำนวณตามฐาน 26
+      (setq i (1+ i)) ; เพิ่มตัวนับ
+    )
+    result
+  )
+  (defun TA_EXCEL_RangeCOL_to_C1_rev02 (col)
     (setq len (strlen col)) ; หาความยาวของตัวอักษร
     (setq result 0)
     (setq i 0)
@@ -9429,11 +9462,21 @@
                                                       )
                                               )
                   )
+                  (setq newdyn ())
+                  (foreach x sst_obj_dyn_tag_list
+                    (setq newdyn (cons (strcat "DYN:" x) newdyn))
+                  )
+                  (setq sst_obj_dyn_tag_list (reverse newdyn))
                 )
               )
               (if (= (vla-get-hasattributes sst_obj_) :vlax-true) ;attribute_properties_list_
                 (progn
                   (setq sst_obj_att_tag_list (LM:vl-getattributevalue-tag-TA-Modifies sst_obj_ ) )
+                  (setq newat ())
+                  (foreach x sst_obj_att_tag_list
+                    (setq newat (cons (strcat "ATT:" x) newat))
+                  )
+                  (setq sst_obj_att_tag_list (reverse newat))
                 )
               )
               (setq sst_tag_mainlist_
@@ -9509,8 +9552,402 @@
           )
   )
 )
+(defun c:Exceldata_to_Caddata_E3CC ()
+  (setq Activesheet_worksheet_obj_  (vlax-get get_ExcelApp_object_ 'activesheet  ))
+  (setq Activesheet_worksheet_getRangecell_ (vlax-get (vlax-get get_ExcelApp_object_ 'selection  ) 'address ))
+  (setq RangeCellName_list_ (LM:str->lst (LM:StringSubst  "" "$" Activesheet_worksheet_getRangecell_ ) ":"))
+  (setq rangeCell_Exdata_list_ (TA_EXCEL_RangecellName_to_R1C1 RangeCellName_list_))
 
-(setq VLA-OBJECT-Worksheet Excel_lasted_worksheet_obj_ )
+
+  (defun TA:Rangecell_data_REV02_ (rangeCell_Exdata_list_  )
+    ;Note By Code_Developer
+    ;This command is designed to work exclusively with a Excel File data from ATt/DYN block list 
+    ;The operation of the command will read an Excel range data in active worksheet and send all rangecell selection back to ATT/DYN block in Autocad by refer from Handle Object ID
+    ;Fully command must have sub-functions with names starting with TA: or LM:
+    ;
+    ;arrgument
+    ;rangeCell_Exdata_list_ = rangecelldata via R1C1
+    ;
+    ;specify column and row for while loop
+    (setq Col_data_
+      (list 
+        (setq first_col_ (car (nth 0 rangeCell_Exdata_list_)))
+        (setq last_col_ (car (nth 1 rangeCell_Exdata_list_)))
+      )
+    )
+    (setq Row_data_
+      (list 
+        (setq first_row_ (cadr (nth 0 rangeCell_Exdata_list_)))
+        (setq last_row_ (cadr (nth 1 rangeCell_Exdata_list_)))
+      )
+    )
+    ; 
+    ;preloop_and_while get heading of table _ ATT/DYN data list  
+    (setq first_row_i first_row_)
+    (setq Overall_rangecell_data_ ())
+    (while ;generate_ column range  
+      (<= first_row_i last_row_ )
+      (setq first_col_i first_col_)
+      (setq last_col_i last_col_)
+      (setq Range_Exdata_ "")
+      (setq Range_Exdata_list_ ())
+      (while ;generate_ row range  
+        (and
+          (<= first_col_i last_col_i)
+          ; (/= Range_Exdata_ nil)
+        )
+        (setq Range_Exdata_ (TA:Excel_get_data_R1C1 Activesheet_worksheet_obj_ first_row_i first_col_i ))
+        (if (/= Range_Exdata_ nil)
+          (progn
+            (setq Range_Exdata_list_  (cons Range_Exdata_ Range_Exdata_list_))
+          )
+          (setq Range_Exdata_list_  (cons "" Range_Exdata_list_))
+        )
+        (setq first_col_i (+ first_col_i 1))
+      )
+      (setq Range_Exdata_list_ (reverse Range_Exdata_list_))
+      (setq Overall_rangecell_data_ (cons Range_Exdata_list_ Overall_rangecell_data_ ))
+      (length Overall_rangecell_data_)
+      (setq first_row_i (+ first_row_i 1))
+    )
+    ;
+    ;preloop_and_while return data Excel -
+      (setq Overall_rangecell_data_i 1)
+      (setq error_main_list_ ())
+      (setq Overall_rangecell_data_ (reverse Overall_rangecell_data_))
+      (while (< Overall_rangecell_data_i (length Overall_rangecell_data_))
+        (setq Overall_rangecell_data_list_ (nth  Overall_rangecell_data_i Overall_rangecell_data_))
+        (setq percent-main (fix (* (/ (float Overall_rangecell_data_i) (length Overall_rangecell_data_)) 100)))
+        ;preloop_and_while
+          (setq Overall_rangecell_data_list_i 0)
+          (while 
+            (and 
+              (< Overall_rangecell_data_list_i (length Overall_rangecell_data_list_))
+              (/= (car Overall_rangecell_data_list_ ) "")
+            )
+            (setq Overall_rangecell_data_list_heading_ (nth  Overall_rangecell_data_list_i (nth 0 Overall_rangecell_data_)))
+            (setq Overall_rangecell_data_list_content_ (nth  Overall_rangecell_data_list_i Overall_rangecell_data_list_))
+            
+            ;get_ename_by_Handent
+              (if 
+                (and 
+                  (= Overall_rangecell_data_list_i 0)
+                  (= Overall_rangecell_data_list_heading_ "Handle")
+                )
+                (progn
+                  (if 
+                    (or 
+                      (= (vl-prin1-to-string (type Overall_rangecell_data_list_content_)) "REAL" )
+                      (= (vl-prin1-to-string (type Overall_rangecell_data_list_content_)) "INT" )
+                    )
+                    (progn
+                      (setq Handent_ename_ (handent (rtos Overall_rangecell_data_list_content_ 2 0))
+                            Handent_obj_ (vlax-ename->vla-object Handent_ename_)
+                            Handent_obj_ins (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint Handent_obj_)))
+                            handent_no_ (rtos Overall_rangecell_data_list_content_ 2 0)
+                            error_sub_list_ ()
+                            error_sub_list_ (cons handent_no_ error_sub_list_)
+                      )
+                    )
+                    (setq Handent_ename_ (handent Overall_rangecell_data_list_content_)
+                          Handent_obj_ (vlax-ename->vla-object Handent_ename_)
+                          Handent_obj_ins (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint Handent_obj_)))
+                          handent_no_ Overall_rangecell_data_list_content_
+                          error_sub_list_ ()
+                          error_sub_list_ (cons handent_no_ error_sub_list_)
+                    )
+                  )
+                )
+              )
+            ;
+            (cond
+              ;standard case
+                (;data_case_1
+                    (and
+                      (/= Handent_ename_ nil)
+                      (= (strcase Overall_rangecell_data_list_heading_) "COLOR")
+                    )
+                    (progn
+                      (if 
+                        (vl-catch-all-error-p 
+                          (vl-catch-all-apply 
+                            (function 
+                              (lambda () 
+                                (vla-put-color Handent_obj_ Overall_rangecell_data_list_content_)
+                              )
+                            )
+                          )
+                        )
+                        (progn
+                          (setq error_sub_list_ (cons Overall_rangecell_data_list_content_ error_sub_list_ ) )
+                        )
+                      )
+                      ;(princ "data_case_1")
+                    )
+                )
+                (;data_case_2
+                    (and
+                      (/= Handent_ename_ nil)
+                      (= (strcase Overall_rangecell_data_list_heading_) "LAYER")
+                    )
+                    (progn
+                      (if 
+                        (vl-catch-all-error-p 
+                          (vl-catch-all-apply 
+                            (function 
+                              (lambda () 
+                                (vla-put-layer Handent_obj_ Overall_rangecell_data_list_content_ )
+                              )
+                            )
+                          )
+                        )
+                        (progn
+                          (setq error_sub_list_ (cons Overall_rangecell_data_list_content_ error_sub_list_ ) )
+                        )
+                      )
+                      ;(princ "data_case_2")
+                    )
+                )
+                (;data_case_3
+                    (and
+                      (/= Handent_ename_ nil)
+                      (= (strcase Overall_rangecell_data_list_heading_) "LINETYPE")
+                    )
+                    (progn
+                      (if 
+                        (vl-catch-all-error-p 
+                          (vl-catch-all-apply 
+                            (function 
+                              (lambda () 
+                                (vla-put-linetype Handent_obj_ Overall_rangecell_data_list_content_)
+                              )
+                            )
+                          )
+                        )
+                        (progn
+                          (setq error_sub_list_ (cons Overall_rangecell_data_list_content_ error_sub_list_ ) )
+                        )
+                      )
+                      
+                      ;(princ "data_case_3")
+                    )
+                )
+              ;
+              (;data_case_4
+                  (and
+                    (/= Handent_ename_ nil)
+                    (= (strcase Overall_rangecell_data_list_heading_) "POSITION_X")
+                  )
+                  (progn
+                    (if 
+                      (vl-catch-all-error-p 
+                        (vl-catch-all-apply 
+                          (function 
+                            (lambda () 
+                              (vla-put-insertionpoint Handent_obj_ 
+                                                      (vlax-3d-point Overall_rangecell_data_list_content_ 
+                                                                      (cadr Handent_obj_ins)
+                                                                      0
+                                                      )
+                              )
+                            )
+                          )
+                        )
+                      )
+                      (progn
+                        (setq error_sub_list_ (cons Overall_rangecell_data_list_content_ error_sub_list_ ) )
+                      )
+                    )
+                    (vl-catch-all-apply 
+                      (function 
+                        (lambda () 
+                          (setq Handent_obj_ins (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint Handent_obj_))))
+                        )
+                      )
+                    )
+                    ; (princ "data_case_4")
+                  )
+              )
+              (;data_case_5
+                  (and
+                    (/= Handent_ename_ nil)
+                    (= (strcase Overall_rangecell_data_list_heading_) "POSITION_Y")
+                  )
+                  (progn
+                    (if 
+                      (vl-catch-all-error-p 
+                        (vl-catch-all-apply 
+                          (function 
+                            (lambda () 
+                              (vla-put-insertionpoint Handent_obj_ 
+                                                      (vlax-3d-point 
+                                                        (car Handent_obj_ins)
+                                                        Overall_rangecell_data_list_content_
+                                                        0
+                                                      )
+                              )
+                            )
+                          )
+                        )
+                      )
+                      (progn
+                        (setq error_sub_list_ (cons Overall_rangecell_data_list_content_ error_sub_list_ ) )
+                      )
+                    )
+                    (vl-catch-all-apply 
+                      (function 
+                        (lambda () 
+                          (setq Handent_obj_ins (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint Handent_obj_))))
+                        )
+                      )
+                    )
+                    ; (princ "data_case_5")
+                  )
+              )
+              (;data_case_6
+                  (and
+                    (/= Handent_ename_ nil)
+                    (= (strcase Overall_rangecell_data_list_heading_) "POSITION_Z")
+                  )
+                  (progn
+                    (if 
+                      (vl-catch-all-error-p 
+                        (vl-catch-all-apply 
+                          (function 
+                            (lambda () 
+                              (vla-put-insertionpoint Handent_obj_ 
+                                                      (vlax-3d-point 
+                                                        (car Handent_obj_ins)
+                                                        (cadr Handent_obj_ins)
+                                                        Overall_rangecell_data_list_content_
+                                                      )
+                              )
+                            )
+                          )
+                        )
+                      )
+                      (progn
+                        (setq error_sub_list_ (cons Overall_rangecell_data_list_content_ error_sub_list_ ) )
+                      )
+                    )
+                    (vl-catch-all-apply 
+                      (function 
+                        (lambda () 
+                          (setq Handent_obj_ins (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint Handent_obj_))))
+                        )
+                      )
+                    )
+                    ;(princ "data_case_6")
+                  )
+              )
+              ;special case
+                (;data_case_7
+                    (and
+                      (/= Handent_ename_ nil)
+                      (= (strcase Overall_rangecell_data_list_heading_) "ROTATION(DEG)")
+                    )
+                    (progn
+                      (if 
+                        (vl-catch-all-error-p 
+                          (vl-catch-all-apply 
+                            (function 
+                              (lambda () 
+                                (vla-put-rotation Handent_obj_ (* Overall_rangecell_data_list_content_ (/ pi 180.0)))
+                              )
+                            )
+                          )
+                        )
+                        (progn
+                          (setq error_sub_list_ (cons Overall_rangecell_data_list_content_ error_sub_list_ ) )
+                        )
+                      )
+                      ;(princ "data_case_7")
+                    )
+                )
+                (;data_case_8
+                    (and
+                      (/= Handent_ename_ nil)
+                      (= (substr (strcase Overall_rangecell_data_list_heading_) 1 4) "ATT:")
+                    )
+                    (progn
+                      (if 
+                        (vl-catch-all-error-p 
+                          (vl-catch-all-apply 
+                            (function 
+                              (lambda () 
+                                (LM:vl-setattributevalue Handent_obj_ (substr Overall_rangecell_data_list_heading_ 5 25) Overall_rangecell_data_list_content_)
+                              )
+                            )
+                          )
+                        )
+                        (progn
+                          (setq error_sub_list_ (cons Overall_rangecell_data_list_content_ error_sub_list_ ) )
+                        )
+                      )
+                      ;(princ "data_case_8")
+                    )
+                )
+                (;data_case_9
+                    (and
+                      (/= Handent_ename_ nil)
+                      (= (substr (strcase Overall_rangecell_data_list_heading_) 1 4) "DYN:")
+                    )
+                    (progn
+                      (if 
+                        (vl-catch-all-error-p 
+                          (vl-catch-all-apply 
+                            (function 
+                              (lambda () 
+                                (LM:setdynpropvalue Handent_obj_ (substr Overall_rangecell_data_list_heading_ 5 25) Overall_rangecell_data_list_content_)
+                              )
+                            )
+                          )
+                        )
+                        (progn
+                          (setq error_sub_list_ (cons Overall_rangecell_data_list_content_ error_sub_list_ ) )
+                        )
+                      )
+                      ;(princ "data_case_9")
+                    )
+                )
+              ;
+            )
+            (setq percent-sub (fix (* (/ (float Overall_rangecell_data_list_i) (length Overall_rangecell_data_list_)) 100)))
+            
+            (princ 
+              (strcat "tranfering Handle Ename " (chr 34) handent_no_  (chr 34) 
+                      " Prop : "
+                      (if (< Overall_rangecell_data_list_i 10) (progn (strcat "0" (rtos Overall_rangecell_data_list_i 2 0) )) (rtos Overall_rangecell_data_list_i 2 0)) "/"
+                      (rtos (length Overall_rangecell_data_list_) 2 0) 
+                      " (" (if (< percent-sub 10) (progn (strcat "0" (rtos percent-sub 2 0) )) (rtos percent-sub 2 0)) "%" ")  "  
+                      " processing block number " 
+                      (rtos Overall_rangecell_data_i 2 0) "/"  (rtos (length Overall_rangecell_data_) 2 0) " " (rtos percent-main 2 0) "% " 
+                      "\n" 
+              )
+            )
+            
+            (setq Overall_rangecell_data_list_i (+ Overall_rangecell_data_list_i 1))
+          )
+        ;
+        ;error sub list record
+          (setq error_main_list_ (cons  (reverse error_sub_list_) error_main_list_) )
+        ;
+          
+        
+      
+        (setq Overall_rangecell_data_i (+ Overall_rangecell_data_i 1))
+      )
+    ;
+    ;result 
+     (setq error_main_list_ (reverse error_main_list_)) 
+    ;
+  )
+  
+  (textscr)
+  (getstring "\nHit [ENTER] to continue...")
+  (setq error_report_ (TA:Rangecell_data_REV02_ rangeCell_Exdata_list_ ))
+  
+)
 
 
 

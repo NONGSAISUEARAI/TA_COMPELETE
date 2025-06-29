@@ -1,4 +1,4 @@
-;update 20250627 0245
+;update 20250629 1708
   ;Effective Block Name Funcition Lee Mac
     ;; Effective Block Name  -  Lee Mac
       ;; obj - [vla] VLA Block Reference object
@@ -24641,3 +24641,81 @@
       )
     ; 
 )
+
+
+
+
+
+(defun c:draworder_sent_to_back_SB ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (and
+        (/=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              ; (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        ; (<= (sslength ss_pre_filter_set_xx_ ) 1)
+      )
+      
+      (progn   
+        (command "draworder"  "B")
+      )
+      (setq ss_pre_filter_set_xx_ (ssget 
+                                          (list
+                                            ; (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+           ss (command "draworder" ss_pre_filter_set_xx_ "" "B")
+      )
+    )
+  ;
+)
+(defun c:draworder_sent_to_front_SFF ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (and
+        (/=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              ; (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        ; (<= (sslength ss_pre_filter_set_xx_ ) 1)
+      )
+      
+      (progn   
+        (command "draworder"  "B")
+      )
+      (setq ss_pre_filter_set_xx_ (ssget 
+                                          (list
+                                            ; (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+           ss (command "draworder" ss_pre_filter_set_xx_ "" "F")
+      )
+    )
+  ;
+)
+
+
+
