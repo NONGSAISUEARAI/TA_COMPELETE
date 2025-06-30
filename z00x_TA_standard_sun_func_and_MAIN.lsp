@@ -3591,9 +3591,10 @@
     (defun TA:Assembly_block_ (blk_obj_ )
       ; (setq blk_ename_ (car (entsel "specify Object")))
       ; (setq blk_obj_ (vlax-ename->vla-object blk_ename_))
+      (setq blk_list_ ())
       (if (= (vla-get-objectname blk_obj_) "AcDbBlockReference")
         (progn
-          (setq blkname (cdr (assoc 2 (entget blk_ename_))))
+          (setq blkname (cdr (assoc 2 (entget (vlax-vla-object->ename blk_obj_)))))
           (setq bdef (tblobjname "BLOCK" blkname))
           (if (= (vl-prin1-to-string (type bdef)) "ENAME")
             (progn
@@ -3613,6 +3614,90 @@
                       (progn
                         (princ (strcat "\n  └─ Nested block: " (LM:effectivename nested_obj_)) )
                         (setq blk_list_ (cons (LM:effectivename nested_obj_) blk_list_))
+                      )
+                    )
+                    
+                  )
+                )
+                (setq nested (entnext nested))
+              )
+            )
+          )
+        )
+      )
+      (TA:Count_item_in_list_ blk_list_ )
+      
+    
+    
+    )
+    (defun TA:Assembly_vla-obj-block_ (blk_obj_ )
+      ; (setq blk_ename_ (car (entsel "specify Object")))
+      ; (setq blk_obj_ (vlax-ename->vla-object blk_ename_))
+      (setq blk_list_ ())
+      (if (= (vla-get-objectname blk_obj_) "AcDbBlockReference")
+        (progn
+          (setq blkname (cdr (assoc 2 (entget (vlax-vla-object->ename blk_obj_)))))
+          (setq bdef (tblobjname "BLOCK" blkname))
+          (if (= (vl-prin1-to-string (type bdef)) "ENAME")
+            (progn
+              (setq nested (entnext bdef))
+              
+              (while 
+                (and nested 
+                    (/= (cdr (assoc 0 (entget nested))) "ENDBLK")
+                )
+                (if (= (cdr (assoc 0 (entget nested))) "INSERT")
+                  (progn 
+
+
+                    (setq nested_obj_ (vlax-ename->vla-object nested))
+                    
+                    (if (= (vla-get-visible nested_obj_) :vlax-true)
+                      (progn
+                        (princ (strcat "\n  └─ Nested block: " (LM:effectivename nested_obj_)) )
+                        (setq blk_list_ (cons nested_obj_ blk_list_))
+                      )
+                    )
+                    
+                  )
+                )
+                (setq nested (entnext nested))
+              )
+            )
+          )
+        )
+      )
+      (TA:Count_item_in_list_ blk_list_ )
+      
+    
+    
+    )
+    (defun TA:Assembly_ename_ (blk_obj_ )
+      ; (setq blk_ename_ (car (entsel "specify Object")))
+      ; (setq blk_obj_ (vlax-ename->vla-object blk_ename_))
+      (setq blk_list_ ())
+      (if (= (vla-get-objectname blk_obj_) "AcDbBlockReference")
+        (progn
+          (setq blkname (cdr (assoc 2 (entget (vlax-vla-object->ename blk_obj_)))))
+          (setq bdef (tblobjname "BLOCK" blkname))
+          (if (= (vl-prin1-to-string (type bdef)) "ENAME")
+            (progn
+              (setq nested (entnext bdef))
+              
+              (while 
+                (and nested 
+                    (/= (cdr (assoc 0 (entget nested))) "ENDBLK")
+                )
+                (if (= (cdr (assoc 0 (entget nested))) "INSERT")
+                  (progn 
+
+
+                    (setq nested_obj_ (vlax-ename->vla-object nested))
+                    
+                    (if (= (vla-get-visible nested_obj_) :vlax-true)
+                      (progn
+                        (princ (strcat "\n  └─ Nested block: " (LM:effectivename nested_obj_)) )
+                        (setq blk_list_ (cons nested blk_list_))
                       )
                     )
                     
@@ -9305,6 +9390,11 @@
         )
       ;)
       
+    )
+    (defun c:copy_layer_text_CPLTEXT_ ()
+      (setq layer_ename_ (car (entsel "specify Object")))
+      (setq layer_obj_ (vlax-ename->vla-object layer_ename_))
+      (TA:copytext->clipboard (vla-get-layer layer_obj_))
     )
   ;
 
@@ -24716,6 +24806,220 @@
     )
   ;
 )
+
+
+
+
+(defun c:TEMPS1 ()
+  
+
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            ; (cons 0 "INSERT") ;type of object
+                                            (cons 8 "A-ROOM-IDEN,A-ANNO-NOTE,G-ANNO-TEXT")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            ; (cons 0 "INSERT") ;type of object
+                                            (cons 8 "A-ROOM-IDEN,A-ANNO-NOTE,G-ANNO-TEXT")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  (command "pselect"  ss_pre_filter_set_xx_ "" )
+)
+
+
+
+
+
+
+
+
+
+
+
+
+  (defun PPLINE_CKST_MK-CSD-PLAN-black (blk_obj_)
+    ; (setq blk_ename_ (car (entsel "specify Object")))
+    ; (setq blk_obj_ (vlax-ename->vla-object blk_ename_))
+    (GetBlockHatches (LM:Effectivename blk_obj_))
+    (setq blk_obj_subblk_LVL1_ (TA:Assembly_vla-obj-block_ blk_obj_))
+    ;preloop_and_while
+      (setq blk_obj_subblk_LVL1_i 0)
+      (while (< blk_obj_subblk_LVL1_i (length blk_obj_subblk_LVL1_))
+        (setq blk_obj_subblk_LVL1_obj_ (car (nth  blk_obj_subblk_LVL1_i blk_obj_subblk_LVL1_)))
+        (GetBlockHatches (LM:Effectivename blk_obj_subblk_LVL1_obj_))
+        (if (/= (setq LV2_ (TA:Assembly_vla-obj-block_ blk_obj_subblk_LVL1_obj_)) nil)
+          (progn
+            ;preloop_and_while
+              (setq LV2_i 0)
+              (while (< LV2_i (length LV2_))
+                (setq LV2_obj_ (car (nth  LV2_i LV2_)))
+                (GetBlockHatches (LM:Effectivename LV2_obj_))
+                (if (= (TA:Assembly_vla-obj-block_ LV2_obj_) nil)
+                  (progn
+                    (GetBlockHatches (LM:Effectivename LV2_obj_))
+                  )
+                  ; (alert "S")
+                )
+                (setq LV2_i (+ LV2_i 1))
+              )
+            ;
+          )
+          (GetBlockHatches (LM:Effectivename blk_obj_subblk_LVL1_obj_))
+        )
+
+        (setq blk_obj_subblk_LVL1_i (+ blk_obj_subblk_LVL1_i 1))
+      )
+    ;
+  )
+  (defun GetBlockHatches (blockname )
+    (setq hatches_ '())
+    (setq blkdef (tblobjname "BLOCK" blockname))
+    (setq ent (entnext blkdef))
+    (while ent
+      (setq ed (entget ent))
+      (if (= (cdr (assoc 0 ed)) "HATCH")
+        (progn
+          (setq hatches_ (cons ent hatches_))
+          ;main idea of code keep or delete don't affect with core code
+            (setq hatches_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+            (vla-put-color hatches_obj_  8)
+            (vla-put-EntityTransparency hatches_obj_ 80 )
+          ;
+        )
+      )
+      (if (= (cdr (assoc 0 ed)) "ARC")
+        (progn
+          ; (setq hatches_ (cons ent hatches_))
+          ;main idea of code keep or delete don't affect with core code
+            (setq hatches_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+            (vla-put-color hatches_obj_  8)
+            
+          ;
+        )
+      )
+      (if (= (cdr (assoc 0 ed)) "LINE")
+        (progn
+          ; (setq hatches_ (cons ent hatches_))
+          ;main idea of code keep or delete don't affect with core code
+            (setq hatches_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+            (vla-put-color hatches_obj_  8)
+            
+          ;
+        )
+      )
+      (setq ent (entnext ent))
+    )
+    (reverse hatches)
+  )
+  (defun c:PPLINE_CKST_CSD-PLAN_mkblack ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    (textscr)
+    (getstring "\nHit [ENTER] to continue...")
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (setq LV00_ (TA:Assembly_vla-obj-block_ ss_pre_filter_set_xx_obj_))
+          ;preloop_and_while
+            (setq LV00_i 0)
+            (while (< LV00_i (length LV00_))
+              (setq LV00_obj_ (car (nth  LV00_i LV00_)))
+              (PPLINE_CKST_MK-CSD-PLAN-black LV00_obj_ )
+              
+              (setq LV00_i (+ LV00_i 1))
+            )
+          ;
+
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ; 
+    (command "-layer" "filter" "n" "G" "" "*CSD*" "CSD" ""  )
+  )
+
+
+
+
+
+
+(defun c:PPLINE_CKST_CSDLayer_ ()
+  (setq Ex_layer_List_ (TA:get_name_layer_in_drawing ))
+  (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
+  (setq layers (vla-get-Layers doc))
+
+  ;preloop_and_while
+    (setq Ex_layer_list_i 0)
+    (while (< Ex_layer_list_i (length Ex_layer_list_))
+      (setq Ex_layer_list_name_ (nth  Ex_layer_list_i Ex_layer_list_))
+      (if 
+        (and
+          (/= Ex_layer_list_name_ "0")
+          (/= Ex_layer_list_name_ "DEF")
+        )
+        (progn
+          (setq Layer-obj_ (vla-Item layers Ex_layer_list_name_))
+          (setq newl (strcat "000 - CSD_PL_" Ex_layer_list_name_))
+          (vla-put-name Layer-obj_  newl )
+          
+        )
+      )
+      (setq Ex_layer_list_i (+ Ex_layer_list_i 1))
+
+    )
+  ;
+)
+
+
+
+
+
+
+
 
 
 
