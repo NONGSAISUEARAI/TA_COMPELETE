@@ -1752,7 +1752,7 @@
   ; (setq ef_name (LM:effectivename select_name_obj))
   
   ;TA:getstring_and_keep_previous
-    (setq stringname_value_ (strcase "*air supply*")) ;::::method 2 input by user
+    ; (setq stringname_value_ (strcase "*air supply*")) ;::::method 2 input by user
     ; (setq stringname_value_ (strcase "*multi*")) ;::::method 2 input by user
   ;
   
@@ -1771,7 +1771,7 @@
               ;  (wcmatch (strcase (LM:effectivename blk_obj_Set)) (strcase "*air supply*")) ;if more +2 variable it s mean u are using multiname 
               ;  (wcmatch (strcase (LM:effectivename blk_obj_Set)) (strcase "*luminaire*")) ;if more +2 variable it s mean u are using multiname 
               ;  (wcmatch (strcase (LM:effectivename blk_obj_Set)) (strcase "*Horizontal with Gap*")) ;if more +2 variable it s mean u are using multiname 
-               (wcmatch (strcase (LM:effectivename blk_obj_Set)) (strcase "*System Panel - DPA_Metal Ceiling Rectangular Panel*")) ;if more +2 variable it s mean u are using multiname 
+               (wcmatch (strcase (LM:effectivename blk_obj_Set)) (strcase "*csd-plan*")) ;if more +2 variable it s mean u are using multiname 
              )
     )
 
@@ -1794,34 +1794,6 @@
   (command "regen")
 )
 (defun c:SFVB2_FINDING_SPECFILY_STRNAME_ALLBLOCK ()
-  ; ;selection_set
-  ;   (if 
-  ;     (= (setq my-selection-set (ssget "x"
-  ;                                       (list 
-  ;                                         (cons 0 "INSERT") ;type of object
-  ;                                         ; (cons 8 "000 - GRID")   ;kind of layer
-  ;                                         ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-  ;                                         ; (cons 62 1)           ;kind of color call sign with color code index
-  ;                                       )
-  ;                                )
-  ;          )
-  ;       nil
-  ;     )
-  ;     (progn
-  ;       (setq my-selection-set (ssget "X"
-  ;                           (list 
-  ;                             (cons 0 "INSERT") ;type of object
-  ;                             ; (cons 8 "000 - GRID")   ;kind of layer
-  ;                             ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-  ;                             ; (cons 62 1)           ;kind of color call sign with color code index
-  ;                           )
-  ;                         )
-  ;       )
-  ;     )
-  ;     (princ my-selection-set)
-  ;     (sslength my-selection-set)
-  ;    )
-  ; ;
   (setq my-selection-set (ssget "X"
                       (list 
                         (cons 0 "INSERT") ;type of object
@@ -1839,8 +1811,20 @@
   ; (setq ef_name (LM:effectivename select_name_obj))
   
   ;TA:getstring_and_keep_previous
-    (setq stringname_value_ (strcase "*air supply*")) ;::::method 2 input by user
+    ; (setq stringname_value_ (strcase "*air supply*")) ;::::method 2 input by user
     ; (setq stringname_value_ (strcase "*multi*")) ;::::method 2 input by user
+    (setq stringname_value_ ;::::method 3 input by user
+        (if
+          (or
+            (/= (setq stringname_value_val (getstring (strcat "\nSpecify Pattern name <" (if stringname_value_ stringname_value_ "") ">: ") ) ) "" )
+          )
+            (progn
+              (setq stringname_value_ stringname_value_val)
+              (setq stringname_value_keep_val_ stringname_value_val)
+            )
+          (setq stringname_value_val stringname_value_keep_val_)
+        )
+    )
   ;
   
 
@@ -1858,7 +1842,7 @@
               ;  (wcmatch (strcase (LM:effectivename blk_obj_Set)) (strcase "*air supply*")) ;if more +2 variable it s mean u are using multiname 
               ;  (wcmatch (strcase (LM:effectivename blk_obj_Set)) (strcase "*luminaire*")) ;if more +2 variable it s mean u are using multiname 
               ;  (wcmatch (strcase (LM:effectivename blk_obj_Set)) (strcase "*Horizontal with Gap*")) ;if more +2 variable it s mean u are using multiname 
-               (wcmatch (strcase (LM:effectivename blk_obj_Set)) (strcase "*System Panel - DPA-AR_Metal*")) ;if more +2 variable it s mean u are using multiname 
+               (wcmatch (strcase (LM:effectivename blk_obj_Set)) (strcase stringname_value_)) ;if more +2 variable it s mean u are using multiname 
              )
     )
 
@@ -2424,3 +2408,63 @@
 
 
 
+
+
+(defun c:SFB_FINDING_STRING_NAME_BLOCK_SFBSTR_ ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  (setq wildcard_string_ ;Get-string by keep previous value
+      (if
+        (or
+          (/= (setq wildcard_string_val (getstring (strcat "\nSpecify Pattern name <" (if wildcard_string_ wildcard_string_ "") ">: ") ) ) "" )
+        )
+          (progn
+            (setq wildcard_string_ wildcard_string_val)
+            (setq wildcard_string_keep_val_ wildcard_string_val)
+          )
+        (setq wildcard_string_val wildcard_string_keep_val_)
+      )
+  )
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (setq new_pre_filter_set_xx_ (ssadd))
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+
+      (if (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_)) wildcard_string_)
+        (progn
+          (setq new_pre_filter_set_xx_  (ssadd ss_pre_filter_set_xx_ename_ new_pre_filter_set_xx_))
+        )
+      )
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+  (command "pselect"  new_pre_filter_set_xx_ "" )
+)
