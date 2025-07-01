@@ -9659,7 +9659,7 @@
         )
       ;
     )
-    (defun c:draworder_sent_to_front_SF ()
+    (defun c:draworder_sent_to_front_SFF ()
       ;selection_set_for_fillter_blk_name
         (if  ;pre_select_ssget_or_post_select_ssget
           (and
@@ -9679,7 +9679,7 @@
           )
           
           (progn   
-            (command "draworder"  "B")
+            (command "draworder"  "F")
           )
           (setq ss_pre_filter_set_xx_ (ssget 
                                               (list

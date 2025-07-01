@@ -16393,6 +16393,109 @@
   
   
   )
+
+  ;001 - DYNAMIC REC&SSQ SHAPE SOLID_centerpoint
+  (defun c:PPLINE_300hk_ins300Ex()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "insert") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "insert") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    ; (setq panel_width_ (cond ( (getreal (strcat "\nspecify distance_measure_ <" (rtos (setq panel_width_ (cond (panel_width_) (10) ) ) ) "> : " ) ) ) (panel_width_) ) )
+    (setq new_line_obj_angle (cond ( (getreal (strcat "\nspecify distance_measure_ <" (rtos (setq new_line_obj_angle (cond (new_line_obj_angle) (10) ) ) ) "> : " ) ) ) (new_line_obj_angle) ) )
+    ;preloop_and_while
+      (setq line_i 0)
+      (setq line_ ss_pre_filter_set_xx_)
+      (while (< line_i 1)
+        (setq line_ename_ (ssname line_ line_i))
+        (setq line_obj_ (vlax-ename->vla-object  line_ename_ ))
+        (setq line_obj_obj_getboundingbox (TA:ss_vla-getboundingbox ss_pre_filter_set_xx_))
+        (setq line_obj_min_ (car line_obj_obj_getboundingbox)) 
+        (setq line_obj_max_ (cadr line_obj_obj_getboundingbox))
+        (setvar "osmode" 0)
+        (command "rectangle" line_obj_min_ line_obj_max_)
+        (setvar "osmode" 1215)
+          ;main_idea_coding_code
+            (if (= 1 1)
+              (progn
+                ;standard properties line
+                (setq line_obj_midpt_ (LM:PolyCentroid (entlast)))
+                (vla-delete (vlax-ename->vla-object (entlast)))
+                (setq line_obj_midpt_ (list (car line_obj_midpt_ ) (cadr line_obj_midpt_ ) 0))
+                ; (setq line_obj_angle (rad-to-deg (vla-get-angle line_obj_ )))
+                (setq new_line_obj_angle new_line_obj_angle)
+                (setq REC-length_ (list line_obj_min_ line_obj_max_))
+                (setq line_obj_length (distance (car REC-length_) (list (car (cadr REC-length_)) (cadr (car REC-length_)))   ))
+                (setq panel_width_ (distance (car REC-length_) (list (car (car REC-length_)) (cadr (cadr REC-length_)))   ))
+                ;
+                ;insertion process
+                  (TA:vla-insertblock "001 - DYNAMIC REC&SSQ SHAPE SOLID_centerpoint" line_obj_midpt_ 1 (deg-to-rad new_line_obj_angle) )
+                  ;new_blk_entlast object
+                    (setq new300HK_ename (entlast))
+                    (setq new300HK_obj_ (vlax-ename->vla-object new300HK_ename))
+                    ;input data
+                      (cond
+                        (;total_length_process_case_1
+                          (and
+                              ; (> line_obj_length 3000)
+                              (= (LM:effectivename new300HK_obj_) "001 - DYNAMIC REC&SSQ SHAPE SOLID_centerpoint" )
+                              (= "this dynamic block was create by me" "this dynamic block was create by me")
+                          )
+                          (progn
+                            ; (LM:setdynpropvalue new300HK_obj_ "view" "DAFT")
+                            (LM:setdynpropvalue new300HK_obj_ "H" line_obj_length)
+                            (LM:setdynpropvalue new300HK_obj_ "W" panel_width_)
+                            (command "draworder" new300HK_ename "" "F" )
+                            
+                            (princ "total_length_process_case_1")
+                          )
+                        )
+                        (;total_length_process_case_2
+                          (and
+                              (> line_obj_length 3000)
+                              (= (LM:effectivename new300HK_obj_) "001 - DYNAMIC REC&SSQ SHAPE SOLID_centerpoint" )
+                              (/= "this dynamic block was create by me" "this dynamic block was create by me")
+                          )
+                          (progn
+                            (princ "total_length_process_case_2")
+                          )
+                        )
+                      )    
+                    ;
+                  ;
+                ;
+              )
+            )
+          ;
+        (setq line_i (+ line_i 1))
+      )
+    ;
+
+  )
+  ;
   ;000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_COMBINE_SET
   (defun c:PPLINE_300hk_ins300hk ()
     ;selection_set_for_fillter_blk_name
@@ -16493,6 +16596,206 @@
       )
     ;
 
+  )
+  (defun c:PPLINE_300hk_ins300hdaft ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "lwpolyline") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "lwpolyline") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    ; (setq panel_width_ (cond ( (getreal (strcat "\nspecify distance_measure_ <" (rtos (setq panel_width_ (cond (panel_width_) (10) ) ) ) "> : " ) ) ) (panel_width_) ) )
+    (setq new_line_obj_angle (cond ( (getreal (strcat "\nspecify distance_measure_ <" (rtos (setq new_line_obj_angle (cond (new_line_obj_angle) (10) ) ) ) "> : " ) ) ) (new_line_obj_angle) ) )
+    ;preloop_and_while
+      (setq line_i 0)
+      (setq line_ ss_pre_filter_set_xx_)
+      (while (< line_i (sslength line_))
+        (setq line_ename_ (ssname line_ line_i))
+        (setq line_obj_ (vlax-ename->vla-object  line_ename_ ))
+        (setq line_obj_obj_getboundingbox (vla-getboundingbox line_obj_ 'min_ 'max_)) 
+        (setq line_obj_min_ (vlax-safearray->list min_)) 
+        (setq line_obj_max_ (vlax-safearray->list max_)) 
+        
+          ;main_idea_coding_code
+            (if (= (vla-get-objectname line_obj_) "AcDbPolyline")
+              (progn
+                ;standard properties line
+                (setq line_obj_midpt_ (LM:PolyCentroid line_ename_))
+                (setq line_obj_midpt_ (list (car line_obj_midpt_ ) (cadr line_obj_midpt_ ) 0))
+                ; (setq line_obj_angle (rad-to-deg (vla-get-angle line_obj_ )))
+                (setq new_line_obj_angle new_line_obj_angle)
+                (setq REC-length_ (list line_obj_min_ line_obj_max_))
+                (setq line_obj_length (distance (car REC-length_) (list (car (cadr REC-length_)) (cadr (car REC-length_)))   ))
+                (setq panel_width_ (distance (car REC-length_) (list (car (car REC-length_)) (cadr (cadr REC-length_)))   ))
+                ;
+                ;insertion process
+                  (TA:vla-insertblock "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_COMBINE_SET" line_obj_midpt_ 1 (deg-to-rad new_line_obj_angle) )
+                  ;new_blk_entlast object
+                    (setq new300HK_ename (entlast))
+                    (setq new300HK_obj_ (vlax-ename->vla-object new300HK_ename))
+                    ;input data
+                      (cond
+                        (;total_length_process_case_1
+                          (and
+                              ; (> line_obj_length 3000)
+                              (= (LM:effectivename new300HK_obj_) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_COMBINE_SET" )
+                              (= "this dynamic block was create by me" "this dynamic block was create by me")
+                          )
+                          (progn
+                            (LM:setdynpropvalue new300HK_obj_ "view" "DAFT")
+                            (LM:setdynpropvalue new300HK_obj_ "array_panel_length" line_obj_length)
+                            (LM:setdynpropvalue new300HK_obj_ "panel_width" panel_width_)
+                            (command "draworder" new300HK_ename "" "F" )
+                            
+                            (princ "total_length_process_case_1")
+                          )
+                        )
+                        (;total_length_process_case_2
+                          (and
+                              (> line_obj_length 3000)
+                              (= (LM:effectivename new300HK_obj_) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_COMBINE_SET" )
+                              (/= "this dynamic block was create by me" "this dynamic block was create by me")
+                          )
+                          (progn
+                            (princ "total_length_process_case_2")
+                          )
+                        )
+                      )    
+                    ;
+                  ;
+                ;
+              )
+            )
+          ;
+        (setq line_i (+ line_i 1))
+      )
+    ;
+
+  )
+  ;
+  ;000 - 000TYP-LINE_AND_ARRAY_400mm.
+  (defun c:PPLINE_300hk_ins300daft ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "line") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "line") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    (setq panel_width_ (cond ( (getreal (strcat "\nspecify distance_measure_ <" (rtos (setq panel_width_ (cond (panel_width_) (10) ) ) ) "> : " ) ) ) (panel_width_) ) )
+    ;preloop_and_while
+      (setq line_i 0)
+      (setq line_ ss_pre_filter_set_xx_)
+      (while (< line_i (sslength line_))
+        (setq line_ename_ (ssname line_ line_i))
+        (setq line_obj_ (vlax-ename->vla-object  line_ename_ ))
+          ;main_idea_coding_code
+            (if (= (vla-get-objectname line_obj_) "AcDbLine")
+              (progn
+                ;standard properties line
+                (setq line_obj_start_end_pt_ (list
+                                                (setq line_obj_startpt_ (vlax-safearray->list
+                                                                          (vlax-variant-value ( vla-get-startpoint line_obj_ ))
+                                                                        )
+                                                )
+                                                (setq line_obj_endpt_ (vlax-safearray->list
+                                                                          (vlax-variant-value ( vla-get-endpoint line_obj_ ))
+                                                                      )
+                                                )
+                                              )
+                )
+                (setq line_obj_midpt_ (TA:midpoint line_obj_startpt_ line_obj_endpt_))
+                (setq line_obj_angle (rad-to-deg (vla-get-angle line_obj_ )))
+                ; (setq new_line_obj_angle (TA:ModifyRotation line_obj_angle -90)) ;องศาตามจริง ไม่คำนวณเผื่อ
+                (setq new_line_obj_angle line_obj_angle)
+                (setq line_obj_length (vla-get-length line_obj_))
+                ;
+                ;insertion process
+                  (TA:vla-insertblock "000TYP-LINE_AND_ARRAY_400mm." line_obj_midpt_ 1 (deg-to-rad new_line_obj_angle) )
+                  ;new_blk_entlast object
+                    (setq new300HK_ename (entlast))
+                    (setq new300HK_obj_ (vlax-ename->vla-object new300HK_ename))
+                    ;input data
+                      (cond
+                        (;total_length_process_case_1
+                          (and
+                              ; (> line_obj_length 3000)
+                              (= (LM:effectivename new300HK_obj_) "000TYP-LINE_AND_ARRAY_400mm." )
+                              (= "this dynamic block was create by me" "this dynamic block was create by me")
+                          )
+                          (progn
+                            (LM:setdynpropvalue new300HK_obj_ "DEPT. LINE" "thk.")
+                            (LM:setdynpropvalue new300HK_obj_ "array_width" line_obj_length)
+                            (LM:setdynpropvalue new300HK_obj_ "thk.pline" 300)
+                            (LM:setdynpropvalue new300HK_obj_ "H" panel_width_)
+                            (command "draworder" new300HK_ename "" "F" )
+                            
+                            (princ "total_length_process_case_1")
+                          )
+                        )
+                        (;total_length_process_case_2
+                          (and
+                              (> line_obj_length 3000)
+                              (= (LM:effectivename new300HK_obj_) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_COMBINE_SET" )
+                              (/= "this dynamic block was create by me" "this dynamic block was create by me")
+                          )
+                          (progn
+                            (princ "total_length_process_case_2")
+                          )
+                        )
+                      )    
+                    ;
+                  ;
+                ;
+              )
+            )
+          ;
+        (setq line_i (+ line_i 1))
+      )
+    ;
   )
   ;
   ;000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_COMBINE_VIEW
@@ -22289,7 +22592,7 @@
       ;
   ;
 )
-  (c:CSDrun)
+; (c:CSDrun)
 ;
 
 
@@ -24770,8 +25073,6 @@
 
 
 (defun c:TEMPS1 ()
-  
-
   ;selection_set_for_fillter_blk_name
     (if  ;pre_select_ssget_or_post_select_ssget
       (=
@@ -24849,6 +25150,8 @@
     ;
   )
   (defun GetBlockHatches (blockname )
+    (setq line_color 8)
+    (setq hatch_color 9)
     (setq hatches_ '())
     (setq blkdef (tblobjname "BLOCK" blockname))
     (setq ent (entnext blkdef))
@@ -24859,7 +25162,7 @@
           (setq hatches_ (cons ent hatches_))
           ;main idea of code keep or delete don't affect with core code
             (setq hatches_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
-            (vla-put-color hatches_obj_  0)
+            (vla-put-color hatches_obj_  hatch_color)
             (vla-put-EntityTransparency hatches_obj_ 80 )
           ;
         )
@@ -24869,7 +25172,7 @@
           ; (setq hatches_ (cons ent hatches_))
           ;main idea of code keep or delete don't affect with core code
             (setq hatches_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
-            (vla-put-color hatches_obj_  0)
+            (vla-put-color hatches_obj_  line_color)
             
           ;
         )
@@ -24879,7 +25182,27 @@
           ; (setq hatches_ (cons ent hatches_))
           ;main idea of code keep or delete don't affect with core code
             (setq hatches_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
-            (vla-put-color hatches_obj_  0)
+            (vla-put-color hatches_obj_  line_color)
+            
+          ;
+        )
+      )
+      (if (= (cdr (assoc 0 ed)) "LWPOLYLINE")
+        (progn
+          ; (setq hatches_ (cons ent hatches_))
+          ;main idea of code keep or delete don't affect with core code
+            (setq hatches_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+            (vla-put-color hatches_obj_  line_color)
+            
+          ;
+        )
+      )
+      (if (= (cdr (assoc 0 ed)) "SPLINE")
+        (progn
+          ; (setq hatches_ (cons ent hatches_))
+          ;main idea of code keep or delete don't affect with core code
+            (setq hatches_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+            (vla-put-color hatches_obj_  line_color)
             
           ;
         )
@@ -24889,7 +25212,7 @@
           ; (setq hatches_ (cons ent hatches_))
           ;main idea of code keep or delete don't affect with core code
             (setq hatches_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
-            (vla-put-color hatches_obj_  0)
+            (vla-put-color hatches_obj_  line_color)
             
           ;
         )
@@ -24951,12 +25274,16 @@
     (command "-layer" "filter" "n" "G" "" "*CSD*" "CSD" ""  )
   )
 
-(if (= 1 2)
-  (progn
-    (command "-layer" "filter" "n" "G" "" "*CSD*" "CSD" ""  )
+(defun c:csdflayer_ ()
+  (if (= 1 1)
+    (progn
+      
+      (command "-layer" "filter" "n" "G" "" "*CSD*" "CSD" ""  )
+      (command "-layer" "filter" "s" "All" "")
+      
+    )
   )
 )
-
 
 
 
@@ -24986,10 +25313,6 @@
     )
   ;
 )
-
-
-
-
 
 
 
