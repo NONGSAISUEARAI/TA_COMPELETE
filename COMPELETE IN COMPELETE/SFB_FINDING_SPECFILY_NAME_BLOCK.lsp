@@ -2408,3 +2408,63 @@
 
 
 
+
+
+(defun c:SFB_FINDING_STRING_NAME_BLOCK_SFBSTR_ ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  (setq wildcard_string_ ;Get-string by keep previous value
+      (if
+        (or
+          (/= (setq wildcard_string_val (getstring (strcat "\nSpecify Pattern name <" (if wildcard_string_ wildcard_string_ "") ">: ") ) ) "" )
+        )
+          (progn
+            (setq wildcard_string_ wildcard_string_val)
+            (setq wildcard_string_keep_val_ wildcard_string_val)
+          )
+        (setq wildcard_string_val wildcard_string_keep_val_)
+      )
+  )
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (setq new_pre_filter_set_xx_ (ssadd))
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+
+      (if (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_)) wildcard_string_)
+        (progn
+          (setq new_pre_filter_set_xx_  (ssadd ss_pre_filter_set_xx_ename_ new_pre_filter_set_xx_))
+        )
+      )
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+  (command "pselect"  new_pre_filter_set_xx_ "" )
+)
