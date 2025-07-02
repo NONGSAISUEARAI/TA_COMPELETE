@@ -9350,6 +9350,182 @@
       (setq layer_obj_ (vlax-ename->vla-object layer_ename_))
       (TA:copytext->clipboard (vla-get-layer layer_obj_))
     )
+    (defun c:Xmove ()
+      (if 
+        (= 
+          (vl-catch-all-error-p 
+            (vl-catch-all-apply 
+              (function 
+                (lambda () 
+                  (setvar "osmode" 13)
+                  (setq PT_ref_ (getpoint "specify reference point"))
+                )
+              )
+            )
+          )
+          nil
+        )
+        (progn 
+          (setq target_move_ename_ (car (entsel "specify Object")))
+          (setq target_move_obj_ (vlax-ename->vla-object target_move_ename_))
+          (setvar "osmode" 13)
+          (setq target_move_ref (getpoint "specify target_move_ref point"))
+          (setvar "osmode" 0)
+          (vla-move target_move_obj_ (vlax-3d-point target_move_ref) (vlax-3d-point (list (car PT_ref_) (cadr target_move_ref) 0 ) ) )
+          (setvar "osmode" 1215)
+          
+          ;add on command 
+            (command "line" PT_ref_ (list (car PT_ref_) (cadr target_move_ref) 0 ) "")
+            (command "pselect"  (entlast) "" )
+            (if (or 
+                  (= (rad-to-deg (vla-get-angle (vlax-ename->vla-object (entlast)))) 0)
+                  (= (rad-to-deg (vla-get-angle (vlax-ename->vla-object (entlast)))) 90)
+                  (= (rad-to-deg (vla-get-angle (vlax-ename->vla-object (entlast)))) 180)
+                  (= (rad-to-deg (vla-get-angle (vlax-ename->vla-object (entlast)))) 270)
+                )
+              (progn
+                (alert "line is straight")
+                (vla-delete (vlax-ename->vla-object (entlast)))
+              )
+            )
+          ;
+        )
+      )
+    )
+    (defun c:Ymove ()
+      (if 
+        (= 
+          (vl-catch-all-error-p 
+            (vl-catch-all-apply 
+              (function 
+                (lambda () 
+                  (setvar "osmode" 13)
+                  (setq PT_ref_ (getpoint "specify reference point"))
+                )
+              )
+            )
+          )
+          nil
+        )
+        (progn 
+          (setq target_move_ename_ (car (entsel "specify Object")))
+          (setq target_move_obj_ (vlax-ename->vla-object target_move_ename_))
+          (setq target_move_ref (getpoint "specify target_move_ref point"))
+          (setvar "osmode" 0)
+          (vla-move target_move_obj_ (vlax-3d-point target_move_ref) (vlax-3d-point (list (car target_move_ref) (cadr PT_ref_) 0 ) ) )
+          (setvar "osmode" 1215)
+          
+          ;add on command 
+            (command "line" PT_ref_ (list (car target_move_ref) (cadr PT_ref_) 0 ) "")
+            (command "pselect"  (entlast) "" )
+            (if (or 
+                  (= (rad-to-deg (vla-get-angle (vlax-ename->vla-object (entlast)))) 0)
+                  (= (rad-to-deg (vla-get-angle (vlax-ename->vla-object (entlast)))) 90)
+                  (= (rad-to-deg (vla-get-angle (vlax-ename->vla-object (entlast)))) 180)
+                  (= (rad-to-deg (vla-get-angle (vlax-ename->vla-object (entlast)))) 270)
+                )
+              (progn
+                (alert "line is straight")
+                (vla-delete (vlax-ename->vla-object (entlast)))
+              )
+            )
+          ;
+        )
+      )
+    )
+    (defun c:ssXmove ()
+      (setq PT_ref_ (getpoint "specify reference point"))
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq target_move_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq target_move_ (ssget
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength target_move_)
+        )
+      ;
+      ;get_data_process_for_fillter_blk_name
+      ;preloop_and_while
+        (setq target_move_i 0)
+        (while (< target_move_i (sslength target_move_))
+          (setq target_move_ename_ (ssname target_move_ target_move_i))
+          (setq target_move_obj_ (vlax-ename->vla-object  target_move_ename_))
+          (command "pselect"  target_move_ename_ "" )
+          (setq target_move_ref (getpoint "specify target_move_ref point"))
+          (setvar "osmode" 0)
+          (vla-move target_move_obj_ (vlax-3d-point target_move_ref) (vlax-3d-point (list (car PT_ref_) (cadr target_move_ref) 0 ) ) )
+          (setvar "osmode" 1215)
+          (setq target_move_i (+ target_move_i 1))
+        )
+      ;
+      (command "pselect"  target_move_ "" )
+    )
+    (defun c:ssYmove ()
+      (setq PT_ref_ (getpoint "specify reference point"))
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (= 
+            (setq target_move_ (ssget "i" 
+                                      (list 
+                                        (cons 0 "INSERT") ;type of object
+                                        ; (cons 8 "000 - GRID")   ;kind of layer
+                                        ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                        ; (cons 62 1)           ;kind of color call sign with color code index
+                                      )
+                               )
+            )
+            nil
+          )
+          (progn 
+            (setq target_move_ (ssget 
+                                 (list 
+                                   (cons 0 "INSERT") ;type of object
+                                   ; (cons 8 "000 - GRID")   ;kind of layer
+                                   ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                   ; (cons 62 1)           ;kind of color call sign with color code index
+                                 )
+                               )
+            )
+          )
+          (sslength target_move_)
+        )
+      ;
+      ;preloop_and_while
+        (setq  target_move_i 0)
+        (while (<  target_move_i (sslength  target_move_))
+          (setq  target_move_ename_ (ssname  target_move_  target_move_i))
+          (setq target_move_obj_ (vlax-ename->vla-object target_move_ename_))
+          (command "pselect"  target_move_ename_ "" )
+          (setq target_move_ref (getpoint "specify target_move_ref point"))
+          (setvar "osmode" 0)
+          (vla-move target_move_obj_ (vlax-3d-point target_move_ref) (vlax-3d-point (list (car target_move_ref) (cadr PT_ref_) 0 ) ) )
+          (setvar "osmode" 1215)
+      
+          (setq  target_move_i (+  target_move_i 1))
+        )
+      ;
+      (command "pselect"  target_move_ "" )
+
+    )
   ;
 
 
@@ -15903,7 +16079,7 @@
   (defun c:y+ ()
     ;for moving support frame Fameline celing SK300 (0.025 / 1 enter)
     ;set paremeter for moving
-      (setq move_length_ 25)
+      (setq move_length_ 400)
     ;
     ;user_input_
       (initget "Yes No")
@@ -15994,7 +16170,7 @@
   (defun c:y- ()
     ;for moving support frame Fameline celing SK300 (0.025 / 1 enter)
     ;set paremeter for moving
-      (setq move_length_ 25)
+      (setq move_length_ 400)
     ;
     ;user_input_
       (initget "Yes No")
@@ -16081,6 +16257,186 @@
       )
     ;
 
+  )
+  (defun c:x+ ()
+    ;for moving support frame Fameline celing SK300 (0.025 / 1 enter)
+    ;set paremeter for moving
+      (setq move_length_ 400)
+    ;
+    ;user_input_
+      (initget "Yes No")
+      (setq ss_ ;Detect the variable's result in case of a function error
+        (vl-catch-all-apply 
+          (function 
+            (lambda () 
+              (setq DELETE_OBJ_ (not (eq "No" (getkword "\nKeep Existing point with object? [Yes/No] <Y>: "))))
+            )
+          )
+        )
+      )
+      (if (or (= ss_ nil) (= (vl-prin1-to-string ss_) "#<%catch-all-apply-error%>")  )
+        (progn
+          ;selection_set_for_fillter_blk_name
+            (if  ;pre_select_ssget_or_post_select_ssget
+              (=
+                (setq ss_pre_filter_set_xx_ (ssget "i"
+                                                  (list
+                                                    (cons 0 "INSERT") ;type of object
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+                nil
+              )
+              (progn
+                (setq ss_pre_filter_set_xx_ (ssget 
+                                                  (list
+                                                    (cons 0 "INSERT") ;type of object
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+              )
+              (sslength ss_pre_filter_set_xx_)
+            )
+          ;
+          ;
+            ; (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000TYP-LINE_AND_ARRAY_@400mm._TYPE2_"))
+          ;
+          ;preloop_and_while
+            (setq ss_pre_filter_set_xx_i 0)
+            (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+              (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+                  (setq sss_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+                  (setq sss_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint sss_obj_))))
+                  (setq sss_obj_putins_ (list
+                                          (+ (car sss_obj_ins_) move_length_) 
+                                          (cadr sss_obj_ins_) 
+                                          (caddr sss_obj_ins_)
+                                        ) 
+                  )
+                  (vla-put-insertionpoint sss_obj_ (vlax-3d-point sss_obj_putins_))
+              
+              (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+            )
+          ;
+        
+        )
+      )
+      (if (and (/= ss_ nil) (/= (vl-prin1-to-string ss_) "#<%catch-all-apply-error%>")  )
+        (progn
+          (setq ss_pre_filter_set_xx_i 0)
+          (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+              (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+                  (setq sss_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+                  (setq sss_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint sss_obj_))))
+                  (setq sss_obj_putins_ (list
+                                          (+ (car sss_obj_ins_) move_length_) 
+                                          (cadr sss_obj_ins_) 
+                                          (caddr sss_obj_ins_)
+                                        ) 
+                  )
+                  (vla-put-insertionpoint sss_obj_ (vlax-3d-point sss_obj_putins_))
+              (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+            )
+        )
+        
+      )
+    ;
+  )
+  (defun c:x- ()
+    ;for moving support frame Fameline celing SK300 (0.025 / 1 enter)
+    ;set paremeter for moving
+      (setq move_length_ 400)
+    ;
+    ;user_input_
+      (initget "Yes No")
+      (setq ss_ ;Detect the variable's result in case of a function error
+        (vl-catch-all-apply 
+          (function 
+            (lambda () 
+              (setq DELETE_OBJ_ (not (eq "No" (getkword "\nKeep Existing point with object? [Yes/No] <Y>: "))))
+            )
+          )
+        )
+      )
+      (if (or (= ss_ nil) (= (vl-prin1-to-string ss_) "#<%catch-all-apply-error%>")  )
+        (progn
+          ;selection_set_for_fillter_blk_name
+            (if  ;pre_select_ssget_or_post_select_ssget
+              (=
+                (setq ss_pre_filter_set_xx_ (ssget "i"
+                                                  (list
+                                                    (cons 0 "INSERT") ;type of object
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+                nil
+              )
+              (progn
+                (setq ss_pre_filter_set_xx_ (ssget 
+                                                  (list
+                                                    (cons 0 "INSERT") ;type of object
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+              )
+              (sslength ss_pre_filter_set_xx_)
+            )
+          ;
+          ;
+            ; (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000TYP-LINE_AND_ARRAY_@400mm._TYPE2_"))
+          ;
+          ;preloop_and_while
+            (setq ss_pre_filter_set_xx_i 0)
+            (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+              (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+                  (setq sss_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+                  (setq sss_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint sss_obj_))))
+                  (setq sss_obj_putins_ (list
+                                          (- (car sss_obj_ins_) move_length_) 
+                                          (cadr sss_obj_ins_) 
+                                          (caddr sss_obj_ins_)
+                                        ) 
+                  )
+                  (vla-put-insertionpoint sss_obj_ (vlax-3d-point sss_obj_putins_))
+              
+              (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+            )
+          ;
+        
+        )
+      )
+      (if (and (/= ss_ nil) (/= (vl-prin1-to-string ss_) "#<%catch-all-apply-error%>")  )
+        (progn
+          (setq ss_pre_filter_set_xx_i 0)
+          (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+              (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+                  (setq sss_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+                  (setq sss_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint sss_obj_))))
+                  (setq sss_obj_putins_ (list
+                                          (- (car sss_obj_ins_) move_length_) 
+                                          (cadr sss_obj_ins_) 
+                                          (caddr sss_obj_ins_)
+                                        ) 
+                  )
+                  (vla-put-insertionpoint sss_obj_ (vlax-3d-point sss_obj_putins_))
+              (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+            )
+        )
+        
+      )
+    ;
   )
   (defun c:TEMP:copy_from_basepoint_cfb_ () 
     ;selection_set
@@ -16425,7 +16781,7 @@
       )
     ;
     ; (setq panel_width_ (cond ( (getreal (strcat "\nspecify distance_measure_ <" (rtos (setq panel_width_ (cond (panel_width_) (10) ) ) ) "> : " ) ) ) (panel_width_) ) )
-    (setq new_line_obj_angle (cond ( (getreal (strcat "\nspecify distance_measure_ <" (rtos (setq new_line_obj_angle (cond (new_line_obj_angle) (10) ) ) ) "> : " ) ) ) (new_line_obj_angle) ) )
+    (setq new_line_Extrud_obj_angle (cond ( (getreal (strcat "\nspecify new_line_Extrud_obj_angle <" (rtos (setq new_line_Extrud_obj_angle (cond (new_line_Extrud_obj_angle) (10) ) ) ) "> : " ) ) ) (new_line_Extrud_obj_angle) ) )
     ;preloop_and_while
       (setq line_i 0)
       (setq line_ ss_pre_filter_set_xx_)
@@ -16446,7 +16802,7 @@
                 (vla-delete (vlax-ename->vla-object (entlast)))
                 (setq line_obj_midpt_ (list (car line_obj_midpt_ ) (cadr line_obj_midpt_ ) 0))
                 ; (setq line_obj_angle (rad-to-deg (vla-get-angle line_obj_ )))
-                (setq new_line_obj_angle new_line_obj_angle)
+                (setq new_line_obj_angle new_line_Extrud_obj_angle)
                 (setq REC-length_ (list line_obj_min_ line_obj_max_))
                 (setq line_obj_length (distance (car REC-length_) (list (car (cadr REC-length_)) (cadr (car REC-length_)))   ))
                 (setq panel_width_ (distance (car REC-length_) (list (car (car REC-length_)) (cadr (cadr REC-length_)))   ))
@@ -16627,7 +16983,7 @@
       )
     ;
     ; (setq panel_width_ (cond ( (getreal (strcat "\nspecify distance_measure_ <" (rtos (setq panel_width_ (cond (panel_width_) (10) ) ) ) "> : " ) ) ) (panel_width_) ) )
-    (setq new_line_obj_angle (cond ( (getreal (strcat "\nspecify distance_measure_ <" (rtos (setq new_line_obj_angle (cond (new_line_obj_angle) (10) ) ) ) "> : " ) ) ) (new_line_obj_angle) ) )
+    (setq new_line_panel_obj_angle (cond ( (getreal (strcat "\nspecify distance_measure_ <" (rtos (setq new_line_panel_obj_angle (cond (new_line_panel_obj_angle) (10) ) ) ) "> : " ) ) ) (new_line_panel_obj_angle) ) )
     ;preloop_and_while
       (setq line_i 0)
       (setq line_ ss_pre_filter_set_xx_)
@@ -16645,7 +17001,7 @@
                 (setq line_obj_midpt_ (LM:PolyCentroid line_ename_))
                 (setq line_obj_midpt_ (list (car line_obj_midpt_ ) (cadr line_obj_midpt_ ) 0))
                 ; (setq line_obj_angle (rad-to-deg (vla-get-angle line_obj_ )))
-                (setq new_line_obj_angle new_line_obj_angle)
+                (setq new_line_obj_angle new_line_panel_obj_angle)
                 (setq REC-length_ (list line_obj_min_ line_obj_max_))
                 (setq line_obj_length (distance (car REC-length_) (list (car (cadr REC-length_)) (cadr (car REC-length_)))   ))
                 (setq panel_width_ (distance (car REC-length_) (list (car (car REC-length_)) (cadr (cadr REC-length_)))   ))
@@ -16845,6 +17201,7 @@
             (TA:vla-insertblock "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_COMBINE_VIEW" HR-02A_top_point_preins_ 1 (deg-to-rad 90)) 
             (setq new_ename_ (entlast))
             (setq new_obj_ (vlax-ename->vla-object new_ename_)) 
+            (setvar "osmode" 0)
             (command "rotate" new_ename_ "" 300hk_obj_ins_ (rad-to-deg (vla-get-rotation 300hk_obj_ ) ))         
             (LM:setdynpropvalue new_obj_ "view" "2_top_view")
             (setq array_length (LM:setdynpropvalue new_obj_ "array_length" (* (fix (/ array_panel_length 2400)) 2400 ) ))
@@ -16914,7 +17271,7 @@
             (cond ;visibility&length condition
               ( ;visibility condition
                 (or 
-                  (> array_panel_length 2400)
+                  (> array_panel_length 2401)
                 )
                 (progn
                   (LM:setdynpropvalue new_obj_ "view" "2_top_view")
@@ -16947,7 +17304,7 @@
               )
               ( ;visibility condition
                 (and 
-                  (< array_panel_length 2400)
+                  (< array_panel_length 2401)
                   
                 )
                 (progn
@@ -16960,7 +17317,7 @@
                   (LM:setdynpropvalue 
                     new_obj_ 
                     "fragment_array_length"   
-                    array_panel_length
+                    (* (fix (/ (- array_panel_length 100)  400)) 400)
                   )
                 )
               )
@@ -16968,6 +17325,9 @@
             
         )
       )
+    ;
+    ;return osmode
+      (setvar "osmode" 1215)
     ;
   )
   ;
@@ -25319,3 +25679,44 @@
 
 
 
+(defun c:REC75 ()
+  (setq pt1 (getpoint "specify point 1 "))
+  (setq pt2 (getpoint "specify point 2 "))
+  
+  (setq pt11 (list 
+               (+ (car pt1) 0)
+               (+ (cadr pt1) (setq val_1 (cond ( (getreal (strcat "\nspecify point 1 \n<" (rtos (setq val_1 (cond (val_1) (1.2) ) ) ) "> : " ) ) ) (val_1) ) ))
+               0
+             )
+  )
+  (setq pt22 (list 
+               (- (car pt2) 0)
+               (- (cadr pt2) (setq val_2 (cond ( (getreal (strcat "\nspecify point 1 \n<" (rtos (setq val_2 (cond (val_2) (1.2) ) ) ) "> : " ) ) ) (val_2) ) ))
+               0
+             )
+  )
+  (setvar "osmode" 0)
+  (command "rectangle" pt11 pt22)
+  (setvar "osmode" 1215)
+)
+
+
+
+
+                      (if 
+                        (=
+                          (vl-catch-all-error-p 
+                            (vl-catch-all-apply 
+                              (function 
+                                (lambda () 
+                                  (vla-put-color Handent_obj_ Overall_rangecell_data_list_content_ )
+                                )
+                              )
+                            )
+                          )
+                          nil
+                        )
+                        (progn
+                          (setq error_sub_list_ (cons Overall_rangecell_data_list_content_ error_sub_list_ ) )
+                        )
+                      )
