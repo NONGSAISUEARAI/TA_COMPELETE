@@ -4920,6 +4920,68 @@
       
       
     )
+    (defun c:hatch_obj_SUBFAME_HHSF_ ()
+      ;user_input_
+      (setq obj_name_ (vla-get-objectname (vlax-ename->vla-object (setq hatch_ename_ (car (entsel "specify Object"))))))
+      
+      (cond
+        ( ;first process
+          (or
+            
+            (= obj_name_ "AcDbPolyline")
+          )
+          (progn
+            (= (vla-get-closed (setq hatch_ename_obj_ (vlax-ename->vla-object hatch_ename_))) :vlax-true)
+            (setq 1st_process "AcDbPolyline")
+          )
+        )
+        (;first process
+          (or
+            (= obj_name_ "AcDbBlockReference")
+          )
+          (progn
+            (setq 1st_process "AcDbBlockReference")
+            
+          )
+        )
+      )
+      
+      
+      (if 
+        (and 
+          (= hatch_ename_getang_ nil)
+          (= hatch_ename_getsc_ nil)
+        )
+        (progn
+          (setq  hatch_ename_getang_ 0)
+          (setq  hatch_ename_getsc_ 1)
+          
+        )
+      )
+      ;preseting_data_
+        (setq hatch_Layer_ "000 - H A T C H")
+        (setq hatch_patt_ "000_GL1000")
+        (setq hatch_color_ 8)
+        (setq hatch_background_ 250)
+        
+      ;
+      (setq hatch_ename_getang_ (cond ( (getreal (strcat "\nspecify angle<" (rtos (setq hatch_ename_getang_ (cond (hatch_ename_getang_) (hatch_ename_getsc_) ) ) ) "> : " ) ) ) (hatch_ename_getang_) ) )
+      (setq hatch_ename_getsc_ (cond ( (getreal (strcat "\nspecify scale<" (rtos (setq hatch_ename_getsc_ (cond (hatch_ename_getsc_) (hatch_ename_getsc_) ) ) ) "> : " ) ) ) (hatch_ename_getsc_) ) )
+      (setq hatch_obj_ (vlax-ename->vla-object hatch_ename_))
+
+      
+      (command ".-hatch" "s"  hatch_ename_  
+                "" 
+                "c" hatch_color_ hatch_background_
+                "p" hatch_patt_ hatch_ename_getsc_ hatch_ename_getang_ 
+                "L" hatch_Layer_ 
+                ""  
+               
+      )
+      
+      
+      
+    )
     (defun c:hatch_obj_Solid_HHSolid_ ()
       ;user_input_
       (setq obj_name_ (vla-get-objectname (vlax-ename->vla-object (setq hatch_ename_ (car (entsel "specify Object"))))))
@@ -9308,7 +9370,7 @@
     )
   ;
 ;
-
+;core
   ;Change_color
     (defun c:RED ()
       ;selection_set_for_fillter_blk_name
@@ -9693,7 +9755,9 @@
           )
         )
       ;
+      
     )
+    
   ;
   ;Rotation Insert Function
     (defun c:R0 ()
@@ -10233,7 +10297,7 @@
       (command "_SelectSimilar" ss_pre_filter_set_xx_ "")
     )
   ;
-
+;
 
   
 

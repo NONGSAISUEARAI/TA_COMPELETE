@@ -4959,6 +4959,65 @@
       
       
     )
+    (defun c:hatch_obj_Subfame_HHSF_ ()
+      ;user_input_
+      (setq obj_name_ (vla-get-objectname (vlax-ename->vla-object (setq hatch_ename_ (car (entsel "specify Object"))))))
+      
+      (cond
+        ( ;first process
+          (or
+            
+            (= obj_name_ "AcDbPolyline")
+          )
+          (progn
+            (= (vla-get-closed (setq hatch_ename_obj_ (vlax-ename->vla-object hatch_ename_))) :vlax-true)
+            (setq 1st_process "AcDbPolyline")
+          )
+        )
+        (;first process
+          (or
+            (= obj_name_ "AcDbBlockReference")
+          )
+          (progn
+            (setq 1st_process "AcDbBlockReference")
+            
+          )
+        )
+      )
+      
+      
+      (if 
+        (and 
+          (= hatch_ename_getang_ nil)
+          (= hatch_ename_getsc_ nil)
+        )
+        (progn
+          (setq  hatch_ename_getang_ 0)
+          (setq  hatch_ename_getsc_ 1)
+          
+        )
+      )
+      ;preseting_data_
+        (setq hatch_Layer_ "000 - H A T C H")
+        (setq hatch_patt_ "000_GL1500")
+        (setq hatch_color_ 8)
+        (setq hatch_background_ 250)
+        
+      ;
+      (setq hatch_ename_getang_ (cond ( (getreal (strcat "\nspecify angle<" (rtos (setq hatch_ename_getang_ (cond (hatch_ename_getang_) (hatch_ename_getsc_) ) ) ) "> : " ) ) ) (hatch_ename_getang_) ) )
+      (setq hatch_ename_getsc_ (cond ( (getreal (strcat "\nspecify scale<" (rtos (setq hatch_ename_getsc_ (cond (hatch_ename_getsc_) (hatch_ename_getsc_) ) ) ) "> : " ) ) ) (hatch_ename_getsc_) ) )
+      (setq hatch_obj_ (vlax-ename->vla-object hatch_ename_))
+
+      
+      (command ".-hatch" "s"  hatch_ename_  
+                "" 
+                "c" hatch_color_ hatch_background_
+                "p" hatch_patt_ hatch_ename_getsc_ hatch_ename_getang_ 
+                "L" hatch_Layer_ 
+                ""  
+      )
+      ; (vla-setpattern (setq s_obj_ (vlax-ename->vla-object (entlast))) acHatchPatternTypePreDefined "solid") 
+    )
     (defun c:hatch_obj_Solid_HHSolid_ ()
       ;user_input_
       (setq obj_name_ (vla-get-objectname (vlax-ename->vla-object (setq hatch_ename_ (car (entsel "specify Object"))))))
@@ -6949,6 +7008,11 @@
       (setq sss_ (ssget ))
       (setvar "osmode" 0)
       (setq ssssasas (TA:ss_vla-getboundingbox sss_))
+      (if (= (getvar "worlducs") 1) ;รอแก้
+        (progn
+          (setq ssssasas (list (trans (car ssssasas) 1 0) (trans (cadr ssssasas) 1 0) ) )
+        )
+      )
       (command "rectangle" (car ssssasas) (cadr ssssasas) )
       (setvar "osmode" 1215)
       ;new_blk_entlast object
@@ -9345,6 +9409,27 @@
       ;)
       
     )
+    (defun c:rotate_by_2_point_ro2point ()
+      
+      (setq pt1 (getpoint "specify point 1 "))
+      (setq pt2 (getpoint "specify point 2 "))
+      (setq blk_ename_ (car (entsel "specify Object")))
+      (setq blk_obj_ (vlax-ename->vla-object blk_ename_))
+      (if (= (getvar "worlducs") 1)
+        (progn
+          (setq angles (angle (trans pt1 1 0) (trans pt2 1 0) ) )
+        )
+        (setq angles (angle pt1 pt2 ) )
+      )
+
+      
+      (vla-put-rotation blk_obj_ 
+                        (angle 
+                          (trans pt1 1 0)
+                          (trans pt2 1 0)
+                        )
+      )
+    )
     (defun c:copy_layer_text_CPLTEXT_ ()
       (setq layer_ename_ (car (entsel "specify Object")))
       (setq layer_obj_ (vlax-ename->vla-object layer_ename_))
@@ -9368,14 +9453,24 @@
         (progn 
           (setq target_move_ename_ (car (entsel "specify Object")))
           (setq target_move_obj_ (vlax-ename->vla-object target_move_ename_))
-          (setvar "osmode" 13)
-          (setq target_move_ref (getpoint "specify target_move_ref point"))
-          (setvar "osmode" 0)
-          (vla-move target_move_obj_ (vlax-3d-point target_move_ref) (vlax-3d-point (list (car PT_ref_) (cadr target_move_ref) 0 ) ) )
+          (if (= (getvar "worlducs") 1)
+            (progn
+              (setq target_move_ref (trans (getpoint "specify target_move_ref point") 1 1))
+              (setvar "osmode" 0)
+              (vla-move target_move_obj_ (vlax-3d-point (trans target_move_ref 1 0)) (vlax-3d-point (trans (list (car PT_ref_) (cadr target_move_ref) 0 ) 1 0) ) )
+            )
+          )
+          (if (= (getvar "worlducs") 0)
+            (progn
+              (setq target_move_ref (getpoint "specify target_move_ref point"))
+              (setvar "osmode" 0)
+              (vla-move target_move_obj_ (vlax-3d-point target_move_ref) (vlax-3d-point (list (car PT_ref_) (cadr target_move_ref) 0 ) ) )
+            )
+            
+          )
           (setvar "osmode" 1215)
-          
           ;add on command 
-            (command "line" PT_ref_ (list (car PT_ref_) (cadr target_move_ref) 0 ) "")
+            (command "line" PT_ref_ (list (car target_move_ref) (cadr PT_ref_) 0 ) "")
             (command "pselect"  (entlast) "" )
             (if (or 
                   (= (rad-to-deg (vla-get-angle (vlax-ename->vla-object (entlast)))) 0)
@@ -9410,11 +9505,22 @@
         (progn 
           (setq target_move_ename_ (car (entsel "specify Object")))
           (setq target_move_obj_ (vlax-ename->vla-object target_move_ename_))
-          (setq target_move_ref (getpoint "specify target_move_ref point"))
-          (setvar "osmode" 0)
-          (vla-move target_move_obj_ (vlax-3d-point target_move_ref) (vlax-3d-point (list (car target_move_ref) (cadr PT_ref_) 0 ) ) )
+          (if (= (getvar "worlducs") 1)
+            (progn
+              (setq target_move_ref (trans (getpoint "specify target_move_ref point") 1 1))
+              (setvar "osmode" 0)
+              (vla-move target_move_obj_ (vlax-3d-point (trans target_move_ref 1 0)) (vlax-3d-point (trans (list (car target_move_ref) (cadr PT_ref_) 0 ) 1 0) ) )
+            )
+          )
+          (if (= (getvar "worlducs") 0)
+            (progn
+              (setq target_move_ref (getpoint "specify target_move_ref point"))
+              (setvar "osmode" 0)
+              (vla-move target_move_obj_ (vlax-3d-point target_move_ref) (vlax-3d-point (list (car target_move_ref) (cadr PT_ref_) 0 ) ) )
+            )
+            
+          )
           (setvar "osmode" 1215)
-          
           ;add on command 
             (command "line" PT_ref_ (list (car target_move_ref) (cadr PT_ref_) 0 ) "")
             (command "pselect"  (entlast) "" )
@@ -16079,7 +16185,7 @@
   (defun c:y+ ()
     ;for moving support frame Fameline celing SK300 (0.025 / 1 enter)
     ;set paremeter for moving
-      (setq move_length_ 400)
+      (setq move_length_ 25)
     ;
     ;user_input_
       (initget "Yes No")
@@ -16170,7 +16276,7 @@
   (defun c:y- ()
     ;for moving support frame Fameline celing SK300 (0.025 / 1 enter)
     ;set paremeter for moving
-      (setq move_length_ 400)
+      (setq move_length_ 25)
     ;
     ;user_input_
       (initget "Yes No")
@@ -16261,7 +16367,7 @@
   (defun c:x+ ()
     ;for moving support frame Fameline celing SK300 (0.025 / 1 enter)
     ;set paremeter for moving
-      (setq move_length_ 400)
+      (setq move_length_ 25)
     ;
     ;user_input_
       (initget "Yes No")
@@ -16351,7 +16457,7 @@
   (defun c:x- ()
     ;for moving support frame Fameline celing SK300 (0.025 / 1 enter)
     ;set paremeter for moving
-      (setq move_length_ 400)
+      (setq move_length_ 25)
     ;
     ;user_input_
       (initget "Yes No")
@@ -16757,7 +16863,7 @@
         (=
           (setq ss_pre_filter_set_xx_ (ssget "i"
                                             (list
-                                              (cons 0 "insert") ;type of object
+                                              (cons 0 "insert,lwpolyline,line") ;type of object
                                               ; (cons 8 "000 - GRID")   ;kind of layer
                                               ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                               ; (cons 62 1)           ;kind of color call sign with color code index
@@ -16769,7 +16875,7 @@
         (progn
           (setq ss_pre_filter_set_xx_ (ssget
                                             (list
-                                              (cons 0 "insert") ;type of object
+                                              (cons 0 "insert,lwpolyline,line") ;type of object
                                               ; (cons 8 "000 - GRID")   ;kind of layer
                                               ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                               ; (cons 62 1)           ;kind of color call sign with color code index
@@ -16910,7 +17016,7 @@
                 (setq line_obj_length (vla-get-length line_obj_))
                 ;
                 ;insertion process
-                  (TA:vla-insertblock "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_COMBINE_SET" line_obj_midpt_ 1 (deg-to-rad new_line_obj_angle) )
+                  (TA:vla-insertblock "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@400mm_COMBINE_SET" line_obj_midpt_ 1 (deg-to-rad new_line_obj_angle) )
                   ;new_blk_entlast object
                     (setq new300HK_ename (entlast))
                     (setq new300HK_obj_ (vlax-ename->vla-object new300HK_ename))
@@ -16919,7 +17025,7 @@
                         (;total_length_process_case_1
                           (and
                               ; (> line_obj_length 3000)
-                              (= (LM:effectivename new300HK_obj_) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_COMBINE_SET" )
+                              (= (LM:effectivename new300HK_obj_) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@400mm_COMBINE_SET" )
                               (= "this dynamic block was create by me" "this dynamic block was create by me")
                           )
                           (progn
@@ -16934,7 +17040,7 @@
                         (;total_length_process_case_2
                           (and
                               (> line_obj_length 3000)
-                              (= (LM:effectivename new300HK_obj_) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_COMBINE_SET" )
+                              (= (LM:effectivename new300HK_obj_) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@400mm_COMBINE_SET" )
                               (/= "this dynamic block was create by me" "this dynamic block was create by me")
                           )
                           (progn
@@ -16983,7 +17089,7 @@
       )
     ;
     ; (setq panel_width_ (cond ( (getreal (strcat "\nspecify distance_measure_ <" (rtos (setq panel_width_ (cond (panel_width_) (10) ) ) ) "> : " ) ) ) (panel_width_) ) )
-    (setq new_line_panel_obj_angle (cond ( (getreal (strcat "\nspecify distance_measure_ <" (rtos (setq new_line_panel_obj_angle (cond (new_line_panel_obj_angle) (10) ) ) ) "> : " ) ) ) (new_line_panel_obj_angle) ) )
+    (setq new_line_panel_obj_angle (cond ( (getreal (strcat "\nspecify new_line_panel_obj_angle <" (rtos (setq new_line_panel_obj_angle (cond (new_line_panel_obj_angle) (10) ) ) ) "> : " ) ) ) (new_line_panel_obj_angle) ) )
     ;preloop_and_while
       (setq line_i 0)
       (setq line_ ss_pre_filter_set_xx_)
@@ -17007,7 +17113,7 @@
                 (setq panel_width_ (distance (car REC-length_) (list (car (car REC-length_)) (cadr (cadr REC-length_)))   ))
                 ;
                 ;insertion process
-                  (TA:vla-insertblock "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_COMBINE_SET" line_obj_midpt_ 1 (deg-to-rad new_line_obj_angle) )
+                  (TA:vla-insertblock "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@400mm_COMBINE_SET" line_obj_midpt_ 1 (deg-to-rad new_line_obj_angle) )
                   ;new_blk_entlast object
                     (setq new300HK_ename (entlast))
                     (setq new300HK_obj_ (vlax-ename->vla-object new300HK_ename))
@@ -17016,7 +17122,7 @@
                         (;total_length_process_case_1
                           (and
                               ; (> line_obj_length 3000)
-                              (= (LM:effectivename new300HK_obj_) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_COMBINE_SET" )
+                              (= (LM:effectivename new300HK_obj_) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@400mm_COMBINE_SET" )
                               (= "this dynamic block was create by me" "this dynamic block was create by me")
                           )
                           (progn
@@ -17031,7 +17137,7 @@
                         (;total_length_process_case_2
                           (and
                               (> line_obj_length 3000)
-                              (= (LM:effectivename new300HK_obj_) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_COMBINE_SET" )
+                              (= (LM:effectivename new300HK_obj_) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@400mm_COMBINE_SET" )
                               (/= "this dynamic block was create by me" "this dynamic block was create by me")
                           )
                           (progn
@@ -17135,7 +17241,7 @@
                         (;total_length_process_case_2
                           (and
                               (> line_obj_length 3000)
-                              (= (LM:effectivename new300HK_obj_) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_COMBINE_SET" )
+                              (= (LM:effectivename new300HK_obj_) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@400mm_COMBINE_SET" )
                               (/= "this dynamic block was create by me" "this dynamic block was create by me")
                           )
                           (progn
@@ -17161,6 +17267,8 @@
     ;main_idea_coding_code
       (if (or 
             (= (LM:Effectivename 300hk_obj_) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_COMBINE_SET")
+            (= (LM:Effectivename 300hk_obj_) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@400mm_COMBINE_SET")
+            (= (LM:Effectivename 300hk_obj_) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@372mm_COMBINE_SET")
             (= (LM:Effectivename 300hk_obj_) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_COMBINE_SET_startpoint_")
           )
         (progn
@@ -17325,6 +17433,41 @@
             
         )
       )
+      ;Re-location ins
+        (command "pselect"  (entlast) "" )
+        (if (or 
+              (= (rtos (rad-to-deg (vla-get-rotation (vlax-ename->vla-object (entlast)))) 2 0) "180")
+              (= (rtos (rad-to-deg (vla-get-rotation (vlax-ename->vla-object (entlast)))) 2 0) "0")
+            )
+          (progn
+            (setq _obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint (vlax-ename->vla-object (entlast))))))
+            (vla-put-insertionpoint (vlax-ename->vla-object (entlast)) 
+                                    (vlax-3d-point (list
+                                                     (+ (car _obj_ins_) 25)
+                                                     (+ (cadr _obj_ins_) 0)
+                                                     (caddr _obj_ins_)
+                                                   )
+                                    )
+            )
+          )
+        )
+        (if (or 
+              (= (rtos(rad-to-deg (vla-get-rotation (vlax-ename->vla-object (entlast)))) 2 0) "90")
+              (= (rtos (rad-to-deg (vla-get-rotation (vlax-ename->vla-object (entlast)))) 2 0) "270")
+            )
+          (progn
+            (setq _obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint (vlax-ename->vla-object (entlast))))))
+            (vla-put-insertionpoint (vlax-ename->vla-object (entlast)) 
+                                    (vlax-3d-point (list
+                                                     (+ (car _obj_ins_) 0)
+                                                     (+ (cadr _obj_ins_) 25)
+                                                     (caddr _obj_ins_)
+                                                   )
+                                    )
+            )
+          )
+        )
+      ;
     ;
     ;return osmode
       (setvar "osmode" 1215)
@@ -17570,6 +17713,9 @@
     
   ;   ;
   ; )
+      
+      
+  
   (defun c:PPLINE_300HK_inscc01_ ()
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget
@@ -25679,6 +25825,28 @@
 
 
 
+(defun c:REC100+ ()
+  (setq pt1 (getpoint "specify point 1 "))
+  (setq pt2 (getpoint "specify point 2 "))
+  (setq pt11 (list 
+               (- (car pt1) 0)
+               (- (cadr pt1) (setq val_1 (cond ( (getreal (strcat "\nspecify point 1 \n<" (rtos (setq val_1 (cond (val_1) (1.2) ) ) ) "> : " ) ) ) (val_1) ) ))
+               0
+             )
+  )
+  (setq pt11 (trans pt11 1 1))
+  (setq pt22 (list 
+               (+ (car pt2) 0)
+               (+ (cadr pt2) (setq val_2 (cond ( (getreal (strcat "\nspecify point 2 \n<" (rtos (setq val_2 (cond (val_2) (1.2) ) ) ) "> : " ) ) ) (val_2) ) ))
+               0
+             )
+  )
+  (setq pt22 (trans pt22 1 1))
+  
+  (setvar "osmode" 0)
+  (command "rectangle" pt11 pt22)
+  (setvar "osmode" 1215)
+)
 (defun c:REC75 ()
   (setq pt1 (getpoint "specify point 1 "))
   (setq pt2 (getpoint "specify point 2 "))
@@ -25689,34 +25857,17 @@
                0
              )
   )
+  (setq pt11 (trans pt11 1 1))
   (setq pt22 (list 
                (- (car pt2) 0)
                (- (cadr pt2) (setq val_2 (cond ( (getreal (strcat "\nspecify point 1 \n<" (rtos (setq val_2 (cond (val_2) (1.2) ) ) ) "> : " ) ) ) (val_2) ) ))
                0
              )
   )
+  (setq pt22 (trans pt22 1 1))
   (setvar "osmode" 0)
   (command "rectangle" pt11 pt22)
   (setvar "osmode" 1215)
 )
 
 
-
-
-                      (if 
-                        (=
-                          (vl-catch-all-error-p 
-                            (vl-catch-all-apply 
-                              (function 
-                                (lambda () 
-                                  (vla-put-color Handent_obj_ Overall_rangecell_data_list_content_ )
-                                )
-                              )
-                            )
-                          )
-                          nil
-                        )
-                        (progn
-                          (setq error_sub_list_ (cons Overall_rangecell_data_list_content_ error_sub_list_ ) )
-                        )
-                      )
