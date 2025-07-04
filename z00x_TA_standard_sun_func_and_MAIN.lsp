@@ -1,4 +1,4 @@
-;update 20250630 1245
+;update 20250704 2017
   ;Effective Block Name Funcition Lee Mac
     ;; Effective Block Name  -  Lee Mac
       ;; obj - [vla] VLA Block Reference object
@@ -4999,7 +4999,7 @@
       )
       ;preseting_data_
         (setq hatch_Layer_ "000 - H A T C H")
-        (setq hatch_patt_ "000_GL1500")
+        (setq hatch_patt_ "000_GL1600")
         (setq hatch_color_ 8)
         (setq hatch_background_ 250)
         
@@ -17800,6 +17800,107 @@
                 (LM:setdynpropvalue newinsert_obj_ "array_length" (* 3000 (fix (/ ss_pre_filter_set_xx_obj_length_ 3000))) )
                 (LM:setdynpropvalue newinsert_obj_ "fragment_left" (/ (- ss_pre_filter_set_xx_obj_length_ (* 3000 (fix (/ ss_pre_filter_set_xx_obj_length_ 3000))) ) 2 ) )
                 (LM:setdynpropvalue newinsert_obj_ "fragment_right" (/ (- ss_pre_filter_set_xx_obj_length_ (* 3000 (fix (/ ss_pre_filter_set_xx_obj_length_ 3000))) ) 2 ) )
+              )
+            )
+            ( (<= ss_pre_filter_set_xx_obj_length_ 3000 ) ;visibility&length condition
+              (progn
+                (LM:setdynpropvalue newinsert_obj_ (LM:getvisibilityparametername newinsert_obj_) "7_dynamic_length_view" )
+                (LM:setdynpropvalue newinsert_obj_ "fragment_middle" ss_pre_filter_set_xx_obj_length_ )
+              )
+            )
+          )
+          
+        ;
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+    
+    ;
+  )
+  (defun c:PPLINE_300HK_inscc011_ ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "LINE") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "LINE") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    ;while_select_block_on_condition_
+        (setq direction_ename_ nil)
+        (while (= direction_ename_ nil)
+          (setq direction_ename_ (car (entsel "specify direction_ename Object")))
+          (if
+            (and ;conditional_rule_for_select_object
+              (/= direction_ename_ nil)
+              (setq direction_ename_obj_ (vlax-ename->vla-object direction_ename_))
+              (= (vla-get-objectname direction_ename_obj_ ) "AcDbLine")
+            )
+            (progn
+              (setq direction_ename_obj_angle_ (vla-get-angle direction_ename_obj_) )
+            )
+            (alert "Object invalid Please try again")
+          )
+        )
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+        (setq obj_ ss_pre_filter_set_xx_obj_)
+        ;get-propertie_data
+          (setq ss_pre_filter_set_xx_obj_angle_ (vla-get-angle ss_pre_filter_set_xx_obj_))  
+          (setq ss_pre_filter_set_xx_obj_length_ (vla-get-length ss_pre_filter_set_xx_obj_))
+          (setq ss_pre_filter_set_xx_obj_start_end_pt_ (list
+                                          (setq ss_pre_filter_set_xx_obj_startpt_ (vlax-safearray->list
+                                                                     (vlax-variant-value ( vla-get-startpoint ss_pre_filter_set_xx_obj_ ))
+                                                                   )
+                                          )
+                                          (setq ss_pre_filter_set_xx_obj_endpt_ (vlax-safearray->list
+                                                                    (vlax-variant-value ( vla-get-endpoint ss_pre_filter_set_xx_obj_ ))
+                                                                 )
+                                          )
+                                        )
+          )
+          (setq array_length (* (fix (/ ss_pre_filter_set_xx_obj_length_ 3000 )) 3000))
+        ;
+        (TA:vla-insertblock
+          "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_COMBINE_VIEW" 
+          (vlax-curve-getpointatdist ss_pre_filter_set_xx_obj_ (- (/ (* (fix (/ ss_pre_filter_set_xx_obj_length_ 3000 )) 3000) 2) 25) ) ;คำนวณเพื่อ ins ลง ตามตำแหน่งของ line โดยให้ยืด array_length พอแค่ฝั่งเดียว
+          1
+          ss_pre_filter_set_xx_obj_angle_
+        )
+        ;new_blk_entlast object
+          (setq newinsert_ename (entlast))
+          (setq newinsert_obj_ (vlax-ename->vla-object newinsert_ename))
+          (cond ;visibility&length condition
+            ( (> ss_pre_filter_set_xx_obj_length_ 3000 ) ;visibility&length condition
+              (progn
+                (LM:setdynpropvalue newinsert_obj_ (LM:getvisibilityparametername newinsert_obj_) "2_top_view" )
+                (LM:setdynpropvalue newinsert_obj_ "array_length" array_length )
+                (LM:setdynpropvalue newinsert_obj_ "fragment_left" 0 )
+                (LM:setdynpropvalue newinsert_obj_ "fragment_right" (+ (+ (fix (- ss_pre_filter_set_xx_obj_length_ array_length )) 25) 45) )
               )
             )
             ( (<= ss_pre_filter_set_xx_obj_length_ 3000 ) ;visibility&length condition
