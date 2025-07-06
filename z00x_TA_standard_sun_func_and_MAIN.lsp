@@ -1,4 +1,4 @@
-;update 20250704 2017
+;update 20250707 0411
   ;Effective Block Name Funcition Lee Mac
     ;; Effective Block Name  -  Lee Mac
       ;; obj - [vla] VLA Block Reference object
@@ -1187,6 +1187,67 @@
           ;
         )
         (setq error "OBJECT IS NOT BLOCK")
+      )
+    )
+    (defun TA:move_axis_insertionpoint (blk_obj_ axis_set_ axis_val_) ;ใช้ move axis_set_ ทีละแกน = "x" "y" "z" 
+      (if (= (vla-get-objectname blk_obj_) "AcDbBlockReference")
+        (progn
+          (setq blk_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint blk_obj_))))
+          (cond
+            (;aixs_case_1
+              (and 
+                (= (strcase axis_set_) "X")
+                (= (numberp axis_val_) T)
+              )
+              (progn
+                (vla-put-insertionpoint blk_obj_ 
+                                        (vlax-3d-point (list
+                                                          (+ (car blk_obj_ins_) axis_val_)
+                                                          (+ (cadr blk_obj_ins_) 0)
+                                                          (+ (caddr blk_obj_ins_) 0)
+                                                        )
+                                        )
+                )
+                (princ "aixs_case_1")
+              )
+            )
+            (;aixs_case_2
+              (and
+                  (= (strcase axis_set_ ) "Y")
+                  (= (numberp axis_val_) T)
+              )
+              (progn
+                (vla-put-insertionpoint blk_obj_ 
+                                        (vlax-3d-point (list
+                                                          (+ (car blk_obj_ins_) 0)
+                                                          (+ (cadr blk_obj_ins_) axis_val_)
+                                                          (+ (caddr blk_obj_ins_) 0)
+                                                        )
+                                        )
+                )
+                (princ "aixs_case_2")
+              )
+            )
+            (;aixs_case_3
+              (and 
+                (= (strcase axis_set_) "Z")
+                (= (numberp axis_val_) T)
+              )
+              (progn
+                (vla-put-insertionpoint blk_obj_ 
+                                        (vlax-3d-point (list
+                                                          (+ (car blk_obj_ins_) 0)
+                                                          (+ (cadr blk_obj_ins_) 0)
+                                                          (+ (caddr blk_obj_ins_) axis_val_)
+                                                        )
+                                        )
+                )
+                (princ "aixs_case_3")
+              )
+            )
+          )
+          
+        )
       )
     )
     (defun TA:ename+vla-getboundingbox (obj) ;ประกอบ entity_name กับ vla-getboundingbox ให้เป็น list (LINE OR POLYLINE ONLY)
@@ -3893,8 +3954,8 @@
       (setq pttarget_ (car ssssasas))
       (command "point" pttarget_)
       (setq pttarget_torr (list 
-                        (+ (car (car ssssasas)) 2.5)
-                        (+ (cadr (car ssssasas)) 2.5)
+                        (+ (car (car ssssasas)) 0) ;ไม่เผื่อก็ ใส่ 0 ปกติใส่ 2.5 เผื่อใบตัด
+                        (+ (cadr (car ssssasas)) 0) ;ไม่เผื่อก็ ใส่ 0 ปกติใส่ 2.5 เผื่อใบตัด
                         
                       )
       )
@@ -3914,6 +3975,108 @@
                           "_"
                           ""
                           (LM:StringSubst "-" "/" (vla-get-textstring name_obj_))
+                          ; (rtos (fix (* (car (TA:get_vertex_len_ (ssname sstarget_ 0))) 1000 ) ) 2 0 )
+                          ; "mm."
+                        )
+                      )
+                    )
+      )
+      (if 
+        (or 
+          (wcmatch
+            (vl-princ-to-string
+              (vl-catch-all-apply 
+                (function 
+                  (lambda () 
+                    (vla-Item (vla-get-Blocks doc) nameblk)
+                  )
+                )
+              )
+            )
+            "*error*,*IAcadBlock*"
+          )
+        )
+        (progn
+          (if 
+            (and
+              (wcmatch
+                (vl-princ-to-string
+                  (vl-catch-all-apply 
+                    (function 
+                      (lambda () 
+                        (vla-delete (vla-Item (vla-get-Blocks doc) nameblk) )
+        )
+      )
+                  )
+                )
+                "*error*,*IAcadBlock*"
+              )
+            )
+            (progn
+              (command "_block" nameblk pttarget_torr sstarget_ "" )
+              (TA:vla-insertblock nameblk pttarget_torr 1 0 )
+            )
+          )
+        )
+      )
+      ; ;new_blk_entlast object
+      ;   (setq sss_ename (entlast))
+      ;   (setq sss_obj (vlax-ename->vla-object sss_ename))
+      ;   (command "_copybase" pttarget_ sss_ename ""    )
+      ; ;
+    )
+    (defun c:MKTblk () 
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq sstarget_ (ssget "i"
+                                              (list
+                                                ; (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq sstarget_ (ssget
+                                              (list
+                                                ; (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength sstarget_)
+        )
+      (setvar "osmode" 1215)
+      (setq pttarget_torr (getpoint "specify point for basepoint"))
+      ; (setq ssssasas (TA:ss_vla-getboundingbox sstarget_))
+      ; (setq pttarget_ (car ssssasas))
+      ; (setq pttarget_torr (list 
+      ;                   (+ (car (car ssssasas)) 0) ;ไม่เผื่อก็ ใส่ 0 ปกติใส่ 2.5 เผื่อใบตัด
+      ;                   (+ (cadr (car ssssasas)) 0) ;ไม่เผื่อก็ ใส่ 0 ปกติใส่ 2.5 เผื่อใบตัด
+                        
+      ;                 )
+      ; )
+      
+      (setvar "osmode" 1215)
+      (setq namefile_ (getvar "dwgname"))
+      (setq nameblk (LM:StringSubst 
+                      ""
+                      ","
+                      (LM:StringSubst 
+                        ""
+                        ".dwg"
+                        (strcat 
+                          namefile_
+                          "_"
+                          ""
+                          (LM:StringSubst "-" "." (rtos (getvar "cdate") 2 6))
                           ; (rtos (fix (* (car (TA:get_vertex_len_ (ssname sstarget_ 0))) 1000 ) ) 2 0 )
                           ; "mm."
                         )
@@ -4999,9 +5162,9 @@
       )
       ;preseting_data_
         (setq hatch_Layer_ "000 - H A T C H")
-        (setq hatch_patt_ "000_GL1600")
-        (setq hatch_color_ 8)
-        (setq hatch_background_ 250)
+        (setq hatch_patt_ "000_GL1200")
+        (setq hatch_color_ 6)
+        (setq hatch_background_ ".")
         
       ;
       (setq hatch_ename_getang_ (cond ( (getreal (strcat "\nspecify angle<" (rtos (setq hatch_ename_getang_ (cond (hatch_ename_getang_) (hatch_ename_getsc_) ) ) ) "> : " ) ) ) (hatch_ename_getang_) ) )
@@ -5014,7 +5177,8 @@
                 "c" hatch_color_ hatch_background_
                 "p" hatch_patt_ hatch_ename_getsc_ hatch_ename_getang_ 
                 "L" hatch_Layer_ 
-                ""  
+                "T" 40
+                ""
       )
       ; (vla-setpattern (setq s_obj_ (vlax-ename->vla-object (entlast))) acHatchPatternTypePreDefined "solid") 
     )
@@ -16914,7 +17078,12 @@
                 (setq panel_width_ (distance (car REC-length_) (list (car (car REC-length_)) (cadr (cadr REC-length_)))   ))
                 ;
                 ;insertion process
-                  (TA:vla-insertblock "001 - DYNAMIC REC&SSQ SHAPE SOLID_centerpoint" line_obj_midpt_ 1 (deg-to-rad new_line_obj_angle) )
+                  (TA:vla-insertblock 
+                    "001 - DYNAMIC REC&SSQ SHAPE SOLID_centerpoint"
+                    (if (= (getvar "worlducs") 0)(progn (trans line_obj_midpt_ 0 1)) line_obj_midpt_ ) 
+                    1
+                    (deg-to-rad new_line_obj_angle)
+                  )
                   ;new_blk_entlast object
                     (setq new300HK_ename (entlast))
                     (setq new300HK_obj_ (vlax-ename->vla-object new300HK_ename))
@@ -17113,7 +17282,12 @@
                 (setq panel_width_ (distance (car REC-length_) (list (car (car REC-length_)) (cadr (cadr REC-length_)))   ))
                 ;
                 ;insertion process
-                  (TA:vla-insertblock "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@400mm_COMBINE_SET" line_obj_midpt_ 1 (deg-to-rad new_line_obj_angle) )
+                  (TA:vla-insertblock 
+                    "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@400mm_COMBINE_SET"
+                    (if (= (getvar "worlducs") 0)(progn (trans line_obj_midpt_ 1 1)) line_obj_midpt_ )
+                    1
+                    (deg-to-rad new_line_obj_angle)
+                  )
                   ;new_blk_entlast object
                     (setq new300HK_ename (entlast))
                     (setq new300HK_obj_ (vlax-ename->vla-object new300HK_ename))
@@ -17268,7 +17442,8 @@
       (if (or 
             (= (LM:Effectivename 300hk_obj_) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_COMBINE_SET")
             (= (LM:Effectivename 300hk_obj_) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@400mm_COMBINE_SET")
-            (= (LM:Effectivename 300hk_obj_) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@372mm_COMBINE_SET")
+            (= (LM:Effectivename 300hk_obj_) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_360HK_@372mm_COMBINE_SET")
+            (= (LM:Effectivename 300hk_obj_) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@310mm_COMBINE_SET")
             (= (LM:Effectivename 300hk_obj_) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_COMBINE_SET_startpoint_")
           )
         (progn
@@ -17303,14 +17478,24 @@
             )
           ;
           ;get_dynamic_data_
-            (setq array_panel_length (LM:getdynpropvalue 300hk_obj_ "array_panel_length"))
+            (setq array_panel_length (- (LM:getdynpropvalue 300hk_obj_ "array_panel_length") 100))
           ; 
           ;insertion_HR_side_A
-            (TA:vla-insertblock "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_COMBINE_VIEW" HR-02A_top_point_preins_ 1 (deg-to-rad 90)) 
+            (TA:vla-insertblock 
+              "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_COMBINE_VIEW"
+               (if (= (getvar "worlducs") 0)(progn (trans HR-02A_top_point_preins_ 1 1)) HR-02A_top_point_preins_ )
+              1
+              (deg-to-rad 90)
+            ) 
             (setq new_ename_ (entlast))
             (setq new_obj_ (vlax-ename->vla-object new_ename_)) 
             (setvar "osmode" 0)
-            (command "rotate" new_ename_ "" 300hk_obj_ins_ (rad-to-deg (vla-get-rotation 300hk_obj_ ) ))         
+            (command "rotate" 
+                     new_ename_
+                     ""
+                     (if (= (getvar "worlducs") 0) (progn (trans 300hk_obj_ins_ 0 1)) 300hk_obj_ins_ )
+                     (rad-to-deg (vla-get-rotation 300hk_obj_))
+            )         
             (LM:setdynpropvalue new_obj_ "view" "2_top_view")
             (setq array_length (LM:setdynpropvalue new_obj_ "array_length" (* (fix (/ array_panel_length 2400)) 2400 ) ))
             (cond ;visibility&length condition
@@ -17362,7 +17547,7 @@
                   (LM:setdynpropvalue 
                     new_obj_ 
                     "fragment_middle"   
-                    (- array_panel_length 100)
+                    (- array_panel_length 50)
                   )
                 )
               )
@@ -17370,10 +17555,20 @@
           ;
           ;
           ;insertion_HR_side_B
-            (TA:vla-insertblock "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_COMBINE_VIEW" HR-02B_top_point_preins_ 1 (deg-to-rad 90))
+            (TA:vla-insertblock 
+              "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_COMBINE_VIEW"
+              (if (= (getvar "worlducs") 0)(progn (trans HR-02B_top_point_preins_ 1 1)) HR-02B_top_point_preins_ ) 
+              1
+              (deg-to-rad 90)
+            )
             (setq new_ename_ (entlast))
             (setq new_obj_ (vlax-ename->vla-object new_ename_))   
-            (command "rotate" new_ename_ "" 300hk_obj_ins_ (rad-to-deg (vla-get-rotation 300hk_obj_ ) ))
+            (command "rotate" 
+                     new_ename_
+                     ""
+                     (if (= (getvar "worlducs") 0) (progn (trans 300hk_obj_ins_ 0 1)) 300hk_obj_ins_ ) 
+                     (rad-to-deg (vla-get-rotation 300hk_obj_))
+            )
             (LM:setdynpropvalue new_obj_ "view" "2_top_view")
             (setq array_length (LM:setdynpropvalue new_obj_ "array_length" (* (fix (/ array_panel_length 2400)) 2400 ) ))
             (cond ;visibility&length condition
@@ -17405,7 +17600,7 @@
                       (progn
                         0
                       )
-                      (- (/ (- array_panel_length array_length ) 2) 50)
+                      (- (/ (- array_panel_length array_length ) 2) 0)
                     )
                   )
                 )
@@ -17427,17 +17622,21 @@
                     "fragment_array_length"   
                     (* (fix (/ (- array_panel_length 100)  400)) 400)
                   )
+                  
                 )
               )
             )
-            
+          ;
         )
       )
       ;Re-location ins
         (command "pselect"  (entlast) "" )
-        (if (or 
-              (= (rtos (rad-to-deg (vla-get-rotation (vlax-ename->vla-object (entlast)))) 2 0) "180")
-              (= (rtos (rad-to-deg (vla-get-rotation (vlax-ename->vla-object (entlast)))) 2 0) "0")
+        (if (and
+              (or 
+                (= (rtos (rad-to-deg (vla-get-rotation (vlax-ename->vla-object (entlast))) ) 2 0 ) "180" )
+                (= (rtos (rad-to-deg (vla-get-rotation (vlax-ename->vla-object (entlast))) ) 2 0 ) "0" )
+              )
+              (/= (LM:getdynpropvalue (vlax-ename->vla-object (entlast)) "view") "7_dynamic_length_view")
             )
           (progn
             (setq _obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint (vlax-ename->vla-object (entlast))))))
@@ -17451,9 +17650,12 @@
             )
           )
         )
-        (if (or 
-              (= (rtos(rad-to-deg (vla-get-rotation (vlax-ename->vla-object (entlast)))) 2 0) "90")
-              (= (rtos (rad-to-deg (vla-get-rotation (vlax-ename->vla-object (entlast)))) 2 0) "270")
+        (if (and
+              (or 
+                (= (rtos (rad-to-deg (vla-get-rotation (vlax-ename->vla-object (entlast))) ) 2 0 ) "90" )
+                (= (rtos (rad-to-deg (vla-get-rotation (vlax-ename->vla-object (entlast))) ) 2 0 ) "270" )
+              )
+              (/= (LM:getdynpropvalue (vlax-ename->vla-object (entlast)) "view") "7_dynamic_length_view")
             )
           (progn
             (setq _obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint (vlax-ename->vla-object (entlast))))))
@@ -17638,7 +17840,37 @@
       ;
     ;
   )
-
+  (defun c:PPLINE_CKST_sel-ceilng-layer-CLlayer ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              ; (cons 0 "INSERT") ;type of object
+                                              (cons 8 "A-GLAZ-CURT,A-CLNG")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              ; (cons 0 "INSERT") ;type of object
+                                              (cons 8 "A-GLAZ-CURT,A-CLNG")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    (command "pselect"  ss_pre_filter_set_xx_ "" )
+  )
   ;
   ;000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_COMBINE_VIEW
   ; (defun c:PPLINE_300HK_inscc01_ ()
@@ -17826,7 +18058,7 @@
                                               (cons 0 "LINE") ;type of object
                                               ; (cons 8 "000 - GRID")   ;kind of layer
                                               ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                              (cons 62 6)           ;kind of color call sign with color code index
                                             )
                                       )
           )
@@ -17838,7 +18070,7 @@
                                               (cons 0 "LINE") ;type of object
                                               ; (cons 8 "000 - GRID")   ;kind of layer
                                               ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                              (cons 62 6)           ;kind of color call sign with color code index
                                             )
                                       )
           )
@@ -17865,6 +18097,7 @@
     ;
     ;preloop_and_while
       (setq ss_pre_filter_set_xx_i 0)
+      (setq lasted_cc01_ssset (ssadd))
       (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
         (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
         (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
@@ -17884,16 +18117,28 @@
                                         )
           )
           (setq array_length (* (fix (/ ss_pre_filter_set_xx_obj_length_ 3000 )) 3000))
+          (setq ins_stamp (- (/ (* (fix (/ ss_pre_filter_set_xx_obj_length_ 3000 )) 3000) 2) 25))
+          (if (<= ins_stamp 0)
+            (progn
+              (setq ins_stamp (* (fix (/ (/ ss_pre_filter_set_xx_obj_length_ 2)  25)) 25))
+              (setq main_fragment_length_ (* (fix (/ ss_pre_filter_set_xx_obj_length_ 100)) 100))
+              (setq sub_fragment_length_ (LM:roundup (/ (- ss_pre_filter_set_xx_obj_length_ main_fragment_length_) ) 100))
+              (setq total_frament_length_ (+ (+ main_fragment_length_ sub_fragment_length_ ) 50) ) ;50 คือเผื่อ
+              
+            )
+            ins_stamp
+          )
         ;
         (TA:vla-insertblock
           "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_COMBINE_VIEW" 
-          (vlax-curve-getpointatdist ss_pre_filter_set_xx_obj_ (- (/ (* (fix (/ ss_pre_filter_set_xx_obj_length_ 3000 )) 3000) 2) 25) ) ;คำนวณเพื่อ ins ลง ตามตำแหน่งของ line โดยให้ยืด array_length พอแค่ฝั่งเดียว
+          (vlax-curve-getpointatdist ss_pre_filter_set_xx_obj_  ins_stamp) ;คำนวณเพื่อ ins ลง ตามตำแหน่งของ line โดยให้ยืด array_length พอแค่ฝั่งเดียว
           1
           ss_pre_filter_set_xx_obj_angle_
         )
         ;new_blk_entlast object
           (setq newinsert_ename (entlast))
           (setq newinsert_obj_ (vlax-ename->vla-object newinsert_ename))
+          (setq lasted_cc01_ssset (ssadd newinsert_ename lasted_cc01_ssset))
           (cond ;visibility&length condition
             ( (> ss_pre_filter_set_xx_obj_length_ 3000 ) ;visibility&length condition
               (progn
@@ -17903,20 +18148,31 @@
                 (LM:setdynpropvalue newinsert_obj_ "fragment_right" (+ (+ (fix (- ss_pre_filter_set_xx_obj_length_ array_length )) 25) 45) )
               )
             )
-            ( (<= ss_pre_filter_set_xx_obj_length_ 3000 ) ;visibility&length condition
-              (progn
-                (LM:setdynpropvalue newinsert_obj_ (LM:getvisibilityparametername newinsert_obj_) "7_dynamic_length_view" )
-                (LM:setdynpropvalue newinsert_obj_ "fragment_middle" ss_pre_filter_set_xx_obj_length_ )
+              ((<= ss_pre_filter_set_xx_obj_length_ 3000)  ;visibility&length condition
+                (progn 
+                  (LM:setdynpropvalue 
+                    newinsert_obj_
+                    (LM:getvisibilityparametername newinsert_obj_)
+                    "7_dynamic_length_view"
+                  )
+                  (LM:setdynpropvalue 
+                    newinsert_obj_
+                    "fragment_middle"
+                    total_frament_length_
+                  )
+                )
               )
-            )
           )
           
         ;
         (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
       )
     ;
-    
+      (command "pselect"  ss_pre_filter_set_xx_ "" )
     ;
+  )
+  (defun c:call_lasted_ssset_cc01_lscc01 ()
+    (command "pselect"  lasted_cc01_ssset "" )
   )
   ;
 ;
@@ -25970,5 +26226,4 @@
   (command "rectangle" pt11 pt22)
   (setvar "osmode" 1215)
 )
-
 

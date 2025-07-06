@@ -1,3 +1,4 @@
+;update 20250707 0411
   ;Effective Block Name Funcition Lee Mac
     ;; Effective Block Name  -  Lee Mac
       ;; obj - [vla] VLA Block Reference object
@@ -1642,70 +1643,109 @@
 ;BOT_OF_CUSTOM_FUNC._BY_LEE_MACDONEL
 
 ;START_POINT_OF_FINDING_SPECFILY_NAME_BLOCK
-(defun c:SFB_FINDING_SPECFILY_NAME_BLOCK ()
-  ;selection_set
-    (if 
-      (= (setq my-selection-set (ssget "_I" 
-                                        (list 
-                                          (cons 0 "INSERT") ;type of object
-                                          ; (cons 8 "000 - GRID")   ;kind of layer
-                                          ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                          ; (cons 62 1)           ;kind of color call sign with color code index
-                                        )
-                                 )
-           )
-        nil
-      )
-      (progn
-        (setq my-selection-set (ssget 
-                            (list 
-                              (cons 0 "INSERT") ;type of object
-                              ; (cons 8 "000 - GRID")   ;kind of layer
-                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                              ; (cons 62 1)           ;kind of color call sign with color code index
-                            )
-                          )
+  (defun c:SFB_FINDING_SPECFILY_NAME_BLOCK ()
+    ;user_input_
+      (initget "Yes No")
+      (setq ss_ ;Detect the variable's result in case of a function error
+        (vl-catch-all-apply 
+          (function 
+            (lambda () 
+              (setq DELETE_OBJ_ (not (eq "No" (getkword "\nKeep Existing point with object? [Yes/No] <Y>: "))))
+            )
+          )
         )
       )
-      (princ my-selection-set)
-     )
-  ;
-
-  ; (setq ef_name "000-GRID_LINE_DYN")
-  ; (setq ef_name (getstring "insert_NAME_BLOCK")) ;::::method 1
-  
-  (setq select_name (car (entsel "select_NAME_BLOCK"))) ;::::method 2
-  (setq select_name_obj (vlax-ename->vla-object select_name))
-  (setq ef_name (LM:effectivename select_name_obj))
-
-  (setq total_ssget (sslength my-selection-set))
-  (setq ie 0)
-  (setq ename-list '())
-
-  (while 
-    (< ie total_ssget)
-    (setq blk_obj (ssname my-selection-set ie))
-    (setq blk_obj_Set (vlax-ename->vla-object blk_obj))
-    (setq ss (LM:effectivename blk_obj_Set))
-
-      (if (= ef_name ss)
+      (if (or (= ss_ nil) (= (vl-prin1-to-string ss_) "#<%catch-all-apply-error%>")  )
         (progn
-          (setq ename-list (cons blk_obj ename-list)) 
+          ;selection_set_for_fillter_blk_name
+            (if  ;pre_select_ssget_or_post_select_ssget
+              (=
+                (setq ss_pre_filter_set_xx_ (ssget "i"
+                                                  (list
+                                                    (cons 0 "insert") ;type of object
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 0)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+                nil
+              )
+              (progn
+                (setq ss_pre_filter_set_xx_ (ssget 
+                                                  (list
+                                                    (cons 0 "insert") ;type of object
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 0)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+              )
+              (sslength ss_pre_filter_set_xx_)
+            )
+          ;
         )
-        (princ "\n")
-
+        (setq ss_pre_filter_set_xx_ ss_pre_filter_set_xx_)
       )
-    (setq ie (+ ie 1))
+    ;
+    ;while_select_block_on_condition_
+      (setq direction_ename_ nil)
+      (while (= direction_ename_ nil)
+        (setq Er-msg_direction_ename_
+          (vl-catch-all-apply 
+            (function 
+              (lambda () 
+                (setq direction_ename_ (car (entsel "specify direction_ename Object")))
+              )
+            )
+          )
+        )
+        (if
+          (and ;conditional_rule_for_select_object
+            (/= direction_ename_ nil)
+            (= (vl-catch-all-error-p Er-msg_direction_ename_) nil)
+            (setq direction_obj_ (vlax-ename->vla-object direction_ename_))
+            (= (vla-get-objectname direction_obj_ ) "AcDbBlockReference")
+          )
+          (progn
+            (setq direction_obj_ (vlax-ename->vla-object direction_ename_))
+            (setq direction_obj_EFname (LM:effectivename direction_obj_))
+            
+          )
+          (alert "Object invalid Please try again")
+        )
+      )
+    ;filter match EFname
+      (if (= (vl-catch-all-error-p Er-msg_direction_ename_) nil)
+        (progn
+          ;preloop_and_while
+            (setq ss_pre_filter_set_xx_newset_ (ssadd))
+            (setq ss_pre_filter_set_xx_i 0)
+            (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+              (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+              (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+              (setq ss_pre_filter_set_xx_obj_EFname_ (LM:effectivename ss_pre_filter_set_xx_obj_ ))
+              ;core
+                (if (= ss_pre_filter_set_xx_obj_EFname_ direction_obj_EFname)
+                  (progn
+                    (setq ss_pre_filter_set_xx_newset_ (ssadd ss_pre_filter_set_xx_ename_ ss_pre_filter_set_xx_newset_))
+                  )
+                )
+              ;
+              (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+            )
+          ;
+        )
+      )
+    ;
+    ;selection match EFname
+      (command "pselect"  ss_pre_filter_set_xx_newset_ "" )
+    ;
   )
-  (princ "\n")
-  (princ (setq total_ename-list (length ename-list)))
-  (setq ff (ssadd))
-    (foreach ename ename-list
-      (ssadd ename ff)
-    )
-  (command "_pselect" ff "")
-  (command "regen")
-)
+
+
+
 (defun c:SFVB1_FINDING_SPECFILY_STRNAME_ALLBLOCK ()
   ; ;selection_set
   ;   (if 
@@ -2468,3 +2508,113 @@
   ;
   (command "pselect"  new_pre_filter_set_xx_ "" )
 )
+
+
+(defun c:SFB_FINDING_SPECFILY_NAME_BLOCK ()
+  ;user_input_
+    (initget "Yes No")
+    (setq ss_ ;Detect the variable's result in case of a function error
+      (vl-catch-all-apply 
+        (function 
+          (lambda () 
+            (setq DELETE_OBJ_ (not (eq "No" (getkword "\nKeep Existing point with object? [Yes/No] <Y>: "))))
+          )
+        )
+      )
+    )
+    (if (or (= ss_ nil) (= (vl-prin1-to-string ss_) "#<%catch-all-apply-error%>")  )
+      (progn
+        ;selection_set_for_fillter_blk_name
+          (if  ;pre_select_ssget_or_post_select_ssget
+            (=
+              (setq ss_pre_filter_set_xx_ (ssget "i"
+                                                (list
+                                                  (cons 0 "insert") ;type of object
+                                                  ; (cons 8 "000 - GRID")   ;kind of layer
+                                                  ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                  ; (cons 62 0)           ;kind of color call sign with color code index
+                                                )
+                                          )
+              )
+              nil
+            )
+            (progn
+              (setq ss_pre_filter_set_xx_ (ssget 
+                                                (list
+                                                  (cons 0 "insert") ;type of object
+                                                  ; (cons 8 "000 - GRID")   ;kind of layer
+                                                  ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                  ; (cons 62 0)           ;kind of color call sign with color code index
+                                                )
+                                          )
+              )
+            )
+            (sslength ss_pre_filter_set_xx_)
+          )
+        ;
+      )
+      (setq ss_pre_filter_set_xx_ ss_pre_filter_set_xx_)
+    )
+  ;
+  ;while_select_block_on_condition_
+    (setq direction_ename_ nil)
+    (setq Er-msg_direction_ename_ nil)
+    (setq direction_obj_EFname nil)
+    (while (and
+             (= direction_obj_EFname nil)
+             (/= (vl-catch-all-error-p Er-msg_direction_ename_) T)
+           )
+      (setq Er-msg_direction_ename_
+        (vl-catch-all-apply 
+          (function 
+            (lambda () 
+              (setq direction_ename_ (car (entsel "specify direction_ename Object")))
+              (setq direction_obj_ (vlax-ename->vla-object direction_ename_))
+            )
+          )
+        )
+      )
+      (if
+        (and ;conditional_rule_for_select_object
+          (/= direction_ename_ nil)
+          (= (vl-catch-all-error-p Er-msg_direction_ename_) nil)
+          (/= direction_obj_ nil)
+          (= (vla-get-objectname direction_obj_ ) "AcDbBlockReference")
+        )
+        (progn
+          (setq direction_obj_ (vlax-ename->vla-object direction_ename_))
+          (setq direction_obj_EFname (LM:effectivename direction_obj_))
+        )
+        (alert "Object invalid Please try again")
+      )
+    )
+  ;
+  ;filter match EFname
+    (if (= (vl-catch-all-error-p Er-msg_direction_ename_) nil)
+      (progn
+        ;preloop_and_while
+          (setq ss_pre_filter_set_xx_newset_ (ssadd))
+          (setq ss_pre_filter_set_xx_i 0)
+          (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+            (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+            (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+            (setq ss_pre_filter_set_xx_obj_EFname_ (LM:effectivename ss_pre_filter_set_xx_obj_ ))
+            ;core
+              (if (= ss_pre_filter_set_xx_obj_EFname_ direction_obj_EFname)
+                (progn
+                  (setq ss_pre_filter_set_xx_newset_ (ssadd ss_pre_filter_set_xx_ename_ ss_pre_filter_set_xx_newset_))
+                )
+              )
+            ;
+            (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+          )
+        ;
+      )
+    )
+  ;
+  ;selection match EFname
+    (command "pselect"  ss_pre_filter_set_xx_newset_ "" )
+  ;
+)
+
+   
