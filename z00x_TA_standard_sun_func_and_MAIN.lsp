@@ -26785,6 +26785,7 @@
           (and
               (= (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "view" ) "2_top_view")
               (/= ss_pre_filter_set_xx_obj_ins_rotation_ 0)
+              (/= (rad-to-deg ss_pre_filter_set_xx_obj_ins_rotation_) 180)
           )
           (progn
             (setq array_length_full (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "array_length"))
@@ -26832,7 +26833,7 @@
                 
                 (setq hanging_dist_time_i (+ hanging_dist_time_i 1))
               )
-              (if (> fragment_right 150)
+              (if (> (distance new_start_pt last_pt ) 150)
                 (progn
                   (TA:vla-insertblock ;insert loop * dist. time last position of CC01
                     "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET"
@@ -26844,6 +26845,9 @@
                     (setq newhang_ename (entlast))
                     (setq newhang_obj_ (vlax-ename->vla-object newhang_ename))
                     (setq newhang_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint newhang_obj_))))
+                    (vla-put-layer newhang_obj_ "001 - ASCESSORIES")
+                    (vla-put-color newhang_obj_ 256)
+                    (vla-put-linetype newhang_obj_ "dash")
                     (LM:setdynpropvalue newhang_obj_ "view" "2_top_view")
                   ;
                 )
