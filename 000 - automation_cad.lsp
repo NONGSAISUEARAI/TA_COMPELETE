@@ -2599,7 +2599,9 @@
       
       (setq block (vla-InsertBlock 
                     ms 
-                    (vlax-3d-point insertion_point) 
+                    (vlax-3d-point 
+                      insertion_point
+                    ) 
                     blockName 
                     scale scale scale
                     rotation
@@ -10295,6 +10297,13 @@
         )
       ;
       (command "_SelectSimilar" ss_pre_filter_set_xx_ "")
+    )
+  ;
+  ;copy func
+    (defun c:copynameblocktoclipboard_blkN2cl ()
+      (setq nameblk_ename_ (car (entsel "specify Object")))
+      (setq nameblk_obj_ (vlax-ename->vla-object nameblk_ename_))
+      (TA:copytext->clipboard (LM:effectivename nameblk_obj_ ))
     )
   ;
 ;
