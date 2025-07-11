@@ -1,4 +1,4 @@
-;update 20250709 0505am v1
+;update 20250712 0400
   ;Effective Block Name Funcition Lee Mac
     ;; Effective Block Name  -  Lee Mac
       ;; obj - [vla] VLA Block Reference object
@@ -10310,7 +10310,7 @@
       ;
     )
   ;
-
+;
 
   ;                                   
     (defun c:expl-p () 
@@ -26303,7 +26303,7 @@
             (vl-catch-all-apply 
               (function 
                 (lambda () 
-                  (setq LV_1_ans_int_ (cond ( (getint (strcat method_1 "\n" method_2 "\n" method_3 "\n" method_4 "\n" method_5 "\n<" (rtos (setq LV_1_ans_int_ (cond (LV_1_ans_int_) (1.0) ) ) ) "> : " ) ) ) (LV_1_ans_int_) ) )
+                  (setq LV_1_ans_int_ (cond ( (getint (strcat "method_1" "\n" "method_2" "\n" "method_3" "\n" "method_4" "\n" "method_5" "\n<" (rtos (setq LV_1_ans_int_ (cond (LV_1_ans_int_) (1.0) ) ) ) "> : " ) ) ) (LV_1_ans_int_) ) )
                   
                 )
               )
@@ -26960,7 +26960,7 @@
 )
 
 
-(defun c:PPLINE-MAKE_layer_ ()
+(defun c:PPLINE-Filter_FAMELINElayer ()
   ;preloop_and_while
     (setq TA-FL_Layer_ (list "ssddd" "0" "Defpoints" "000 - T E X T" "000 - TITLEBLOCK" 
                           "000 - H A T C H" "000 - L I N E 0.1" "000 - D I M 0.25" 
@@ -26990,4 +26990,99 @@
   ;
   (command "-layer" "filter" "s" "All" "")
 )
+(defun c:PPLINE-Filter_CKSTEXlayer_ ()
+  ;preloop_and_while
+    (setq example_List_ (list "ssddd" "0" "Defpoints" "000 - T E X T" "000 - TITLEBLOCK" 
+                          "000 - H A T C H" "000 - L I N E 0.1" "000 - D I M 0.25" 
+                          "000 - WIPEOUT" "000 - GRID" "A11_ALU.SOLID SHEET" 
+                          "A12_PERFORATED" "A04_TUBE SERIES" "002 - STRUCTURAL STEEL" 
+                          "000 - H I D D E N" "000 - D I M" "001 - ASCESSORIES" 
+                          "A02_LITEWOOD" "000 - BUBBLE" "000 - SYMBOL CON" "000 - A_XREF" 
+                          "000 - GROUND" "000 - L I N E" "000 - TEMP LAYER" "001 - DOOR" 
+                          "001 - WINDOWS" "002 - STEEL LRIP" "002 - STEEL TUBE" 
+                          "004 - CONCRETE" "004 - DOOR WINDOW" "004 - FLOOR" 
+                          "004 - VIVA BOARD" "004 - WALL" "005 - WATER CLOSET EQUIP" 
+                          "006 - ROOF" "008 - LIGHTING" "A01_ACP" "A03_SUN LOUVER" 
+                          "A05_AHP." "A06_PERFORMANCE LOUVERS" "A07_PRANKCAD" "A08_AEROLITE" 
+                          "A09_BIFOLDING" "A10_ENTRANCE MATT" "A13_EXPANDED"
+                    )
+    )
+    (setq all-layer_ (TA:get_name_layer_in_drawing))
+    (setq ii 0)
+    (command "-layer" "filter" "n" "G" "" "0" "PPLINE-CKST-EX-LAYER" ""  )
+    (while (< ii (length all-layer_))
+      (setq all-layer__list_ (nth ii all-layer_))
+      ; (setq all-layer__list_ (nth 90 all-layer_))
+      (if 
+        (or 
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "DefpoinTs")) T)
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "000 - T E X T")) T)
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "000 - TITLEBLOCK")) T)
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "000 - H A T C H")) T )
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "000 - L I N E 0.1")) T )
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "000 - D I M 0.25")) T )
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "000 - WIPEOUT")) T)
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "000 - GRID")) T)
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "A11_ALU.SOLID SHEET")) T )
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "A12_PERFORATED")) T)
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "A04_TUBE SERIES")) T )
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "002 - STRUCTURAL STEEL") ) T )
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "000 - H I D D E N")) T )
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "000 - D I M")) T)
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "001 - ASCESSORIES")) T )
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "A02_LITEWOOD")) T)
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "000 - BUBBLE")) T)
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "000 - SYMBOL CON")) T )
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "000 - A_XREF")) T)
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "000 - GROUND")) T)
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "000 - L I N E")) T)
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "000 - TEMP LAYER")) T )
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "001 - DOOR")) T)
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "001 - WINDOWS")) T)
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "002 - STEEL LRIP")) T )
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "002 - STEEL TUBE")) T )
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "004 - CONCRETE")) T)
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "004 - DOOR WINDOW")) T )
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "004 - FLOOR")) T)
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "004 - VIVA BOARD")) T )
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "004 - WALL")) T)
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "005 - WATER CLOSET EQUIP") ) T )
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "006 - ROOF")) T)
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "008 - LIGHTING")) T)
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "A01_ACP")) T)
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "A03_SUN LOUVER")) T)
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "A05_AHP.")) T)
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "A06_PERFORMANCE LOUVERS") ) T )
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "A07_PRANKCAD")) T)
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "A08_AEROLITE")) T)
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "A09_BIFOLDING")) T)
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "A10_ENTRANCE MATT")) T )
+          (= (wcmatch (strcase all-layer__lisT_) (strcase "A13_EXPANDED")) T)
+          (= (wcmatch (strcase all-layer__lisT_) (strcat "*" (strcase "CSD_" ) "*" )) T)
+        )
+        (progn
+          (princ all-layer__lisT_)
+        )
+        (command "-layer" "filter"  "e" "0" "PPLINE-CKST-EX-LAYER" "a" all-layer__lisT_ "L" "")
+      )
+      (setq ii (+ ii 1))
+    ) 
+  ;
+  (command "-layer" "filter" "s" "All" "")
+)
+(defun c:PPLINE-Filter_CKSTCSDlayer_ ()
+  (if (= 1 1)
+    (progn
+      
+      (command "-layer" "filter" "n" "G" "" "*CSD*" "CSD" ""  )
+      (command "-layer" "filter" "s" "All" "")
+      
+    )
+  )
+)
 
+(defun c:PPLINE-CKST-Filterset_ ()
+  (c:PPLINE-Filter_CKSTEXlayer_)
+  (c:PPLINE-Filter_FAMELINElayer)
+  (c:PPLINE-Filter_CKSTCSDlayer_)
+)

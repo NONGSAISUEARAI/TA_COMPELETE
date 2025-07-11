@@ -1,4 +1,4 @@
-;update 20250707 0411
+;update 20250712 0400
   ;Effective Block Name Funcition Lee Mac
     ;; Effective Block Name  -  Lee Mac
       ;; obj - [vla] VLA Block Reference object
@@ -2585,7 +2585,9 @@
           (setq direction_obj_ (vlax-ename->vla-object direction_ename_))
           (setq direction_obj_EFname (LM:effectivename direction_obj_))
         )
-        (alert "Object invalid Please try again")
+        (setq qq (alert "Object invalid Please try again")
+              
+        )
       )
     )
   ;
@@ -2597,12 +2599,24 @@
           (setq ss_pre_filter_set_xx_i 0)
           (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
             (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
-            (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
-            (setq ss_pre_filter_set_xx_obj_EFname_ (LM:effectivename ss_pre_filter_set_xx_obj_ ))
+            (setq err_ch_ 
+              (vl-catch-all-apply 
+                (function 
+                  (lambda () 
+                    (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+                    (setq ss_pre_filter_set_xx_obj_EFname_ (LM:effectivename ss_pre_filter_set_xx_obj_ ))
+                  )
+                )
+              )      
+            )
             ;core
-              (if (= ss_pre_filter_set_xx_obj_EFname_ direction_obj_EFname)
+              (if (and 
+                    (= (vl-catch-all-error-p err_ch_) nil)
+                    (= ss_pre_filter_set_xx_obj_EFname_ direction_obj_EFname)
+                  )
                 (progn
                   (setq ss_pre_filter_set_xx_newset_ (ssadd ss_pre_filter_set_xx_ename_ ss_pre_filter_set_xx_newset_))
+                  
                 )
               )
             ;
@@ -2613,7 +2627,15 @@
     )
   ;
   ;selection match EFname
-    (command "pselect"  ss_pre_filter_set_xx_newset_ "" )
+    (if (and 
+          (= (vl-catch-all-error-p Er-msg_direction_ename_) nil)
+          (/= ss_pre_filter_set_xx_newset_ nil)
+        )
+      (progn
+        (command "pselect"  ss_pre_filter_set_xx_newset_ "" )
+      )
+      (alert "no")
+    )
   ;
 )
 
