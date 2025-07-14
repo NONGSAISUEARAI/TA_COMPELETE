@@ -10321,7 +10321,70 @@
   (command "ucs" "ob"  )
   (command "ucs" "z" "270")
 )
-
+(defun c:dimsetting ()
+  ;Keep setting dimension
+    (setq acadObj (vlax-get-acad-object))
+    (setq doc (vla-get-ActiveDocument acadObj))
+    (setq modelSpace (vla-get-ModelSpace doc))
+    (setq layoutactive (vla-get-paperspace doc))
+    (initget "Yes No")
+    (setq ss_ ;Detect the variable's result in case of a function error
+      (vl-catch-all-apply 
+        (function 
+          (lambda () 
+            (setq setting_ (not (eq "No" (getkword "\nKeep setting dimension ? \nSpecify Dim Scale Overall [Yes/No] <Y>: " ))))
+          )
+        )
+      )
+    )
+    (if ;Keep setting dimension
+      (and 
+        (= setting_ nil)
+        (= ss_ nil)
+      )
+      (progn
+        ;set model
+          (setq acadObj (vlax-get-acad-object))
+          (setq doc (vla-get-ActiveDocument acadObj))
+          (setq modelSpace (vla-get-ModelSpace doc))
+          (setq scl (cond ( (getreal (strcat "\nSpecify Dim Scale Overall <" (rtos (setq scl (cond (scl) (1.0) ) ) ) "> : " ) ) ) (scl) ) )
+          (setq lv_ (cond ( (getreal (strcat "\nSpecify Level <" (rtos (setq lv_ (cond (lv_) (1.0) ) ) ) "> : " ) ) ) (lv_) ) )
+          (setq lv_add (* lv_ 1))
+          (setq sc (* scl 10)) ; 5 = 50 2 = 20
+          (setq of_point 4); OF_DIM OFFSET FROM pt2 = 6 mm.
+          (setq hi_point 6); OF_DIM OFFSET FROM pt2 = 6 mm.
+          (setq OF_DIM (*(* (* scl 1) of_point) lv_add))
+          (setq HI_DIM (*(* (* scl 1) hi_point) lv_add))
+          (setvar "dimscale" sc )
+          ;while_select_block_on_condition_
+            (setq sss_ename_ nil)
+            (setq Er-msg_sss_ename_ nil)
+            (setq sss_obj_dimname_ nil)
+            (while (and 
+                     (= sss_obj_dimname_ nil)
+                     (= (wcmatch (vl-princ-to-string Er-msg_sss_ename_) "*error*"))
+                   )
+              (setq Er-msg_sss_ename_ (vl-catch-all-apply (function (lambda () (setq sss_ename_ (car (entsel "specify sss_ename Object"))) ) ) ))
+              
+              (if
+                (and ;conditional_rule_for_select_object
+                  (/= sss_ename_ nil)
+                  (= (vl-catch-all-apply (function (lambda () (vla-get-objectname (vlax-ename->vla-object sss_ename_) ) ) ) ) "AcDbRotatedDimension")
+                )
+                (progn
+                  (vl-catch-all-apply (function (lambda () (setq sss_obj_dimname_ (vla-get-stylename (vlax-ename->vla-object sss_ename_) )) ) ) )
+                  (vl-catch-all-apply (function (lambda () (setq sss_obj_linearsc_ (vla-get-LinearScaleFactor (vlax-ename->vla-object sss_ename_) )) ) ) )
+                  (vl-catch-all-apply (function (lambda () (command "dimstyle" "r" sss_obj_dimname_) ) ) )
+                )
+                (alert "Object invalid Please try again")
+              )
+            )
+          ;
+        ;
+      )
+    )
+  ;
+)
 (defun c:Dx ()
   ;Keep setting dimension
     (setq acadObj (vlax-get-acad-object))
@@ -10348,8 +10411,8 @@
           (setq acadObj (vlax-get-acad-object))
           (setq doc (vla-get-ActiveDocument acadObj))
           (setq modelSpace (vla-get-ModelSpace doc))
-          (setq scl (cond ( (getint (strcat "\nSpecify Dim Scale Overall <" (rtos (setq scl (cond (scl) (1.0) ) ) ) "> : " ) ) ) (scl) ) )
-          (setq lv_ (cond ( (getint (strcat "\nSpecify Level <" (rtos (setq lv_ (cond (lv_) (1.0) ) ) ) "> : " ) ) ) (lv_) ) )
+          (setq scl (cond ( (getreal (strcat "\nSpecify Dim Scale Overall <" (rtos (setq scl (cond (scl) (1.0) ) ) ) "> : " ) ) ) (scl) ) )
+          (setq lv_ (cond ( (getreal (strcat "\nSpecify Level <" (rtos (setq lv_ (cond (lv_) (1.0) ) ) ) "> : " ) ) ) (lv_) ) )
           (setq lv_add (* lv_ 1))
           (setq sc (* scl 10)) ; 5 = 50 2 = 20
           (setq of_point 4); OF_DIM OFFSET FROM pt2 = 6 mm.
@@ -10361,23 +10424,6 @@
             (setq sss_ename_ nil)
             (setq Er-msg_sss_ename_ nil)
             (setq sss_obj_dimname_ nil)
-            (while (and 
-                     (= sss_obj_dimname_ nil)
-                   )
-              (setq sss_ename_ (car (entsel "specify sss_ename Object")))
-              (if
-                (and ;conditional_rule_for_select_object
-                  (/= sss_ename_ nil)
-                  (= (vl-catch-all-apply (function (lambda () (vla-get-objectname (vlax-ename->vla-object sss_ename_) ) ) ) ) "AcDbRotatedDimension")
-                )
-                (progn
-                  (vl-catch-all-apply (function (lambda () (setq sss_obj_dimname_ (vla-get-stylename (vlax-ename->vla-object sss_ename_) )) ) ) )
-                  (vl-catch-all-apply (function (lambda () (setq sss_obj_linearsc_ (vla-get-LinearScaleFactor (vlax-ename->vla-object sss_ename_) )) ) ) )
-                  (vl-catch-all-apply (function (lambda () (command "dimstyle" "r" sss_obj_dimname_) ) ) )
-                )
-                (alert "Object invalid Please try again")
-              )
-            )
           ;
         ;
       )
@@ -11206,5 +11252,117 @@
       )
     ;
   )
+)
+(defun c:z626_grid_line_length_GYY ()-
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+    (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000-GRID_LINE_DYN_V2"))
+  ;
+  ;preloop_and_while ins Current UCS
+    (setq ss_pre_filter_set_xx_i 0)
+    (setq ss_pre_filter_set_xx_inslist_ ())
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      (setq ss_pre_filter_set_xx_obj_rotation (rad-to-deg (vla-get-rotation ss_pre_filter_set_xx_obj_)))
+      (if (and
+            (= ss_pre_filter_set_xx_i 0)
+            ; (= (/= (rtos ss_pre_filter_set_xx_obj_rotation 2 5) "0.00000") T)
+            ; (= (/= (rtos ss_pre_filter_set_xx_obj_rotation 2 5) "90.00000") T)
+            ; (= (/= (rtos ss_pre_filter_set_xx_obj_rotation 2 5) "180.00000") T)
+            ; (= (/= (rtos ss_pre_filter_set_xx_obj_rotation 2 5) "270.00000") T)
+          )
+        (progn
+          (command "ucs" "ob" ss_pre_filter_set_xx_ename_ )
+          (command "ucs" "z" "270")
+        )
+      )
+      (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+      
+      (setq ss_pre_filter_set_xx_obj_H (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "H"))
+      (setq ss_pre_filter_set_xx_obj_offset (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "offset"))
+      
+      
+      (if (= (getvar "worlducs") 1) ;รอแก้
+        (progn
+          (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+        )
+        (setq ss_pre_filter_set_xx_obj_ins_ (trans
+                                              (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_)))
+                                              0 1
+                                            )
+        )
+      )
+      (setq ss_pre_filter_set_xx_inslist_ (cons
+                                            (list 
+                                              ss_pre_filter_set_xx_ename_
+                                              ss_pre_filter_set_xx_obj_ins_
+                                            )
+                                            ss_pre_filter_set_xx_inslist_
+                                          )
+      )
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+  ;TA:stanndard_lambda_sorting_X
+    (setq ss_pre_filter_set_xx_inslist_sorted_X_ (vl-sort ss_pre_filter_set_xx_inslist_  ;bigest open indent list
+                                                        (function 
+                                                          (lambda (a b) 
+                                                            (< (nth 0 (cadr a)) 
+                                                               (nth 0 (cadr b))
+                                                            )
+                                                          )
+                                                        )
+                                               ) ;bigest close indent list
+    )
+  ;
+  ;input length process
+    (setq ss_pre_filter_set_xx_inslist_sorted_X_ename_ (car (nth 0 ss_pre_filter_set_xx_inslist_sorted_X_)))
+    (setq ss_pre_filter_set_xx_inslist_sorted_X_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_inslist_sorted_X_ename_))
+    (setq ss_pre_filter_set_xx_inslist_sorted_X_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_inslist_sorted_X_obj_))))
+    (setq get-point_ (getpoint (trans ss_pre_filter_set_xx_inslist_sorted_X_obj_ins_ 0 1) ))
+    (setq get-dist_ (distance (trans ss_pre_filter_set_xx_inslist_sorted_X_obj_ins_ 0 1) 
+                                (list 
+                                  (car (trans ss_pre_filter_set_xx_inslist_sorted_X_obj_ins_ 0 1))                                           
+                                  (cadr get-point_)                                           
+                                  (caddr (trans ss_pre_filter_set_xx_inslist_sorted_X_obj_ins_ 0 1))                                           
+                                )
+                     )
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "H" get-dist_)
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
 )
 

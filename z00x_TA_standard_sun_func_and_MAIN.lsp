@@ -1,4 +1,4 @@
-;update 20250714 1838
+;update 20250715 0232
   ;Effective Block Name Funcition Lee Mac
     ;; Effective Block Name  -  Lee Mac
       ;; obj - [vla] VLA Block Reference object
@@ -27191,8 +27191,9 @@
            )
         )
         (;EFname_case_6
-           (and
+           (or
               (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@400mm_COMBINE_SET" )
+              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_360HK_@372mm_COMBINE_SET" )
            )
            (progn
              (vla-put-layer ss_pre_filter_set_xx_obj_ "A11_ALU.SOLID SHEET" )
@@ -27239,3 +27240,5 @@
   (command "pselect"  ss_pre_filter_set_xx_ "" )
   
 )
+
+
