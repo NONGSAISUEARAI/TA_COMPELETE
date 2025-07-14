@@ -1,4 +1,4 @@
-;update 20250712 0400
+;update 20250714 1838
   ;Effective Block Name Funcition Lee Mac
     ;; Effective Block Name  -  Lee Mac
       ;; obj - [vla] VLA Block Reference object
@@ -2450,7 +2450,7 @@
 
 
 
-(defun c:SFB_FINDING_STRING_NAME_BLOCK_SFBSTR_ ()
+(defun c:SFBW_FINDING_STRING_NAME_BLOCK_SFBSTR_ ()
   ;selection_set_for_fillter_blk_name
     (if  ;pre_select_ssget_or_post_select_ssget
       (=
@@ -2479,18 +2479,23 @@
       (sslength ss_pre_filter_set_xx_)
     )
   ;
-  (setq wildcard_string_ ;Get-string by keep previous value
-      (if
-        (or
-          (/= (setq wildcard_string_val (getstring (strcat "\nSpecify Pattern name <" (if wildcard_string_ wildcard_string_ "") ">: ") ) ) "" )
-        )
-          (progn
-            (setq wildcard_string_ wildcard_string_val)
-            (setq wildcard_string_keep_val_ wildcard_string_val)
-          )
-        (setq wildcard_string_val wildcard_string_keep_val_)
-      )
-  )
+  ; (setq wildcard_string_ ;Get-string by keep previous value ; old method
+    ;     (if
+    ;       (or
+    ;         (/= (setq wildcard_string_val (getstring (strcat "\nSpecify Pattern name <" (if wildcard_string_ wildcard_string_ "") ">: ") ) ) "" )
+    ;       )
+    ;         (progn
+    ;           (setq wildcard_string_ wildcard_string_val)
+    ;           (setq wildcard_string_keep_val_ wildcard_string_val)
+    ;         )
+    ;       (setq wildcard_string_val wildcard_string_keep_val_)
+    ;     )
+  ; )
+  (setq wildcard_string_ename_ (car (entsel "specify Object")))
+  (setq wildcard_string_obj_ (vlax-ename->vla-object wildcard_string_ename_))
+  (setq wildcard_string_obj_textstring_ (vla-get-textstring wildcard_string_obj_ ) )
+  (setq wildcard_string_ (strcase (strcat "*" (vla-get-textstring wildcard_string_obj_ ) "*")) )
+  
   ;preloop_and_while
     (setq ss_pre_filter_set_xx_i 0)
     (setq new_pre_filter_set_xx_ (ssadd))
