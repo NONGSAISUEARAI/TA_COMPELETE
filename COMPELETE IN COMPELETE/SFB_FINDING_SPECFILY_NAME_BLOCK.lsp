@@ -1,5 +1,5 @@
 ;update 20250714 1838
-  ;Effective Block Name Funcition Lee Mac
+  ;Effective Block Name Funcition Lee Mac6
     ;; Effective Block Name  -  Lee Mac
       ;; obj - [vla] VLA Block Reference object
     (defun LM:effectivename (obj) 

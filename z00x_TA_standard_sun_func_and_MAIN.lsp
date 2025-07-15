@@ -10517,10 +10517,10 @@
           (progn 
             (setq ss_pre_filter_set_xx_ (ssget 
                                           (list 
-                                            (cons 0 "INSERT") ;type of object
+                                            (cons 0 "INSERT,line,lwpolyline") ;type of object
                                             ; (cons 8 "000 - GRID")   ;kind of layer
                                             ; (cons 2 "000-GRIDLINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                            (cons 62 1)           ;kind of color call sign with color code index
                                           )
                                         )
             )
@@ -27242,3 +27242,40 @@
 )
 
 
+(defun c:g1 ()
+  (setq ss_pre_filter_set_xx_ (ssget 
+                                          (list 
+                                            ; (cons 0 "INSERT,line,lwpolyline") ;type of object
+                                            (cons 8 "000 - GRID")   ;kind of layer
+                                            
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                        )
+            )
+  (command "pselect"  ss_pre_filter_set_xx_ "" )
+)
+(defun c:g1 ()
+  (setq ss_pre_filter_set_xx_ (ssget 
+                                          (list 
+                                            ; (cons 0 "INSERT,line,lwpolyline") ;type of object
+                                            (cons 8 "000 - GRID")   ;kind of layer
+                                            
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                        )
+            )
+  (command "pselect"  ss_pre_filter_set_xx_ "" )
+)
+(defun c:yy1 ()
+  
+  (setq ss_pre_filter_set_xx_ (ssget 
+                                          (list 
+                                            (cons 0 "INSERT,line,lwpolyline") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                        )
+            )
+  (command "pselect"  ss_pre_filter_set_xx_ "" )
+)
