@@ -75,7 +75,7 @@
                     (setq dcl (vl-filename-mktemp nil nil ".dcl"))
                     (setq des (open dcl "w"))
                     (write-line "importblock : dialog { label = \"Select Block to Import\"; spacer;" des)
-                    (write-line ": list_box { key = \"lst\"; width = 100; height = 15; } spacer; ok_cancel; }" des)
+                    (write-line ": list_box { key = \"lst\"; width = 200; height = 70; } spacer; ok_cancel; }" des)
                     (not (setq des (close des)))
                     (< 0 (setq dch (load_dialog dcl)))
                     (new_dialog "importblock" dch)
