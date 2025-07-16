@@ -10841,13 +10841,23 @@
   (setq temp_pt (getpoint "specify point" ))
   ;preloop_and_while
     (setq CSD_MERGE_LIST_i 0)
+    (setq CER_ 0)
     (while (and 
              (/= CSD_MERGE_LIST_ nil)
              (< CSD_MERGE_LIST_i (length CSD_MERGE_LIST_))
+             (/= (wcmatch (strcase (vl-princ-to-string CER_)) "NIL") T)
            )
       (setq CSD_MERGE_LIST_efname (nth  CSD_MERGE_LIST_i CSD_MERGE_LIST_))
       (setvar "expert" 5)
-      (command "-INSERTCONTENT" filePath CSD_MERGE_LIST_efname  temp_pt 1 1 0)
+      (setq CER_
+        (vl-catch-all-apply 
+          (function 
+            (lambda () 
+              (command "-INSERTCONTENT" filePath CSD_MERGE_LIST_efname  temp_pt 1 1 0)
+            )
+          )
+        )
+      )
       (command "erase" "l" "")
       (setq CSD_MERGE_LIST_i (+ CSD_MERGE_LIST_i 1))
     )
