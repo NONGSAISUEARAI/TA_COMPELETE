@@ -27096,6 +27096,304 @@
   (c:PPLINE-Filter_CKSTCSDlayer_)
   (c:PPLINE-Filter_CKST_EX_CL_)
 )
+(defun c:PPLINE-CKST-reset300normal () ;ใช้สำหรับ set layer ในบล็อก เพื่อให้เรียบร้อย
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "X"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget "X"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (while (and 
+             (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+             (= (getvar "blockeditor") 1)
+           )
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      (cond
+        (;EFname_case_1
+           (and
+              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_COMBINE_VIEW" )
+           )
+           (progn
+             (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
+             (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
+             (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+             (princ "EFname_case_1")
+           )
+        )
+        (;EFname_case_2
+           (and
+              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET" )
+           )
+           (progn
+             (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
+             (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
+             (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+             (princ "EFname_case_2")
+           )
+        )
+        (;EFname_case_3
+           (and
+              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_COMBINE_VIEW" )
+           )
+           (progn
+             (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
+             (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
+             (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+             (princ "EFname_case_3")
+           )
+        )
+        (;EFname_case_4
+           (and
+              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_COMBINE_VIEW" )
+              
+           )
+           (progn
+             (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
+             (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
+             (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+             (princ "EFname_case_4")
+           )
+        )
+        (;EFname_case_5
+           (and
+              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "001 - DYNAMIC REC&SSQ SHAPE SOLID_centerpoint" )
+           )
+           (progn
+             (vla-put-layer ss_pre_filter_set_xx_obj_ "A04_TUBE SERIES" )
+             (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
+             (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+             
+            ;  ;add-on
+            ;   ;new_blk_entlast object set-1
+            ;       (vla-copy ss_pre_filter_set_xx_obj_)
+            ;       (setq 300ex_ename (entlast))
+            ;       (setq 300ex_obj_ (vlax-ename->vla-object 300ex_ename))
+            ;       (setq 300ex_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 300ex_obj_))))
+            ;       (LM:setdynpropvalue 300ex_obj_ "W" 50)
+            ;       (vla-move 300ex_obj_ (vlax-3d-point 300ex_obj_ins_) (vlax-3d-point (list 
+            ;                                                                           (car 300ex_obj_ins_)
+            ;                                                                           (+ (cadr 300ex_obj_ins_) 125)
+            ;                                                                           (caddr 300ex_obj_ins_)
+            ;                                                                         )
+            ;                                                           )
+            ;       )
+            ;       (command "-bvstate" "s" "1_" )
+            ;       (command "bvshow" 300ex_ename "" "C")
+            ;   ;
+            ;   ;new_blk_entlast object set-2
+            ;       (vla-copy ss_pre_filter_set_xx_obj_)
+            ;       (setq 300ex_ename (entlast))
+            ;       (setq 300ex_obj_ (vlax-ename->vla-object 300ex_ename))
+            ;       (setq 300ex_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 300ex_obj_))))
+            ;       (LM:setdynpropvalue 300ex_obj_ "W" 50)
+            ;       (vla-move 300ex_obj_ (vlax-3d-point 300ex_obj_ins_) (vlax-3d-point (list 
+            ;                                                                           (car 300ex_obj_ins_)
+            ;                                                                           (- (cadr 300ex_obj_ins_) 125)
+            ;                                                                           (caddr 300ex_obj_ins_)
+            ;                                                                         )
+            ;                                                           )
+            ;       )
+            ;       (command "-bvstate" "s" "1_" )
+            ;       (command "bvshow" 300ex_ename "" "C")
+            ;   ;
+            ;  ;
+             (princ "EFname_case_5")
+           )
+        )
+        (;EFname_case_6
+           (or
+              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@400mm_COMBINE_SET" )
+              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_360HK_@372mm_COMBINE_SET" )
+           )
+           (progn
+             (vla-put-layer ss_pre_filter_set_xx_obj_ "A11_ALU.SOLID SHEET" )
+             (vla-put-color ss_pre_filter_set_xx_obj_ 0 )
+             (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+             (princ "EFname_case_6")
+           )
+        )
+      )
+      
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+)
+(defun c:PPLINE-CKST-reset300lacer () ;ใช้สำหรับ set layer ในบล็อก เพื่อให้เรียบร้อย
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "X"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget "X"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (while (and 
+             (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+             (= (getvar "blockeditor") 1)
+           )
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      (cond
+        (;EFname_case_1
+           (and
+              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_COMBINE_VIEW" )
+           )
+           (progn
+             (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
+             (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
+             (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+             (princ "EFname_case_1")
+           )
+        )
+        (;EFname_case_2
+           (and
+              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET" )
+           )
+           (progn
+             (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
+             (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
+             (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+             (princ "EFname_case_2")
+           )
+        )
+        (;EFname_case_3
+           (and
+              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_COMBINE_VIEW" )
+           )
+           (progn
+             (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
+             (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
+             (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+             (princ "EFname_case_3")
+           )
+        )
+        (;EFname_case_4
+           (and
+              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_COMBINE_VIEW" )
+              
+           )
+           (progn
+             (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
+             (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
+             (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+             (princ "EFname_case_4")
+           )
+        )
+        (;EFname_case_5
+           (and
+              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "001 - DYNAMIC REC&SSQ SHAPE SOLID_centerpoint" )
+           )
+           (progn
+             (vla-put-layer ss_pre_filter_set_xx_obj_ "A04_TUBE SERIES" )
+             (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
+             (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+             
+             (command "-bvstate" "s" "3_" )
+             (command "bvshow" ss_pre_filter_set_xx_ename_ "" "C")
+            ;  ;add-on
+            ;   ;new_blk_entlast object set-1
+            ;       (vla-copy ss_pre_filter_set_xx_obj_)
+            ;       (setq 300ex_ename (entlast))
+            ;       (setq 300ex_obj_ (vlax-ename->vla-object 300ex_ename))
+            ;       (setq 300ex_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 300ex_obj_))))
+            ;       (LM:setdynpropvalue 300ex_obj_ "W" 50)
+            ;       (vla-move 300ex_obj_ (vlax-3d-point 300ex_obj_ins_) (vlax-3d-point (list 
+            ;                                                                           (car 300ex_obj_ins_)
+            ;                                                                           (+ (cadr 300ex_obj_ins_) 125)
+            ;                                                                           (caddr 300ex_obj_ins_)
+            ;                                                                         )
+            ;                                                           )
+            ;       )
+            ;       (command "-bvstate" "s" "1_" )
+            ;       (command "bvshow" 300ex_ename "" "C")
+            ;   ;
+            ;   ;new_blk_entlast object set-2
+            ;       (vla-copy ss_pre_filter_set_xx_obj_)
+            ;       (setq 300ex_ename (entlast))
+            ;       (setq 300ex_obj_ (vlax-ename->vla-object 300ex_ename))
+            ;       (setq 300ex_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 300ex_obj_))))
+            ;       (LM:setdynpropvalue 300ex_obj_ "W" 50)
+            ;       (vla-move 300ex_obj_ (vlax-3d-point 300ex_obj_ins_) (vlax-3d-point (list 
+            ;                                                                           (car 300ex_obj_ins_)
+            ;                                                                           (- (cadr 300ex_obj_ins_) 125)
+            ;                                                                           (caddr 300ex_obj_ins_)
+            ;                                                                         )
+            ;                                                           )
+            ;       )
+            ;       (command "-bvstate" "s" "1_" )
+            ;       (command "bvshow" 300ex_ename "" "C")
+            ;   ;
+            ;  ;
+             (princ "EFname_case_5")
+           )
+        )
+        (;EFname_case_6
+           (or
+              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@400mm_COMBINE_SET" )
+              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_360HK_@372mm_COMBINE_SET" )
+           )
+           (progn
+             (vla-put-layer ss_pre_filter_set_xx_obj_ "A11_ALU.SOLID SHEET" )
+             (vla-put-color ss_pre_filter_set_xx_obj_ 0 )
+             (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+             (command "-bvstate" "s" "1_" )
+             (command "bvshow" ss_pre_filter_set_xx_ename_ "" "C")
+             (princ "EFname_case_6")
+           )
+        )
+      )
+      
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+)
 (defun c:PPLINE-CKST-reset300layer () ;ใช้สำหรับ set layer ในบล็อก เพื่อให้เรียบร้อย
   ;selection_set_for_fillter_blk_name
     (if  ;pre_select_ssget_or_post_select_ssget
@@ -27187,6 +27485,44 @@
              (vla-put-layer ss_pre_filter_set_xx_obj_ "A04_TUBE SERIES" )
              (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
              (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+             
+             (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "W" 300)
+             (command "-bvstate" "s" "1_" )
+             (command "bvshow" ss_pre_filter_set_xx_ename_ "" "C")
+            ;  ;add-on
+            ;   ;new_blk_entlast object set-1
+            ;       (vla-copy ss_pre_filter_set_xx_obj_)
+            ;       (setq 300ex_ename (entlast))
+            ;       (setq 300ex_obj_ (vlax-ename->vla-object 300ex_ename))
+            ;       (setq 300ex_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 300ex_obj_))))
+            ;       (LM:setdynpropvalue 300ex_obj_ "W" 50)
+            ;       (vla-move 300ex_obj_ (vlax-3d-point 300ex_obj_ins_) (vlax-3d-point (list 
+            ;                                                                           (car 300ex_obj_ins_)
+            ;                                                                           (+ (cadr 300ex_obj_ins_) 125)
+            ;                                                                           (caddr 300ex_obj_ins_)
+            ;                                                                         )
+            ;                                                           )
+            ;       )
+            ;       (command "-bvstate" "s" "1_" )
+            ;       (command "bvshow" 300ex_ename "" "C")
+            ;   ;
+            ;   ;new_blk_entlast object set-2
+            ;       (vla-copy ss_pre_filter_set_xx_obj_)
+            ;       (setq 300ex_ename (entlast))
+            ;       (setq 300ex_obj_ (vlax-ename->vla-object 300ex_ename))
+            ;       (setq 300ex_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 300ex_obj_))))
+            ;       (LM:setdynpropvalue 300ex_obj_ "W" 50)
+            ;       (vla-move 300ex_obj_ (vlax-3d-point 300ex_obj_ins_) (vlax-3d-point (list 
+            ;                                                                           (car 300ex_obj_ins_)
+            ;                                                                           (- (cadr 300ex_obj_ins_) 125)
+            ;                                                                           (caddr 300ex_obj_ins_)
+            ;                                                                         )
+            ;                                                           )
+            ;       )
+            ;       (command "-bvstate" "s" "1_" )
+            ;       (command "bvshow" 300ex_ename "" "C")
+            ;   ;
+            ;  ;
              (princ "EFname_case_5")
            )
         )
@@ -27202,6 +27538,133 @@
              (princ "EFname_case_6")
            )
         )
+      )
+      
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+)
+(defun c:PPLINE-CKST-reset300lax() ;ใช้สำหรับ set layer ในบล็อก เพื่อให้เรียบร้อย
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list 
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget "X"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (while (and 
+             (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+             (= (getvar "blockeditor") 1)
+           )
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      (cond
+
+        (;EFname_case_5
+           (and
+              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "001 - DYNAMIC REC&SSQ SHAPE SOLID_centerpoint" )
+           )
+           (progn
+             (vla-put-layer ss_pre_filter_set_xx_obj_ "A04_TUBE SERIES" )
+             (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
+             (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+             
+             (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "W" 200)
+             (command "-bvstate" "s" "3_" )
+             (command "bvshow" ss_pre_filter_set_xx_ename_ "" "C")
+             (command "-bvstate" "s" "1_" )
+             (command "bvhide" ss_pre_filter_set_xx_ename_ "" "C")
+             (command "-bvstate" "s" "3_" )
+             ;add-on
+              ;new_blk_entlast object set-1
+                  (vla-copy ss_pre_filter_set_xx_obj_)
+                  (setq 300ex_ename (entlast))
+                  (setq 300ex_obj_ (vlax-ename->vla-object 300ex_ename))
+                  (setq 300ex_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 300ex_obj_))))
+                  (LM:setdynpropvalue 300ex_obj_ "W" 50)
+                  (if (or 
+                        (= (rtos (rad-to-deg (vla-get-rotation ss_pre_filter_set_xx_obj_)) 2 0) "90")
+                        (= (rtos (rad-to-deg (vla-get-rotation ss_pre_filter_set_xx_obj_)) 2 0) "270")
+                      )
+                    (progn
+                      (vla-move 300ex_obj_ (vlax-3d-point 300ex_obj_ins_) (vlax-3d-point (list 
+                                                                                      (+ (car 300ex_obj_ins_) 125)
+                                                                                      (cadr 300ex_obj_ins_)
+                                                                                      (caddr 300ex_obj_ins_)
+                                                                                    )
+                                                                      )
+                      )
+                    )
+                      (vla-move 300ex_obj_ (vlax-3d-point 300ex_obj_ins_) (vlax-3d-point (list 
+                                                                                      (car 300ex_obj_ins_)
+                                                                                      (+ (cadr 300ex_obj_ins_) 125)
+                                                                                      (caddr 300ex_obj_ins_)
+                                                                                    )
+                                                                      )
+                      )
+                  )
+                  
+                  (command "bvshow" 300ex_ename "" "C")
+              ;
+              ;new_blk_entlast object set-2
+                  (vla-copy ss_pre_filter_set_xx_obj_)
+                  (setq 300ex_ename (entlast))
+                  (setq 300ex_obj_ (vlax-ename->vla-object 300ex_ename))
+                  (setq 300ex_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 300ex_obj_))))
+                  (LM:setdynpropvalue 300ex_obj_ "W" 50)
+                  (if (or 
+                        (= (rtos (rad-to-deg (vla-get-rotation ss_pre_filter_set_xx_obj_)) 2 0) "90")
+                        (= (rtos (rad-to-deg (vla-get-rotation ss_pre_filter_set_xx_obj_)) 2 0) "270")
+                      )
+                    (progn
+                      (vla-move 300ex_obj_ (vlax-3d-point 300ex_obj_ins_) (vlax-3d-point (list 
+                                                                                      (- (car 300ex_obj_ins_) 125)
+                                                                                      (cadr 300ex_obj_ins_)
+                                                                                      (caddr 300ex_obj_ins_)
+                                                                                    )
+                                                                      )
+                      )
+                    )
+                      (vla-move 300ex_obj_ (vlax-3d-point 300ex_obj_ins_) (vlax-3d-point (list 
+                                                                                      (car 300ex_obj_ins_)
+                                                                                      (- (cadr 300ex_obj_ins_) 125)
+                                                                                      (caddr 300ex_obj_ins_)
+                                                                                    )
+                                                                      )
+                      )
+                  )
+                  
+                  
+                  (command "bvshow" 300ex_ename "" "C")
+              ;
+             ;
+             (princ "EFname_case_5")
+           )
+        )
+
       )
       
       (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
@@ -27242,40 +27705,4 @@
 )
 
 
-(defun c:g1 ()
-  (setq ss_pre_filter_set_xx_ (ssget 
-                                          (list 
-                                            ; (cons 0 "INSERT,line,lwpolyline") ;type of object
-                                            (cons 8 "000 - GRID")   ;kind of layer
-                                            
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                        )
-            )
-  (command "pselect"  ss_pre_filter_set_xx_ "" )
-)
-(defun c:g1 ()
-  (setq ss_pre_filter_set_xx_ (ssget 
-                                          (list 
-                                            ; (cons 0 "INSERT,line,lwpolyline") ;type of object
-                                            (cons 8 "000 - GRID")   ;kind of layer
-                                            
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                        )
-            )
-  (command "pselect"  ss_pre_filter_set_xx_ "" )
-)
-(defun c:yy1 ()
-  
-  (setq ss_pre_filter_set_xx_ (ssget 
-                                          (list 
-                                            (cons 0 "INSERT,line,lwpolyline") ;type of object
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                        )
-            )
-  (command "pselect"  ss_pre_filter_set_xx_ "" )
-)
+

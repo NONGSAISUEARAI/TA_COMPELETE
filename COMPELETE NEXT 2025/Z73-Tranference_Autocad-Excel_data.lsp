@@ -9222,7 +9222,7 @@
           )
           (if (= sst_i 0) ;for create  tag one time 
             (progn
-              (setq sst_tag_mainlist_ TA:NEW_EXCEL_FILE_NEX_())
+              (setq sst_tag_mainlist_ (TA:NEW_EXCEL_FILE_NEX_ get_ExcelApp_object_ ))
               (if (= (vla-get-isdynamicblock sst_obj_))  ;dynamic_properties_list_
                 (progn 
                   (setq sst_obj_dyn_tag_list (mapcar 'car
