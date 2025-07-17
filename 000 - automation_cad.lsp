@@ -1,4 +1,4 @@
-;update 20250714 1838
+;update 20250718 0420
   ;Effective Block Name Funcition Lee Mac
     ;; Effective Block Name  -  Lee Mac
       ;; obj - [vla] VLA Block Reference object
@@ -10436,7 +10436,7 @@
       )
     ;
     ;Symbol Function
-      (defun c:change_layer_sym_ ()
+      (defun c:change_layer_chsym_ ()
         (setq target_layer_ "000 - SYMBOL CON") ;change layer here
         (setq total_layer (TA:get_name_layer_in_drawing))
         (setq find_layer_ (TA:member target_layer_ total_layer))
@@ -10708,6 +10708,79 @@
       (TA:copytext->clipboard (LM:effectivename nameblk_obj_ ))
     )
   ;
+  ;wipeout
+    (defun TA:Make_wipeout_mkw (wipeout_ename_ erase_pline)
+      ; (setq wipeout_ename_ (car (entsel "specify Object")))
+      (setq wipeout_obj_ (vlax-ename->vla-object wipeout_ename_))
+      (if (and 
+            (= (vla-get-objectname wipeout_obj_) "AcDbPolyline")
+            (= erase_pline "n")
+            (setq erase_pline "n")
+          )
+        (progn
+          (command "wipeout"  "p" wipeout_ename_ erase_pline)
+          (command "draworder" wipeout_ename_ ""   "a" (entlast) "")
+          ;addon ch-layer
+            (setq new_obj_ (vlax-ename->vla-object (entlast)))
+            (vl-catch-all-apply (function (lambda () (vla-put-layer new_obj_ "000 - WIPEOUT") ) ) )
+              
+          ;
+        )
+      )
+      (if (and 
+            (= (vla-get-objectname wipeout_obj_) "AcDbPolyline")
+            (= erase_pline "y")
+          )
+        (progn
+          (command "wipeout"  "p" wipeout_ename_ erase_pline)
+          ;addon ch-layer
+            (setq new_obj_ (vlax-ename->vla-object (entlast)))
+            (vla-put-layer new_obj_ "000 - WIPEOUT") 
+          ;
+        )
+      )
+    )
+    (defun c:Selectionset_wipeout_sswe ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "lwpolyline,polyline") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "lwpolyline,polyline") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (command "pselect"  "" "" )
+          (TA:Make_wipeout_mkw ss_pre_filter_set_xx_ename_ "n")
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+    )
+  ;
 ;
 
   
@@ -10813,7 +10886,6 @@
     (setq 300HK_blk_list_i 0)
     (while (< 300HK_blk_list_i (length 300HK_blk_list_))
       (setq 300HK_blk_list_ename_ (nth  300HK_blk_list_i 300HK_blk_list_))
-      (setvar "expert" 5)
       (command "-INSERTCONTENT" filePath 300HK_blk_list_ename_  temp_pt 1 1 0)
       (command "erase" "l" "")
       (setq 300HK_blk_list_i (+ 300HK_blk_list_i 1))
@@ -10823,6 +10895,7 @@
 )
 (defun c:PPLINE-CKST_CSDupdate_ ()
   ; (TA:get_name_block_in_drawing_to_list)
+  
   (setq CSD_MERGE_LIST_ ())
   (setq err_ "S")
   (while
@@ -10831,13 +10904,14 @@
       (vl-catch-all-apply 
         (function 
           (lambda () 
-            (setq CSD_MERGE_LIST_ (cons (LM:effectivename (vlax-ename->vla-object (car (entsel "specify Object")))) CSD_MERGE_LIST_) )
+            (setq CSD_MERGE_LIST_ (cons (LM:effectivename (setq ee (vlax-ename->vla-object (car (entsel "specify Object"))))) CSD_MERGE_LIST_) )
           )
         )
       )
     )
   )
-  (setq filePath (getfiled "Select the DWG file" "./" "dwg" 4))
+  (setq CSD_MERGE_LIST_ (mapcar 'car (TA:Count_item_in_list_ CSD_MERGE_LIST_)))
+  (setq filePath (getfiled "Select the DWG file" "C:/TA WORK/PPLINE CKST/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP18/CAD/" "dwg" 4))
   (setq temp_pt (getpoint "specify point" ))
   ;preloop_and_while
     (setq CSD_MERGE_LIST_i 0)
@@ -10845,24 +10919,99 @@
     (while (and 
              (/= CSD_MERGE_LIST_ nil)
              (< CSD_MERGE_LIST_i (length CSD_MERGE_LIST_))
-             (/= (wcmatch (strcase (vl-princ-to-string CER_)) "NIL") T)
+             (/= (wcmatch (strcase (vl-princ-to-string CER_)) "NIL"))
            )
       (setq CSD_MERGE_LIST_efname (nth  CSD_MERGE_LIST_i CSD_MERGE_LIST_))
-      (setvar "expert" 5)
       (setq CER_
         (vl-catch-all-apply 
           (function 
             (lambda () 
               (command "-INSERTCONTENT" filePath CSD_MERGE_LIST_efname  temp_pt 1 1 0)
+              
             )
           )
         )
       )
-      (command "erase" "l" "")
+      (if (= (vl-prin1-to-string (vlax-vla-object->ename ee)) (vl-prin1-to-string (entlast))) ;for stop loop
+        (progn
+          (setq CER_ 0)
+        )
+        (vla-erase (vlax-ename->vla-object (entlast)))
+      )
+      
       (setq CSD_MERGE_LIST_i (+ CSD_MERGE_LIST_i 1))
     )
   ;
   
 )
+(defun c:PPLINE-CKST_airupdate ()
+  ; (TA:get_name_block_in_drawing_to_list)
+  
+  (setq CSD_MERGE_LIST_ ())
+  (setq err_ "S")
+  (while
+    (/= (wcmatch (strcase (vl-princ-to-string err_)) "*ERROR*") T)
+    (setq err_
+      (vl-catch-all-apply 
+        (function 
+          (lambda () 
+            (setq ss_insert_ (ssget 
+                                  (list 
+                                    (cons 0 "insert") ;type of object
+                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                  )
+                           )
+            )
+            ;preloop_and_while
+              (setq ss_insert_i 0)
+              (while (< ss_insert_i (sslength ss_insert_))
+                (setq ss_insert_ename_ (ssname ss_insert_ ss_insert_i))
+                (setq ss_insert_obj_ (vlax-ename->vla-object  ss_insert_ename_))
+                (setq CSD_MERGE_LIST_ (cons (LM:effectivename ss_insert_obj_) CSD_MERGE_LIST_) )
+                (setq ss_insert_i (+ ss_insert_i 1))
+              )
+            ;
+          )
+        )
+      )
+    )
+  )
+  (setq CSD_MERGE_LIST_ (mapcar 'car (TA:Count_item_in_list_ CSD_MERGE_LIST_)))
+  (setq filePath (getfiled "Select the DWG file" "C:/TA WORK/PPLINE CKST/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP20/CAD/" "dwg" 4))
+  (setq temp_pt (getpoint "specify point" ))
+  ;preloop_and_while
+    (setq CSD_MERGE_LIST_i 0)
+    (setq CER_ 0)
+    (while (and 
+             (/= CSD_MERGE_LIST_ nil)
+             (< CSD_MERGE_LIST_i (length CSD_MERGE_LIST_))
+             (/= (wcmatch (strcase (vl-princ-to-string CER_)) "NIL"))
+           )
+      (setq CSD_MERGE_LIST_efname (nth  CSD_MERGE_LIST_i CSD_MERGE_LIST_))
+      (setq CER_
+        (vl-catch-all-apply 
+          (function 
+            (lambda () 
+              (command "-INSERTCONTENT" filePath CSD_MERGE_LIST_efname  temp_pt 1 1 0)
+              
+            )
+          )
+        )
+      )
+      (if (= (vl-prin1-to-string (vlax-vla-object->ename ee)) (vl-prin1-to-string (entlast))) ;for stop loop
+        (progn
+          (setq CER_ 0)
+        )
+        (vla-erase (vlax-ename->vla-object (entlast)))
+      )
+      
+      (setq CSD_MERGE_LIST_i (+ CSD_MERGE_LIST_i 1))
+    )
+  ;
+  
+)
+
 
 

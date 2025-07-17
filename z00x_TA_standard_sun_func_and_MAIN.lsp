@@ -1,4 +1,4 @@
-;update 20250715 0232
+;update 20250718 0420
   ;Effective Block Name Funcition Lee Mac
     ;; Effective Block Name  -  Lee Mac
       ;; obj - [vla] VLA Block Reference object
@@ -27124,7 +27124,7 @@
       )
       (sslength ss_pre_filter_set_xx_)
     )
-  
+  ;
   ;preloop_and_while
     (setq ss_pre_filter_set_xx_i 0)
     (while (and 
@@ -27134,108 +27134,127 @@
       (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
       (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
       (cond
-        (;EFname_case_1
-           (and
-              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_COMBINE_VIEW" )
-           )
-           (progn
-             (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
-             (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
-             (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
-             (princ "EFname_case_1")
-           )
-        )
-        (;EFname_case_2
-           (and
-              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET" )
-           )
-           (progn
-             (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
-             (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
-             (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
-             (princ "EFname_case_2")
-           )
-        )
-        (;EFname_case_3
-           (and
-              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_COMBINE_VIEW" )
-           )
-           (progn
-             (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
-             (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
-             (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
-             (princ "EFname_case_3")
-           )
-        )
-        (;EFname_case_4
-           (and
-              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_COMBINE_VIEW" )
+        ; (;EFname_case_1
+        ;    (and
+        ;       (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_COMBINE_VIEW" )
+        ;    )
+        ;    (progn
+        ;      (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
+        ;      (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
+        ;      (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+        ;      (princ "EFname_case_1")
+        ;    )
+        ; )
+        ; (;EFname_case_2
+        ;    (and
+        ;       (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET" )
+        ;    )
+        ;    (progn
+        ;      (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
+        ;      (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
+        ;      (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+        ;      (princ "EFname_case_2")
+        ;    )
+        ; )
+        ; (;EFname_case_3
+        ;    (and
+        ;       (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_COMBINE_VIEW" )
+        ;    )
+        ;    (progn
+        ;      (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
+        ;      (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
+        ;      (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+        ;      (princ "EFname_case_3")
+        ;    )
+        ; )
+        ; (;EFname_case_4
+        ;    (and
+        ;       (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_COMBINE_VIEW" )
               
-           )
-           (progn
-             (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
-             (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
-             (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
-             (princ "EFname_case_4")
-           )
-        )
-        (;EFname_case_5
-           (and
-              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "001 - DYNAMIC REC&SSQ SHAPE SOLID_centerpoint" )
-           )
-           (progn
-             (vla-put-layer ss_pre_filter_set_xx_obj_ "A04_TUBE SERIES" )
-             (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
-             (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+        ;    )
+        ;    (progn
+        ;      (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
+        ;      (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
+        ;      (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+        ;      (princ "EFname_case_4")
+        ;    )
+        ; )
+        ; (;EFname_case_5
+        ;    (and
+        ;       (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "001 - DYNAMIC REC&SSQ SHAPE SOLID_centerpoint" )
+        ;    )
+        ;    (progn
+        ;      (vla-put-layer ss_pre_filter_set_xx_obj_ "A04_TUBE SERIES" )
+        ;      (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
+        ;      (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
              
-            ;  ;add-on
-            ;   ;new_blk_entlast object set-1
-            ;       (vla-copy ss_pre_filter_set_xx_obj_)
-            ;       (setq 300ex_ename (entlast))
-            ;       (setq 300ex_obj_ (vlax-ename->vla-object 300ex_ename))
-            ;       (setq 300ex_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 300ex_obj_))))
-            ;       (LM:setdynpropvalue 300ex_obj_ "W" 50)
-            ;       (vla-move 300ex_obj_ (vlax-3d-point 300ex_obj_ins_) (vlax-3d-point (list 
-            ;                                                                           (car 300ex_obj_ins_)
-            ;                                                                           (+ (cadr 300ex_obj_ins_) 125)
-            ;                                                                           (caddr 300ex_obj_ins_)
-            ;                                                                         )
-            ;                                                           )
-            ;       )
-            ;       (command "-bvstate" "s" "1_" )
-            ;       (command "bvshow" 300ex_ename "" "C")
-            ;   ;
-            ;   ;new_blk_entlast object set-2
-            ;       (vla-copy ss_pre_filter_set_xx_obj_)
-            ;       (setq 300ex_ename (entlast))
-            ;       (setq 300ex_obj_ (vlax-ename->vla-object 300ex_ename))
-            ;       (setq 300ex_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 300ex_obj_))))
-            ;       (LM:setdynpropvalue 300ex_obj_ "W" 50)
-            ;       (vla-move 300ex_obj_ (vlax-3d-point 300ex_obj_ins_) (vlax-3d-point (list 
-            ;                                                                           (car 300ex_obj_ins_)
-            ;                                                                           (- (cadr 300ex_obj_ins_) 125)
-            ;                                                                           (caddr 300ex_obj_ins_)
-            ;                                                                         )
-            ;                                                           )
-            ;       )
-            ;       (command "-bvstate" "s" "1_" )
-            ;       (command "bvshow" 300ex_ename "" "C")
-            ;   ;
-            ;  ;
-             (princ "EFname_case_5")
-           )
-        )
-        (;EFname_case_6
-           (or
-              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@400mm_COMBINE_SET" )
-              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_360HK_@372mm_COMBINE_SET" )
-           )
-           (progn
-             (vla-put-layer ss_pre_filter_set_xx_obj_ "A11_ALU.SOLID SHEET" )
-             (vla-put-color ss_pre_filter_set_xx_obj_ 0 )
-             (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
-             (princ "EFname_case_6")
-           )
+        ;     ;  ;add-on
+        ;     ;   ;new_blk_entlast object set-1
+        ;     ;       (vla-copy ss_pre_filter_set_xx_obj_)
+        ;     ;       (setq 300ex_ename (entlast))
+        ;     ;       (setq 300ex_obj_ (vlax-ename->vla-object 300ex_ename))
+        ;     ;       (setq 300ex_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 300ex_obj_))))
+        ;     ;       (LM:setdynpropvalue 300ex_obj_ "W" 50)
+        ;     ;       (vla-move 300ex_obj_ (vlax-3d-point 300ex_obj_ins_) (vlax-3d-point (list 
+        ;     ;                                                                           (car 300ex_obj_ins_)
+        ;     ;                                                                           (+ (cadr 300ex_obj_ins_) 125)
+        ;     ;                                                                           (caddr 300ex_obj_ins_)
+        ;     ;                                                                         )
+        ;     ;                                                           )
+        ;     ;       )
+        ;     ;       (command "-bvstate" "s" "1_" )
+        ;     ;       (command "bvshow" 300ex_ename "" "C")
+        ;     ;   ;
+        ;     ;   ;new_blk_entlast object set-2
+        ;     ;       (vla-copy ss_pre_filter_set_xx_obj_)
+        ;     ;       (setq 300ex_ename (entlast))
+        ;     ;       (setq 300ex_obj_ (vlax-ename->vla-object 300ex_ename))
+        ;     ;       (setq 300ex_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 300ex_obj_))))
+        ;     ;       (LM:setdynpropvalue 300ex_obj_ "W" 50)
+        ;     ;       (vla-move 300ex_obj_ (vlax-3d-point 300ex_obj_ins_) (vlax-3d-point (list 
+        ;     ;                                                                           (car 300ex_obj_ins_)
+        ;     ;                                                                           (- (cadr 300ex_obj_ins_) 125)
+        ;     ;                                                                           (caddr 300ex_obj_ins_)
+        ;     ;                                                                         )
+        ;     ;                                                           )
+        ;     ;       )
+        ;     ;       (command "-bvstate" "s" "1_" )
+        ;     ;       (command "bvshow" 300ex_ename "" "C")
+        ;     ;   ;
+        ;     ;  ;
+        ;      (princ "EFname_case_5")
+        ;    )
+        ; )
+        ; (;EFname_case_6
+        ;    (or
+        ;       (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@400mm_COMBINE_SET" )
+        ;       (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_360HK_@372mm_COMBINE_SET" )
+        ;    )
+        ;    (progn
+        ;      (vla-put-layer ss_pre_filter_set_xx_obj_ "A11_ALU.SOLID SHEET" )
+        ;      (vla-put-color ss_pre_filter_set_xx_obj_ 0 )
+        ;      (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+        ;      (princ "EFname_case_6")
+        ;    )
+        ; )
+        (;EFname_case_67           
+            (or
+              (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_ )) (strcat "*" (strcase "Ceiling Air Supply") "*"))  T)
+              (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_ )) (strcat "*" (strcase "Ceiling Luminaire") "*"))  T)
+            )
+            (progn
+              ; (vl-catch-all-apply (function (lambda () (vla-put-layer ss_pre_filter_set_xx_obj_ "008 - LIGHTING") ) ) )
+              (vla-put-color ss_pre_filter_set_xx_obj_ 0 )
+              (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+              (command "-bvstate" "s" "4_" )
+              (command "bvshow" ss_pre_filter_set_xx_ename_ "" "c")
+              (if (= (vla-get-isdynamicblock ss_pre_filter_set_xx_obj_) :vlax-true)
+                (progn
+                  (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "view" "1_")
+                )
+              )
+              (princ "EFname_case_7")
+            )
         )
       )
       
@@ -27670,7 +27689,12 @@
       (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
     )
   ;
+  ;return bv visibility
+    (command "-bvstate" "s" "VisibilityState0" )
+    (command "bvshow" (ssget "x") "" "c" )
+  ;
 )
+
 (defun c:PPLINE-CKST_SELDIM ()
   ;selection_set_for_fillter_blk_name
     (if  ;pre_select_ssget_or_post_select_ssget
@@ -27706,3 +27730,1267 @@
 
 
 
+(defun c:PPLINE-CKST_300air()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            ; (cons 0 "lwpolyline") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget 
+                                          (list
+                                            ; (cons 0 "lwpolyline") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_line_ (ssget "i" 
+                              (list 
+                                (cons 0 "line") ;type of object
+                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                ; (cons 62 1)           ;kind of color call sign with color code index
+                              )
+                       )
+        )
+        nil
+      )
+      (progn
+        (setq ss_line_ (ssget "X" 
+                         (list 
+                               (cons 0 "line") ;type of object
+                               ; (cons 8 "000 - GRID")   ;kind of layer
+                               ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                               ; (cons 62 1)           ;kind of color call sign with color code index
+                         )
+                       )
+        )
+      )
+      (sslength ss_line_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_line_i 0)
+    (setq line_data_list_ ())
+    (while (< ss_line_i (sslength ss_line_))
+      (setq ss_line_ename_ (ssname ss_line_ ss_line_i))
+      (setq ss_line_obj_ (vlax-ename->vla-object  ss_line_ename_))
+      (setq line_data_list_ (cons
+                                (list 
+                                  (vla-get-length ss_line_obj_)
+                                  (vla-get-angle ss_line_obj_)
+                                )
+                                line_data_list_ 
+                            )
+      )
+      (setq ss_line_i (+ ss_line_i 1))
+    )
+  ;
+  ;TA:stanndard_lambda_sorting
+    (setq line_data_list_sorted_ (vl-sort line_data_list_  ;bigest open indent list
+                                          (function 
+                                            (lambda (a b) 
+                                              (<
+                                                (cadr a) 
+                                                (cadr b)
+                                              )
+                                            )
+                                          )
+                                 ) ;bigest close indent list
+    )
+  ;
+  ;get-data_
+    (setq main_border_ (TA:ss_vla-getboundingbox ss_pre_filter_set_xx_))
+    (setq ptmid_ (TA:midpoint (car main_border_) (cadr main_border_)))  
+    (setq pt1 (list 
+                (car (car main_border_)) 
+                (cadr (car main_border_)) 
+                0 
+              )
+    )
+    (setq pt2 (list 
+                (car (cadr main_border_)) 
+                (cadr (car main_border_)) 
+                0 
+              )
+    )
+    (setq pt3 (list 
+                (car (cadr main_border_)) 
+                (cadr (cadr main_border_)) 
+                0 
+              )
+    )
+    (setq pt4 (list 
+                (car (car main_border_)) 
+                (cadr (cadr main_border_)) 
+                0 
+              )
+    )
+  ;
+  ;insertion process_
+    (TA:vla-insertblock "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_PLAN_SUPPLY_AIR_REC.1600x175mm_COMBINE_SET"
+      ptmid_
+      1
+      (cadr (car line_data_list_sorted_ ))
+    )
+    ;new_blk_entlast object
+      (setq new_ename (entlast))
+      (setq new_obj_ (vlax-ename->vla-object new_ename))
+      (LM:setdynpropvalue new_obj_ "view" "6_bottom_view")
+      (vla-put-layer new_obj_ "008 - LIGHTING")
+      (vla-put-color new_obj_ 256)
+    ; 
+  ; 
+  ;bvstate process
+    (setq input_ins_ (list 
+                     (- (car pt1) 100)
+                     (- (cadr pt1) 100)
+                     
+                     0
+                   )
+    )
+    (command "BPARAMETER" "v" "L" "view" input_ins_ 1 "" )
+    (command "bvstate" "n" "1_" "h")
+    (command "bvshow" new_ename "" "c") 
+    (command "bvstate" "s" "VisibilityState0" )
+    (command "bvhide" new_ename "" "c")
+  ;
+  ;
+  (command "bvmode" 1)
+  (command "bclose")
+)
+(defun c:PPLINE-CKST_300light()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            ; (cons 0 "lwpolyline") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget 
+                                          (list
+                                            ; (cons 0 "lwpolyline") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_line_ (ssget "i" 
+                              (list 
+                                (cons 0 "line") ;type of object
+                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                ; (cons 62 1)           ;kind of color call sign with color code index
+                              )
+                       )
+        )
+        nil
+      )
+      (progn
+        (setq ss_line_ (ssget "X" 
+                         (list 
+                               (cons 0 "line") ;type of object
+                               ; (cons 8 "000 - GRID")   ;kind of layer
+                               ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                               ; (cons 62 1)           ;kind of color call sign with color code index
+                         )
+                       )
+        )
+      )
+      (sslength ss_line_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_line_i 0)
+    (setq line_data_list_ ())
+    (while (< ss_line_i (sslength ss_line_))
+      (setq ss_line_ename_ (ssname ss_line_ ss_line_i))
+      (setq ss_line_obj_ (vlax-ename->vla-object  ss_line_ename_))
+      (setq line_data_list_ (cons
+                                (list 
+                                  (vla-get-length ss_line_obj_)
+                                  (vla-get-angle ss_line_obj_)
+                                )
+                                line_data_list_ 
+                            )
+      )
+      (setq ss_line_i (+ ss_line_i 1))
+    )
+  ;
+  ;TA:stanndard_lambda_sorting
+    (setq line_data_list_sorted_ (vl-sort line_data_list_  ;bigest open indent list
+                                          (function 
+                                            (lambda (a b) 
+                                              (>
+                                                (car a) 
+                                                (car b)
+                                              )
+                                            )
+                                          )
+                                 ) ;bigest close indent list
+    )
+  ;
+  ;get-data_
+    (setq main_border_ (TA:ss_vla-getboundingbox ss_pre_filter_set_xx_))
+    (setq ptmid_ (TA:midpoint (car main_border_) (cadr main_border_)))  
+    (setq pt1 (list 
+                (car (car main_border_)) 
+                (cadr (car main_border_)) 
+                0 
+              )
+    )
+    (setq pt2 (list 
+                (car (cadr main_border_)) 
+                (cadr (car main_border_)) 
+                0 
+              )
+    )
+    (setq pt3 (list 
+                (car (cadr main_border_)) 
+                (cadr (cadr main_border_)) 
+                0 
+              )
+    )
+    (setq pt4 (list 
+                (car (car main_border_)) 
+                (cadr (cadr main_border_)) 
+                0 
+              )
+    )
+  ;
+  ;insertion process_
+    (TA:vla-insertblock "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_TRAKC_LIGHT_REC.1257x120mm_COMBINE_SET"
+      ptmid_
+      1
+      (cadr (car line_data_list_sorted_ ))
+    )
+    ;new_blk_entlast object
+      (setq new_ename (entlast))
+      (setq new_obj_ (vlax-ename->vla-object new_ename))
+      (LM:setdynpropvalue new_obj_ "view" "6_bottom_view")
+      (vla-put-layer new_obj_ "008 - LIGHTING")
+      (vla-put-color new_obj_ 256)
+    ; 
+  ; 
+  ;bvstate process
+    (setq input_ins_ (list 
+                     (- (car pt1) 100)
+                     (- (cadr pt1) 100)
+                     
+                     0
+                   )
+    )
+    (command "BPARAMETER" "v" "L" "view" input_ins_ 1 "" )
+    (command "bvstate" "n" "1_" "h")
+    (command "bvshow" new_ename "" "c") 
+    (command "bvstate" "s" "VisibilityState0" )
+    (command "bvhide" new_ename "" "c")
+  ;
+  ;
+  (command "bvmode" 1)
+  (command "bclose")
+)
+(defun c:PPLINE-CKST-bvairlight () ;ใช้สำหรับ set layer ในบล็อก เพื่อให้เรียบร้อย
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget 
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (setq new_sel_set_ (ssadd))
+    (textscr)
+    (while (and 
+             (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+            ;  (= (getvar "blockeditor") 1)
+           )
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      (cond
+      ; (;EFname_case_1
+        ;    (and
+        ;       (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_COMBINE_VIEW" )
+        ;    )
+        ;    (progn
+        ;      (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
+        ;      (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
+        ;      (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+        ;      (princ "EFname_case_1")
+        ;    )
+        ; )
+        ; (;EFname_case_2
+        ;    (and
+        ;       (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET" )
+        ;    )
+        ;    (progn
+        ;      (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
+        ;      (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
+        ;      (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+        ;      (princ "EFname_case_2")
+        ;    )
+        ; )
+        ; (;EFname_case_3
+        ;    (and
+        ;       (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_COMBINE_VIEW" )
+        ;    )
+        ;    (progn
+        ;      (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
+        ;      (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
+        ;      (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+        ;      (princ "EFname_case_3")
+        ;    )
+        ; )
+        ; (;EFname_case_4
+        ;    (and
+        ;       (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_COMBINE_VIEW" )
+              
+        ;    )
+        ;    (progn
+        ;      (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
+        ;      (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
+        ;      (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+        ;      (princ "EFname_case_4")
+        ;    )
+        ; )
+        ; (;EFname_case_5
+        ;    (and
+        ;       (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "001 - DYNAMIC REC&SSQ SHAPE SOLID_centerpoint" )
+        ;    )
+        ;    (progn
+        ;      (vla-put-layer ss_pre_filter_set_xx_obj_ "A04_TUBE SERIES" )
+        ;      (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
+        ;      (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+             
+        ;     ;  ;add-on
+        ;     ;   ;new_blk_entlast object set-1
+        ;     ;       (vla-copy ss_pre_filter_set_xx_obj_)
+        ;     ;       (setq 300ex_ename (entlast))
+        ;     ;       (setq 300ex_obj_ (vlax-ename->vla-object 300ex_ename))
+        ;     ;       (setq 300ex_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 300ex_obj_))))
+        ;     ;       (LM:setdynpropvalue 300ex_obj_ "W" 50)
+        ;     ;       (vla-move 300ex_obj_ (vlax-3d-point 300ex_obj_ins_) (vlax-3d-point (list 
+        ;     ;                                                                           (car 300ex_obj_ins_)
+        ;     ;                                                                           (+ (cadr 300ex_obj_ins_) 125)
+        ;     ;                                                                           (caddr 300ex_obj_ins_)
+        ;     ;                                                                         )
+        ;     ;                                                           )
+        ;     ;       )
+        ;     ;       (command "-bvstate" "s" "1_" )
+        ;     ;       (command "bvshow" 300ex_ename "" "C")
+        ;     ;   ;
+        ;     ;   ;new_blk_entlast object set-2
+        ;     ;       (vla-copy ss_pre_filter_set_xx_obj_)
+        ;     ;       (setq 300ex_ename (entlast))
+        ;     ;       (setq 300ex_obj_ (vlax-ename->vla-object 300ex_ename))
+        ;     ;       (setq 300ex_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 300ex_obj_))))
+        ;     ;       (LM:setdynpropvalue 300ex_obj_ "W" 50)
+        ;     ;       (vla-move 300ex_obj_ (vlax-3d-point 300ex_obj_ins_) (vlax-3d-point (list 
+        ;     ;                                                                           (car 300ex_obj_ins_)
+        ;     ;                                                                           (- (cadr 300ex_obj_ins_) 125)
+        ;     ;                                                                           (caddr 300ex_obj_ins_)
+        ;     ;                                                                         )
+        ;     ;                                                           )
+        ;     ;       )
+        ;     ;       (command "-bvstate" "s" "1_" )
+        ;     ;       (command "bvshow" 300ex_ename "" "C")
+        ;     ;   ;
+        ;     ;  ;
+        ;      (princ "EFname_case_5")
+        ;    )
+        ; )
+        ; (;EFname_case_6
+        ;    (or
+        ;       (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@400mm_COMBINE_SET" )
+        ;       (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_360HK_@372mm_COMBINE_SET" )
+        ;    )
+        ;    (progn
+        ;      (vla-put-layer ss_pre_filter_set_xx_obj_ "A11_ALU.SOLID SHEET" )
+        ;      (vla-put-color ss_pre_filter_set_xx_obj_ 0 )
+        ;      (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+        ;      (princ "EFname_case_6")
+        ;    )
+      ; )
+        (;EFname_case_67           
+            (or
+              (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_ )) (strcat "*" (strcase "Ceiling Air Supply") "*"))  T)
+              (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_ )) (strcat "*" (strcase "Ceiling Luminaire") "*"))  T)
+              (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_ )) (strcat "*" (strcase "Horizontal with Gap") "*"))  T)
+            )
+            (progn
+              ; (vl-catch-all-apply (function (lambda () (vla-put-layer ss_pre_filter_set_xx_obj_ "008 - LIGHTING") ) ) )
+              (vla-put-color ss_pre_filter_set_xx_obj_ 0 )
+              (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+              ; (command "-bvstate" "s" "4_" )
+              ; (command "bvshow" ss_pre_filter_set_xx_ename_ "" "c")
+              (if (= (vla-get-isdynamicblock ss_pre_filter_set_xx_obj_) :vlax-true)
+                (progn
+                  (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "view" "1_")
+                )
+              )
+              (setq new_sel_set_ (ssadd ss_pre_filter_set_xx_ename_ new_sel_set_) )
+              (princ "EFname_case_7")
+            )
+        )
+      )
+      
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      (princ (strcat "\n" (rtos ss_pre_filter_set_xx_i 2 0) "/" (rtos (sslength ss_pre_filter_set_xx_) 2 0)))
+    )
+  ;
+    (command "pselect"  new_sel_set_ "" )
+  ;
+)
+(defun c:PPLINE-CKST-bvgap () ;ใช้สำหรับ set layer ในบล็อก เพื่อให้เรียบร้อย
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget 
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (setq new_sel_set_ (ssadd))
+    ; (textscr)
+    (while (and 
+             (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+            ;  (= (getvar "blockeditor") 1)
+           )
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      (cond
+      ; (;EFname_case_1
+        ;    (and
+        ;       (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_COMBINE_VIEW" )
+        ;    )
+        ;    (progn
+        ;      (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
+        ;      (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
+        ;      (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+        ;      (princ "EFname_case_1")
+        ;    )
+        ; )
+        ; (;EFname_case_2
+        ;    (and
+        ;       (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET" )
+        ;    )
+        ;    (progn
+        ;      (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
+        ;      (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
+        ;      (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+        ;      (princ "EFname_case_2")
+        ;    )
+        ; )
+        ; (;EFname_case_3
+        ;    (and
+        ;       (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_COMBINE_VIEW" )
+        ;    )
+        ;    (progn
+        ;      (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
+        ;      (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
+        ;      (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+        ;      (princ "EFname_case_3")
+        ;    )
+        ; )
+        ; (;EFname_case_4
+        ;    (and
+        ;       (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_COMBINE_VIEW" )
+              
+        ;    )
+        ;    (progn
+        ;      (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
+        ;      (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
+        ;      (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+        ;      (princ "EFname_case_4")
+        ;    )
+        ; )
+        ; (;EFname_case_5
+        ;    (and
+        ;       (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "001 - DYNAMIC REC&SSQ SHAPE SOLID_centerpoint" )
+        ;    )
+        ;    (progn
+        ;      (vla-put-layer ss_pre_filter_set_xx_obj_ "A04_TUBE SERIES" )
+        ;      (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
+        ;      (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+             
+        ;     ;  ;add-on
+        ;     ;   ;new_blk_entlast object set-1
+        ;     ;       (vla-copy ss_pre_filter_set_xx_obj_)
+        ;     ;       (setq 300ex_ename (entlast))
+        ;     ;       (setq 300ex_obj_ (vlax-ename->vla-object 300ex_ename))
+        ;     ;       (setq 300ex_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 300ex_obj_))))
+        ;     ;       (LM:setdynpropvalue 300ex_obj_ "W" 50)
+        ;     ;       (vla-move 300ex_obj_ (vlax-3d-point 300ex_obj_ins_) (vlax-3d-point (list 
+        ;     ;                                                                           (car 300ex_obj_ins_)
+        ;     ;                                                                           (+ (cadr 300ex_obj_ins_) 125)
+        ;     ;                                                                           (caddr 300ex_obj_ins_)
+        ;     ;                                                                         )
+        ;     ;                                                           )
+        ;     ;       )
+        ;     ;       (command "-bvstate" "s" "1_" )
+        ;     ;       (command "bvshow" 300ex_ename "" "C")
+        ;     ;   ;
+        ;     ;   ;new_blk_entlast object set-2
+        ;     ;       (vla-copy ss_pre_filter_set_xx_obj_)
+        ;     ;       (setq 300ex_ename (entlast))
+        ;     ;       (setq 300ex_obj_ (vlax-ename->vla-object 300ex_ename))
+        ;     ;       (setq 300ex_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 300ex_obj_))))
+        ;     ;       (LM:setdynpropvalue 300ex_obj_ "W" 50)
+        ;     ;       (vla-move 300ex_obj_ (vlax-3d-point 300ex_obj_ins_) (vlax-3d-point (list 
+        ;     ;                                                                           (car 300ex_obj_ins_)
+        ;     ;                                                                           (- (cadr 300ex_obj_ins_) 125)
+        ;     ;                                                                           (caddr 300ex_obj_ins_)
+        ;     ;                                                                         )
+        ;     ;                                                           )
+        ;     ;       )
+        ;     ;       (command "-bvstate" "s" "1_" )
+        ;     ;       (command "bvshow" 300ex_ename "" "C")
+        ;     ;   ;
+        ;     ;  ;
+        ;      (princ "EFname_case_5")
+        ;    )
+        ; )
+        ; (;EFname_case_6
+        ;    (or
+        ;       (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@400mm_COMBINE_SET" )
+        ;       (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_360HK_@372mm_COMBINE_SET" )
+        ;    )
+        ;    (progn
+        ;      (vla-put-layer ss_pre_filter_set_xx_obj_ "A11_ALU.SOLID SHEET" )
+        ;      (vla-put-color ss_pre_filter_set_xx_obj_ 0 )
+        ;      (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+        ;      (princ "EFname_case_6")
+        ;    )
+      ; )
+        (;EFname_case_67           
+            (or
+              ; (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_ )) (strcat "*" (strcase "Ceiling Air Supply") "*"))  T)
+              ; (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_ )) (strcat "*" (strcase "Ceiling Luminaire") "*"))  T)
+              (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_ )) (strcat "*" (strcase "Horizontal") "*"))  T)
+            )
+            (progn
+              ; (vl-catch-all-apply (function (lambda () (vla-put-layer ss_pre_filter_set_xx_obj_ "008 - LIGHTING") ) ) )
+              (vla-put-color ss_pre_filter_set_xx_obj_ 0 )
+              (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+              ; (command "-bvstate" "s" "4_" )
+              ; (command "bvshow" ss_pre_filter_set_xx_ename_ "" "c")
+              (if (= (vla-get-isdynamicblock ss_pre_filter_set_xx_obj_) :vlax-true)
+                (progn
+                  (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "view" "1_")
+                )
+              )
+              (setq new_sel_set_ (ssadd ss_pre_filter_set_xx_ename_ new_sel_set_) )
+              (princ "EFname_case_7")
+            )
+        )
+      )
+      
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      (princ (strcat "\n" (rtos ss_pre_filter_set_xx_i 2 0) "/" (rtos (sslength ss_pre_filter_set_xx_) 2 0)))
+    )
+  ;
+    (command "pselect"  new_sel_set_ "" )
+  ;
+)
+
+(defun c:PPLINE-CKST-mksheet_ ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (setq new_list_ ())
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      (if (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbBlockReference")
+        (progn
+          
+          (setq new_list_ (cons 
+                            (list 
+                              ; ss_pre_filter_set_xx_ename_
+                              (LM:effectivename ss_pre_filter_set_xx_obj_ )
+                            )
+                            new_list_
+                          )
+          )
+        )
+      )
+      
+      
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+  (setq list_solid_blk_ (mapcar 'car (TA:Count_item_in_list_ new_list_)))
+  ;preloop_and_while
+    (setq list_solid_blk_i 0)
+    (while (< list_solid_blk_i (length list_solid_blk_))
+      (setq list_solid_blk_efname_ (car (nth  list_solid_blk_i list_solid_blk_)))
+      (command "bedit" list_solid_blk_efname_ )
+        (command "-overkill" (ssget "x") "" "o" 0.5 "")
+        (setq ss_line_ (ssget "x"
+                        (list 
+                          (cons 0 "line") ;type of object
+                          ; (cons 8 "000 - GRID")   ;kind of layer
+                          ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                          ; (cons 62 1)           ;kind of color call sign with color code index
+                        )
+                      )
+        )
+
+        ;preloop_and_while
+          (setq ss_line_i 0)
+          (setq line_data_list_ ())
+          (while (< ss_line_i (sslength ss_line_))
+            (setq ss_line_ename_ (ssname ss_line_ ss_line_i))
+            (setq ss_line_obj_ (vlax-ename->vla-object  ss_line_ename_))
+            (setq line_data_list_ (cons
+                                      (list 
+                                        (vla-get-length ss_line_obj_)
+                                        (vla-get-angle ss_line_obj_)
+                                      )
+                                      line_data_list_ 
+                                  )
+            )
+            (setq ss_line_i (+ ss_line_i 1))
+          )
+        ;
+        (setq list_data_sort_ (TA:Count_item_in_list_ line_data_list_ ))
+        ;TA:stanndard_lambda_sorting
+          (setq line_data_list_sorted_ (vl-sort list_data_sort_  ;bigest open indent list
+                                                (function 
+                                                  (lambda (a b) 
+                                                    (>
+                                                      (cdr a) 
+                                                      (cdr b)
+                                                    )
+                                                  )
+                                                )
+                                      ) ;bigest close indent list
+          )
+        ;
+        ;get-data_
+          (setq main_border_ (TA:ss_vla-getboundingbox 
+                              (setq ss_line_ (ssget "x" 
+                                                    (list 
+                                                      (cons 0 "line" ) ;type of object
+                                                      (cons 8 "A-GLAZ-CURT")   ;kind of layer
+                                                      ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                      ; (cons 62 1)           ;kind of color call sign with color code index
+                                                    )
+                                              )
+                              )
+                            )
+          )
+          (setq ptmid_ (TA:midpoint (car main_border_) (cadr main_border_)))  
+          (setq pt1 (list 
+                      (car (car main_border_)) 
+                      (cadr (car main_border_)) 
+                      0 
+                    )
+          )
+          (setq pt2 (list 
+                      (car (cadr main_border_)) 
+                      (cadr (car main_border_)) 
+                      0 
+                    )
+          )
+          (setq pt3 (list 
+                      (car (cadr main_border_)) 
+                      (cadr (cadr main_border_)) 
+                      0 
+                    )
+          )
+          (setq pt4 (list 
+                      (car (car main_border_)) 
+                      (cadr (cadr main_border_)) 
+                      0 
+                    )
+          )
+        ;
+        ;insertion process_
+          (TA:vla-insertblock "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_PLAN_AL.SOLID_SHEET_HAT-PROFILE_COMBINE_SET"
+            ptmid_
+            1
+            (cadr (car (car line_data_list_sorted_ )))
+          )
+          ;new_blk_entlast object
+            (setq new_ename (entlast))
+            (setq new_obj_ (vlax-ename->vla-object new_ename))
+            (LM:setdynpropvalue new_obj_ "L" (car (car (car line_data_list_sorted_ ))))
+            (vla-put-layer new_obj_ "008 - LIGHTING")
+            (vla-put-color new_obj_ 256)
+          ; 
+        ; 
+        ;bvstate process
+          (setq input_ins_ (list 
+                          (- (car pt1) 100)
+                          (- (cadr pt1) 100)
+                          
+                          0
+                        )
+          )
+          (command "BPARAMETER" "v" "L" "view" input_ins_ 1 "" )
+          (command "bvstate" "n" "1_" "h")
+          (command "bvshow" new_ename "" "c") 
+          (command "bvstate" "s" "VisibilityState0" )
+          (command "bvhide" new_ename "" "c")
+          (command "bvmode" 1)
+          (command "bclose" "s")
+        ;
+
+      (setq list_solid_blk_i (+ list_solid_blk_i 1))
+    )
+  ;
+    
+  ;
+)
+(defun c:PPLINE-CKST-mkair_ ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (setq new_list_ ())
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      (if (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_ )) (strcat "*" (strcase "Ceiling Air Supply") "*"))  T)
+        (progn
+          
+          (setq new_list_ (cons 
+                            (list 
+                              ; ss_pre_filter_set_xx_ename_
+                              (LM:effectivename ss_pre_filter_set_xx_obj_ )
+                            )
+                            new_list_
+                          )
+          )
+        )
+      )
+      
+      
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+  (setq list_solid_blk_ (mapcar 'car (TA:Count_item_in_list_ new_list_)))
+  ;preloop_and_while
+    (setq list_solid_blk_i 0)
+    (while (< list_solid_blk_i (length list_solid_blk_))
+      (setq list_solid_blk_efname_ (car (nth  list_solid_blk_i list_solid_blk_)))
+      (command "bedit" list_solid_blk_efname_ )
+        (command "-overkill" (ssget "x") "" "o" 0.5 "")
+        (setq ss_line_ (ssget "x"
+                        (list 
+                          (cons 0 "line") ;type of object
+                          ; (cons 8 "000 - GRID")   ;kind of layer
+                          ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                          ; (cons 62 1)           ;kind of color call sign with color code index
+                        )
+                      )
+        )
+
+        ;preloop_and_while
+          (setq ss_line_i 0)
+          (setq line_data_list_ ())
+          (while (< ss_line_i (sslength ss_line_))
+            (setq ss_line_ename_ (ssname ss_line_ ss_line_i))
+            (setq ss_line_obj_ (vlax-ename->vla-object  ss_line_ename_))
+            (setq line_data_list_ (cons
+                                      (list 
+                                        (vla-get-length ss_line_obj_)
+                                        (vla-get-angle ss_line_obj_)
+                                      )
+                                      line_data_list_ 
+                                  )
+            )
+            (setq ss_line_i (+ ss_line_i 1))
+          )
+        ;
+        (setq list_data_sort_ (TA:Count_item_in_list_ line_data_list_ ))
+        ;TA:stanndard_lambda_sorting
+          (setq line_data_list_sorted_ (vl-sort line_data_list_  ;bigest open indent list
+                                                (function 
+                                                  (lambda (a b) 
+                                                    (>
+                                                      (car a) 
+                                                      (car b)
+                                                    )
+                                                  )
+                                                )
+                                      ) ;bigest close indent list
+          )
+        ;
+        ;get-data_
+          (setq main_border_ (TA:ss_vla-getboundingbox 
+                              (setq ss_line_ (ssget "x" 
+                                                    (list 
+                                                      (cons 0 "line" ) ;type of object
+                                                      (cons 8 "A-GLAZ-CURT")   ;kind of layer
+                                                      ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                      ; (cons 62 1)           ;kind of color call sign with color code index
+                                                    )
+                                              )
+                              )
+                            )
+          ) 
+          (sslength ss_line_)
+          (setq ptmid_ (TA:midpoint (car main_border_) (cadr main_border_)))  
+          (setq pt1 (list 
+                      (car (car main_border_)) 
+                      (cadr (car main_border_)) 
+                      0 
+                    )
+          )
+          (setq pt2 (list 
+                      (car (cadr main_border_)) 
+                      (cadr (car main_border_)) 
+                      0 
+                    )
+          )
+          (setq pt3 (list 
+                      (car (cadr main_border_)) 
+                      (cadr (cadr main_border_)) 
+                      0 
+                    )
+          )
+          (setq pt4 (list 
+                      (car (car main_border_)) 
+                      (cadr (cadr main_border_)) 
+                      0 
+                    )
+          )
+        ;
+        
+        ;insertion process_
+          (TA:vla-insertblock "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_PLAN_SUPPLY_AIR_REC.1600x175mm_COMBINE_SET"
+            ptmid_
+            1
+            (cadr (car line_data_list_sorted_ ))
+          )
+          ;new_blk_entlast object
+            (setq new_ename (entlast))
+            (setq new_obj_ (vlax-ename->vla-object new_ename))
+            (LM:setdynpropvalue new_obj_ "L" (car (car line_data_list_sorted_ )))
+            (LM:setdynpropvalue new_obj_ "view" "6_bottom_view")
+            (vla-put-layer new_obj_ "008 - LIGHTING")
+            (vla-put-color new_obj_ 256)
+          ; 
+        ; 
+        ;bvstate process
+          (setq input_ins_ (list 
+                          (- (car pt1) 100)
+                          (- (cadr pt1) 100)
+                          
+                          0
+                        )
+          )
+          (command "BPARAMETER" "v" "L" "view" input_ins_ 1 "" )
+          (command "bvstate" "n" "1_" "h")
+          (command "bvshow" new_ename "" "c") 
+          (command "bvstate" "s" "VisibilityState0" )
+          (command "bvhide" new_ename "" "c")
+          (command "bvmode" 1)
+          (command "bclose" "s")
+        ;
+
+      (setq list_solid_blk_i (+ list_solid_blk_i 1))
+    )
+  ;
+    
+  ;
+)
+(defun c:PPLINE-CKST-mklight_ ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (setq new_list_ ())
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      (if (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_ )) (strcat "*" (strcase "Ceiling Luminaire") "*"))  T)
+        (progn
+          (setq new_list_ (cons 
+                            (list 
+                              ; ss_pre_filter_set_xx_ename_
+                              (LM:effectivename ss_pre_filter_set_xx_obj_ )
+                            )
+                            new_list_
+                          )
+          )
+        )
+      )
+      
+      
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+  (setq list_solid_blk_ (mapcar 'car (TA:Count_item_in_list_ new_list_)))
+  ;preloop_and_while
+    (setq list_solid_blk_i 0)
+    (while (< list_solid_blk_i (length list_solid_blk_))
+      (setq list_solid_blk_efname_ (car (nth  list_solid_blk_i list_solid_blk_)))
+      
+      (command "bedit" list_solid_blk_efname_ )
+        (command "-overkill" (ssget "x") "" "o" 0.5 "")
+        (setq ss_line_ (ssget "x"
+                        (list 
+                          (cons 0 "line") ;type of object
+                          ; (cons 8 "000 - GRID")   ;kind of layer
+                          ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                          ; (cons 62 1)           ;kind of color call sign with color code index
+                        )
+                      )
+        )
+
+        ;preloop_and_while
+          (setq ss_line_i 0)
+          (setq line_data_list_ ())
+          (while (< ss_line_i (sslength ss_line_))
+            (setq ss_line_ename_ (ssname ss_line_ ss_line_i))
+            (setq ss_line_obj_ (vlax-ename->vla-object  ss_line_ename_))
+            (setq line_data_list_ (cons
+                                      (list 
+                                        (vla-get-length ss_line_obj_)
+                                        (vla-get-angle ss_line_obj_)
+                                      )
+                                      line_data_list_ 
+                                  )
+            )
+            (setq ss_line_i (+ ss_line_i 1))
+          )
+        ;
+        (setq list_data_sort_ (TA:Count_item_in_list_ line_data_list_ ))
+        ;TA:stanndard_lambda_sorting
+          (setq line_data_list_sorted_ (vl-sort line_data_list_  ;bigest open indent list
+                                                (function 
+                                                  (lambda (a b) 
+                                                    (>
+                                                      (car a) 
+                                                      (car b)
+                                                    )
+                                                  )
+                                                )
+                                      ) ;bigest close indent list
+          )
+        ;
+        ;get-data_
+          (setq main_border_ (TA:ss_vla-getboundingbox 
+                              (setq ss_line_ (ssget "x" 
+                                                    (list 
+                                                      (cons 0 "line" ) ;type of object
+                                                      (cons 8 "A-GLAZ-CURT")   ;kind of layer
+                                                      ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                      ; (cons 62 1)           ;kind of color call sign with color code index
+                                                    )
+                                              )
+                              )
+                            )
+          )
+          (setq ptmid_ (TA:midpoint (car main_border_) (cadr main_border_)))  
+          (setq pt1 (list 
+                      (car (car main_border_)) 
+                      (cadr (car main_border_)) 
+                      0 
+                    )
+          )
+          (setq pt2 (list 
+                      (car (cadr main_border_)) 
+                      (cadr (car main_border_)) 
+                      0 
+                    )
+          )
+          (setq pt3 (list 
+                      (car (cadr main_border_)) 
+                      (cadr (cadr main_border_)) 
+                      0 
+                    )
+          )
+          (setq pt4 (list 
+                      (car (car main_border_)) 
+                      (cadr (cadr main_border_)) 
+                      0 
+                    )
+          )
+        ;
+        ;insertion process_
+          (TA:vla-insertblock "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_TRAKC_LIGHT_REC.1257x120mm_COMBINE_SET"
+            ptmid_
+            1
+            (cadr (car line_data_list_sorted_ ))
+          )
+          ;new_blk_entlast object
+            (setq new_ename (entlast))
+            (setq new_obj_ (vlax-ename->vla-object new_ename))
+            ; (LM:setdynpropvalue new_obj_ "L" (car (car line_data_list_sorted_ )))
+            (LM:setdynpropvalue new_obj_ "view" "6_bottom_view")
+            (vla-put-layer new_obj_ "008 - LIGHTING")
+            (vla-put-color new_obj_ 256)
+          ; 
+        ; 
+        ;bvstate process
+          (setq input_ins_ (list 
+                          (- (car pt1) 100)
+                          (- (cadr pt1) 100)
+                          
+                          0
+                        )
+          )
+          (command "BPARAMETER" "v" "L" "view" input_ins_ 1 "" )
+          (command "bvstate" "n" "1_" "h")
+          (command "bvshow" new_ename "" "c") 
+          (command "bvstate" "s" "VisibilityState0" )
+          (command "bvhide" new_ename "" "c")
+          (command "bvmode" 1)
+          (command "bclose" "s")
+        ;
+
+      (setq list_solid_blk_i (+ list_solid_blk_i 1))
+    )
+  ;
+    
+  ;
+)
+(defun c:dynsel ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (setq sss_sss_ (ssadd))
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      (if (= (vla-get-isdynamicblock ss_pre_filter_set_xx_obj_) :vlax-true)
+        (progn
+          (setq sss_sss_ (ssadd ss_pre_filter_set_xx_ename_ sss_sss_))
+        )
+      )
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+    (command "pselect"   sss_sss_ "" )
+  ;
+)
+(defun c:notdynsel ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (setq sss_sss_ (ssadd))
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      (if (/= (vla-get-isdynamicblock ss_pre_filter_set_xx_obj_) :vlax-true)
+        (progn
+          (setq sss_sss_ (ssadd ss_pre_filter_set_xx_ename_ sss_sss_))
+        )
+      )
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+    (command "pselect"   sss_sss_ "" )
+  ;
+)

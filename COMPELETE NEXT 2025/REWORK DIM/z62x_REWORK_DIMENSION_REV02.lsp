@@ -1,4 +1,4 @@
-;update 20250714 1838
+;update 20250718 0420
   ;Effective Block Name Funcition Lee Mac
     ;; Effective Block Name  -  Lee Mac
       ;; obj - [vla] VLA Block Reference object
@@ -10406,7 +10406,16 @@
                 (setq sss_obj_dimname_ (vla-get-stylename dim_obj_ ))
                 (setq sss_obj_linearsc_ (vla-get-LinearScaleFactor dim_obj_ ))
                 (setq scl (vla-get-scalefactor dim_obj_ ))
+                (setq dim_obj_measurement_ (vlax-dump-object dim_obj_ ))
                 (command "dimstyle" "r" sss_obj_dimname_)
+                (setq dimprec (cond ( (getreal (strcat "\nSpecify _AIDIMPREC <" (rtos (setq dimprec (cond (dimprec) (1.0) ) ) ) "> : " ) ) ) (dimprec) ) )
+                (setq lv_add (* lv_ 1.25))
+                (setq sc (* scl 10)) ; 5 = 50 2 = 20
+                (setq of_point 4.5); OF_DIM OFFSET FROM pt2 = 6 mm.
+                (setq hi_point 4); OF_DIM OFFSET FROM pt2 = 6 mm.
+                (setq OF_DIM (*(* (* scl 1) of_point) lv_add))
+                (setq HI_DIM (*(* (* scl 1) hi_point) lv_add))
+                (setvar "dimscale" sc )
               )
               (alert "Object is not AcDbRotatedDimension")
             )
@@ -10692,7 +10701,6 @@
         )
         ;new_blk_entlast object
           (setq dim_ename (entlast))
-          (command "_AIDIMPREC" dimprec dim_ename "" )
           (setq dim_obj_ (vlax-ename->vla-object dim_ename))
           (cond
             ((= ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 0)
@@ -10701,7 +10709,19 @@
                 (vla-put-stylename dim_obj_ "FAMELINE-CKST_E-C") ;metthod for layout for Fameline
               )
             )
-            ((= ss_pre_filter_set_xx_inslist_sorted_highest_Y_i (- (length ss_pre_filter_set_xx_inslist_sorted_highest_Y_) 2))
+            ((and 
+               (/= ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 0) (/= ss_pre_filter_set_xx_inslist_sorted_highest_Y_i (- (length ss_pre_filter_set_xx_inslist_sorted_highest_Y_) 2))
+               (/= ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_next-ins_ nil)
+             )
+              (progn
+                ; (vla-put-stylename dim_obj_ "DIM E-C") ;metthod for model for TA
+                (vla-put-stylename dim_obj_ "FAMELINE-CKST_C-C") ;metthod for layout for Fameline
+              )
+            )
+            ((and 
+               (= ss_pre_filter_set_xx_inslist_sorted_highest_Y_i (- (length ss_pre_filter_set_xx_inslist_sorted_highest_Y_) 2))
+               (/= ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_next-ins_ nil)
+             )
               (progn
                 ; (vla-put-stylename dim_obj_ "DIM C-E") ;metthod for model for TA
                 (vla-put-stylename dim_obj_ "FAMELINE-CKST_C-E") ;metthod for layout for Fameline
@@ -10710,9 +10730,10 @@
           )
           (vla-put-ScaleFactor  dim_obj_ sc )
           (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
-          
+          (command "_AIDIMPREC" dimprec dim_ename "" )
         ;
         (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_i (+ ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 1))
+        
       )
     ;
     
@@ -10760,6 +10781,16 @@
             ;
           ;
         )
+        (setq 
+              lv_add   (* lv_ 1.25)
+              sc       (* scl 10) ; 5 = 50 2 = 20
+              of_point 4.5 ; OF_DIM OFFSET FROM pt2 = 6 mm.
+              hi_point 4 ; OF_DIM OFFSET FROM pt2 = 6 mm.
+              OF_DIM   (* (* (* scl 1) of_point) lv_add)
+              HI_DIM   (* (* (* scl 1) hi_point) lv_add)
+        )
+
+
       )
     ;
     ;selection_set_for_fillter_blk_name
@@ -11337,7 +11368,7 @@
           )
           (vla-put-ScaleFactor  dim_obj_ sc )
           (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
-          
+          (command "_AIDIMPREC" dimprec dim_ename "" )
         ;
         (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_i (+ ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 1))
       )
@@ -11370,11 +11401,7 @@
     )
     
     ;preloop_and_while
-      (setq angle_list_ (list 15 45 75   
-                              120 135 150
-                              205 225 240
-                              300 315 330
-                        ) 
+      (setq angle_list_ (list 0 30 60 90 120 150 180 210 240 270 300 330) 
       )
       (setq angle_i 0)
       (setq Er-msg_input_length_ 1)
@@ -11500,8 +11527,11 @@
               )
             )
             (setq ss_pre_filter_set_xx_obj_ins_ (trans (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_) ) ) 0 1 ) )
-            (vla-copy ss_pre_filter_set_xx_obj_   )
-            (vla-put-insertionpoint (vlax-ename->vla-object (entlast))
+            
+            (if (/= (wcmatch (vl-princ-to-string ss_) "*error*") T)
+              (progn
+                (vla-copy ss_pre_filter_set_xx_obj_   )
+                (vla-put-insertionpoint (vlax-ename->vla-object (entlast))
                                     (vlax-3d-point (trans (list 
                                                             (car inputpoint)
                                                             (car ss_pre_filter_set_xx_obj_ins_)
@@ -11510,7 +11540,10 @@
                                                           1 0
                                                   )
                                     )
+                )
+              )
             )
+            
           )
         )
       )
