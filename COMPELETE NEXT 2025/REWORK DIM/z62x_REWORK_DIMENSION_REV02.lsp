@@ -877,7 +877,10 @@
         )
         (setq result found)
     )
-    (defun TA:member_position (str_name_ pos member_list_)
+    (defun TA:member_position (str_name_ pos member_list_)   
+        ;example argument 
+      
+        ;
         (setq member_list_i 0)
         (setq result_found_val ())
         (setq found nil)
@@ -992,6 +995,21 @@
         (setq r (cons (cons x (- c (length l))) r))
       )
       (reverse r)
+    )
+    (defun TA:find-all-indexes (val lst / idx result)
+      (setq idx 0)
+      (setq result '())
+      (while lst
+        (if (equal (car lst) val)
+          (setq result (cons idx result))
+        )
+        (setq idx (1+ idx))
+        (setq lst (cdr lst))
+      )
+      (reverse result)
+    )
+    (defun TA:get-value_in-list_ (index lst)
+      (nth index lst)
     )
   ;
   ;Get_Data Document Ta Trai
@@ -10367,7 +10385,7 @@
                       (= sss_obj_dimname_ nil)
                       (= (wcmatch (vl-princ-to-string Er-msg_sss_ename_) "*error*"))
                     )
-                (setq Er-msg_sss_ename_ (vl-catch-all-apply (function (lambda () (setq sss_ename_ (car (entsel "specify sss_ename Object"))) ) ) ))
+                (setq Er-msg_sss_ename_ (vl-catch-all-apply (function (lambda () (setq sss_ename_ (car (entsel "specify dim for set scale Object"))) ) ) ))
                 
                 (if
                   (and ;conditional_rule_for_select_object
@@ -10408,6 +10426,7 @@
                 (setq scl (vla-get-scalefactor dim_obj_ ))
                 (setq dim_obj_measurement_ (vlax-dump-object dim_obj_ ))
                 (command "dimstyle" "r" sss_obj_dimname_)
+                (setq lv_ (cond ( (getreal (strcat "\nSpecify Level <" (rtos (setq lv_ (cond (lv_) (1.0) ) ) ) "> : " ) ) ) (lv_) ) )
                 (setq dimprec (cond ( (getreal (strcat "\nSpecify _AIDIMPREC <" (rtos (setq dimprec (cond (dimprec) (1.0) ) ) ) "> : " ) ) ) (dimprec) ) )
                 (setq lv_add (* lv_ 1.25))
                 (setq sc (* scl 10)) ; 5 = 50 2 = 20
@@ -10422,9 +10441,51 @@
           )
         )
       )
+      (if 
+        (and 
+          (= setting_ T)
+          (= ss_ T)
+        )
+        (progn
+          
+          
+          (vl-catch-all-apply
+            (function
+              (lambda ()
+                (setq dim_ename_ (car (entsel "specify DIM E-C Object")))
+                (setq DIM_E-C (vla-get-stylename (vlax-ename->vla-object dim_ename_) )) 
+              )
+            )
+          )
+          (vl-catch-all-apply
+            (function
+              (lambda ()
+                (setq dim_ename_ (car (entsel "specify DIM C-C Object")))
+                (setq DIM_C-C (vla-get-stylename (vlax-ename->vla-object dim_ename_) ))
+              )
+            )
+          )
+          (vl-catch-all-apply
+            (function
+              (lambda ()
+                (setq dim_ename_ (car (entsel "specify DIM C-E Object")))
+                (setq DIM_C-E (vla-get-stylename (vlax-ename->vla-object dim_ename_) )) 
+              )
+            )
+          )
+          (vl-catch-all-apply
+            (function
+              (lambda ()
+                (setq dim_ename_ (car (entsel "specify DIM E-E Object")))
+                (setq DIM_E-E (vla-get-stylename (vlax-ename->vla-object dim_ename_) )) 
+              )
+            )
+          )
+        )
+      )
     ;
   )
-  (defun c:Dx ()
+  (defun c:Dcx ()
     ;Keep setting dimension
       (setq acadObj (vlax-get-acad-object))
       (setq doc (vla-get-ActiveDocument acadObj))
@@ -10706,7 +10767,7 @@
             ((= ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 0)
               (progn
                 ; (vla-put-stylename dim_obj_ "DIM E-C") ;metthod for model for TA
-                (vla-put-stylename dim_obj_ "FAMELINE-CKST_E-C") ;metthod for layout for Fameline
+                (vla-put-stylename dim_obj_ DIM_E-C ) ;metthod for layout for Fameline
               )
             )
             ((and 
@@ -10715,7 +10776,7 @@
              )
               (progn
                 ; (vla-put-stylename dim_obj_ "DIM E-C") ;metthod for model for TA
-                (vla-put-stylename dim_obj_ "FAMELINE-CKST_C-C") ;metthod for layout for Fameline
+                (vla-put-stylename dim_obj_ DIM_C-C ) ;metthod for layout for Fameline
               )
             )
             ((and 
@@ -10724,7 +10785,7 @@
              )
               (progn
                 ; (vla-put-stylename dim_obj_ "DIM C-E") ;metthod for model for TA
-                (vla-put-stylename dim_obj_ "FAMELINE-CKST_C-E") ;metthod for layout for Fameline
+                (vla-put-stylename dim_obj_ DIM_C-E ) ;metthod for layout for Fameline
               )
             )
           )
@@ -10995,8 +11056,16 @@
                 (function 
                   (lambda () 
                     (vla-adddimrotated (if (/= (getvar "ctab") "model") (progn layoutactive) modelSpace) 
-                                  (vlax-3d-point ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_cur-ins_)
-                                  (vlax-3d-point ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_next-ins_)
+                                  (vlax-3d-point (list 
+                                                   (+ (car ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_cur-ins_) 0 )
+                                                   (+ (cadr ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_cur-ins_) 0 )
+                                                   (+ (caddr ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_cur-ins_) 0 )
+                                                 ))
+                                  (vlax-3d-point (list 
+                                                   (+ (car ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_next-ins_) 0 )
+                                                   (+ (cadr ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_next-ins_) 0 )
+                                                   (+ (caddr ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_next-ins_) 0 )
+                                                 ))
                                   (vlax-3d-point ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_)
                                   (deg-to-rad (+ ss_pre_filter_set_xx_inslist_sorted_highest_Y_obj_rotation 90 ))
                     )
@@ -11012,8 +11081,26 @@
                 (function 
                   (lambda () 
                     (vla-adddimrotated (if (/= (getvar "ctab") "model") (progn layoutactive) modelSpace) 
-                                (vlax-3d-point (trans ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_cur-ins_ 1 0))
-                                (vlax-3d-point (trans ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_next-ins_ 1 0))
+                                (vlax-3d-point (trans 
+                                                 (list 
+                                                   (+ (car ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_cur-ins_) 0 )
+                                                   (+ (cadr ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_cur-ins_) 0 )
+                                                   (+ (caddr ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_cur-ins_) 0 )
+                                                 )
+                                                 1
+                                                 0
+                                               )
+                                )
+                                (vlax-3d-point (trans 
+                                                 (list 
+                                                   (+ (car ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_next-ins_) 0 )
+                                                   (+ (cadr ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_next-ins_) 0 )
+                                                   (+ (caddr ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_next-ins_) 0 )
+                                                 )
+                                                 1
+                                                 0
+                                               )
+                                )
                                 (vlax-3d-point (trans ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_ 1 0))
                                 (deg-to-rad (+ ss_pre_filter_set_xx_inslist_sorted_highest_Y_obj_rotation 90 ))
                     )
@@ -11030,24 +11117,26 @@
             ((= ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 0)
               (progn
                 ; (vla-put-stylename dim_obj_ "DIM E-C") ;metthod for model for TA
-                (vla-put-stylename dim_obj_ "FAMELINE-CKST_E-E") ;metthod for layout for Fameline
+                (vla-put-stylename dim_obj_ DIM_E-E) ;metthod for layout for Fameline
               )
             )
             ((and (= ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 0) (= ss_pre_filter_set_xx_inslist_sorted_highest_Y_i (- (length ss_pre_filter_set_xx_inslist_sorted_highest_Y_) 2)))
               (progn
                 ; (vla-put-stylename dim_obj_ "DIM E-C") ;metthod for model for TA
-                (vla-put-stylename dim_obj_ "FAMELINE-CKST_E-E") ;metthod for layout for Fameline
+                (vla-put-stylename dim_obj_ DIM_E-E) ;metthod for layout for Fameline
               )
             )
             ((= ss_pre_filter_set_xx_inslist_sorted_highest_Y_i (- (length ss_pre_filter_set_xx_inslist_sorted_highest_Y_) 2))
               (progn
                 ; (vla-put-stylename dim_obj_ "DIM C-E") ;metthod for model for TA
-                (vla-put-stylename dim_obj_ "FAMELINE-CKST_E-E") ;metthod for layout for Fameline
+                (vla-put-stylename dim_obj_ DIM_E-E) ;metthod for layout for Fameline
               )
             )
           )
           (vla-put-ScaleFactor  dim_obj_ sc )
+          ; (vlax-dump-object  dim_obj_  )
           (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
+          ; (command "dimreassociate" dim_ename "" ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_cur-ins_ ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_next-ins_)
           (command "_AIDIMPREC" dimprec dim_ename "" )
           
         ;
@@ -11376,8 +11465,36 @@
     
   )
   (defun c:Dim_textmove_txmo ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (or 
+          (= 
+            (setq ss_pre_filter_set_xx_ (ssget "i" 
+                                               (list 
+                                                 (cons 0 "DIMENSION") ;type of object
+                                                 ; (cons 8 "000 - GRID")   ;kind of layer
+                                                 ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                 ; (cons 62 1)           ;kind of color call sign with color code index
+                                               )
+                                        )
+            )
+            nil
+          )
+          (vl-catch-all-apply 
+            (function 
+              (lambda () 
+                (>= (sslength ss_pre_filter_set_xx_) 2)
+              )
+            )
+          )
+        )
+        (progn
+          (setq dimtext_ename_ (car (entsel "specify Object")))
+        )
+        (setq dimtext_ename_ (ssname ss_pre_filter_set_xx_ 0))
+      )
+    ;
     (command "ucs" "")
-    (setq dimtext_ename_ (car (entsel "specify Object")))
     (setq dim_angle (rad-to-deg (cdr (assoc 50 (entget dimtext_ename_)))))
     
     (setq dimtext_obj_ (vlax-ename->vla-object dimtext_ename_))
@@ -11403,18 +11520,64 @@
     ;preloop_and_while
       (setq angle_list_ (list 0 30 60 90 120 150 180 210 240 270 300 330) 
       )
-      (setq angle_i 0)
+      
       (setq Er-msg_input_length_ 1)
       (if (= input_length_ nil)
         (progn
           (setq input_length_ 50)
         )
       )
+      (setq ist_run_ T)
+      (setq lasted_angle_i angle_i)
       (while (and 
-              (< angle_i (length angle_list_))
-              (/= (wcmatch (vl-princ-to-string Er-msg_input_length_) "*error*") T)
+               (< angle_i (length angle_list_))
+               (/= (wcmatch (vl-princ-to-string Er-msg_input_length_) "*error*") T)
+             )
+        (cond
+          ((and ;1st way
+             (= ist_run_ T)
+             (= angle_val_ nil)
+           )
+            (progn
+              (setq angle_i 0)
+              (setq angle_val_ (TA:get-value_in-list_ (setq angle_i (+ 0 angle_i)) angle_list_))
+              (setq angle_i (+ angle_i 1))
+              (setq ist_run_ nil)
+              (setq lasted_angle_i nil)
+              
+              (princ "e1")
             )
-        (setq angle_val_ (nth  angle_i angle_list_))
+          )
+          ((and ;1st way
+             (= ist_run_ T)
+             (/= angle_val_ nil)
+             (= lasted_angle_i angle_i)
+           )
+            (progn
+              (setq angle_i (car (TA:find-all-indexes angle_val_ angle_list_)))
+              (setq angle_i (+ 1 angle_i))
+              (setq ist_run_ nil)
+              (setq lasted_angle_i nil)
+              (princ "e2")
+            )
+          )
+          ((and ;2nd way
+             (/= angle_val_ nil)
+             (= ist_run_ nil)
+             (/= lasted_angle_i angle_i)
+           )
+            (progn
+              (setq angle_val_ (TA:get-value_in-list_ angle_i  angle_list_))
+              (setq angle_i (+ angle_i 1))
+              ; (setq angle_i (car (TA:find-all-indexes angle_val_ angle_list_)))
+              (princ "e3")
+              (princ (strcat "angle_i = " (rtos angle_i 2 0)))
+            )
+          )
+        )
+        ; (setq angle_val_ (nth  angle_i angle_list_)) ;กรณีไม่อ้างอิง ค่าเดิม
+        
+        
         (command "AIDIMTEXTMOVE" "1" dimtext_ename_ "" (trans (polar (list 0 (- offset_text_to_center_) 0) (deg-to-rad angle_val_) input_length_) 1 1)  )
         (setq Er-msg_input_length_ 
           (vl-catch-all-apply 
@@ -11428,13 +11591,15 @@
         
         
 
-        (setq angle_i (+ angle_i 1))
-        (if (= angle_i (length angle_list_))
+        ; (setq angle_i (+ angle_i 1))
+        (if (>= angle_i (length angle_list_))
           (progn
             (setq angle_i 0)
+            ; (setq angle_val_ 0)
           )
         )
       )
+      (setq lasted_angle_i angle_i)
     ;
     (setvar "osmode" 1215)
   )
@@ -11734,4 +11899,5 @@
       )
     ;
   )
+;
 

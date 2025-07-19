@@ -993,6 +993,18 @@
       )
       (reverse r)
     )
+    (defun TA:find-all-indexes (val lst / idx result)
+      (setq idx 0)
+      (setq result '())
+      (while lst
+        (if (equal (car lst) val)
+          (setq result (cons idx result))
+        )
+        (setq idx (1+ idx))
+        (setq lst (cdr lst))
+      )
+      (reverse result)
+    )
   ;
   ;Get_Data Document Ta Trai
     (defun LM:getdocumentobject ( dwg / app dbx dwl err vrs )
@@ -1692,6 +1704,18 @@
           (alert "TA:find_center : Object is not PolyLine")
         )
       ;
+    )
+    (defun c:breakline_Brdist ()
+      (setq pline_ename_ (car (entsel "specify Object")))
+      (setq pline_obj_ (vlax-ename->vla-object pline_ename_))
+      (if (= (vla-get-objectname pline_obj_) "AcDbPolyline")
+        (progn
+          (setq osmode (getvar "osmode"))
+          (setvar "osmode" 0)
+          (command "breakatpoint" pline_ename_ (vlax-curve-getPointAtDist pline_obj_ (getreal "specify dist.")))
+          (setvar "osmode" osmode)
+        )
+      )
     )
   ;
   ;convert_value_
@@ -17247,6 +17271,8 @@
                                         (cadr tar_copy_obj_ins)
                                   )
           )
+          
+          (if (= (getvar "worlducs") 0)(progn (setq tar_copy_obj_ins (trans tar_copy_obj_ins 0 1))) tar_copy_obj_ins )
           (command "_copy" tar_copy_ "" "m" tar_copy_obj_ins)
         )
         (princ "\n")
@@ -17259,11 +17285,63 @@
               tar_copy_obj_ins (vlax-safearray->list 
                                   (vlax-variant-value (vla-get-insertionpoint tar_copy_obj_))
                                 )
+              tar_copy_obj_ins (if (= (getvar "worlducs") 0)(progn (setq tar_copy_obj_ins (trans tar_copy_obj_ins 0 1))) tar_copy_obj_ins )
               tar_result_ (list (car tar_copy_obj_ins)(cadr tar_copy_obj_ins))
         )
         
         
         (command "_copy" "m" tar_copy_obj_ins   )
+        
+        
+      )
+      (princ "\n")
+    )
+  )
+  (defun c:TEMP:copy_from_basepoint_mfb_ () 
+    ;selection_set
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (= 
+          (setq ss_pre_filter_set_xx (ssget "I" 
+                                            (list 
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                     )
+          )
+          nil
+        )
+        (progn 
+          (setq tar_copy_        (car (entsel))
+                tar_copy_obj_    (vlax-ename->vla-object tar_copy_)
+                tar_copy_obj_ins (vlax-safearray->list 
+                                   (vlax-variant-value (vla-get-insertionpoint tar_copy_obj_))
+                                 )
+                tar_result_      (list (car tar_copy_obj_ins) 
+                                       (cadr tar_copy_obj_ins)
+                                 )
+          )
+          (if (= (getvar "worlducs") 0)(progn (setq tar_copy_obj_ins (trans tar_copy_obj_ins 0 1))) tar_copy_obj_ins )
+          (command "_move" tar_copy_ "" tar_copy_obj_ins)
+        )
+        (princ "\n")
+      )
+    ;
+    (if (/= ss_pre_filter_set_xx nil)
+      (progn 
+        (setq tar_copy_        (ssname ss_pre_filter_set_xx 0)
+              tar_copy_obj_    (vlax-ename->vla-object tar_copy_)
+              tar_copy_obj_ins (vlax-safearray->list 
+                                 (vlax-variant-value (vla-get-insertionpoint tar_copy_obj_))
+                               )
+              tar_copy_obj_ins (if (= (getvar "worlducs") 0)(progn (setq tar_copy_obj_ins (trans tar_copy_obj_ins 0 1))) tar_copy_obj_ins )
+              tar_result_ (list (car tar_copy_obj_ins)(cadr tar_copy_obj_ins))
+        )
+        
+        
+        ; (command "_move" ss_pre_filter_set_xx "" tar_copy_obj_ins )
+        (command "_move" tar_copy_obj_ins)
         
         
       )
@@ -25572,7 +25650,7 @@
   ;
 )
 
-(defun c:mfb () 
+(defun c:mfbo () 
   (setq sss_ (ssget (list (cons 0 "insert"))))
   (setvar "osmode" 0)
   (setq ssssasas (TA:ss_vla-getboundingbox sss_))

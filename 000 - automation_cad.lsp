@@ -10784,23 +10784,6 @@
 ;
 
   
-(defun c:importxx21 ( / dbx blk )
-  (vl-load-com)
-  (setq dbx (vlax-create-object (strcat "ObjectDBX.AxDbDocument." (substr (getvar "acadver") 1 2))))
-  (princ (findfile "C:\\Users\\Admin\\Desktop\\Drawing2.dwg"))
-  (vla-open dbx "C:\\Users\\Admin\\Desktop\\Drawing2.dwg")
-  (setq blk (vla-item (vla-get-Blocks dbx) "xx21"))
-  (vlax-invoke dbx 'CopyObjects (list blk) (vla-get-Blocks (vla-get-ActiveDocument (vlax-get-acad-object))))
-  (vlax-release-object dbx)
-  (princ)
-)
-
-(defun c:redef ( / )
-	(command "-insertcontent" "C:\\Users\\Admin\\Desktop\\Drawing2.dwg" )
-  (setq filePath (getfiled "Select the DWG file" "./" "dwg" 4)) 
-  (vl-cmdf "-INSERTCONTENT" filePath "xx21" "Y" "0,0" 1 1 0)
-	(princ)
-)
 
 
 
