@@ -9959,6 +9959,80 @@
 )
 
 
+(defun c:Polyline_to_Excel ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "lwpolyline") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "lwpolyline") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq sum_heading_ (list (list "Handle" "Length")))
+    (setq ss_pre_filter_set_xx_i 0)
+    (setq ss_pre_filter_set_xx_datalist_ ())
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      (TA:get_vertex_len_ ss_pre_filter_set_xx_ename_)
+      (setq ss_pre_filter_set_xx_datalist_ (cons 
+                                              (list 
+                                                (vla-get-handle ss_pre_filter_set_xx_obj_)
+                                                (vla-get-length ss_pre_filter_set_xx_obj_)
+                                              )  
+                                             ss_pre_filter_set_xx_datalist_
+                                           )
+      )
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+  ;Export_process_
+    (setq Excel_lasted_worksheet_obj_ (TA:Excel_Open-Excel_ 1 1)) ;open new Excel window (function use follow argument)
+    (TA:EXCEL_put_columnformat Excel_lasted_worksheet_obj_ 1 "@" )
+    (TA:Excel_foreach_input_list_dataset_R1C1 ;Sub-FUNC create properties data list to Excel (tag list_)
+      Excel_lasted_worksheet_obj_ 
+      2
+      1
+      sum_heading_
+    )
+    (TA:Excel_foreach_input_list_dataset_R1C1 ;Sub-FUNC create properties data list to Excel (tag list_)
+      Excel_lasted_worksheet_obj_ 
+      3
+      1
+      ss_pre_filter_set_xx_datalist_
+    )
+  ;
+  ;final_alert
+    (alert "Tranfer Data Finish")
+  ;
+  
+)
+
+
+
+
+
 
 
 

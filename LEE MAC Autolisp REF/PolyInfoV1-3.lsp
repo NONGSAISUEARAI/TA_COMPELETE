@@ -58,16 +58,17 @@
 
     (defun *error* ( msg )
         (LM:endundo (LM:acdoc))
+        
         (if (= 'str (type out)) (setenv "LMac\\PolyInfo" out))
         (if (not (wcmatch (strcase msg t) "*break,*cancel*,*exit*"))
             (princ (strcat "\nError: " msg))
         )
         (princ)
     )
-   
     (if (null (setq out (getenv "LMac\\PolyInfo")))
-        (setq out "TXT")
+        (setq out "AutoCAD Table")
     )
+    (setq out "AutoCAD Table")
     (princ
         (strcat "\nOutput Format: "
             (cond
@@ -123,7 +124,7 @@
                   lst (LM:lwvertices enx)
                   lst
                 (cons
-                    (append '("SEG." "START X" "START Y" "END X" "END Y" "WIDTH 1" "WIDTH 2" "LENGTH")
+                    (append '("Handle" "SEG." "START X" "START Y" "END X" "END Y" "WIDTH 1" "WIDTH 2" "LENGTH")
                         (if (setq flg (vl-some '(lambda ( x ) (not (zerop (cdr (assoc 42 x))))) lst))
                            '("CENTRE X" "CENTRE Y" "RADIUS")
                         )
@@ -136,6 +137,7 @@
                                       b (cdr (assoc 42 l1))
                                 )
                                 (append
+                                    (list (vla-get-handle (vlax-ename->vla-object ent)))
                                     (list (itoa (setq seg (1+ seg))))
                                     (mapcar 'rtos p)
                                     (mapcar 'rtos q)
@@ -152,16 +154,21 @@
                                         )
                                     )
                                 )
+                              ; (vla-get-length (vlax-ename->vla-object ent))
                             )
                         )
                         lst
+                        
                         (if (= 1 (logand 1 (cdr (assoc 70 enx))))
                             (append (cdr lst) (list (car lst)))
                             (cdr lst)
                         )
                     )
                 )
+                
             )
+            (setq ssss (list "" "" "" "" "" "" "" "" (rtos (vla-get-length (vlax-ename->vla-object ent)) 2 5) ))
+            (setq lst (reverse (append (list ssss ) (reverse lst))))
             (cond
                 (   (= out "TXT")
                     (if (LM:writetxt lst (setq tmp (vl-filename-mktemp (cdr (assoc 5 enx)) (getvar 'dwgprefix) ".txt")))
@@ -176,6 +183,7 @@
                 (   (setq ins (getpoint "\nSpecify point for table: "))
                     (LM:startundo (LM:acdoc))
                     (LM:addtable  (vlax-get-property (LM:acdoc) (if (= 1 (getvar 'cvport)) 'paperspace 'modelspace)) (trans ins 1 0) nil lst nil)
+                    (command "scale" (entlast) "" (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint (vlax-ename->vla-object (entlast)))))  )
                     (LM:endundo   (LM:acdoc))
                 )
             )
@@ -476,5 +484,104 @@
 (princ)
 
 ;;----------------------------------------------------------------------;;
-;;                             End of File                              ;;
+;;                             End of Lee Mac File                      ;;
 ;;----------------------------------------------------------------------;;
+
+(defun c:select_pline_in_table_selpl ()
+    (setq Er-msg_ 
+      (vl-catch-all-apply 
+        (function 
+          (lambda () 
+            (setq sss_ename_ (car (entsel "specify Object")))
+            (setq sss_obj_ (vlax-ename->vla-object sss_ename_))
+            (command "pselect"  (handent (vla-gettext sss_obj_ 1 0)) "" )
+          )
+        )
+      )
+    )
+)
+(defun c:total_pline ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "lwpolyline,line") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "lwpolyline,line") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq sum_heading_ (list (list "Handle" "Length")))
+    (setq ss_pre_filter_set_xx_i 0)
+    (setq ss_pre_filter_set_xx_datalist_ (list (list "Handle" "Width" "Height")))
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      ; (TA:get_vertex_len_ ss_pre_filter_set_xx_ename_)
+      (setq ss_pre_filter_set_xx_datalist_ (cons 
+                                              (list 
+                                                (vla-get-handle ss_pre_filter_set_xx_obj_)
+                                                (rtos (vla-get-length ss_pre_filter_set_xx_obj_) 2 2)
+                                                
+                                                ""
+                                              )  
+                                             ss_pre_filter_set_xx_datalist_
+                                           )
+      )
+      ; (setq ss_pre_filter_set_xx_datalist_ (append (list "")))
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+  (setq ins (getpoint "\nSpecify point for table: "))
+  ( 
+    (LM:startundo (LM:acdoc))
+    (LM:addtable (vlax-get-property (LM:acdoc) (if (= 1 (getvar 'cvport)) 'paperspace 'modelspace) ) (trans ins 1 0) nil (reverse ss_pre_filter_set_xx_datalist_) nil )
+    (command "scale" (entlast) "" (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint (vlax-ename->vla-object (entlast)))) ) )
+    (LM:endundo (LM:acdoc))
+  )
+)
+
+
+(defun c:plsel ()
+  (setq ss (ssget "i") )
+  (if (and 
+        (/= ss nil)
+        (= (sslength ss) 1 )
+      )
+    (progn
+      (setq sss_obj_ (vlax-ename->vla-object (ssname ss 0)))
+      (command "pselect"  (handent (vla-get-textstring sss_obj_ )) "" )
+    )
+  )
+  (if (and 
+        (= ss nil)
+      )
+    (progn
+      (setq sss_obj_ (vlax-ename->vla-object (car (entsel))))
+      (command "pselect"  (handent (vla-get-textstring sss_obj_ )) "" )
+    )
+  )
+)
+
+
+
+

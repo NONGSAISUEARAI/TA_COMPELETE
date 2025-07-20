@@ -1712,7 +1712,15 @@
         (progn
           (setq osmode (getvar "osmode"))
           (setvar "osmode" 0)
-          (command "breakatpoint" pline_ename_ (vlax-curve-getPointAtDist pline_obj_ (getreal "specify dist.")))
+          (if (< (setq real (getreal "specify dist.")) 0)
+            (progn
+              (setq ss (+ (vla-get-length pline_obj_) real))
+              
+              (command "breakatpoint" pline_ename_ (vlax-curve-getPointAtDist pline_obj_ ss))
+            )
+            (command "breakatpoint" pline_ename_ (vlax-curve-getPointAtDist pline_obj_ real))
+          )
+          
           (setvar "osmode" osmode)
         )
       )
