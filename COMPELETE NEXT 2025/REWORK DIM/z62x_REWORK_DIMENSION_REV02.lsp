@@ -10678,25 +10678,7 @@
     (command "pselect"  ss_pre_filter_set_xx_ "" )
   )
   (defun c:change_dim_xDEE ()
-    ;sub-FUNC
-      (defun TA:chamge_dim_side_ (ss_pre_filter_set_xx_obj_ DIM-style_)
-        (if (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbRotatedDimension")
-          (progn
-            (vlax-dump-object ss_pre_filter_set_xx_obj_)
-            (setq LI_textpos_ (vlax-safearray->list (vlax-variant-value (vlax-get-property  ss_pre_filter_set_xx_obj_  'TextPosition  ))))
-            (setq Li_sc_ (vlax-get-property  ss_pre_filter_set_xx_obj_  'LinearScaleFactor ))
-            (setq Fac_sc_ (vlax-get-property  ss_pre_filter_set_xx_obj_  'ScaleFactor  ))
-            
 
-            (vlax-put-property  ss_pre_filter_set_xx_obj_  'stylename DIM-style_ )
-            (vlax-put-property  ss_pre_filter_set_xx_obj_  'LinearScaleFactor )
-            (vlax-put-property  ss_pre_filter_set_xx_obj_  'ScaleFactor )
-            (command "dimedit" "h" (vlax-vla-object->ename ss_pre_filter_set_xx_obj_) "")
-            (command "AIDIMTEXTMOVE"  1 (vlax-vla-object->ename ss_pre_filter_set_xx_obj_) "" LI_textpos_ )
-          )
-        )
-      )
-    ;
     (setq pass_lv1_ nil) ;for reset process and checking DIM EE EC CC CE value
     (if (and 
           (/= DIM_E-C nil)
@@ -11980,6 +11962,162 @@
       )
     ;
   )
+  (defun TA:change_dim_scale_ (dim_obj_ new_lv_ new_sc_ ) ;for changing Level Dim and input new dim scale overall
+    ;user-input_from_parameter_ 
+      ; (setq new_sc_ (cond ( (getreal (strcat "\nSpecify New Dim Scale Overall <" (rtos (setq new_sc_ (cond (new_sc_) (1.0) ) ) ) "> : " ) ) ) (new_sc_) ) )
+      ; (setq new_lv_ (cond ( (getreal (strcat "\nSpecify New Level <" (rtos (setq new_lv_ (cond (new_lv_) (1.0) ) ) ) "> : " ) ) ) (new_lv_) ) )
+    ;
+    ;standard_offset_ by 
+      ; (setq standard_offset_  (* (* (* 1 1) of_point) lv_add)) ;ปิดไปก่อน
+      (setq standard_offset_  (* new_sc_ 5.625))
+    ;
+    ;user-inbput-getdata
+      ; (setq dim_ename_ (car (entsel "specify Object")))
+      ; (setq dim_obj_ (vlax-ename->vla-object dim_ename_))
+    ;
+    (if (= (vla-get-objectname dim_obj_) "AcDbRotatedDimension")
+      (progn
+        ;get-prop-data
+          (setq dim_ename_ (vlax-vla-object->ename dim_obj_))
+          (setq dim_obj_dimsc (/ (vla-get-scalefactor dim_obj_) 10))
+          (setq start_dim_ (cdr (assoc 13 (entget dim_ename_ ))))
+          (setq offset_end_dim_ (cdr (assoc 10 (entget dim_ename_ ))))
+          (setq end_dim_ (cdr (assoc 14 (entget dim_ename_ ))))
+          (setq distance_offsetdim_raw_val_ (distance (list (car start_dim_) (cadr start_dim_) (caddr start_dim_) ) (list (car start_dim_) (cadr end_dim_) (caddr start_dim_) ) ) )
+          (setq distance_offsetdim_raw_angle_ (angle (list (car start_dim_) (cadr start_dim_) (caddr start_dim_) ) (list (car start_dim_) (cadr end_dim_) (caddr start_dim_) ) ) )
+          (setq distance_offsetdim_raw_offset_angle_ (angle end_dim_ offset_end_dim_ ) )
+          ; (setq distance_offsetdim_val_ (/ distance_offsetdim_raw_val_ standard_offset_ ))
+          (setq newoffset_dim_raw_val_ (* new_lv_ standard_offset_))
+          (setq newoffset_dim_val_ (polar end_dim_ distance_offsetdim_raw_offset_angle_ newoffset_dim_raw_val_))
+        ;
+        ;entmod_process
+          (cond
+            ((= (getvar "worlducs") 1) ;รอแก้
+              (progn
+                (vl-catch-all-apply 
+                  (function 
+                    (lambda () 
+                      (entmod 
+                        (subst 
+                          (cons 10 
+                                newoffset_dim_val_
+                          )
+                          (assoc 10 (entget dim_ename_))
+                          (entget dim_ename_)
+                        )
+                      )
+                    )
+                  )
+                )
+              )
+              
+            )
+            ((= (getvar "worlducs") 0) ;รอแก้
+              (progn
+                (vl-catch-all-apply 
+                  (function 
+                    (lambda () 
+                      (entmod 
+                        (subst 
+                          (cons 10 
+                                newoffset_dim_val_
+                          )
+                          (assoc 10 (entget dim_ename_))
+                          (entget dim_ename_)
+                        )
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+        ;
+        ;put-propertie
+          (vla-put-scalefactor dim_obj_  (* new_sc_ 10) )
+        ;
+      )
+    )
+  )
+  (defun c:change_dim_lvdim ()
+    ;user-input
+      (setq new_sc_ (cond ( (getreal (strcat "\nSpecify New Dim Scale Overall <" (rtos (setq new_sc_ (cond (new_sc_) (1.0) ) ) ) "> : " ) ) ) (new_sc_) ) )
+      (setq new_lv_ (cond ( (getreal (strcat "\nSpecify New Level <" (rtos (setq new_lv_ (cond (new_lv_) (1.0) ) ) ) "> : " ) ) ) (new_lv_) ) )
+    ;
+    (setq pass_lv1_ nil) ;for reset process and checking DIM EE EC CC CE value
+    (if (and 
+          (/= DIM_E-C nil)
+          (/= DIM_C-C nil)
+          (/= DIM_C-E nil)
+          (/= DIM_E-E nil)
+        )
+      (progn
+        (setq pass_lv1_ T)
+        ;selection_set_for_fillter_blk_name
+          (if  ;pre_select_ssget_or_post_select_ssget
+            (=
+              (setq ss_pre_filter_set_xx_ (ssget "i"
+                                                (list
+                                                  (cons 0 "Dimension") ;type of object
+                                                  ; (cons 8 "000 - GRID")   ;kind of layer
+                                                  ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                  ; (cons 62 1)           ;kind of color call sign with color code index
+                                                )
+                                          )
+              )
+              nil
+            )
+            (progn
+              (setq ss_pre_filter_set_xx_ (ssget
+                                                (list
+                                                  (cons 0 "Dimension") ;type of object
+                                                  ; (cons 8 "000 - GRID")   ;kind of layer
+                                                  ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                  ; (cons 62 1)           ;kind of color call sign with color code index
+                                                )
+                                          )
+              )
+            )
+            (sslength ss_pre_filter_set_xx_)
+          )
+        ;
+      )
+      (alert "please go to C:Dimsettin /nand set DIM EE EC CC CE")
+    )
+    ; ;find_higest_dimension_range
+    ;   ;preloop_and_while
+    ;     (setq ss_pre_filter_set_xx_i 0)
+    ;     (setq ss_pre_filter_set_xx_end_dim_list_ ())
+    ;     (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+    ;       (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+    ;       (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+    ;       (setq end_dim_ (cdr (assoc 14 (entget ss_pre_filter_set_xx_ename_))))
+    ;       (command "point" (trans end_dim_ 0 1))
+    ;       (setq ss_pre_filter_set_xx_end_dim_list_ (cons (trans end_dim_ 0 1) ss_pre_filter_set_xx_end_dim_list_))
+    ;       (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    ;     )
+    ;   ;
+    ; ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (and 
+               (= pass_lv1_ T)
+               (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_) )
+             )
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+        (setq dim_obj_ ss_pre_filter_set_xx_obj_)
+        (TA:change_dim_scale_ ss_pre_filter_set_xx_obj_  new_lv_ new_sc_)
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+    (command "pselect"  ss_pre_filter_set_xx_ "" )
+  )
+
+
+
+
+
 
   (defun c:G+ ()
     ;selection_set_for_fillter_blk_name
