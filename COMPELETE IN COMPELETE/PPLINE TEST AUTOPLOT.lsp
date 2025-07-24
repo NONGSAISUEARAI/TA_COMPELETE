@@ -195,384 +195,601 @@
     )
   ;
 ;
-
-
-
-(defun c:find_xref_ ()
-  ;selection_set_for_fillter_blk_name
-    (if  ;pre_select_ssget_or_post_select_ssget
-      (=
-        (setq ss_pre_filter_set_xx_ (ssget "x"
-                                          (list
-                                            (cons 0 "INSERT") ;type of object
-                                            (cons 410 (getvar "CTAB"))
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-        nil
-      )
-      (progn
-        (setq ss_pre_filter_set_xx_ (ssget "X"
-                                          (list
-                                            (cons 0 "INSERT") ;type of object
-                                            (cons 410 (getvar "CTAB"))
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-      )
-      (sslength ss_pre_filter_set_xx_)
-    )
-  ;
-  ;preloop_and_while
-    (setq ss_pre_filter_set_xx_i 0)
-    (setq External_ref_ename_ ())
-    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
-      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
-      (vl-prin1-to-string (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+  (defun TA:preset_plotter_mode_1 ()
+    ;set_var_plot
+      ; (setq ss (car (entsel)))
+      (setq adoc (vla-get-activedocument (vlax-get-acad-object)))
+      (setq lyout (vla-get-activelayout adoc))
+      (setq styleSheet "TA3.ctb")
+      (setq cfgName "AutoCAD PDF (High Quality Print).pc3")
+      (vla-RefreshPlotDeviceInfo lyout)
+      (vla-put-ConfigName lyout CfgName)
       
-      (if
-        (and
-          ; (= (sslength ss_pre_filter_set_xx_) 1)
-          (= (wcmatch (strcase (vl-princ-to-string ss_pre_filter_set_xx_obj_)) "*IACADEXTERNALREFERENCE*") T)
+      (vla-put-PaperUnits lyout acMillimeters)
+      (vla-put-plotrotation lyout ac0degrees)
+      ; (vla-put-PlotType lyout acWindow)
+      (vla-put-PlotType lyout acExtents)
+      (vla-put-CanonicalMediaName lyout "ISO_full_bleed_A4_(210.00_x_297.00_MM)")
+      ; (vla-put-CanonicalMediaName lyout "ISO_full_bleed_A3_(420.00_x_297.00_mm)")
+      (vla-put-PlotWithLineweights lyout :vlax-true)
+      (vla-put-PlotWithPlotStyles lyout :vlax-true)
+      (vla-put-StyleSheet lyout styleSheet)
+      (vla-put-CenterPlot lyout :vlax-true)
+      (vla-put-standardscale lyout acScaleToFit )
+      (vla-put-plotrotation lyout ac90degrees)
+    
+    
+      (vla-put-PaperUnits lyout acMillimeters)
+    ;
+  )
+  (defun TA:preset_plotter_mode_2 ()
+    ;set_var_plot
+      ; (setq ss (car (entsel)))
+      (setq adoc (vla-get-activedocument (vlax-get-acad-object)))
+      (setq lyout (vla-get-activelayout adoc))
+      (setq styleSheet "monochrome.ctb")
+      (setq cfgName "AutoCAD PDF (High Quality Print).pc3")
+      (vla-RefreshPlotDeviceInfo lyout)
+      (vla-put-ConfigName lyout CfgName)
+      (vla-put-PaperUnits lyout acMillimeters)
+      (vla-put-plotrotation lyout ac0degrees)
+      ; (vla-put-PlotType lyout acWindow)
+      (vla-put-PlotType lyout acExtents)
+      (vla-put-CanonicalMediaName lyout "ISO_full_bleed_A4_(210.00_x_297.00_MM)")
+      ; (vla-put-CanonicalMediaName lyout "ISO_full_bleed_A3_(420.00_x_297.00_mm)")
+      (vla-put-PlotWithLineweights lyout :vlax-true)
+      (vla-put-PlotWithPlotStyles lyout :vlax-true)
+      (vla-put-StyleSheet lyout styleSheet)
+      (vla-put-CenterPlot lyout :vlax-true)
+      (vla-put-standardscale lyout acScaleToFit )
+      (vla-put-plotrotation lyout ac90degrees)
+    
+    
+      (vla-put-PaperUnits lyout acMillimeters)
+    ;
+  )
+  (defun TA:preset_plotter_mode_3 ()
+    ;set_var_plot
+      ; (setq ss (car (entsel)))
+      (setq adoc (vla-get-activedocument (vlax-get-acad-object)))
+      (setq lyout (vla-get-activelayout adoc))
+      (setq styleSheet "FAMELINE-CKST-100.ctb")
+      (setq cfgName "AutoCAD PDF (High Quality Print).pc3")
+      (vla-RefreshPlotDeviceInfo lyout)
+      (vla-put-ConfigName lyout CfgName)
+      (vla-put-PaperUnits lyout acMillimeters)
+      (vla-put-plotrotation lyout ac0degrees)
+      ; (vla-put-PlotType lyout acWindow)
+      (vla-put-PlotType lyout acExtents)
+      (vla-put-CanonicalMediaName lyout "ISO_full_bleed_A3_(420.00_x_297.00_MM)")
+      (vla-put-PlotWithLineweights lyout :vlax-true)
+      (vla-put-PlotWithPlotStyles lyout :vlax-true)
+      (vla-put-StyleSheet lyout styleSheet)
+      (vla-put-CenterPlot lyout :vlax-true)
+      (vla-put-standardscale lyout acScaleToFit )
+      (vla-put-plotrotation lyout ac90degrees)
+      (vla-put-PaperUnits lyout acMillimeters)
+    ;
+  )
+
+;PPLINE-ITD
+  (defun c:find_xref_ ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "x"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              (cons 410 (getvar "CTAB"))
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
         )
         (progn
-          (setq External_ref_ename_ ss_pre_filter_set_xx_ename_ )
-          (setq main_bol (LM:boundingbox (vlax-ename->vla-object External_ref_ename_)))
-          (if (= (vla-get-name (vlax-ename->vla-object External_ref_ename_)) "BMTP_tbA1")
-            (progn
-              (vla-put-path (vlax-ename->vla-object External_ref_ename_) "..\\..\\EXRF PP-LINE\\BMTP_tbA1.dwg")
-              (setq acadObj (vlax-get-acad-object))
-              (setq doc (vla-get-ActiveDocument acadObj))
-              (vla-Reload (vla-Item (vla-get-Blocks doc) "BMTP_tbA1"))
-                            
+          (setq ss_pre_filter_set_xx_ (ssget "X"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              (cons 410 (getvar "CTAB"))
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (setq External_ref_ename_ ())
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+        (vl-prin1-to-string (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+        
+        (if
+          (and
+            ; (= (sslength ss_pre_filter_set_xx_) 1)
+            (= (wcmatch (strcase (vl-princ-to-string ss_pre_filter_set_xx_obj_)) "*IACADEXTERNALREFERENCE*") T)
+          )
+          (progn
+            (setq External_ref_ename_ ss_pre_filter_set_xx_ename_ )
+            (setq main_bol (LM:boundingbox (vlax-ename->vla-object External_ref_ename_)))
+            (if (= (vla-get-name (vlax-ename->vla-object External_ref_ename_)) "BMTP_tbA1")
+              (progn
+                (vla-put-path (vlax-ename->vla-object External_ref_ename_) "..\\..\\EXRF PP-LINE\\BMTP_tbA1.dwg")
+                (setq acadObj (vlax-get-acad-object))
+                (setq doc (vla-get-ActiveDocument acadObj))
+                (vla-Reload (vla-Item (vla-get-Blocks doc) "BMTP_tbA1"))
+                              
+              )
             )
           )
         )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
       )
-      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
-    )
-  ;
-)
-(defun c:RUN_plot ()
-  ;selection_set_for_fillter_blk_name
-    (if  ;pre_select_ssget_or_post_select_ssget
-      (=
-        (setq ss_pre_filter_set_xx_ (ssget "x"
-                                          (list
-                                            (cons 0 "INSERT") ;type of object
-                                            (cons 410 (getvar "CTAB"))
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-        nil
-      )
-      (progn
-        (setq ss_pre_filter_set_xx_ (ssget "X"
-                                          (list
-                                            (cons 0 "INSERT") ;type of object
-                                            (cons 410 (getvar "CTAB"))
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-      )
-      (sslength ss_pre_filter_set_xx_)
-    )
-  ;
-  ;preloop_and_while
-    (setq ss_pre_filter_set_xx_i 0)
-    (setq External_ref_ename_ ())
-    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
-      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
-      (vl-prin1-to-string (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
-      
-      (if
-        (and
-          ; (= (sslength ss_pre_filter_set_xx_) 1)
-          (= (wcmatch (strcase (vl-princ-to-string ss_pre_filter_set_xx_obj_)) "*IACADEXTERNALREFERENCE*") T)
+    ;
+  )
+  (defun c:RUN_plot ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "x"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              (cons 410 (getvar "CTAB"))
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
         )
         (progn
-          (setq External_ref_ename_ ss_pre_filter_set_xx_ename_ )
-          (setq main_bol (LM:boundingbox (vlax-ename->vla-object External_ref_ename_)))
+          (setq ss_pre_filter_set_xx_ (ssget "X"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              (cons 410 (getvar "CTAB"))
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
         )
+        (sslength ss_pre_filter_set_xx_)
       )
-      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
-    )
-  ;
-  ;plot process
-    (if (findfile (setq filename (strcat "" (getvar 'DWGPREFIX) (LM:StringSubst "" ".dwg" (getvar 'DWGNAME))  ".pdf"))) 
-      (vl-file-delete filename)
-    )
-    (command "-plot" 
-            "Yes" ;Detailed Plot Configuration?
-            (getvar "ctab")
-            "DWG To PDF.pc3" ;Printer Name
-            "ISO_full_bleed_A3_(420.00_x_297.00_mm)" ;Paper Size
-            ;paper_size ;Paper Size
-            "m" ;Paper Units Millimeters
-            "Landscape" ;Orientation
-            "No" ;Plot Upside Down
-            "window" ;Plot Area
-            (nth 0 main_bol) ;vla-getboundingbox
-            (nth 2 main_bol) ;vla-getboundingbox
-            ;llpt				;Lower left corner of window
-            ;urpt				;Upper right corner of window
-            "Fit" ;Plot Scale	"Fit"
-            "Center" ;Plot Offset
-            "yes" ;Use Plot Style?
-            "TA3 - FOR NORMIE.ctb" ;Plot Style Name
-            "Yes" ;Plot Lineweights?
-            "" ;Enter shade plot setting ["As displayed"/"Wireframe"/"Hidden"/"Visual styles"/"Rendered"]
-            "N"
-            "N"
-            filename ; Name file and Location
-            "Y"
-            "Y"
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (setq External_ref_ename_ ())
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+        (vl-prin1-to-string (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
         
-    )
-    ; (command "-plot" 
-    ;         "Yes" ;Detailed Plot Configuration?
-    ;         (getvar "ctab")
-    ;         "DWG To PDF.pc3" ;Printer Name
-    ;         "ISO_full_bleed_A3_(420.00_x_297.00_mm)" ;Paper Size
-    ;         ;paper_size ;Paper Size
-    ;         "m" ;Paper Units Millimeters
-    ;         "Landscape" ;Orientation
-    ;         "No" ;Plot Upside Down
-    ;         "Extents" ;Plot Area
-    ;         ; (nth 0 main_bol) ;vla-getboundingbox
-    ;         ; (nth 3 main_bol) ;vla-getboundingbox
-    ;         ;llpt				;Lower left corner of window
-    ;         ;urpt				;Upper right corner of window
-    ;         "Fit" ;Plot Scale	"Fit"
-    ;         "Center" ;Plot Offset
-    ;         "yes" ;Use Plot Style?
-    ;         "TA3 - FOR NORMIE.ctb" ;Plot Style Name
-    ;         "Yes" ;Plot Lineweights?
-    ;         "" ;Enter shade plot setting ["As displayed"/"Wireframe"/"Hidden"/"Visual styles"/"Rendered"]
-    ;         "N"
-    ;         "N"
-    ;         filename ; Name file and Location
-    ;         "Y"
-    ;         "Y"
-        
-    ; )
-  ;
-)
-(defun c:RUNC_plot ()
-  ;selection_set_for_fillter_blk_name
-    (if  ;pre_select_ssget_or_post_select_ssget
-      (=
-        (setq ss_pre_filter_set_xx_ (ssget "x"
-                                          (list
-                                            (cons 0 "INSERT") ;type of object
-                                            (cons 410 (getvar "CTAB"))
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
+        (if
+          (and
+            ; (= (sslength ss_pre_filter_set_xx_) 1)
+            (= (wcmatch (strcase (vl-princ-to-string ss_pre_filter_set_xx_obj_)) "*IACADEXTERNALREFERENCE*") T)
+          )
+          (progn
+            (setq External_ref_ename_ ss_pre_filter_set_xx_ename_ )
+            (setq main_bol (LM:boundingbox (vlax-ename->vla-object External_ref_ename_)))
+          )
         )
-        nil
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
       )
-      (progn
-        (setq ss_pre_filter_set_xx_ (ssget "X"
-                                          (list
-                                            (cons 0 "INSERT") ;type of object
-                                            (cons 410 (getvar "CTAB"))
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
+    ;
+    ;plot process
+      (if (findfile (setq filename (strcat "" (getvar 'DWGPREFIX) (LM:StringSubst "" ".dwg" (getvar 'DWGNAME))  ".pdf"))) 
+        (vl-file-delete filename)
       )
-      (sslength ss_pre_filter_set_xx_)
-    )
-  ;
-  ;preloop_and_while
-    (setq ss_pre_filter_set_xx_i 0)
-    (setq External_ref_ename_ ())
-    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
-      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
-      (vl-prin1-to-string (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
-      
-      (if
-        (and
-          ; (= (sslength ss_pre_filter_set_xx_) 1)
-          (= (wcmatch (strcase (vl-princ-to-string ss_pre_filter_set_xx_obj_)) "*IACADEXTERNALREFERENCE*") T)
+      (command "-plot" 
+              "Yes" ;Detailed Plot Configuration?
+              (getvar "ctab")
+              "DWG To PDF.pc3" ;Printer Name
+              "ISO_full_bleed_A3_(420.00_x_297.00_mm)" ;Paper Size
+              ;paper_size ;Paper Size
+              "m" ;Paper Units Millimeters
+              "Landscape" ;Orientation
+              "No" ;Plot Upside Down
+              "window" ;Plot Area
+              (nth 0 main_bol) ;vla-getboundingbox
+              (nth 2 main_bol) ;vla-getboundingbox
+              ;llpt				;Lower left corner of window
+              ;urpt				;Upper right corner of window
+              "Fit" ;Plot Scale	"Fit"
+              "Center" ;Plot Offset
+              "yes" ;Use Plot Style?
+              "TA3 - FOR NORMIE.ctb" ;Plot Style Name
+              "Yes" ;Plot Lineweights?
+              "" ;Enter shade plot setting ["As displayed"/"Wireframe"/"Hidden"/"Visual styles"/"Rendered"]
+              "N"
+              "N"
+              filename ; Name file and Location
+              "Y"
+              "Y"
+          
+      )
+      ; (command "-plot" 
+      ;         "Yes" ;Detailed Plot Configuration?
+      ;         (getvar "ctab")
+      ;         "DWG To PDF.pc3" ;Printer Name
+      ;         "ISO_full_bleed_A3_(420.00_x_297.00_mm)" ;Paper Size
+      ;         ;paper_size ;Paper Size
+      ;         "m" ;Paper Units Millimeters
+      ;         "Landscape" ;Orientation
+      ;         "No" ;Plot Upside Down
+      ;         "Extents" ;Plot Area
+      ;         ; (nth 0 main_bol) ;vla-getboundingbox
+      ;         ; (nth 3 main_bol) ;vla-getboundingbox
+      ;         ;llpt				;Lower left corner of window
+      ;         ;urpt				;Upper right corner of window
+      ;         "Fit" ;Plot Scale	"Fit"
+      ;         "Center" ;Plot Offset
+      ;         "yes" ;Use Plot Style?
+      ;         "TA3 - FOR NORMIE.ctb" ;Plot Style Name
+      ;         "Yes" ;Plot Lineweights?
+      ;         "" ;Enter shade plot setting ["As displayed"/"Wireframe"/"Hidden"/"Visual styles"/"Rendered"]
+      ;         "N"
+      ;         "N"
+      ;         filename ; Name file and Location
+      ;         "Y"
+      ;         "Y"
+          
+      ; )
+    ;
+  )
+  (defun c:RUNC_plot ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "x"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              (cons 410 (getvar "CTAB"))
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
         )
         (progn
-          (setq External_ref_ename_ ss_pre_filter_set_xx_ename_ )
-          (setq main_bol (LM:boundingbox (vlax-ename->vla-object External_ref_ename_)))
+          (setq ss_pre_filter_set_xx_ (ssget "X"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              (cons 410 (getvar "CTAB"))
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
         )
+        (sslength ss_pre_filter_set_xx_)
       )
-      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
-    )
-  ;
-  ;plot process
-    (if 
-      (findfile 
-        (setq filename (strcat "" 
-                               (if (= (getenv "COMPUTERNAME") "DESKTOP-FSRT7SI" )
-                                (progn
-                                  (strcat "C:\\TA WORK\\ไฟล์ข้อมูลแบบ แปลน , รูปด้าน , รูปตัด รถไฟฟ้่าสายสีม่วง สัญญา 5 21-06-67\\" (nth 3 (LM:str->lst (getvar "dwgprefix") "\\")) "\\" 
-                                          (strcat 
-                                            (substr (getvar 'dwgname) (+ (vl-string-search "PP" (getvar 'dwgname) 0 ) 1 ) 4 )
-                                            " automation plottter"
-                                          )
-                                          "\\"
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (setq External_ref_ename_ ())
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+        (vl-prin1-to-string (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+        
+        (if
+          (and
+            ; (= (sslength ss_pre_filter_set_xx_) 1)
+            (= (wcmatch (strcase (vl-princ-to-string ss_pre_filter_set_xx_obj_)) "*IACADEXTERNALREFERENCE*") T)
+          )
+          (progn
+            (setq External_ref_ename_ ss_pre_filter_set_xx_ename_ )
+            (setq main_bol (LM:boundingbox (vlax-ename->vla-object External_ref_ename_)))
+          )
+        )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+    ;plot process
+      (if 
+        (findfile 
+          (setq filename (strcat "" 
+                                (if (= (getenv "COMPUTERNAME") "DESKTOP-FSRT7SI" )
+                                  (progn
+                                    (strcat "C:\\TA WORK\\ไฟล์ข้อมูลแบบ แปลน , รูปด้าน , รูปตัด รถไฟฟ้่าสายสีม่วง สัญญา 5 21-06-67\\" (nth 3 (LM:str->lst (getvar "dwgprefix") "\\")) "\\" 
+                                            (strcat 
+                                              (substr (getvar 'dwgname) (+ (vl-string-search "PP" (getvar 'dwgname) 0 ) 1 ) 4 )
+                                              " automation plottter"
+                                            )
+                                            "\\"
+                                    )
                                   )
+                                  (strcat "C:\\TA\\TA_WORK\\รถไฟฟ้า\\PPLINE ITD\\ไฟล์ข้อมูลแบบ แปลน , รูปด้าน , รูปตัด รถไฟฟ้่าสายสีม่วง สัญญา 5 21-06-67\\" (nth 6 (LM:str->lst (getvar "dwgprefix") "\\")) "\\" 
+                                            (strcat 
+                                              (substr (getvar 'dwgname) (+ (vl-string-search "PP" (getvar 'dwgname) 0 ) 1 ) 4 )
+                                              " automation plottter"
+                                            )
+                                            "\\"
+                                    )
                                 )
-                                (strcat "C:\\TA\\TA_WORK\\รถไฟฟ้า\\PPLINE ITD\\ไฟล์ข้อมูลแบบ แปลน , รูปด้าน , รูปตัด รถไฟฟ้่าสายสีม่วง สัญญา 5 21-06-67\\" (nth 6 (LM:str->lst (getvar "dwgprefix") "\\")) "\\" 
-                                          (strcat 
-                                            (substr (getvar 'dwgname) (+ (vl-string-search "PP" (getvar 'dwgname) 0 ) 1 ) 4 )
-                                            " automation plottter"
-                                          )
-                                          "\\"
-                                  )
-                               )
-                               (LM:StringSubst "" ".dwg" (getvar 'DWGNAME) )
-                               ".pdf"
-                       )
+                                (LM:StringSubst "" ".dwg" (getvar 'DWGNAME) )
+                                ".pdf"
+                        )
+          )
         )
+        (vl-file-delete filename)
       )
-      (vl-file-delete filename)
-    )
-    (command "-plot" 
-            "Yes" ;Detailed Plot Configuration?
-            (getvar "ctab")
-            "DWG To PDF.pc3" ;Printer Name
-            "ISO_full_bleed_A3_(420.00_x_297.00_mm)" ;Paper Size
-            ;paper_size ;Paper Size
-            "m" ;Paper Units Millimeters
-            "Landscape" ;Orientation
-            "No" ;Plot Upside Down
-            "window" ;Plot Area
-            (nth 0 main_bol) ;vla-getboundingbox
-            (nth 2 main_bol) ;vla-getboundingbox
-            ;llpt				;Lower left corner of window
-            ;urpt				;Upper right corner of window
-            "Fit" ;Plot Scale	"Fit"
-            "Center" ;Plot Offset
-            "yes" ;Use Plot Style?
-            "TA3 - FOR NORMIE.ctb" ;Plot Style Name
-            "Yes" ;Plot Lineweights?
-            "" ;Enter shade plot setting ["As displayed"/"Wireframe"/"Hidden"/"Visual styles"/"Rendered"]
-            "N"
-            "N"
-            filename ; Name file and Location
-            "Y"
-            "Y"
-        
-    )
-    ;backup plot command process
-      ; (command "-plot" 
-      ;         "Yes" ;Detailed Plot Configuration?
-      ;         (getvar "ctab")
-      ;         "DWG To PDF.pc3" ;Printer Name
-      ;         "ISO_full_bleed_A3_(420.00_x_297.00_mm)" ;Paper Size
-      ;         ;paper_size ;Paper Size
-      ;         "m" ;Paper Units Millimeters
-      ;         "Landscape" ;Orientation
-      ;         "No" ;Plot Upside Down
-      ;         "Extents" ;Plot Area
-      ;         ; (nth 0 main_bol) ;vla-getboundingbox
-      ;         ; (nth 3 main_bol) ;vla-getboundingbox
-      ;         ;llpt				;Lower left corner of window
-      ;         ;urpt				;Upper right corner of window
-      ;         "Fit" ;Plot Scale	"Fit"
-      ;         "Center" ;Plot Offset
-      ;         "yes" ;Use Plot Style?
-      ;         "TA3 - FOR NORMIE.ctb" ;Plot Style Name
-      ;         "Yes" ;Plot Lineweights?
-      ;         "" ;Enter shade plot setting ["As displayed"/"Wireframe"/"Hidden"/"Visual styles"/"Rendered"]
-      ;         "N"
-      ;         "N"
-      ;         filename ; Name file and Location
-      ;         "Y"
-      ;         "Y"
-      ; )
+      (command "-plot" 
+              "Yes" ;Detailed Plot Configuration?
+              (getvar "ctab")
+              "DWG To PDF.pc3" ;Printer Name
+              "ISO_full_bleed_A3_(420.00_x_297.00_mm)" ;Paper Size
+              ;paper_size ;Paper Size
+              "m" ;Paper Units Millimeters
+              "Landscape" ;Orientation
+              "No" ;Plot Upside Down
+              "window" ;Plot Area
+              (nth 0 main_bol) ;vla-getboundingbox
+              (nth 2 main_bol) ;vla-getboundingbox
+              ;llpt				;Lower left corner of window
+              ;urpt				;Upper right corner of window
+              "Fit" ;Plot Scale	"Fit"
+              "Center" ;Plot Offset
+              "yes" ;Use Plot Style?
+              "TA3 - FOR NORMIE.ctb" ;Plot Style Name
+              "Yes" ;Plot Lineweights?
+              "" ;Enter shade plot setting ["As displayed"/"Wireframe"/"Hidden"/"Visual styles"/"Rendered"]
+              "N"
+              "N"
+              filename ; Name file and Location
+              "Y"
+              "Y"
+          
+      )
+      ;backup plot command process
+        ; (command "-plot" 
+        ;         "Yes" ;Detailed Plot Configuration?
+        ;         (getvar "ctab")
+        ;         "DWG To PDF.pc3" ;Printer Name
+        ;         "ISO_full_bleed_A3_(420.00_x_297.00_mm)" ;Paper Size
+        ;         ;paper_size ;Paper Size
+        ;         "m" ;Paper Units Millimeters
+        ;         "Landscape" ;Orientation
+        ;         "No" ;Plot Upside Down
+        ;         "Extents" ;Plot Area
+        ;         ; (nth 0 main_bol) ;vla-getboundingbox
+        ;         ; (nth 3 main_bol) ;vla-getboundingbox
+        ;         ;llpt				;Lower left corner of window
+        ;         ;urpt				;Upper right corner of window
+        ;         "Fit" ;Plot Scale	"Fit"
+        ;         "Center" ;Plot Offset
+        ;         "yes" ;Use Plot Style?
+        ;         "TA3 - FOR NORMIE.ctb" ;Plot Style Name
+        ;         "Yes" ;Plot Lineweights?
+        ;         "" ;Enter shade plot setting ["As displayed"/"Wireframe"/"Hidden"/"Visual styles"/"Rendered"]
+        ;         "N"
+        ;         "N"
+        ;         filename ; Name file and Location
+        ;         "Y"
+        ;         "Y"
+        ; )
+      ;
+    
+      ;create shortcut process  (root from SUB_FUNC)
+        ;kuy folder แม่งเสือกมีภาษาไทย หอยหลอดเอ้ย !!!!!!!
+      ;
     ;
-  
-    ;create shortcut process  (root from SUB_FUNC)
-      ;kuy folder แม่งเสือกมีภาษาไทย หอยหลอดเอ้ย !!!!!!!
-    ;
-  ;
-)
-(defun c:RUNPPEL_plot ()
-  ;selection_set_for_fillter_blk_name
-    (if  ;pre_select_ssget_or_post_select_ssget
-      (=
-        (setq ss_pre_filter_set_xx_ (ssget "x"
-                                          (list
-                                            (cons 0 "INSERT") ;type of object
-                                            (cons 410 (getvar "CTAB"))
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-        nil
-      )
-      (progn
-        (setq ss_pre_filter_set_xx_ (ssget "X"
-                                          (list
-                                            (cons 0 "INSERT") ;type of object
-                                            (cons 410 (getvar "CTAB"))
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-      )
-      (sslength ss_pre_filter_set_xx_)
-    )
-  ;
-  ;preloop_and_while
-    (setq ss_pre_filter_set_xx_i 0)
-    (setq External_ref_ename_ ())
-    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
-      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
-      (vl-prin1-to-string (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
-      
-      (if
-        (and
-          ; (= (sslength ss_pre_filter_set_xx_) 1)
-          (= (wcmatch (strcase (vl-princ-to-string ss_pre_filter_set_xx_obj_)) "*IACADEXTERNALREFERENCE*") T)
+  )
+  (defun c:RUNPPEL_plot ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "x"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              (cons 410 (getvar "CTAB"))
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
         )
         (progn
-          (setq External_ref_ename_ ss_pre_filter_set_xx_ename_ )
-          (setq main_bol (LM:boundingbox (vlax-ename->vla-object External_ref_ename_)))
+          (setq ss_pre_filter_set_xx_ (ssget "X"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              (cons 410 (getvar "CTAB"))
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
         )
+        (sslength ss_pre_filter_set_xx_)
       )
-      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
-    )
-  ;
-  ;plot process
-    (setq filename (strcat 
-                     "C:\\TA WORK\\ไฟล์ข้อมูลแบบ แปลน , รูปด้าน , รูปตัด รถไฟฟ้่าสายสีม่วง สัญญา 5 21-06-67\\PP27 DAO KHANONG STATION\\PP27 automation plottter\\"
-                     (LM:StringSubst "" ".dwg" (getvar 'DWGNAME) )
-                      ".pdf"
-                   )
-    )
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (setq External_ref_ename_ ())
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+        (vl-prin1-to-string (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+        
+        (if
+          (and
+            ; (= (sslength ss_pre_filter_set_xx_) 1)
+            (= (wcmatch (strcase (vl-princ-to-string ss_pre_filter_set_xx_obj_)) "*IACADEXTERNALREFERENCE*") T)
+          )
+          (progn
+            (setq External_ref_ename_ ss_pre_filter_set_xx_ename_ )
+            (setq main_bol (LM:boundingbox (vlax-ename->vla-object External_ref_ename_)))
+          )
+        )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+    ;plot process
+      (setq filename (strcat 
+                      "C:\\TA WORK\\ไฟล์ข้อมูลแบบ แปลน , รูปด้าน , รูปตัด รถไฟฟ้่าสายสีม่วง สัญญา 5 21-06-67\\PP27 DAO KHANONG STATION\\PP27 automation plottter\\"
+                      (LM:StringSubst "" ".dwg" (getvar 'DWGNAME) )
+                        ".pdf"
+                    )
+      )
+      (command "-plot" 
+              "Yes" ;Detailed Plot Configuration?
+              (getvar "ctab")
+              "DWG To PDF.pc3" ;Printer Name
+              "ISO_full_bleed_A3_(420.00_x_297.00_mm)" ;Paper Size
+              ;paper_size ;Paper Size
+              "m" ;Paper Units Millimeters
+              "Landscape" ;Orientation
+              "No" ;Plot Upside Down
+              "window" ;Plot Area
+              (nth 0 main_bol) ;vla-getboundingbox
+              (nth 2 main_bol) ;vla-getboundingbox
+              ;llpt				;Lower left corner of window
+              ;urpt				;Upper right corner of window
+              "Fit" ;Plot Scale	"Fit"
+              "Center" ;Plot Offset
+              "yes" ;Use Plot Style?
+              "TA3 - FOR NORMIE.ctb" ;Plot Style Name
+              "Yes" ;Plot Lineweights?
+              "" ;Enter shade plot setting ["As displayed"/"Wireframe"/"Hidden"/"Visual styles"/"Rendered"]
+              "N"
+              "N"
+              filename ; Name file and Location
+              "Y"
+              "Y"
+          
+      )
+      ;backup plot command process
+        ; (command "-plot" 
+        ;         "Yes" ;Detailed Plot Configuration?
+        ;         (getvar "ctab")
+        ;         "DWG To PDF.pc3" ;Printer Name
+        ;         "ISO_full_bleed_A3_(420.00_x_297.00_mm)" ;Paper Size
+        ;         ;paper_size ;Paper Size
+        ;         "m" ;Paper Units Millimeters
+        ;         "Landscape" ;Orientation
+        ;         "No" ;Plot Upside Down
+        ;         "Extents" ;Plot Area
+        ;         ; (nth 0 main_bol) ;vla-getboundingbox
+        ;         ; (nth 3 main_bol) ;vla-getboundingbox
+        ;         ;llpt				;Lower left corner of window
+        ;         ;urpt				;Upper right corner of window
+        ;         "Fit" ;Plot Scale	"Fit"
+        ;         "Center" ;Plot Offset
+        ;         "yes" ;Use Plot Style?
+        ;         "TA3 - FOR NORMIE.ctb" ;Plot Style Name
+        ;         "Yes" ;Plot Lineweights?
+        ;         "" ;Enter shade plot setting ["As displayed"/"Wireframe"/"Hidden"/"Visual styles"/"Rendered"]
+        ;         "N"
+        ;         "N"
+        ;         filename ; Name file and Location
+        ;         "Y"
+        ;         "Y"
+        ; )
+      ;
+    
+      ;create shortcut process  (root from SUB_FUNC)
+        ;kuy folder แม่งเสือกมีภาษาไทย หอยหลอดเอ้ย !!!!!!!
+      ;
+    ;
+  )
+;
+
+
+
+;PPLINE-CKST
+  (defun c:Plotter_CKST_CSDPLOT ()
+      ;return
+        (command "ucs" "world")
+      ;
+      ;go_to_layout-process
+        (if 
+          (or 
+            (= (getvar "ctab") "model")
+            (/= (getvar "ctab") "layout1")
+          )
+          (progn 
+            (setvar "ctab" "layout1")
+            
+          )
+          (setvar "ctab" "layout1")
+        )
+      ;
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "x"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                (cons 410 (getvar "CTAB"))
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget "X"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                (cons 410 (getvar "CTAB"))
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (setq External_ref_ename_ ())
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+          (if
+            (and
+              ; (= (sslength ss_pre_filter_set_xx_) 1)
+              (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_ )) (strcat "*" (strcase "ACM_Titleblock_MRTA") "*"))  T)
+              
+            )
+            (progn
+              (setq main_bol (LM:boundingbox ss_pre_filter_set_xx_obj_))
+            )
+          )
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+    ;plot process
+      (if 
+        (findfile (setq filename (strcat "" (getvar 'DWGPREFIX) (LM:StringSubst "" ".dwg" (getvar 'DWGNAME))  ".pdf"))) 
+        (vl-file-delete filename)
+      )
+    ;
+    ;input_type_of_plot_
+      (TA:preset_plotter_mode_3) 
+    ;
+      
     (command "-plot" 
             "Yes" ;Detailed Plot Configuration?
             (getvar "ctab")
@@ -590,7 +807,7 @@
             "Fit" ;Plot Scale	"Fit"
             "Center" ;Plot Offset
             "yes" ;Use Plot Style?
-            "TA3 - FOR NORMIE.ctb" ;Plot Style Name
+            "FAMELINE-CKST-100.ctb" ;Plot Style Name
             "Yes" ;Plot Lineweights?
             "" ;Enter shade plot setting ["As displayed"/"Wireframe"/"Hidden"/"Visual styles"/"Rendered"]
             "N"
@@ -600,51 +817,56 @@
             "Y"
         
     )
-    ;backup plot command process
-      ; (command "-plot" 
-      ;         "Yes" ;Detailed Plot Configuration?
-      ;         (getvar "ctab")
-      ;         "DWG To PDF.pc3" ;Printer Name
-      ;         "ISO_full_bleed_A3_(420.00_x_297.00_mm)" ;Paper Size
-      ;         ;paper_size ;Paper Size
-      ;         "m" ;Paper Units Millimeters
-      ;         "Landscape" ;Orientation
-      ;         "No" ;Plot Upside Down
-      ;         "Extents" ;Plot Area
-      ;         ; (nth 0 main_bol) ;vla-getboundingbox
-      ;         ; (nth 3 main_bol) ;vla-getboundingbox
-      ;         ;llpt				;Lower left corner of window
-      ;         ;urpt				;Upper right corner of window
-      ;         "Fit" ;Plot Scale	"Fit"
-      ;         "Center" ;Plot Offset
-      ;         "yes" ;Use Plot Style?
-      ;         "TA3 - FOR NORMIE.ctb" ;Plot Style Name
-      ;         "Yes" ;Plot Lineweights?
-      ;         "" ;Enter shade plot setting ["As displayed"/"Wireframe"/"Hidden"/"Visual styles"/"Rendered"]
-      ;         "N"
-      ;         "N"
-      ;         filename ; Name file and Location
-      ;         "Y"
-      ;         "Y"
-      ; )
+      ;backup plot command process
+        ; (command "-plot" 
+        ;         "Yes" ;Detailed Plot Configuration?
+        ;         (getvar "ctab")
+        ;         "DWG To PDF.pc3" ;Printer Name
+        ;         "ISO_full_bleed_A3_(420.00_x_297.00_mm)" ;Paper Size
+        ;         ;paper_size ;Paper Size
+        ;         "m" ;Paper Units Millimeters
+        ;         "Landscape" ;Orientation
+        ;         "No" ;Plot Upside Down
+        ;         "Extents" ;Plot Area
+        ;         ; (nth 0 main_bol) ;vla-getboundingbox
+        ;         ; (nth 3 main_bol) ;vla-getboundingbox
+        ;         ;llpt				;Lower left corner of window
+        ;         ;urpt				;Upper right corner of window
+        ;         "Fit" ;Plot Scale	"Fit"
+        ;         "Center" ;Plot Offset
+        ;         "yes" ;Use Plot Style?
+        ;         "TA3 - FOR NORMIE.ctb" ;Plot Style Name
+        ;         "Yes" ;Plot Lineweights?
+        ;         "" ;Enter shade plot setting ["As displayed"/"Wireframe"/"Hidden"/"Visual styles"/"Rendered"]
+        ;         "N"
+        ;         "N"
+        ;         filename ; Name file and Location
+        ;         "Y"
+        ;         "Y"
+        ; )
+      ;
+    
+      ;create shortcut process  (root from SUB_FUNC)
+        ;kuy folder แม่งเสือกมีภาษาไทย หอยหลอดเอ้ย !!!!!!!
+      ;
     ;
-  
-    ;create shortcut process  (root from SUB_FUNC)
-      ;kuy folder แม่งเสือกมีภาษาไทย หอยหลอดเอ้ย !!!!!!!
-    ;
-  ;
-)
+  )
 
-; ; ; automation_Process
-;   (if (= (getvar "ctab") "Model") ;move model
-;     (progn
-;       (setvar "ctab" (nth 1 (getdrawinglayouts (getvar "dwgname"))))
-;     )
-;   )
-;   (command "zoom" "a") 
-;   (c:find_xref_)
-;   (c:RUNPPEL_plot)
+;
+
+
+
+; ; automation_Process
+  ; (if (= (getvar "ctab") "Model") ;move model
+  ;   (progn
+  ;     (setvar "ctab" (nth 1 (getdrawinglayouts (getvar "dwgname"))))
+  ;   )
+;   ; )
+;   ; (c:CKdim)
+;   (c:Plotter_CKST_CSDPLOT)
+;   ; (command "zoom" "a") 
+;   ; (c:find_xref_)
+;   ; (c:RUNPPEL_plot)
 ;   (command "close" "n" )
 ; ;  
 
-; ;ssss

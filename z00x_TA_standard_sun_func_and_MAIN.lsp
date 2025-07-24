@@ -29080,3 +29080,292 @@
     (command "pselect"   sss_sss_ "" )
   ;
 )
+(defun c:PPLINE-CKST_300update_ ()
+  ; (TA:get_name_block_in_drawing_to_list)
+  (setq 300HK_blk_list_ (list 
+                        "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_CUT_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_ISOMATRIC_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_RIGHT_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_TOP_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_V-HOOK_CUT_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_V-HOOK_ISOMATRIC_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_V-HOOK_RIGHT_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_V-HOOK_TOP_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_GALV._SPICE-FOR_CC-01_LEFT-RIGHT_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_GALV._SPICE-FOR_CC-01_TOP_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_LEFT_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_COMPLEX-PROFILE_V-HOOK_LEFT_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_BK-08_BACK_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_BK-08_CUT_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_BK-08_FRONT_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_BK-08_TOP_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-01_BACK_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-01_CUT_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-01_FRONT_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-01_LEFT-RIGHT_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-01_TOP_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-04_CUT_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-04_FRONT_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-04_ISOMATRIC_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-04_TOP_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_BK-07_ISOMATRIC_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_BK-07_LEFT-RIGHT_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_BK-07_TOP_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_CUT_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_LEFT-RIGHT_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_TOP_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_CUT_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_ISOMATRIC_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_LEFT_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_RIGHT_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_TOP_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_CUT_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_LEFT_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_RIGHT_VIEW" 
+                        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_TOP_VIEW" 
+                        "000 - ASSCESSORIES_HEX_BOLT_M5_NUT" 
+                        "000 - ASSCESSORIES_SPRING_WASHER_M5_FRONT-SIDE-BACK_VIEW" 
+                        "000 - ASSCESSORIES_SPRING_WASHER_M5_TOP_VIEW" 
+                        "000 - ASSCESSORIES_WASHER_M5_FRONT-SIDE-BACK_VIEW" 
+                        "000 - ASSCESSORIES_WASHER_M5_TOP_VIEW" 
+                        "000 - DYNAM5IC_VIEW_ASSCESSORIES_WASHER_M5_COM5BINE_VIEW" 
+                        "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@400mm_COMBINE_SET" 
+                        "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV._SPICE-FOR_CC-01_COMBINE_VIEW" 
+                        "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_COMBINE_VIEW" 
+                        "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_COMPLEX-PROFILE_V-HOOK_COMBINE_VIEW" 
+                        "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_BK-08_COMBINE_VIEW" 
+                        "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-01_COMBINE_VIEW" 
+                        "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-04_COMBINE_VIEW" 
+                        "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_BK-07_COMBINE_VIEW" 
+                        "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_COMBINE_VIEW" 
+                        "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_COMBINE_VIEW" 
+                        "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_COMBINE_VIEW" 
+                        "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET" 
+                        "000 - DYNAMIC_VIEW_ASSCESSORIES_GALV.STUD_FULL_THREAD_1-4_COMBINE_VIEW" 
+                        "000 - DYNAMIC_VIEW_ASSCESSORIES_GALV.STUD_FULL_THREAD_1-4_TOP_VIEW" 
+                        "000 - DYNAMIC_VIEW_ASSCESSORIES_HEX_BOLT_M5_COMBINE_VIEW" 
+                        "000 - DYNAMIC_VIEW_ASSCESSORIES_RIVET_4-4_COMBINE_VIEW" 
+                        "000 - DYNAMIC_VIEW_ASSCESSORIES_RIVET_4-4_TOP_VIEW" 
+                        "000 - DYNAMIC_VIEW_ASSCESSORIES_SPRING_WASHER_M5_COMBINE_VIEW" 
+                        "000 - PROTOTYPE-DYNAMIC_HEX_BOLT" 
+                        "000 - PROTOTYPE-DYNAMIC_HEX_NUT" 
+                        "000 - PROTOTYPE-DYNAMIC_THREAD_BOLT" 
+                        "000 - PROTOTYPE-DYNAMIC_WAHER_AND_SPRING_WASHER_" 
+                        "001 - DYNAMIC REC&SSQ SHAPE SOLID_centerpoint" "A$C21c98c59" 
+                        "A$C5aec95aa" 
+                        "A$Ccf731a84"
+                  )
+  )
+  (setq filePath (getfiled "Select the DWG file" "./" "dwg" 4))
+  (setq temp_pt (getpoint "specify point" ))
+  ;preloop_and_while
+    (setq 300HK_blk_list_i 0)
+    (while (< 300HK_blk_list_i (length 300HK_blk_list_))
+      (setq 300HK_blk_list_ename_ (nth  300HK_blk_list_i 300HK_blk_list_))
+      (command "-INSERTCONTENT" filePath 300HK_blk_list_ename_  temp_pt 1 1 0)
+      (command "erase" "l" "")
+      (setq 300HK_blk_list_i (+ 300HK_blk_list_i 1))
+    )
+  ;
+  
+)
+(defun c:PPLINE-CKST_CSDupdate_ ()
+  ; (TA:get_name_block_in_drawing_to_list)
+  
+  (setq CSD_MERGE_LIST_ ())
+  (setq err_ "S")
+  (while
+    (/= (wcmatch (strcase (vl-princ-to-string err_)) "*ERROR*") T)
+    (setq err_
+      (vl-catch-all-apply 
+        (function 
+          (lambda () 
+            (setq CSD_MERGE_LIST_ (cons (LM:effectivename (setq ee (vlax-ename->vla-object (car (entsel "specify Object"))))) CSD_MERGE_LIST_) )
+          )
+        )
+      )
+    )
+  )
+  (setq CSD_MERGE_LIST_ (mapcar 'car (TA:Count_item_in_list_ CSD_MERGE_LIST_)))
+  (setq pp18_path "C:/TA FAMELINE old data/TA/TA_WORK/MASS TRANSIT/TA_PPLINE CKST/TA_PPLINE CKST_combine_CSD-ceiling-plan/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP18/CAD/")
+  (setq filePath (getfiled "Select the DWG file" pp18_path "dwg" 4))
+  
+  (setq temp_pt (getpoint "specify point" ))
+  ;preloop_and_while
+    (setq CSD_MERGE_LIST_i 0)
+    (setq CER_ 0)
+    (while (and 
+             (/= CSD_MERGE_LIST_ nil)
+             (< CSD_MERGE_LIST_i (length CSD_MERGE_LIST_))
+             (/= (wcmatch (strcase (vl-princ-to-string CER_)) "NIL"))
+           )
+      (setq CSD_MERGE_LIST_efname (nth  CSD_MERGE_LIST_i CSD_MERGE_LIST_))
+      (setq CER_
+        (vl-catch-all-apply 
+          (function 
+            (lambda () 
+              (command "-INSERTCONTENT" filePath CSD_MERGE_LIST_efname  temp_pt 1 1 0)
+              
+            )
+          )
+        )
+      )
+      (if (= (vl-prin1-to-string (vlax-vla-object->ename ee)) (vl-prin1-to-string (entlast))) ;for stop loop
+        (progn
+          (setq CER_ 0)
+        )
+        (vla-erase (vlax-ename->vla-object (entlast)))
+      )
+      
+      (setq CSD_MERGE_LIST_i (+ CSD_MERGE_LIST_i 1))
+    )
+  ;
+  
+)
+(defun c:PPLINE-CKST_airupdate ()
+  ; (TA:get_name_block_in_drawing_to_list)
+  
+  (setq CSD_MERGE_LIST_ ())
+  (setq err_ "S")
+  (while
+    (/= (wcmatch (strcase (vl-princ-to-string err_)) "*ERROR*") T)
+    (setq err_
+      (vl-catch-all-apply 
+        (function 
+          (lambda () 
+            (setq ss_insert_ (ssget 
+                                  (list 
+                                    (cons 0 "insert") ;type of object
+                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                  )
+                           )
+            )
+            ;preloop_and_while
+              (setq ss_insert_i 0)
+              (while (< ss_insert_i (sslength ss_insert_))
+                (setq ss_insert_ename_ (ssname ss_insert_ ss_insert_i))
+                (setq ss_insert_obj_ (vlax-ename->vla-object  ss_insert_ename_))
+                (setq CSD_MERGE_LIST_ (cons (LM:effectivename ss_insert_obj_) CSD_MERGE_LIST_) )
+                (setq ss_insert_i (+ ss_insert_i 1))
+              )
+            ;
+          )
+        )
+      )
+    )
+  )
+  (setq CSD_MERGE_LIST_ (mapcar 'car (TA:Count_item_in_list_ CSD_MERGE_LIST_)))
+  (setq filePath (getfiled "Select the DWG file" "C:/TA WORK/PPLINE CKST/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP20/CAD/" "dwg" 4))
+  (setq temp_pt (getpoint "specify point" ))
+  ;preloop_and_while
+    (setq CSD_MERGE_LIST_i 0)
+    (setq CER_ 0)
+    (while (and 
+             (/= CSD_MERGE_LIST_ nil)
+             (< CSD_MERGE_LIST_i (length CSD_MERGE_LIST_))
+             (/= (wcmatch (strcase (vl-princ-to-string CER_)) "NIL"))
+           )
+      (setq CSD_MERGE_LIST_efname (nth  CSD_MERGE_LIST_i CSD_MERGE_LIST_))
+      (setq CER_
+        (vl-catch-all-apply 
+          (function 
+            (lambda () 
+              (command "-INSERTCONTENT" filePath CSD_MERGE_LIST_efname  temp_pt 1 1 0)
+              
+            )
+          )
+        )
+      )
+      (if (= (vl-prin1-to-string (vlax-vla-object->ename ee)) (vl-prin1-to-string (entlast))) ;for stop loop
+        (progn
+          (setq CER_ 0)
+        )
+        (vla-erase (vlax-ename->vla-object (entlast)))
+      )
+      
+      (setq CSD_MERGE_LIST_i (+ CSD_MERGE_LIST_i 1))
+    )
+  ;
+  
+)
+
+(defun c:updateair ()
+  (setq b1 "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_PLAN_AL.SOLID_SHEET_HAT-PROFILE_COMBINE_SET")
+  (setq b2 "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_TRAKC_LIGHT_REC.1257x120mm_COMBINE_SET")
+  (setq b3 "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_PLAN_SUPPLY_AIR_REC.1600x175mm_COMBINE_SET")
+  (setq b4 "001 - DYNAMIC REC&SSQ SHAPE SOLID_centerpoint")
+
+  (setq air-light-ori_ "C:\\TA FAMELINE old data\\TA\\TA_WORK\\MASS TRANSIT\\TA_PPLINE CKST\\TA_PPLINE CKST_combine_CSD-ceiling-plan\\20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan\\C1-C2_Finishes-Reflected Ceiling Plan\\PP18\\CAD\\000-CSD-MERGE_C-1-PP18-AR-4130-01-B.dwg")
+  (command "-INSERTCONTENT" air-light-ori_ b1  (list 0.0 0.0 0.0) 1 1 0)
+  ; (vla-erase (vlax-ename->vla-object (entlast)))
+  (command "-INSERTCONTENT" air-light-ori_ b2  (list 0.0 0.0 0.0) 1 1 0)
+  ; (vla-erase (vlax-ename->vla-object (entlast)))
+  (command "-INSERTCONTENT" air-light-ori_ b3  (list 0.0 0.0 0.0) 1 1 0)
+  ; (vla-erase (vlax-ename->vla-object (entlast)))
+  (command "-INSERTCONTENT" air-light-ori_ b4  (list 0.0 0.0 0.0) 1 1 0)
+  ; (vla-erase (vlax-ename->vla-object (entlast)))
+  (command "-layer" "c" "2" "A04_TUBE SERIES" "" )
+)
+(defun c:updaterail ()
+
+  (setq b4 "001 - DYNAMIC REC&SSQ SHAPE SOLID_centerpoint")
+
+  (setq air-light-ori_ "C:\\TA FAMELINE old data\\TA\\TA_WORK\\MASS TRANSIT\\TA_PPLINE CKST\\TA_PPLINE CKST_combine_CSD-ceiling-plan\\20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan\\C1-C2_Finishes-Reflected Ceiling Plan\\PP18\\CAD\\000-CSD-MERGE_C-1-PP18-AR-4130-01-B.dwg")
+
+  (command "-INSERTCONTENT" air-light-ori_ b4  (list 0.0 0.0 0.0) 1 1 0)
+  (vla-erase (vlax-ename->vla-object (entlast)))
+  (command "-layer" "c" "2" "A04_TUBE SERIES" "" )
+)
+(defun c:CKdim ()
+  ;presetting
+    (command "-layer" "n" "000 - D I M" "")
+    (command "-layer" "c" 8 "000 - D I M" "" ) 
+  ;
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "x"
+                                          (list
+                                            (cons 0 "DIMENSION") ;type of object
+                                            (cons 410 (getvar "CTAB"))
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget "X"
+                                          (list
+                                            (cons 0 "DIMENSION") ;type of object
+                                            (cons 410 (getvar "CTAB"))
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      (setq ss_pre_filter_set_xx_obj_put_color (vla-put-color ss_pre_filter_set_xx_obj_ 256)) ;0 = bylock, 256 = bylayer
+     
+      
+      (setq ss_pre_filter_set_xx_obj_put_layer (vla-put-layer ss_pre_filter_set_xx_obj_ "000 - D I M")) ;by_string_name_layer
+       
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+  
+  
+)
