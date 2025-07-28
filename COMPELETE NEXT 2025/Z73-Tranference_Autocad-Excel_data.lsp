@@ -1,4 +1,4 @@
-;update 20250614 0341am
+;update 20250628 4:34pm
 ;Effective Block Name Funcition Lee Mac
   ;; Effective Block Name  -  Lee Mac
     ;; obj - [vla] VLA Block Reference object
@@ -4039,6 +4039,110 @@
               )
             )                
           )    
+        )
+      )
+      ; (vlax-dump-object get_ExcelApp_object_ )
+      ; (vlax-dump-object (vlax-get (vlax-get get_ExcelApp_object_ 'selection  ) 'address ) )
+      ; (vlax-dump-object (vlax-get get_ExcelApp_object_ 'ActiveCell  ) )
+      ; (vlax-dump-object get_ExcelApp_object_ )
+      ; (vlax-get get_ExcelApp_object_ 'selection  )
+      (setq Excel_lasted_worksheet_obj_ Excel_lasted_worksheet_obj_)
+    ;
+  )
+  (defun TA:Excel_Open-Excel_rev02_ (Using_file_mode_ clear_file_mode Worksheet_name )
+    ;Excel_file_process_ 
+      ;Note By Code_Developer
+        ;Principle of codework is designed for open Excel file or lasted current excel window 
+        ;and keep vla-object workbook in varibale
+        ;in normally this sub funcntion was developed from commmand sub code
+        ;
+      ;
+      ;Example incase userinput via command while code running
+        ; (setq Using_file_mode_ (cond ( (getint (strcat "\nOpen new Excel File = 1\nUse Exiting Excel file = 2\n<" (rtos (setq Using_file_mode_ (cond (Using_file_mode_) (1.0) ) ) ) "> : " ) ) ) (Using_file_mode_) ) )
+      ;
+      ;Example Argument
+      ;   (setq Using_file_mode_ 1) ;integer number for indicate condition  ;open new Excel fiel
+      ;   (setq Using_file_mode_ 2) ;integer number for indicate condition  ;Use curent Excel file 
+      ;   (setq clear_file_mode 1) ;integer number for indicate condition   ;clear content incase currnet Excel file 
+      ; ;
+      ;Subfunction 
+        ; (TA:Excel_Clearcontents Excel_lasted_worksheet_obj_)
+      ;
+      (cond
+        (;Open new Excel File
+          (and
+            (= Using_file_mode_ 1)
+          )
+          (progn 
+            (setq get_ExcelApp_object_ (vlax-get-or-create-object "Excel.Application"))
+            (setq Workbooks_obj_ (vlax-get-property get_ExcelApp_object_ 'workbooks) )
+            (setq Workbooks_obj_ (TA:New_Excel_File_NEX_ get_ExcelApp_object_))
+            (setq Excel_File+sheet_data_list_ (TA:Excel_Assembly_ALL-obj_list_ Workbooks_obj_))
+            (format-all-workbook-list Excel_File+sheet_data_list_)
+            (setq Excel_lasted_file_ (nth (- (length Excel_File+sheet_data_list_) 1) Excel_File+sheet_data_list_))
+            (format-all-worksheet-list Excel_lasted_file_)
+            (setq Excel_lasted_sheet_obj_ (vlax-get-property (nth 2 Excel_lasted_file_ ) 'sheets))
+            (setq Excel_lasted_worksheet_obj_ (vlax-get-property Excel_lasted_sheet_obj_ 'item 1))
+            (vlax-put-property Excel_lasted_worksheet_obj_ 'name  Worksheet_name)
+          )
+        )
+        (;Exiting Excel file
+          (and
+            (= Using_file_mode_ 2)
+            (/= (setq get_ExcelApp_object_ (vlax-get-object "Excel.Application")) nil)
+            (/= (setq Workbooks_obj_ (vlax-get-property get_ExcelApp_object_ 'workbooks) ) nil)
+            (/= (setq workbook_obj_ (vlax-get-property get_ExcelApp_object_ 'ActiveWorkbook)) nil)
+          )
+          (progn
+            (setq Workbooks_obj_ (vlax-get-property get_ExcelApp_object_ 'workbooks) )
+            (setq workbook_obj_ (vlax-get-property get_ExcelApp_object_ 'ActiveWorkbook))
+            (setq Excel_lasted_sheet_obj_ (vlax-get-property workbook_obj_ 'sheets))
+            (setq Excel_lasted_worksheet_obj_ (vlax-get-property Excel_lasted_sheet_obj_ 'item 1))
+            (vlax-put-property Excel_lasted_worksheet_obj_ 'name  Namesheet_)
+            ;incase userpinput
+              ; (if ( = (setq clear_file_mode (cond ( (getint (strcat "\nClear Contents Excel File = 1\nKeep Existing Contents Excel file = 2\n<" (rtos (setq clear_file_mode (cond (clear_file_mode) (1.0) ) ) ) "> : " ) ) ) (clear_file_mode) ) ) 1)
+              ;   (progn
+              ;     (TA:Excel_Clearcontents Excel_lasted_worksheet_obj_ )
+              ;   )
+              ; )
+            ;
+            (if ( = clear_file_mode 1)
+              (progn
+                (TA:Excel_Clearcontents Excel_lasted_worksheet_obj_ )
+              )
+            )                
+          )    
+        )
+        (;NewSheet Excel
+          (if 
+              (and
+                (= Using_file_mode_ 3)
+                (/= (setq get_ExcelApp_object_ (vlax-get-object "Excel.Application")) nil)
+                (/= (setq Workbooks_obj_ (vlax-get-property get_ExcelApp_object_ 'workbooks) ) nil)
+                (/= (setq workbook_obj_ (vlax-get-property get_ExcelApp_object_ 'ActiveWorkbook)) nil)
+              )
+              (progn
+                 T
+              )
+              (alert "Using_file_mode_ \"3\" error")
+          )
+          (progn
+            (setq workbook_obj_ (vlax-get-property get_ExcelApp_object_ 'ActiveWorkbook))
+            (setq Excel_lasted_worksheet_obj_ (vlax-invoke-method (vlax-get-property workbook_obj_ 'Sheets) 'Add))
+            (setq Excel_lasted_sheet_obj_ (vlax-get-property workbook_obj_ 'sheets))
+            (vlax-put-property Excel_lasted_worksheet_obj_ 'name  Worksheet_name)
+            (setq sheet_data_list_1st (caddr (car (cadddr (cadr (TA:Excel_Assembly_ALL-obj_list_ Workbooks_obj_))))))
+            (setq sheet_data_list_last (caddr (car (reverse (cadddr (cadr (TA:Excel_Assembly_ALL-obj_list_ Workbooks_obj_)))))))
+            (vlax-invoke-method Excel_lasted_worksheet_obj_ 'Move sheet_data_list_last)
+            (vlax-invoke-method sheet_data_list_last  'Move Excel_lasted_worksheet_obj_)
+            (setq Excel_lasted_worksheet_obj_ (vlax-get-property Excel_lasted_sheet_obj_ 'item (length (cadddr (cadr (TA:Excel_Assembly_ALL-obj_list_ Workbooks_obj_))))))
+            (vlax-invoke-method Excel_lasted_worksheet_obj_ 'Activate)
+            (if ( = clear_file_mode 1)
+              (progn
+                (TA:Excel_Clearcontents Excel_lasted_worksheet_obj_ )
+              )
+            )
+          )
         )
       )
       ; (vlax-dump-object get_ExcelApp_object_ )
@@ -9333,6 +9437,222 @@
           )
   )
 )
+(defun c:Caddata_to_Exceldata_C4EE () 
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;filter_selection_set_process 
+    (setq sst_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ (setq EF_name_val (LM:effectivename (vlax-ename->vla-object (car (entsel "specify name block for flter Ef name 11 "))))) ) )
+    (setq block-editor_comment-name (strcat 
+                                (if (= (vla-get-comments (vla-Item (vla-get-Blocks (vla-get-ActiveDocument (vlax-get-acad-object))) EF_name_val)) "")
+                                  (progn
+                                    "sum blk"
+                                  )
+                                  (vla-get-comments (vla-Item (vla-get-Blocks (vla-get-ActiveDocument (vlax-get-acad-object))) EF_name_val))
+                                ) 
+                                " (" 
+                                (LM:StringSubst "-" "." (rtos (getvar "cdate") 2 6) )
+                                ")"
+                              )
+    )
+  ;
+  ;main_idea_get_properties_data_ process_
+    ; (setq sst_ (ssget)) ;uncomment incase don't use fillter Sub FUNC or testing
+    ;preloop_and_while
+      (setq sst_i 0)
+      (setq sst_properties_mainlist_ ())
+      (setq sst_properties_sublist_ ())
+      (while (< sst_i (sslength sst_))
+        (setq sst_ename_ (ssname sst_ sst_i))
+          (setq sst_obj_ (vlax-ename->vla-object sst_ename_))
+          (setq sst_obj_std_list_ (list ;main standard propertie
+                            (setq sst_obj_handle (vla-get-handle sst_obj_)) ;sub standard propertie
+                            (setq Layout_name_data (vla-get-Name (vla-get-ActiveLayout (vla-get-ActiveDocument (vlax-get-Acad-Object) ) ) ))
+                            (setq target_block_obj_EFname_data (LM:effectivename sst_obj_))
+                            (setq target_block_obj_color_data (vla-get-color sst_obj_))
+                            (setq target_block_obj_layer_data (vla-get-layer sst_obj_))
+                            (setq target_block_obj_linetype_data (vla-get-linetype sst_obj_))
+                            (setq target_block_obj_ins_x_data (car (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint sst_obj_)))))
+                            (setq target_block_obj_ins_y_data (cadr (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint sst_obj_)))))
+                            (setq target_block_obj_ins_z_data (caddr (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint sst_obj_)))))
+                            (setq target_block_obj_Rotation_data (rad-to-deg (vla-get-rotation sst_obj_)))      
+                          )
+          )
+          (if (= (vla-get-isdynamicblock sst_obj_) ) ;dynamic_properties_list_
+            (progn
+              (setq sst_obj_dyn_val_list (mapcar 'cadr 
+                                                (vl-remove-if 
+                                                  '(lambda (x) 
+                                                      (wcmatch 
+                                                        (strcase (car x))
+                                                        "*POINT*"
+                                                      )
+                                                    )
+                                                  (TA:remove_val_list_rev02_ 
+                                                    "Origin"
+                                                    (setq sst_obj_dyn_all_ (LM-TA:getdynprops+vals 
+                                                                      sst_obj_
+                                                                    )
+                                                    )
+                                                  )
+                                                )
+                                        )
+              )
+            )
+          )
+          (if (= (vla-get-hasattributes sst_obj_) :vlax-true) ;attribute_properties_list_
+            (progn
+              (setq sst_obj_att_val_list (LM:vl-getattributevalue-val-TA-Modifies sst_obj_ ) )
+            )
+          )
+          (if (= sst_i 0) ;for create  tag one time 
+            (progn
+              ; (setq sst_tag_mainlist_ (TA:NEW_EXCEL_FILE_NEX_ get_ExcelApp_object_ ))
+              (if (= (vla-get-isdynamicblock sst_obj_))  ;dynamic_properties_list_
+                (progn 
+                  (setq sst_obj_dyn_tag_list (mapcar 'car
+                                                      (vl-remove-if 
+                                                        '(lambda (x) 
+                                                          (wcmatch 
+                                                            (strcase (car x))
+                                                            "*POINT*"
+                                                          )
+                                                        )
+                                                        (TA:remove_val_list_rev02_ 
+                                                          "Origin"
+                                                          (setq sst_obj_dyn_all_ (LM-TA:getdynprops+vals 
+                                                                                  sst_obj_
+                                                                                )
+                                                          )
+                                                        )
+                                                      )
+                                              )
+                  )
+                  (setq newdyn ())
+                  (foreach x sst_obj_dyn_tag_list
+                    (setq newdyn (cons (strcat "DYN:" x) newdyn))
+                  )
+                  (setq sst_obj_dyn_tag_list (reverse newdyn))
+                )
+              )
+              (if (= (vla-get-hasattributes sst_obj_) :vlax-true) ;attribute_properties_list_
+                (progn
+                  (setq sst_obj_att_tag_list (LM:vl-getattributevalue-tag-TA-Modifies sst_obj_ ) )
+                  (setq newat ())
+                  (foreach x sst_obj_att_tag_list
+                    (setq newat (cons (strcat "ATT:" x) newat))
+                  )
+                  (setq sst_obj_att_tag_list (reverse newat))
+                )
+              )
+              (setq sst_tag_mainlist_
+                (list
+                  (append 
+                    (list
+                      "Handle"
+                      "Layout"
+                      "Name_block"
+                      "Color"
+                      "Layer"
+                      "Linetype"
+                      "position_X"
+                      "position_Y"
+                      "position_Z"
+                      "Rotation(DEG)"
+                    )
+                    sst_obj_att_tag_list
+                    sst_obj_dyn_tag_list
+                    
+                  )
+                )
+              )
+            )
+          )
+        
+
+        
+          
+        
+        
+          (setq sst_properties_sublist_ (append sst_obj_std_list_  (list sst_obj_att_val_list) (list sst_obj_dyn_val_list))) 
+          (setq sst_properties_mainlist_ (cons sst_properties_sublist_ sst_properties_mainlist_))
+        (setq sst_i (+ sst_i 1))
+      )
+    ;
+  ;
+  (setq st_time_ (TA:start_time_for_record_))
+  ;export_properties_data_to_Excel
+    (setq Using_file_mode_ (cond ( (getint (strcat "\nspecify get Using_file_mode_\n New Excel File = 1 \n New Worksheet = 3\n<" (rtos (setq Using_file_mode_ (cond (Using_file_mode_) (1.0) ) ) ) "> : " ) ) ) (Using_file_mode_) ) )
+    (if 
+      (or 
+        (= block-editor_comment-name "")
+      )
+      (progn
+        (setq Worksheet_name (LM:StringSubst "-" "." (strcat "Summary Blk (" (rtos (getvar "cdate") 2 6) ")")))
+      )
+      (setq Worksheet_name block-editor_comment-name)
+    )
+    (setq Excel_lasted_worksheet_obj_ (TA:Excel_Open-Excel_rev02_ Using_file_mode_ 1 Worksheet_name)) ;Sub-FUNC for oepn Excel Appication_
+    (TA:Excel_foreach_input_list_dataset_R1C1 ;Sub-FUNC create properties data list to Excel (tag list_)
+      Excel_lasted_worksheet_obj_ 
+      1
+      1
+      sst_tag_mainlist_
+    )
+    (TA:Excel_foreach_input_list_dataset_R1C1 ;Sub-FUNC create properties data list to Excel (content list_)
+      Excel_lasted_worksheet_obj_ 
+      2
+      1
+      sst_properties_mainlist_
+    )
+  ;
+  (setq st_time_1 (TA:start_time_for_record_))
+  (alert (strcat 
+            "total use time \n"
+            (rtos 
+              (- 
+              (+ 
+                (* 3600 (atof (substr st_time_1 1 2)))
+                (* 60 (atof (substr st_time_1 3 2)))
+                (atof (substr st_time_1 6 2))
+              )
+              (+ 
+                (* 3600 (atof (substr st_time_ 1 2)))
+                (* 60 (atof (substr st_time_ 3 2)))
+                (atof (substr st_time_ 6 2))
+              )
+            )
+              2 0
+            )
+            " second"
+          )
+  )
+)
 (defun c:Exceldata_to_Caddata_E3CC ()
   (setq Activesheet_worksheet_obj_  (vlax-get get_ExcelApp_object_ 'activesheet  ))
   (setq Activesheet_worksheet_getRangecell_ (vlax-get (vlax-get get_ExcelApp_object_ 'selection  ) 'address ))
@@ -9744,6 +10064,7 @@
           )
           (progn
             (setq target_EFname_list_ (LM:effectivename target_EFname_obj_) )
+            
           )
           (alert "Object invalid Please try again")
         )
@@ -9939,6 +10260,256 @@
   ;
   ;Export_process_
     (setq Excel_lasted_worksheet_obj_ (TA:Excel_Open-Excel_ 1 1)) ;open new Excel window (function use follow argument)
+    (TA:EXCEL_put_columnformat Excel_lasted_worksheet_obj_ 1 "@" )
+    (TA:Excel_foreach_input_list_dataset_R1C1 ;Sub-FUNC create properties data list to Excel (tag list_)
+      Excel_lasted_worksheet_obj_ 
+      2
+      1
+      sum_heading_
+    )
+    (TA:Excel_foreach_input_list_dataset_R1C1 ;Sub-FUNC create properties data list to Excel (tag list_)
+      Excel_lasted_worksheet_obj_ 
+      3
+      1
+      sum_att_data_
+    )
+  ;
+  ;final_alert
+    (alert "Tranfer Data Finish")
+  ;
+)
+(defun c:PPline_Expdata2_DAFT4_ () 
+  ;while_select_block_on_condition_
+      (setq target_EFname_ nil)
+      (while (= target_EFname_ nil)
+        (setq target_EFname_ (car (entsel "specify target_EFname Object")))
+        (if
+          (and ;conditional_rule_for_select_object
+            (/= target_EFname_ nil)
+            (setq target_EFname_obj_ (vlax-ename->vla-object target_EFname_))
+            (= (vla-get-objectname target_EFname_obj_ ) "AcDbBlockReference")
+            ; (= (vla-get-isdynamicblock target_EFname_obj_ ) :vlax-true)
+            ; (/= (LM:getdynpropallowedvalues target_EFname_obj_ "view") nil)
+          )
+          (progn
+            (setq target_EFname_list_ (LM:effectivename target_EFname_obj_) )
+            (setq block-editor_comment-name (strcat 
+                                          (if (= (vla-get-comments (vla-Item (vla-get-Blocks (vla-get-ActiveDocument (vlax-get-acad-object))) target_EFname_list_)) "")
+                                            (progn
+                                              "sum blk"
+                                            )
+                                            (vla-get-comments (vla-Item (vla-get-Blocks (vla-get-ActiveDocument (vlax-get-acad-object))) target_EFname_list_))
+                                          ) 
+                                          " (" 
+                                          (LM:StringSubst "-" "." (rtos (getvar "cdate") 2 6) )
+                                          ")"
+                                        )
+            )
+          )
+          (alert "Object invalid Please try again")
+        )
+      )
+  ;
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget 
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;get_data_process_for_fillter_blk_name
+    (setq target_block_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ target_EFname_list_)) 
+    (sslength target_block_)
+  ;
+  ;switch window
+    (textscr)
+    (vla-put-WindowState (vlax-get-acad-object) acmin)
+  ;
+  ;preloop_and_while
+    (setq sum_heading_ ())
+    (setq sum_att_data_ ())
+    (setq target_block_i 0)
+    (while 
+        (and
+          (< target_block_i (sslength target_block_))
+        )
+        (setq target_block_ename_ (ssname target_block_ target_block_i))
+        (setq target_block_obj_ (vlax-ename->vla-object target_block_ename_))
+        
+        ;main_idea_of_code
+          (setq standard_heading_
+            (list
+              (setq target_block_obj_handle_heading "Handle")     
+              ; (setq Layout_name_heading "Layout")
+              (setq target_block_obj_EFname_heading "Name_block")
+              ; (setq target_block_obj_color_heading "Color")
+              ; (setq target_block_obj_layer_heading "Layer")
+              ; (setq target_block_obj_linetype_heading "Linetype")
+              (setq target_block_obj_ins_x_heading "position_X")
+              (setq target_block_obj_ins_y_heading "position_Y")
+              (setq target_block_obj_ins_z_heading "position_Z")
+              ; (setq target_block_obj_Rotation_heading "Rotation(DEG)")      
+            )
+          )
+          (setq standard_data_
+            (list
+              (setq target_block_obj_handle_data (vla-get-handle target_block_obj_))     
+              ; (setq Layout_name_data (vla-get-Name (vla-get-ActiveLayout (vla-get-ActiveDocument (vlax-get-Acad-Object) ) ) ))
+              (setq target_block_obj_EFname_data (LM:effectivename target_block_obj_))
+              ; (setq target_block_obj_color_data (vla-get-color target_block_obj_))
+              ; (setq target_block_obj_layer_data (vla-get-layer target_block_obj_))
+              ; (setq target_block_obj_linetype_data (vla-get-linetype target_block_obj_))
+              (setq target_block_obj_ins_x_data (car (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint target_block_obj_)))))
+              (setq target_block_obj_ins_y_data (cadr (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint target_block_obj_)))))
+              (setq target_block_obj_ins_z_data (caddr (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint target_block_obj_)))))
+              ; (setq target_block_obj_Rotation_data (rad-to-deg (vla-get-rotation target_block_obj_)))      
+            )
+          )
+          (if ;attribute_get_heading+data_process
+            (and 
+              (vla-get-hasattributes target_block_obj_)
+            )
+            (progn
+              (setq att_heading_ 
+                (LM:vl-getattributevalue-tag-TA-Modifies target_block_obj_)
+              )
+              (setq newat ())
+              (foreach x att_heading_
+                (setq newat (cons (strcat "ATT:" x) newat))
+              )
+              (setq att_heading_ (reverse newat))
+              (setq att_data_ 
+                (LM:vl-getattributevalue-val-TA-Modifies target_block_obj_)
+              )
+              
+            )
+            (setq att_heading_ nil
+                  att_data_    nil
+            )
+          )
+          (if ;dynamic_get_heading+data_process
+            (and
+              (vla-get-isdynamicblock target_block_obj_)
+            )
+            (progn
+              (setq dyn_heading_
+                (LM-TA:getdynprops target_block_obj_ )
+              )
+              (setq dyn_data_
+                (LM-TA:getdynvals target_block_obj_ )
+              )
+              (setq dyn_filter_ (list 
+                                  (setq dyn_heading_ (mapcar 'car 
+                                                             (vl-remove-if 
+                                                               '(lambda (x) 
+                                                                  (wcmatch 
+                                                                    (strcase (car x))
+                                                                    "*POINT*"
+                                                                  )
+                                                                )
+                                                               (TA:remove_val_list_rev02_ 
+                                                                 "Origin"
+                                                                 (setq dyn_all_ (LM-TA:getdynprops+vals 
+                                                                                  target_block_obj_
+                                                                                )
+                                                                 )
+                                                               )
+                                                             )
+                                                     )
+                                  )
+                                  (setq newdyn ())
+                                  (setq dyn_heading_
+                                   (foreach x dyn_heading_
+                                    (setq newdyn (cons (strcat "DYN:" x) newdyn))
+                                   )
+                                  )
+                                  (setq dyn_heading_ (reverse dyn_heading_ ))
+                                  (setq dyn_data_ (mapcar 'cadr 
+                                                          (vl-remove-if 
+                                                            '(lambda (x) 
+                                                               (wcmatch 
+                                                                 (strcase (car x))
+                                                                 "*POINT*"
+                                                               )
+                                                             )
+                                                            (TA:remove_val_list_rev02_ 
+                                                              "Origin"
+                                                              (setq dyn_all_ (LM-TA:getdynprops+vals 
+                                                                               target_block_obj_
+                                                                             )
+                                                              )
+                                                            )
+                                                          )
+                                                  )
+                                  )
+                                )
+              )
+            )
+            (setq dyn_heading_ nil
+                  dyn_data_    nil
+            )
+          )
+          
+          (if ;nested block
+            (and
+              (= (vla-get-objectname target_block_obj_) "AcDbBlockReference")
+            )
+            (progn
+              (setq target_block_obj_nestblock_name (mapcar 'car (TA:Assembly_des-name-block_ target_block_obj_)))
+              (setq target_block_obj_nestblock_qty (mapcar 'cdr (TA:Assembly_des-name-block_ target_block_obj_)))
+              
+            )
+          )
+          ;summary_data/loop_
+            (if (= sum_heading_ nil)
+              (progn
+                (setq sum_heading_ (list (append (append (append  standard_heading_ att_heading_ )dyn_heading_ )target_block_obj_nestblock_name)) )
+              )
+            )      
+          ;
+          
+          (setq sum_att_data_ (cons (append (append (append standard_data_ att_data_ ) dyn_data_)target_block_obj_nestblock_qty ) sum_att_data_))
+        ;
+      (setq target_block_i (+ target_block_i 1))
+    )
+  ;
+  ;switch window
+    (vla-put-WindowState (vlax-get-acad-object) acmax)
+    (graphscr)
+  ;
+  ;Export_process_
+    (setq Using_file_mode_ (cond ( (getint (strcat "\nspecify get Using_file_mode_\n New Excel File = 1 \n New Worksheet = 3\n<" (rtos (setq Using_file_mode_ (cond (Using_file_mode_) (1.0) ) ) ) "> : " ) ) ) (Using_file_mode_) ) )
+    (if 
+      (or 
+        (= block-editor_comment-name "")
+      )
+      (progn
+        (setq Worksheet_name (LM:StringSubst "-" "." (strcat "Summary Blk (" (rtos (getvar "cdate") 2 6) ")")))
+      )
+      (setq Worksheet_name block-editor_comment-name)
+    )
+    (setq Excel_lasted_worksheet_obj_ (TA:Excel_Open-Excel_rev02_ Using_file_mode_ 1 Worksheet_name)) ;open new Excel window (function use follow argument)
     (TA:EXCEL_put_columnformat Excel_lasted_worksheet_obj_ 1 "@" )
     (TA:Excel_foreach_input_list_dataset_R1C1 ;Sub-FUNC create properties data list to Excel (tag list_)
       Excel_lasted_worksheet_obj_ 
