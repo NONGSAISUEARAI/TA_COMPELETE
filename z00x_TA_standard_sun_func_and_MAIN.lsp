@@ -27124,6 +27124,8 @@
 (defun c:inshang1 ()
   ;presetting
     (setq hanging_dist_var_ 1300)
+    (setq hanging_offset_start_ 75)
+    (setq hanging_offset_end_ 150)
   ;
   ;selection_set_for_fillter_blk_name
     (if  ;pre_select_ssget_or_post_select_ssget
@@ -27176,7 +27178,7 @@
             (setq total_full_length_ (+ fragment_right (+ fragment_left (+ array_length_full ))))
             (setq start_pt (list 
                               (car ss_pre_filter_set_xx_obj_ins_)
-                              (+ (cadr ss_pre_filter_set_xx_obj_ins_) (+ fragment_left array_length_half_))
+                              (- (+ (cadr ss_pre_filter_set_xx_obj_ins_) (+ fragment_left array_length_half_))  hanging_offset_start_) 
                               (caddr ss_pre_filter_set_xx_obj_ins_)
                            )
             )
@@ -27192,7 +27194,7 @@
               (while (< hanging_dist_time_i (+ 1 hanging_dist_time_))
                 (setq new_start_pt (list 
                                     (car ss_pre_filter_set_xx_obj_ins_)
-                                    (- (+ (cadr ss_pre_filter_set_xx_obj_ins_) (+ fragment_left array_length_half_)) (* hanging_dist_time_i hanging_dist_var_) )
+                                    (- (+ (- (cadr ss_pre_filter_set_xx_obj_ins_) hanging_offset_start_ ) (+ fragment_left array_length_half_)) (* hanging_dist_time_i hanging_dist_var_) )
                                     (caddr ss_pre_filter_set_xx_obj_ins_)
                                   )
                 )
@@ -27226,12 +27228,15 @@
                     (setq newhang_ename (entlast))
                     (setq newhang_obj_ (vlax-ename->vla-object newhang_ename))
                     (setq newhang_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint newhang_obj_))))
+                    (TA:move_axis_insertionpoint newhang_obj_ "y" hanging_offset_end_)
                     (vla-put-layer newhang_obj_ "001 - ASCESSORIES")
                     (vla-put-color newhang_obj_ 256)
                     (vla-put-linetype newhang_obj_ "dash")
                     (LM:setdynpropvalue newhang_obj_ "view" "2_top_view")
                   ;
                 )
+                ; (TA:move_axis_insertionpoint newhang_obj_ "y" hanging_offset_end_)
+                ; (TA:move_axis_insertionpoint newhang_obj_ "y" 0)
               )
             ;
             (princ "_case_1")
@@ -27279,7 +27284,7 @@
               (while (< hanging_dist_time_i hanging_dist_time_)
                 (setq new_start_pt (list 
                                     (car ss_pre_filter_set_xx_obj_ins_)
-                                    (- (+ (cadr ss_pre_filter_set_xx_obj_ins_) fragment_middle_half_) (* hanging_dist_time_i varies_dist_) )
+                                    (- (- (+ (cadr ss_pre_filter_set_xx_obj_ins_) fragment_middle_half_) hanging_offset_start_ ) (* hanging_dist_time_i varies_dist_) )
                                     (caddr ss_pre_filter_set_xx_obj_ins_)
                                   )
                 )
@@ -27299,13 +27304,26 @@
                   (LM:setdynpropvalue newhang_obj_ "view" "2_top_view")
                   (setq hanging_ssset (cons newhang_ename hanging_ssset))
                 ;
+                (if (/= hanging_dist_time_i 0)
+                  (progn
+                    (TA:move_axis_insertionpoint (vlax-ename->vla-object (setq newhang_ename (entlast))) "y" hanging_offset_start_)
+                    (command "pselect"  (nth 0 hanging_ssset) "" )
+                  )
+                )
+                (if (= hanging_dist_time_i 2)
+                  (progn
+                    (TA:move_axis_insertionpoint (vlax-ename->vla-object (nth 0 hanging_ssset)) "y" hanging_offset_end_)
+                    
+                  )
+                )
                 (setq hanging_dist_time_i (+ hanging_dist_time_i 1))
               )
-              (if (= hanging_dist_time_ 3)
-                (progn
-                  (TA:move_axis_insertionpoint (vlax-ename->vla-object (nth 1 hanging_ssset)) "y" -12.5)
-                )
-              )
+              ; (if (= hanging_dist_time_ 3)
+              ;   (progn
+              ;     (TA:move_axis_insertionpoint (vlax-ename->vla-object (nth 1 hanging_ssset)) "y" -12.5)
+                  
+              ;   )
+              ; )
             ;
             (princ "_case_2")
           )
@@ -27821,7 +27839,7 @@
       )
       (sslength ss_pre_filter_set_xx_)
     )
-  
+  ;
   ;preloop_and_while
     (setq ss_pre_filter_set_xx_i 0)
     (while (and 
@@ -27831,6 +27849,17 @@
       (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
       (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
       (cond
+        (;EFname_case_0
+           (and
+              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET" )
+           )
+           (progn
+             (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
+             (vla-put-color ss_pre_filter_set_xx_obj_ 4 )
+             (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+             (princ "EFname_case_1")
+           )
+        )
         (;EFname_case_1
            (and
               (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_COMBINE_VIEW" )
@@ -27885,9 +27914,9 @@
              (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
              (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
              
-             (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "W" 300)
-             (command "-bvstate" "s" "1_" )
-             (command "bvshow" ss_pre_filter_set_xx_ename_ "" "C")
+            ;  (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "W" 300)
+            ;  (command "-bvstate" "s" "1_" )
+            ;  (command "bvshow" ss_pre_filter_set_xx_ename_ "" "C")
             ;  ;add-on
             ;   ;new_blk_entlast object set-1
             ;       (vla-copy ss_pre_filter_set_xx_obj_)
@@ -27942,6 +27971,7 @@
       (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
     )
   ;
+  (command "bvshow" ss_pre_filter_set_xx_ "" "C")
 )
 (defun c:PPLINE-CKST-reset300lax() ;ใช้สำหรับ set layer ในบล็อก เพื่อให้เรียบร้อย
   ;selection_set_for_fillter_blk_name
@@ -29376,80 +29406,96 @@
 )
 (defun c:PPLINE-CKST_300update_ ()
   ; (TA:get_name_block_in_drawing_to_list)
-  (setq 300HK_blk_list_ (list 
-                        ; "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_CUT_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_ISOMATRIC_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_RIGHT_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_TOP_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_V-HOOK_CUT_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_V-HOOK_ISOMATRIC_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_V-HOOK_RIGHT_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_V-HOOK_TOP_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_GALV._SPICE-FOR_CC-01_LEFT-RIGHT_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_GALV._SPICE-FOR_CC-01_TOP_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_LEFT_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_COMPLEX-PROFILE_V-HOOK_LEFT_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_BK-08_BACK_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_BK-08_CUT_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_BK-08_FRONT_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_BK-08_TOP_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-01_BACK_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-01_CUT_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-01_FRONT_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-01_LEFT-RIGHT_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-01_TOP_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-04_CUT_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-04_FRONT_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-04_ISOMATRIC_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-04_TOP_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_BK-07_ISOMATRIC_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_BK-07_LEFT-RIGHT_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_BK-07_TOP_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_CUT_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_LEFT-RIGHT_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_TOP_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_CUT_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_ISOMATRIC_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_LEFT_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_RIGHT_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_TOP_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_CUT_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_LEFT_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_RIGHT_VIEW" 
-                        ; "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_TOP_VIEW" 
-                        ; "000 - ASSCESSORIES_HEX_BOLT_M5_NUT" 
-                        ; "000 - ASSCESSORIES_SPRING_WASHER_M5_FRONT-SIDE-BACK_VIEW" 
-                        ; "000 - ASSCESSORIES_SPRING_WASHER_M5_TOP_VIEW" 
-                        ; "000 - ASSCESSORIES_WASHER_M5_FRONT-SIDE-BACK_VIEW" 
-                        ; "000 - ASSCESSORIES_WASHER_M5_TOP_VIEW" 
-                        ; "000 - DYNAM5IC_VIEW_ASSCESSORIES_WASHER_M5_COM5BINE_VIEW" 
-                        ; "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@400mm_COMBINE_SET" 
-                        ; "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV._SPICE-FOR_CC-01_COMBINE_VIEW" 
-                        ; "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_COMBINE_VIEW" 
-                        ; "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_COMPLEX-PROFILE_V-HOOK_COMBINE_VIEW" 
-                        ; "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_BK-08_COMBINE_VIEW" 
-                        ; "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-01_COMBINE_VIEW" 
-                        ; "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-04_COMBINE_VIEW" 
-                        ; "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_BK-07_COMBINE_VIEW" 
-                        "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_COMBINE_VIEW" 
-                        ; "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_COMBINE_VIEW" 
-                        ; "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_COMBINE_VIEW" 
-                        ; "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET" 
-                        ; "000 - DYNAMIC_VIEW_ASSCESSORIES_GALV.STUD_FULL_THREAD_1-4_COMBINE_VIEW" 
-                        ; "000 - DYNAMIC_VIEW_ASSCESSORIES_GALV.STUD_FULL_THREAD_1-4_TOP_VIEW" 
-                        ; "000 - DYNAMIC_VIEW_ASSCESSORIES_HEX_BOLT_M5_COMBINE_VIEW" 
-                        ; "000 - DYNAMIC_VIEW_ASSCESSORIES_RIVET_4-4_COMBINE_VIEW" 
-                        ; "000 - DYNAMIC_VIEW_ASSCESSORIES_RIVET_4-4_TOP_VIEW" 
-                        ; "000 - DYNAMIC_VIEW_ASSCESSORIES_SPRING_WASHER_M5_COMBINE_VIEW" 
-                        ; "000 - PROTOTYPE-DYNAMIC_HEX_BOLT" 
-                        ; "000 - PROTOTYPE-DYNAMIC_HEX_NUT" 
-                        ; "000 - PROTOTYPE-DYNAMIC_THREAD_BOLT" 
-                        ; "000 - PROTOTYPE-DYNAMIC_WAHER_AND_SPRING_WASHER_" 
-                        ; "001 - DYNAMIC REC&SSQ SHAPE SOLID_centerpoint" "A$C21c98c59" 
-                        ; "A$C5aec95aa" 
-                        ; "A$Ccf731a84"
-                  )
+      ; (vl-catch-all-apply 
+      ;   (function 
+      ;     (lambda () 
+      ;       (command "rename" "b" "A$Ccf731a84" "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_BK-07_CUT_VIEW" )
+            
+            
+      ;     )
+      ;   )
+      ; )
+      ; (vl-catch-all-apply 
+      ;   (function 
+      ;     (lambda () 
+      ;       (command "rename" "b" "A$C5aec95aa" "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_BK-08_ISOMATRIC_VIEW" )
+      ;     )
+      ;   )
+      ; )
+  
+  (setq 300HK_blk_list_ 
+    (list 
+        "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_CUT_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_ISOMATRIC_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_RIGHT_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_TOP_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_V-HOOK_CUT_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_V-HOOK_ISOMATRIC_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_V-HOOK_RIGHT_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_V-HOOK_TOP_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV._SPICE-FOR_CC-01_CUT_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV._SPICE-FOR_CC-01_LEFT-RIGHT_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV._SPICE-FOR_CC-01_TOP_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV._SPICE-FOR_HR-02A_TOP_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV._SPICE-FOR_HR-02B_TOP_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_LEFT_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_COMPLEX-PROFILE_V-HOOK_LEFT_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_BK-08_BACK_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_BK-08_CUT_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_BK-08_FRONT_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_BK-08_ISOMATRIC_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_BK-08_TOP_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-01_BACK_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-01_CUT_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-01_FRONT_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-01_LEFT-RIGHT_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-01_TOP_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-04_CUT_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-04_FRONT_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-04_ISOMATRIC_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-04_TOP_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_BK-07_CUT_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_BK-07_ISOMATRIC_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_BK-07_LEFT-RIGHT_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_BK-07_TOP_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_CUT_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_LEFT-RIGHT_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_TOP_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_CUT_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_ISOMATRIC_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_LEFT_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_RIGHT_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_TOP_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_CUT_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_LEFT_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_RIGHT_VIEW" 
+        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_TOP_VIEW" 
+        "000 - ASSCESSORIES_HEX_BOLT_M5_NUT" 
+        "000 - ASSCESSORIES_SPRING_WASHER_M5_FRONT-SIDE-BACK_VIEW" 
+        "000 - ASSCESSORIES_SPRING_WASHER_M5_TOP_VIEW" 
+        "000 - ASSCESSORIES_TRAKC_LIGHT_REC.1257x120mm_CUT_VIEW" 
+        "000 - ASSCESSORIES_TRAKC_LIGHT_REC.1257x120mm_FRONT_VIEW" 
+        "000 - ASSCESSORIES_WASHER_M5_FRONT-SIDE-BACK_VIEW" 
+        "000 - ASSCESSORIES_WASHER_M5_TOP_VIEW" 
+        "000 - DYNAM5IC_VIEW_ASSCESSORIES_WASHER_M5_COM5BINE_VIEW" 
+        "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_COMBINE_VIEW" 
+        "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_COMBINE_VIEW" 
+        "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET" 
+        "000 - DYNAMIC_VIEW_ASSCESSORIES_GALV.STUD_FULL_THREAD_1-4_COMBINE_VIEW" 
+        "000 - DYNAMIC_VIEW_ASSCESSORIES_GALV.STUD_FULL_THREAD_1-4_TOP_VIEW" 
+        "000 - DYNAMIC_VIEW_ASSCESSORIES_HEX_BOLT_M5_COMBINE_VIEW" 
+        "000 - DYNAMIC_VIEW_ASSCESSORIES_RIVET_4-4_COMBINE_VIEW" 
+        "000 - DYNAMIC_VIEW_ASSCESSORIES_RIVET_4-4_TOP_VIEW" 
+        "000 - DYNAMIC_VIEW_ASSCESSORIES_SPRING_WASHER_M5_COMBINE_VIEW" 
+        "000 - PROTOTYPE-DYNAMIC_HEX_BOLT" 
+        "000 - PROTOTYPE-DYNAMIC_HEX_NUT" 
+        "000 - PROTOTYPE-DYNAMIC_THREAD_BOLT" 
+        "000 - PROTOTYPE-DYNAMIC_WAHER_AND_SPRING_WASHER_" 
+        "001 - DYNAMIC REC&SSQ SHAPE SOLID_centerpoint" 
+        "HEX_BOLT-M5_set"
+    )
   )
+  (length 300HK_blk_list_)
   (setq pp18_path "C:/TA WORK/PPLINE CKST/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP20/CAD/") ;use /w PC
   (setq filePath (getfiled "Select the DWG file" pp18_path "dwg" 4))
   (setq temp_pt (getpoint "specify point" ))
@@ -29700,8 +29746,12 @@
 )
 
 
-(load "C:/TA compelete github/TA_COMPELETE/z67x_CLEAN_FUNC.lsp")
-(load "C:/TA compelete github/TA_COMPELETE/COMPELETE NEXT 2025/Z73-Tranference_Autocad-Excel_data.lsp")
+
+  (setq Er-msg_ (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/z67x_CLEAN_FUNC.lsp") ) ) ) )
+  (setq Er-msg_ (vl-catch-all-apply (function (lambda () (load "C:/Users/Admin/Documents/GitHub/TA_COMPELETE/z67x_CLEAN_FUNC.lsp") ) ) ) )
+  (setq Er-msg_ (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/COMPELETE NEXT 2025/Z73-Tranference_Autocad-Excel_data.lsp") ) ) ) )
+  (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/Admin/Documents/GitHub/TA_COMPELETE/COMPELETE NEXT 2025/Z73-Tranference_Autocad-Excel_data.lsp") ) ) ) )
+
 (defun C:sfbz ()
   ;selection_set_for_fillter_blk_name
     (if  ;pre_select_ssget_or_post_select_ssget

@@ -762,7 +762,7 @@
 (defun c:COLOR_RESET_ ()
   (vl-load-com)
   (setq file_block_list_ (TA:get_name_block_in_drawing_to_list))
-  
+  (textscr)
   ;user_input_to_specify_color
     (setq c-main-color nil) 
     (while (not c-main-color)
@@ -808,7 +808,7 @@
     )
   ;
     (setq file_block_list_i 0)
-    (textscr)
+    
     (while  (< file_block_list_i (length file_block_list_))
       (setq file_block_list_blkname_ (nth file_block_list_i file_block_list_))
       (command "-bedit" file_block_list_blkname_)
