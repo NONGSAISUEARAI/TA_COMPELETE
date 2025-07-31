@@ -18190,77 +18190,170 @@
                 (TA:move_axis_insertionpoint new_obj_ "x" 0)
                 (setq torr t)
               )
-              (TA:move_axis_insertionpoint new_obj_ "x" -200)
+              (if (or 
+                    (= (rtos (LM:getdynpropvalue 300hk_obj_ "array_panel_length") 2 2) (rtos 800 2 2))
+                    (= (rtos (LM:getdynpropvalue 300hk_obj_ "array_panel_length") 2 2) (rtos 1600 2 2))
+                    (= (rtos (LM:getdynpropvalue 300hk_obj_ "array_panel_length") 2 2) (rtos 10400 2 2))
+                  )
+                (progn
+                  (TA:move_axis_insertionpoint new_obj_ "x" 0)
+                  (setq torr t)
+                )
+                (TA:move_axis_insertionpoint new_obj_ "x" -200)
+              )
+              
             )
-            (setq array_length (LM:setdynpropvalue new_obj_ "array_length" (* (fix (/ array_panel_length 2400)) 2400 ) ))
+            (if (and 
+                  (> (- (* (fix (/ array_panel_length 2400)) 2400 ) 2400) 0)
+                  (= torr nil)
+                )
+              (progn
+                (setq array_length (LM:setdynpropvalue new_obj_ "array_length" (- (* (fix (/ array_panel_length 2400)) 2400 ) 2400) ))
+              )
+              (setq array_length (LM:setdynpropvalue new_obj_ "array_length" (* (fix (/ array_panel_length 2400)) 2400 ) ))
+            )
+            
             (cond ;visibility&length condition
-              ( ;visibility condition
-                (or 
-                  (> array_panel_length 2401)
-                )
-                (progn
-                  (LM:setdynpropvalue new_obj_ "view" "2_top_view")
-                  (LM:setdynpropvalue 
-                    new_obj_ 
-                    "fragment_left"   
-                    (if (= (- array_panel_length array_length) 0) ;condition for input fragment left/right value
-                      (progn
-                        0
-                      )
-                      (if (< (- (/ (- array_panel_length array_length ) 2) 50) 0)
-                        (progn
-                          0
-                        )
-                        (- (/ (- array_panel_length array_length ) 2) 50)
-                      )
-                    )
-                  )
-                  (LM:setdynpropvalue 
-                    new_obj_ 
-                    "fragment_right"   
-                    (if (= (- array_panel_length array_length) 0) ;condition for input fragment left/right value
-                      (progn
-                        0
-                      )
-                      (- (/ (- array_panel_length array_length ) 2) 0)
-                    )
-                  )
-                  (if (= torr nil)
+            ( ;visibility condition
+              (and
+                (/= (rtos (LM:getdynpropvalue 300HK_obj_ "array_panel_length"  ) 2 2 ) (rtos 2800 2 2))     
+                (> array_panel_length 2401)
+              )
+              (progn
+                (LM:setdynpropvalue new_obj_ "view" "2_top_view")
+                (LM:setdynpropvalue 
+                  new_obj_ 
+                  "fragment_left"   
+                  (if (= (- array_panel_length array_length) 0) ;condition for input fragment left/right value
                     (progn
-                      (LM:setdynpropvalue 
-                        new_obj_ 
-                        "fragment_right"
-                        (- (LM:getdynpropvalue new_obj_ "fragment_right" ) 214)                        
+                      0
+                    )
+                    (if (< (- (/ (- array_panel_length array_length ) 2) 50) 0)
+                      (progn
+                        0
                       )
-                      (LM:setdynpropvalue 
-                        new_obj_ 
-                        "fragment_left"
-                        (+ (LM:getdynpropvalue new_obj_ "fragment_left" ) 236)                        
-                      )
+                      (- (/ (- array_panel_length array_length ) 2) 50)
+                    )
+                  )
+                )
+                (LM:setdynpropvalue 
+                  new_obj_ 
+                  "fragment_right"   
+                  (if (= (- array_panel_length array_length) 0) ;condition for input fragment left/right value
+                    (progn
+                      0
+                    )
+                    (- (/ (- array_panel_length array_length ) 2) 0)
+                  )
+                )
+                (if (= torr nil)
+                  (progn
+                    (LM:setdynpropvalue 
+                      new_obj_ 
+                      "fragment_right"
+                      (- (LM:getdynpropvalue new_obj_ "fragment_right" ) 214)                        
+                    )
+                    (LM:setdynpropvalue 
+                      new_obj_ 
+                      "fragment_left"
+                      (+ (LM:getdynpropvalue new_obj_ "fragment_left" ) 236)                        
                     )
                   )
                 )
               )
-              ( ;visibility condition
-                (and 
-                  (< array_panel_length 2401)
-                  
-                )
-                (progn
-                  (LM:setdynpropvalue new_obj_ "view" "7_dynamic_length_view")
-                  (LM:setdynpropvalue 
-                    new_obj_ 
-                    "fragment_middle_r"   
-                    (- array_panel_length 100)
-                  )
-                  (LM:setdynpropvalue 
-                    new_obj_ 
-                    "fragment_array_length"   
-                    (* (fix (/ (- array_panel_length 100)  400)) 400)
-                  )
-                  
-                )
+            )
+            ( ;visibility condition
+              (and 
+                (< array_panel_length 2401)
+                
               )
+              (progn
+                (LM:setdynpropvalue new_obj_ "view" "7_dynamic_length_view")
+                (cond 
+                  ((and 
+                     (= (fix (LM:getdynpropvalue 300hk_obj_ "array_panel_length")) 
+                        2400
+                     )
+                   )
+
+                   (progn 
+                     (TA:move_axis_insertionpoint new_obj_ "x" 200)
+                     (LM:setdynpropvalue new_obj_ "fragment_middle_r" 1136)
+                     (LM:setdynpropvalue new_obj_ "fragment_middle_L" 1136)
+                   )
+                  )
+                  ((and 
+                     (= (fix (LM:getdynpropvalue 300hk_obj_ "array_panel_length")) 
+                        2000
+                     )
+                   )
+                   (progn 
+                     (LM:setdynpropvalue new_obj_ "fragment_middle_r" 736)
+                     (LM:setdynpropvalue new_obj_ "fragment_middle_L" 1136)
+                   )
+                  )
+                  ((and 
+                     (= (fix (LM:getdynpropvalue 300hk_obj_ "array_panel_length")) 
+                        1600
+                     )
+                   )
+                   (progn 
+                     (LM:setdynpropvalue new_obj_ "fragment_middle_r" 736)
+                     (LM:setdynpropvalue new_obj_ "fragment_middle_L" 736)
+                   )
+                  )
+                  ((and 
+                     (= (fix (LM:getdynpropvalue 300hk_obj_ "array_panel_length")) 
+                        1200
+                     )
+                   )
+                   (progn 
+                     (LM:setdynpropvalue new_obj_ "fragment_middle_r" 336)
+                     (LM:setdynpropvalue new_obj_ "fragment_middle_L" 736)
+                   )
+                  )
+                  ((and 
+                     (= tor nil)
+                     (= (fix (LM:getdynpropvalue 300hk_obj_ "array_panel_length")) 
+                        800
+                     )
+                   )
+                   (progn 
+                     (LM:setdynpropvalue new_obj_ "fragment_middle_r" 336)
+                     (LM:setdynpropvalue new_obj_ "fragment_middle_L" 336)
+                   )
+                  )
+                )
+                
+                (LM:setdynpropvalue 
+                  new_obj_ 
+                  "fragment_array_length"   
+                  (* (fix (/ (- array_panel_length 100)  400)) 400)
+                )
+                
+              )
+            )
+            ( ;visibility condition less than 2800
+              (and
+                (= (rtos (LM:getdynpropvalue 300HK_obj_ "array_panel_length") 2 2 ) (rtos 2800 2 2))
+              )
+              (progn
+                (LM:setdynpropvalue new_obj_ "view" "7_dynamic_length_view_2800mm.")
+                (LM:setdynpropvalue new_obj_ "fragment_array_middle_R" 1200)
+                (LM:setdynpropvalue new_obj_ "fragment_array_middle_L" 1200)
+                (LM:setdynpropvalue new_obj_ "fragment_middle_R" 1136)
+                (LM:setdynpropvalue new_obj_ "fragment_middle_L" 1000)
+                ;copy new object process
+                  (vla-copy new_obj_ )
+                  (TA:move_axis_insertionpoint (vlax-ename->vla-object (entlast)) "x" 1200)
+                  (LM:setdynpropvalue (vlax-ename->vla-object (entlast)) "view" "7_dynamic_length_view")
+                  (LM:setdynpropvalue (vlax-ename->vla-object (entlast)) "fragment_array_middle_R" 400)
+                  (LM:setdynpropvalue (vlax-ename->vla-object (entlast)) "fragment_array_middle_L" 400)
+                  (LM:setdynpropvalue (vlax-ename->vla-object (entlast)) "fragment_middle_R" 200)
+                  (LM:setdynpropvalue (vlax-ename->vla-object (entlast)) "fragment_middle_L" 350)
+                ;
+              )
+            )
             )
           ;
         )
@@ -21140,9 +21233,14 @@
   (setq pl-1_ename_ (car (entsel "specify Object")))
   (setq pl-1_obj_ (vlax-ename->vla-object pl-1_ename_))
   (setq pl-1-obj_vtp_ (cadr(TA:Get_Pline_vertext_ins_point_ pl-1_ename_ )))
-  (setq pl-2_ename_ (car (entsel "specify Object")))
-  (setq pl-2_obj_ (vlax-ename->vla-object pl-2_ename_))
-  (setq pl-2-obj_vtp_ (cadr (TA:Get_Pline_vertext_ins_point_ pl-2_ename_ )))
+  
+  (if (/= (setq pl-2_ename_ (car (entsel "specify Object"))) pl-1_ename_ )
+    (progn
+      (setq pl-2_obj_ (vlax-ename->vla-object pl-2_ename_))
+      (setq pl-2-obj_vtp_ (cadr (TA:Get_Pline_vertext_ins_point_ pl-2_ename_ )))
+    )
+  )
+
 
   ;preloop_and_while
     (setq i 0)
@@ -29599,4 +29697,68 @@
   (setq Lpt3_ (polar ss_obj_ins_ (deg-to-rad (TA:ModifyRotation ss_obj_ins_ro 180)) 100) )
   (setq Lpt3_1 (polar Lpt3_ (deg-to-rad (TA:ModifyRotation ss_obj_ins_ro 90)) 2000) )
   (LM:setdynpropvalue ss_obj_ "L3" (distance Lpt3_ (inters Lpt1_1 Lpt4_1   Lpt3_ Lpt3_1 )) )
+)
+
+
+(load "C:/TA compelete github/TA_COMPELETE/z67x_CLEAN_FUNC.lsp")
+(load "C:/TA compelete github/TA_COMPELETE/COMPELETE NEXT 2025/Z73-Tranference_Autocad-Excel_data.lsp")
+(defun C:sfbz ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ; (setq wildcard_string_ ;Get-string by keep previous value ; old method
+    ;     (if
+    ;       (or
+    ;         (/= (setq wildcard_string_val (getstring (strcat "\nSpecify Pattern name <" (if wildcard_string_ wildcard_string_ "") ">: ") ) ) "" )
+    ;       )
+    ;         (progn
+    ;           (setq wildcard_string_ wildcard_string_val)
+    ;           (setq wildcard_string_keep_val_ wildcard_string_val)
+    ;         )
+    ;       (setq wildcard_string_val wildcard_string_keep_val_)
+    ;     )
+  ; )
+  (setq wildcard_string_ (strcase (strcat "*" "z profile" "*")) )
+  
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (setq new_pre_filter_set_xx_ (ssadd))
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+
+      (if (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_)) wildcard_string_)
+        (progn
+          (setq new_pre_filter_set_xx_  (ssadd ss_pre_filter_set_xx_ename_ new_pre_filter_set_xx_))
+        )
+      )
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+  (command "pselect"  new_pre_filter_set_xx_ "" )
 )

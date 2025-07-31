@@ -2515,7 +2515,19 @@
 )
 
 
+
 (defun c:SFB_FINDING_SPECFILY_NAME_BLOCK ()
+  ;get old stack data 
+    (if (/= (ssget "i" ) nil)
+      (progn
+        (setq old_stack_data_ (ssget "i" ) )
+        (sslength old_stack_data_)
+        (setq presetting_ nil)
+        (command "pselect" "")
+      )
+      (setq old_stack_data_ nil)
+    )
+  ;
   ;user_input_
     (initget "Yes No")
     (setq ss_ ;Detect the variable's result in case of a function error
@@ -2631,17 +2643,47 @@
       )
     )
   ;
-  ;selection match EFname
-    (if (and 
-          (= (vl-catch-all-error-p Er-msg_direction_ename_) nil)
-          (/= ss_pre_filter_set_xx_newset_ nil)
+  ;combine new-old selection_set process
+    (cond
+      ((and ;selection match EFname ;in case old stack doesn't has selection_set
+            (= old_stack_data nil)
+            (= (vl-catch-all-error-p Er-msg_direction_ename_) nil)
+            (/= ss_pre_filter_set_xx_newset_ nil)
+          )
+        (progn
+          (command "pselect"  ss_pre_filter_set_xx_newset_ "" )
         )
-      (progn
-        (command "pselect"  ss_pre_filter_set_xx_newset_ "" )
       )
-      (alert "no")
+      ((and ;in case old has old selection_set
+            (/= old_stack_data nil)
+            (= (vl-catch-all-error-p Er-msg_direction_ename_) nil)
+            (/= ss_pre_filter_set_xx_newset_ nil)
+          )
+        (progn
+          (setq old_stack_data_i 0)
+          ;preloop_and_while
+            (while (< old_stack_data_i (sslength old_stack_data_))
+              (setq old_stack_data_ename_ (ssname old_stack_data_ old_stack_data_i))
+              (setq ss_pre_filter_set_xx_newset_ (ssadd old_stack_data_ename_  ss_pre_filter_set_xx_newset_))
+              (setq old_stack_data_i (+ old_stack_data_i 1))
+            )
+          ;
+          (command "pselect"  ss_pre_filter_set_xx_newset_ "" )
+        )
+      )
+      ((and ;in case old has old selection_set
+            
+            (= (vl-catch-all-error-p Er-msg_direction_ename_) T)
+            
+          )
+        (progn
+          (alert "sss")
+        )
+      )
     )
-  ;
+  ; 
+  
+  ; 
 )
 
    

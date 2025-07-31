@@ -40,7 +40,7 @@
   )
 
 ;
-;Attribute Function Lee Mac
+;Attribute Function Lee Mac5
   ;; Get Attribute Value  -  Lee Mac
   ;; Returns the value held by the specified tag within the supplied block, if present.
   ;; blk - [vla] VLA Block Reference Object
@@ -1433,7 +1433,7 @@
     )
   )
   (defun TA:get_vertex_len_ (ename_)
-    ; (setq ref_line (car (entsel)))
+    (setq ename_ (car (entsel)))
     (setq ss (vlax-ename->vla-object ename_))
     (setq vertex_total (length (cadr (TA:Get_Pline_vertext_ins_point_ ename_))))
     (setq sum_ ())
@@ -1477,6 +1477,37 @@
     )
     ;summary_reverse
       (setq sum_len (reverse sum_))
+    ;
+  )
+  (defun TA:get_vertex_len_V2 (ename_)
+    ; (setq ename_ (car (entsel)))
+    (setq ss (vlax-ename->vla-object ename_))
+    (setq vertex_total (length (cadr (TA:Get_Pline_vertext_ins_point_ ename_))))
+    (setq vertex_ins_val_ (cadr (TA:Get_Pline_vertext_ins_point_ ename_)))
+
+    (if (/= vertex_total nil)
+      (progn
+        ;preloop_and_while
+          (setq vertex_ins_val_i 0)
+          (setq vertex_length ())
+          (while (< vertex_ins_val_i (length vertex_ins_val_))
+            (setq vertex_ins_val_insxy_ (nth  vertex_ins_val_i vertex_ins_val_))
+            (setq vertex_ins_val_insxy_1 (nth  (+ 1 vertex_ins_val_i) vertex_ins_val_))
+            (if (= vertex_ins_val_i (- (length vertex_ins_val_) 1 ))
+              (progn
+                (setq vertex_dist_ (distance (nth  0 vertex_ins_val_) (nth  3 vertex_ins_val_) ))
+              )
+              (setq vertex_dist_ (distance vertex_ins_val_insxy_ vertex_ins_val_insxy_1 ))
+            )
+            (setq vertex_length (cons vertex_dist_ vertex_length))
+        
+            (setq vertex_ins_val_i (+ vertex_ins_val_i 1))
+          )
+        ;
+      )
+    )
+    ;summary_reverse
+      (setq vertex_length (reverse vertex_length))
     ;
   )
   (defun TA:midpoint (ins_start_ ins_end_) ;คำนวณ midpoint จากระยะหัว-ท้าย ของเส้น
@@ -10003,7 +10034,7 @@
                               )
                             )
                           )
-                        )
+                        )5
                         (progn
                           (setq error_sub_list_ (cons Overall_rangecell_data_list_content_ error_sub_list_ ) )
                         )
@@ -10530,7 +10561,7 @@
 )
 
 
-(defun c:Polyline_to_Excel ()
+(defun c:Polyline_to_Excel_REC2E ()
   ;selection_set_for_fillter_blk_name
     (if  ;pre_select_ssget_or_post_select_ssget
       (=
@@ -10560,17 +10591,20 @@
     )
   ;
   ;preloop_and_while
-    (setq sum_heading_ (list (list "Handle" "Length")))
+    (setq sum_heading_ (list (list "Handle" "w" "h" "total Length" )))
     (setq ss_pre_filter_set_xx_i 0)
     (setq ss_pre_filter_set_xx_datalist_ ())
     (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
       (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
       (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
-      (TA:get_vertex_len_ ss_pre_filter_set_xx_ename_)
       (setq ss_pre_filter_set_xx_datalist_ (cons 
                                               (list 
                                                 (vla-get-handle ss_pre_filter_set_xx_obj_)
-                                                (vla-get-length ss_pre_filter_set_xx_obj_)
+                                                (rtos (car (TA:get_vertex_len_V2 ss_pre_filter_set_xx_ename_)) 2 2)
+                                                (rtos (cadr (TA:get_vertex_len_V2 ss_pre_filter_set_xx_ename_)) 2 2)
+                                                
+                                                (rtos (vla-get-length ss_pre_filter_set_xx_obj_) 2 2)
+                                                
                                               )  
                                              ss_pre_filter_set_xx_datalist_
                                            )
@@ -10579,8 +10613,96 @@
     )
   ;
   ;Export_process_
-    (setq Excel_lasted_worksheet_obj_ (TA:Excel_Open-Excel_ 1 1)) ;open new Excel window (function use follow argument)
+    (setq Using_file_mode_ (cond ( (getint (strcat "\nspecify get Using_file_mode_\n New Excel File = 1 \n New Worksheet = 3\n<" (rtos (setq Using_file_mode_ (cond (Using_file_mode_) (1.0) ) ) ) "> : " ) ) ) (Using_file_mode_) ) )
+    (setq Worksheet_name (LM:StringSubst "_" " " (LM:StringSubst "-" "." (LM:StringSubst "" ".dwg" (strcat (getvar "dwgname" ) " (" (substr (rtos (getvar "cdate" ) 2 6) 10 8)  ")"))))
+    )
+    (setq Excel_lasted_worksheet_obj_ (TA:Excel_Open-Excel_rev02_ Using_file_mode_ 1 Worksheet_name)) ;open new Excel window (function use follow argument)
     (TA:EXCEL_put_columnformat Excel_lasted_worksheet_obj_ 1 "@" )
+    (TA:Excel_foreach_input_list_dataset_R1C1 ;Sub-FUNC create properties data list to Excel (tag list_)
+      Excel_lasted_worksheet_obj_ 
+      1
+      1
+      (list (list "Elevation "))
+    )
+    (TA:Excel_foreach_input_list_dataset_R1C1 ;Sub-FUNC create properties data list to Excel (tag list_)
+      Excel_lasted_worksheet_obj_ 
+      2
+      1
+      sum_heading_
+    )
+    (TA:Excel_foreach_input_list_dataset_R1C1 ;Sub-FUNC create properties data list to Excel (tag list_)
+      Excel_lasted_worksheet_obj_ 
+      3
+      1
+      ss_pre_filter_set_xx_datalist_
+    )
+  ;
+  ;final_alert
+    (alert "Tranfer Data Finish")
+  ;
+  
+)
+(defun c:Polyline_to_Excel_PL2E ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "lwpolyline") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            (cons 62 6)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "lwpolyline") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            (cons 62 6)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq sum_heading_ (list (list "Handle" "TL Length" )))
+    (setq ss_pre_filter_set_xx_i 0)
+    (setq ss_pre_filter_set_xx_datalist_ ())
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      (setq ss_pre_filter_set_xx_datalist_ (cons 
+                                              (list 
+                                                (vla-get-handle ss_pre_filter_set_xx_obj_)
+                                                (rtos (vla-get-length ss_pre_filter_set_xx_obj_) 2 2)
+                                                ; (rtos (vla-get-length ss_pre_filter_set_xx_obj_) 2 2)
+                                                
+                                              )  
+                                             ss_pre_filter_set_xx_datalist_
+                                           )
+      )
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+  ;Export_process_
+    (setq Using_file_mode_ (cond ( (getint (strcat "\nspecify get Using_file_mode_\n New Excel File = 1 \n New Worksheet = 3\n<" (rtos (setq Using_file_mode_ (cond (Using_file_mode_) (1.0) ) ) ) "> : " ) ) ) (Using_file_mode_) ) )
+    (setq Worksheet_name (LM:StringSubst "_" " " (LM:StringSubst "-" "." (LM:StringSubst "" ".dwg" (strcat (getvar "dwgname" ) " (" (substr (rtos (getvar "cdate" ) 2 6) 10 8)  ")"))))
+    )
+    (setq Excel_lasted_worksheet_obj_ (TA:Excel_Open-Excel_rev02_ Using_file_mode_ 1 Worksheet_name)) ;open new Excel window (function use follow argument)
+    (TA:EXCEL_put_columnformat Excel_lasted_worksheet_obj_ 1 "@" )
+    (TA:Excel_foreach_input_list_dataset_R1C1 ;Sub-FUNC create properties data list to Excel (tag list_)
+      Excel_lasted_worksheet_obj_ 
+      1
+      1
+      (list (list (substr Worksheet_name 3 6) "Entrance"))
+    )
     (TA:Excel_foreach_input_list_dataset_R1C1 ;Sub-FUNC create properties data list to Excel (tag list_)
       Excel_lasted_worksheet_obj_ 
       2

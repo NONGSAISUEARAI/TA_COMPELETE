@@ -10707,6 +10707,13 @@
       (setq nameblk_obj_ (vlax-ename->vla-object nameblk_ename_))
       (TA:copytext->clipboard (LM:effectivename nameblk_obj_ ))
     )
+    (defun c:check_comment_block_cmm ()
+      (setq blk_ename_ (car (entsel "specify Object")))
+      (setq blk_obj_ (vlax-ename->vla-object blk_ename_))
+      (princ (strcat  "\n" "                      " ) )
+      (princ (strcat  "\n" "                      " (vla-get-comments (vla-Item (vla-get-Blocks (vla-get-ActiveDocument (vlax-get-acad-object))) (LM:effectivename blk_obj_)))) )
+
+    )
   ;
   ;wipeout
     (defun TA:Make_wipeout_mkw (wipeout_ename_ erase_pline)
