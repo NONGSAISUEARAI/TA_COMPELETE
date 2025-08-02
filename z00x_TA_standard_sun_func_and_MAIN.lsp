@@ -29528,8 +29528,8 @@
     )
   )
   (setq CSD_MERGE_LIST_ (mapcar 'car (TA:Count_item_in_list_ CSD_MERGE_LIST_)))
-  (setq pp18_path "C:/TA WORK/PPLINE CKST/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP20/CAD/")
-  ; (setq pp18_path "C:/TA FAMELINE old data/TA/TA_WORK/MASS TRANSIT/TA_PPLINE CKST/TA_PPLINE CKST_combine_CSD-ceiling-plan/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP18/CAD/")
+  ; (setq pp18_path "C:/TA WORK/PPLINE CKST/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP20/CAD/")
+  (setq pp18_path "C:/TA FAMELINE old data/TA/TA_WORK/MASS TRANSIT/TA_PPLINE CKST/TA_PPLINE CKST_combine_CSD-ceiling-plan/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP20/CAD/")
   (setq filePath (getfiled "Select the DWG file" pp18_path "dwg" 4))
   
   (setq temp_pt (getpoint "specify point" ))
@@ -29639,8 +29639,8 @@
   (setq b3 "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_PLAN_SUPPLY_AIR_REC.1600x175mm_COMBINE_SET")
   (setq b4 "001 - DYNAMIC REC&SSQ SHAPE SOLID_centerpoint")
 
-  (setq air-light-ori_ "C:\\TA WORK\\PPLINE CKST\\20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan\\C1-C2_Finishes-Reflected Ceiling Plan\\PP18\\CAD\\000-CSD-MERGE_C-1-PP18-AR-4130-01-B.dwg") ;surface book
-  ; (setq air-light-ori_ "C:\\TA FAMELINE old data\\TA\\TA_WORK\\MASS TRANSIT\\TA_PPLINE CKST\\TA_PPLINE CKST_combine_CSD-ceiling-plan\\20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan\\C1-C2_Finishes-Reflected Ceiling Plan\\PP18\\CAD\\000-CSD-MERGE_C-1-PP18-AR-4130-01-B.dwg") ;pc home
+  ; (setq air-light-ori_ "C:\\TA WORK\\PPLINE CKST\\20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan\\C1-C2_Finishes-Reflected Ceiling Plan\\PP18\\CAD\\000-CSD-MERGE_C-1-PP18-AR-4130-01-B.dwg") ;surface book
+  (setq air-light-ori_ "C:\\TA FAMELINE old data\\TA\\TA_WORK\\MASS TRANSIT\\TA_PPLINE CKST\\TA_PPLINE CKST_combine_CSD-ceiling-plan\\20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan\\C1-C2_Finishes-Reflected Ceiling Plan\\PP18\\CAD\\000-CSD-MERGE_C-1-PP18-AR-4130-01-B.dwg") ;pc home
   (command "-INSERTCONTENT" air-light-ori_ b1  (list 0.0 0.0 0.0) 1 1 0)
   ; (vla-erase (vlax-ename->vla-object (entlast)))
   (command "-INSERTCONTENT" air-light-ori_ b2  (list 0.0 0.0 0.0) 1 1 0)
@@ -29655,8 +29655,8 @@
 
   (setq b4 "001 - DYNAMIC REC&SSQ SHAPE SOLID_centerpoint")
 
-  (setq air-light-ori_ "C:\\TA WORK\\PPLINE CKST\\20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan\\C1-C2_Finishes-Reflected Ceiling Plan\\PP18\\CAD\\000-CSD-MERGE_C-1-PP18-AR-4130-01-B.dwg") ;surface book
-  ; (setq air-light-ori_ "C:\\TA FAMELINE old data\\TA\\TA_WORK\\MASS TRANSIT\\TA_PPLINE CKST\\TA_PPLINE CKST_combine_CSD-ceiling-plan\\20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan\\C1-C2_Finishes-Reflected Ceiling Plan\\PP18\\CAD\\000-CSD-MERGE_C-1-PP18-AR-4130-01-B.dwg") ;pc home
+  ; (setq air-light-ori_ "C:\\TA WORK\\PPLINE CKST\\20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan\\C1-C2_Finishes-Reflected Ceiling Plan\\PP18\\CAD\\000-CSD-MERGE_C-1-PP18-AR-4130-01-B.dwg") ;surface book
+  (setq air-light-ori_ "C:\\TA FAMELINE old data\\TA\\TA_WORK\\MASS TRANSIT\\TA_PPLINE CKST\\TA_PPLINE CKST_combine_CSD-ceiling-plan\\20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan\\C1-C2_Finishes-Reflected Ceiling Plan\\PP18\\CAD\\000-CSD-MERGE_C-1-PP18-AR-4130-01-B.dwg") ;pc home
 
   (command "-INSERTCONTENT" air-light-ori_ b4  (list 0.0 0.0 0.0) 1 1 0)
   (vla-erase (vlax-ename->vla-object (entlast)))
@@ -29751,6 +29751,7 @@
   (setq Er-msg_ (vl-catch-all-apply (function (lambda () (load "C:/Users/Admin/Documents/GitHub/TA_COMPELETE/z67x_CLEAN_FUNC.lsp") ) ) ) )
   (setq Er-msg_ (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/COMPELETE NEXT 2025/Z73-Tranference_Autocad-Excel_data.lsp") ) ) ) )
   (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/Admin/Documents/GitHub/TA_COMPELETE/COMPELETE NEXT 2025/Z73-Tranference_Autocad-Excel_data.lsp") ) ) ) )
+  (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/COMPELETE NEXT 2025/REWORK DIM/z62x_REWORK_DIMENSION_REV02.lsp") ) ) ) )
 
 (defun C:sfbz ()
   ;selection_set_for_fillter_blk_name
