@@ -9680,7 +9680,7 @@
             (vl-catch-all-apply 
               (function 
                 (lambda () 
-                  (setvar "osmode" 13)
+                  (setvar "osmode" 15)
                   (setq PT_ref_ (getpoint "specify reference point"))
                 )
               )
@@ -9732,7 +9732,7 @@
             (vl-catch-all-apply 
               (function 
                 (lambda () 
-                  (setvar "osmode" 13)
+                  (setvar "osmode" 15)
                   (setq PT_ref_ (getpoint "specify reference point"))
                 )
               )
@@ -10340,6 +10340,81 @@
         )
       )
        
+      ;
+    )
+  ;
+  ;Fastern Func
+    (defun c:insHexset ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "line") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "line") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (setq ss_pre_filter_set_xx_obj_start_end_pt_ (list
+                                          (setq ss_pre_filter_set_xx_obj_startpt_ (vlax-safearray->list
+                                                                     (vlax-variant-value ( vla-get-startpoint ss_pre_filter_set_xx_obj_ ))
+                                                                   )
+                                          )
+                                          (setq ss_pre_filter_set_xx_obj_endpt_ (vlax-safearray->list
+                                                                    (vlax-variant-value ( vla-get-endpoint ss_pre_filter_set_xx_obj_ ))
+                                                                 )
+                                          )
+                                        )
+          )
+          (TA:vla-insertblock "HEX_BOLT-M5_set" ss_pre_filter_set_xx_obj_startpt_ 1 (angle ss_pre_filter_set_xx_obj_startpt_ ss_pre_filter_set_xx_obj_endpt_ ) )
+          ;new_blk_entlast object
+            (setq newblk_ename (entlast))
+            (setq newblk_obj (vlax-ename->vla-object newblk_ename))
+            (LM:setdynpropvalue newblk_obj  "L" (distance ss_pre_filter_set_xx_obj_startpt_ ss_pre_filter_set_xx_obj_endpt_))
+          ;
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+      ;delete line ssset process
+        (initget "Yes No")
+        (setq ss_ ;Detect the variable's result in case of a function error
+          (vl-catch-all-apply 
+            (function 
+              (lambda () 
+                (setq DELETE_OBJ_ (not (eq "No" (getkword "\nKeep Existing object? [Yes/No] <Y>: "))))
+              )
+            )
+          )
+        )
+        (if (= DELETE_OBJ_ t)
+          (progn
+            (princ "pass")
+          )
+          (command "erase" ss_pre_filter_set_xx_  )
+        )
       ;
     )
   ;

@@ -81,6 +81,25 @@
   
 
 )
+(defun c:ARq3msave ()
+  (setq FILEPATH (getvar "DWGPREFIX"))
+  (setq FILENAME (getvar "DWGNAME"))
+  (setq sum (strcat FILEPATH (strcat  FILENAME "-FL-rework" )))
+  
+  (COMMAND "_SAVEAS" 
+          "2010"
+          sum
+      
+  )
+  ; (setq acadObj (vlax-get-acad-object))
+  ; (setq docs (vla-get-Documents acadObj))
+  ; (setq curDoc (vla-get-ActiveDocument acadObj))
+  ; (vla-Close curDoc :vlax-false)
+  ; (vla-Close curDoc )
+  ; (command "quit" "n" )
+  
+
+)
 
 ; (c:qmsave)
 
