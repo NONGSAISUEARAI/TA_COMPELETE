@@ -6740,6 +6740,9 @@
 
 
     )
+    (defun c:foo ()
+      (command "_.RENAME" pause pause)
+    )
     (defun c:limit_content_name_[limittext_] ()
       ;Note By Code_Developer
       ;This command is designed to work exclusively with a block named 'CONTENT NAME3 LEFT - BUBBLE v6'.
@@ -10220,7 +10223,7 @@
           (sslength ss_pre_filter_set_xx_)
         )
       ;
-      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET"))
+      ; (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET"))
       ;preloop_and_while
         (setq ss_pre_filter_set_xx_i 0)
         (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
@@ -10344,7 +10347,7 @@
     )
   ;
   ;Fastern Func
-    (defun c:insHexset ()
+    (defun c:insSSHex ()
       ;selection_set_for_fillter_blk_name
         (if  ;pre_select_ssget_or_post_select_ssget
           (=
@@ -10414,6 +10417,256 @@
             (princ "pass")
           )
           (command "erase" ss_pre_filter_set_xx_  )
+        )
+      ;
+    )
+    (defun c:insHex ()
+      ;preloop_and_while
+        (setq bypass_inspt_1 nil)
+        (while (and 
+                (= bypass_inspt_1 nil)
+               )
+          (setq bypass_inspt_1 
+            (vl-catch-all-apply
+              (function
+                (lambda ()
+                  (setq inspt_1 (getpoint "input point 1" ))  
+                )
+              )
+            )
+          )
+          (if (and 
+                (= (vl-catch-all-error-p bypass_inspt_1) nil)
+                (= (getvar "worlducs") 0)
+              )
+            (progn 
+              (setq inspt_2 (getpoint (trans inspt_1 1 1)  "input point 2" ))
+              (setq ang_ (angle inspt_1 inspt_2 ))
+              (setq dist_ (distance inspt_1 inspt_2 ))
+            ) 
+          )
+          (if (and 
+                (= (vl-catch-all-error-p bypass_inspt_1) nil)
+                (= (getvar "worlducs") 1)
+              )
+            (progn 
+              (setq inspt_2 (getpoint inspt_1 "input point 2" ))
+              (setq ang_ (angle inspt_1 inspt_2 ))
+              (setq dist_ (distance inspt_1 inspt_2 ))
+            ) 
+          )
+          (if (= (vl-catch-all-error-p bypass_inspt_1) nil)
+            (progn
+              (TA:vla-insertblock "HEX_BOLT-M5_set" 
+                (if (= (getvar "worlducs") 0)(progn (trans inspt_1 1 0)) inspt_1 ) 
+                1 
+                ang_ 
+              )
+              ;new_blk_entlast object
+                (setq newblk_ename (entlast))
+                (setq newblk_obj (vlax-ename->vla-object newblk_ename))
+                (LM:setdynpropvalue newblk_obj  "L" dist_)
+                (cond  ; condition for input visibility for thraed length
+                  ( ;_case_1
+                    (and 
+                      (= (fix dist_) 0)
+                    )
+                    (progn 
+                      (LM:setdynpropvalue newblk_obj "view" "top_view")
+                    )
+                  )
+                  ( ;_case_1
+                    (and 
+                      (/= (fix dist_ ) 0)
+
+                      (>= (+ dist_ 10) 10)
+                      (<= (+ dist_ 10) 12)
+                    )
+                    (progn 
+                      (LM:setdynpropvalue newblk_obj "view" "x12mm.")
+                    )
+                  )
+                  ( ;_case_1
+                    (and 
+                      (/= (fix dist_ ) 0)
+
+                      (>= (+ dist_ 10) 10)
+                      (<= (+ dist_ 10) 14)
+                    )
+                    (progn 
+                      (LM:setdynpropvalue newblk_obj "view" "x14mm.")
+                    )
+                  )
+                  ( ;_case_1
+                    (and 
+                      (/= (fix dist_ ) 0)
+
+                      (>= (+ dist_ 10) 12)
+                      (<= (+ dist_ 10) 15)
+                    )
+                    (progn 
+                      (LM:setdynpropvalue newblk_obj "view" "x15mm.")
+                    )
+                  )
+                  ( ;_case_2
+                    (and 
+                      (/= (fix dist_ ) 0)
+
+                      (>= (+ dist_ 10) 15)
+                      (<= (+ dist_ 10) 20)
+                    )
+                    (progn 
+                      (LM:setdynpropvalue newblk_obj "view" "x20mm.")
+                    )
+                  )
+                  ( ;_case_2
+                    (and 
+                      (/= (fix dist_ ) 0)
+
+                      (>= (+ dist_ 10) 20)
+                      (<= (+ dist_ 10) 25)
+                    )
+                    (progn 
+                      (LM:setdynpropvalue newblk_obj "view" "x25mm.")
+                    )
+                  )
+                  ( ;_case_2
+                    (and 
+                      (/= (fix dist_ ) 0)
+
+                      (>= (+ dist_ 10) 30)
+                      (<= (+ dist_ 10) 35)
+                    )
+                    (progn 
+                      (LM:setdynpropvalue newblk_obj "view" "x30mm.")
+                    )
+                  )
+                  ( ;_case_2
+                    (and 
+                      (/= (fix dist_ ) 0)
+
+                      (>= (+ dist_ 10) 35)
+                      (<= (+ dist_ 10) 40)
+                    )
+                    (progn 
+                      (LM:setdynpropvalue newblk_obj "view" "x40mm.")
+                    )
+                  )
+                  ( ;_case_2
+                    (and 
+                      (/= (fix dist_ ) 0)
+
+                      (>= (+ dist_ 10) 40)
+                      (<= (+ dist_ 10) 45)
+                    )
+                    (progn 
+                      (LM:setdynpropvalue newblk_obj "view" "x45mm.")
+                    )
+                  )
+                  ( ;_case_2
+                    (and 
+                      (/= (fix dist_ ) 0)
+
+                      (>= (+ dist_ 10) 45)
+                      (<= (+ dist_ 10) 50)
+                    )
+                    (progn 
+                      (LM:setdynpropvalue newblk_obj "view" "x50mm.")
+                    )
+                  )
+                  ( ;_case_2
+                    (and 
+                      (/= (fix dist_ ) 0)
+
+                      (>= (+ dist_ 10) 50)
+                      (<= (+ dist_ 10) 55)
+                    )
+                    (progn 
+                      (LM:setdynpropvalue newblk_obj "view" "x55mm.")
+                    )
+                  )
+                  ( ;_case_2
+                    (and 
+                      (/= (fix dist_ ) 0)
+
+                      (>= (+ dist_ 10) 55)
+                      (<= (+ dist_ 10) 60)
+                    )
+                    (progn 
+                      (LM:setdynpropvalue newblk_obj "view" "x60mm.")
+                    )
+                  )
+                  ( ;_case_2
+                    (and 
+                      (/= (fix dist_ ) 0)
+
+                      (>= (+ dist_ 10) 60)
+                      (<= (+ dist_ 10) 65)
+                    )
+                    (progn 
+                      (LM:setdynpropvalue newblk_obj "view" "x65mm.")
+                    )
+                  )
+                  ( ;_case_2
+                    (and 
+                      (/= (fix dist_ ) 0)
+
+                      (>= (+ dist_ 10) 65)
+                      (<= (+ dist_ 10) 70)
+                    )
+                    (progn 
+                      (LM:setdynpropvalue newblk_obj "view" "x70mm.")
+                    )
+                  )
+                  ( ;_case_2
+                    (and 
+                      (/= (fix dist_ ) 0)
+
+                      (>= (+ dist_ 10) 70)
+                      (<= (+ dist_ 10) 75)
+                    )
+                    (progn 
+                      (LM:setdynpropvalue newblk_obj "view" "x75mm.")
+                    )
+                  )
+                  ( ;_case_2
+                    (and 
+                      (/= (fix dist_ ) 0)
+
+                      (>= (+ dist_ 10) 75)
+                      (<= (+ dist_ 10) 80)
+                    )
+                    (progn 
+                      (LM:setdynpropvalue newblk_obj "view" "x80mm.")
+                    )
+                  )
+                  ( ;_case_2
+                    (and 
+                      (/= (fix dist_ ) 0)
+
+                      (>= (+ dist_ 10) 80)
+                      (<= (+ dist_ 10) 90)
+                    )
+                    (progn 
+                      (LM:setdynpropvalue newblk_obj "view" "x90mm.")
+                    )
+                  )
+                  ( ;_case_2
+                    (and 
+                      (/= (fix dist_ ) 0)
+
+                      (>= (+ dist_ 10) 90)
+                      (<= (+ dist_ 10) 100)
+                    )
+                    (progn 
+                      (LM:setdynpropvalue newblk_obj "view" "x100mm.")
+                    )
+                  )
+                )
+              ;
+              (setq bypass_inspt_1 nil)
+            )
+          )
         )
       ;
     )
@@ -28212,6 +28465,38 @@
   (command "pselect"  ss_pre_filter_set_xx_ "" )
   
 )
+(defun c:PPLINE-CKST_SELDIM2 ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "DIMENSION") ;type of object
+                                            ; (cons 8 "S-GRID,S-GRID-IDEN,_ _ A-DETL-OPENING,A-ANNO-DIMS")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "DIMENSION") ;type of object
+                                            ; (cons 8 "S-GRID,S-GRID-IDEN,_ _ A-DETL-OPENING,A-ANNO-DIMS")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  (command "pselect"  ss_pre_filter_set_xx_ "" )
+  
+)
 
 
 
@@ -29794,6 +30079,8 @@
 )
 
 (defun c:PPLINE_CKST_HatVaries ()
+  (setq ucsedit nil)
+  (if (= (getvar "worlducs") 0)(progn (command "ucs" "WORLD") (setq ucsedit 0))  )
   (TA:vla-insertblock 
     "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_PLAN_AL.SOLID_SHEET_HAT-PROFILE_VA_COMBINE_SET"
     (setq newpt_ (getpoint))
@@ -29818,14 +30105,17 @@
   (setq Lpt3_ (polar ss_obj_ins_ (deg-to-rad (TA:ModifyRotation ss_obj_ins_ro 180)) 100) )
   (setq Lpt3_1 (polar Lpt3_ (deg-to-rad (TA:ModifyRotation ss_obj_ins_ro 90)) 2000) )
   (LM:setdynpropvalue ss_obj_ "L3" (distance Lpt3_ (inters Lpt1_1 Lpt4_1   Lpt3_ Lpt3_1 )) )
+  (LM:setdynpropvalue ss_obj_ "view" "6_bottom_view" )
+  (if (= ucsedit 0)(progn (command "ucs" "p") )  )
 )
 
 
 
-  (setq Er-msg_ (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/z67x_CLEAN_FUNC.lsp") ) ) ) )
-  (setq Er-msg_ (vl-catch-all-apply (function (lambda () (load "C:/Users/Admin/Documents/GitHub/TA_COMPELETE/z67x_CLEAN_FUNC.lsp") ) ) ) )
-  (setq Er-msg_ (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/COMPELETE NEXT 2025/Z73-Tranference_Autocad-Excel_data.lsp") ) ) ) )
-  (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/Admin/Documents/GitHub/TA_COMPELETE/COMPELETE NEXT 2025/Z73-Tranference_Autocad-Excel_data.lsp") ) ) ) )
+  ; (setq Er-msg_ (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/z67x_CLEAN_FUNC.lsp") ) ) ) )
+  ; (setq Er-msg_ (vl-catch-all-apply (function (lambda () (load "C:/Users/Admin/Documents/GitHub/TA_COMPELETE/z67x_CLEAN_FUNC.lsp") ) ) ) )
+  ; (setq Er-msg_ (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/COMPELETE NEXT 2025/Z73-Tranference_Autocad-Excel_data.lsp") ) ) ) )
+  ; (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/Admin/Documents/GitHub/TA_COMPELETE/COMPELETE NEXT 2025/Z73-Tranference_Autocad-Excel_data.lsp") ) ) ) )
+  (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/COMPELETE NEXT 2025/REWORK DIM/z62x_REWORK_DIMENSION_REV02.lsp") ) ) ) )
   (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/COMPELETE NEXT 2025/REWORK DIM/z62x_REWORK_DIMENSION_REV02.lsp") ) ) ) )
 
 (defun C:sfbz ()
@@ -29888,3 +30178,33 @@
   ;
   (command "pselect"  new_pre_filter_set_xx_ "" )
 )
+
+
+
+(defun c:stretch-lr500 ( / ent obj props)
+  (setq ent (car (entsel "\nเลือกบล็อกที่มี Stretch ซ้าย/ขวา: ")))
+  (if (and ent (setq obj (vlax-ename->vla-object ent)))
+    (progn
+      (setq props (vlax-invoke obj 'GetDynamicBlockProperties))
+      (foreach x (vlax-safearray->list props)
+        (cond
+          ((= (strcase (vla-get-propertyname x)) "STRETCHLEFT")
+           (vla-put-value x (vlax-make-variant 500 (vlax-variant-type (vla-get-value x))))
+          )
+          ((= (strcase (vla-get-propertyname x)) "STRETCHRIGHT")
+           (vla-put-value x (vlax-make-variant 500 (vlax-variant-type (vla-get-value x))))
+          )
+        )
+      )
+    )
+    (prompt "\nไม่ได้เลือก block หรือ block ไม่ใช่ dynamic block.")
+  )
+  (princ)
+)
+
+
+
+; (setq sss_ename_ (car (entsel "specify Object")))
+; (setq sss_obj_ (vlax-ename->vla-object sss_ename_))
+; (LM:setdynpropvalue sss_obj_ "w" 2222)
+; (LM:setdynpropvalue sss_obj_ "Hsub" 2222)

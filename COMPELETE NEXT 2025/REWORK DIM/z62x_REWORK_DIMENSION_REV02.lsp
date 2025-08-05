@@ -3595,20 +3595,19 @@
         )
       ;
       ;specify_object_for_filter_by_EFname_
-        (setq Filter_target_ename_ (car (entsel "specify Object")))
+        (setq Filter_target_ename_ (car (entsel "specify FILTER LM:effectivename Object")))
         (setq Filter_target_obj_ (vlax-ename->vla-object Filter_target_ename_))
         (setq Filter_target_obj_EFname_ (LM:effectivename Filter_target_obj_))
         (setq ss_post_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ Filter_target_obj_EFname_))
       ;
       ;insert_target_object_process_
-        (setq insert_target_ename_ (car (entsel "specify Object")))
+        (setq insert_target_ename_ (car (entsel "specify TARGET LM:effectivename Object")))
         (setq insert_target_obj_ (vlax-ename->vla-object insert_target_ename_))
         (setq insert_target_obj_EFname_ (LM:effectivename insert_target_obj_))
       ;
       ;preloop_and_while
         (setq ss_post_filter_set_xx_i 0)
         (setq ss_newset_ (ssadd))
-        (sslength ss_newset)
         (while (< ss_post_filter_set_xx_i (sslength ss_post_filter_set_xx_))
           (setq ss_post_filter_set_xx_ename_ (ssname ss_post_filter_set_xx_ ss_post_filter_set_xx_i))
             (setq ss_post_filter_set_xx_hon_obj_ (vlax-ename->vla-object ss_post_filter_set_xx_ename_))
@@ -10986,6 +10985,13 @@
   ;
   ;create dim
     (defun c:Dcx ()
+      ;special for me only work with CKST Drwaing Construction 
+        (setq DIM_E-C "FAMELINE-CKST_E-C") ;Ref from C:dimsetting 
+        (setq DIM_C-C "FAMELINE-CKST_C-C") ;Ref from C:dimsetting 
+        (setq DIM_C-E "FAMELINE-CKST_C-E") ;Ref from C:dimsetting 
+        (setq DIM_E-E "FAMELINE-CKST_E-E") ;Ref from C:dimsetting 
+        (setq dimprec 0 )
+      ;
       ;Keep setting dimension
         (setq acadObj (vlax-get-acad-object))
         (setq doc (vla-get-ActiveDocument acadObj))
@@ -11310,6 +11316,13 @@
       )
     )
     (defun c:Dex ()
+      ;special for me only work with CKST Drwaing Construction 
+        (setq DIM_E-C "FAMELINE-CKST_E-C") ;Ref from C:dimsetting 
+        (setq DIM_C-C "FAMELINE-CKST_C-C") ;Ref from C:dimsetting 
+        (setq DIM_C-E "FAMELINE-CKST_C-E") ;Ref from C:dimsetting 
+        (setq DIM_E-E "FAMELINE-CKST_E-E") ;Ref from C:dimsetting 
+        (setq dimprec 0 )
+      ;
       ;Keep setting dimension
         (setq acadObj (vlax-get-acad-object))
         (setq doc (vla-get-ActiveDocument acadObj))
@@ -12362,6 +12375,13 @@
       )
     )
     (defun c:DDx ()
+      ;special for me only work with CKST Drwaing Construction 
+        (setq DIM_E-C "FAMELINE-CKST_E-C") ;Ref from C:dimsetting  
+        (setq DIM_C-C "FAMELINE-CKST_C-C") ;Ref from C:dimsetting 
+        (setq DIM_C-E "FAMELINE-CKST_C-E") ;Ref from C:dimsetting 
+        (setq DIM_E-E "FAMELINE-CKST_E-E") ;Ref from C:dimsetting 
+        (setq dimprec 0 )
+      ;
       ;Keep setting dimension
         (setq acadObj (vlax-get-acad-object))
         (setq doc (vla-get-ActiveDocument acadObj))
@@ -13289,7 +13309,39 @@
       )
     )
   ;
-
+  ;select gird
+    (defun c:select_grid_sssg ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                (cons 62 256)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      (command "pselect"  ss_pre_filter_set_xx_ "" )
+    )
+  ;
   (defun c:G+ ()
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget

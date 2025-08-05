@@ -993,6 +993,21 @@
       )
       (reverse r)
     )
+    (defun TA:find-all-indexes (val lst / idx result)
+      (setq idx 0)
+      (setq result '())
+      (while lst
+        (if (equal (car lst) val)
+          (setq result (cons idx result))
+        )
+        (setq idx (1+ idx))
+        (setq lst (cdr lst))
+      )
+      (reverse result)
+    )
+    (defun TA:get-value_in-list_ (index lst)
+      (nth index lst)
+    )
   ;
   ;Get_Data Document Ta Trai
     (defun LM:getdocumentobject ( dwg / app dbx dwl err vrs )
@@ -11148,6 +11163,89 @@
 
         
         (LM:setdynpropvalue blk_obj_ "W" (distance ss_pre_filter_set_xx_obj_startpt_ ss_pre_filter_set_xx_obj_endpt_))
+      ;
+    )
+  ;
+  ;Edit-input_length dynamic block
+    (defun c:H1 ()
+      ;presetting ; for seting before run core code 
+        (setq att-target_ "H1")
+        (setq att-target_incremental_val 0.5)
+      ;
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      ;loop input
+        (setq ss_ nil)
+        (while
+          (and 
+            (/= ss_pre_filter_set_xx_ nil)
+            (/= (wcmatch (vl-princ-to-string ss_) "*error*") T)
+          )
+          (setq ss_ ;Detect the variable's result in case of a function error
+            (vl-catch-all-apply 
+              (function 
+                (lambda () 
+                  (setq input_length (cond ( (getint (strcat "\nspecify inpur length \n<" (rtos (setq input_length (cond (input_length) (1.0) ) ) ) "> : " ) ) ) (input_length) ) )
+                )
+              )
+            )
+          )
+          ;preloop_and_while
+            (setq ss_pre_filter_set_xx_i 0)
+            (while (and 
+                     (/= (wcmatch (vl-princ-to-string ss_) "*error*") T)
+                     (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+                   )
+              (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+              (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+              ;input + / - dynamic parameter process
+                (if 
+                  (and 
+                    (= (vla-get-isdynamicblock ss_pre_filter_set_xx_obj_) :vlax-true)
+                    (/= (TA:find-all-indexes "H1" (LM:getdynprops_nonvalue ss_pre_filter_set_xx_obj_) ) nil )
+                  )
+                  (progn
+                    (setq att-target_val  (LM:getdynpropvalue ss_pre_filter_set_xx_obj_  att-target_))
+                    (if (= input_length 1)
+                      (progn
+                        (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ att-target_ (setq att-target_val (+ att-target_val att-target_incremental_val)))
+                      )
+                      (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ att-target_ (setq att-target_val (- att-target_val att-target_incremental_val)))
+                    )
+                    
+                  )
+                )
+              ;
+              (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+            )
+          ;
+        )
       ;
     )
   ;
