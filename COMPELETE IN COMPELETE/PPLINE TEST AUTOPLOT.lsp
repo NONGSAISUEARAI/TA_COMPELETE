@@ -271,6 +271,29 @@
       (vla-put-PaperUnits lyout acMillimeters)
     ;
   )
+  (defun TA:preset_plotter_mode_4 ()
+    ;set_var_plot
+      ; (setq ss (car (entsel)))
+      (setq adoc (vla-get-activedocument (vlax-get-acad-object)))
+      (setq lyout (vla-get-activelayout adoc))
+      (setq styleSheet "FAMELINE-CKST-Generic.ctb")
+      (setq cfgName "AutoCAD PDF (High Quality Print).pc3")
+      (vla-RefreshPlotDeviceInfo lyout)
+      (vla-put-ConfigName lyout CfgName)
+      (vla-put-PaperUnits lyout acMillimeters)
+      (vla-put-plotrotation lyout ac0degrees)
+      ; (vla-put-PlotType lyout acWindow)
+      (vla-put-PlotType lyout acExtents)
+      (vla-put-CanonicalMediaName lyout "ISO_full_bleed_A3_(420.00_x_297.00_MM)")
+      (vla-put-PlotWithLineweights lyout :vlax-true)
+      (vla-put-PlotWithPlotStyles lyout :vlax-true)
+      (vla-put-StyleSheet lyout styleSheet)
+      (vla-put-CenterPlot lyout :vlax-true)
+      (vla-put-standardscale lyout acScaleToFit )
+      (vla-put-plotrotation lyout ac90degrees)
+      (vla-put-PaperUnits lyout acMillimeters)
+    ;
+  )
 
 ;PPLINE-ITD
   (defun c:find_xref_ ()
@@ -851,22 +874,109 @@
       ;
     ;
   )
+  (defun c:Plotter_CKST_GEN-PLOT ()
+      ;return
+        (command "ucs" "world")
+      ;
+    ;plot process
+      (if 
+        (findfile (setq filename (strcat "" (getvar 'DWGPREFIX) (LM:StringSubst "" ".dwg" (getvar 'DWGNAME))  ".pdf"))) 
+        (vl-file-delete filename)
+      )
+    ;
+    ;input_type_of_plot_
+      (TA:preset_plotter_mode_4) 
+    ;
+      
+    (command "-plot" 
+            "Yes" ;Detailed Plot Configuration?
+            (getvar "ctab")
+            "DWG To PDF.pc3" ;Printer Name
+            "ISO_full_bleed_A3_(420.00_x_297.00_mm)" ;Paper Size
+            ;paper_size ;Paper Size
+            "m" ;Paper Units Millimeters
+            "Landscape" ;Orientation
+            "No" ;Plot Upside Down
+            "Extents" ;Plot Area
+            ; (nth 0 main_bol) ;vla-getboundingbox
+            ; (nth 2 main_bol) ;vla-getboundingbox
+            ;llpt				;Lower left corner of window
+            ;urpt				;Upper right corner of window
+            "Fit" ;Plot Scale	"Fit"
+            "Center" ;Plot Offset
+            "yes" ;Use Plot Style?
+            "FAMELINE-CKST-Generic.ctb" ;Plot Style Name
+            "Yes" ;Plot Lineweights?
+            "" ;Enter shade plot setting ["As displayed"/"Wireframe"/"Hidden"/"Visual styles"/"Rendered"]
+            "N"
+            "N"
+            filename ; Name file and Location
+            "Y"
+            "Y"
+        
+    )
+    ;backup plot command process
+      ; (command "-plot" 
+      ;         "Yes" ;Detailed Plot Configuration?
+      ;         (getvar "ctab")
+      ;         "DWG To PDF.pc3" ;Printer Name
+      ;         "ISO_full_bleed_A3_(420.00_x_297.00_mm)" ;Paper Size
+      ;         ;paper_size ;Paper Size
+      ;         "m" ;Paper Units Millimeters
+      ;         "Landscape" ;Orientation
+      ;         "No" ;Plot Upside Down
+      ;         "Extents" ;Plot Area
+      ;         ; (nth 0 main_bol) ;vla-getboundingbox
+      ;         ; (nth 3 main_bol) ;vla-getboundingbox
+      ;         ;llpt				;Lower left corner of window
+      ;         ;urpt				;Upper right corner of window
+      ;         "Fit" ;Plot Scale	"Fit"
+      ;         "Center" ;Plot Offset
+      ;         "yes" ;Use Plot Style?
+      ;         "TA3 - FOR NORMIE.ctb" ;Plot Style Name
+      ;         "Yes" ;Plot Lineweights?
+      ;         "" ;Enter shade plot setting ["As displayed"/"Wireframe"/"Hidden"/"Visual styles"/"Rendered"]
+      ;         "N"
+      ;         "N"
+      ;         filename ; Name file and Location
+      ;         "Y"
+      ;         "Y"
+      ; )
+    ;
+  
+    ;create shortcut process  (root from SUB_FUNC)
+      ;kuy folder แม่งเสือกมีภาษาไทย หอยหลอดเอ้ย !!!!!!!
+    ;
+    ;
+  )
 
 ;
 
 
 
-; ; automation_Process
+; ; ; automation_Process
+;   (if (= (getvar "ctab") "Model") ;move model
+;     (progn
+;       (setvar "ctab" (nth 1 (getdrawinglayouts (getvar "dwgname"))))
+;     )
+;   )
+;   ; (c:CKdim)
+;   (c:Plotter_CKST_CSDPLOT)
+;   (command "zoom" "a") 
+; ;   ; (c:find_xref_)
+; ;   ; (c:RUNPPEL_plot)
+;   (command "close" "n" )
+; ; ;  
+
+; automation_Process
   ; (if (= (getvar "ctab") "Model") ;move model
   ;   (progn
   ;     (setvar "ctab" (nth 1 (getdrawinglayouts (getvar "dwgname"))))
   ;   )
-;   ; )
-;   ; (c:CKdim)
-;   (c:Plotter_CKST_CSDPLOT)
-;   ; (command "zoom" "a") 
-;   ; (c:find_xref_)
-;   ; (c:RUNPPEL_plot)
-;   (command "close" "n" )
-; ;  
+  ; )
+  ; (c:CKdim)
+  ; (c:Plotter_CKST_GEN-PLOT)
+  ; (command "zoom" "a") 
+  ; (command "close" "n" )
+;  
 

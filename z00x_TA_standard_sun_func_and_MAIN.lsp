@@ -1733,6 +1733,9 @@
     (defun rad-to-deg (rad)
       (/ (* rad 180) pi) 
     )
+    (defun is-decimal (n) 
+      (/= n (fix n))
+    )
     (defun TA:ModifyRotation (Ex_rotation New_rotation)
       ;Note By Code_Developer
       ;The principle of this code is designed to modify the angle value, allowing for both increments and decrements based on a reference number.
@@ -18365,6 +18368,7 @@
   ;000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_COMBINE_VIEW
   (defun c:PPLINE_300HK_insHRtopview_ ()
     (setq 300HK_ename_ (car (entsel "specify Object")))
+    
     (setq 300HK_obj_ (vlax-ename->vla-object 300HK_ename_))
     ;main_idea_coding_code
       (if (or 
@@ -18500,7 +18504,7 @@
                      (rad-to-deg (vla-get-rotation 300hk_obj_))
             )
             (LM:setdynpropvalue new_obj_ "view" "2_top_view")
-
+            ;rev
             (if 
               (and
                 (setq length_test_ 0)
@@ -18518,16 +18522,30 @@
                 (TA:move_axis_insertionpoint new_obj_ "x" 0)
                 (setq torr t)
               )
-              (if (or 
-                    (= (rtos (LM:getdynpropvalue 300hk_obj_ "array_panel_length") 2 2) (rtos 800 2 2))
-                    (= (rtos (LM:getdynpropvalue 300hk_obj_ "array_panel_length") 2 2) (rtos 1600 2 2))
-                    (= (rtos (LM:getdynpropvalue 300hk_obj_ "array_panel_length") 2 2) (rtos 10400 2 2))
+              (if (and
+                    ; (= (rtos (LM:getdynpropvalue 300hk_obj_ "array_panel_length") 2 2) (rtos 800 2 2))
+                    ; (= (rtos (LM:getdynpropvalue 300hk_obj_ "array_panel_length") 2 2) (rtos 1600 2 2))
+                    ; (= (rtos (LM:getdynpropvalue 300hk_obj_ "array_panel_length") 2 2) (rtos 10400 2 2))
+                    (< (LM:getdynpropvalue 300hk_obj_ "array_panel_length" ) 10000)
+                    (/= (is-decimal (/ (/ (LM:getdynpropvalue 300hk_obj_ "array_panel_length" ) 400 ) 2.0 )) T)
+                    
                   )
                 (progn
                   (TA:move_axis_insertionpoint new_obj_ "x" 0)
                   (setq torr t)
                 )
-                (TA:move_axis_insertionpoint new_obj_ "x" -200)
+                (if (or 
+                      (=  (fix (LM:getdynpropvalue 300hk_obj_ "array_panel_length" )) 10000)
+                      (= (fix (LM:getdynpropvalue 300hk_obj_ "array_panel_length" )) 30000)
+                      (= (fix (LM:getdynpropvalue 300hk_obj_ "array_panel_length" )) 50000)
+                      (= (fix (LM:getdynpropvalue 300hk_obj_ "array_panel_length" )) 70000)                  
+                    )
+                  (progn
+                    (TA:move_axis_insertionpoint new_obj_ "x" -200)
+                    
+                  )
+                  (TA:move_axis_insertionpoint new_obj_ "x" 0)
+                )
               )
               
             )
@@ -18540,7 +18558,7 @@
               )
               (setq array_length (LM:setdynpropvalue new_obj_ "array_length" (* (fix (/ array_panel_length 2400)) 2400 ) ))
             )
-            
+            ;
             (cond ;visibility&length condition
             ( ;visibility condition
               (and
