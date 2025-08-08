@@ -1841,6 +1841,16 @@
     (defun is-decimal (n) 
       (/= n (fix n))
     )
+    (defun is-even-number (n) 
+      ;preloop_and_while
+      (setq n_i 0)
+      (while (< n_i (+ 1 n)) 
+        (if (= n_i n) (progn (setq result T) ) (setq result nil) )
+        (setq n_i (+ n_i 1))
+      )
+      ;
+      (setq result result)
+    )
     (defun TA:ModifyRotation (Ex_rotation New_rotation)
       ;Note By Code_Developer
       ;The principle of this code is designed to modify the angle value, allowing for both increments and decrements based on a reference number.
@@ -4014,6 +4024,22 @@
       (setq visibility_list_              
         (list 
           "top_view"
+          "top_view_x8mm."
+          "top_view_x10mm."
+          "top_view_x12mm."
+          "top_view_x14mm."
+          "top_view_x15mm."
+          "top_view_x20mm."
+          "top_view_x25mm."
+          "top_view_x30mm."
+          "top_view_x35mm."
+          "top_view_x40mm."
+          "top_view_x45mm."
+          "top_view_x50mm."
+          "top_view_x55mm."
+          "top_view_x60mm."
+          "top_view_x65mm."
+          "top_view_x70mm."
           "hex-nut" 
           "x8mm." 
           "x10mm."
@@ -5308,8 +5334,10 @@
         (setq hatch_background_ ".")
         
       ;
-      (setq hatch_ename_getang_ (cond ( (getreal (strcat "\nspecify angle<" (rtos (setq hatch_ename_getang_ (cond (hatch_ename_getang_) (hatch_ename_getsc_) ) ) ) "> : " ) ) ) (hatch_ename_getang_) ) )
-      (setq hatch_ename_getsc_ (cond ( (getreal (strcat "\nspecify scale<" (rtos (setq hatch_ename_getsc_ (cond (hatch_ename_getsc_) (hatch_ename_getsc_) ) ) ) "> : " ) ) ) (hatch_ename_getsc_) ) )
+      ; (setq hatch_ename_getang_ (cond ( (getreal (strcat "\nspecify angle<" (rtos (setq hatch_ename_getang_ (cond (hatch_ename_getang_) (hatch_ename_getsc_) ) ) ) "> : " ) ) ) (hatch_ename_getang_) ) )
+      (setq hatch_ename_getang_ 270 )
+      ; (setq hatch_ename_getsc_ (cond ( (getreal (strcat "\nspecify scale<" (rtos (setq hatch_ename_getsc_ (cond (hatch_ename_getsc_) (hatch_ename_getsc_) ) ) ) "> : " ) ) ) (hatch_ename_getsc_) ) )
+      (setq hatch_ename_getsc_ 1 )
       (setq hatch_obj_ (vlax-ename->vla-object hatch_ename_))
 
       
@@ -10607,7 +10635,7 @@
           )
           (if (= (vl-catch-all-error-p bypass_inspt_1) nil)
             (progn
-              (TA:vla-insertblock "HEX_BOLT-M5_set" 
+              (TA:vla-insertblock "000 - DYNAMIC_LENGTH+VIEW_ACESSORIES_HEX_BOLT-M5_COMBINE_SET" 
                 (if (= (getvar "worlducs") 0)(progn (trans inspt_1 1 0)) inspt_1 ) 
                 1 
                 ang_ 
@@ -10629,8 +10657,8 @@
                     (and 
                       (/= (fix dist_ ) 0)
 
-                      (>= (+ dist_ 10) 10)
-                      (<= (+ dist_ 10) 12)
+                      (>= (+ dist_ 8) 10)
+                      (<= (+ dist_ 8) 12)
                     )
                     (progn 
                       (LM:setdynpropvalue newblk_obj "view" "x12mm.")
@@ -10640,8 +10668,8 @@
                     (and 
                       (/= (fix dist_ ) 0)
 
-                      (>= (+ dist_ 10) 10)
-                      (<= (+ dist_ 10) 14)
+                      (>= (+ dist_ 8) 10)
+                      (<= (+ dist_ 8) 14)
                     )
                     (progn 
                       (LM:setdynpropvalue newblk_obj "view" "x14mm.")
@@ -10651,8 +10679,8 @@
                     (and 
                       (/= (fix dist_ ) 0)
 
-                      (>= (+ dist_ 10) 12)
-                      (<= (+ dist_ 10) 15)
+                      (>= (+ dist_ 8) 12)
+                      (<= (+ dist_ 8) 15)
                     )
                     (progn 
                       (LM:setdynpropvalue newblk_obj "view" "x15mm.")
@@ -10662,8 +10690,8 @@
                     (and 
                       (/= (fix dist_ ) 0)
 
-                      (>= (+ dist_ 10) 15)
-                      (<= (+ dist_ 10) 20)
+                      (>= (+ dist_ 8) 15)
+                      (<= (+ dist_ 8) 20)
                     )
                     (progn 
                       (LM:setdynpropvalue newblk_obj "view" "x20mm.")
@@ -10673,8 +10701,8 @@
                     (and 
                       (/= (fix dist_ ) 0)
 
-                      (>= (+ dist_ 10) 20)
-                      (<= (+ dist_ 10) 25)
+                      (>= (+ dist_ 8) 20)
+                      (<= (+ dist_ 8) 25)
                     )
                     (progn 
                       (LM:setdynpropvalue newblk_obj "view" "x25mm.")
@@ -10684,8 +10712,8 @@
                     (and 
                       (/= (fix dist_ ) 0)
 
-                      (>= (+ dist_ 10) 30)
-                      (<= (+ dist_ 10) 35)
+                      (>= (+ dist_ 8) 30)
+                      (<= (+ dist_ 8) 35)
                     )
                     (progn 
                       (LM:setdynpropvalue newblk_obj "view" "x30mm.")
@@ -10695,8 +10723,8 @@
                     (and 
                       (/= (fix dist_ ) 0)
 
-                      (>= (+ dist_ 10) 35)
-                      (<= (+ dist_ 10) 40)
+                      (>= (+ dist_ 8) 35)
+                      (<= (+ dist_ 8) 40)
                     )
                     (progn 
                       (LM:setdynpropvalue newblk_obj "view" "x40mm.")
@@ -10706,8 +10734,8 @@
                     (and 
                       (/= (fix dist_ ) 0)
 
-                      (>= (+ dist_ 10) 40)
-                      (<= (+ dist_ 10) 45)
+                      (>= (+ dist_ 8) 40)
+                      (<= (+ dist_ 8) 45)
                     )
                     (progn 
                       (LM:setdynpropvalue newblk_obj "view" "x45mm.")
@@ -10717,8 +10745,8 @@
                     (and 
                       (/= (fix dist_ ) 0)
 
-                      (>= (+ dist_ 10) 45)
-                      (<= (+ dist_ 10) 50)
+                      (>= (+ dist_ 8) 45)
+                      (<= (+ dist_ 8) 50)
                     )
                     (progn 
                       (LM:setdynpropvalue newblk_obj "view" "x50mm.")
@@ -10728,8 +10756,8 @@
                     (and 
                       (/= (fix dist_ ) 0)
 
-                      (>= (+ dist_ 10) 50)
-                      (<= (+ dist_ 10) 55)
+                      (>= (+ dist_ 8) 50)
+                      (<= (+ dist_ 8) 55)
                     )
                     (progn 
                       (LM:setdynpropvalue newblk_obj "view" "x55mm.")
@@ -10739,8 +10767,8 @@
                     (and 
                       (/= (fix dist_ ) 0)
 
-                      (>= (+ dist_ 10) 55)
-                      (<= (+ dist_ 10) 60)
+                      (>= (+ dist_ 8) 55)
+                      (<= (+ dist_ 8) 60)
                     )
                     (progn 
                       (LM:setdynpropvalue newblk_obj "view" "x60mm.")
@@ -10750,8 +10778,8 @@
                     (and 
                       (/= (fix dist_ ) 0)
 
-                      (>= (+ dist_ 10) 60)
-                      (<= (+ dist_ 10) 65)
+                      (>= (+ dist_ 8) 60)
+                      (<= (+ dist_ 8) 65)
                     )
                     (progn 
                       (LM:setdynpropvalue newblk_obj "view" "x65mm.")
@@ -10761,8 +10789,8 @@
                     (and 
                       (/= (fix dist_ ) 0)
 
-                      (>= (+ dist_ 10) 65)
-                      (<= (+ dist_ 10) 70)
+                      (>= (+ dist_ 8) 65)
+                      (<= (+ dist_ 8) 70)
                     )
                     (progn 
                       (LM:setdynpropvalue newblk_obj "view" "x70mm.")
@@ -10772,8 +10800,8 @@
                     (and 
                       (/= (fix dist_ ) 0)
 
-                      (>= (+ dist_ 10) 70)
-                      (<= (+ dist_ 10) 75)
+                      (>= (+ dist_ 8) 70)
+                      (<= (+ dist_ 8) 75)
                     )
                     (progn 
                       (LM:setdynpropvalue newblk_obj "view" "x75mm.")
@@ -10783,8 +10811,8 @@
                     (and 
                       (/= (fix dist_ ) 0)
 
-                      (>= (+ dist_ 10) 75)
-                      (<= (+ dist_ 10) 80)
+                      (>= (+ dist_ 8) 75)
+                      (<= (+ dist_ 8) 80)
                     )
                     (progn 
                       (LM:setdynpropvalue newblk_obj "view" "x80mm.")
@@ -10794,8 +10822,8 @@
                     (and 
                       (/= (fix dist_ ) 0)
 
-                      (>= (+ dist_ 10) 80)
-                      (<= (+ dist_ 10) 90)
+                      (>= (+ dist_ 8) 80)
+                      (<= (+ dist_ 8) 90)
                     )
                     (progn 
                       (LM:setdynpropvalue newblk_obj "view" "x90mm.")
@@ -10805,8 +10833,8 @@
                     (and 
                       (/= (fix dist_ ) 0)
 
-                      (>= (+ dist_ 10) 90)
-                      (<= (+ dist_ 10) 100)
+                      (>= (+ dist_ 8) 90)
+                      (<= (+ dist_ 8) 100)
                     )
                     (progn 
                       (LM:setdynpropvalue newblk_obj "view" "x100mm.")
@@ -18597,7 +18625,7 @@
                         (progn
                           0
                         )
-                        (- (/ (- array_panel_length array_length ) 2) 50)
+                        (+ (/ (- array_panel_length array_length ) 2) 11)
                       )
                     )
                   )
@@ -18652,53 +18680,17 @@
             )
             (LM:setdynpropvalue new_obj_ "view" "2_top_view")
             ;rev
-            (if 
-              (and
-                (setq length_test_ 0)
-                (setq torr nil)
-                (while 
-                  (and 
-                    (/= (rtos length_test_ 2 2) (rtos (LM:getdynpropvalue 300hk_obj_ "array_panel_length") 2 2) )
-                    (< length_test_ (LM:getdynpropvalue 300hk_obj_ "array_panel_length") )
-                  )
-                  (setq length_test_ (+ length_test_ 800))
-                )
-                (< length_test_ (LM:getdynpropvalue 300hk_obj_ "array_panel_length") )
-              )
+            (if (is-even-number (/ (/ (fix (LM:getdynpropvalue 300hk_obj_ "array_panel_length" )) 400 ) 2.0 ))
               (progn
                 (TA:move_axis_insertionpoint new_obj_ "x" 0)
-                (setq torr t)
+                
               )
-              (if (and
-                    ; (= (rtos (LM:getdynpropvalue 300hk_obj_ "array_panel_length") 2 2) (rtos 800 2 2))
-                    ; (= (rtos (LM:getdynpropvalue 300hk_obj_ "array_panel_length") 2 2) (rtos 1600 2 2))
-                    ; (= (rtos (LM:getdynpropvalue 300hk_obj_ "array_panel_length") 2 2) (rtos 10400 2 2))
-                    (< (LM:getdynpropvalue 300hk_obj_ "array_panel_length" ) 10000)
-                    (/= (is-decimal (/ (/ (LM:getdynpropvalue 300hk_obj_ "array_panel_length" ) 400 ) 2.0 )) T)
-                    
-                  )
-                (progn
-                  (TA:move_axis_insertionpoint new_obj_ "x" 0)
-                  (setq torr t)
-                )
-                (if (or 
-                      (=  (fix (LM:getdynpropvalue 300hk_obj_ "array_panel_length" )) 10000)
-                      (= (fix (LM:getdynpropvalue 300hk_obj_ "array_panel_length" )) 30000)
-                      (= (fix (LM:getdynpropvalue 300hk_obj_ "array_panel_length" )) 50000)
-                      (= (fix (LM:getdynpropvalue 300hk_obj_ "array_panel_length" )) 70000)                  
-                    )
-                  (progn
-                    (TA:move_axis_insertionpoint new_obj_ "x" -200)
-                    
-                  )
-                  (TA:move_axis_insertionpoint new_obj_ "x" 0)
-                )
-              )
-              
+              (TA:move_axis_insertionpoint new_obj_ "x" -200)
             )
+            
             (if (and 
                   (> (- (* (fix (/ array_panel_length 2400)) 2400 ) 2400) 0)
-                  (= torr nil)
+                  (/= (is-even-number (float (/ (/ (fix (LM:getdynpropvalue 300hk_obj_ "array_panel_length" )) 400 ) 2.0))) T)
                 )
               (progn
                 (setq array_length (LM:setdynpropvalue new_obj_ "array_length" (- (* (fix (/ array_panel_length 2400)) 2400 ) 2400) ))
@@ -18711,6 +18703,7 @@
               (and
                 (/= (rtos (LM:getdynpropvalue 300HK_obj_ "array_panel_length"  ) 2 2 ) (rtos 2800 2 2))     
                 (> array_panel_length 2401)
+                (/= (is-even-number (/ (/ (LM:getdynpropvalue 300hk_obj_ "array_panel_length" ) 400 ) 2.0 )) T)
               )
               (progn
                 (LM:setdynpropvalue new_obj_ "view" "2_top_view")
@@ -18725,7 +18718,7 @@
                       (progn
                         0
                       )
-                      (- (/ (- array_panel_length array_length ) 2) 50)
+                      (+  (+ 36 (- (/ (- array_panel_length array_length ) 2) 50)) 200)
                     )
                   )
                 )
@@ -18736,21 +18729,42 @@
                     (progn
                       0
                     )
-                    (- (/ (- array_panel_length array_length ) 2) 0)
+                    (- (- (/ (- array_panel_length array_length ) 2) 14) 200)
                   )
                 )
-                (if (= torr nil)
-                  (progn
-                    (LM:setdynpropvalue 
-                      new_obj_ 
-                      "fragment_right"
-                      (- (LM:getdynpropvalue new_obj_ "fragment_right" ) 214)                        
+              )
+            )
+            ( ;visibility condition no move 200
+              (and
+                (/= (rtos (LM:getdynpropvalue 300HK_obj_ "array_panel_length"  ) 2 2 ) (rtos 2800 2 2))     
+                (> array_panel_length 2401)
+                (is-even-number (/ (/ (LM:getdynpropvalue 300hk_obj_ "array_panel_length" ) 400 ) 2.0 ))
+              )
+              (progn
+                (LM:setdynpropvalue new_obj_ "view" "2_top_view")
+                (LM:setdynpropvalue 
+                  new_obj_ 
+                  "fragment_left"   
+                  (if (= (- array_panel_length array_length) 0) ;condition for input fragment left/right value
+                    (progn
+                      0
                     )
-                    (LM:setdynpropvalue 
-                      new_obj_ 
-                      "fragment_left"
-                      (+ (LM:getdynpropvalue new_obj_ "fragment_left" ) 236)                        
+                    (if (< (- (/ (- array_panel_length array_length ) 2) 50) 0)
+                      (progn
+                        0
+                      )
+                      (+ 36 (- (/ (- array_panel_length array_length ) 2) 50))
                     )
+                  )
+                )
+                (LM:setdynpropvalue 
+                  new_obj_ 
+                  "fragment_right"   
+                  (if (= (- array_panel_length array_length) 0) ;condition for input fragment left/right value
+                    (progn
+                      0
+                    )
+                    (- (/ (- array_panel_length array_length ) 2) 14)
                   )
                 )
               )
@@ -18824,27 +18838,6 @@
                   (* (fix (/ (- array_panel_length 100)  400)) 400)
                 )
                 
-              )
-            )
-            ( ;visibility condition less than 2800
-              (and
-                (= (rtos (LM:getdynpropvalue 300HK_obj_ "array_panel_length") 2 2 ) (rtos 2800 2 2))
-              )
-              (progn
-                (LM:setdynpropvalue new_obj_ "view" "7_dynamic_length_view_2800mm.")
-                (LM:setdynpropvalue new_obj_ "fragment_array_middle_R" 1200)
-                (LM:setdynpropvalue new_obj_ "fragment_array_middle_L" 1200)
-                (LM:setdynpropvalue new_obj_ "fragment_middle_R" 1136)
-                (LM:setdynpropvalue new_obj_ "fragment_middle_L" 1000)
-                ;copy new object process
-                  (vla-copy new_obj_ )
-                  (TA:move_axis_insertionpoint (vlax-ename->vla-object (entlast)) "x" 1200)
-                  (LM:setdynpropvalue (vlax-ename->vla-object (entlast)) "view" "7_dynamic_length_view")
-                  (LM:setdynpropvalue (vlax-ename->vla-object (entlast)) "fragment_array_middle_R" 400)
-                  (LM:setdynpropvalue (vlax-ename->vla-object (entlast)) "fragment_array_middle_L" 400)
-                  (LM:setdynpropvalue (vlax-ename->vla-object (entlast)) "fragment_middle_R" 200)
-                  (LM:setdynpropvalue (vlax-ename->vla-object (entlast)) "fragment_middle_L" 350)
-                ;
               )
             )
             )
@@ -19391,15 +19384,15 @@
       )
     ;
     ;000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._C-PROFILE_50x100mm._non-code_CUT_VIEW
-    (defun c:PPLINE_CKST_EXCVaries ()
+    (defun c:PPLINE_CKST_EXTR-CVaries ()
       (setq ucsedit nil)
       (if (= (getvar "worlducs") 0)(progn (command "ucs" "WORLD") (setq ucsedit 0))  )
       (TA:vla-insertblock 
         ; "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_PLAN_AL.SOLID_SHEET_HAT-PROFILE_VA_COMBINE_SET" ;original
         "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._C-PROFILE_50x100mm._non-code_CUT_VIEW"
-        (setq newpt_ (getpoint))
+        (setq newpt_ (getpoint "input point"))
         1
-        (setq new_ang (getangle newpt_))  
+        (setq new_ang (getangle newpt_ "input angle"))  
       )
       (setq ss_ename_ (entlast))
       (setq ss_obj_ (vlax-ename->vla-object ss_ename_))
@@ -19426,15 +19419,15 @@
     )
     ;
     ;000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_CUT_VIEW
-    (defun c:PPLINE_CKST_RECVaries ()
+    (defun c:PPLINE_CKST_EXTR-RECVaries ()
       (setq ucsedit nil)
       (if (= (getvar "worlducs") 0)(progn (command "ucs" "WORLD") (setq ucsedit 0))  )
       (TA:vla-insertblock 
         ; "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_PLAN_AL.SOLID_SHEET_HAT-PROFILE_VA_COMBINE_SET" ;original
         "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_CUT_VIEW"
-        (setq newpt_ (getpoint))
+        (setq newpt_ (getpoint "input point"))
         1
-        (setq new_ang (getangle newpt_))  
+        (setq new_ang (getangle newpt_ "input angle"))  
       )
       (setq ss_ename_ (entlast))
       (setq ss_obj_ (vlax-ename->vla-object ss_ename_))
@@ -28191,323 +28184,9 @@
   (c:PPLINE-Filter_CKSTCSDlayer_)
   (c:PPLINE-Filter_CKST_EX_CL_)
 )
-(defun c:PPLINE-CKST-reset300normal () ;ใช้สำหรับ set layer ในบล็อก เพื่อให้เรียบร้อย
-  ;selection_set_for_fillter_blk_name
-    (if  ;pre_select_ssget_or_post_select_ssget
-      (=
-        (setq ss_pre_filter_set_xx_ (ssget "X"
-                                          (list
-                                            (cons 0 "INSERT") ;type of object
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-        nil
-      )
-      (progn
-        (setq ss_pre_filter_set_xx_ (ssget "X"
-                                          (list
-                                            (cons 0 "INSERT") ;type of object
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-      )
-      (sslength ss_pre_filter_set_xx_)
-    )
-  ;
-  ;preloop_and_while
-    (setq ss_pre_filter_set_xx_i 0)
-    (while (and 
-             (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-             (= (getvar "blockeditor") 1)
-           )
-      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
-      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
-      (cond
-        ; (;EFname_case_1
-        ;    (and
-        ;       (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_COMBINE_VIEW" )
-        ;    )
-        ;    (progn
-        ;      (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
-        ;      (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
-        ;      (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
-        ;      (princ "EFname_case_1")
-        ;    )
-        ; )
-        ; (;EFname_case_2
-        ;    (and
-        ;       (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET" )
-        ;    )
-        ;    (progn
-        ;      (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
-        ;      (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
-        ;      (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
-        ;      (princ "EFname_case_2")
-        ;    )
-        ; )
-        ; (;EFname_case_3
-        ;    (and
-        ;       (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_COMBINE_VIEW" )
-        ;    )
-        ;    (progn
-        ;      (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
-        ;      (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
-        ;      (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
-        ;      (princ "EFname_case_3")
-        ;    )
-        ; )
-        ; (;EFname_case_4
-        ;    (and
-        ;       (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_COMBINE_VIEW" )
-              
-        ;    )
-        ;    (progn
-        ;      (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
-        ;      (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
-        ;      (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
-        ;      (princ "EFname_case_4")
-        ;    )
-        ; )
-        ; (;EFname_case_5
-        ;    (and
-        ;       (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "001 - DYNAMIC REC&SSQ SHAPE SOLID_centerpoint" )
-        ;    )
-        ;    (progn
-        ;      (vla-put-layer ss_pre_filter_set_xx_obj_ "A04_TUBE SERIES" )
-        ;      (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
-        ;      (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
-             
-        ;     ;  ;add-on
-        ;     ;   ;new_blk_entlast object set-1
-        ;     ;       (vla-copy ss_pre_filter_set_xx_obj_)
-        ;     ;       (setq 300ex_ename (entlast))
-        ;     ;       (setq 300ex_obj_ (vlax-ename->vla-object 300ex_ename))
-        ;     ;       (setq 300ex_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 300ex_obj_))))
-        ;     ;       (LM:setdynpropvalue 300ex_obj_ "W" 50)
-        ;     ;       (vla-move 300ex_obj_ (vlax-3d-point 300ex_obj_ins_) (vlax-3d-point (list 
-        ;     ;                                                                           (car 300ex_obj_ins_)
-        ;     ;                                                                           (+ (cadr 300ex_obj_ins_) 125)
-        ;     ;                                                                           (caddr 300ex_obj_ins_)
-        ;     ;                                                                         )
-        ;     ;                                                           )
-        ;     ;       )
-        ;     ;       (command "-bvstate" "s" "1_" )
-        ;     ;       (command "bvshow" 300ex_ename "" "C")
-        ;     ;   ;
-        ;     ;   ;new_blk_entlast object set-2
-        ;     ;       (vla-copy ss_pre_filter_set_xx_obj_)
-        ;     ;       (setq 300ex_ename (entlast))
-        ;     ;       (setq 300ex_obj_ (vlax-ename->vla-object 300ex_ename))
-        ;     ;       (setq 300ex_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 300ex_obj_))))
-        ;     ;       (LM:setdynpropvalue 300ex_obj_ "W" 50)
-        ;     ;       (vla-move 300ex_obj_ (vlax-3d-point 300ex_obj_ins_) (vlax-3d-point (list 
-        ;     ;                                                                           (car 300ex_obj_ins_)
-        ;     ;                                                                           (- (cadr 300ex_obj_ins_) 125)
-        ;     ;                                                                           (caddr 300ex_obj_ins_)
-        ;     ;                                                                         )
-        ;     ;                                                           )
-        ;     ;       )
-        ;     ;       (command "-bvstate" "s" "1_" )
-        ;     ;       (command "bvshow" 300ex_ename "" "C")
-        ;     ;   ;
-        ;     ;  ;
-        ;      (princ "EFname_case_5")
-        ;    )
-        ; )
-        ; (;EFname_case_6
-        ;    (or
-        ;       (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@400mm_COMBINE_SET" )
-        ;       (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_360HK_@372mm_COMBINE_SET" )
-        ;    )
-        ;    (progn
-        ;      (vla-put-layer ss_pre_filter_set_xx_obj_ "A11_ALU.SOLID SHEET" )
-        ;      (vla-put-color ss_pre_filter_set_xx_obj_ 0 )
-        ;      (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
-        ;      (princ "EFname_case_6")
-        ;    )
-        ; )
-        (;EFname_case_67           
-            (or
-              (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_ )) (strcat "*" (strcase "Ceiling Air Supply") "*"))  T)
-              (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_ )) (strcat "*" (strcase "Ceiling Luminaire") "*"))  T)
-            )
-            (progn
-              ; (vl-catch-all-apply (function (lambda () (vla-put-layer ss_pre_filter_set_xx_obj_ "008 - LIGHTING") ) ) )
-              (vla-put-color ss_pre_filter_set_xx_obj_ 0 )
-              (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
-              (command "-bvstate" "s" "4_" )
-              (command "bvshow" ss_pre_filter_set_xx_ename_ "" "c")
-              (if (= (vla-get-isdynamicblock ss_pre_filter_set_xx_obj_) :vlax-true)
-                (progn
-                  (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "view" "1_")
-                )
-              )
-              (princ "EFname_case_7")
-            )
-        )
-      )
-      
-      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
-    )
-  ;
-)
-(defun c:PPLINE-CKST-reset300lacer () ;ใช้สำหรับ set layer ในบล็อก เพื่อให้เรียบร้อย
-  ;selection_set_for_fillter_blk_name
-    (if  ;pre_select_ssget_or_post_select_ssget
-      (=
-        (setq ss_pre_filter_set_xx_ (ssget "X"
-                                          (list
-                                            (cons 0 "INSERT") ;type of object
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-        nil
-      )
-      (progn
-        (setq ss_pre_filter_set_xx_ (ssget "X"
-                                          (list
-                                            (cons 0 "INSERT") ;type of object
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-      )
-      (sslength ss_pre_filter_set_xx_)
-    )
-  
-  ;preloop_and_while
-    (setq ss_pre_filter_set_xx_i 0)
-    (while (and 
-             (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-             (= (getvar "blockeditor") 1)
-           )
-      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
-      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
-      (cond
-        (;EFname_case_1
-           (and
-              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_COMBINE_VIEW" )
-           )
-           (progn
-             (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
-             (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
-             (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
-             (princ "EFname_case_1")
-           )
-        )
-        (;EFname_case_2
-           (and
-              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET" )
-           )
-           (progn
-             (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
-             (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
-             (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
-             (princ "EFname_case_2")
-           )
-        )
-        (;EFname_case_3
-           (and
-              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_COMBINE_VIEW" )
-           )
-           (progn
-             (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
-             (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
-             (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
-             (princ "EFname_case_3")
-           )
-        )
-        (;EFname_case_4
-           (and
-              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_COMBINE_VIEW" )
-              
-           )
-           (progn
-             (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
-             (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
-             (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
-             (princ "EFname_case_4")
-           )
-        )
-        (;EFname_case_5
-           (and
-              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "001 - DYNAMIC REC&SSQ SHAPE SOLID_centerpoint" )
-           )
-           (progn
-             (vla-put-layer ss_pre_filter_set_xx_obj_ "A04_TUBE SERIES" )
-             (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
-             (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
-             
-             (command "-bvstate" "s" "3_" )
-             (command "bvshow" ss_pre_filter_set_xx_ename_ "" "C")
-            ;  ;add-on
-            ;   ;new_blk_entlast object set-1
-            ;       (vla-copy ss_pre_filter_set_xx_obj_)
-            ;       (setq 300ex_ename (entlast))
-            ;       (setq 300ex_obj_ (vlax-ename->vla-object 300ex_ename))
-            ;       (setq 300ex_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 300ex_obj_))))
-            ;       (LM:setdynpropvalue 300ex_obj_ "W" 50)
-            ;       (vla-move 300ex_obj_ (vlax-3d-point 300ex_obj_ins_) (vlax-3d-point (list 
-            ;                                                                           (car 300ex_obj_ins_)
-            ;                                                                           (+ (cadr 300ex_obj_ins_) 125)
-            ;                                                                           (caddr 300ex_obj_ins_)
-            ;                                                                         )
-            ;                                                           )
-            ;       )
-            ;       (command "-bvstate" "s" "1_" )
-            ;       (command "bvshow" 300ex_ename "" "C")
-            ;   ;
-            ;   ;new_blk_entlast object set-2
-            ;       (vla-copy ss_pre_filter_set_xx_obj_)
-            ;       (setq 300ex_ename (entlast))
-            ;       (setq 300ex_obj_ (vlax-ename->vla-object 300ex_ename))
-            ;       (setq 300ex_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 300ex_obj_))))
-            ;       (LM:setdynpropvalue 300ex_obj_ "W" 50)
-            ;       (vla-move 300ex_obj_ (vlax-3d-point 300ex_obj_ins_) (vlax-3d-point (list 
-            ;                                                                           (car 300ex_obj_ins_)
-            ;                                                                           (- (cadr 300ex_obj_ins_) 125)
-            ;                                                                           (caddr 300ex_obj_ins_)
-            ;                                                                         )
-            ;                                                           )
-            ;       )
-            ;       (command "-bvstate" "s" "1_" )
-            ;       (command "bvshow" 300ex_ename "" "C")
-            ;   ;
-            ;  ;
-             (princ "EFname_case_5")
-           )
-        )
-        (;EFname_case_6
-           (or
-              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@400mm_COMBINE_SET" )
-              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_360HK_@372mm_COMBINE_SET" )
-           )
-           (progn
-             (vla-put-layer ss_pre_filter_set_xx_obj_ "A11_ALU.SOLID SHEET" )
-             (vla-put-color ss_pre_filter_set_xx_obj_ 0 )
-             (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
-             (command "-bvstate" "s" "1_" )
-             (command "bvshow" ss_pre_filter_set_xx_ename_ "" "C")
-             (princ "EFname_case_6")
-           )
-        )
-      )
-      
-      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
-    )
-  ;
-)
+
+
+
 (defun c:PPLINE-CKST-reset300layer () ;ใช้สำหรับ set layer ในบล็อก เพื่อให้เรียบร้อย
   ;selection_set_for_fillter_blk_name
     (if  ;pre_select_ssget_or_post_select_ssget
@@ -28536,6 +28215,12 @@
       )
       (sslength ss_pre_filter_set_xx_)
     )
+    (setq ssvis_1 (ssadd))
+    (setq ssvis_2 (ssadd))
+    (setq ssvis_2-1 (ssadd))
+    (setq ssvis_3 (ssadd))
+    (setq ssvis_4 (ssadd))
+    (setq ssvis_5 (ssadd))
   ;
   ;preloop_and_while
     (setq ss_pre_filter_set_xx_i 0)
@@ -28546,112 +28231,7 @@
       (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
       (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
       (cond
-        (;EFname_case_0
-           (and
-              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET" )
-           )
-           (progn
-             (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
-             (vla-put-color ss_pre_filter_set_xx_obj_ 4 )
-             (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
-             (princ "EFname_case_1")
-           )
-        )
         (;EFname_case_1
-           (and
-              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_COMBINE_VIEW" )
-           )
-           (progn
-             (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
-             (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
-             (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
-             (princ "EFname_case_1")
-           )
-        )
-        (;EFname_case_2
-           (and
-              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET" )
-           )
-           (progn
-             (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
-             (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
-             (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
-             (princ "EFname_case_2")
-           )
-        )
-        (;EFname_case_3
-           (and
-              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_COMBINE_VIEW" )
-           )
-           (progn
-             (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
-             (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
-             (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
-             (princ "EFname_case_3")
-           )
-        )
-        (;EFname_case_4
-           (and
-              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_COMBINE_VIEW" )
-              
-           )
-           (progn
-             (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
-             (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
-             (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
-             (princ "EFname_case_4")
-           )
-        )
-        (;EFname_case_5
-           (and
-              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "001 - DYNAMIC REC&SSQ SHAPE SOLID_centerpoint" )
-           )
-           (progn
-             (vla-put-layer ss_pre_filter_set_xx_obj_ "A04_TUBE SERIES" )
-             (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
-             (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
-             
-            ;  (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "W" 300)
-            ;  (command "-bvstate" "s" "1_" )
-            ;  (command "bvshow" ss_pre_filter_set_xx_ename_ "" "C")
-            ;  ;add-on
-            ;   ;new_blk_entlast object set-1
-            ;       (vla-copy ss_pre_filter_set_xx_obj_)
-            ;       (setq 300ex_ename (entlast))
-            ;       (setq 300ex_obj_ (vlax-ename->vla-object 300ex_ename))
-            ;       (setq 300ex_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 300ex_obj_))))
-            ;       (LM:setdynpropvalue 300ex_obj_ "W" 50)
-            ;       (vla-move 300ex_obj_ (vlax-3d-point 300ex_obj_ins_) (vlax-3d-point (list 
-            ;                                                                           (car 300ex_obj_ins_)
-            ;                                                                           (+ (cadr 300ex_obj_ins_) 125)
-            ;                                                                           (caddr 300ex_obj_ins_)
-            ;                                                                         )
-            ;                                                           )
-            ;       )
-            ;       (command "-bvstate" "s" "1_" )
-            ;       (command "bvshow" 300ex_ename "" "C")
-            ;   ;
-            ;   ;new_blk_entlast object set-2
-            ;       (vla-copy ss_pre_filter_set_xx_obj_)
-            ;       (setq 300ex_ename (entlast))
-            ;       (setq 300ex_obj_ (vlax-ename->vla-object 300ex_ename))
-            ;       (setq 300ex_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 300ex_obj_))))
-            ;       (LM:setdynpropvalue 300ex_obj_ "W" 50)
-            ;       (vla-move 300ex_obj_ (vlax-3d-point 300ex_obj_ins_) (vlax-3d-point (list 
-            ;                                                                           (car 300ex_obj_ins_)
-            ;                                                                           (- (cadr 300ex_obj_ins_) 125)
-            ;                                                                           (caddr 300ex_obj_ins_)
-            ;                                                                         )
-            ;                                                           )
-            ;       )
-            ;       (command "-bvstate" "s" "1_" )
-            ;       (command "bvshow" 300ex_ename "" "C")
-            ;   ;
-            ;  ;
-             (princ "EFname_case_5")
-           )
-        )
-        (;EFname_case_6
            (or
               (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@400mm_COMBINE_SET" )
               (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_360HK_@372mm_COMBINE_SET" )
@@ -28660,147 +28240,101 @@
              (vla-put-layer ss_pre_filter_set_xx_obj_ "A11_ALU.SOLID SHEET" )
              (vla-put-color ss_pre_filter_set_xx_obj_ 0 )
              (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
-             (princ "EFname_case_6")
+             (setq ssvis_1 (ssadd ss_pre_filter_set_xx_ename_ ssvis_1 ))
+             (princ "EFname_case_1")
            )
         )
-      )
-      
-      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
-    )
-  ;
-  (command "bvshow" ss_pre_filter_set_xx_ "" "C")
-)
-(defun c:PPLINE-CKST-reset300lax() ;ใช้สำหรับ set layer ในบล็อก เพื่อให้เรียบร้อย
-  ;selection_set_for_fillter_blk_name
-    (if  ;pre_select_ssget_or_post_select_ssget
-      (=
-        (setq ss_pre_filter_set_xx_ (ssget "i"
-                                          (list 
-                                            (cons 0 "INSERT") ;type of object
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-        nil
-      )
-      (progn
-        (setq ss_pre_filter_set_xx_ (ssget "X"
-                                          (list
-                                            (cons 0 "INSERT") ;type of object
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-      )
-      (sslength ss_pre_filter_set_xx_)
-    )
-  
-  ;preloop_and_while
-    (setq ss_pre_filter_set_xx_i 0)
-    (while (and 
-             (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-             (= (getvar "blockeditor") 1)
+        (;EFname_case_2
+           (or
+              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_COMBINE_VIEW" )
+              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_COMBINE_VIEW" )
+              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_COMBINE_VIEW" )
            )
-      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
-      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
-      (cond
-
-        (;EFname_case_5
-           (and
+           (progn
+             (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
+             (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
+             (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+             (setq ssvis_2 (ssadd ss_pre_filter_set_xx_ename_ ssvis_2 ))
+             (princ "EFname_case_2")
+           )
+        )
+        
+        (;EFname_case_3
+           (or
               (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "001 - DYNAMIC REC&SSQ SHAPE SOLID_centerpoint" )
+              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._C-PROFILE_50x100mm._non-code_CUT_VIEW" )
+              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_CUT_VIEW" )
            )
            (progn
              (vla-put-layer ss_pre_filter_set_xx_obj_ "A04_TUBE SERIES" )
-             (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
+             (vla-put-color ss_pre_filter_set_xx_obj_ 0 )
              (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
-             
-             (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "W" 200)
-             (command "-bvstate" "s" "3_" )
-             (command "bvshow" ss_pre_filter_set_xx_ename_ "" "C")
-             (command "-bvstate" "s" "1_" )
-             (command "bvhide" ss_pre_filter_set_xx_ename_ "" "C")
-             (command "-bvstate" "s" "3_" )
-             ;add-on
-              ;new_blk_entlast object set-1
-                  (vla-copy ss_pre_filter_set_xx_obj_)
-                  (setq 300ex_ename (entlast))
-                  (setq 300ex_obj_ (vlax-ename->vla-object 300ex_ename))
-                  (setq 300ex_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 300ex_obj_))))
-                  (LM:setdynpropvalue 300ex_obj_ "W" 50)
-                  (if (or 
-                        (= (rtos (rad-to-deg (vla-get-rotation ss_pre_filter_set_xx_obj_)) 2 0) "90")
-                        (= (rtos (rad-to-deg (vla-get-rotation ss_pre_filter_set_xx_obj_)) 2 0) "270")
-                      )
-                    (progn
-                      (vla-move 300ex_obj_ (vlax-3d-point 300ex_obj_ins_) (vlax-3d-point (list 
-                                                                                      (+ (car 300ex_obj_ins_) 125)
-                                                                                      (cadr 300ex_obj_ins_)
-                                                                                      (caddr 300ex_obj_ins_)
-                                                                                    )
-                                                                      )
-                      )
-                    )
-                      (vla-move 300ex_obj_ (vlax-3d-point 300ex_obj_ins_) (vlax-3d-point (list 
-                                                                                      (car 300ex_obj_ins_)
-                                                                                      (+ (cadr 300ex_obj_ins_) 125)
-                                                                                      (caddr 300ex_obj_ins_)
-                                                                                    )
-                                                                      )
-                      )
-                  )
-                  
-                  (command "bvshow" 300ex_ename "" "C")
-              ;
-              ;new_blk_entlast object set-2
-                  (vla-copy ss_pre_filter_set_xx_obj_)
-                  (setq 300ex_ename (entlast))
-                  (setq 300ex_obj_ (vlax-ename->vla-object 300ex_ename))
-                  (setq 300ex_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 300ex_obj_))))
-                  (LM:setdynpropvalue 300ex_obj_ "W" 50)
-                  (if (or 
-                        (= (rtos (rad-to-deg (vla-get-rotation ss_pre_filter_set_xx_obj_)) 2 0) "90")
-                        (= (rtos (rad-to-deg (vla-get-rotation ss_pre_filter_set_xx_obj_)) 2 0) "270")
-                      )
-                    (progn
-                      (vla-move 300ex_obj_ (vlax-3d-point 300ex_obj_ins_) (vlax-3d-point (list 
-                                                                                      (- (car 300ex_obj_ins_) 125)
-                                                                                      (cadr 300ex_obj_ins_)
-                                                                                      (caddr 300ex_obj_ins_)
-                                                                                    )
-                                                                      )
-                      )
-                    )
-                      (vla-move 300ex_obj_ (vlax-3d-point 300ex_obj_ins_) (vlax-3d-point (list 
-                                                                                      (car 300ex_obj_ins_)
-                                                                                      (- (cadr 300ex_obj_ins_) 125)
-                                                                                      (caddr 300ex_obj_ins_)
-                                                                                    )
-                                                                      )
-                      )
-                  )
-                  
-                  
-                  (command "bvshow" 300ex_ename "" "C")
-              ;
-             ;
-             (princ "EFname_case_5")
+             (setq ssvis_3 (ssadd ss_pre_filter_set_xx_ename_ ssvis_3 ))
+             (princ "EFname_case_3")
            )
         )
-
+        (;EFname_case_4
+           (or
+              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET" )
+           )
+           (progn
+             (vla-put-layer ss_pre_filter_set_xx_obj_ "001 - ASCESSORIES" )
+             (vla-put-color ss_pre_filter_set_xx_obj_ 256 )
+             (vla-put-linetype ss_pre_filter_set_xx_obj_ "byblock" )
+             (setq ssvis_4 (ssadd ss_pre_filter_set_xx_ename_ ssvis_4 ))
+             (princ "EFname_case_4")
+           )
+        )
       )
-      
       (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
     )
   ;
-  ;return bv visibility
-    (command "-bvstate" "s" "VisibilityState0" )
-    (command "bvshow" (ssget "x") "" "c" )
+  ;visibility process
+
+
+
+    (if (/= (sslength ssvis_1) 0) 
+      (progn 
+        (command "bvstate" "S" "1_"  )
+        (command "bvshow" ssvis_1 "" "c"  )
+      )
+    )
+    (if (/= (sslength ssvis_2) 0) 
+      (progn 
+        (command "bvstate" "S" "2_"  )
+        (command "bvshow" ssvis_2 "" "c"  )
+        (command "bvshow" ssvis_4 "" "c")
+      )
+    )
+    (if (/= (sslength ssvis_3) 0) 
+      (progn 
+        (command "bvstate" "S" "3_"  )
+        (command "bvshow" ssvis_3 "" "c"  )
+      )
+    )
+    (if (/= (sslength ssvis_4) 0) 
+      (progn 
+        (command "bvstate" "S" "4_")
+        (command "bvshow" ssvis_4 "" "c")
+      )
+    )
+    (if (and (/= (sslength ssvis_1) 0) (/= (sslength ssvis_3) 0) ) 
+      (progn 
+        (command "bvstate" "S" "5_"  )
+        (command "bvshow" ssvis_1 "" "c"  )
+        (command "bvshow" ssvis_3 "" "c"  )
+      )
+    )
+
+
   ;
+  
+  
+  (command "bvstate" "S" "VisibilityState0"  )
+  (command "bvshow" ss_pre_filter_set_xx_ "" "C")
 )
+
+
 
 (defun c:PPLINE-CKST_SELDIM ()
   ;selection_set_for_fillter_blk_name
@@ -30134,7 +29668,7 @@
   ;
 )
 (defun c:PPLINE-CKST_300update_ ()
-  ; (TA:get_name_block_in_drawing_to_list)
+  (TA:get_name_block_in_drawing_to_list)
       ; (vl-catch-all-apply 
       ;   (function 
       ;     (lambda () 
@@ -30154,74 +29688,102 @@
   
   (setq 300HK_blk_list_ 
     (list 
-        "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_CUT_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_ISOMATRIC_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_RIGHT_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_TOP_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_V-HOOK_CUT_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_V-HOOK_ISOMATRIC_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_V-HOOK_RIGHT_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_V-HOOK_TOP_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV._SPICE-FOR_CC-01_CUT_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV._SPICE-FOR_CC-01_LEFT-RIGHT_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV._SPICE-FOR_CC-01_TOP_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV._SPICE-FOR_HR-02A_TOP_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV._SPICE-FOR_HR-02B_TOP_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_LEFT_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_COMPLEX-PROFILE_V-HOOK_LEFT_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_BK-08_BACK_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_BK-08_CUT_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_BK-08_FRONT_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_BK-08_ISOMATRIC_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_BK-08_TOP_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-01_BACK_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-01_CUT_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-01_FRONT_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-01_LEFT-RIGHT_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-01_TOP_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-04_CUT_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-04_FRONT_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-04_ISOMATRIC_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-04_TOP_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_BK-07_CUT_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_BK-07_ISOMATRIC_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_BK-07_LEFT-RIGHT_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_BK-07_TOP_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_CUT_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_LEFT-RIGHT_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_TOP_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_CUT_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_ISOMATRIC_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_LEFT_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_RIGHT_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_TOP_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_CUT_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_LEFT_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_RIGHT_VIEW" 
-        "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_TOP_VIEW" 
-        "000 - ASSCESSORIES_HEX_BOLT_M5_NUT" 
-        "000 - ASSCESSORIES_SPRING_WASHER_M5_FRONT-SIDE-BACK_VIEW" 
-        "000 - ASSCESSORIES_SPRING_WASHER_M5_TOP_VIEW" 
-        "000 - ASSCESSORIES_TRAKC_LIGHT_REC.1257x120mm_CUT_VIEW" 
-        "000 - ASSCESSORIES_TRAKC_LIGHT_REC.1257x120mm_FRONT_VIEW" 
-        "000 - ASSCESSORIES_WASHER_M5_FRONT-SIDE-BACK_VIEW" 
-        "000 - ASSCESSORIES_WASHER_M5_TOP_VIEW" 
-        "000 - DYNAM5IC_VIEW_ASSCESSORIES_WASHER_M5_COM5BINE_VIEW" 
-        "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_COMBINE_VIEW" 
-        "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_COMBINE_VIEW" 
-        "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET" 
-        "000 - DYNAMIC_VIEW_ASSCESSORIES_GALV.STUD_FULL_THREAD_1-4_COMBINE_VIEW" 
-        "000 - DYNAMIC_VIEW_ASSCESSORIES_GALV.STUD_FULL_THREAD_1-4_TOP_VIEW" 
-        "000 - DYNAMIC_VIEW_ASSCESSORIES_HEX_BOLT_M5_COMBINE_VIEW" 
-        "000 - DYNAMIC_VIEW_ASSCESSORIES_RIVET_4-4_COMBINE_VIEW" 
-        "000 - DYNAMIC_VIEW_ASSCESSORIES_RIVET_4-4_TOP_VIEW" 
-        "000 - DYNAMIC_VIEW_ASSCESSORIES_SPRING_WASHER_M5_COMBINE_VIEW" 
-        "000 - PROTOTYPE-DYNAMIC_HEX_BOLT" 
-        "000 - PROTOTYPE-DYNAMIC_HEX_NUT" 
-        "000 - PROTOTYPE-DYNAMIC_THREAD_BOLT" 
-        "000 - PROTOTYPE-DYNAMIC_WAHER_AND_SPRING_WASHER_" 
-        "001 - DYNAMIC REC&SSQ SHAPE SOLID_centerpoint" 
-        "HEX_BOLT-M5_set"
+      ( "000-CSD-MERGE_C-2-PP20-AR-4130-01-B_20250705-171101" 
+                   "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_CUT_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_ISOMATRIC_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_RIGHT_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_TOP_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_V-HOOK_CUT_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_V-HOOK_ISOMATRIC_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_V-HOOK_RIGHT_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_V-HOOK_TOP_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_AL.EXTR._L-PROFILE_50x45mm._non-code_BACK_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_AL.EXTR._L-PROFILE_50x45mm._non-code_BOTTOM_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_AL.EXTR._L-PROFILE_50x45mm._non-code_CUT_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_AL.EXTR._L-PROFILE_50x45mm._non-code_FRONT_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_AL.EXTR._L-PROFILE_50x45mm._non-code_TOP_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_AL.EXTR._L-PROFILE_50x68mm._non-code_BACK_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_AL.EXTR._L-PROFILE_50x68mm._non-code_BOTTOM_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_AL.EXTR._L-PROFILE_50x68mm._non-code_CUT_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_AL.EXTR._L-PROFILE_50x68mm._non-code_FRONT_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_AL.EXTR._L-PROFILE_50x68mm._non-code_TOP_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_AL.SOLID_SHEET_HAT-PROFILE-TYPE-C_CUT_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_AL.SOLID_SHEET_HAT-PROFILE-TYPE-R_CUT_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV._SPICE-FOR_CC-01_CUT_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV._SPICE-FOR_CC-01_LEFT-RIGHT_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV._SPICE-FOR_CC-01_TOP_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV._SPICE-FOR_HR-02A_TOP_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV._SPICE-FOR_HR-02B_TOP_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_LEFT_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_COMPLEX-PROFILE_V-HOOK_LEFT_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_BK-08_BACK_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_BK-08_CUT_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_BK-08_FRONT_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_BK-08_ISOMATRIC_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_BK-08_TOP_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-01_BACK_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-01_CUT_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-01_FRONT_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-01_LEFT-RIGHT_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-01_TOP_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-04_CUT_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-04_FRONT_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-04_ISOMATRIC_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-04_TOP_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_BK-07_CUT_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_BK-07_ISOMATRIC_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_BK-07_LEFT-RIGHT_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_BK-07_TOP_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_CUT_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_LEFT-RIGHT_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_TOP_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_CUT_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_ISOMATRIC_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_LEFT_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_RIGHT_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_TOP_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_CUT_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_LEFT_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_RIGHT_VIEW" 
+                   "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_TOP_VIEW" 
+                   "000 - ASSCESSORIES_HEX_BOLT_M5_NUT" 
+                   "000 - ASSCESSORIES_SPRING_WASHER_M5_FRONT-SIDE-BACK_VIEW" 
+                   "000 - ASSCESSORIES_SPRING_WASHER_M5_TOP_VIEW" 
+                   "000 - ASSCESSORIES_WASHER_M5_FRONT-SIDE-BACK_VIEW" 
+                   "000 - ASSCESSORIES_WASHER_M5_TOP_VIEW" "000 - BOX_EF_NAME_REV02" 
+                   "000 - DYNAM5IC_VIEW_ASSCESSORIES_WASHER_M5_COM5BINE_VIEW" 
+                   "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@400mm_COMBINE_SET" 
+                   "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._C-PROFILE_50x100mm._non-code_CUT_VIEW" 
+                   "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._L-PROFILE_50x45mm._non-code_COMBINE_SET" 
+                   "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._L-PROFILE_50x68mm._non-code_COMBINE_SET" 
+                   "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_CUT_VIEW" 
+                   "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV._SPICE-FOR_CC-01_COMBINE_VIEW" 
+                   "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV._SPICE-FOR_HR-02B_COMBINE_VIEW" 
+                   "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_COMBINE_VIEW" 
+                   "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_COMPLEX-PROFILE_V-HOOK_COMBINE_VIEW" 
+                   "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_BK-08_COMBINE_VIEW" 
+                   "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-01_COMBINE_VIEW" 
+                   "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-04_COMBINE_VIEW" 
+                   "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_BK-07_COMBINE_VIEW" 
+                   "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_COMBINE_VIEW" 
+                   "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_COMBINE_VIEW" 
+                   "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_COMBINE_VIEW" 
+                   "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.SOLID_SHEET_HAT-PROFILE-TYPE-C_non_code_COMBINE_SET" 
+                   "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.SOLID_SHEET_HAT-PROFILE-TYPE-R_non_code_COMBINE_SET" 
+                   "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET" 
+                   "000 - DYNAMIC_VIEW_ASSCESSORIES_GALV.STUD_FULL_THREAD_1-4_COMBINE_VIEW" 
+                   "000 - DYNAMIC_VIEW_ASSCESSORIES_GALV.STUD_FULL_THREAD_1-4_TOP_VIEW" 
+                   "000 - DYNAMIC_VIEW_ASSCESSORIES_HEX_BOLT_M5_COMBINE_VIEW" 
+                   "000 - DYNAMIC_VIEW_ASSCESSORIES_RIVET_4-4_COMBINE_VIEW" 
+                   "000 - DYNAMIC_VIEW_ASSCESSORIES_RIVET_4-4_TOP_VIEW" 
+                   "000 - DYNAMIC_VIEW_ASSCESSORIES_SPRING_WASHER_M5_COMBINE_VIEW" 
+                   "000 - PROTOTYPE-DYNAMIC_HEX_BOLT" 
+                    "000 - PROTOTYPE-DYNAMIC_HEX_NUT" 
+                   "000 - PROTOTYPE-DYNAMIC_THREAD_BOLT" 
+                   "000 - PROTOTYPE-DYNAMIC_WAHER_AND_SPRING_WASHER_" 
+                   "001 - DYNAMIC REC&SSQ SHAPE SOLID_centerpoint" 
+                   "HEX_BOLT-M5_set"
+      )
     )
   )
   (length 300HK_blk_list_)
@@ -30684,9 +30246,7 @@
     ;
     (command "erase" new_ss_pre_filter_set_xx_ "")
   )
-  (setq gb_ename_ (car (entsel "specify Object")))
-  (setq blk_obj_ (vlax-ename->vla-object gb_ename_))
-  (TA:get-visible-boundingbox gb_obj_)
+
   
 ;
 
