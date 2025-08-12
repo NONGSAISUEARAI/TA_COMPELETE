@@ -3876,26 +3876,26 @@
         )
       ;
       ;specify_object_for_filter_by_EFname_
-        (setq Filter_target_ename_ (car (entsel "specify Object")))
+        (setq Filter_target_ename_ (car (entsel "specify TA:EF_Filter_ss_set_ Object")))
         (setq Filter_target_obj_ (vlax-ename->vla-object Filter_target_ename_))
         (setq Filter_target_obj_EFname_ (LM:effectivename Filter_target_obj_))
         (setq ss_post_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ Filter_target_obj_EFname_))
       ;
       ;insert_target_object_process_
-        (setq insert_target_ename_ (car (entsel "specify Object")))
+        (setq insert_target_ename_ (car (entsel "specify insert_target_ename_  Object")))
         (setq insert_target_obj_ (vlax-ename->vla-object insert_target_ename_))
         (setq insert_target_obj_EFname_ (LM:effectivename insert_target_obj_))
       ;
       ;preloop_and_while
         (setq ss_post_filter_set_xx_i 0)
         (setq ss_newset_ (ssadd))
-        (sslength ss_newset)
+        ; (sslength ss_newset)
         (while (< ss_post_filter_set_xx_i (sslength ss_post_filter_set_xx_))
           (setq ss_post_filter_set_xx_ename_ (ssname ss_post_filter_set_xx_ ss_post_filter_set_xx_i))
             (setq ss_post_filter_set_xx_hon_obj_ (vlax-ename->vla-object ss_post_filter_set_xx_ename_))
               (setq ss_post_filter_set_xx_hon_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_post_filter_set_xx_hon_obj_))))
               (setvar "osmode" 0)
-              (command "insert" insert_target_obj_EFname_ ss_post_filter_set_xx_hon_obj_ins_ 1 0)
+              (TA:vla-insertblock insert_target_obj_EFname_ ss_post_filter_set_xx_hon_obj_ins_ 1 0 )
               (vla-delete ss_post_filter_set_xx_hon_obj_ )
               (setq new_obj_ (entlast ))
               (setq ss_newset_ (ssadd new_obj_ ss_newset_))
@@ -19409,6 +19409,151 @@
       (setvar "osmode" 1215)
     ;
   )
+  (defun c:PPLINE_300HK_HREQ ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_COMBINE_VIEW"))
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq sss_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (if (> 
+              (setq L (LM:getdynpropvalue sss_obj_ "fragment_left"))
+              (setq R (LM:getdynpropvalue sss_obj_ "fragment_right"))
+            )
+          (progn
+            (LM:setdynpropvalue sss_obj_ "fragment_left" (- L 200) )
+            (LM:setdynpropvalue sss_obj_ "fragment_right" (+ R 200))
+          )
+        )
+        (if (<
+              (setq L (LM:getdynpropvalue sss_obj_ "fragment_left"))
+              (setq R (LM:getdynpropvalue sss_obj_ "fragment_right"))
+            )
+          (progn
+            (LM:setdynpropvalue sss_obj_ "fragment_left" (+ L 200) )
+            (LM:setdynpropvalue sss_obj_ "fragment_right" (- R 200))
+          )
+        )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+  )
+  (defun c:PPLINE_300HK_HRL ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_COMBINE_VIEW"))
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq sss_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (setq L (LM:getdynpropvalue sss_obj_ "fragment_left"))
+        (setq R (LM:getdynpropvalue sss_obj_ "fragment_right"))
+        (LM:setdynpropvalue sss_obj_ "fragment_left" (- L 200) )
+        (LM:setdynpropvalue sss_obj_ "fragment_right" (+ R 200))
+ 
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+  )
+  (defun c:PPLINE_300HK_HRR ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_COMBINE_VIEW"))
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq sss_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (setq L (LM:getdynpropvalue sss_obj_ "fragment_left"))
+        (setq R (LM:getdynpropvalue sss_obj_ "fragment_right"))
+        (LM:setdynpropvalue sss_obj_ "fragment_left" (+ L 200) )
+        (LM:setdynpropvalue sss_obj_ "fragment_right" (- R 200))
+ 
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+  )
   ;
   ;000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET
   (defun c:PPLINE_300HK_insHanging_ ()
@@ -19723,8 +19868,8 @@
             (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
             (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
             (if (or 
-                  (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._C-PROFILE_50x100mm._non-code_CUT_VIEW")
-                  (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_CUT_VIEW")
+                  (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._C-PROFILE_50x100mm._non-code_COMBINE_VIEW")
+                  (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_COMBINE_VIEW")
                 )
               (progn
                 (if (or 
@@ -19742,13 +19887,13 @@
         ;
       )
     ;
-    ;000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._C-PROFILE_50x100mm._non-code_CUT_VIEW
+    ;000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._C-PROFILE_50x100mm._non-code_COMBINE_VIEW
     (defun c:PPLINE_CKST_EXTR-CVaries ()
       (setq ucsedit nil)
       (if (= (getvar "worlducs") 0)(progn (command "ucs" "WORLD") (setq ucsedit 0))  )
       (TA:vla-insertblock 
         ; "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_PLAN_AL.SOLID_SHEET_HAT-PROFILE_VA_COMBINE_SET" ;original
-        "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._C-PROFILE_50x100mm._non-code_CUT_VIEW"
+        "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._C-PROFILE_50x100mm._non-code_COMBINE_VIEW"
         (setq newpt_ (getpoint "input point"))
         1
         (setq new_ang (angle newpt_ (setq newpt2_ (getpoint newpt_ "input angle")) ) )  
@@ -19800,13 +19945,13 @@
       (if (= ucsedit 0)(progn (command "ucs" "p") )  )
     )
     ;
-    ;000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_CUT_VIEW
+    ;000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_COMBINE_VIEW
     (defun c:PPLINE_CKST_EXTR-RECVaries ()
       (setq ucsedit nil)
       (if (= (getvar "worlducs") 0)(progn (command "ucs" "WORLD") (setq ucsedit 0))  )
       (TA:vla-insertblock 
         ; "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_PLAN_AL.SOLID_SHEET_HAT-PROFILE_VA_COMBINE_SET" ;original
-        "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_CUT_VIEW"
+        "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_COMBINE_VIEW"
         (setq newpt_ (getpoint "input point"))
         1
         (setq new_ang (angle newpt_ (setq newpt2_ (getpoint newpt_ "input angle")) ) )  
@@ -19924,8 +20069,8 @@
         (if (and 
               (/= (vl-catch-all-error-p Er-msg_) T)
               (or
-                (= (LM:effectivename (vlax-ename->vla-object ss_extr_ename_)) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._C-PROFILE_50x100mm._non-code_CUT_VIEW")
-                (= (LM:effectivename (vlax-ename->vla-object ss_extr_ename_)) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_CUT_VIEW")
+                (= (LM:effectivename (vlax-ename->vla-object ss_extr_ename_)) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._C-PROFILE_50x100mm._non-code_COMBINE_VIEW")
+                (= (LM:effectivename (vlax-ename->vla-object ss_extr_ename_)) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_COMBINE_VIEW")
               )
             )
           (progn
@@ -20035,8 +20180,8 @@
         (if (and 
               (/= (vl-catch-all-error-p Er-msg_) T)
               (or
-                (= (LM:effectivename (vlax-ename->vla-object ss_extr_ename_)) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._C-PROFILE_50x100mm._non-code_CUT_VIEW")
-                (= (LM:effectivename (vlax-ename->vla-object ss_extr_ename_)) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_CUT_VIEW")
+                (= (LM:effectivename (vlax-ename->vla-object ss_extr_ename_)) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._C-PROFILE_50x100mm._non-code_COMBINE_VIEW")
+                (= (LM:effectivename (vlax-ename->vla-object ss_extr_ename_)) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_COMBINE_VIEW") 
               )
             )
           (progn
@@ -28894,10 +29039,8 @@
         (;EFname_case_3
            (or
               (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "001 - DYNAMIC REC&SSQ SHAPE SOLID_centerpoint" )
-              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._C-PROFILE_50x100mm._non-code_CUT_VIEW" )
-              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_CUT_VIEW" )
-             
-             
+              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._C-PROFILE_50x100mm._non-code_COMBINE_VIEW" )
+              (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_COMBINE_VIEW" )
            )
            (progn
              (vla-put-layer ss_pre_filter_set_xx_obj_ "A04_TUBE SERIES" )
@@ -30370,10 +30513,10 @@
       '("000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV._SPICE-FOR_HR-02B_COMBINE_VIEW" 1)
       '("000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV._SPICE-FOR_CC-01_COMBINE_VIEW" 1)
       '("000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_BRACKET-L-PROFILE_50x68mm.+HEX_BOLT-M5-SET_non-code_COMBINE_SET" 0)
-      '("000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_CUT_VIEW" 1)
+      '("000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_COMBINE_VIEW" 1)
       '("000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._L-PROFILE_50x68mm._non-code_COMBINE_SET" 0)
       '("000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._L-PROFILE_50x45mm._non-code_COMBINE_SET" 0)
-      '("000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._C-PROFILE_50x100mm._non-code_CUT_VIEW" 1)
+      '("000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._C-PROFILE_50x100mm._non-code_COMBINE_VIEW" 1)
       '("000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_TRAKC_LIGHT_REC.1257x120mm_COMBINE_SET" 1)
       '("000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_PLAN_SUPPLY_AIR_REC.1600x175mm_COMBINE_SET" 1)
       '("000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@400mm_COMBINE_SET" 0)
@@ -30759,6 +30902,9 @@
 
 
 ;PP LINE Replace EXTR
+  ; (defun c:R1A ()
+    
+  ; )
   (defun c:repsolid_temp ()
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget
@@ -30789,6 +30935,29 @@
       )
       (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_PLAN_AL.SOLID_SHEET_HAT-PROFILE_COMBINE_SET"))
     ;
+    ;Extr process type
+      (setq Extr_EFNAME_ ;Get-string by keep previous value
+          (if
+            (or
+              (/= (setq Extr_EFNAME_val (getstring (strcat "\nSpecify EXTR. type <" (if Extr_EFNAME_ Extr_EFNAME_ "") ">: ") ) ) "" )
+            )
+              (progn
+                (setq Extr_EFNAME_ Extr_EFNAME_val)
+                (setq Extr_EFNAME_keep_val_ Extr_EFNAME_val)
+              )
+            (setq Extr_EFNAME_val Extr_EFNAME_keep_val_)
+          )
+      )
+      (if 
+        (and 
+          (/= (strcase Extr_EFNAME_) "R")
+          (/= (strcase Extr_EFNAME_) "C")
+        )
+        (progn
+          (alert "EXTR process error")
+        )
+      )
+    ;
     ;preloop_and_while
       (setq ss_pre_filter_set_xx_i 0)
       (setq ture nil)
@@ -30800,8 +30969,34 @@
         (setq L (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "L"  ))
         
         (TA:vla-insertblock 
-          "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.SOLID_SHEET_HAT-PROFILE-TYPE-R_non_code_COMBINE_SET"
-          ; "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.SOLID_SHEET_HAT-PROFILE-TYPE-C_non_code_COMBINE_SET"
+            (cond
+              (;_case_1
+                 (and
+                    (= (strcase Extr_EFNAME_) "C")
+                 )
+                 (progn
+                   "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.SOLID_SHEET_HAT-PROFILE-TYPE-C_non_code_COMBINE_SET"
+                 )
+              )
+              (;_case_2
+                 (and
+                    (= (strcase Extr_EFNAME_) "R")
+                 )
+                 (progn
+                   "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.SOLID_SHEET_HAT-PROFILE-TYPE-R_non_code_COMBINE_SET"
+                 )
+              )
+              (;_case_3
+                 (and
+                    (/= (strcase Extr_EFNAME_) "R")
+                    (/= (strcase Extr_EFNAME_) "C")
+                 )
+                 (progn
+                   (alert "EXTR process error")
+                   (princ "_case_3")
+                 )
+              )
+            )
           ss_pre_filter_set_xx_obj_ins_
           1
           ss_pre_filter_set_xx_rotation
@@ -30917,10 +31112,39 @@
       )
       (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "001 - DYNAMIC REC&SSQ SHAPE SOLID_centerpoint"))
     ;
+    ;Extr process type
+      (setq Extr_EFNAME_ ;Get-string by keep previous value
+          (if
+            (or
+              (/= (setq Extr_EFNAME_val (getstring (strcat "\nSpecify EXTR. type <" (if Extr_EFNAME_ Extr_EFNAME_ "") ">: ") ) ) "" )
+            )
+              (progn
+                (setq Extr_EFNAME_ Extr_EFNAME_val)
+                (setq Extr_EFNAME_keep_val_ Extr_EFNAME_val)
+              )
+            (setq Extr_EFNAME_val Extr_EFNAME_keep_val_)
+          )
+      )
+      (if 
+        (and 
+          (/= (strcase Extr_EFNAME_) "R")
+          (/= (strcase Extr_EFNAME_) "C")
+        )
+        (progn
+          (alert "EXTR process error")
+        )
+      )
+    ;
     ;preloop_and_while
       (setq ss_pre_filter_set_xx_i 0)
       (setq ture nil)
-      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (while (and 
+               (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+               (or 
+                 (= (strcase Extr_EFNAME_) "C")
+                 (= (strcase Extr_EFNAME_) "R")
+               )
+             )
         (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
         (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
         (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
@@ -30928,9 +31152,35 @@
         (setq L (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "H"  ))
         
         (foreach x '(112.5 -112.5)
-          (TA:vla-insertblock 
-            "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_CUT_VIEW"
-            ; "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.SOLID_SHEET_HAT-PROFILE-TYPE-C_non_code_COMBINE_SET"
+          (TA:vla-insertblock
+            (cond
+              (;_case_1
+                 (and
+                    (= (strcase Extr_EFNAME_) "C")
+                 )
+                 (progn
+                   "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._C-PROFILE_50x100mm._non-code_COMBINE_VIEW"
+                 )
+              )
+              (;_case_2
+                 (and
+                    (= (strcase Extr_EFNAME_) "R")
+                 )
+                 (progn
+                   "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_COMBINE_VIEW"
+                 )
+              )
+              (;_case_3
+                 (and
+                    (/= (strcase Extr_EFNAME_) "R")
+                    (/= (strcase Extr_EFNAME_) "C")
+                 )
+                 (progn
+                   (alert "EXTR process error")
+                   (princ "_case_3")
+                 )
+              )
+            )      
             ss_pre_filter_set_xx_obj_ins_
             1
             ss_pre_filter_set_xx_rotation

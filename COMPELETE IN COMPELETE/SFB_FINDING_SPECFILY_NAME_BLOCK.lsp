@@ -2516,7 +2516,7 @@
 
 
 
-(defun c:SFB_FINDING_SPECFILY_NAME_BLOCK ()
+(defun c:SFB2_FINDING_SPECFILY_NAME_BLOCK ()
   ;get old stack data 
     (if (/= (ssget "i" ) nil)
       (progn
@@ -2646,7 +2646,7 @@
   ;combine new-old selection_set process
     (cond
       ((and ;selection match EFname ;in case old stack doesn't has selection_set
-            (= old_stack_data nil)
+            (= old_stack_data_ nil)
             (= (vl-catch-all-error-p Er-msg_direction_ename_) nil)
             (/= ss_pre_filter_set_xx_newset_ nil)
           )
@@ -2655,7 +2655,7 @@
         )
       )
       ((and ;in case old has old selection_set
-            (/= old_stack_data nil)
+            (/= old_stack_data_ nil)
             (= (vl-catch-all-error-p Er-msg_direction_ename_) nil)
             (/= ss_pre_filter_set_xx_newset_ nil)
           )
