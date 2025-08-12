@@ -1267,6 +1267,7 @@
       ; (setq blk_ename_ (car (entsel "specify Object")))
       ; (setq blk_obj_ (vlax-ename->vla-object blk_ename_))
       ; (setq rotation_val (vla-get-rotation blk_obj_))
+      ; (setq axis_set_ "y")
       ; (setq axis_val_ 20)
       (if (= (vla-get-objectname blk_obj_) "AcDbBlockReference")
         (progn
@@ -1277,6 +1278,7 @@
               (and 
                 (= (strcase axis_set_) "X")
                 (= (numberp axis_val_) T)
+                (= (numberp blk_obj_rotation_val) T)
               )
               (progn
                 (setq new_ins_ (polar blk_obj_ins_ (deg-to-rad (TA:ModifyRotation (rad-to-deg blk_obj_rotation_val) 90)) axis_val_))
@@ -1295,7 +1297,7 @@
               (and
                   (= (strcase axis_set_ ) "Y")
                   (= (numberp axis_val_) T)
-                  (= (numberp rotation_val) T)
+                  (= (numberp blk_obj_rotation_val) T)
               )
               (progn
                 (setq new_ins_ (polar blk_obj_ins_ (deg-to-rad (TA:ModifyRotation (rad-to-deg blk_obj_rotation_val) 180)) axis_val_))
@@ -9496,6 +9498,210 @@
           ;
           (setq sorted_list_i (+ sorted_list_i 1))
         )
+      ;
+    )
+  ;
+  ;check-detecty FUNC
+    (defun c:Check_object_COBJ_ ()
+      ;Note By Code_Developer
+      ;This command is designed to work exclusively with a Block Object 
+      ;The principle of the code is to find objects in a selection set that overlap
+      ;If overlapping objects are found, the algorithm calculates the distance between their coordinates and selects the overlapping object based on the user-defined distance
+      ;Fully command must have sub-functions with names starting with TA: or LM:
+      ;
+      ;
+      
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget 
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      ;user_input_
+        (setq tolerance_dist_ (cond ( (getreal (strcat "\nspecify tolerance_dist_ <" (rtos (setq tolerance_dist_ (cond (tolerance_dist_) (0.001) ) ) ) "> : " ) ) ) (tolerance_dist_) ) )
+        ;while_select_block_on_condition_
+          (setq EFNAME_ nil)
+          (while (= EFNAME_ nil)
+            (setq EFNAME_ (car (entsel "specify EFNAME Object")))
+            (if
+              (and ;conditional_rule_for_select_object
+                (/= EFNAME_ nil)
+                (setq EFNAME_obj_ (vlax-ename->vla-object EFNAME_))
+                (= (vla-get-objectname EFNAME_obj_ ) "AcDbBlockReference")
+                ; (= (vla-get-isdynamicblock EFNAME_obj_ ) :vlax-true)
+                ; (/= (LM:getdynpropallowedvalues EFNAME_obj_ "view") nil)
+              )
+              (progn
+                (setq EFNAME_MAIN_ (LM:Effectivename EFNAME_obj_) )'
+                (setq EFNAME_ "notnil")
+              )
+              (alert "Object invalid Please try again")
+            )
+          )
+        ;
+      ;
+      ;preloop_and_while ;get_data_process_for_fillter_blk_name
+        (setq ss_pre_filter_set_xx_i 0)
+        (setq ss_pre_filter_set_xx_ii 1)
+        (setq sum_list_ ())
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+          (if (= EFNAME_MAIN_ (LM:Effectivename ss_pre_filter_set_xx_obj_ ))
+            (progn
+              (setq sum_list (TA:ename+vla-get-insertionpoint ss_pre_filter_set_xx_obj_))
+              (setq sum_list_ (cons sum_list sum_list_))
+            )
+          )
+          ;screen process
+            (setq percent (fix (* (/ (float ss_pre_filter_set_xx_i) (sslength ss_pre_filter_set_xx_)) 100)))  
+            (princ (strcat "tranfering for_fillter_blk_name " (rtos ss_pre_filter_set_xx_i 2 0) "/" (rtos (sslength ss_pre_filter_set_xx_) 2 0)  " (" (rtos percent 2 0) "%" ")" "\n"))
+            (textscr)
+          ;
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+      ;preloop_and_while for_filter overlapped object
+        (setq ss_pre_filter_set_xx_i 0)
+        (setq newssset_ (ssadd))
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+          (setq ss_pre_filter_set_xx_obj_ins_ (TA:ename+vla-get-insertionpoint ss_pre_filter_set_xx_obj_))
+          ; (command "pselect" ss_pre_filter_set_xx_ename_  "") 
+          ;preloop_and_while
+            (setq sum_list_i 0)
+            
+            (while (< sum_list_i (length sum_list_))
+              (setq sum_list_ename_ (nth  sum_list_i sum_list_))
+              
+              (if
+                (and
+                  (/= 
+                    (vl-princ-to-string (car sum_list_ename_))
+                    (vl-princ-to-string (car ss_pre_filter_set_xx_obj_ins_))
+                  )
+                  (< (distance (cadr ss_pre_filter_set_xx_obj_ins_) (cadr sum_list_ename_) ) tolerance_dist_ )
+                )
+                (progn
+                  (setq newssset_ (ssadd (car sum_list_ename_) newssset_ ))
+                  (setq newssset_ (ssadd (car ss_pre_filter_set_xx_obj_ins_) newssset_ ))
+                  
+                  (sslength newssset_)
+                )
+                
+              )
+
+              (setq sum_list_i (+ sum_list_i 1))
+              (sslength newssset_)
+            )
+          ;
+          ;screen process
+            (setq percent (fix (* (/ (float ss_pre_filter_set_xx_i) (sslength ss_pre_filter_set_xx_)) 100)))  
+            (princ (strcat "tranfering overlapped object " (rtos ss_pre_filter_set_xx_i 2 0) "/" (rtos (sslength ss_pre_filter_set_xx_) 2 0)  " (" (rtos percent 2 0) "%" ")" "\n"))
+            (textscr)
+          ;
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+      ;selection_process_ selection set for all overlapp object
+        ; (command "pselect"  newssset_ "") 
+      ;
+      ;seleciton set for single overlap object
+        ;preloop_and_while for duplicate ssget
+          (setq newssset_set2_ ())
+          (setq newssset_set2_ (ssadd))
+          (setq newssset_i 0)
+          (while (< newssset_i (sslength newssset_))
+            (setq newssset_ename_ (ssname newssset_ newssset_i))
+            (setq newssset_set2_ (ssadd newssset_ename_ newssset_set2_))
+            (setq newssset_i (+ newssset_i 1))
+          )
+        ;
+        ;preloop_and_while main_idea for seleciton set for single overlap object
+          (setq newssset_i 0)
+          (setq check_set_ ())
+          (setq check_final_ (ssadd))
+          (while (< newssset_i (sslength newssset_))
+            (setq newssset_ename_ (ssname newssset_ newssset_i))
+            (setq newssset_obj_ins_ (TA:ename+vla-get-insertionpoint (vlax-ename->vla-object newssset_ename_)))
+            ; (command "pselect"  newssset_ename_ "") 
+            ;preloop_and_while
+              (setq newssset_set2_i 0)
+              (while (< newssset_set2_i (sslength newssset_set2_))
+                (setq newssset_ename_set2_ (ssname newssset_set2_ newssset_set2_i))   
+                (setq newssset_ename_set2_obj_ins_ (TA:ename+vla-get-insertionpoint (vlax-ename->vla-object newssset_ename_set2_)))
+                ; (command "pselect"  newssset_ename_set2_ "") 
+                  (if 
+                    (and
+                      (/= ;sameblock_checker
+                        (vl-princ-to-string newssset_ename_) 
+                        (vl-princ-to-string newssset_ename_set2_) 
+                      )
+                      (< ;distance checker
+                        (distance 
+                          (cadr newssset_obj_ins_)
+                          (cadr newssset_ename_set2_obj_ins_)
+                        )
+                        tolerance_dist_
+                      )
+                      (if
+                        (and
+                          (/=  ;sameblock_checker
+                            (vl-princ-to-string newssset_ename_)
+                            (vl-princ-to-string newssset_ename_set2_)
+                            
+                          )
+                          (= (TA:member (vl-princ-to-string newssset_ename_) check_set_ ) nil)
+                        )
+                        (progn
+                          (setq check_set_ (cons (vl-princ-to-string newssset_ename_) check_set_ ))
+                          ; (setq newssset_set2_  (ssdel newssset_ename_set2_ newssset_set2_))
+                        )
+                        (setq ss "1")
+                      )
+                    )
+                    (progn
+                      
+                      (setq check_final_ (ssadd newssset_ename_ check_final_))
+                      (setq newssset_ (ssdel newssset_ename_ newssset_))
+                      (setq newssset_set2_ (ssdel newssset_ename_set2_ newssset_set2_))
+                      
+                      ; (command "pselect"  check_final_ "") 
+                    )
+                  )   
+                (setq newssset_set2_i (+ newssset_set2_i 1))
+              )
+            ;
+            
+
+            
+            (setq newssset_i (+ newssset_i 1))
+          )
+          (command "pselect"  check_final_ "")
+        ;
       ;
     )
   ;
@@ -18853,42 +19059,8 @@
               (and
                 (/= (rtos (LM:getdynpropvalue 300HK_obj_ "array_panel_length"  ) 2 2 ) (rtos 2800 2 2))     
                 (> array_panel_length 2401)
-                (/= (is-even-number (/ (/ (LM:getdynpropvalue 300hk_obj_ "array_panel_length" ) 400 ) 2.0 )) T)
-              )
-              (progn
-                (LM:setdynpropvalue new_obj_ "view" "2_top_view")
-                (LM:setdynpropvalue 
-                  new_obj_ 
-                  "fragment_left"   
-                  (if (= (- array_panel_length array_length) 0) ;condition for input fragment left/right value
-                    (progn
-                      0
-                    )
-                    (if (< (- (/ (- array_panel_length array_length ) 2) 50) 0)
-                      (progn
-                        0
-                      )
-                      (+  (+ 36 (- (/ (- array_panel_length array_length ) 2) 50)) 200)
-                    )
-                  )
-                )
-                (LM:setdynpropvalue 
-                  new_obj_ 
-                  "fragment_right"   
-                  (if (= (- array_panel_length array_length) 0) ;condition for input fragment left/right value
-                    (progn
-                      0
-                    )
-                    (- (- (/ (- array_panel_length array_length ) 2) 14) 200)
-                  )
-                )
-              )
-            )
-            ( ;visibility condition no move 200
-              (and
-                (/= (rtos (LM:getdynpropvalue 300HK_obj_ "array_panel_length"  ) 2 2 ) (rtos 2800 2 2))     
-                (> array_panel_length 2401)
                 (is-even-number (/ (/ (LM:getdynpropvalue 300hk_obj_ "array_panel_length" ) 400 ) 2.0 ))
+                
               )
               (progn
                 (LM:setdynpropvalue new_obj_ "view" "2_top_view")
@@ -18915,6 +19087,43 @@
                       0
                     )
                     (- (/ (- array_panel_length array_length ) 2) 14)
+                  )
+                )
+              )
+              
+            )
+            ( ;visibility condition no move 200
+              (and
+                (/= (rtos (LM:getdynpropvalue 300HK_obj_ "array_panel_length"  ) 2 2 ) (rtos 2800 2 2))     
+                (> array_panel_length 2401)
+                (/= (is-even-number (/ (/ (LM:getdynpropvalue 300hk_obj_ "array_panel_length" ) 400 ) 2.0 )) T)
+              )
+              
+              (progn
+                (LM:setdynpropvalue new_obj_ "view" "2_top_view")
+                (LM:setdynpropvalue 
+                  new_obj_ 
+                  "fragment_left"   
+                  (if (= (- array_panel_length array_length) 0) ;condition for input fragment left/right value
+                    (progn
+                      0
+                    )
+                    (if (< (- (/ (- array_panel_length array_length ) 2) 50) 0)
+                      (progn
+                        0
+                      )
+                      (+  (+ 36 (- (/ (- array_panel_length array_length ) 2) 50)) 200)
+                    )
+                  )
+                )
+                (LM:setdynpropvalue 
+                  new_obj_ 
+                  "fragment_right"   
+                  (if (= (- array_panel_length array_length) 0) ;condition for input fragment left/right value
+                    (progn
+                      0
+                    )
+                    (- (- (/ (- array_panel_length array_length ) 2) 14) 200)
                   )
                 )
               )
@@ -19542,7 +19751,7 @@
         "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._C-PROFILE_50x100mm._non-code_CUT_VIEW"
         (setq newpt_ (getpoint "input point"))
         1
-        (setq new_ang (getangle newpt_ "input angle"))  
+        (setq new_ang (angle newpt_ (setq newpt2_ (getpoint newpt_ "input angle")) ) )  
       )
       (setq ss_ename_ (entlast))
       (setq ss_obj_ (vlax-ename->vla-object ss_ename_))
@@ -19554,16 +19763,39 @@
       (LM:setdynpropvalue ss_obj_ "view" "2_top_view")
       
       (setq Lpt1_ (polar ss_obj_ins_ (deg-to-rad ss_obj_ins_ro) 25) )
-      (setq Lpt1_1 (polar Lpt1_ (deg-to-rad (TA:ModifyRotation ss_obj_ins_ro 90)) (LM:setdynpropvalue ss_obj_ "Hsub" (getdist Lpt1_ "specify length 1"  ) )) )
-      (setq Lpt4_ (polar ss_obj_ins_ (deg-to-rad (TA:ModifyRotation ss_obj_ins_ro 180)) 25) )
-      (setq Lpt4_1 (polar Lpt4_ (deg-to-rad (TA:ModifyRotation ss_obj_ins_ro 90)) (LM:setdynpropvalue ss_obj_ "H" (getdist Lpt4_ "specify length 1"  ) )) )
       
-      (setq Lpt2_ (polar ss_obj_ins_ (deg-to-rad ss_obj_ins_ro) 3.1) )
-      (setq Lpt2_1 (polar Lpt2_ (deg-to-rad (TA:ModifyRotation ss_obj_ins_ro -90)) -200000) )
-      (LM:setdynpropvalue ss_obj_ "Rail_2" (distance Lpt2_ (inters Lpt1_1 Lpt4_1   Lpt2_ Lpt2_1 )) )
-      (setq Lpt3_ (polar ss_obj_ins_ (deg-to-rad (TA:ModifyRotation ss_obj_ins_ro 180)) 3.1) )
-      (setq Lpt3_1 (polar Lpt3_ (deg-to-rad (TA:ModifyRotation ss_obj_ins_ro -90)) -200000) )
-      (LM:setdynpropvalue ss_obj_ "Rail_1" (distance Lpt3_ (inters Lpt1_1 Lpt4_1   Lpt3_ Lpt3_1 )) )
+      (setq ERR nil)
+      (setq ERR
+        (vl-catch-all-apply
+          (function
+            (lambda ()
+              (setq Lpt1_1 (polar Lpt1_ (deg-to-rad (TA:ModifyRotation ss_obj_ins_ro 90)) (LM:setdynpropvalue ss_obj_ "Hsub" (getdist Lpt1_ "specify length 1"  ) )) )
+            )
+          )
+        )
+      )
+      
+      (if (= (vl-catch-all-error-p ERR ) nil)
+        (progn
+          (setq Lpt4_ (polar ss_obj_ins_ (deg-to-rad (TA:ModifyRotation ss_obj_ins_ro 180)) 25) )
+          (setq Lpt4_1 (polar Lpt4_ (deg-to-rad (TA:ModifyRotation ss_obj_ins_ro 90)) (LM:setdynpropvalue ss_obj_ "H" (getdist Lpt4_ "specify length 1"  ) )) )
+
+          (setq Lpt2_ (polar ss_obj_ins_ (deg-to-rad ss_obj_ins_ro) 3.1) )
+          (setq Lpt2_1 (polar Lpt2_ (deg-to-rad (TA:ModifyRotation ss_obj_ins_ro 90)) 200000) )
+          (LM:setdynpropvalue ss_obj_ "Rail_2" (distance Lpt2_ (inters Lpt1_1 Lpt4_1   Lpt2_ Lpt2_1 )) )
+          (setq Lpt3_ (polar ss_obj_ins_ (deg-to-rad (TA:ModifyRotation ss_obj_ins_ro 180)) 3.1) )
+          (setq Lpt3_1 (polar Lpt3_ (deg-to-rad (TA:ModifyRotation ss_obj_ins_ro 90)) 200000) )
+          (LM:setdynpropvalue ss_obj_ "Rail_1" (distance Lpt3_ (inters Lpt1_1 Lpt4_1   Lpt3_ Lpt3_1 )) )
+        )
+      )
+      (if (= (vl-catch-all-error-p ERR ) T)
+        (progn
+          (LM:setdynpropvalue ss_obj_ "Hsub" (distance newpt_ newpt2_) )
+          (LM:setdynpropvalue ss_obj_ "H" (distance newpt_ newpt2_) )
+          (LM:setdynpropvalue ss_obj_ "Rail_2" (distance newpt_ newpt2_) )
+          (LM:setdynpropvalue ss_obj_ "Rail_1" (distance newpt_ newpt2_) )
+        )
+      )
       (LM:setdynpropvalue ss_obj_ "view" "6_bottom_view" )
       (if (= ucsedit 0)(progn (command "ucs" "p") )  )
     )
@@ -19577,7 +19809,7 @@
         "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_CUT_VIEW"
         (setq newpt_ (getpoint "input point"))
         1
-        (setq new_ang (getangle newpt_ "input angle"))  
+        (setq new_ang (angle newpt_ (setq newpt2_ (getpoint newpt_ "input angle")) ) )  
       )
       (setq ss_ename_ (entlast))
       (setq ss_obj_ (vlax-ename->vla-object ss_ename_))
@@ -19589,16 +19821,39 @@
       (LM:setdynpropvalue ss_obj_ "view" "2_top_view")
       
       (setq Lpt1_ (polar ss_obj_ins_ (deg-to-rad ss_obj_ins_ro) 25) )
-      (setq Lpt1_1 (polar Lpt1_ (deg-to-rad (TA:ModifyRotation ss_obj_ins_ro 90)) (LM:setdynpropvalue ss_obj_ "Hsub" (getdist Lpt1_ "specify length 1"  ) )) )
-      (setq Lpt4_ (polar ss_obj_ins_ (deg-to-rad (TA:ModifyRotation ss_obj_ins_ro 180)) 25) )
-      (setq Lpt4_1 (polar Lpt4_ (deg-to-rad (TA:ModifyRotation ss_obj_ins_ro 90)) (LM:setdynpropvalue ss_obj_ "H" (getdist Lpt4_ "specify length 1"  ) )) )
+      
+      (setq ERR nil)
+      (setq ERR
+        (vl-catch-all-apply
+          (function
+            (lambda ()
+              (setq Lpt1_1 (polar Lpt1_ (deg-to-rad (TA:ModifyRotation ss_obj_ins_ro 90)) (LM:setdynpropvalue ss_obj_ "Hsub" (getdist Lpt1_ "specify length 1"  ) )) )
+            )
+          )
+        )
+      )
+      
+      (if (= (vl-catch-all-error-p ERR ) nil)
+        (progn
+          (setq Lpt4_ (polar ss_obj_ins_ (deg-to-rad (TA:ModifyRotation ss_obj_ins_ro 180)) 25) )
+          (setq Lpt4_1 (polar Lpt4_ (deg-to-rad (TA:ModifyRotation ss_obj_ins_ro 90)) (LM:setdynpropvalue ss_obj_ "H" (getdist Lpt4_ "specify length 1"  ) )) )
 
-      (setq Lpt2_ (polar ss_obj_ins_ (deg-to-rad ss_obj_ins_ro) 3.1) )
-      (setq Lpt2_1 (polar Lpt2_ (deg-to-rad (TA:ModifyRotation ss_obj_ins_ro 90)) 200000) )
-      (LM:setdynpropvalue ss_obj_ "Rail_2" (distance Lpt2_ (inters Lpt1_1 Lpt4_1   Lpt2_ Lpt2_1 )) )
-      (setq Lpt3_ (polar ss_obj_ins_ (deg-to-rad (TA:ModifyRotation ss_obj_ins_ro 180)) 3.1) )
-      (setq Lpt3_1 (polar Lpt3_ (deg-to-rad (TA:ModifyRotation ss_obj_ins_ro 90)) 200000) )
-      (LM:setdynpropvalue ss_obj_ "Rail_1" (distance Lpt3_ (inters Lpt1_1 Lpt4_1   Lpt3_ Lpt3_1 )) )
+          (setq Lpt2_ (polar ss_obj_ins_ (deg-to-rad ss_obj_ins_ro) 3.1) )
+          (setq Lpt2_1 (polar Lpt2_ (deg-to-rad (TA:ModifyRotation ss_obj_ins_ro 90)) 200000) )
+          (LM:setdynpropvalue ss_obj_ "Rail_2" (distance Lpt2_ (inters Lpt1_1 Lpt4_1   Lpt2_ Lpt2_1 )) )
+          (setq Lpt3_ (polar ss_obj_ins_ (deg-to-rad (TA:ModifyRotation ss_obj_ins_ro 180)) 3.1) )
+          (setq Lpt3_1 (polar Lpt3_ (deg-to-rad (TA:ModifyRotation ss_obj_ins_ro 90)) 200000) )
+          (LM:setdynpropvalue ss_obj_ "Rail_1" (distance Lpt3_ (inters Lpt1_1 Lpt4_1   Lpt3_ Lpt3_1 )) )
+        )
+      )
+      (if (= (vl-catch-all-error-p ERR ) T)
+        (progn
+          (LM:setdynpropvalue ss_obj_ "Hsub" (distance newpt_ newpt2_) )
+          (LM:setdynpropvalue ss_obj_ "H" (distance newpt_ newpt2_) )
+          (LM:setdynpropvalue ss_obj_ "Rail_2" (distance newpt_ newpt2_) )
+          (LM:setdynpropvalue ss_obj_ "Rail_1" (distance newpt_ newpt2_) )
+        )
+      )
       (LM:setdynpropvalue ss_obj_ "view" "6_bottom_view" )
       (if (= ucsedit 0)(progn (command "ucs" "p") )  )
     )
@@ -28641,6 +28896,8 @@
               (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "001 - DYNAMIC REC&SSQ SHAPE SOLID_centerpoint" )
               (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._C-PROFILE_50x100mm._non-code_CUT_VIEW" )
               (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_CUT_VIEW" )
+             
+             
            )
            (progn
              (vla-put-layer ss_pre_filter_set_xx_obj_ "A04_TUBE SERIES" )
@@ -30186,7 +30443,6 @@
       '("000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_RIGHT_VIEW" 0)
       '("000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_ISOMATRIC_VIEW" 0)
       '("000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_CUT_VIEW" 0)
-      '("000-CSD-MERGE_C-1-PP18-AR-4130-01-B_20250707-023319" 0)
     )
   )
   (length 300HK_blk_list_)
@@ -30569,7 +30825,7 @@
               (setq ture t )
               (setq newblk_ename (entlast))
               (setq newblk_obj (vlax-ename->vla-object newblk_ename))
-              (TA:move_axis_insertionpoint newblk_obj  "x" ( + (/ L 2)))
+              (TA:move_axis_insertionpoint newblk_obj  "x" ( - (/ L 2)))
               (LM:setdynpropvalue newblk_obj "view" "6_bottom_view")
               (LM:setdynpropvalue newblk_obj "L" L)
               (LM:setdynpropvalue newblk_obj "L2" L)
@@ -30591,6 +30847,8 @@
             ;new_blk_entlast object
               (setq newblk_ename (entlast))
               (setq newblk_obj (vlax-ename->vla-object newblk_ename))
+              (setq newblk_obj_put_layer (vla-put-layer newblk_obj "A11_ALU.SOLID SHEET"))
+              (setq newblk_obj_put_layer (vla-put-color newblk_obj 0))
               (TA:move_polar_insertionpoint newblk_obj  "y" (/ L 2))
               (LM:setdynpropvalue newblk_obj "view" "6_bottom_view")
               (LM:setdynpropvalue newblk_obj "L" L)
@@ -30629,6 +30887,96 @@
       )
     ;
   )
+  (defun c:repextr_temp ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "001 - DYNAMIC REC&SSQ SHAPE SOLID_centerpoint"))
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (setq ture nil)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+        (setq ss_pre_filter_set_xx_rotation (vla-get-rotation ss_pre_filter_set_xx_obj_))
+        (setq L (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "H"  ))
+        
+        (foreach x '(112.5 -112.5)
+          (TA:vla-insertblock 
+            "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_CUT_VIEW"
+            ; "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.SOLID_SHEET_HAT-PROFILE-TYPE-C_non_code_COMBINE_SET"
+            ss_pre_filter_set_xx_obj_ins_
+            1
+            ss_pre_filter_set_xx_rotation
+          )
+          ;new_blk_entlast object
+            (setq new_ename (entlast))
+            (setq new_obj_ (vlax-ename->vla-object new_ename))
+            (vla-put-rotation new_obj_ (deg-to-rad (TA:ModifyRotation (rad-to-deg ss_pre_filter_set_xx_rotation) 90)))
+            (TA:move_polar_insertionpoint new_obj_ "Y" x)
+            (TA:move_polar_insertionpoint new_obj_ "X" (- (/ L 2)))
+            (LM:setdynpropvalue new_obj_ "H" L)
+            (LM:setdynpropvalue new_obj_ "Hsub" L)
+            (LM:setdynpropvalue new_obj_ "rail_1" L)
+            (LM:setdynpropvalue new_obj_ "rail_2" L)
+            (LM:setdynpropvalue new_obj_ "view" "6_bottom_view")
+          ;
+        )
+
+        
+        
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+    ;delete line ssset process
+      (initget "Yes No")
+      (setq ss_ ;Detect the variable's result in case of a function error
+        (vl-catch-all-apply 
+          (function 
+            (lambda () 
+              (setq DELETE_OBJ_ (not (eq "No" (getkword "\nKeep Existing object? [Yes/No] <Y>: "))))
+            )
+          )
+        )
+      )
+      (if (and
+            (/= (sslength ss_pre_filter_set_xx_) 0)
+            (= DELETE_OBJ_ t)
+          )
+        (progn
+          (princ "pass")
+        )
+        (command "erase" ss_pre_filter_set_xx_  )
+      )
+    ;
+  )
+  
   (defun c:del50_TEMP ()
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget
