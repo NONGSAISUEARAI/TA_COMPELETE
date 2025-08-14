@@ -3595,25 +3595,27 @@
         )
       ;
       ;specify_object_for_filter_by_EFname_
-        (setq Filter_target_ename_ (car (entsel "specify FILTER LM:effectivename Object")))
+        (setq Filter_target_ename_ (car (entsel "specify TA:EF_Filter_ss_set_ Object")))
         (setq Filter_target_obj_ (vlax-ename->vla-object Filter_target_ename_))
         (setq Filter_target_obj_EFname_ (LM:effectivename Filter_target_obj_))
         (setq ss_post_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ Filter_target_obj_EFname_))
       ;
       ;insert_target_object_process_
-        (setq insert_target_ename_ (car (entsel "specify TARGET LM:effectivename Object")))
+        (setq insert_target_ename_ (car (entsel "specify insert_target_ename_  Object")))
         (setq insert_target_obj_ (vlax-ename->vla-object insert_target_ename_))
         (setq insert_target_obj_EFname_ (LM:effectivename insert_target_obj_))
       ;
       ;preloop_and_while
         (setq ss_post_filter_set_xx_i 0)
         (setq ss_newset_ (ssadd))
+        ; (sslength ss_newset)
         (while (< ss_post_filter_set_xx_i (sslength ss_post_filter_set_xx_))
           (setq ss_post_filter_set_xx_ename_ (ssname ss_post_filter_set_xx_ ss_post_filter_set_xx_i))
             (setq ss_post_filter_set_xx_hon_obj_ (vlax-ename->vla-object ss_post_filter_set_xx_ename_))
               (setq ss_post_filter_set_xx_hon_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_post_filter_set_xx_hon_obj_))))
+              (setq ss_post_filter_set_xx_hon_obj_ro_ (vla-get-rotation ss_post_filter_set_xx_hon_obj_))
               (setvar "osmode" 0)
-              (command "insert" insert_target_obj_EFname_ ss_post_filter_set_xx_hon_obj_ins_ 1 0)
+              (TA:vla-insertblock insert_target_obj_EFname_ ss_post_filter_set_xx_hon_obj_ins_ 1 ss_post_filter_set_xx_hon_obj_ro_ )
               (vla-delete ss_post_filter_set_xx_hon_obj_ )
               (setq new_obj_ (entlast ))
               (setq ss_newset_ (ssadd new_obj_ ss_newset_))
@@ -4096,6 +4098,7 @@
                           (LM:StringSubst "-" "." (rtos (getvar "cdate") 2 6))
                           ; (rtos (fix (* (car (TA:get_vertex_len_ (ssname sstarget_ 0))) 1000 ) ) 2 0 )
                           ; "mm."
+                          (getstring "input_subfix")
                         )
                       )
                     )

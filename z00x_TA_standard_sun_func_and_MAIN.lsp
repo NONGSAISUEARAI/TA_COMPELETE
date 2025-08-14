@@ -3894,8 +3894,9 @@
           (setq ss_post_filter_set_xx_ename_ (ssname ss_post_filter_set_xx_ ss_post_filter_set_xx_i))
             (setq ss_post_filter_set_xx_hon_obj_ (vlax-ename->vla-object ss_post_filter_set_xx_ename_))
               (setq ss_post_filter_set_xx_hon_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_post_filter_set_xx_hon_obj_))))
+              (setq ss_post_filter_set_xx_hon_obj_ro_ (vla-get-rotation ss_post_filter_set_xx_hon_obj_))
               (setvar "osmode" 0)
-              (TA:vla-insertblock insert_target_obj_EFname_ ss_post_filter_set_xx_hon_obj_ins_ 1 0 )
+              (TA:vla-insertblock insert_target_obj_EFname_ ss_post_filter_set_xx_hon_obj_ins_ 1 ss_post_filter_set_xx_hon_obj_ro_ )
               (vla-delete ss_post_filter_set_xx_hon_obj_ )
               (setq new_obj_ (entlast ))
               (setq ss_newset_ (ssadd new_obj_ ss_newset_))
@@ -7034,6 +7035,13 @@
           
 
 
+    )
+    (defun c:rename_block_RENBLKV2_RENB3 ()
+      (setq text1_ename_ (car (entsel "specify Old Object")))
+      (setq text1_obj_ (vlax-ename->vla-object text1_ename_))
+      (setq text2_ename_ (car (entsel "specify New Object")))
+      (setq text2_obj_ (vlax-ename->vla-object text2_ename_))
+      (command "rename" "b" (vla-get-textstring text1_obj_) (vla-get-textstring text2_obj_))
     )
     (defun c:rename_block_RENBLK ()
       ;NOTE-FROM_DEV
@@ -11968,109 +11976,7 @@
 
 
 
-(defun c:Replace_block_object_Reblock ()
-  ;selection_set_for_fillter_blk_name
-    (if  ;pre_select_ssget_or_post_select_ssget
-      (=
-        (setq ss_pre_filter_set_xx_ (ssget "i"
-                                          (list
-                                            (cons 0 "INSERT") ;type of object
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-        nil
-      )
-      (progn
-        (setq ss_pre_filter_set_xx_ (ssget 
-                                          (list
-                                            (cons 0 "INSERT") ;type of object
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-      )
-      (sslength ss_pre_filter_set_xx_)
-    )
-  ;
-  ;specify_object_for_filter_by_EFname_
-    (setq Filter_target_ename_ (car (entsel "specify for filter selection set Object")))
-    (setq Filter_target_obj_ (vlax-ename->vla-object Filter_target_ename_))
-    (setq Filter_target_obj_EFname_ (LM:effectivename Filter_target_obj_))
-    (setq ss_post_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ Filter_target_obj_EFname_))
-  ;
-  ;insert_target_object_process_
-    (setq insert_target_ename_ (car (entsel "specify for replace Object ")))
-    (setq insert_target_obj_ (vlax-ename->vla-object insert_target_ename_))
-    (setq insert_target_obj_EFname_ (LM:effectivename insert_target_obj_))
-  ;
-  ;preloop_and_while
-    (setq ss_post_filter_set_xx_i 0)
-    (setq ss_newset_ (ssadd))
-    ; (sslength ss_newset)
-    (while (< ss_post_filter_set_xx_i (sslength ss_post_filter_set_xx_))
-      (setq ss_post_filter_set_xx_ename_ (ssname ss_post_filter_set_xx_ ss_post_filter_set_xx_i))
-        (setq ss_post_filter_set_xx_hon_obj_ (vlax-ename->vla-object ss_post_filter_set_xx_ename_))
-          (setq ss_post_filter_set_xx_hon_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_post_filter_set_xx_hon_obj_))))
-          (setvar "osmode" 0)
-          (TA:set-block-blockscaling insert_target_obj_EFname_ acUniform)
-          (command "insert" insert_target_obj_EFname_ ss_post_filter_set_xx_hon_obj_ins_ 1 0)
-          (vla-delete ss_post_filter_set_xx_hon_obj_ )
-          (setq new_obj_ (entlast ))
-          (setq ss_newset_ (ssadd new_obj_ ss_newset_))
-      
-      (setq ss_post_filter_set_xx_i (+ ss_post_filter_set_xx_i 1))
-    )
-  ;
 
-  ;preloop_and_while
-    ;while_select_block_on_condition_
-      ;first_cond_for_while_loop_input
-        (setq getRO_ ;Detect the variable's result in case of a function error
-          (vl-catch-all-apply 
-            (function 
-              (lambda () 
-                (setq getRO_RO_ (cond ( (getint (strcat "\nspecify get rotation\n<" (rtos (setq getRO_RO_ (cond (getRO_RO_) (1.0) ) ) ) "> : " ) ) ) (getRO_RO_) ) )
-              )
-            )
-          )
-        )
-        (while ;start_while-loop_
-          (and
-            (numberp getRO_)
-          )
-          (setq ss_newset_i 0)
-          (while (< ss_newset_i (sslength ss_newset_))
-            (setq ss_newset_ename_ (ssname ss_newset_ ss_newset_i))
-            (setq ss_newset_obj_ (vlax-ename->vla-object ss_newset_ename_))
-            
-            (vla-put-rotation ss_newset_obj_ (deg-to-rad getRO_))
-            (setq ss_newset_i (+ ss_newset_i 1))
-
-          )
-          ;final_cond_for_while_loop_input_ (ESC for exit while-loop_)
-            (setq getRO_ ;Detect the variable's result in case of a function error
-              (vl-catch-all-apply 
-                (function 
-                  (lambda () 
-                    (setq getRO_RO_ (cond ( (getint (strcat "\nspecify get rotation\n<" (rtos (setq getRO_RO_ (cond (getRO_RO_) (1.0) ) ) ) "> : " ) ) ) (getRO_RO_) ) )
-                  )
-                )
-              )
-            )
-          ;
-        )
-      ;
-    ;
-  ;
-  ;return_osmode_mode
-    (setvar "osmode" 1279)
-  ;
-)
 
 
 
@@ -30999,8 +30905,8 @@
     )
   )
   (setq CSD_MERGE_LIST_ (mapcar 'car (TA:Count_item_in_list_ CSD_MERGE_LIST_)))
-  ; (setq pp18_path "C:/TA WORK/PPLINE CKST/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP20/CAD/")
-  (setq pp18_path "C:/TA FAMELINE old data/TA/TA_WORK/MASS TRANSIT/TA_PPLINE CKST/TA_PPLINE CKST_combine_CSD-ceiling-plan/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP18/CAD/New fl/")
+  (setq pp18_path "C:/TA WORK/PPLINE CKST/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP18/CAD/NEW FL/")
+  ; (setq pp18_path "C:/TA FAMELINE old data/TA/TA_WORK/MASS TRANSIT/TA_PPLINE CKST/TA_PPLINE CKST_combine_CSD-ceiling-plan/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP18/CAD/New fl/")
   (setq filePath (getfiled "Select the DWG file" pp18_path "dwg" 4))
   
   (setq temp_pt (getpoint "specify point" ))
@@ -31199,31 +31105,50 @@
   (setq Er-msg_ (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/COMPELETE NEXT 2025/Z73-Tranference_Autocad-Excel_data.lsp") ) ) ) )
   (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/Admin/Documents/GitHub/TA_COMPELETE/COMPELETE NEXT 2025/Z73-Tranference_Autocad-Excel_data.lsp") ) ) ) )
   (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/COMPELETE NEXT 2025/REWORK DIM/z62x_REWORK_DIMENSION_REV02.lsp") ) ) ) )
-  (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/COMPELETE NEXT 2025/REWORK DIM/z62x_REWORK_DIMENSION_REV02.lsp") ) ) ) )
-  (setq Er-msg_1 (vl-catch-all-apply 
-                 (function 
-                   (lambda () 
-                     (command "rename" 
-                              "b"
-                              "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_CUT_VIEW"
-                              "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_COMBINE_VIEW"
-                     )
-                   )
-                 )
-               )
+  (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/Admin/Documents/GitHub/TA_COMPELETE/COMPELETE NEXT 2025/REWORK DIM/z62x_REWORK_DIMENSION_REV02.lsp") ) ) ) )
+
+  (if 
+    (= 
+      (not 
+        (vl-catch-all-error-p 
+          (vl-catch-all-apply 
+            (function (lambda () (vla-Item (vla-get-Blocks doc) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_CUT_VIEW" ) ) )
+          )
+        )
+      )
+      T
+    )
+    (progn
+      (command "rename" 
+               "b"
+               "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_CUT_VIEW"
+               "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_COMBINE_VIEW"
+      )
+    )
   )
-  (setq Er-msg_1 (vl-catch-all-apply 
-                 (function 
-                   (lambda () 
-                     (command "rename" 
-                              "b"
-                              "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._C-PROFILE_50x100mm._non-code_CUT_VIEW"
-                              "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._C-PROFILE_50x100mm._non-code_COMBINE_VIEW"
-                     )
-                   )
-                 )
-               )
-)
+  (if 
+    (= 
+      (not 
+        (vl-catch-all-error-p 
+          (vl-catch-all-apply 
+            (function (lambda () (vla-Item (vla-get-Blocks doc) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._C-PROFILE_50x100mm._non-code_CUT_VIEW" ) ) )
+          )
+        )
+      )
+      T
+    )
+    (progn
+      (command "rename" 
+               "b"
+               "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._C-PROFILE_50x100mm._non-code_CUT_VIEW"
+               "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._C-PROFILE_50x100mm._non-code_COMBINE_VIEW"
+      )
+    )
+  )
+
+  
+  
+  
 
 (defun C:sfbz ()
   ;selection_set_for_fillter_blk_name
@@ -31671,5 +31596,3 @@
 
 
 
-
-    
