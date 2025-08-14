@@ -10117,6 +10117,148 @@
       )
     ) 
     
+    (defun c:match_point_X_mpxx ()
+      ;user
+      (setq p1_point_ (getpoint "specify reference Y axis Object"))
+
+      ;
+      ;preloop_and_while_for_return_selection-set_process
+        (setq ERR_ nil)
+        (while
+          (= (vl-catch-all-error-p ERR_) nil)
+          (setq ERR_
+            (vl-catch-all-apply
+              (function
+                (lambda ()
+                  ;selection_set_for_fillter_blk_name
+                    (if  ;pre_select_ssget_or_post_select_ssget
+                      (=
+                        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                                          (list
+                                                            (cons 0 "INSERT") ;type of object
+                                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                                          )
+                                                    )
+                        )
+                        nil
+                      )
+                      (progn
+                        (setq ss_pre_filter_set_xx_ (ssget
+                                                          (list
+                                                            (cons 0 "INSERT") ;type of object
+                                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                                          )
+                                                    )
+                        )
+                      )
+                      (sslength ss_pre_filter_set_xx_)
+                    )
+                  ;
+                )
+              )
+            )
+          )
+          (if (= (vl-catch-all-error-p ERR_) nil)
+            (progn
+              ; (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ p1_obj_efname))
+              ;preloop_and_while
+                (setq ss_pre_filter_set_xx_i 0)
+                (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+                  (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+                  (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+                  (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+                  (vla-put-insertionpoint ss_pre_filter_set_xx_obj_ 
+                                          (vlax-3d-point 
+                                            (list 
+                                              (+ (car p1_point_))
+                                              (+ (cadr ss_pre_filter_set_xx_obj_ins_))
+                                              (+ (caddr ss_pre_filter_set_xx_obj_ins_))
+                                            )
+                                          )
+                  )
+                  (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+                )
+              ;
+            )
+          )
+        )
+      ;
+    )
+    (defun c:match_point_Y_mpyy ()
+      ;user
+      (setq p1_point_ (getpoint "specify reference Y axis Object"))
+
+      ;
+      ;preloop_and_while_for_return_selection-set_process
+        (setq ERR_ nil)
+        (while
+          (= (vl-catch-all-error-p ERR_) nil)
+          (setq ERR_
+            (vl-catch-all-apply
+              (function
+                (lambda ()
+                  ;selection_set_for_fillter_blk_name
+                    (if  ;pre_select_ssget_or_post_select_ssget
+                      (=
+                        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                                          (list
+                                                            (cons 0 "INSERT") ;type of object
+                                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                                          )
+                                                    )
+                        )
+                        nil
+                      )
+                      (progn
+                        (setq ss_pre_filter_set_xx_ (ssget
+                                                          (list
+                                                            (cons 0 "INSERT") ;type of object
+                                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                                          )
+                                                    )
+                        )
+                      )
+                      (sslength ss_pre_filter_set_xx_)
+                    )
+                  ;
+                )
+              )
+            )
+          )
+          (if (= (vl-catch-all-error-p ERR_) nil)
+            (progn
+              ; (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ p1_obj_efname))
+              ;preloop_and_while
+                (setq ss_pre_filter_set_xx_i 0)
+                (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+                  (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+                  (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+                  (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+                  (vla-put-insertionpoint ss_pre_filter_set_xx_obj_ 
+                                          (vlax-3d-point 
+                                            (list 
+                                              (+ (car ss_pre_filter_set_xx_obj_ins_))
+                                              (+ (cadr p1_point_))
+                                              (+ (caddr ss_pre_filter_set_xx_obj_ins_))
+                                            )
+                                          )
+                  )
+                  (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+                )
+              ;
+            )
+          )
+        )
+      ;
+    )
     (defun c:match_axis_X_maxx ()
       ;user
       (setq p1_ename_ (car (entsel "specify reference Y axis Object")))
