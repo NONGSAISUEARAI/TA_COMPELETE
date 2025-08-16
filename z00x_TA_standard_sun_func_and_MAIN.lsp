@@ -11037,10 +11037,10 @@
       ;      )
       ;   )
       ; )
-              (setq target_ename_ (car (entsel "specify Object")))
+              (setq target_ename_ (car (entsel "specify - Object")))
               (setq target_obj_ (vlax-ename->vla-object target_ename_))
               (TA:move_polar_insertionpoint target_obj_ "x" (- polar_move_val) )
-              (setq target_ename_ (car (entsel "specify Object")))
+              (setq target_ename_ (car (entsel "specify + Object")))
               (setq target_obj_ (vlax-ename->vla-object target_ename_))
               (TA:move_polar_insertionpoint target_obj_ "x" polar_move_val )
       ;
@@ -11099,9 +11099,9 @@
                                               (list
                                                 (cons 0 "INSERT") ;type of object
                                                 (cons -4 "<NOT")
-                                                (cons 8 "000 - CSD_PL_A-_ANOT----_T-") 
+                                                (cons 8 "000 - CSD_PL_A-_ANOT----_T-,") 
                                                 (cons -4 "NOT>")
-                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                (cons 8 "001 - ASCESSORIES")   ;kind of layer
                                                 ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                                 ; (cons 62 1)           ;kind of color call sign with color code index
                                               )
@@ -11116,7 +11116,7 @@
                                                 (cons -4 "<NOT")
                                                 (cons 8 "000 - CSD_PL_A-_ANOT----_T-") 
                                                 (cons -4 "NOT>")
-                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                (cons 8 "001 - ASCESSORIES")   ;kind of layer
                                                 ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                                 ; (cons 62 1)           ;kind of color call sign with color code index
                                               )
@@ -11126,6 +11126,7 @@
           (sslength ss_pre_filter_set_xx_)
         )
       ;
+      (textscr)
       (setq ss_pre_filter_set_xx_  (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_  "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET"))
       ;preloop_and_while
         (setq ss_pre_filter_set_xx_i 0)
@@ -11147,7 +11148,7 @@
             (vla-put-color new_revc_obj_ 6)
             (vla-put-ConstantWidth new_revc_obj_ 10)
           ;
-          
+          (TA:textscr_process "\nupdate" ss_pre_filter_set_xx_i ss_pre_filter_set_xx_)
           (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
         )
       ;
@@ -30899,8 +30900,8 @@
   ; (setq pp18_path "C:/TA WORK/PPLINE CKST/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP18/CAD/NEW FL") ;use /w PC
   (setq pp18_path "C:/TA FAMELINE old data/TA/TA_WORK/MASS TRANSIT/TA_PPLINE CKST/TA_PPLINE CKST_combine_CSD-ceiling-plan/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP20/CAD/")
   (setq filePath (getfiled "Select the DWG file" pp18_path "dwg" 4))
-  (setq temp_pt (getpoint "specify point" ))
   (textscr)
+  (setq temp_pt (getpoint "specify point" ))
   ;preloop_and_while
     (setq 300HK_blk_list_i 0)
     (setvar "BLOCKREDEFINEMODE" 1)
@@ -30928,6 +30929,7 @@
 )
 (defun c:PPLINE-CKST_CSDupdate_ ()
   ; (TA:get_name_block_in_drawing_to_list)
+  ; (TA:get_name_block_in_drawing_to_list)
   (setvar "BLOCKREDEFINEMODE" 1)
   (setq CSD_MERGE_LIST_ ())
   (setq err_ "S")
@@ -30944,10 +30946,11 @@
     )
   )
   (setq CSD_MERGE_LIST_ (mapcar 'car (TA:Count_item_in_list_ CSD_MERGE_LIST_)))
-  (setq pp18_path "C:/TA WORK/PPLINE CKST/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP18/CAD/NEW FL/")
+  ; (setq pp18_path "C:/TA WORK/PPLINE CKST/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP18/CAD/NEW FL/")
   ; (setq pp18_path "C:/TA FAMELINE old data/TA/TA_WORK/MASS TRANSIT/TA_PPLINE CKST/TA_PPLINE CKST_combine_CSD-ceiling-plan/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP18/CAD/New fl/")
+  (setq pp18_path "C:/TA FAMELINE old data/TA/TA_WORK/MASS TRANSIT/TA_PPLINE CKST/TA_PPLINE CKST_combine_CSD-ceiling-plan/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP20/CAD/")
   (setq filePath (getfiled "Select the DWG file" pp18_path "dwg" 4))
-  
+  (textscr)
   (setq temp_pt (getpoint "specify point" ))
   ;preloop_and_while
     (setq CSD_MERGE_LIST_i 0)
@@ -30974,12 +30977,13 @@
         )
         (vla-erase (vlax-ename->vla-object (entlast)))
       )
-      
+      (TA:textscr_process "update " CSD_MERGE_LIST_i CSD_MERGE_LIST_)
       (setq CSD_MERGE_LIST_i (+ CSD_MERGE_LIST_i 1))
     )
   ;
-  (setvar "BLOCKREDEFINEMODE" 1)
   
+  (setvar "BLOCKREDEFINEMODE" 1)
+  (alert "complete")
 )
 (defun c:PPLINE-CKST_airupdate ()
   ; (TA:get_name_block_in_drawing_to_list)
@@ -32111,6 +32115,7 @@
           
     )
 ;
+
 
 
 
