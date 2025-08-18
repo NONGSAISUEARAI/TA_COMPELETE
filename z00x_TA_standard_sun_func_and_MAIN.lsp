@@ -7679,8 +7679,9 @@
     (defun c:lastselect_entity_lse ()
       (command "pselect"  (entlast) "" )
     )
-
-
+    (defun c:lastselection_lss ()
+      (command "pselect"  ss_pre_filter_set_xx_  "" )
+    )
   ;
   ;test_command
     (defun TA:dump_obj_ (dump_ename_ )
@@ -31938,184 +31939,300 @@
 
   )
   (defun c:repall ()
-      ;presetting
-        (setq wildcard_string_1 (strcase (strcat "*" 
-                                                "air supply" 
-                                                "*"
-                                        )
-                              ) 
-        )
-        (setq wildcard_string_2 (strcase (strcat "*" 
-                                                "luminaire" 
-                                                "*"
-                                        )
-                              ) 
-        )
-        (setq wildcard_string_3 (strcase (strcat "*" 
-                                                "Horizontal with Gap" 
-                                                "*"
-                                        )
-                              ) 
-        )
-      ;
-      ;Extr process type
-        (setq Extr_EFNAME_ ;Get-string by keep previous value
-            (if
-              (or
-                (/= (setq Extr_EFNAME_val (getstring (strcat "\nSpecify EXTR. type <" (if Extr_EFNAME_ Extr_EFNAME_ "") ">: ") ) ) "" )
+    ;presetting
+      (setq wildcard_string_1 (strcase (strcat "*" 
+                                              "air supply" 
+                                              "*"
+                                      )
+                            ) 
+      )
+      (setq wildcard_string_2 (strcase (strcat "*" 
+                                              "luminaire" 
+                                              "*"
+                                      )
+                            ) 
+      )
+      (setq wildcard_string_3 (strcase (strcat "*" 
+                                              "Horizontal with Gap" 
+                                              "*"
+                                      )
+                            ) 
+      )
+    ;
+    ;Extr process type
+      (setq Extr_EFNAME_ ;Get-string by keep previous value
+          (if
+            (or
+              (/= (setq Extr_EFNAME_val (getstring (strcat "\nSpecify EXTR. type <" (if Extr_EFNAME_ Extr_EFNAME_ "") ">: ") ) ) "" )
+            )
+              (progn
+                (setq Extr_EFNAME_ Extr_EFNAME_val)
+                (setq Extr_EFNAME_keep_val_ Extr_EFNAME_val)
               )
+            (setq Extr_EFNAME_val Extr_EFNAME_keep_val_)
+          )
+      )
+      (if 
+        (and 
+          (/= (strcase Extr_EFNAME_) "R")
+          (/= (strcase Extr_EFNAME_) "C")
+        )
+        (progn
+          (alert "EXTR process error")
+        )
+      )
+    ;
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              ; (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              ; (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (if (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbBlockReference")
+          (progn
+            (setq ss_pre_filter_set_xx_obj_rotation (vla-get-rotation ss_pre_filter_set_xx_obj_))
+            (cond
+              ((and ;"000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_PLAN_SUPPLY_AIR_REC.1600x175mm_COMBINE_SET"
+                    (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbBlockReference")
+                    (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_)) wildcard_string_1)
+                )
                 (progn
-                  (setq Extr_EFNAME_ Extr_EFNAME_val)
-                  (setq Extr_EFNAME_keep_val_ Extr_EFNAME_val)
+                  (setq new_boundingbox_ (TA:get-visible-boundingbox ss_pre_filter_set_xx_obj_ ))
+                  (command "erase" "l" "" )
+                  (setq new_midPT_ (TA:midpoint (car (car new_boundingbox_))  (caddr (car new_boundingbox_))))
+                  
+                  (TA:vla-insertblock 
+                    "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_PLAN_SUPPLY_AIR_REC.1600x175mm_COMBINE_SET"
+                    new_midPT_
+                    1
+                    ss_pre_filter_set_xx_obj_rotation
+                  )              
                 )
-              (setq Extr_EFNAME_val Extr_EFNAME_keep_val_)
-            )
-        )
-        (if 
-          (and 
-            (/= (strcase Extr_EFNAME_) "R")
-            (/= (strcase Extr_EFNAME_) "C")
-          )
-          (progn
-            (alert "EXTR process error")
-          )
-        )
-      ;
-      ;selection_set_for_fillter_blk_name
-        (if  ;pre_select_ssget_or_post_select_ssget
-          (=
-            (setq ss_pre_filter_set_xx_ (ssget "i"
-                                              (list
-                                                (cons 0 "INSERT") ;type of object
-                                                ; (cons 8 "000 - GRID")   ;kind of layer
-                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                                ; (cons 62 1)           ;kind of color call sign with color code index
-                                              )
-                                        )
-            )
-            nil
-          )
-          (progn
-            (setq ss_pre_filter_set_xx_ (ssget
-                                              (list
-                                                (cons 0 "INSERT") ;type of object
-                                                ; (cons 8 "000 - GRID")   ;kind of layer
-                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                                ; (cons 62 1)           ;kind of color call sign with color code index
-                                              )
-                                        )
-            )
-          )
-          (sslength ss_pre_filter_set_xx_)
-        )
-      ;
-      
-      ;preloop_and_while
-        (setq ss_pre_filter_set_xx_i 0)
-        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
-          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
-          (setq ss_pre_filter_set_xx_obj_rotation (vla-get-rotation  ss_pre_filter_set_xx_obj_))
-          (cond
-            ((and ;"000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_PLAN_SUPPLY_AIR_REC.1600x175mm_COMBINE_SET"
-                  (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_)) wildcard_string_1)
+                ;new_blk_entlast object
+                  (setq newblk_ename (entlast))
+                  (setq newblk_obj_ (vlax-ename->vla-object newblk_ename))
+                  (LM:setdynpropvalue newblk_obj_ "view" "6_bottom_view")
+                ;
               )
-              (progn
-                (setq new_boundingbox_ (TA:get-visible-boundingbox ss_pre_filter_set_xx_obj_ ))
-                (command "erase" "l" "" )
-                (setq new_midPT_ (TA:midpoint (car (car new_boundingbox_))  (caddr (car new_boundingbox_))))
-                
-                (TA:vla-insertblock 
-                  "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_PLAN_SUPPLY_AIR_REC.1600x175mm_COMBINE_SET"
-                  new_midPT_
-                  1
-                  ss_pre_filter_set_xx_obj_rotation
-                )              
+              ((and ;"000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_PLAN_SUPPLY_AIR_REC.1600x175mm_COMBINE_SET"
+                    (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbBlockReference")
+                    (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_)) wildcard_string_2)
+                )
+                (progn
+                  (setq new_boundingbox_ (TA:get-visible-boundingbox ss_pre_filter_set_xx_obj_ ))
+                  (command "erase" "l" "" )
+                  (setq new_midPT_ (TA:midpoint (car (car new_boundingbox_))  (caddr (car new_boundingbox_))))
+                  (TA:vla-insertblock 
+                    "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_TRAKC_LIGHT_REC.1257x120mm_COMBINE_SET"
+                    new_midPT_
+                    1
+                    ss_pre_filter_set_xx_obj_rotation
+                  )              
+                )
+                ;new_blk_entlast object
+                  (setq newblk_ename (entlast))
+                  (setq newblk_obj_ (vlax-ename->vla-object newblk_ename))
+                  (LM:setdynpropvalue newblk_obj_ "view" "6_bottom_view")
+                ;
               )
-              ;new_blk_entlast object
-                (setq newblk_ename (entlast))
-                (setq newblk_obj_ (vlax-ename->vla-object newblk_ename))
-                (LM:setdynpropvalue newblk_obj_ "view" "6_bottom_view")
-              ;
-            )
-            ((and ;"000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_PLAN_SUPPLY_AIR_REC.1600x175mm_COMBINE_SET"
-                  (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_)) wildcard_string_2)
-              )
-              (progn
-                (setq new_boundingbox_ (TA:get-visible-boundingbox ss_pre_filter_set_xx_obj_ ))
-                (command "erase" "l" "" )
-                (setq new_midPT_ (TA:midpoint (car (car new_boundingbox_))  (caddr (car new_boundingbox_))))
-                (TA:vla-insertblock 
-                  "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_TRAKC_LIGHT_REC.1257x120mm_COMBINE_SET"
-                  new_midPT_
-                  1
-                  ss_pre_filter_set_xx_obj_rotation
-                )              
-              )
-              ;new_blk_entlast object
-                (setq newblk_ename (entlast))
-                (setq newblk_obj_ (vlax-ename->vla-object newblk_ename))
-                (LM:setdynpropvalue newblk_obj_ "view" "6_bottom_view")
-              ;
-            )
-            ((and ;"DPA_CP_Metal Ceiling Panel - Horizontal with Gap-29911815-4150-01 - CONCOURSE LEVEL PLAN - REFLECTED CEILING PLAN"
-                  (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_)) wildcard_string_3)
-              )
-              (progn
-                (setq new_boundingbox_ (TA:get-visible-boundingbox ss_pre_filter_set_xx_obj_ ))
-                (command "erase" "l" "" )
-                (setq new_midPT_ (TA:midpoint (car (car new_boundingbox_))  (caddr (car new_boundingbox_))))
-                (TA:vla-insertblock 
-                  (if (= (strcase Extr_EFNAME_) "R")
-                    (progn
-                      "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.SOLID_SHEET_HAT-PROFILE-TYPE-R_non_code_COMBINE_SET"
+              ((and ;"DPA_CP_Metal Ceiling Panel - Horizontal with Gap-29911815-4150-01 - CONCOURSE LEVEL PLAN - REFLECTED CEILING PLAN"
+                    (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbBlockReference")
+                    (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_)) wildcard_string_3)
+                )
+                (progn
+                  (setq new_boundingbox_ (TA:get-visible-boundingbox ss_pre_filter_set_xx_obj_ ))
+                  (command "erase" "l" "" )
+                  (setq new_midPT_ (TA:midpoint (car (car new_boundingbox_))  (caddr (car new_boundingbox_))))
+                  (TA:vla-insertblock 
+                    (if (= (strcase Extr_EFNAME_) "R")
+                      (progn
+                        "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.SOLID_SHEET_HAT-PROFILE-TYPE-R_non_code_COMBINE_SET"
+                      )
+                      "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.SOLID_SHEET_HAT-PROFILE-TYPE-C_non_code_COMBINE_SET"
                     )
-                    "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.SOLID_SHEET_HAT-PROFILE-TYPE-C_non_code_COMBINE_SET"
-                  )
-                  (if (> (car (cadr new_boundingbox_)) (cadr (cadr new_boundingbox_)))
-                    (progn
-                      (TA:midpoint  (car (car new_boundingbox_)) (cadddr (car new_boundingbox_)) )
+                    (if (> (car (cadr new_boundingbox_)) (cadr (cadr new_boundingbox_)))
+                      (progn
+                        (TA:midpoint  (car (car new_boundingbox_)) (cadddr (car new_boundingbox_)) )
+                      )
+                      (TA:midpoint  (caddr (car new_boundingbox_)) (cadddr (car new_boundingbox_)) )
                     )
-                    (TA:midpoint  (cadr (car new_boundingbox_)) (caddr (car new_boundingbox_)) )
-                  )
-                  1
-                  (if (> (car (cadr new_boundingbox_)) (cadr (cadr new_boundingbox_)))
-                    (progn
-                      (deg-to-rad 0 )
+                    1
+                    (if (> (car (cadr new_boundingbox_)) (cadr (cadr new_boundingbox_)))
+                      (progn
+                        (deg-to-rad 0 )
+                      )
+                      (deg-to-rad 270)
                     )
-                    (deg-to-rad 270)
-                  )
-                )              
-              )
-              ;new_blk_entlast object
-                (setq newblk_ename (entlast))
-                (setq newblk_obj_ (vlax-ename->vla-object newblk_ename))
+                  )              
+                )
+                ;new_blk_entlast object
+                  (setq newblk_ename (entlast))
+                  (setq newblk_obj_ (vlax-ename->vla-object newblk_ename))
 
-                (LM:setdynpropvalue newblk_obj_ "view" "6_bottom_view")
-            
-                (if (> (car (cadr new_boundingbox_)) (cadr (cadr new_boundingbox_)))
-                  (progn
-                    (setq L (distance  (car (car new_boundingbox_)) (cadr (car new_boundingbox_)) ))
+                  (LM:setdynpropvalue newblk_obj_ "view" "6_bottom_view")
+              
+                  (if (> (car (cadr new_boundingbox_)) (cadr (cadr new_boundingbox_)))
+                    (progn
+                      (setq L (distance  (car (car new_boundingbox_)) (cadr (car new_boundingbox_)) ))
+                    )
+                    (setq L (distance  (car (car new_boundingbox_)) (cadddr (car new_boundingbox_)) ))
                   )
-                  (setq L (distance  (car (car new_boundingbox_)) (cadddr (car new_boundingbox_)) ))
-                )
-                (LM:setdynpropvalue newblk_obj_ "L" L)
-                (LM:setdynpropvalue newblk_obj_ "L2" L)
-                (LM:setdynpropvalue newblk_obj_ "L3" L)
-                (LM:setdynpropvalue newblk_obj_ "L4" L)
-                (LM:setdynpropvalue newblk_obj_ "L5" L)
-                (LM:setdynpropvalue newblk_obj_ "L6" L)
-              ;
+                  (LM:setdynpropvalue newblk_obj_ "L" L)
+                  (LM:setdynpropvalue newblk_obj_ "L2" L)
+                  (LM:setdynpropvalue newblk_obj_ "L3" L)
+                  (LM:setdynpropvalue newblk_obj_ "L4" L)
+                  (LM:setdynpropvalue newblk_obj_ "L5" L)
+                  (LM:setdynpropvalue newblk_obj_ "L6" L)
+                ;
+              )
             )
           )
-          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
         )
+        (TA:textscr_process_v2 "update" ss_pre_filter_set_xx_i ss_pre_filter_set_xx_ )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+    ;get-data_
+        (setq main_border_ (TA:ss_vla-getboundingbox ss_pre_filter_set_xx_ ) )
+        (setq ptmid_ (TA:midpoint (car main_border_) (cadr main_border_)))  
+        (setq bol_datalist_ 
+          (list
+            (list
+              (setq pt1 (list 
+                  (car (car main_border_)) 
+                  (cadr (car main_border_)) 
+                  0 
+                )
+              )
+              (setq pt2 (list 
+                  (car (cadr main_border_)) 
+                  (cadr (car main_border_)) 
+                  0 
+                )
+              )
+              (setq pt3 (list 
+                  (car (cadr main_border_)) 
+                  (cadr (cadr main_border_)) 
+                  0 
+                )
+              )
+              (setq pt4 (list 
+                (car (car main_border_)) 
+                (cadr (cadr main_border_)) 
+                0 
+              )
+            )
+            )
+            (list
+              (setq Len_1 (distance pt1 pt2))
+              (setq Len_2 (distance pt2 pt3))
+              (setq Len_3 (distance pt3 pt4))
+              (setq Len_4 (distance pt4 pt1))
+            )
+          )
+        )
+        (if (> Len_1 Len_4)
+          (progn
+            (setq Extr_midpt_ (TA:midpoint pt1 pt4 ))
+          )
+        )
+      ;top 
+        (TA:vla-insertblock 
+          (if (= (strcase Extr_EFNAME_) "R")
+            (progn
+              "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_COMBINE_VIEW"
+            )
+            "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._C-PROFILE_50x100mm._non-code_COMBINE_VIEW"
+          )
+          (if (> Len_1 Len_4)
+            (progn
+              (setq Extr_midpt_ (TA:midpoint pt1 pt4 ))
+            )
+            (setq Extr_midpt_ (TA:midpoint pt1 pt2 ))
+          )
+          1
+          (if (> Len_1 Len_4)
+            (progn
+              (deg-to-rad 270 )
+            )
+            (deg-to-rad 0)
+          )
+        )
+        ;new_blk_entlast object
+        (cond
+          (;_case_1
+             (and
+                (> Len_1 Len_4)
+             )
+             (progn
+                (setq newExtr_ename (entlast))
+                (setq newExtr_obj_ (vlax-ename->vla-object newExtr_ename))
+                (TA:move_axis_insertionpoint newExtr_obj_ "y" (+ 125))
+                (LM:setdynpropvalue newExtr_obj_  "view" "6_bottom_view")
+                (LM:setdynpropvalue newExtr_obj_  "H" Len_1)
+                (LM:setdynpropvalue newExtr_obj_  "Hsub" Len_1)
+                (LM:setdynpropvalue newExtr_obj_  "Rail_1" Len_1)
+                (LM:setdynpropvalue newExtr_obj_  "Rail_2" Len_1)
+                (vla-copy newExtr_obj_)
+                (TA:move_axis_insertionpoint (setq newExtr_obj_ (vlax-ename->vla-object (entlast))) "y" (- 250))
+                (princ "_case_1")
+             )
+          )
+          (;_case_2
+             (and
+                (< Len_1 Len_4)
+             )
+             (progn
+               (setq newExtr_ename (entlast))
+                (setq newExtr_obj_ (vlax-ename->vla-object newExtr_ename))
+                (TA:move_axis_insertionpoint newExtr_obj_ "x" (+ 125))
+                (LM:setdynpropvalue newExtr_obj_  "view" "6_bottom_view")
+                (LM:setdynpropvalue newExtr_obj_  "H" Len_4)
+                (LM:setdynpropvalue newExtr_obj_  "Hsub" Len_4)
+                (LM:setdynpropvalue newExtr_obj_  "Rail_1" Len_4)
+                (LM:setdynpropvalue newExtr_obj_  "Rail_2" Len_4)
+                (vla-copy newExtr_obj_)
+                (TA:move_axis_insertionpoint (setq newExtr_obj_ (vlax-ename->vla-object (entlast))) "x" (- 250))
+                (princ "_case_1")
+               (princ "_case_2")
+             )
+          )
+
+        )
+
+
+        ;
       ;
-      (setq new_bol_ (TA:ss_vla-getboundingbox ss_pre_filter_set_xx_))
-          
-    )
+    ;   
+  )
 ;
-
-
 
 
