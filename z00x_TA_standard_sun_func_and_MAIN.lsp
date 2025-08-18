@@ -32235,5 +32235,7 @@
     ;   
   )
 ;
-
+(defun c:sssss ()
+  (command "pselect"  sss "" )
+)
 
