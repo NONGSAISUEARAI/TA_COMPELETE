@@ -31205,6 +31205,9 @@
   
 
 (defun C:sfbz ()
+  ;presetting_
+    (setq wildcard_string_ (strcase (strcat "*" "z profile" "*")) )
+  ;
   ;selection_set_for_fillter_blk_name
     (if  ;pre_select_ssget_or_post_select_ssget
       (=
@@ -31245,7 +31248,7 @@
     ;       (setq wildcard_string_val wildcard_string_keep_val_)
     ;     )
   ; )
-  (setq wildcard_string_ (strcase (strcat "*" "z profile" "*")) )
+  
   
   ;preloop_and_while
     (setq ss_pre_filter_set_xx_i 0)
