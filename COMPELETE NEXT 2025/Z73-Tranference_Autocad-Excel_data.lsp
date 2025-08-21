@@ -10327,13 +10327,13 @@
             (setq block-editor_comment-name (strcat 
                                           (if (= (vla-get-comments (vla-Item (vla-get-Blocks (vla-get-ActiveDocument (vlax-get-acad-object))) target_EFname_list_)) "")
                                             (progn
-                                              "sum blk"
+                                              "sum-blk"
                                             )
                                             (vla-get-comments (vla-Item (vla-get-Blocks (vla-get-ActiveDocument (vlax-get-acad-object))) target_EFname_list_))
                                           ) 
-                                          " (" 
+                                          "_" 
                                           (LM:StringSubst "-" "." (rtos (getvar "cdate") 2 6) )
-                                          ")"
+                                          ""
                                         )
             )
           )
@@ -10542,6 +10542,12 @@
     )
     (setq Excel_lasted_worksheet_obj_ (TA:Excel_Open-Excel_rev02_ Using_file_mode_ 1 Worksheet_name)) ;open new Excel window (function use follow argument)
     (TA:EXCEL_put_columnformat Excel_lasted_worksheet_obj_ 1 "@" )
+    (TA:Excel_foreach_input_list_dataset_R1C1 ;Sub-FUNC create properties data list to Excel (tag list_)
+      Excel_lasted_worksheet_obj_ 
+      1
+      1
+      (list (getvar 'dwgname))
+    )
     (TA:Excel_foreach_input_list_dataset_R1C1 ;Sub-FUNC create properties data list to Excel (tag list_)
       Excel_lasted_worksheet_obj_ 
       2

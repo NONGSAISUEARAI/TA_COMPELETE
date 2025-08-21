@@ -31417,7 +31417,7 @@
 
 (defun C:sfbz ()
   ;presetting_
-    (setq wildcard_string_ (strcase (strcat "*" "LGF_DL_SAA_LowPower_DL1a" "*")) )
+    (setq wildcard_string_ (strcase (strcat "*" "vertical z-" "*")) )
   ;
   ;selection_set_for_fillter_blk_name
     (if  ;pre_select_ssget_or_post_select_ssget
@@ -32488,3 +32488,246 @@
   
 )
 
+(defun c:adver ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  (setq main_border_  (TA:ss_vla-getboundingbox ss_pre_filter_set_xx_ ))
+  (setq ptmid_ (TA:midpoint (car main_border_) (cadr main_border_)))  
+  (setq bol_datalist_ 
+    (list
+      (list
+        (setq pt1 (list 
+            (car (car main_border_)) 
+            (cadr (car main_border_)) 
+            0 
+          )
+        )
+        (setq pt2 (list 
+            (car (cadr main_border_)) 
+            (cadr (car main_border_)) 
+            0 
+          )
+        )
+        (setq pt3 (list 
+            (car (cadr main_border_)) 
+            (cadr (cadr main_border_)) 
+            0 
+          )
+        )
+        (setq pt4 (list 
+          (car (car main_border_)) 
+          (cadr (cadr main_border_)) 
+          0 
+        )
+      )
+      )
+      (list
+        (setq Len_1 (distance pt1 pt2))
+        (setq Len_2 (distance pt2 pt3))
+        (setq Len_3 (distance pt3 pt4))
+        (setq Len_4 (distance pt4 pt1))
+      )
+    )
+  )
+  (TA:vla-insertblock 
+    "ver trim"
+    pt2
+    1
+    0
+  )
+  ;new_blk_entlast object
+    (setq new_ename (entlast))
+    (setq new_obj (vlax-ename->vla-object new_ename))
+    (vla-put-color new_obj 6)
+    (LM:setdynpropvalue new_obj "H"(distance pt2 pt3) )
+  ;
+)
+(defun c:adhT ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  
+  (setq main_border_  (TA:ss_vla-getboundingbox ss_pre_filter_set_xx_ ))
+  (setq ptmid_ (TA:midpoint (car main_border_) (cadr main_border_)))  
+  (setq bol_datalist_ 
+    (list
+      (list
+        (setq pt1 (list 
+            (car (car main_border_)) 
+            (cadr (car main_border_)) 
+            0 
+          )
+        )
+        (setq pt2 (list 
+            (car (cadr main_border_)) 
+            (cadr (car main_border_)) 
+            0 
+          )
+        )
+        (setq pt3 (list 
+            (car (cadr main_border_)) 
+            (cadr (cadr main_border_)) 
+            0 
+          )
+        )
+        (setq pt4 (list 
+          (car (car main_border_)) 
+          (cadr (cadr main_border_)) 
+          0 
+        )
+      )
+      )
+      (list
+        (setq Len_1 (distance pt1 pt2))
+        (setq Len_2 (distance pt2 pt3))
+        (setq Len_3 (distance pt3 pt4))
+        (setq Len_4 (distance pt4 pt1))
+      )
+    )
+  )
+  (TA:vla-insertblock 
+    "hon trim"
+    pt4
+    1
+    0
+  )
+  ;new_blk_entlast object
+    (setq new_ename (entlast))
+    (setq new_obj (vlax-ename->vla-object new_ename))
+    (vla-put-color new_obj 6)
+    (LM:setdynpropvalue new_obj "L"(distance pt4 pt3) )
+  ;
+)
+(defun c:adhB ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  
+  (setq main_border_  (TA:ss_vla-getboundingbox ss_pre_filter_set_xx_ ))
+  (setq ptmid_ (TA:midpoint (car main_border_) (cadr main_border_)))  
+  (setq bol_datalist_ 
+    (list
+      (list
+        (setq pt1 (list 
+            (car (car main_border_)) 
+            (cadr (car main_border_)) 
+            0 
+          )
+        )
+        (setq pt2 (list 
+            (car (cadr main_border_)) 
+            (cadr (car main_border_)) 
+            0 
+          )
+        )
+        (setq pt3 (list 
+            (car (cadr main_border_)) 
+            (cadr (cadr main_border_)) 
+            0 
+          )
+        )
+        (setq pt4 (list 
+          (car (car main_border_)) 
+          (cadr (cadr main_border_)) 
+          0 
+        )
+      )
+      )
+      (list
+        (setq Len_1 (distance pt1 pt2))
+        (setq Len_2 (distance pt2 pt3))
+        (setq Len_3 (distance pt3 pt4))
+        (setq Len_4 (distance pt4 pt1))
+      )
+    )
+  )
+  (TA:vla-insertblock 
+    "hon trim"
+    pt1
+    1
+    0
+  )
+  ;new_blk_entlast object
+    (setq new_ename (entlast))
+    (setq new_obj (vlax-ename->vla-object new_ename))
+    (TA:move_axis_insertionpoint new_obj "y" -150)
+    (vla-put-color new_obj 6)
+    (LM:setdynpropvalue new_obj "L"(distance pt1 pt2) )
+  ;
+)
