@@ -10546,7 +10546,7 @@
       Excel_lasted_worksheet_obj_ 
       1
       1
-      (list (getvar 'dwgname))
+      (list (list (getvar 'dwgname)))
     )
     (TA:Excel_foreach_input_list_dataset_R1C1 ;Sub-FUNC create properties data list to Excel (tag list_)
       Excel_lasted_worksheet_obj_ 

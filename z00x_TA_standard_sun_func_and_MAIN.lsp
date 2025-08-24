@@ -625,6 +625,7 @@
             (setq main+sub_row_ (cons sub_row_ main+sub_row_))
             ; (format-data main+sub_row_)
             (length main+sub_row_)
+            (TA:textscr_process_V2 "sorting corrdinate" main_row_sorted_Y_i main_row_sorted_Y_ )
             (setq main_row_sorted_Y_i (+ main_row_sorted_Y_i 1))
           )
         ;
@@ -1574,6 +1575,8 @@
                 (if (and 
                       (setq nested_obj_ (vlax-ename->vla-object nested))
                       (/= (vla-get-objectname nested_obj_) "AcDbAttributeDefinition")
+                      (/= (vla-get-objectname nested_obj_) "AcDbAttribute")
+                      (/= (vla-get-objectname nested_obj_) "AcDbSequenceEnd")
                       (= (vla-get-visible nested_obj_) :vlax-true)
                     )
                   (progn 
@@ -4601,7 +4604,7 @@
                           "_"
                           ""
                           (LM:StringSubst "-" "/" (vla-get-textstring name_obj_))
-                          "_CSD-PLAN"
+                          "_Blanksize-PL"
                           ; (rtos (fix (* (car (TA:get_vertex_len_ (ssname sstarget_ 0))) 1000 ) ) 2 0 )
                           ; "mm."
                         )
@@ -12025,7 +12028,7 @@
       ;user_input_
         (setq 2dblank_ename_ (car (entsel "specify Object")))
         (setq inserttion_point_ (getpoint "specify Point"))
-        (setq user_input_height_ (cond ( (getreal (strcat "\nspecify_height blank size<" (rtos (setq user_input_height (cond (user_input_height) (1.0) ) ) ) "> : " ) ) ) (user_input_height) ) )
+        (setq user_input_height_ (cond ( (getreal (strcat "\nspecify_height blank size\n<" (rtos (setq user_input_height_ (cond (user_input_height_) (1.0) ) ) ) "> : " ) ) ) (user_input_height_) ) )
       ;
       ;get_data_
         (setq r2dblank_obj_ (vlax-ename->vla-object 2dblank_ename_))
@@ -28329,7 +28332,7 @@
     (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
       (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
       (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_ ))
-      (setq qtypc (atoi (LM:StringSubst "" "pc." (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "qty."))))
+      (setq qtypc (atoi (LM:StringSubst "" "pc." (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "qty"))))
       (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
       (setq ss_pre_filter_set_xx_obj_getboundingbox (vla-getboundingbox ss_pre_filter_set_xx_obj_ 'min_ 'max_)) 
       (setq ss_pre_filter_set_xx_min_ (vlax-safearray->list min_)) 
@@ -33141,5 +33144,205 @@
     (TA:move_axis_insertionpoint new_obj "y" -150)
     (vla-put-color new_obj 6)
     (LM:setdynpropvalue new_obj "L"(distance pt1 pt2) )
+  ;
+)
+
+
+
+(defun c:v11 ()
+  (setq sss_ (ssget ))
+  (setq main_border_ (TA:ss_vla-getboundingbox sss_ ))
+  (setq bol_datalist_ 
+    (list
+      (list
+        (setq pt1 (list 
+            (car (car main_border_)) 
+            (cadr (car main_border_)) 
+            0 
+          )
+        )
+        (setq pt2 (list 
+            (car (cadr main_border_)) 
+            (cadr (car main_border_)) 
+            0 
+          )
+        )
+        (setq pt3 (list 
+            (car (cadr main_border_)) 
+            (cadr (cadr main_border_)) 
+            0 
+          )
+        )
+        (setq pt4 (list 
+          (car (car main_border_)) 
+          (cadr (cadr main_border_)) 
+          0 
+        )
+      )
+      )
+      (list
+        (setq Len_1 (distance pt1 pt2))
+        (setq Len_2 (distance pt2 pt3))
+        (setq Len_3 (distance pt3 pt4))
+        (setq Len_4 (distance pt4 pt1))
+      )
+    )
+  )
+  (TA:vla-insertblock 
+    "000 - BLANK_SIZE_NAME"
+    pt1
+    1
+    0
+  )
+  ;new_blk_entlast object
+    (setq newblank_ename (entlast))
+    (setq newblank_obj (vlax-ename->vla-object newblank_ename))
+    (LM:setdynpropvalue newblank_obj "H" Len_4 )
+    (LM:setdynpropvalue newblank_obj "L" Len_1)
+    (LM:setdynpropvalue newblank_obj "position1 X" (/ Len_1 2))
+    (LM:setdynpropvalue newblank_obj "position1 y" (/ Len_4 2))
+    (LM:setdynpropvalue newblank_obj "SC" (/ Len_1 2))
+  ;
+  (setq sss_ (ssadd newblank_ename sss_))
+  (command "pselect"  sss_ "" )
+  (c:MKPartBLK_MKP2 )
+)
+
+
+
+(defun c:Dlist_temp ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "text") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "text") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (setq inslist_mtext_list_ ())
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+      (setq ss_pre_filter_set_xx_textstring (vla-get-textstring ss_pre_filter_set_xx_obj_ ))
+      (setq sumlist_ (list  ss_pre_filter_set_xx_obj_ins_ ss_pre_filter_set_xx_textstring))
+      (TA:textscr_process_V2 "listing" ss_pre_filter_set_xx_i ss_pre_filter_set_xx_ )
+      (setq inslist_mtext_list_ (cons  sumlist_ inslist_mtext_list_ ))
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+    (textscr)
+  (setq enter_process (getstring "Please enter for continue "))
+  (setq all_vlains_ (TA:corrd_sorting_group inslist_mtext_list_ 5))
+  ;preloop_and_while
+    (setq getpt_  (getpoint "SSSSS"))
+    (setq all_vlains_i 0)
+    (while (< all_vlains_i (length all_vlains_))
+      (setq all_vlains_list_ (nth  all_vlains_i all_vlains_))
+      
+      (TA:vla-insertblock 
+        "A$C3f8d30b1"
+        (list 
+          (+ (car getpt_) 0)
+          (- (cadr getpt_) (* 75 all_vlains_i))
+          (caddr getpt_)
+        )
+        1
+        0
+      )
+      ;new_blk_entlast object
+        (setq newtextatt_ename (entlast))
+        (setq newtextatt_obj (vlax-ename->vla-object newtextatt_ename))
+        (LM:vl-setattributevalue newtextatt_obj "num" (cadr (nth 0 all_vlains_list_)) )
+        (LM:vl-setattributevalue newtextatt_obj "DRAWING_NO" (cadr (nth 1 all_vlains_list_)) )
+        (LM:vl-setattributevalue newtextatt_obj "status" (cadr (nth 2 all_vlains_list_)) )
+        (LM:vl-setattributevalue newtextatt_obj "DRAWING_NAME" (cadr (nth 3 all_vlains_list_)) )
+        (TA:textscr_process_V2 "generate ATT DATA" ss_pre_filter_set_xx_i ss_pre_filter_set_xx_ )
+      ;
+      (setq all_vlains_i (+ all_vlains_i 1))
+    )
+  ;
+)
+
+(defun c:seltext ()
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "mtext,text") ;type of object
+                                            (cons 8 "G-ANNO-SCHD")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "mtext,text") ;type of object
+                                            (cons 8 "G-ANNO-SCHD")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  (command "pselect"  ss_pre_filter_set_xx_ "" )
+)
+
+
+
+
+(defun c:JoinMText_TEMP ( / ent obj txt newtxt)
+  (setq smtss_ (ssget (list (cons 0 "mtext"))))
+  ;preloop_and_while
+    (setq smtss_i 0)
+    (while (< smtss_i (sslength smtss_))
+      (setq smtss_ename_ (ssname smtss_ smtss_i))
+      (setq obj (vlax-ename->vla-object  smtss_ename_))
+      (if smtss_ename_
+        (progn
+          (setq obj (vlax-ename->vla-object smtss_ename_))
+          (setq txt (vla-get-TextString obj))
+          (vla-put-width obj 1000 )
+          ;; แทนที่ \P (paragraph break) ด้วย "" เพื่อเอาออก
+          (setq newtxt (vl-string-subst "" "\\P" txt))
+
+          ;; บางกรณี MText ใช้ \n หรือ \r
+          (setq newtxt (vl-string-subst " " "\n" newtxt))
+          (setq newtxt (vl-string-subst " " "\r" newtxt))
+
+          (vla-put-TextString obj newtxt)
+          (princ "\nMText รวมบรรทัดแล้ว.")
+        )
+      )
+      (setq smtss_i (+ smtss_i 1))
+    )
   ;
 )
