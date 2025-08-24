@@ -2646,6 +2646,32 @@
           (setq plineObj (vla-AddLightWeightPolyline modelSpace pointArray))
           (vla-ZoomAll acadObj)
       )
+      (defun TA:create-pline (points)
+        (setq acadApp (vlax-get-acad-object))  ; เข้าถึง AutoCAD application
+        (setq doc (vla-get-ActiveDocument acadApp))
+        (if (= (getvar "ctab" ) "Model")
+          (progn
+            (setq ms (vla-get-ModelSpace doc))
+          )
+          (setq ms (vla-get-paperspace doc))
+        )
+          ; เข้าถึง Active Document
+        
+          ; เข้าถึง ModelSpace
+        (if (= (type points) 'list)
+          (progn
+            (setq flatPoints (apply 'append points))
+            (setq arr (vlax-make-safearray vlax-vbDouble (cons 0 (1- (length flatPoints)))))
+            (vlax-safearray-fill arr flatPoints)
+            (setq block (vla-AddPolyline 
+                          ms 
+                          arr
+                        )
+            )
+          )
+        )
+        
+      )
       (defun create-pline (coords)
         (if (= (length coords) 0)
             nil
@@ -20829,7 +20855,7 @@
           (setq cc-01_inters_list_ 
             (cons 
               (list
-                (polar ss_pre_filter_set_xx_obj_ins_  (deg-to-rad (TA:ModifyRotation ss_pre_filter_set_xx_obj_rotation_ 180)) (/ (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "array_length") 2))
+                (polar ss_pre_filter_set_xx_obj_ins_  (deg-to-rad (TA:ModifyRotation ss_pre_filter_set_xx_obj_rotation_ 180)) (+ (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "fragment_left") (/ (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "array_length") 2)))
                 (polar ss_pre_filter_set_xx_obj_ins_ 
                       (deg-to-rad (TA:ModifyRotation ss_pre_filter_set_xx_obj_rotation_ 0) )
                       (+ (/ (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "array_length") 2 ) (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "fragment_right") )
@@ -20940,7 +20966,7 @@
           (setq cc-01_inters_list_ 
             (cons 
               (list
-                (polar ss_pre_filter_set_xx_obj_ins_  (deg-to-rad (TA:ModifyRotation ss_pre_filter_set_xx_obj_rotation_ 180)) (/ (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "array_length") 2))
+                (polar ss_pre_filter_set_xx_obj_ins_  (deg-to-rad (TA:ModifyRotation ss_pre_filter_set_xx_obj_rotation_ 180)) (+ (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "fragment_left") (/ (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "array_length") 2)))
                 (polar ss_pre_filter_set_xx_obj_ins_ 
                       (deg-to-rad (TA:ModifyRotation ss_pre_filter_set_xx_obj_rotation_ 0) )
                       (+ (/ (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "array_length") 2 ) (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "fragment_right") )
@@ -21367,6 +21393,7 @@
           (setq c011_obj_ (vlax-ename->vla-object  c011_ename_))
           (setq c011_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint c011_obj_))))
           (setq c011_obj_fragment_mid_ (LM:getdynpropvalue c011_obj_ "fragment_middle" ))
+          (setq c011_obj_array_length_ (LM:getdynpropvalue c011_obj_ "array_length" ))
           
           (cond
             (;ssss_case_1
@@ -21391,6 +21418,31 @@
                 (LM:setdynpropvalue c011_obj_ "fragment_middle" (setq c011_obj_fragment_mid_ (- c011_obj_fragment_mid_ 25)))
                 (TA:move_polar_insertionpoint  c011_obj_ "Y" 12.5)
                 (princ "ssss_case_2")
+              )
+            )
+            (;ssss_case_3
+              (and
+                  (= (vl-catch-all-error-p ERR_) nil)
+                  (= (LM:getdynpropvalue c011_obj_ "view") "2_top_view" )
+                  (= increment_num_ 1)
+              )
+              (progn
+                (LM:setdynpropvalue c011_obj_ "array_length" (setq c011_obj_array_length_ (+ c011_obj_array_length_ 3000)))
+                (TA:move_polar_insertionpoint  c011_obj_ "Y" -1500)
+                (princ "ssss_case_3")
+              )
+            )
+            (;ssss_case_4
+              (and
+                  (= (vl-catch-all-error-p ERR_) nil)
+                  (= (LM:getdynpropvalue c011_obj_ "view") "2_top_view" )
+                  (/= (LM:getdynpropvalue c011_obj_ "array_length") 3000 )
+                  (= increment_num_ 0)
+              )
+              (progn
+                (LM:setdynpropvalue c011_obj_ "array_length" (setq c011_obj_array_length_ (- c011_obj_array_length_ 3000)))
+                (TA:move_polar_insertionpoint  c011_obj_ "Y" 1500)
+                (princ "ssss_case_4")
               )
             )
           )
