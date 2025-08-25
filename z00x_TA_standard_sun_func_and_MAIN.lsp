@@ -29444,8 +29444,11 @@
           ; (setq hatches_ (cons ent hatches_))
           ;main idea of code keep or delete don't affect with core code
             (setq hatches_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
-            (vla-put-color hatches_obj_  line_color)
-            
+            (if (/= (vla-get-layer hatches_obj_ ) "A-ANNO-SYMB")
+              (progn
+                (vla-put-color hatches_obj_  line_color)
+              )
+            )
           ;
         )
       )
@@ -33582,5 +33585,51 @@
       )
     ;
   ) 
+  (defun c:foo ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+      
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (setq ssss ())
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (command "rename"  
+                 "B"
+                 (LM:effectivename ss_pre_filter_set_xx_obj_)
+                 (strcat (LM:effectivename ss_pre_filter_set_xx_obj_) "_110")
+        )
+        (setq ssss (cons (LM:effectivename ss_pre_filter_set_xx_obj_) ssss))
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+  )
 
   
