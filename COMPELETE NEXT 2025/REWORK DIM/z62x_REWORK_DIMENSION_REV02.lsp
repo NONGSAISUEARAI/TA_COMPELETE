@@ -10406,6 +10406,19 @@
 ) 
 ;core
   ;presetting_
+    (defun c:dimsetting-ckst ()
+      (command "dimstyle" "r" "FAMELINE-CKST_E-E")
+      (setq scl 1)
+      (setq lv_ 1)
+      (setq lv_add (* lv_ 1.25))
+      (setq dimprec 0)
+      (setq sss_obj_linearsc_ -100)
+      (setq DIM_E-C "FAMELINE-CKST_E-C")
+      (setq DIM_C-C "FAMELINE-CKST_C-C")
+      (setq DIM_C-E "FAMELINE-CKST_C-E")
+      (setq DIM_E-E "FAMELINE-CKST_E-E")
+    )
+    (c:dimsetting-ckst )
     (defun c:dimsetting ()
       ;Keep setting dimension
         (setq acadObj (vlax-get-acad-object))
@@ -11111,13 +11124,13 @@
       )
     )
     (defun c:Dex ()
-      ;special for me only work with CKST Drwaing Construction 
-        (setq DIM_E-C "FAMELINE-CKST_E-C") ;Ref from C:dimsetting 
-        (setq DIM_C-C "FAMELINE-CKST_C-C") ;Ref from C:dimsetting 
-        (setq DIM_C-E "FAMELINE-CKST_C-E") ;Ref from C:dimsetting 
-        (setq DIM_E-E "FAMELINE-CKST_E-E") ;Ref from C:dimsetting 
-        (setq dimprec 0 )
-      ;
+      ; ;special for me only work with CKST Drwaing Construction 
+      ;   (setq DIM_E-C "FAMELINE-CKST_E-C") ;Ref from C:dimsetting 
+      ;   (setq DIM_C-C "FAMELINE-CKST_C-C") ;Ref from C:dimsetting 
+      ;   (setq DIM_C-E "FAMELINE-CKST_C-E") ;Ref from C:dimsetting 
+      ;   (setq DIM_E-E "FAMELINE-CKST_E-E") ;Ref from C:dimsetting 
+      ;   (setq dimprec 0 )
+      ; ;
       ;Keep setting dimension
         (setq acadObj (vlax-get-acad-object))
         (setq doc (vla-get-ActiveDocument acadObj))
@@ -12548,8 +12561,8 @@
       )
       
       ;preloop_and_while
-        (setq angle_list_ (list 0 30 60 90 120 150 180 210 240 270 300 330) 
-        )
+        ; (setq angle_list_ (list 0 30 60 90 120 150 180 210 240 270 300 330))
+        (setq angle_list_ (list 0  60  120       )) ;ลดองศา เพราะขี้เกียจกด spacebar บ่อยๆ 
         
         (setq Er-msg_input_length_ 1)
         (if (= input_length_ nil)

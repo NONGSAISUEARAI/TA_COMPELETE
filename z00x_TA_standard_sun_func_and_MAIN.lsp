@@ -31763,8 +31763,8 @@
   )
   (setq CSD_MERGE_LIST_ (mapcar 'car (TA:Count_item_in_list_ CSD_MERGE_LIST_)))
   ; (setq pp18_path "C:/TA WORK/PPLINE CKST/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP18/CAD/NEW FL/")
-  (setq pp18_path "C:/TA WORK/PPLINE CKST/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP20/CAD/")
-  ; (setq pp18_path "C:/TA FAMELINE old data/TA/TA_WORK/MASS TRANSIT/TA_PPLINE CKST/TA_PPLINE CKST_combine_CSD-ceiling-plan/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP18/CAD/New fl/")
+  ; (setq pp18_path "C:/TA WORK/PPLINE CKST/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP20/CAD/")
+  (setq pp18_path "C:/TA FAMELINE old data/TA/TA_WORK/MASS TRANSIT/TA_PPLINE CKST/TA_PPLINE CKST_combine_CSD-ceiling-plan/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP17/CAD/")
   ; (setq pp18_path "C:/TA FAMELINE old data/TA/TA_WORK/MASS TRANSIT/TA_PPLINE CKST/TA_PPLINE CKST_combine_CSD-ceiling-plan/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP20/CAD/")
   (setq filePath (getfiled "Select the DWG file" pp18_path "dwg" 4))
   (textscr)
@@ -31904,6 +31904,7 @@
   ;presetting
     (command "-layer" "n" "000 - D I M" "")
     (command "-layer" "c" 8 "000 - D I M" "" ) 
+    (command "-layer" "c" 251 "000 - GRID" "" ) 
   ;
   ;selection_set_for_fillter_blk_name
     (if  ;pre_select_ssget_or_post_select_ssget
@@ -31940,7 +31941,7 @@
     (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
       (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
       (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
-      (setq ss_pre_filter_set_xx_obj_put_color (vla-put-color ss_pre_filter_set_xx_obj_ 256)) ;0 = bylock, 256 = bylayer
+      (setq ss_pre_filter_set_xx_obj_put_color (vla-put-color ss_pre_filter_set_xx_obj_ 1)) ;0 = bylock, 256 = bylayer
       
       
       (setq ss_pre_filter_set_xx_obj_put_layer (vla-put-layer ss_pre_filter_set_xx_obj_ "000 - D I M")) ;by_string_name_layer
@@ -32021,7 +32022,7 @@
 
 (defun C:sfbz ()
   ;presetting_
-    (setq wildcard_string_ (strcase (strcat "*" "pp17-CS" "*")) )
+    (setq wildcard_string_ (strcase (strcat "*" "Rectangular" "*")) )
   ;
   ;selection_set_for_fillter_blk_name
     (if  ;pre_select_ssget_or_post_select_ssget
@@ -33585,14 +33586,14 @@
       )
     ;
   ) 
-  (defun c:foo ()
+  (defun c:f1 ()
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget
         (=
           (setq ss_pre_filter_set_xx_ (ssget "i"
                                             (list
-                                              (cons 0 "INSERT") ;type of object
-                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 0 "INSERT") ;type of object
+                                              (cons 8 "S-BEAM,I-WALL-E")   ;kind of layer
                                               ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                               ; (cons 62 1)           ;kind of color call sign with color code index
                                             )
@@ -33603,8 +33604,8 @@
         (progn
           (setq ss_pre_filter_set_xx_ (ssget
                                             (list
-                                              (cons 0 "INSERT") ;type of object
-                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 0 "INSERT") ;type of object
+                                              (cons 8 "S-BEAM,I-WALL-E")   ;kind of layer
                                               ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                               ; (cons 62 1)           ;kind of color call sign with color code index
                                             )
@@ -33613,23 +33614,7 @@
         )
         (sslength ss_pre_filter_set_xx_)
       )
-      
-    ;
-    ;preloop_and_while
-      (setq ss_pre_filter_set_xx_i 0)
-      (setq ssss ())
-      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
-        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
-        (command "rename"  
-                 "B"
-                 (LM:effectivename ss_pre_filter_set_xx_obj_)
-                 (strcat (LM:effectivename ss_pre_filter_set_xx_obj_) "_110")
-        )
-        (setq ssss (cons (LM:effectivename ss_pre_filter_set_xx_obj_) ssss))
-        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
-      )
+      (command "pselect"   ss_pre_filter_set_xx_ "" )
     ;
   )
 
-  
