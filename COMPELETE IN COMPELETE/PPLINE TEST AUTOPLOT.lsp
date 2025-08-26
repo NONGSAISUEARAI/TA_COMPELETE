@@ -253,7 +253,7 @@
       ; (setq ss (car (entsel)))
       (setq adoc (vla-get-activedocument (vlax-get-acad-object)))
       (setq lyout (vla-get-activelayout adoc))
-      (setq styleSheet "FAMELINE-CKST-100.ctb")
+      (setq styleSheet "A3_Standard (MRT-AGATE) - purple line.ctb")
       (setq cfgName "AutoCAD PDF (High Quality Print).pc3")
       (vla-RefreshPlotDeviceInfo lyout)
       (vla-put-ConfigName lyout CfgName)
@@ -830,7 +830,7 @@
             "Fit" ;Plot Scale	"Fit"
             "Center" ;Plot Offset
             "yes" ;Use Plot Style?
-            "FAMELINE-CKST-100.ctb" ;Plot Style Name
+            "A3_Standard (MRT-AGATE) - purple line.ctb" ;Plot Style Name
             "Yes" ;Plot Lineweights?
             "" ;Enter shade plot setting ["As displayed"/"Wireframe"/"Hidden"/"Visual styles"/"Rendered"]
             "N"

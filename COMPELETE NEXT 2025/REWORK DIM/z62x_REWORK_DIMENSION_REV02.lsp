@@ -12562,7 +12562,7 @@
       
       ;preloop_and_while
         ; (setq angle_list_ (list 0 30 60 90 120 150 180 210 240 270 300 330))
-        (setq angle_list_ (list 0  60  120       )) ;ลดองศา เพราะขี้เกียจกด spacebar บ่อยๆ 
+        (setq angle_list_ (list 0  60  120 240 300      )) ;ลดองศา เพราะขี้เกียจกด spacebar บ่อยๆ 
         
         (setq Er-msg_input_length_ 1)
         (if (= input_length_ nil)
@@ -13222,7 +13222,7 @@
       ;
     )
   )
-  (defun c:z626_grid_line_length_GYY ()-
+  (defun c:z626_grid_line_length_GYY ()
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget
         (=

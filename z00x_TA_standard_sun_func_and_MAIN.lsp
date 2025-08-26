@@ -31764,7 +31764,8 @@
   (setq CSD_MERGE_LIST_ (mapcar 'car (TA:Count_item_in_list_ CSD_MERGE_LIST_)))
   ; (setq pp18_path "C:/TA WORK/PPLINE CKST/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP18/CAD/NEW FL/")
   ; (setq pp18_path "C:/TA WORK/PPLINE CKST/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP20/CAD/")
-  (setq pp18_path "C:/TA FAMELINE old data/TA/TA_WORK/MASS TRANSIT/TA_PPLINE CKST/TA_PPLINE CKST_combine_CSD-ceiling-plan/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP17/CAD/")
+  (setq pp18_path "C:/TA WORK/PPLINE CKST/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP17/CAD/")
+  ; (setq pp18_path "C:/TA FAMELINE old data/TA/TA_WORK/MASS TRANSIT/TA_PPLINE CKST/TA_PPLINE CKST_combine_CSD-ceiling-plan/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP17/CAD/")
   ; (setq pp18_path "C:/TA FAMELINE old data/TA/TA_WORK/MASS TRANSIT/TA_PPLINE CKST/TA_PPLINE CKST_combine_CSD-ceiling-plan/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP20/CAD/")
   (setq filePath (getfiled "Select the DWG file" pp18_path "dwg" 4))
   (textscr)
@@ -32022,8 +32023,76 @@
 
 (defun C:sfbz ()
   ;presetting_
-    (setq wildcard_string_ (strcase (strcat "*" "Rectangular" "*")) )
+    (setq wildcard_string_slot_1 (strcase (strcat "*" "Vertical Panel with Gap" "*")) )
+    (setq wildcard_string_slot_2 (strcase (strcat "*" "Air Supply" "*")) )
+    (setq wildcard_string_slot_3 (strcase (strcat "*" "Luminaire" "*")) )
+    (setq wildcard_string_slot_4 (strcase (strcat "*" "Horizontal with Gap" "*")) )
+    (setq wildcard_string_slot_num_ (cond 
+                                      ((getint 
+                                         (strcat "\nspecify get wildcard_string_slot_ \n" 
+                                                  "1 = " wildcard_string_slot_1 "\n"
+                                                  "2 = "wildcard_string_slot_2 "\n"
+                                                  "3 = "wildcard_string_slot_3 "\n"
+                                                  "4 = "wildcard_string_slot_4 "\n"
+                                                 "<"
+                                                 (rtos 
+                                                   (setq wildcard_string_slot_num_ (cond 
+                                                                                     (wildcard_string_slot_num_)
+                                                                                     (1.0)
+                                                                                   )
+                                                   )
+                                                 )
+                                                 "> : "
+                                         )
+                                       )
+                                      )
+                                      (wildcard_string_slot_num_)
+                                    )
+    )
+    (cond
+      (;wildcard_string_slot_num__case_1
+         (and
+            (= wildcard_string_slot_num_ 1)
+         )
+         (progn
+           (setq wildcard_string_ wildcard_string_slot_1)
+           (princ "wildcard_string_slot_num__case_1")
+         )
+      )
+      (;wildcard_string_slot_num__case_2
+         (and
+            (= wildcard_string_slot_num_ 2)
+            
+         )
+         (progn
+           (setq wildcard_string_ wildcard_string_slot_2)
+           (princ "wildcard_string_slot_num__case_2")
+         )
+      )
+      (;wildcard_string_slot_num__case_3
+         (and
+            (= wildcard_string_slot_num_ 3)
+            
+         )
+         (progn
+           (setq wildcard_string_ wildcard_string_slot_3)
+           (princ "wildcard_string_slot_num__case_3")
+         )
+      )
+      (;wildcard_string_slot_num__case_4
+         (and
+            (= wildcard_string_slot_num_ 4)
+            
+         )
+         (progn
+           (setq wildcard_string_ wildcard_string_slot_4)
+           (princ "wildcard_string_slot_num__case_3")
+         )
+      )
+
+    )
   ;
+  
   ;selection_set_for_fillter_blk_name
     (if  ;pre_select_ssget_or_post_select_ssget
       (=
