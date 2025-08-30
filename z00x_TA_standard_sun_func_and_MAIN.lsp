@@ -11026,17 +11026,132 @@
       (command "-layer" "filter" "s" "All" "")
     )
     (defun c:save_selection_savess_ ()
-      (setq a "a = slot 1"
-            b "b = slot 2"
-            c "c = slot 3"
-            d "d = slot 4"
-            e "e = slot 5"
-            f "f = slot 6"
-            g "g = slot 7"
-            h "h = slot 8"
-            i "i = slot 9"
-            j "j = slot 10"
+      (setq a "a = slot 1 (empty)"
+            b "b = slot 2 (empty)"
+            c "c = slot 3 (empty)"
+            d "d = slot 4 (empty)"
+            e "e = slot 5 (empty)"
+            f "f = slot 6 (empty)"
+            g "g = slot 7 (empty)"
+            h "h = slot 8 (empty)"
+            i "i = slot 9 (empty)"
+            j "j = slot 10 (empty)"
       )
+      (setq ss_list_ (list ssA ssB ssC ssD ssE ssF ssH ssI ssJ))
+      ;preloop_and_while
+        (setq ss_list_i 0)
+        (while (< ss_list_i (length ss_list_))
+          (setq ss_list_val_ (nth 0 ss_list_))
+          (cond
+            (;_case_1
+              (and
+                  (= ss_list_i 0)
+                  (/= ssA nil)
+              )
+              (progn
+                (setq a "a = slot 1 (full)")
+                (princ "_case_1")
+              )
+            )
+            (;_case_2
+              (and
+                  (= ss_list_i 1)
+                  (/= ssB nil)
+              )
+              (progn
+                (setq b "b = slot 2 (full)")
+                (princ "_case_2")
+              )
+            )
+            (;_case_3
+              (and
+                  (= ss_list_i 2)
+                  (/= ssC nil)
+              )
+              (progn
+                (setq c "c = slot 3 (full)")
+                (princ "_case_3")
+              )
+            )
+            (;_case_4
+              (and
+                  (= ss_list_i 3)
+                  (/= ssD nil)
+              )
+              (progn
+                (setq d "d = slot 4 (full)")
+                (princ "_case_4")
+              )
+            )
+            (;_case_5
+              (and
+                  (= ss_list_i 4)
+                  (/= ssE nil)
+              )
+              (progn
+                (setq e "e = slot 5 (full)")
+                (princ "_case_5")
+              )
+            )
+            (;_case_6
+              (and
+                  (= ss_list_i 5)
+                  (/= ssF nil)
+              )
+              (progn
+                (setq f "f = slot 6 (full)")
+                (princ "_case_6")
+              )
+            )
+            (;_case_7
+              (and
+                  (= ss_list_i 6)
+                  (/= ssG nil)
+              )
+              (progn
+                (setq g "g = slot 7 (full)")
+                (princ "_case_7")
+              )
+            )
+            (;_case_8
+              (and
+                  (= ss_list_i 7)
+                  (/= ssH nil)
+              )
+              (progn
+                (setq h "h = slot 8 (full)")
+                (princ "_case_8")
+              )
+            )
+            (;_case_9
+              (and
+                  (= ss_list_i 8)
+                  (/= ssI nil)
+              )
+              (progn
+                (setq i "i = slot 9 (full)")
+                (princ "_case_9")
+              )
+            )
+            (;_case_10
+              (and
+                  (= ss_list_i 9)
+                  (/= ssJ nil)
+              )
+              (progn
+                (setq j "j= slot 10 (full)")
+                (princ "_case_10")
+              )
+            )
+          )
+      
+          (setq ss_list_i (+ ss_list_i 1))
+        )
+      ;
+      
+      
+      
+
       (setq visibility_mode_value_ (cond ((getint (strcat a"\n"b"\n"c"\n"d"\n" e"\n" f"\n" g"\n" h"\n" i"\n" j"\n" "<" (rtos (setq visibility_mode_value_ (cond (visibility_mode_value_) (1.0) ) ) ) "> : " ) ) ) (visibility_mode_value_) ) )
       (cond 
         ;; _case_1
@@ -11162,6 +11277,117 @@
             i "i = slot 9"
             j "j = slot 10"
       )
+      (setq ss_list_ (list ssA ssB ssC ssD ssE ssF ssH ssI ssJ))
+      ;preloop_and_while
+        (setq ss_list_i 0)
+        (while (< ss_list_i (length ss_list_))
+          (setq ss_list_val_ (nth 0 ss_list_))
+          (cond
+            (;_case_1
+              (and
+                  (= ss_list_i 0)
+                  (/= ssA nil)
+              )
+              (progn
+                (setq a "a = slot 1 (full)")
+                (princ "_case_1")
+              )
+            )
+            (;_case_2
+              (and
+                  (= ss_list_i 1)
+                  (/= ssB nil)
+              )
+              (progn
+                (setq b "b = slot 2 (full)")
+                (princ "_case_2")
+              )
+            )
+            (;_case_3
+              (and
+                  (= ss_list_i 2)
+                  (/= ssC nil)
+              )
+              (progn
+                (setq c "c = slot 3 (full)")
+                (princ "_case_3")
+              )
+            )
+            (;_case_4
+              (and
+                  (= ss_list_i 3)
+                  (/= ssD nil)
+              )
+              (progn
+                (setq d "d = slot 4 (full)")
+                (princ "_case_4")
+              )
+            )
+            (;_case_5
+              (and
+                  (= ss_list_i 4)
+                  (/= ssE nil)
+              )
+              (progn
+                (setq e "e = slot 5 (full)")
+                (princ "_case_5")
+              )
+            )
+            (;_case_6
+              (and
+                  (= ss_list_i 5)
+                  (/= ssF nil)
+              )
+              (progn
+                (setq f "f = slot 6 (full)")
+                (princ "_case_6")
+              )
+            )
+            (;_case_7
+              (and
+                  (= ss_list_i 6)
+                  (/= ssG nil)
+              )
+              (progn
+                (setq g "g = slot 7 (full)")
+                (princ "_case_7")
+              )
+            )
+            (;_case_8
+              (and
+                  (= ss_list_i 7)
+                  (/= ssH nil)
+              )
+              (progn
+                (setq h "h = slot 8 (full)")
+                (princ "_case_8")
+              )
+            )
+            (;_case_9
+              (and
+                  (= ss_list_i 8)
+                  (/= ssI nil)
+              )
+              (progn
+                (setq i "i = slot 9 (full)")
+                (princ "_case_9")
+              )
+            )
+            (;_case_10
+              (and
+                  (= ss_list_i 9)
+                  (/= ssJ nil)
+              )
+              (progn
+                (setq j "j= slot 10 (full)")
+                (princ "_case_10")
+              )
+            )
+          )
+      
+          (setq ss_list_i (+ ss_list_i 1))
+        )
+      ;
       (setq visibility_mode_value_ (cond ((getint (strcat a"\n"b"\n"c"\n"d"\n" e"\n" f"\n" g"\n" h"\n" i"\n" j"\n" "<" (rtos (setq visibility_mode_value_ (cond (visibility_mode_value_) (1.0) ) ) ) "> : " ) ) ) (visibility_mode_value_) ) )
       (cond 
         ;; _case_1
@@ -18647,7 +18873,7 @@
       (LM:setdynpropvalue newblk_obj "distance2" (* (getdist newpt_) 2)) 
     ;
   )
-  (defun c:s300 ()
+  (defun c:PPLINE_300hk_strech_300st ()
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget
         (=
@@ -18763,6 +18989,146 @@
 
     )
     
+    
+  )
+  (defun c:PPLINE_300hk_300edge ()
+    (setq pt_dist_2-3mid nil)
+    (setq pt_dist_1_ (getpoint ))
+    (setq pt_dist_2_ (getpoint pt_dist_1_))
+    (setq pt_dist_3_ (getpoint pt_dist_2_))
+    (setq pt_dist_ovl_ (* ( / (fix (distance pt_dist_2_ pt_dist_3_ )) 25) 25))
+    (setq pt_dist_2+75 (polar pt_dist_2_ (angle pt_dist_2_ pt_dist_3_ ) 75))
+    (setq pt_dist_2-3 (polar pt_dist_2+75 (angle pt_dist_2_ pt_dist_3_ ) (- pt_dist_ovl_   75)))
+    (setq pt_dist_3-offset_ (polar pt_dist_2-3 (angle  pt_dist_3_ pt_dist_2_) (getint "input offset ")))
+    (setq pt_dist_2-3mid (polar pt_dist_2+75 (angle pt_dist_2_ pt_dist_3_ ) (/ (distance pt_dist_2+75 pt_dist_3-offset_) 2 )))
+    ; (command "point" pt_dist_2+75 )
+    ; (command "point" pt_dist_2-3 )
+    ; (command "point" pt_dist_3-100_ )
+    ; (command "point" pt_dist_2-3mid )
+    (if (and 
+          (/= pt_dist_2-3mid nil)
+        )
+      (progn
+        (TA:vla-insertblock 
+          "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@400mm_COMBINE_SET"
+          pt_dist_2-3mid
+          1
+          (if (= (rad-to-deg (angle pt_dist_2_ pt_dist_3_ ) ) 270)
+            (progn
+              (deg-to-rad 90)
+            )
+            (deg-to-rad 90)
+          )
+        )
+        ;new_blk_entlast object
+          (setq new300hd_ename (entlast))
+          (setq new300hd_obj_ (vlax-ename->vla-object new300hd_ename))
+          (setq new300hd_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint new300hd_obj_))))
+          (LM:setdynpropvalue new300hd_obj_ "view" "DAFT")
+          (LM:setdynpropvalue new300hd_obj_ "panel_width" (distance pt_dist_2+75 pt_dist_3-offset_ ))
+        ;
+      )
+    )
+    (setq ERR_ nil)
+    (setq first-time nil)
+    (while ;for keep insertion point and dist. fix length one side
+      (and
+        (= (vl-catch-all-error-p ERR_) nil)
+      )
+      (if (= first-time nil)
+        (progn
+          (setq ERR_
+            (vl-catch-all-apply
+              (function
+                (lambda ()
+                  (setq increment_num_ (cond ( (getdist new300hd_obj_ins_ (strcat "\nSpecify sss_   <" (rtos (setq increment_num_ (cond (increment_num_) (1.0) ) ) ) "> : " ) ) ) (increment_num_) ) )
+                  (setq increment_num_ (/ (/ (* (fix (/ (* increment_num_ 2) 400)) 400) 400) 2) )
+                  (setq first-time 1)
+                )
+              )
+            )
+          )
+        )
+        (setq ERR_
+          (vl-catch-all-apply
+            (function
+              (lambda ()
+                (setq increment_num_ (cond ( (getint (strcat "\nSpecify sss_   <" (rtos (setq increment_num_ (cond (increment_num_) (1.0) ) ) ) "> : " ) ) ) (increment_num_) ) )
+              )
+            )
+          )
+        )
+      )
+      ;preloop_and_while
+        (setq c011_i 0)
+        (while 
+          (and
+            (= (vl-catch-all-error-p ERR_) nil)
+            (< c011_i 1)
+            (= (LM:effectivename new300hd_obj_ ) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@400mm_COMBINE_SET" )
+            (= (LM:effectivename new300hd_obj_ ) "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@400mm_COMBINE_SET" )
+          )
+          (setq c011_obj_ new300hd_obj_)
+          (setq c011_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint c011_obj_))))
+          (setq c011_obj_fragment_mid_ (LM:getdynpropvalue c011_obj_ "array_panel_length" ))
+          
+          (cond
+            (;ssss_case_1
+              (and
+                  (= (vl-catch-all-error-p ERR_) nil)
+                  ; (= (LM:getdynpropvalue c011_obj_ "view") "7_dynamic_length_view" )
+                  (= increment_num_ 1)
+              )
+              (progn
+                (LM:setdynpropvalue c011_obj_ "array_panel_length" (setq c011_obj_fragment_mid_ (+ c011_obj_fragment_mid_ 400)))
+                (TA:move_polar_insertionpoint  c011_obj_ "x" +200)
+                (princ "ssss_case_1")
+              )
+            )
+            (;ssss_case_2
+              (and
+                  (= (vl-catch-all-error-p ERR_) nil)
+                  ; (= (LM:getdynpropvalue c011_obj_ "view") "7_dynamic_length_view" )
+                  (= increment_num_ 0)
+              )
+              (progn
+                (LM:setdynpropvalue c011_obj_ "array_panel_length" (setq c011_obj_fragment_mid_ (- c011_obj_fragment_mid_ 400)))
+                (TA:move_polar_insertionpoint  c011_obj_ "x" -200)
+                (princ "ssss_case_2")
+              )
+            )
+            (;ssss_case_3
+              (and
+                  (= (vl-catch-all-error-p ERR_) nil)
+                  ; (= (LM:getdynpropvalue c011_obj_ "view") "7_dynamic_length_view" )
+                  (< increment_num_ 0)
+              )
+              (progn
+                (LM:setdynpropvalue c011_obj_ "array_panel_length" (setq c011_obj_fragment_mid_ (+ c011_obj_fragment_mid_ (* increment_num_ 400))))
+                (TA:move_polar_insertionpoint  c011_obj_ "x" (* 200 increment_num_))
+                (princ "ssss_case_3")
+              )
+            )
+            (;ssss_case_4
+              (and
+                  (= (vl-catch-all-error-p ERR_) nil)
+                  ; (= (LM:getdynpropvalue c011_obj_ "view") "7_dynamic_length_view" )
+                  (> increment_num_ 1)
+              )
+              (progn
+                (LM:setdynpropvalue c011_obj_ "array_panel_length" (setq c011_obj_fragment_mid_ (+ c011_obj_fragment_mid_ (* increment_num_ 400))))
+                (TA:move_polar_insertionpoint  c011_obj_ "x" (* 200 increment_num_))
+                (princ "ssss_case_3")
+              )
+            )
+          )
+          
+          
+          (setq c011_i (+ c011_i 1))
+        )
+      ;
+
+    )
     
   )
   ;
@@ -25038,7 +25404,7 @@
         (c:PPLINE_CKST_XCV1RENBLK)
       ;
   ;
-)
+) 
 
 
 
@@ -27995,6 +28361,7 @@
 
   )
   (defun c:repall ()
+    (setvar "CMDECHO" 0)
     ;presetting
       (setq wildcard_string_1 (strcase (strcat "*" 
                                               "air supply" 
@@ -28466,6 +28833,7 @@
 )
 
 
+
   (defun c:jj1 ()
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget
@@ -28593,7 +28961,7 @@
                         (= (type (cdr ss_pre_filter_set_xx_obj_dynamic_list_dynname-set_)) 'int)
                       )
                     (progn
-                      (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ (car ss_pre_filter_set_xx_obj_dynamic_list_dynname-set_) (fix (cdr ss_pre_filter_set_xx_obj_dynamic_list_dynname-set_)) )
+                      (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ (car ss_pre_filter_set_xx_obj_dynamic_list_dynname-set_) (LM:round (cdr ss_pre_filter_set_xx_obj_dynamic_list_dynname-set_)) )
                     )
                   )
                   
@@ -28701,4 +29069,199 @@
     (command "pselect"  new_pline "" )
     ;
   )
+
+(defun c:PPLINE-CKST_300update_ ()
+  ; (setq ssssssxxxxxx (TA:get_name_block_in_drawing_to_list_v2))
+      ; (vl-catch-all-apply 
+      ;   (function 
+      ;     (lambda () 
+      ;       (command "rename" "b" "A$Ccf731a84" "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_BK-07_CUT_VIEW" )
+            
+            
+      ;     )
+      ;   )
+      ; )
+      ; (vl-catch-all-apply 
+      ;   (function 
+      ;     (lambda () 
+      ;       (command "rename" "b" "A$C5aec95aa" "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_BK-08_ISOMATRIC_VIEW" )
+      ;     )
+      ;   )
+      ; )
   
+  (setq 300HK_blk_list_ 
+    (list
+      '("HEX_BOLT-M5_set" 1)
+      '("000 - PROTOTYPE-DYNAMIC_WAHER_AND_SPRING_WASHER_" 0)
+      '("000 - PROTOTYPE-DYNAMIC_THREAD_BOLT" 1)
+      '("000 - PROTOTYPE-DYNAMIC_HEX_NUT" 0)
+      '("000 - PROTOTYPE-DYNAMIC_HEX_BOLT" 0)
+      '("000 - DYNAMIC_VIEW_ASSCESSORIES_SPRING_WASHER_M5_COMBINE_VIEW" 0)
+      '("000 - DYNAMIC_VIEW_ASSCESSORIES_RIVET_4-4_TOP_VIEW" 1)
+      '("000 - DYNAMIC_VIEW_ASSCESSORIES_RIVET_4-4_COMBINE_VIEW" 1)
+      '("000 - DYNAMIC_VIEW_ASSCESSORIES_HEX_BOLT_M5_COMBINE_VIEW" 0)
+      '("000 - DYNAMIC_VIEW_ASSCESSORIES_GALV.STUD_FULL_THREAD_1-4_TOP_VIEW" 0)
+      '("000 - DYNAMIC_VIEW_ASSCESSORIES_GALV.STUD_FULL_THREAD_1-4_COMBINE_VIEW" 1)
+      '("000 - DYNAMIC_LENGTH+VIEW_ACESSORIES_HEX_BOLT-M5_COMBINE_SET" 1)
+      '("000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET" 0)
+      '("000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.SOLID_SHEET_HAT-PROFILE-TYPE-R_non_code_COMBINE_SET" 1)
+      '("000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.SOLID_SHEET_HAT-PROFILE-TYPE-C_non_code_COMBINE_SET" 1)
+      '("000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_COMBINE_VIEW" 0)
+      '("000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_COMBINE_VIEW" 0)
+      '("000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_COMBINE_VIEW" 1)
+      '("000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_BK-07_COMBINE_VIEW" 0)
+      '("000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-04_COMBINE_VIEW" 1)
+      '("000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-01_COMBINE_VIEW" 1)
+      '("000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_BK-08_COMBINE_VIEW" 0)
+      '("000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_COMPLEX-PROFILE_V-HOOK_COMBINE_VIEW" 1)
+      '("000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_COMBINE_VIEW" 0)
+      '("000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV._SPICE-FOR_HR-02B_COMBINE_VIEW" 1)
+      '("000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV._SPICE-FOR_CC-01_COMBINE_VIEW" 1)
+      '("000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_BRACKET-L-PROFILE_50x68mm.+HEX_BOLT-M5-SET_non-code_COMBINE_SET" 0)
+      '("000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_COMBINE_VIEW" 1)
+      '("000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._L-PROFILE_50x68mm._non-code_COMBINE_SET" 0)
+      '("000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._L-PROFILE_50x45mm._non-code_COMBINE_SET" 0)
+      '("000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._C-PROFILE_50x100mm._non-code_COMBINE_VIEW" 1)
+      '("000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_TRAKC_LIGHT_REC.1257x120mm_COMBINE_SET" 1)
+      '("000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_PLAN_SUPPLY_AIR_REC.1600x175mm_COMBINE_SET" 1)
+      '("000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@400mm_COMBINE_SET" 0)
+      '("000 - DYNAM5IC_VIEW_ASSCESSORIES_WASHER_M5_COM5BINE_VIEW" 0)
+      '("000 - BOX_EF_NAME_REV02" 1)
+      '("000 - ASSCESSORIES_WASHER_M5_TOP_VIEW" 0)
+      '("000 - ASSCESSORIES_WASHER_M5_FRONT-SIDE-BACK_VIEW" 0)
+      '("000 - ASSCESSORIES_TRAKC_LIGHT_REC.1257x120mm_FRONT_VIEW" 1)
+      '("000 - ASSCESSORIES_TRAKC_LIGHT_REC.1257x120mm_CUT_VIEW" 1)
+      '("000 - ASSCESSORIES_SPRING_WASHER_M5_TOP_VIEW" 0)
+      '("000 - ASSCESSORIES_SPRING_WASHER_M5_FRONT-SIDE-BACK_VIEW" 0)
+      '("000 - ASSCESSORIES_HEX_BOLT_M5_NUT" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_TOP_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_RIGHT_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_LEFT_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_CUT_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_TOP_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_RIGHT_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_LEFT_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_ISOMATRIC_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_CUT_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_TOP_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_LEFT-RIGHT_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_CUT_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_BK-07_TOP_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_BK-07_LEFT-RIGHT_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_BK-07_ISOMATRIC_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_BK-07_CUT_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-04_TOP_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-04_ISOMATRIC_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-04_FRONT_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-04_CUT_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-01_TOP_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-01_LEFT-RIGHT_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-01_FRONT_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-01_CUT_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_LK-01_BACK_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_BK-08_TOP_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_BK-08_ISOMATRIC_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_BK-08_FRONT_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_BK-08_CUT_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_L-PROFILE_BK-08_BACK_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_COMPLEX-PROFILE_V-HOOK_LEFT_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_LEFT_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV._SPICE-FOR_HR-02B_TOP_VIEW" 1)
+      '("000 - ASSCESSORIES_FAMELINE_GALV._SPICE-FOR_HR-02A_TOP_VIEW" 1)
+      '("000 - ASSCESSORIES_FAMELINE_GALV._SPICE-FOR_CC-01_TOP_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV._SPICE-FOR_CC-01_LEFT-RIGHT_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_GALV._SPICE-FOR_CC-01_CUT_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_AL.SOLID_SHEET_HAT-PROFILE-TYPE-R_CUT_VIEW" 1)
+      '("000 - ASSCESSORIES_FAMELINE_AL.SOLID_SHEET_HAT-PROFILE-TYPE-C_CUT_VIEW" 1)
+      '("000 - ASSCESSORIES_FAMELINE_AL.EXTR._L-PROFILE_50x68mm._non-code_TOP_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_AL.EXTR._L-PROFILE_50x68mm._non-code_FRONT_VIEW" 1)
+      '("000 - ASSCESSORIES_FAMELINE_AL.EXTR._L-PROFILE_50x68mm._non-code_CUT_VIEW" 1)
+      '("000 - ASSCESSORIES_FAMELINE_AL.EXTR._L-PROFILE_50x68mm._non-code_BOTTOM_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_AL.EXTR._L-PROFILE_50x68mm._non-code_BACK_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_AL.EXTR._L-PROFILE_50x45mm._non-code_TOP_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_AL.EXTR._L-PROFILE_50x45mm._non-code_FRONT_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_AL.EXTR._L-PROFILE_50x45mm._non-code_CUT_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_AL.EXTR._L-PROFILE_50x45mm._non-code_BOTTOM_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_AL.EXTR._L-PROFILE_50x45mm._non-code_BACK_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_V-HOOK_TOP_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_V-HOOK_RIGHT_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_V-HOOK_ISOMATRIC_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_V-HOOK_CUT_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_TOP_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_RIGHT_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_ISOMATRIC_VIEW" 0)
+      '("000 - ASSCESSORIES_FAMELINE_AL.BRACKET_FITTING_COMPLEX-PROFILE_U-HOOK_CUT_VIEW" 0)
+    )
+  )
+  (length 300HK_blk_list_)
+  ; (setq pp18_path "C:/TA WORK/PPLINE CKST/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP20/CAD/") ;use /w PC
+  ; (setq pp18_path "C:/TA WORK/PPLINE CKST/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP18/CAD/NEW FL") ;use /w PC
+  (setq pp18_path "C:/TA FAMELINE old data/TA/TA_WORK/MASS TRANSIT/TA_PPLINE CKST/TA_PPLINE CKST_combine_CSD-ceiling-plan/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP20/CAD/")
+  (setq filePath (getfiled "Select the DWG file" pp18_path "dwg" 4))
+  (textscr)
+  (setq temp_pt (getpoint "specify point" ))
+  ;preloop_and_while
+    (setq 300HK_blk_list_i 0)
+    (setvar "BLOCKREDEFINEMODE" 1)
+    (while (< 300HK_blk_list_i (length 300HK_blk_list_))
+      (setq 300HK_blk_list_ename_ (car (nth  300HK_blk_list_i 300HK_blk_list_)))
+        ; (if (= (cadr (nth  300HK_blk_list_i 300HK_blk_list_)) 0)
+        ;   (progn
+        ;     (TA:set-block-blockscaling 300HK_blk_list_ename_ acAny )
+        ;     (command "-INSERTCONTENT" filePath 300HK_blk_list_ename_ "Y" 1 temp_pt 0    )
+        ;   )
+        ; )
+        ; (if (= (cadr (nth  300HK_blk_list_i 300HK_blk_list_)) 1)
+        ;   (progn
+        ;     (TA:set-block-blockscaling 300HK_blk_list_ename_ acUniform )
+        ;     (command "-INSERTCONTENT" filePath 300HK_blk_list_ename_ "Y" temp_pt 1 0    )
+        ;   )
+        ; )
+        (command "-INSERTCONTENT" filePath 300HK_blk_list_ename_  temp_pt 1 1 0)
+      (TA:textscr_process "update" 300HK_blk_list_i 300HK_blk_list_)
+      ; (command "erase" "l" "")
+      (setq 300HK_blk_list_i (+ 300HK_blk_list_i 1))
+    )
+  ;
+  
+)
+(defun c:PPLINE-CKST_CSDupdate_ ()
+  ; (TA:get_name_block_in_drawing_to_list)
+  ; (TA:get_name_block_in_drawing_to_list)
+  (setvar "BLOCKREDEFINEMODE" 1)
+  (setq CSD_MERGE_LIST_ ())
+  (setq err_ "S")
+  (while (/= (wcmatch (strcase (vl-princ-to-string err_)) "*ERROR*") T) 
+    (setq err_ (vl-catch-all-apply 
+                 (function 
+                   (lambda () 
+                     (setq CSD_MERGE_LIST_ (cons (LM:effectivename (setq ee (vlax-ename->vla-object (car (entsel "specify Object")) ) ) ) CSD_MERGE_LIST_ ) )
+                   )
+                 )
+               )
+    )
+  )
+  (setq CSD_MERGE_LIST_ (mapcar 'car (TA:Count_item_in_list_ CSD_MERGE_LIST_)))
+  (setq pp18_path "C:/TA WORK/PPLINE CKST/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP17/CAD/")
+  (setq filePath (getfiled "Select the DWG file" pp18_path "dwg" 4))
+  (textscr)
+  (setq temp_pt (getpoint "specify point" ))
+  ;preloop_and_while
+    (setq CSD_MERGE_LIST_i 0)
+    (setq CER_ 0)
+    (while 
+      (and 
+        (/= CSD_MERGE_LIST_ nil)
+        (< CSD_MERGE_LIST_i (length CSD_MERGE_LIST_))
+        (/= (wcmatch (strcase (vl-princ-to-string CER_)) "NIL"))
+      )
+      (setq CSD_MERGE_LIST_efname (nth CSD_MERGE_LIST_i CSD_MERGE_LIST_))
+      (command "-INSERTCONTENT" filePath CSD_MERGE_LIST_efname temp_pt 1 1 0)
+      (vla-delete (vlax-ename->vla-object (entlast)))
+      (setq CSD_MERGE_LIST_i (+ CSD_MERGE_LIST_i 1))
+    )
+  ;
+  
+  (setvar "BLOCKREDEFINEMODE" 1)
+  (alert "complete")
+)
