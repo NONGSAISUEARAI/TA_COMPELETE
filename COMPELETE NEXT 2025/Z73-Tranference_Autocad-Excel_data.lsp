@@ -3170,7 +3170,9 @@
                       (setq blk_list_ (cons
                                         (strcat 
                                           (if (or (= block-editor_des-name nil) (= block-editor_des-name "")) (progn (LM:effectivename nested_obj_)) block-editor_des-name)
-                                          (substr (LM:getdynpropvalue nested_obj_ (LM:getvisibilityparametername nested_obj_ ) ) 2 20 )
+                                          ; (substr (LM:getdynpropvalue nested_obj_ (LM:getvisibilityparametername nested_obj_ ) ) 2 20 ) ;ไม่ร่น text string ใน des
+                                          (LM:getdynpropvalue nested_obj_ (LM:getvisibilityparametername nested_obj_ ) ) ;ไม่ร่น text string ใน des
+                                          
                                         ) 
                                         blk_list_
                                       )

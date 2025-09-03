@@ -7890,6 +7890,35 @@
     (defun c:lastselection_lss ()
       (command "pselect"  ss_pre_filter_set_xx_  "" )
     )
+    (defun TA:combine_selection_set_ (ss1 ss2 / newSS i ent)
+      (setq newSS (ssadd)) ; สร้าง selection set ว่าง
+      
+      ;; ใส่สมาชิกจาก ss1
+      (if ss1
+        (progn
+          (setq i 0)
+          (while (< i (sslength ss1))
+            (setq ent (ssname ss1 i))
+            (ssadd ent newSS)
+            (setq i (1+ i))
+          )
+        )
+      )
+
+      ;; ใส่สมาชิกจาก ss2
+      (if ss2
+        (progn
+          (setq i 0)
+          (while (< i (sslength ss2))
+            (setq ent (ssname ss2 i))
+            (ssadd ent newSS)
+            (setq i (1+ i))
+          )
+        )
+      )
+
+      newSS ; return selection set ที่รวมแล้ว
+    )
   ;
   ;test_command
     (defun TA:dump_obj_ (dump_ename_ )
@@ -11183,8 +11212,8 @@
         ;; _case_1
         ((= visibility_mode_value_ 1)
          (progn 
-           (if (= (setq ssA (ssget "i" '((0 . "INSERT")))) nil) 
-             (setq ssA (ssget '((0 . "INSERT"))))
+           (if (= (setq ssA (ssget "i" )) nil) 
+             (setq ssA (ssget ))
            )
            (sslength ssA)
            (princ "_case_1")
@@ -11194,8 +11223,8 @@
         ;; _case_2
         ((= visibility_mode_value_ 2)
          (progn 
-           (if (= (setq ssB (ssget "i" '((0 . "INSERT")))) nil) 
-             (setq ssB (ssget '((0 . "INSERT"))))
+           (if (= (setq ssB (ssget "i" )) nil) 
+             (setq ssB (ssget ))
            )
            (sslength ssB)
            (princ "_case_2")
@@ -11205,8 +11234,8 @@
         ;; _case_3
         ((= visibility_mode_value_ 3)
          (progn 
-           (if (= (setq ssC (ssget "i" '((0 . "INSERT")))) nil) 
-             (setq ssC (ssget '((0 . "INSERT"))))
+           (if (= (setq ssC (ssget "i" )) nil) 
+             (setq ssC (ssget ))
            )
            (sslength ssC)
            (princ "_case_3")
@@ -11216,8 +11245,8 @@
         ;; _case_4
         ((= visibility_mode_value_ 4)
          (progn 
-           (if (= (setq ssD (ssget "i" '((0 . "INSERT")))) nil) 
-             (setq ssD (ssget '((0 . "INSERT"))))
+           (if (= (setq ssD (ssget "i" )) nil) 
+             (setq ssD (ssget ))
            )
            (sslength ssD)
            (princ "_case_4")
@@ -11227,8 +11256,8 @@
         ;; _case_5
         ((= visibility_mode_value_ 5)
          (progn 
-           (if (= (setq ssE (ssget "i" '((0 . "INSERT")))) nil) 
-             (setq ssE (ssget '((0 . "INSERT"))))
+           (if (= (setq ssE (ssget "i" )) nil) 
+             (setq ssE (ssget ))
            )
            (sslength ssE)
            (princ "_case_5")
@@ -11238,8 +11267,8 @@
         ;; _case_6
         ((= visibility_mode_value_ 6)
          (progn 
-           (if (= (setq ssF (ssget "i" '((0 . "INSERT")))) nil) 
-             (setq ssF (ssget '((0 . "INSERT"))))
+           (if (= (setq ssF (ssget "i" )) nil) 
+             (setq ssF (ssget ))
            )
            (sslength ssF)
            (princ "_case_6")
@@ -11249,8 +11278,8 @@
         ;; _case_7
         ((= visibility_mode_value_ 7)
          (progn 
-           (if (= (setq ssG (ssget "i" '((0 . "INSERT")))) nil) 
-             (setq ssG (ssget '((0 . "INSERT"))))
+           (if (= (setq ssG (ssget "i" )) nil) 
+             (setq ssG (ssget ))
            )
            (sslength ssG)
            (princ "_case_7")
@@ -11260,8 +11289,8 @@
         ;; _case_8
         ((= visibility_mode_value_ 8)
          (progn 
-           (if (= (setq ssH (ssget "i" '((0 . "INSERT")))) nil) 
-             (setq ssH (ssget '((0 . "INSERT"))))
+           (if (= (setq ssH (ssget "i" )) nil) 
+             (setq ssH (ssget ))
            )
            (sslength ssH)
            (princ "_case_8")
@@ -11271,8 +11300,8 @@
         ;; _case_9
         ((= visibility_mode_value_ 9)
          (progn 
-           (if (= (setq ssI (ssget "i" '((0 . "INSERT")))) nil) 
-             (setq ssI (ssget '((0 . "INSERT"))))
+           (if (= (setq ssI (ssget "i" )) nil) 
+             (setq ssI (ssget ))
            )
            (sslength ssI)
            (princ "_case_9")
@@ -11282,8 +11311,8 @@
         ;; _case_10
         ((= visibility_mode_value_ 10)
          (progn 
-           (if (= (setq ssJ (ssget "i" '((0 . "INSERT")))) nil) 
-             (setq ssJ (ssget '((0 . "INSERT"))))
+           (if (= (setq ssJ (ssget "i" )) nil) 
+             (setq ssJ (ssget ))
            )
            (sslength ssJ)
            (princ "_case_10")
@@ -11292,6 +11321,25 @@
       )
     ) 
     (defun c:load_selection_loadss_ ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq old_set_ (ssget "i"
+                                              (list
+                                                ; (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (princ "no pre object in old selection set")
+          )
+        )
+      ;
       (setq a "a = slot 1"
             b "b = slot 2"
             c "c = slot 3"
@@ -11415,96 +11463,107 @@
         )
       ;
       (setq visibility_mode_value_ (cond ((getint (strcat a"\n"b"\n"c"\n"d"\n" e"\n" f"\n" g"\n" h"\n" i"\n" j"\n" "<" (rtos (setq visibility_mode_value_ (cond (visibility_mode_value_) (1.0) ) ) ) "> : " ) ) ) (visibility_mode_value_) ) )
+      (setq new_set_ (ssadd))
+
       (cond 
         ;; _case_1
         ((= visibility_mode_value_ 1)
-         (progn 
-           (command "pselect"  ssA "" )
-           (sslength ssA)
-           (princ "_case_1")
-         )
+        (progn 
+          (command "pselect"  ssA "" )
+          (setq new_set_ ssA )
+          (princ "_case_1")
+        )
         )
 
         ;; _case_2
         ((= visibility_mode_value_ 2)
-         (progn 
-           (command "pselect"  ssB "" )
-           (sslength ssB)
-           (princ "_case_2")
-         )
+        (progn 
+          (command "pselect"  ssB "" )
+          (setq new_set_ ssB )
+          (princ "_case_2")
+        )
         )
 
         ;; _case_3
         ((= visibility_mode_value_ 3)
-         (progn 
-           (command "pselect"  ssC "" )
-           (sslength ssC)
-           (princ "_case_3")
-         )
+        (progn 
+          (command "pselect"  ssC "" )
+          (setq new_set_ ssC )
+          (princ "_case_3")
+        )
         )
 
         ;; _case_4
         ((= visibility_mode_value_ 4)
-         (progn 
-           (command "pselect"  ssD "" )
-           (sslength ssD)
-           (princ "_case_4")
-         )
+        (progn 
+          (command "pselect"  ssD "" )
+          (setq new_set_ ssD )
+          (princ "_case_4")
+        )
         )
 
         ;; _case_5
         ((= visibility_mode_value_ 5)
-         (progn 
-           (command "pselect"  ssE "" )
-           (sslength ssE)
-           (princ "_case_5")
-         )
+        (progn 
+          (command "pselect"  ssE "" )
+          (setq new_set_ ssE )
+          (princ "_case_5")
+        )
         )
 
         ;; _case_6
         ((= visibility_mode_value_ 6)
-         (progn 
-           (command "pselect"  ssF "" )
-           (sslength ssF)
-           (princ "_case_6")
-         )
+        (progn 
+          (command "pselect"  ssF "" )
+          (setq new_set_ ssF )
+          (princ "_case_6")
+        )
         )
 
         ;; _case_7
         ((= visibility_mode_value_ 7)
-         (progn 
-           (command "pselect"  ssG "" )
-           (sslength ssG)
-           (princ "_case_7")
-         )
+        (progn 
+          (command "pselect"  ssG "" )
+          (setq new_set_ ssG )
+          (princ "_case_7")
+        )
         )
 
         ;; _case_8
         ((= visibility_mode_value_ 8)
-         (progn 
-           (command "pselect"  ssH "" )
-           (sslength ssH)
-           (princ "_case_8")
-         )
+        (progn 
+          (command "pselect"  ssH "" )
+          (setq new_set_ ssH )
+          (princ "_case_8")
+        )
         )
 
         ;; _case_9
         ((= visibility_mode_value_ 9)
-         (progn 
-           (command "pselect"  ssI "" )
-           (sslength ssI)
-           (princ "_case_9")
-         )
+        (progn 
+          (command "pselect"  ssI "" )
+          (setq new_set_ ssI )
+          (princ "_case_9")
+        )
         )
 
         ;; _case_10
         ((= visibility_mode_value_ 10)
-         (progn 
-           (command "pselect"  ssJ "" )
-           (sslength ssJ)
-           (princ "_case_10")
-         )
+        (progn 
+          (command "pselect"  ssJ "" )
+          (setq new_set_ ssj )
+          (princ "_case_10")
         )
+        )
+      )
+
+
+      (if (/= old_set_ nil)
+        (progn
+          (setq sss (TA:combine_selection_set_ new_set_ old_set_))
+          (command "pselect"   sss "" )
+        )
+        (command "pselect"  new_set_ "" )
       )
     ) 
     (defun c:match_point_X_mpxx ()
@@ -19040,19 +19099,19 @@
           pt_dist_2-3mid
           1
           (cond
-            ((= (rad-to-deg (angle pt_dist_2_ pt_dist_3_ ) ) 270)
+            ((= (TA:round-05 (rad-to-deg (angle pt_dist_2_ pt_dist_3_ ) )) 270)
               (progn
                 (deg-to-rad 90)
               )
             )
-            ((= (rad-to-deg (angle pt_dist_2_ pt_dist_3_ ) ) 90)
+            ((= (TA:round-05 (rad-to-deg (angle pt_dist_2_ pt_dist_3_ ) )) 90)
               (progn
                 (deg-to-rad 90)
               )
             )
             ((or 
-               (= (rad-to-deg (angle pt_dist_2_ pt_dist_3_ ) ) 0)
-               (= (rad-to-deg (angle pt_dist_2_ pt_dist_3_ ) ) 180)
+               (= (TA:round-05 (rad-to-deg (angle pt_dist_2_ pt_dist_3_ ) )) 0)
+               (= (TA:round-05 (rad-to-deg (angle pt_dist_2_ pt_dist_3_ ) )) 180)
              )
               (progn
                 (deg-to-rad 0)
@@ -20495,6 +20554,79 @@
       (if (= ucsedit 0)(progn (command "ucs" "p") )  )
     )
     ;
+    (defun c:PPLINE_CKST_EXTR-LENGTH_RCLENGTH_RCL1 ()
+      ;presetting
+        (setq offset_length 0 )
+      ;
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_v2_ ss_pre_filter_set_xx_ (list 
+                                                                                    "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._C-PROFILE_50x100mm._non-code_COMBINE_VIEW"
+                                                                                    "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_COMBINE_VIEW"
+                                                                                 ) 
+                                  )
+      )
+      ;user_input
+      (setq dyn_val_ (cond ( (getreal (strcat "\nspecify dyn_val_ <" (rtos (setq dyn_val_ (cond (dyn_val_) (10) ) ) ) "> : " ) ) ) (dyn_val_) ) )
+      ;
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (setq ss_pre_filter_set_xx_obj_dynlist_ (LM:getdynprops ss_pre_filter_set_xx_obj_) )
+          
+          ;preloop_and_while
+            (setq ss_pre_filter_set_xx_obj_dynlist_i 0)
+            (while (< ss_pre_filter_set_xx_obj_dynlist_i (length ss_pre_filter_set_xx_obj_dynlist_))
+              (setq ss_pre_filter_set_xx_obj_dynlist_list_ (nth  ss_pre_filter_set_xx_obj_dynlist_i ss_pre_filter_set_xx_obj_dynlist_))
+              (if 
+                (and 
+                  (/= (car ss_pre_filter_set_xx_obj_dynlist_list_) "Origin")
+                  (/= (car ss_pre_filter_set_xx_obj_dynlist_list_) "view")
+                )
+                (progn 
+                  (LM:setdynpropvalue 
+                    ss_pre_filter_set_xx_obj_
+                    (car ss_pre_filter_set_xx_obj_dynlist_list_)
+                    (+ 100 offset_length)
+                  )
+                )
+              )
+              (setq ss_pre_filter_set_xx_obj_dynlist_i (+ ss_pre_filter_set_xx_obj_dynlist_i 1))
+            )
+          ;
+          
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+    )
   ;
   ;000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_BRACKET-L-PROFILE_50x68mm.+HEX_BOLT-M5-SET_non-code_COMBINE_SET
     (defun c:PPLINE-CKST-INSBK5068 ()
@@ -28198,6 +28330,7 @@
     (setq wildcard_string_slot_2 (strcase (strcat "*" "Air Supply" "*")) )
     (setq wildcard_string_slot_3 (strcase (strcat "*" "Luminaire" "*")) )
     (setq wildcard_string_slot_4 (strcase (strcat "*" "Horizontal with Gap" "*")) )
+    (setq wildcard_string_slot_5 (strcase (strcat "*" "Square" "*")) )
     (setq wildcard_string_slot_num_ (cond 
                                       ((getint 
                                          (strcat "\nspecify get wildcard_string_slot_ \n" 
@@ -28205,6 +28338,7 @@
                                                   "2 = "wildcard_string_slot_2 "\n"
                                                   "3 = "wildcard_string_slot_3 "\n"
                                                   "4 = "wildcard_string_slot_4 "\n"
+                                                  "5 = "wildcard_string_slot_5 "\n"
                                                  "<"
                                                  (rtos 
                                                    (setq wildcard_string_slot_num_ (cond 
@@ -28257,6 +28391,16 @@
          )
          (progn
            (setq wildcard_string_ wildcard_string_slot_4)
+           (princ "wildcard_string_slot_num__case_3")
+         )
+      )
+      (;wildcard_string_slot_num__case_4
+         (and
+            (= wildcard_string_slot_num_ 5)
+            
+         )
+         (progn
+           (setq wildcard_string_ wildcard_string_slot_5)
            (princ "wildcard_string_slot_num__case_3")
          )
       )
@@ -28731,7 +28875,9 @@
 
                   (LM:setdynpropvalue newblk_obj_ "view" "6_bottom_view")
               
-                  (if (> (car (cadr new_boundingbox_)) (cadr (cadr new_boundingbox_)))
+                  (if (and 
+                        (> (car (cadr new_boundingbox_)) (cadr (cadr new_boundingbox_)))
+                      )
                     (progn
                       (setq L (distance  (car (car new_boundingbox_)) (cadr (car new_boundingbox_)) ))
                     )
@@ -29113,6 +29259,9 @@
   )
 
   (defun c:fix_dynamic_length_fixdyn ()
+    ;presetting
+      (setq offset_length -100)
+    ;
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget
         (=
@@ -29154,12 +29303,20 @@
                 (setq ss_pre_filter_set_xx_obj_dynamic_list_i 0)
                 (while (< ss_pre_filter_set_xx_obj_dynamic_list_i (length ss_pre_filter_set_xx_obj_dynamic_list_))
                   (setq ss_pre_filter_set_xx_obj_dynamic_list_dynname-set_ (nth  ss_pre_filter_set_xx_obj_dynamic_list_i ss_pre_filter_set_xx_obj_dynamic_list_))
-                  (if (or
+                  (if 
+                    (and
+                      (or
                         (= (type (cdr ss_pre_filter_set_xx_obj_dynamic_list_dynname-set_)) 'real)
                         (= (type (cdr ss_pre_filter_set_xx_obj_dynamic_list_dynname-set_)) 'int)
                       )
+                      (and (> (cdr ss_pre_filter_set_xx_obj_dynamic_list_dynname-set_ ) (abs offset_length)))
+                    )
                     (progn
-                      (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ (car ss_pre_filter_set_xx_obj_dynamic_list_dynname-set_) (LM:round (cdr ss_pre_filter_set_xx_obj_dynamic_list_dynname-set_)) )
+                      (LM:setdynpropvalue 
+                        ss_pre_filter_set_xx_obj_ 
+                        (car ss_pre_filter_set_xx_obj_dynamic_list_dynname-set_) 
+                        (+ (LM:round (cdr ss_pre_filter_set_xx_obj_dynamic_list_dynname-set_)) offset_length) 
+                      )
                     )
                   )
                   
@@ -29470,3 +29627,180 @@
 ;   "000 - DYNAMIC_ARRAY_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK-VA_@400mm_BOTTOM_VIEW"
 
 ; )
+
+
+
+
+(defun c:xh1 ()
+  (setq pline_ename_ (car (entsel "specify Object")))
+  (setq pline_obj_ (vlax-ename->vla-object pline_ename_))
+  (setq pline_vertext_data_ (TA:Get_Pline_vertext_angle_case1 pline_ename_))
+  (setq pline_vertext_data_1 (car (nth 0  pline_vertext_data_ )))
+  (setq pline_vertext_data_2 (car (nth 1  pline_vertext_data_ )))
+  (setq pline_vertext_data_3 (car (nth 2 pline_vertext_data_ )))
+  (setq pline_vertext_data_4 (car (nth 3 pline_vertext_data_ )))
+
+  ; (setq  x_  (list
+    ;               (list 
+    ;                   (setq pline_vertext_data_1-150-2 (polar pline_vertext_data_1 (angle   pline_vertext_data_1 pline_vertext_data_2)  0.15) )
+    ;                   (setq pline_vertext_data_2-150-1 (polar pline_vertext_data_2 (angle   pline_vertext_data_2 pline_vertext_data_1)  0.15) )
+    ;               )
+    ;               (list 
+    ;                   (setq pline_vertext_data_2-150-3 (polar pline_vertext_data_2 (angle   pline_vertext_data_2 pline_vertext_data_3)  0.15) )
+    ;                   (setq pline_vertext_data_3-150-2 (polar pline_vertext_data_3 (angle   pline_vertext_data_3 pline_vertext_data_2)  0.15) )
+    ;               )
+    ;               (list 
+    ;                   (setq pline_vertext_data_3-150-4 (polar pline_vertext_data_3 (angle   pline_vertext_data_3 pline_vertext_data_4)  0.15) )
+    ;                   (setq pline_vertext_data_4-150-3 (polar pline_vertext_data_4 (angle   pline_vertext_data_4 pline_vertext_data_3)  0.15) )
+    ;               )
+    ;               (list
+    ;                 (setq pline_vertext_data_4-150-1 (polar pline_vertext_data_4 (angle   pline_vertext_data_4 pline_vertext_data_1)  0.15) )
+    ;                 (setq pline_vertext_data_1-150-4 (polar pline_vertext_data_1 (angle   pline_vertext_data_1 pline_vertext_data_4)  0.15) )          
+    ;               )
+
+    ;           )
+  ; )
+  (setq  x_  (list
+                (list 
+                    pline_vertext_data_1
+                    pline_vertext_data_2
+                )
+                (list 
+                    pline_vertext_data_2
+                    pline_vertext_data_3
+                )
+                (list 
+                    pline_vertext_data_3
+                    pline_vertext_data_4
+                )
+                (list
+                  pline_vertext_data_4
+                  pline_vertext_data_1          
+                )
+
+            )
+  )
+
+  ;preloop_and_while
+    (setq x_i 0)
+    (while (< x_i (length x_))
+      (setq x_head_ (car (nth  x_i x_)))
+      (setq x_bot_ (cadr (nth  x_i x_)))
+      (setq x_head_1.5 (polar x_head_ (angle   x_head_ x_bot_)  0.15) )
+      (setq x_bot_1.5 (polar x_bot_ (angle   x_bot_ x_head_)  0.15) )
+      (setvar "osmode" 0)
+      ;set 1-2
+        (setvar "osmode" 0)
+        (cond
+          ( (and 
+                (< (distance x_head_1.5 x_bot_1.5) 0.65)
+              )
+            (progn
+              (command "circle" x_head_1.5 0.1  )
+              (command "circle" x_bot_1.5 0.1  )
+              (command "circle" (TA:midpoint x_head_1.5 x_bot_1.5  ) 0.1 )
+            )
+          )
+          ( (and 
+                (> (distance x_head_1.5 x_bot_1.5) 0.65)
+                (< (distance x_head_1.5 x_bot_1.5) 1.30)
+                
+              )
+            (progn
+              (command "circle" x_head_1.5 0.1  )
+              (command "circle" x_bot_1.5 0.1  )
+              (command "circle" (TA:midpoint x_head_1.5 x_bot_1.5  ) 0.1 )
+            )
+          )
+          ( (and 
+                (> (distance x_head_1.5 x_bot_1.5) 1.30)
+                (< (distance x_head_1.5 x_bot_1.5) 1.95)
+                
+              )
+            (progn
+              (setq timer 3)
+              (setq div (/ (distance x_head_1.5 x_bot_1.5) timer))
+              (setq i 0)
+              (while
+                (< i 4)
+                (command "circle" (polar x_head_1.5 (angle  x_head_1.5 x_bot_1.5 ) (* div i) ) 0.1  )
+                (setq i (+ i 1))
+              )
+              
+
+            )
+          )
+          ( (and 
+                (> (distance x_head_1.5 x_bot_1.5) 1.95)
+                (< (distance x_head_1.5 x_bot_1.5) 2.6)
+                
+              )
+            (progn
+              (setq timer 4)
+              (setq div (/ (distance x_head_1.5 x_bot_1.5) timer))
+              (setq i 0)
+              (while
+                (< i 5)
+                (command "circle" (polar x_head_1.5 (angle  x_head_1.5 x_bot_1.5 ) (* div i) ) 0.1  )
+                (setq i (+ i 1))
+              )
+              
+
+            )
+          )
+        )
+        (setvar "osmode" 1215)
+      ;
+      (setvar "osmode" 1215)
+      (setq x_i (+ x_i 1))
+    )
+  ;
+)
+
+(defun TA:Combine-SS (ss1 ss2 / newSS i ent)
+  (setq newSS (ssadd)) ; สร้าง selection set ว่าง
+  
+  ;; ใส่สมาชิกจาก ss1
+  (if ss1
+    (progn
+      (setq i 0)
+      (while (< i (sslength ss1))
+        (setq ent (ssname ss1 i))
+        (ssadd ent newSS)
+        (setq i (1+ i))
+      )
+    )
+  )
+
+  ;; ใส่สมาชิกจาก ss2
+  (if ss2
+    (progn
+      (setq i 0)
+      (while (< i (sslength ss2))
+        (setq ent (ssname ss2 i))
+        (ssadd ent newSS)
+        (setq i (1+ i))
+      )
+    )
+  )
+
+  newSS ; return selection set ที่รวมแล้ว
+)
+
+
+
+
+(defun LM:setdynpropvaluessss ( blk prp val )
+    (setq prp (strcase prp))
+    (vl-some
+       '(lambda ( x )
+            (if (= prp (strcase (vla-get-propertyname x)))
+                (progn
+                    (vla-put-value x (vlax-make-variant val (vlax-variant-type (vla-get-value x))))
+                    (cond (val) (t))
+                )
+            )
+        )
+        (vlax-invoke blk 'getdynamicblockproperties)
+    )
+)
