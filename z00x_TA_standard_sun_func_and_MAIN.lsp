@@ -10824,8 +10824,9 @@
       (vla-erase (vlax-ename->vla-object (entlast)))
       
       (setq blk_obj_BOL-centroid_ (append (TA:midpoint (car (nth 0 blk_obj_BOL-data_list)) (caddr (nth 0 blk_obj_BOL-data_list))) (list 0)) )
-      (setq new_ang_ (getangle blk_obj_BOL-centroid_))
-      (vla-rotate  blk_obj_  (vlax-3d-point blk_obj_BOL-centroid_) new_ang_  )
+      (setq blk_obj_ro (vla-get-rotation blk_obj_))
+      (vla-put-rotation blk_obj_ (deg-to-rad (TA:ModifyRotation  (rad-to-deg  blk_obj_ro) 90 )))
+      (command "pselect"  (ssname ss_pre_filter_set_xx_ 0) "" )
     )
     (defun c:rotate_by_2_point_ro2point ()
       
@@ -12470,6 +12471,20 @@
           )
         )
       ;
+    )
+  ;
+  ;text window func
+    (defun TA:interface_text_ ( symbol )
+      (if (= symbol T)
+        (progn
+          ;switch window
+            (textscr)
+            (vla-put-WindowState (vlax-get-acad-object) acmin)
+          ;
+        )
+        (graphscr)
+      )
+      
     )
   ;
 ;
@@ -20321,7 +20336,6 @@
     (vla-put-layer ss_obj_ "A11_ALU.SOLID SHEET")
     (vla-put-color ss_obj_ 0 )
     (setq ss_obj_ins_ro (TA:ModifyRotation (rad-to-deg (vla-get-rotation ss_obj_)) 90))
-    (LM:setdynpropvalue ss_obj_ "view" "2_top_view")
     
     (setq Lpt1_ (polar ss_obj_ins_ (deg-to-rad ss_obj_ins_ro) 150) ) ;300 = 150 , 275 = 137.5
     (setq Lpt1_1 (polar Lpt1_ (deg-to-rad (TA:ModifyRotation ss_obj_ins_ro -90)) (LM:setdynpropvalue ss_obj_ "L" (getdist Lpt1_ "specify length 1"  ) )) )
@@ -20659,6 +20673,7 @@
         )
         (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_COMBINE_VIEW"))
       ;
+      
       ;preloop_and_while
         (setq ss_pre_filter_set_xx_i 0)
         (setq cc-01_inters_list_ ())
@@ -20686,10 +20701,9 @@
       (setq Er-msg_ nil)
       (setvar "osmode" 0)
       (while
-        
         (and (/= (vl-catch-all-error-p Er-msg_) T) )
+        (graphscr)
         (setq Er-msg_ (vl-catch-all-apply (function (lambda () (setq ss_extr_ename_ (ssname  (ssget ":S" (list (cons 0 "INSERT") ) ) 0)) ) ) ) )
-        
         (if (and 
               (/= (vl-catch-all-error-p Er-msg_) T)
               (or
@@ -20698,12 +20712,18 @@
               )
             )
           (progn
+            ;switch window
+              (textscr)
+              (vla-put-WindowState (vlax-get-acad-object) acmin)
+            ; 
+
             (setq ss_extr_obj_ (vlax-ename->vla-object ss_extr_ename_))
             (setq ss_extr_ (TA:get-visible-boundingbox ss_extr_obj_))
             (command "erase" (entlast) "")
             (setq ssextr_ptmid1-4 (TA:midpoint (car (car ss_extr_)) (cadddr (car ss_extr_)) ) )
             (setq ssextr_ptmid2-3 (TA:midpoint (cadr (car ss_extr_)) (caddr (car ss_extr_)) ) )
           )
+          (graphscr)
         )
         ;preloop_and_while
           (setq cc-01_inters_list_i 0)
@@ -20797,8 +20817,8 @@
       (setq Er-msg_ nil)
       (setvar "osmode" 0)
       (while
-        
         (and (/= (vl-catch-all-error-p Er-msg_) T) )
+        (graphscr)
         (setq Er-msg_ (vl-catch-all-apply (function (lambda () (setq ss_extr_ename_ (ssname  (ssget ":S" (list (cons 0 "INSERT") ) ) 0)) ) ) ) )
         
         (if (and 
@@ -20808,13 +20828,19 @@
                 (= (LM:effectivename (vlax-ename->vla-object ss_extr_ename_)) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_COMBINE_VIEW") 
               )
             )
+
           (progn
+            ;switch window
+              (textscr)
+              (vla-put-WindowState (vlax-get-acad-object) acmin)
+            ; 
             (setq ss_extr_obj_ (vlax-ename->vla-object ss_extr_ename_))
             (setq ss_extr_ (TA:get-visible-boundingbox ss_extr_obj_))
             (command "erase" (entlast) "")
             (setq ssextr_ptmid1-4 (TA:midpoint (car (car ss_extr_)) (cadddr (car ss_extr_)) ) )
             (setq ssextr_ptmid2-3 (TA:midpoint (cadr (car ss_extr_)) (caddr (car ss_extr_)) ) )
           )
+          (graphscr)
         )
         ;preloop_and_while
           (setq cc-01_inters_list_i 0)
@@ -28064,14 +28090,16 @@
           
         )
       )
-      (if (and (/= (sslength ssvis_1) 0) (/= (sslength ssvis_3) 0) (/= (sslength ssvis_1-1) 0) ) 
+      (if (or (/= (sslength ssvis_1) 0) (/= (sslength ssvis_3) 0) (/= (sslength ssvis_1-1) 0) ) 
         (progn 
           (vl-catch-all-apply (function (lambda () (command "bvstate" "S" "5_"  ) ) ) )
           (vl-catch-all-apply (function (lambda () (command "bvshow" ssvis_1 "" "c"  ) ) ) )
           (vl-catch-all-apply (function (lambda () (command "bvshow" ssvis_3 "" "c"  ) ) ) )
-          (vl-catch-all-apply (function (lambda () (command "bvshow" ssvis_1-1 "" "c"  ) ) ) )
-          
-          
+          (if (/= (sslength ssvis_1-1) 0)
+            (progn
+              (vl-catch-all-apply (function (lambda () (command "bvshow" ssvis_1-1 "" "c"  ) ) ) )
+            )
+          )
           
         )
       )
@@ -28311,14 +28339,29 @@
 
 
 
-(defun c:Lisplist_ ()
+(defun c:loadlisp ()
+  (cond
+    ((and 
+          (= (getenv "COMPUTERNAME") "NONGSAISUEARAI")
+          (= (getenv "USERNAME") "popul")
+        )
+      (progn
+        (setq Er-msg_ (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/COMPELETE NEXT 2025/Z73-Tranference_Autocad-Excel_data.lsp") ) ) ) )
+        (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/COMPELETE NEXT 2025/REWORK DIM/z62x_REWORK_DIMENSION_REV02.lsp") ) ) ) )
+        (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/COMPELETE IN COMPELETE/SFB_FINDING_SPECFILY_NAME_BLOCK.lsp") ) ) ) )
+      )
+    )
+    ; ((and 
+    ;       (= (getenv "COMPUTERNAME") "NONGSAISUEARAI")
+    ;       (= (getenv "USERNAME") "popul")
+    ;     )
+    ;   (progn
+    ;     (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/Admin/Documents/GitHub/TA_COMPELETE/COMPELETE NEXT 2025/Z73-Tranference_Autocad-Excel_data.lsp") ) ) ) )
+    ;   )
+    ; )
+  )
   ; (setq Er-msg_ (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/z67x_CLEAN_FUNC.lsp") ) ) ) )
   ; (setq Er-msg_ (vl-catch-all-apply (function (lambda () (load "C:/Users/Admin/Documents/GitHub/TA_COMPELETE/z67x_CLEAN_FUNC.lsp") ) ) ) )
-  (setq Er-msg_ (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/COMPELETE NEXT 2025/Z73-Tranference_Autocad-Excel_data.lsp") ) ) ) )
-  (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/Admin/Documents/GitHub/TA_COMPELETE/COMPELETE NEXT 2025/Z73-Tranference_Autocad-Excel_data.lsp") ) ) ) )
-  (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/COMPELETE NEXT 2025/REWORK DIM/z62x_REWORK_DIMENSION_REV02.lsp") ) ) ) )
-  (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/Admin/Documents/GitHub/TA_COMPELETE/COMPELETE NEXT 2025/REWORK DIM/z62x_REWORK_DIMENSION_REV02.lsp") ) ) ) )
-  (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/Admin/Documents/GitHub/TA_COMPELETE/COMPELETE IN COMPELETE/SFB_FINDING_SPECFILY_NAME_BLOCK.lsp") ) ) ) )
 )
 
   
@@ -28411,7 +28454,7 @@
   ;selection_set_for_fillter_blk_name
     (if  ;pre_select_ssget_or_post_select_ssget
       (=
-        (setq ss_pre_filter_set_xx_ (ssget "i"
+        (setq ss_pre_filter_set_xx_ (ssget "x"
                                           (list
                                             (cons 0 "INSERT") ;type of object
                                             ; (cons 8 "000 - GRID")   ;kind of layer
@@ -29787,20 +29830,4 @@
   newSS ; return selection set ที่รวมแล้ว
 )
 
-
-
-
-(defun LM:setdynpropvaluessss ( blk prp val )
-    (setq prp (strcase prp))
-    (vl-some
-       '(lambda ( x )
-            (if (= prp (strcase (vla-get-propertyname x)))
-                (progn
-                    (vla-put-value x (vlax-make-variant val (vlax-variant-type (vla-get-value x))))
-                    (cond (val) (t))
-                )
-            )
-        )
-        (vlax-invoke blk 'getdynamicblockproperties)
-    )
-)
+ 
