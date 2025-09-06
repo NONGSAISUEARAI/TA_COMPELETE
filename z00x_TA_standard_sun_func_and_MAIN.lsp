@@ -21207,8 +21207,6 @@
       )
       (setq c011_ (TA:EF_Filter_ss_set_ c011_ "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_COMBINE_VIEW"))
     ;
-    
-
     (setq ERR_ nil)
     (while ;for keep insertion point and dist. fix length one side
       (and
@@ -21230,7 +21228,7 @@
             (= (vl-catch-all-error-p ERR_) nil)
             (< c011_i (sslength c011_))
           )
-          (setq c011_ename_ (ssname c011_ c011_i))
+          (setq c011_ename_ (ssname c011_ c011_i)) 
           (setq c011_obj_ (vlax-ename->vla-object  c011_ename_))
           (setq c011_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint c011_obj_))))
           (setq c011_obj_fragment_mid_ (LM:getdynpropvalue c011_obj_ "fragment_middle" ))
@@ -21258,6 +21256,33 @@
               (progn
                 (LM:setdynpropvalue c011_obj_ "fragment_middle" (setq c011_obj_fragment_mid_ (- c011_obj_fragment_mid_ 25)))
                 (TA:move_polar_insertionpoint  c011_obj_ "Y" 12.5)
+                (princ "ssss_case_2")
+              )
+            )
+            (;ssss_case_2-1
+              (and
+                  (= (vl-catch-all-error-p ERR_) nil)
+                  (= (LM:getdynpropvalue c011_obj_ "view") "7_dynamic_length_view" )
+                  (< increment_num_ 0)
+                  (> (fix c011_obj_fragment_mid_)   )
+              )
+              (progn
+                (LM:setdynpropvalue c011_obj_ "fragment_middle" (setq c011_obj_fragment_mid_ (- c011_obj_fragment_mid_ (* 25 (abs increment_num_)))))
+                (TA:move_polar_insertionpoint  c011_obj_ "Y" (* 12.5 (abs increment_num_)) )
+                (princ "ssss_case_2")
+              )
+            )
+            (;ssss_case_2-2
+              (and
+                  (= (vl-catch-all-error-p ERR_) nil)
+                  (= (LM:getdynpropvalue c011_obj_ "view") "7_dynamic_length_view" )      
+                  (> increment_num_ 0)
+                  (<  (fix c011_obj_fragment_mid_) 3000)
+                  (< (+ c011_obj_fragment_mid_ (* 25 increment_num_ ) ) 3000 )
+              )
+              (progn
+                (LM:setdynpropvalue c011_obj_ "fragment_middle" (setq c011_obj_fragment_mid_ (+ c011_obj_fragment_mid_ (* 25 increment_num_))))
+                (TA:move_polar_insertionpoint  c011_obj_ "Y" (* 12.5 (- increment_num_)) )
                 (princ "ssss_case_2")
               )
             )
@@ -21292,10 +21317,7 @@
           (setq c011_i (+ c011_i 1))
         )
       ;
-
     )
-    
-    
   )
   ;
   (defun c:inshang1 ()
