@@ -2101,6 +2101,31 @@
         )
       )
     )
+    (defun TA:getkword ( getkword_text_ initget_text1_ initget_text2_ value-true1 value-false1 ) ; for if true-false by keyword
+      ; (setq getkword_text_ "keep input offset value ?")
+      ; (setq initget_text1_ "Yes")
+      ; (setq initget_text2_ "No")
+      ; (setq value-true1 22)
+      ; (setq value-false1 23)
+      (setq initget_text_ovl_ (strcat initget_text1_ " " initget_text2_))
+      (initget 2)
+      (initget initget_text_ovl_)
+      (setq condition_object_case_detect_ ;Detect the variable's result in case of a function error
+        (vl-catch-all-apply 
+          (function 
+            (lambda () 
+              (setq condition_object_case_val_type1_ (not (eq "No" (getkword (strcat getkword_text_ " [" (LM:StringSubst "/" " " initget_text_ovl_ ) "] " "<Y>:" ) ) ) ) ) 
+            )
+          )
+        )
+      )
+      (if (= condition_object_case_val_type1_ T)
+        (progn
+          value-true1
+        )
+        value-false1
+      )
+    )
   ;
   ;convert_value_
     (defun deg-to-rad (angle)
@@ -11051,6 +11076,52 @@
       (command "pselect"  target_move_ "" )
 
     )
+    (defun c:centroid_move_cenmo ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+        (setvar "osmode" 0)
+        (setq ss_pre_filter_set_xx_centroid_ins_ (TA:ss_vla-getboundingbox ss_pre_filter_set_xx_ ))
+        (setq ss_pre_filter_set_xx_centroid_mid_ (TA:midpoint (car ss_pre_filter_set_xx_centroid_ins_) (cadr ss_pre_filter_set_xx_centroid_ins_)))
+        
+      ;
+      (command "pselect"   "" )
+      
+      (command "point" ss_pre_filter_set_xx_centroid_mid_)
+      (command "rectangle" (car ss_pre_filter_set_xx_centroid_ins_) (cadr ss_pre_filter_set_xx_centroid_ins_))
+      (setvar "osmode" 1215)
+      ;new_blk_entlast object
+        (setq rec_ename (entlast))
+        (setq rec_obj (vlax-ename->vla-object rec_ename))
+        (setq ss_pre_filter_set_xx_ (ssadd rec_ename ss_pre_filter_set_xx_))
+      ;
+      (command "move" ss_pre_filter_set_xx_ "" ss_pre_filter_set_xx_centroid_mid_ )
+      (vla-delete rec_obj)
+    )
     (defun c:PPLINE-MAKE_layer_ ()
       ;preloop_and_while
         (setq TA-FL_Layer_ (list "ssddd" "0" "Defpoints" "000 - T E X T" "000 - TITLEBLOCK" 
@@ -12486,6 +12557,26 @@
       )
       
     )
+  ;
+  ;xline
+    (defun c:Offset_xline_ ()
+      (if (= offset_value_ nil)
+        (progn
+          (setq offset_value_ 0)
+        )
+        offset_value_
+      )
+      (setq offvalue_detect (TA:getkword "keep input offset value ?"  "Yes" "No"  offset_value_ "false"))
+      (if (= offvalue_detect "false")
+        (progn
+          (setq user_input_offset_value_ (cond ( (getreal (strcat "\nspecify user_input_offset_value_ \n<" (rtos (setq user_input_offset_value_ (cond (user_input_offset_value_) (1.0) ) ) ) "> : " ) ) ) (user_input_offset_value_) ) )
+        )
+        (setq user_input_offset_value_ offset_value_)
+      )
+      (getp)
+      
+    )
+    
   ;
 ;
 
@@ -19096,7 +19187,7 @@
     (setq pt_dist_1_ (getpoint ))
     (setq pt_dist_2_ (getpoint pt_dist_1_))
     (setq pt_dist_3_ (getpoint pt_dist_2_))
-    (setq pt_dist_ovl_ (* ( / (fix (distance pt_dist_2_ pt_dist_3_ )) 25) 25))
+    (setq pt_dist_ovl_ (* (fix ( / (LM:roundup (distance pt_dist_2_ pt_dist_3_ ) 1) 25)) 25))
     (setq pt_dist_2+75 (polar pt_dist_2_ (angle pt_dist_2_ pt_dist_3_ ) 75))
     (setq pt_dist_2-3 (polar pt_dist_2+75 (angle pt_dist_2_ pt_dist_3_ ) (- pt_dist_ovl_   75)))
     (setq pt_dist_3-offset_ (polar pt_dist_2-3 (angle  pt_dist_3_ pt_dist_2_) (getint "input offset ")))
@@ -20008,7 +20099,7 @@
     ;
   )
   (defun c:sshr ()
-       ;selection_set_for_fillter_blk_name
+    ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget
         (= 
           (setq HRR_ (ssget "i" 
@@ -20061,12 +20152,13 @@
           (setq HRR_obj_ (vlax-ename->vla-object  HRR_ename_))
           (setq HRR_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint HRR_obj_))))
           (setq HRR_obj_fragment_mid_ (LM:getdynpropvalue HRR_obj_ "array_length" ))
+          (setq HRR_obj_sub-fragment_mid_ (LM:getdynpropvalue HRR_obj_ "fragment_middle" ))
           
           (cond
             (;ssss_case_1
               (and
                   (= (vl-catch-all-error-p ERR_) nil)
-                  ; (= (LM:getdynpropvalue HRR_obj_ "view") "7_dynamic_length_view" )
+                  (= (LM:getdynpropvalue HRR_obj_ "view") "2_top_view" )
                   (= increment_num_ 1)
               )
               (progn
@@ -20078,7 +20170,7 @@
             (;ssss_case_2
               (and
                   (= (vl-catch-all-error-p ERR_) nil)
-                  ; (= (LM:getdynpropvalue HRR_obj_ "view") "7_dynamic_length_view" )
+                  (= (LM:getdynpropvalue HRR_obj_ "view") "2_top_view" )
                   (= increment_num_ 0)
               )
               (progn
@@ -20090,7 +20182,7 @@
             (;ssss_case_3
               (and
                   (= (vl-catch-all-error-p ERR_) nil)
-                  ; (= (LM:getdynpropvalue HRR_obj_ "view") "7_dynamic_length_view" )
+                  (= (LM:getdynpropvalue HRR_obj_ "view") "2_top_view" )
                   (< increment_num_ 0)
               )
               (progn
@@ -20102,7 +20194,7 @@
             (;ssss_case_4
               (and
                   (= (vl-catch-all-error-p ERR_) nil)
-                  ; (= (LM:getdynpropvalue HRR_obj_ "view") "7_dynamic_length_view" )
+                  (= (LM:getdynpropvalue HRR_obj_ "view") "2_top_view" )
                   (> increment_num_ 1)
               )
               (progn
@@ -20111,6 +20203,32 @@
                 (princ "ssss_case_3")
               )
             )
+            
+            (;ssss_case_5
+              (and
+                  (= (vl-catch-all-error-p ERR_) nil)
+                  (= (LM:getdynpropvalue HRR_obj_ "view") "7_dynamic_length_view" )
+                  (<= increment_num_ 0)
+              )
+              (progn
+                (LM:setdynpropvalue HRR_obj_ "fragment_middle" (setq HRR_obj_sub-fragment_mid_ (+ HRR_obj_sub-fragment_mid_ (* increment_num_ 100))))
+                (TA:move_polar_insertionpoint  HRR_obj_ "y" (- (* 50 increment_num_)))
+                (princ "ssss_case_3")
+              )
+            )
+            (;ssss_case_6
+              (and
+                  (= (vl-catch-all-error-p ERR_) nil)
+                  (= (LM:getdynpropvalue HRR_obj_ "view") "7_dynamic_length_view" )
+                  (>= increment_num_ 1)
+              )
+              (progn
+                (LM:setdynpropvalue HRR_obj_ "fragment_middle" (setq HRR_obj_sub-fragment_mid_ (+ HRR_obj_sub-fragment_mid_ (* increment_num_ 100))))
+                (TA:move_polar_insertionpoint  HRR_obj_ "y" (- (* 50 increment_num_)))
+                (princ "ssss_case_3")
+              )
+            )
+            
           )
           
           
@@ -20566,6 +20684,72 @@
       )
       (LM:setdynpropvalue ss_obj_ "view" "6_bottom_view" )
       (if (= ucsedit 0)(progn (command "ucs" "p") )  )
+    )
+    (defun c:Extr9 ()
+      (TA:vla-insertblock 
+        "temp1"
+        (setq pt1 (getpoint))
+        1
+        (setq new_rad (angle pt1 (setq pt2 (getpoint pt1) )))
+      ) 
+      ;new_blk_entlast object
+        (setq sss_ename (entlast))
+        (setq sss_obj_ (vlax-ename->vla-object sss_ename))
+        (vla-explode sss_obj_)
+        (vla-delete sss_obj_)
+        (setq sss_ename (entlast))
+        (setq sss_obj_ (vlax-ename->vla-object sss_ename))
+        (setq H (LM:setdynpropvalue sss_obj_ "H" (- (distance pt1 pt2) 25)))
+        (setq Hsub (LM:setdynpropvalue sss_obj_ "Hsub" (+ (distance pt1 pt2) 25)))
+        
+        (setq time_x 5)
+      ;
+      (while
+        (= (vl-catch-all-error-p (setq Er-msg_detectloop (vl-catch-all-apply (function (lambda () (setq detectloop (getstring "enter to change length Object")) ) ) ) )) nil )
+        (cond
+          ( (and 
+                ; (= H Hsub )
+                (= time_x 5)
+            )
+            (progn
+              (LM:setdynpropvalue sss_obj_ "H" (- (distance pt1 pt2) 50))
+              (LM:setdynpropvalue sss_obj_ "Hsub" (+ (distance pt1 pt2) 50))
+              (setq time_x 2)
+            )
+          )
+          ( (and 
+                ; (/= H Hsub )
+                (= time_x 2)
+              )
+            (progn
+              (LM:setdynpropvalue sss_obj_ "H" (+ (distance pt1 pt2) 0))
+              (LM:setdynpropvalue sss_obj_ "Hsub" (- (distance pt1 pt2) 0))
+              (setq time_x 3)
+            )
+          )
+          ( (and 
+                ; (/= H Hsub )
+                (= time_x 3)
+              )
+            (progn
+              (LM:setdynpropvalue sss_obj_ "H" (- (distance pt1 pt2) 0))
+              (LM:setdynpropvalue sss_obj_ "Hsub" (+ (distance pt1 pt2) 50))
+              (setq time_x 4)
+            )
+          )
+          ( (and 
+                ; (/= H Hsub )
+                (= time_x 4)
+              )
+            (progn
+              (LM:setdynpropvalue sss_obj_ "H" (- (distance pt1 pt2) 50))
+              (LM:setdynpropvalue sss_obj_ "Hsub" (- (distance pt1 pt2) 0))
+              (setq time_x 5)
+            )
+          )
+        )
+      )
+      
     )
     ;
     (defun c:PPLINE_CKST_EXTR-LENGTH_RCLENGTH_RCL1 ()
@@ -21083,6 +21267,7 @@
     ;
     ;while_select_block_on_condition_
         (setq direction_ename_ nil)
+        
         (while (= direction_ename_ nil)
           (setq direction_ename_ (car (entsel "specify direction_ename Object")))
           (if
@@ -21097,10 +21282,12 @@
             (alert "Object invalid Please try again")
           )
         )
+        
     ;
     ;preloop_and_while
       (setq ss_pre_filter_set_xx_i 0)
       (setq lasted_cc01_ssset (ssadd))
+      ; (TA:interface_text_ T)
       (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
         (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
         (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
@@ -21168,11 +21355,13 @@
           )
           
         ;
+        (TA:textscr_process_V2 "inserting subfame" ss_pre_filter_set_xx_i ss_pre_filter_set_xx_)
         (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
       )
     ;
       (command "pselect"  ss_pre_filter_set_xx_ "" )
     ;
+    (TA:interface_text_ Nil)
   )
   (defun c:call_lasted_ssset_cc01_lscc01 ()
     (command "pselect"  lasted_cc01_ssset "" )
@@ -28306,6 +28495,7 @@
     (command "-layer" "n" "000 - D I M" "")
     (command "-layer" "c" 8 "000 - D I M" "" ) 
     (command "-layer" "c" 251 "000 - GRID" "" ) 
+    (command "-layer" "c" 251 "001 - ASCESSORIES" "" ) 
   ;
   ;selection_set_for_fillter_blk_name
     (if  ;pre_select_ssget_or_post_select_ssget
@@ -28373,6 +28563,16 @@
         (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/COMPELETE IN COMPELETE/SFB_FINDING_SPECFILY_NAME_BLOCK.lsp") ) ) ) )
       )
     )
+    ((and 
+       (= (getenv "COMPUTERNAME") "DESKTOP-FSRT7SI")
+       (= (getenv "USERNAME") "Admin")
+     )
+      (progn
+        (setq Er-msg_ (vl-catch-all-apply (function (lambda () (load "C:/Users/Admin/Documents/GitHub/TA_COMPELETE/COMPELETE NEXT 2025/Z73-Tranference_Autocad-Excel_data.lsp") ) ) ) )
+        (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/Admin/Documents/GitHub/TA_COMPELETE/COMPELETE NEXT 2025/REWORK DIM/z62x_REWORK_DIMENSION_REV02.lsp") ) ) ) )
+        (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/Admin/Documents/GitHub/TA_COMPELETE/COMPELETE IN COMPELETE/SFB_FINDING_SPECFILY_NAME_BLOCK.lsp") ) ) ) )
+      )
+    )
     ; ((and 
     ;       (= (getenv "COMPUTERNAME") "NONGSAISUEARAI")
     ;       (= (getenv "USERNAME") "popul")
@@ -28396,6 +28596,7 @@
     (setq wildcard_string_slot_3 (strcase (strcat "*" "Luminaire" "*")) )
     (setq wildcard_string_slot_4 (strcase (strcat "*" "Horizontal with Gap" "*")) )
     (setq wildcard_string_slot_5 (strcase (strcat "*" "Square" "*")) )
+    (setq wildcard_string_slot_6 (strcase (strcat "*" "low" "*")) )
     (setq wildcard_string_slot_num_ (cond 
                                       ((getint 
                                          (strcat "\nspecify get wildcard_string_slot_ \n" 
@@ -28404,6 +28605,7 @@
                                                   "3 = "wildcard_string_slot_3 "\n"
                                                   "4 = "wildcard_string_slot_4 "\n"
                                                   "5 = "wildcard_string_slot_5 "\n"
+                                                  "6 = "wildcard_string_slot_6 "\n"
                                                  "<"
                                                  (rtos 
                                                    (setq wildcard_string_slot_num_ (cond 
@@ -28459,7 +28661,7 @@
            (princ "wildcard_string_slot_num__case_3")
          )
       )
-      (;wildcard_string_slot_num__case_4
+      (;wildcard_string_slot_num__case_5
          (and
             (= wildcard_string_slot_num_ 5)
             
@@ -28467,6 +28669,16 @@
          (progn
            (setq wildcard_string_ wildcard_string_slot_5)
            (princ "wildcard_string_slot_num__case_3")
+         )
+      )
+      (;wildcard_string_slot_num__case_6
+         (and
+            (= wildcard_string_slot_num_ 6)
+            
+         )
+         (progn
+           (setq wildcard_string_ wildcard_string_slot_6)
+           (princ "wildcard_string_slot_num__case_6")
          )
       )
 
