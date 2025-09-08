@@ -12127,7 +12127,7 @@
                                                 (cons -4 "<NOT")
                                                 (cons 8 "000 - CSD_PL_A-_ANOT----_T-,") 
                                                 (cons -4 "NOT>")
-                                                (cons 8 "001 - ASCESSORIES")   ;kind of layer
+                                                (cons 8 "001 - ASCESSORIES,000 - CSD_PL_Defpoints,000 - CSD_PL_001 - ASCESSORIES")   ;kind of layer
                                                 ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                                 ; (cons 62 1)           ;kind of color call sign with color code index
                                               )
@@ -12142,7 +12142,7 @@
                                                 (cons -4 "<NOT")
                                                 (cons 8 "000 - CSD_PL_A-_ANOT----_T-") 
                                                 (cons -4 "NOT>")
-                                                (cons 8 "001 - ASCESSORIES")   ;kind of layer
+                                                (cons 8 "001 - ASCESSORIES,000 - CSD_PL_Defpoints,000 - CSD_PL_001 - ASCESSORIES")   ;kind of layer
                                                 ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                                 ; (cons 62 1)           ;kind of color call sign with color code index
                                               )
@@ -12156,6 +12156,8 @@
       (setq ss_pre_filter_set_xx_  (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_  "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET"))
       ;preloop_and_while
         (setq ss_pre_filter_set_xx_i 0)
+        (setvar "CMDECHO" 0)
+        (TA:interface_text_ T)
         (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
           (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
           (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
@@ -12177,6 +12179,8 @@
           (TA:textscr_process "\nupdate" ss_pre_filter_set_xx_i ss_pre_filter_set_xx_)
           (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
         )
+        (TA:interface_text_ nil)
+        (setvar "CMDECHO" 1)
       ;
     )
     (defun c:seleect_cloud_SECL ()
@@ -28082,7 +28086,7 @@
     (if (= 1 1)
       (progn
         
-        (command "-layer" "filter" "n" "G" "" "*CSD*" "CSD" ""  )
+        (command "-layer" "filter" "n" "G" "" "*000 - CSD_PL_*" "CSD" ""  )
         (command "-layer" "filter" "s" "All" "")
         
       )
@@ -28597,6 +28601,7 @@
     (setq wildcard_string_slot_4 (strcase (strcat "*" "Horizontal with Gap" "*")) )
     (setq wildcard_string_slot_5 (strcase (strcat "*" "Square" "*")) )
     (setq wildcard_string_slot_6 (strcase (strcat "*" "low" "*")) )
+    (setq wildcard_string_slot_7 (strcase (strcat "*" "csd" "*")) )
     (setq wildcard_string_slot_num_ (cond 
                                       ((getint 
                                          (strcat "\nspecify get wildcard_string_slot_ \n" 
@@ -28606,6 +28611,7 @@
                                                   "4 = "wildcard_string_slot_4 "\n"
                                                   "5 = "wildcard_string_slot_5 "\n"
                                                   "6 = "wildcard_string_slot_6 "\n"
+                                                  "7 = "wildcard_string_slot_7 "\n"
                                                  "<"
                                                  (rtos 
                                                    (setq wildcard_string_slot_num_ (cond 
@@ -28679,6 +28685,16 @@
          (progn
            (setq wildcard_string_ wildcard_string_slot_6)
            (princ "wildcard_string_slot_num__case_6")
+         )
+      )
+      (;wildcard_string_slot_num__case_7
+         (and
+            (= wildcard_string_slot_num_ 7)
+            
+         )
+         (progn
+           (setq wildcard_string_ wildcard_string_slot_7)
+           (princ "wildcard_string_slot_num__case_7")
          )
       )
 
@@ -30064,4 +30080,4 @@
   newSS ; return selection set ที่รวมแล้ว
 )
 
- 
+
