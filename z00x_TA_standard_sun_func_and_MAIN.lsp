@@ -30081,3 +30081,230 @@
 )
 
 
+    (defun c:breakline_Brdist ()
+      (setq pline_ename_ (car (entsel "specify Object")))
+      (setq pline_obj_ (vlax-ename->vla-object pline_ename_))
+      (if (= (vla-get-objectname pline_obj_) "AcDbPolyline")
+        (progn
+          (setq osmode (getvar "osmode"))
+          (setvar "osmode" 0)
+          (if (< (setq real (getreal "specify dist.")) 0)
+            (progn
+              (setq ss (+ (vla-get-length pline_obj_) real))
+              
+              (command "breakatpoint" pline_ename_ (vlax-curve-getPointAtDist pline_obj_ ss))
+            )
+            (command "breakatpoint" pline_ename_ (vlax-curve-getPointAtDist pline_obj_ real))
+          )
+          
+          (setvar "osmode" osmode)
+        )
+      )
+    )
+    (defun TA:pair-data-list_ (target-list_ )
+      ;preloop_and_while
+        (setq target-list_i 0)
+        (setq x1 1)
+        (setq x2 2)
+        (setq target-list_new-list_ ())
+        (while (< target-list_i (/ (length target-list_) 2))
+          (setq target-list_new-list_ (cons 
+                                          (list 
+                                            (setq target-list_val_car (nth (+ x1 target-list_i ) target-list_ ) )
+                                            (setq target-list_val_cadr (nth (+ x2 target-list_i ) target-list_ ) )
+                                          )
+                                          target-list_new-list_
+                                        )
+          )
+          (setq target-list_i (+ target-list_i 1))
+          (setq x1 (+ x1 1))
+          (setq x2 (+ x2 1))
+        )
+        (setq target-list_new-list_ (reverse target-list_new-list_))
+      ;
+    
+    )
+    (defun c:ss-panel ()
+      ;presetting
+        (setq newss_pline_real_ (ssadd))
+        (setq newss_pline_gap_ (ssadd))
+        (setq pre-en nil)
+        (setq pre-en (ssadd))
+        (setq folding 50)
+        (setq gap 50)
+      ;
+      (setq pline_ename_ (car (entsel "specify Object")))
+      (setq pre-en (ssadd pline_ename_  pre-en))
+      (setq pline_obj_ (vlax-ename->vla-object pline_ename_))
+      (setq pline_obj_existing_ (vlax-ename->vla-object pline_ename_))
+      (setq pline_obj_existing_length (vla-get-length pline_obj_))
+      (setq real (+ (getreal "specify dist.") gap))
+      (setq real_total_time_ (fix (/ (vla-get-length pline_obj_) (+ real gap))))
+      (setq pline_obj_ss (vlax-curve-getPointAtDist pline_obj_ real))
+      (setq real_total_time_i 0)
+      (setvar "osmode" 0)
+      ;assembly panel by user input length
+        (while (and
+                (> real 0 )
+                (< real pline_obj_existing_length )
+                (< real_total_time_i real_total_time_)
+              )
+          (command "breakatpoint" pline_ename_ (vlax-curve-getPointAtDist pline_obj_ real))
+          ; (if (= real_total_time_i 0) (progn (setq pre-en (ssname (ssget "P") 0)) ) )
+          ;new_blk_entlast object
+
+            (setq pline_ename_ (entlast))
+            (setq newss_pline_real_ (ssadd pline_ename_ newss_pline_real_   )) 
+            (setq pline_obj_ (vlax-ename->vla-object pline_ename_))
+          ;
+          (command "breakatpoint" pline_ename_ (vlax-curve-getPointAtDist pline_obj_ gap))
+          ;new_blk_entlast object
+            (setq pline_ename_ (entlast))
+            (setq newss_pline_gap_ (ssadd pline_ename_ newss_pline_gap_   )) 
+            (setq pline_obj_ (vlax-ename->vla-object pline_ename_))
+          ;
+          (setq real_total_time_i (+ real_total_time_i 1))
+        )
+      ;
+      (setq newss_pline_gap_ (ssadd (ssname pre-en 0) newss_pline_gap_))
+      ; (command "pselect"  pline_ename_  "" )
+      ; (command "pselect"  pre-en  "" )
+      ; (command "pselect"  newss_pline_real_  "" )
+      ; (command "pselect"  newss_pline_gap_  "" )
+      
+    
+      ;preloop_and_while
+        (setq newss_pline_ newss_pline_gap_ )
+        (setq newss_pline_i 0)
+        (while (< newss_pline_i (sslength newss_pline_))
+          (setq newss_pline_ename_ (ssname newss_pline_ newss_pline_i))
+          (setq list-coords ())
+          (setq newss_pline_obj_ (vlax-ename->vla-object  newss_pline_ename_))
+          (setvar "osmode" 0)
+          (setq coords (reverse (vlax-safearray->list (vlax-variant-value (vla-get-coordinates newss_pline_obj_)))))
+          (setq target-list_ (append (list "0") (vlax-safearray->list (vlax-variant-value (vla-get-coordinates newss_pline_obj_)))))
+          (setq list-coords (TA:pair-data-list_ target-list_))
+          (if (= (length list-coords) 3 )
+            (progn
+              (setq folding_1_ (TA:ModifyRotation (rad-to-deg (angle (nth 0 list-coords) (nth 1 list-coords))) -90))
+              (setq folding_1_pt (polar (nth 0 list-coords) (deg-to-rad folding_1_) folding))
+              (setq folding_2_ (TA:ModifyRotation (rad-to-deg (angle  (nth 1 list-coords) (nth 2 list-coords))) -90))
+              (setq folding_2_pt (polar (nth 2 list-coords) (deg-to-rad folding_2_) folding))
+              (TA:vla-addvertex_ newss_pline_obj_ 0 folding_1_pt  )
+              (TA:vla-addvertex_ newss_pline_obj_ 4 folding_2_pt  )
+              
+            )
+          )
+          (if (= (length list-coords) 2 )
+            (progn
+              (setq folding_1_ (TA:ModifyRotation (rad-to-deg (angle (nth 0 list-coords) (nth 1 list-coords))) -90))
+              (setq folding_1_pt (polar (nth 0 list-coords) (deg-to-rad folding_1_) folding))
+              (TA:vla-addvertex_ newss_pline_obj_ 0 folding_1_pt  )
+              
+              (setq folding_2_ (TA:ModifyRotation (rad-to-deg (angle (nth 0 list-coords) (nth 1 list-coords))) -90))
+              (setq folding_2_pt (polar (nth 1 list-coords) (deg-to-rad folding_2_) folding))
+              
+              (TA:vla-addvertex_ newss_pline_obj_ 3 folding_2_pt  )
+              
+            )
+          )
+          (setq newss_pline_i (+ newss_pline_i 1))
+        )
+      ;
+      
+      (command "erase"  newss_pline_real_ "" )
+      
+      (setq osmode (getvar "osmode"))
+    )
+    (defun c:ss-panel ()
+      ;presetting
+        (setq newss_pline_real_ (ssadd))
+        (setq newss_pline_gap_ (ssadd))
+        (setq pre-en nil)
+        (setq pre-en (ssadd))
+        (setq folding 50)
+        (setq gap 0)
+      ;
+      (setq pline_ename_ (car (entsel "specify Object")))
+      (setq pre-en (ssadd pline_ename_  pre-en))
+      (setq pline_obj_ (vlax-ename->vla-object pline_ename_))
+      (setq pline_obj_existing_ (vlax-ename->vla-object pline_ename_))
+      (setq pline_obj_existing_length (vla-get-length pline_obj_))
+      (setq real (+ (getreal "specify dist.") gap))
+      (setq real_total_time_ (fix (/ (vla-get-length pline_obj_) (+ real gap))))
+      (setq pline_obj_ss (vlax-curve-getPointAtDist pline_obj_ real))
+      (setq real_total_time_i 0)
+      (setvar "osmode" 0)
+      ;assembly panel by user input length
+        (while (and
+                (> real 0 )
+                (< real pline_obj_existing_length )
+                (< real_total_time_i real_total_time_)
+              )
+          (command "breakatpoint" pline_ename_ (vlax-curve-getPointAtDist pline_obj_ real))
+          ; (if (= real_total_time_i 0) (progn (setq pre-en (ssname (ssget "P") 0)) ) )
+          ;new_blk_entlast object
+
+            (setq pline_ename_ (entlast))
+            (setq newss_pline_real_ (ssadd pline_ename_ newss_pline_real_   )) 
+            (setq pline_obj_ (vlax-ename->vla-object pline_ename_))
+          ;
+          (command "breakatpoint" pline_ename_ (vlax-curve-getPointAtDist pline_obj_ gap))
+          ;new_blk_entlast object
+            (setq pline_ename_ (entlast))
+            (setq newss_pline_gap_ (ssadd pline_ename_ newss_pline_gap_   )) 
+            (setq pline_obj_ (vlax-ename->vla-object pline_ename_))
+          ;
+          (setq real_total_time_i (+ real_total_time_i 1))
+        )
+      ;
+      (setq newss_pline_gap_ (ssadd (ssname pre-en 0) newss_pline_gap_))
+      ; (command "pselect"  pline_ename_  "" )
+      ; (command "pselect"  pre-en  "" )
+      ; (command "pselect"  newss_pline_real_  "" )
+      ; (command "pselect"  newss_pline_gap_  "" )
+      
+    
+      ;preloop_and_while
+        (setq newss_pline_ newss_pline_gap_ )
+        (setq newss_pline_i 0)
+        (while (< newss_pline_i (sslength newss_pline_))
+          (setq newss_pline_ename_ (ssname newss_pline_ newss_pline_i))
+          (setq list-coords ())
+          (setq newss_pline_obj_ (vlax-ename->vla-object  newss_pline_ename_))
+          (setvar "osmode" 0)
+          (setq coords (reverse (vlax-safearray->list (vlax-variant-value (vla-get-coordinates newss_pline_obj_)))))
+          (setq target-list_ (append (list "0") (vlax-safearray->list (vlax-variant-value (vla-get-coordinates newss_pline_obj_)))))
+          (setq list-coords (TA:pair-data-list_ target-list_))
+          (if (= (length list-coords) 3 )
+            (progn
+              (setq folding_1_ (TA:ModifyRotation (rad-to-deg (angle (nth 0 list-coords) (nth 1 list-coords))) -90))
+              (setq folding_1_pt (polar (nth 0 list-coords) (deg-to-rad folding_1_) folding))
+              (setq folding_2_ (TA:ModifyRotation (rad-to-deg (angle  (nth 1 list-coords) (nth 2 list-coords))) -90))
+              (setq folding_2_pt (polar (nth 2 list-coords) (deg-to-rad folding_2_) folding))
+              (TA:vla-addvertex_ newss_pline_obj_ 0 folding_1_pt  )
+              (TA:vla-addvertex_ newss_pline_obj_ 4 folding_2_pt  )
+              
+            )
+          )
+          (if (= (length list-coords) 2 )
+            (progn
+              (setq folding_1_ (TA:ModifyRotation (rad-to-deg (angle (nth 0 list-coords) (nth 1 list-coords))) -90))
+              (setq folding_1_pt (polar (nth 0 list-coords) (deg-to-rad folding_1_) folding))
+              (TA:vla-addvertex_ newss_pline_obj_ 0 folding_1_pt  )
+              
+              (setq folding_2_ (TA:ModifyRotation (rad-to-deg (angle (nth 0 list-coords) (nth 1 list-coords))) -90))
+              (setq folding_2_pt (polar (nth 1 list-coords) (deg-to-rad folding_2_) folding))
+              
+              (TA:vla-addvertex_ newss_pline_obj_ 3 folding_2_pt  )
+              
+            )
+          )
+          (setq newss_pline_i (+ newss_pline_i 1))
+        )
+      ;
+      
+      (command "erase"  newss_pline_real_ "" )
+      
+      (setq osmode (getvar "osmode"))
+    )
