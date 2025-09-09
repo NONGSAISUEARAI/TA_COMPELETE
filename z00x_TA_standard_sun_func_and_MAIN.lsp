@@ -30327,6 +30327,7 @@
 
   newSS ; return selection set ที่รวมแล้ว
 )
+;s
 
 
 <<<<<<< Updated upstream
