@@ -4715,6 +4715,61 @@
       ;   (command "_copybase" pttarget_ sss_ename ""    )
       ; ;
     )
+    (defun c:MKBREAL () 
+      (setvar "osmode" 0)
+      (setq sstarget_ (ssadd))
+      (setq namefile_ (getvar "dwgname"))
+      (setq nameblk_ename_ (car (entsel "specify Object")))
+      (setq sstarget_ (ssadd nameblk_ename_ sstarget_))
+      (setq nameblk_obj_ (vlax-ename->vla-object nameblk_ename_))
+      (setq nameblk_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint nameblk_obj_))))
+      (setq nameblk (vla-get-textstring nameblk_obj_))
+      
+      (if 
+        (or 
+          (wcmatch
+            (vl-princ-to-string
+              (vl-catch-all-apply 
+                (function 
+                  (lambda () 
+                    (vla-Item (vla-get-Blocks doc) nameblk)
+                  )
+                )
+              )
+            )
+            "*error*,*IAcadBlock*"
+          )
+        )
+        (progn
+          (if 
+            (and
+              (wcmatch
+                (vl-princ-to-string
+                  (vl-catch-all-apply 
+                    (function 
+                      (lambda () 
+                        (vla-delete (vla-Item (vla-get-Blocks doc) nameblk))
+                      )
+                    )
+                  )
+                )
+                "*error*,*IAcadBlock*"
+              )
+            )
+            (progn
+              (command "_block" nameblk nameblk_obj_ins_ sstarget_ "" )
+              (TA:vla-insertblock nameblk nameblk_obj_ins_ 1 0 )
+            )
+          )
+        )
+      )
+      (setvar "osmode" 1215)
+      ; ;new_blk_entlast object
+      ;   (setq sss_ename (entlast))
+      ;   (setq sss_obj (vlax-ename->vla-object sss_ename))
+      ;   (command "_copybase" pttarget_ sss_ename ""    )
+      ; ;
+    )
     (defun c:MKPartBLK_MKP2 () 
       ;selection_set_for_fillter_blk_name
         (if  ;pre_select_ssget_or_post_select_ssget
@@ -12221,6 +12276,9 @@
       )
        
       ;
+    )
+    (defun c:simsetting ()
+      (command "selectsimilar" "se" )
     )
   ;
   ;Fastern Func
@@ -28326,6 +28384,341 @@
     (command "bvstate" "S" "VisibilityState0"  )
     (command "bvshow" ss_pre_filter_set_xx_ "" "C")
   )
+  (defun C:sfbz ()
+    ;presetting_
+      (setq wildcard_string_slot_1 (strcase (strcat "*" "Vertical Panel with Gap" "*")) )
+      (setq wildcard_string_slot_2 (strcase (strcat "*" "Air Supply" "*")) )
+      (setq wildcard_string_slot_3 (strcase (strcat "*" "Luminaire" "*")) )
+      (setq wildcard_string_slot_4 (strcase (strcat "*" "Horizontal with Gap" "*")) )
+      (setq wildcard_string_slot_5 (strcase (strcat "*" "Square" "*")) )
+      (setq wildcard_string_slot_6 (strcase (strcat "*" "low" "*")) )
+      (setq wildcard_string_slot_7 (strcase (strcat "*" "rec" "*")) )
+      (setq wildcard_string_slot_num_ (cond 
+                                        ((getint 
+                                          (strcat "\nspecify get wildcard_string_slot_ \n" 
+                                                    "1 = " wildcard_string_slot_1 "\n"
+                                                    "2 = "wildcard_string_slot_2 "\n"
+                                                    "3 = "wildcard_string_slot_3 "\n"
+                                                    "4 = "wildcard_string_slot_4 "\n"
+                                                    "5 = "wildcard_string_slot_5 "\n"
+                                                    "6 = "wildcard_string_slot_6 "\n"
+                                                    "7 = "wildcard_string_slot_7 "\n"
+                                                  "<"
+                                                  (rtos 
+                                                    (setq wildcard_string_slot_num_ (cond 
+                                                                                      (wildcard_string_slot_num_)
+                                                                                      (1.0)
+                                                                                    )
+                                                    )
+                                                  )
+                                                  "> : "
+                                          )
+                                        )
+                                        )
+                                        (wildcard_string_slot_num_)
+                                      )
+      )
+      (cond
+        (;wildcard_string_slot_num__case_1
+          (and
+              (= wildcard_string_slot_num_ 1)
+          )
+          (progn
+            (setq wildcard_string_ wildcard_string_slot_1)
+            (princ "wildcard_string_slot_num__case_1")
+          )
+        )
+        (;wildcard_string_slot_num__case_2
+          (and
+              (= wildcard_string_slot_num_ 2)
+              
+          )
+          (progn
+            (setq wildcard_string_ wildcard_string_slot_2)
+            (princ "wildcard_string_slot_num__case_2")
+          )
+        )
+        (;wildcard_string_slot_num__case_3
+          (and
+              (= wildcard_string_slot_num_ 3)
+              
+          )
+          (progn
+            (setq wildcard_string_ wildcard_string_slot_3)
+            (princ "wildcard_string_slot_num__case_3")
+          )
+        )
+        (;wildcard_string_slot_num__case_4
+          (and
+              (= wildcard_string_slot_num_ 4)
+              
+          )
+          (progn
+            (setq wildcard_string_ wildcard_string_slot_4)
+            (princ "wildcard_string_slot_num__case_3")
+          )
+        )
+        (;wildcard_string_slot_num__case_5
+          (and
+              (= wildcard_string_slot_num_ 5)
+              
+          )
+          (progn
+            (setq wildcard_string_ wildcard_string_slot_5)
+            (princ "wildcard_string_slot_num__case_3")
+          )
+        )
+        (;wildcard_string_slot_num__case_6
+          (and
+              (= wildcard_string_slot_num_ 6)
+              
+          )
+          (progn
+            (setq wildcard_string_ wildcard_string_slot_6)
+            (princ "wildcard_string_slot_num__case_6")
+          )
+        )
+        (;wildcard_string_slot_num__case_7
+          (and
+              (= wildcard_string_slot_num_ 7)
+              
+          )
+          (progn
+            (setq wildcard_string_ wildcard_string_slot_7)
+            (princ "wildcard_string_slot_num__case_7")
+          )
+        )
+
+      )
+    ;
+    
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "x"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    ; (setq wildcard_string_ ;Get-string by keep previous value ; old method
+      ;     (if
+      ;       (or
+      ;         (/= (setq wildcard_string_val (getstring (strcat "\nSpecify Pattern name <" (if wildcard_string_ wildcard_string_ "") ">: ") ) ) "" )
+      ;       )
+      ;         (progn
+      ;           (setq wildcard_string_ wildcard_string_val)
+      ;           (setq wildcard_string_keep_val_ wildcard_string_val)
+      ;         )
+      ;       (setq wildcard_string_val wildcard_string_keep_val_)
+      ;     )
+    ; )
+    
+    
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (setq new_pre_filter_set_xx_ (ssadd))
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+
+        (if (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_)) wildcard_string_)
+          (progn
+            (setq new_pre_filter_set_xx_  (ssadd ss_pre_filter_set_xx_ename_ new_pre_filter_set_xx_))
+          )
+        )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+    (command "pselect"  new_pre_filter_set_xx_ "" )
+  )
+  (defun C:sfbvis () ;s
+    ;presetting_
+      (setq wildcard_string_slot_1 (strcase (strcat "*" "Vertical Panel with Gap" "*")) )
+      (setq wildcard_string_slot_2 (strcase (strcat "*" "Air Supply" "*")) )
+      (setq wildcard_string_slot_3 (strcase (strcat "*" "Luminaire" "*")) )
+      (setq wildcard_string_slot_4 (strcase (strcat "*" "Horizontal with Gap" "*")) )
+      (setq wildcard_string_slot_5 (strcase (strcat "*" "Square" "*")) )
+      (setq wildcard_string_slot_6 (strcase (strcat "*" "low" "*")) )
+      (setq wildcard_string_slot_7 (strcase (strcat "*" "rec" "*")) )
+      (setq wildcard_string_slot_num_ (cond 
+                                        ((getint 
+                                          (strcat "\nspecify get wildcard_string_slot_ \n" 
+                                                    "1 = " wildcard_string_slot_1 "\n"
+                                                    "2 = "wildcard_string_slot_2 "\n"
+                                                    "3 = "wildcard_string_slot_3 "\n"
+                                                    "4 = "wildcard_string_slot_4 "\n"
+                                                    "5 = "wildcard_string_slot_5 "\n"
+                                                    "6 = "wildcard_string_slot_6 "\n"
+                                                    "7 = "wildcard_string_slot_7 "\n"
+                                                  "<"
+                                                  (rtos 
+                                                    (setq wildcard_string_slot_num_ (cond 
+                                                                                      (wildcard_string_slot_num_)
+                                                                                      (1.0)
+                                                                                    )
+                                                    )
+                                                  )
+                                                  "> : "
+                                          )
+                                        )
+                                        )
+                                        (wildcard_string_slot_num_)
+                                      )
+      )
+      (cond
+        (;wildcard_string_slot_num__case_1
+          (and
+              (= wildcard_string_slot_num_ 1)
+          )
+          (progn
+            (setq wildcard_string_ wildcard_string_slot_1)
+            (princ "wildcard_string_slot_num__case_1")
+          )
+        )
+        (;wildcard_string_slot_num__case_2
+          (and
+              (= wildcard_string_slot_num_ 2)
+              
+          )
+          (progn
+            (setq wildcard_string_ wildcard_string_slot_2)
+            (princ "wildcard_string_slot_num__case_2")
+          )
+        )
+        (;wildcard_string_slot_num__case_3
+          (and
+              (= wildcard_string_slot_num_ 3)
+              
+          )
+          (progn
+            (setq wildcard_string_ wildcard_string_slot_3)
+            (princ "wildcard_string_slot_num__case_3")
+          )
+        )
+        (;wildcard_string_slot_num__case_4
+          (and
+              (= wildcard_string_slot_num_ 4)
+              
+          )
+          (progn
+            (setq wildcard_string_ wildcard_string_slot_4)
+            (princ "wildcard_string_slot_num__case_3")
+          )
+        )
+        (;wildcard_string_slot_num__case_5
+          (and
+              (= wildcard_string_slot_num_ 5)
+              
+          )
+          (progn
+            (setq wildcard_string_ wildcard_string_slot_5)
+            (princ "wildcard_string_slot_num__case_3")
+          )
+        )
+        (;wildcard_string_slot_num__case_6
+          (and
+              (= wildcard_string_slot_num_ 6)
+              
+          )
+          (progn
+            (setq wildcard_string_ wildcard_string_slot_6)
+            (princ "wildcard_string_slot_num__case_6")
+          )
+        )
+        (;wildcard_string_slot_num__case_7
+          (and
+              (= wildcard_string_slot_num_ 7)
+              
+          )
+          (progn
+            (setq wildcard_string_ wildcard_string_slot_7)
+            (princ "wildcard_string_slot_num__case_7")
+          )
+        )
+
+      )
+    ;
+    
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "x"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    ; (setq wildcard_string_ ;Get-string by keep previous value ; old method
+      ;     (if
+      ;       (or
+      ;         (/= (setq wildcard_string_val (getstring (strcat "\nSpecify Pattern name <" (if wildcard_string_ wildcard_string_ "") ">: ") ) ) "" )
+      ;       )
+      ;         (progn
+      ;           (setq wildcard_string_ wildcard_string_val)
+      ;           (setq wildcard_string_keep_val_ wildcard_string_val)
+      ;         )
+      ;       (setq wildcard_string_val wildcard_string_keep_val_)
+      ;     )
+    ; )
+    
+    
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (setq new_pre_filter_set_xx_ (ssadd))
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+
+        (if (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_)) wildcard_string_)
+          (progn
+            (setq new_pre_filter_set_xx_  (ssadd ss_pre_filter_set_xx_ename_ new_pre_filter_set_xx_))
+          )
+        )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+    (command "bvhide"  new_pre_filter_set_xx_ "" "C" )
+
+  )
 ;
 
 
@@ -28336,7 +28729,7 @@
         (setq ss_pre_filter_set_xx_ (ssget "i"
                                           (list
                                             (cons 0 "INSERT,DIMENSION,LINE,MTEXT") ;type of object
-                                            (cons 8 "S-GRID,S-GRID-IDEN,_ _ A-DETL-OPENING,A-ANNO-DIMS")   ;kind of layer
+                                            (cons 8 "S-GRID,S-GRID-IDEN,_ _ A-DETL-OPENING,A-ANNO-DIMS,A-DETL")   ;kind of layer
                                             ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                             ; (cons 62 1)           ;kind of color call sign with color code index
                                           )
@@ -28348,7 +28741,7 @@
         (setq ss_pre_filter_set_xx_ (ssget
                                           (list
                                             (cons 0 "INSERT,DIMENSION,LINE,MTEXT") ;type of object
-                                            (cons 8 "S-GRID,S-GRID-IDEN,_ _ A-DETL-OPENING,A-ANNO-DIMS")   ;kind of layer
+                                            (cons 8 "S-GRID,S-GRID-IDEN,_ _ A-DETL-OPENING,A-ANNO-DIMS,A-DETL")   ;kind of layer
                                             ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                             ; (cons 62 1)           ;kind of color call sign with color code index
                                           )
@@ -28593,173 +28986,7 @@
   
   
 
-(defun C:sfbz ()
-  ;presetting_
-    (setq wildcard_string_slot_1 (strcase (strcat "*" "Vertical Panel with Gap" "*")) )
-    (setq wildcard_string_slot_2 (strcase (strcat "*" "Air Supply" "*")) )
-    (setq wildcard_string_slot_3 (strcase (strcat "*" "Luminaire" "*")) )
-    (setq wildcard_string_slot_4 (strcase (strcat "*" "Horizontal with Gap" "*")) )
-    (setq wildcard_string_slot_5 (strcase (strcat "*" "Square" "*")) )
-    (setq wildcard_string_slot_6 (strcase (strcat "*" "low" "*")) )
-    (setq wildcard_string_slot_7 (strcase (strcat "*" "csd" "*")) )
-    (setq wildcard_string_slot_num_ (cond 
-                                      ((getint 
-                                         (strcat "\nspecify get wildcard_string_slot_ \n" 
-                                                  "1 = " wildcard_string_slot_1 "\n"
-                                                  "2 = "wildcard_string_slot_2 "\n"
-                                                  "3 = "wildcard_string_slot_3 "\n"
-                                                  "4 = "wildcard_string_slot_4 "\n"
-                                                  "5 = "wildcard_string_slot_5 "\n"
-                                                  "6 = "wildcard_string_slot_6 "\n"
-                                                  "7 = "wildcard_string_slot_7 "\n"
-                                                 "<"
-                                                 (rtos 
-                                                   (setq wildcard_string_slot_num_ (cond 
-                                                                                     (wildcard_string_slot_num_)
-                                                                                     (1.0)
-                                                                                   )
-                                                   )
-                                                 )
-                                                 "> : "
-                                         )
-                                       )
-                                      )
-                                      (wildcard_string_slot_num_)
-                                    )
-    )
-    (cond
-      (;wildcard_string_slot_num__case_1
-         (and
-            (= wildcard_string_slot_num_ 1)
-         )
-         (progn
-           (setq wildcard_string_ wildcard_string_slot_1)
-           (princ "wildcard_string_slot_num__case_1")
-         )
-      )
-      (;wildcard_string_slot_num__case_2
-         (and
-            (= wildcard_string_slot_num_ 2)
-            
-         )
-         (progn
-           (setq wildcard_string_ wildcard_string_slot_2)
-           (princ "wildcard_string_slot_num__case_2")
-         )
-      )
-      (;wildcard_string_slot_num__case_3
-         (and
-            (= wildcard_string_slot_num_ 3)
-            
-         )
-         (progn
-           (setq wildcard_string_ wildcard_string_slot_3)
-           (princ "wildcard_string_slot_num__case_3")
-         )
-      )
-      (;wildcard_string_slot_num__case_4
-         (and
-            (= wildcard_string_slot_num_ 4)
-            
-         )
-         (progn
-           (setq wildcard_string_ wildcard_string_slot_4)
-           (princ "wildcard_string_slot_num__case_3")
-         )
-      )
-      (;wildcard_string_slot_num__case_5
-         (and
-            (= wildcard_string_slot_num_ 5)
-            
-         )
-         (progn
-           (setq wildcard_string_ wildcard_string_slot_5)
-           (princ "wildcard_string_slot_num__case_3")
-         )
-      )
-      (;wildcard_string_slot_num__case_6
-         (and
-            (= wildcard_string_slot_num_ 6)
-            
-         )
-         (progn
-           (setq wildcard_string_ wildcard_string_slot_6)
-           (princ "wildcard_string_slot_num__case_6")
-         )
-      )
-      (;wildcard_string_slot_num__case_7
-         (and
-            (= wildcard_string_slot_num_ 7)
-            
-         )
-         (progn
-           (setq wildcard_string_ wildcard_string_slot_7)
-           (princ "wildcard_string_slot_num__case_7")
-         )
-      )
 
-    )
-  ;
-  
-  ;selection_set_for_fillter_blk_name
-    (if  ;pre_select_ssget_or_post_select_ssget
-      (=
-        (setq ss_pre_filter_set_xx_ (ssget "x"
-                                          (list
-                                            (cons 0 "INSERT") ;type of object
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-        nil
-      )
-      (progn
-        (setq ss_pre_filter_set_xx_ (ssget
-                                          (list
-                                            (cons 0 "INSERT") ;type of object
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-      )
-      (sslength ss_pre_filter_set_xx_)
-    )
-  ;
-  ; (setq wildcard_string_ ;Get-string by keep previous value ; old method
-    ;     (if
-    ;       (or
-    ;         (/= (setq wildcard_string_val (getstring (strcat "\nSpecify Pattern name <" (if wildcard_string_ wildcard_string_ "") ">: ") ) ) "" )
-    ;       )
-    ;         (progn
-    ;           (setq wildcard_string_ wildcard_string_val)
-    ;           (setq wildcard_string_keep_val_ wildcard_string_val)
-    ;         )
-    ;       (setq wildcard_string_val wildcard_string_keep_val_)
-    ;     )
-  ; )
-  
-  
-  ;preloop_and_while
-    (setq ss_pre_filter_set_xx_i 0)
-    (setq new_pre_filter_set_xx_ (ssadd))
-    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
-      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
-
-      (if (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_)) wildcard_string_)
-        (progn
-          (setq new_pre_filter_set_xx_  (ssadd ss_pre_filter_set_xx_ename_ new_pre_filter_set_xx_))
-        )
-      )
-      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
-    )
-  ;
-  (command "pselect"  new_pre_filter_set_xx_ "" )
-)
 
 
 ;PP LINE Replace EXTR
@@ -29891,7 +30118,28 @@
     )
   )
   (setq CSD_MERGE_LIST_ (mapcar 'car (TA:Count_item_in_list_ CSD_MERGE_LIST_)))
-  (setq pp18_path "C:/TA WORK/PPLINE CKST/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP17/CAD/")
+  (cond
+    (;_case_1
+       (and 
+         (= (getenv "COMPUTERNAME") "DESKTOP-FSRT7SI")
+       )
+       (progn
+         (setq pp18_path "C:/TA WORK/PPLINE CKST/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP19/CAD/")
+         (princ "_case_1")
+       )
+    )
+    (;_case_2
+       (and 
+         (= (getenv "COMPUTERNAME") "NONGSAISUEARAI")
+       )
+       (progn
+         (setq pp18_path "C:/TA WORK/PPLINE CKST/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP19/CAD/")
+         (princ "_case_2")
+       )
+    )
+  )
+  
+  
   (setq filePath (getfiled "Select the DWG file" pp18_path "dwg" 4))
   (textscr)
   (setq temp_pt (getpoint "specify point" ))
@@ -30081,6 +30329,7 @@
 )
 
 
+<<<<<<< Updated upstream
     (defun c:breakline_Brdist ()
       (setq pline_ename_ (car (entsel "specify Object")))
       (setq pline_obj_ (vlax-ename->vla-object pline_ename_))
@@ -30308,3 +30557,7 @@
       
       (setq osmode (getvar "osmode"))
     )
+=======
+
+
+>>>>>>> Stashed changes
