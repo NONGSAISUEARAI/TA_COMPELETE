@@ -1466,3 +1466,6 @@
 ; (setvar "LUPREC" 5)  ; 5 ตำแหน่งทศนิยม
 
 ; (rtos 100 2 5) ; => "100.00000"
+
+(c:CM112_add_hiddenline)
+(c:CM113_add_gridline)

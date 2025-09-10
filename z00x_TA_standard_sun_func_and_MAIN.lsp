@@ -28958,6 +28958,7 @@
         (setq Er-msg_ (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/COMPELETE NEXT 2025/Z73-Tranference_Autocad-Excel_data.lsp") ) ) ) )
         (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/COMPELETE NEXT 2025/REWORK DIM/z62x_REWORK_DIMENSION_REV02.lsp") ) ) ) )
         (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/COMPELETE IN COMPELETE/SFB_FINDING_SPECFILY_NAME_BLOCK.lsp") ) ) ) )
+        (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/CC11x_ADD_LINETYPE.lsp") ) ) ) )
       )
     )
     ((and 
@@ -30330,7 +30331,6 @@
 ;s
 
 
-<<<<<<< Updated upstream
 
     (defun c:breakline_Brdist ()
       (setq pline_ename_ (car (entsel "specify Object")))
@@ -30559,7 +30559,3 @@
       
       (setq osmode (getvar "osmode"))
     )
-=======
-
-
->>>>>>> Stashed changes
