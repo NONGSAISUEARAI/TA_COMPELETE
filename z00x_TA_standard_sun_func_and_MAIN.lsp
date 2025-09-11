@@ -28983,6 +28983,27 @@
   ; (setq Er-msg_ (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/z67x_CLEAN_FUNC.lsp") ) ) ) )
   ; (setq Er-msg_ (vl-catch-all-apply (function (lambda () (load "C:/Users/Admin/Documents/GitHub/TA_COMPELETE/z67x_CLEAN_FUNC.lsp") ) ) ) )
 )
+(defun c:loadline ()
+  (cond
+    ((and 
+          (= (getenv "COMPUTERNAME") "NONGSAISUEARAI")
+          (= (getenv "USERNAME") "popul")
+        )
+      (progn
+        (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/CC11x_ADD_LINETYPE.lsp") ) ) ) )
+        
+      )
+    )
+    ((and 
+       (= (getenv "COMPUTERNAME") "DESKTOP-FSRT7SI")
+       (= (getenv "USERNAME") "Admin")
+     )
+      (progn
+        (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/Admin/Documents/GitHub/TA_COMPELETE/CC11x_ADD_LINETYPE.lsp") ) ) ) )
+      )
+    )
+  )
+)
 
   
   
