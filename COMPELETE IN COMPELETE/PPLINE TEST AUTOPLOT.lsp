@@ -1299,218 +1299,235 @@
     ;
     ;
   )
-  (defun c:Auto_page_AUPAGE (list_data_ filter_string_list_ )
-  ;detect and delete ex mtext 
-    ;selection_set_for_fillter_blk_name
-      (if  ;pre_select_ssget_or_post_select_ssget
-        (=
-          (setq ss_mtext_detect_ (ssget "x"
-                                            (list
-                                              (cons 0 "mtext") ;type of object
-                                              (cons 410 (getvar "CTAB"))
-                                              (cons 8 "G-ANNO-TTLB")   ;kind of layer
-                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                              (cons 62 256)           ;kind of color call sign with color code index
-                                            )
-                                      )
-          )   
-          nil
-        )
-        (progn 
-          (setq ss_mtext_detect_ (ssget
-                                            (list
-                                              (cons 0 "mtext") ;type of object
-                                              (cons 410 (getvar "CTAB"))
-                                              (cons 8 "G-ANNO-TTLB")   ;kind of layer
-                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                              (cons 62 256)           ;kind of color call sign with color code index
-                                            )
-                                      )
+  (defun c:Auto_page_AUPAGE (  )
+    ;detect and delete ex mtext 
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_mtext_detect_ (ssget "x"
+                                              (list
+                                                (cons 0 "mtext") ;type of object
+                                                (cons 410 (getvar "CTAB"))
+                                                (cons 8 "G-ANNO-TTLB")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                (cons 62 256)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )   
+            nil
+          )
+          (progn 
+            (setq ss_mtext_detect_ (ssget
+                                              (list
+                                                (cons 0 "mtext") ;type of object
+                                                (cons 410 (getvar "CTAB"))
+                                                (cons 8 "G-ANNO-TTLB")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                (cons 62 256)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
           )
         )
-        (sslength ss_pre_filter_set_xx_)
-      )
-    ;
-    ;preloop_and_while
-      (setq ss_mtext_detect_i 0)
-      (setq ss_mtext_detect_temp  (ssadd))
-      (while (< ss_mtext_detect_i (sslength ss_mtext_detect_))
-        (setq ss_mtext_detect_ename_ (ssname ss_mtext_detect_ ss_mtext_detect_i))
-        (setq ss_mtext_detect_obj_ (vlax-ename->vla-object  ss_mtext_detect_ename_))
-        (setq ss_mtext_detect_obj_textstring (vla-get-textstring ss_mtext_detect_obj_))
-        (if (and
-              (= (wcmatch ss_mtext_detect_obj_textstring "*PP19*,*-2025*,*-2024*,C,B" ) T )
-              (/= (wcmatch ss_mtext_detect_obj_textstring "*STATION*,*.rvt*,*Autodesk*" ) T )
-              (/= (wcmatch ss_mtext_detect_obj_textstring "*PP19 :*") T )
-              (/= (wcmatch ss_mtext_detect_obj_textstring "*.rvt*" ) T )
-              (/= (wcmatch ss_mtext_detect_obj_textstring "*Autodesk*") T )
-              ; (= (wcmatch ss_mtext_detect_obj_textstring "*-2025*" ) T )
-              ; (= (wcmatch ss_mtext_detect_obj_textstring "*-2024*" ) T )
-              ; (= (wcmatch ss_mtext_detect_obj_textstring "C" ) T )
-              ; (= (wcmatch ss_mtext_detect_obj_textstring "B" ) T )
+      ;
+      ;preloop_and_while
+        (setq ss_mtext_detect_i 0)
+        (setq ss_mtext_detect_temp  (ssadd))
+        (while (< ss_mtext_detect_i (sslength ss_mtext_detect_))
+          (setq ss_mtext_detect_ename_ (ssname ss_mtext_detect_ ss_mtext_detect_i))
+          (setq ss_mtext_detect_obj_ (vlax-ename->vla-object  ss_mtext_detect_ename_))
+          (setq ss_mtext_detect_obj_textstring (vla-get-textstring ss_mtext_detect_obj_))
+          (if (and
+                (= (wcmatch ss_mtext_detect_obj_textstring "*PP19*,*-2025*,*-2024*,C,B" ) T )
+                (/= (wcmatch ss_mtext_detect_obj_textstring "*STATION*,*.rvt*,*Autodesk*" ) T )
+                (/= (wcmatch ss_mtext_detect_obj_textstring "*PP19 :*") T )
+                (/= (wcmatch ss_mtext_detect_obj_textstring "*.rvt*" ) T )
+                (/= (wcmatch ss_mtext_detect_obj_textstring "*Autodesk*") T )
+                ; (= (wcmatch ss_mtext_detect_obj_textstring "*-2025*" ) T )
+                ; (= (wcmatch ss_mtext_detect_obj_textstring "*-2024*" ) T )
+                ; (= (wcmatch ss_mtext_detect_obj_textstring "C" ) T )
+                ; (= (wcmatch ss_mtext_detect_obj_textstring "B" ) T )
+              )
+            (progn
+              (setq ss_mtext_detect_temp (ssadd ss_mtext_detect_ename_ ss_mtext_detect_temp  ))
+              (command "pselect"  ss_mtext_detect_temp "" )
+            )
+          )
+          (setq ss_mtext_detect_i (+ ss_mtext_detect_i 1))
+        )
+      ;
+      ;enter for delete mtext 
+        (if (and 
+              (/= (sslength ss_mtext_detect_temp) 0)
+              (= (setq detectloop (getstring "enter to change length Object")) "")
             )
           (progn
-            (setq ss_mtext_detect_temp (ssadd ss_mtext_detect_ename_ ss_mtext_detect_temp  ))
-            (command "pselect"  ss_mtext_detect_temp "" )
+            (command "erase"  ss_mtext_detect_temp "")
           )
         )
-        (setq ss_mtext_detect_i (+ ss_mtext_detect_i 1))
-      )
+      ;
     ;
-    ;enter for delete mtext 
-      (if (= (setq detectloop (getstring "enter to change length Object")) "")
+    ;creating block process
+      (if (= 
+            (wcmatch (vl-princ-to-string (vl-catch-all-apply (function (lambda () (vla-Item (vla-get-Blocks doc) "000 - TA AUTO PAGE")) ) ) ) "*IAcadBlock*" )
+            nil
+          )
         (progn
-          (command "erase"  ss_mtext_detect_temp "")
+          (command "circle" (list 0 0 0) 10 "" ) 
+          ;new_blk_entlast object
+            (setq circle_ename (entlast))
+            (setq circle_obj (vlax-ename->vla-object circle_ename))
+            (setq circle_obj_inscen_ (vlax-safearray->list (vlax-variant-value (vla-get-center circle_obj ))))
+            (command "erase" "L" "")
+            (command "_block" "000 - TA AUTO PAGE" circle_obj_inscen_ circle_ename "" )
+            (TA:vla-insertblock "000 - TA AUTO PAGE" circle_obj_inscen_ 1 0 )
+            (setvar "BLOCKREDEFINEMODE" 1)
+            (command "-INSERTCONTENT" 
+                    "C:\\TA FAMELINE old data\\TA\\TA_WORK\\MASS TRANSIT\\TA_PPLINE CKST\\TA_PPLINE CKST_combine_CSD-ceiling-plan\\20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan\\C1-C2_Finishes-Reflected Ceiling Plan\\PP19\\CAD\\C-1-PP19-AR-4130-01-B.dwg"
+                    "000 - TA AUTO PAGE" 
+                    circle_obj_inscen_ 1 1 0 "" "" "" "" )
+            (setvar "BLOCKREDEFINEMODE" 1)
+            (command "erase" "L" "")
+          ;
         )
       )
     ;
-  ;
-  ;creating block process
-    (command "circle" (list 0 0 0) 10 "" ) 
-    ;new_blk_entlast object
-      (setq circle_ename (entlast))
-      (setq circle_obj (vlax-ename->vla-object circle_ename))
-      (setq circle_obj_inscen_ (vlax-safearray->list (vlax-variant-value (vla-get-center circle_obj ))))
-      (command "_block" "000 - TA AUTO PAGE" circle_obj_inscen_ circle_ename "" )
-      (TA:vla-insertblock nameblk pttarget_torr 1 0 )
-
-    ;
-  ;
-  ;insert - process
-    (if (wcmatch 
-        (vl-princ-to-string (vl-catch-all-apply (function (lambda () (vla-Item (vla-get-Blocks doc) "000 - TA AUTO PAGE") ) ) ) ) "*IAcadBlock*" 
-      )
-      (progn
-        ;get-file-name_data_mode_
-          ;pre-settting
-            (setq filter_string_list_ (list "*C-1-Pp*"))
-            (setq current_filepath (getvar "dwgprefix"))
-            (setq current_filename (getvar "dwgname"))
-            (setq current_file_folder_list_ (vl-directory-files current_filepath "*.dwg"))
-            (setq list_data_ current_file_folder_list_)
-            (setq new_list_data_ ())
+    ;insert - process
+      (if (wcmatch 
+          (vl-princ-to-string (vl-catch-all-apply (function (lambda () (vla-Item (vla-get-Blocks doc) "000 - TA AUTO PAGE") ) ) ) ) "*IAcadBlock*" 
+        )
+        (progn
+          ;get-file-name_data_mode_
+            ;pre-settting
+              (setq filter_string_list_ (list "*C-1-Pp*"))
+              (setq current_filepath (getvar "dwgprefix"))
+              (setq current_filename (getvar "dwgname"))
+              (setq current_file_folder_list_ (vl-directory-files current_filepath "*.dwg"))
+              (setq list_data_ current_file_folder_list_)
+              (setq new_list_data_ ())
+            ;
+              (setq true_list_data_ (reverse (TA:wcmatch_list (list "*C-1-PP*") current_file_folder_list_ T)))
+              (setq true_list_data_index_val_ (car (TA:find-all-indexes current_filename true_list_data_)))
+              (setq true_list_data_length_ (length true_list_data_ ))
+            ;
           ;
-            (setq true_list_data_ (reverse (TA:wcmatch_list (list "*C-1-PP*") current_file_folder_list_ T)))
-            (setq true_list_data_index_val_ (car (TA:find-all-indexes current_filename true_list_data_)))
-            (setq true_list_data_length_ (length true_list_data_ ))
-          ;
-        ;
-        ;return
-        ;find tittle block
-            (command "ucs" "world")
-          ;
-          ;go_to_layout-process
-            (if 
-              (or 
-                (= (getvar "ctab") "model")
-                (/= (getvar "ctab") "layout1")
-              )
-              (progn 
-                (setvar "ctab" "layout1")
-                
-              )
-              (setvar "ctab" "layout1")
-            )
-          ;
-          ;selection_set_for_fillter_blk_name
-            (if  ;pre_select_ssget_or_post_select_ssget
-              (=
-                (setq ss_pre_filter_set_xx_ (ssget "x"
-                                                  (list
-                                                    (cons 0 "INSERT") ;type of object
-                                                    (cons 410 (getvar "CTAB"))
-                                                    ; (cons 8 "000 - GRID")   ;kind of layer
-                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                                    ; (cons 62 1)           ;kind of color call sign with color code index
-                                                  )
-                                            )
+          ;return
+          ;find tittle block
+              (command "ucs" "world")
+            ;
+            ;go_to_layout-process
+              (if 
+                (or 
+                  (= (getvar "ctab") "model")
+                  (/= (getvar "ctab") "layout1")
                 )
-                nil
-              )
-              (progn
-                (setq ss_pre_filter_set_xx_ (ssget "X"
-                                                  (list
-                                                    (cons 0 "INSERT") ;type of object
-                                                    (cons 410 (getvar "CTAB"))
-                                                    ; (cons 8 "000 - GRID")   ;kind of layer
-                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                                    ; (cons 62 1)           ;kind of color call sign with color code index
-                                                  )
-                                            )
-                )
-              )
-              (sslength ss_pre_filter_set_xx_)
-            )
-          ;
-          ;preloop_and_while
-            (setq ss_pre_filter_set_xx_i 0)
-            (setq External_ref_ename_ ())
-            (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-              (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
-              (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
-              (if
-                (and
-                  ; (= (sslength ss_pre_filter_set_xx_) 1)
-                  (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_ )) (strcat "*" (strcase "ACM_Titleblock_MRTA") "*"))  T)
+                (progn 
+                  (setvar "ctab" "layout1")
                   
                 )
+                (setvar "ctab" "layout1")
+              )
+            ;
+            ;selection_set_for_fillter_blk_name
+              (if  ;pre_select_ssget_or_post_select_ssget
+                (=
+                  (setq ss_pre_filter_set_xx_ (ssget "x"
+                                                    (list
+                                                      (cons 0 "INSERT") ;type of object
+                                                      (cons 410 (getvar "CTAB"))
+                                                      ; (cons 8 "000 - GRID")   ;kind of layer
+                                                      ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                      ; (cons 62 1)           ;kind of color call sign with color code index
+                                                    )
+                                              )
+                  )
+                  nil
+                )
                 (progn
-                  (setq main_bol (LM:boundingbox ss_pre_filter_set_xx_obj_))
+                  (setq ss_pre_filter_set_xx_ (ssget "X"
+                                                    (list
+                                                      (cons 0 "INSERT") ;type of object
+                                                      (cons 410 (getvar "CTAB"))
+                                                      ; (cons 8 "000 - GRID")   ;kind of layer
+                                                      ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                      ; (cons 62 1)           ;kind of color call sign with color code index
+                                                    )
+                                              )
+                  )
                 )
+                (sslength ss_pre_filter_set_xx_)
               )
-              (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
-            )
-          ; 
-        ;
-        ;insert block process
-          (TA:vla-insertblock 
-            "000 - TA AUTO PAGE"
-            (car main_bol)
-            1
-            0
-          )
-          ;new_blk_entlast object
-            (setq sss_ename (entlast))
-            (setq sss_obj_ (vlax-ename->vla-object sss_ename))
-            (LM:vl-setattributevalue sss_obj_ "DATE_VAL" (strcat 
-                                                          (substr (rtos (getvar "cdate" ) 2 0) 7 2)
-                                                          "-"
-                                                          (substr (rtos (getvar "cdate" ) 2 0) 5 2)
-                                                          "-"
-                                                          (substr (rtos (getvar "cdate" ) 2 0) 1 4)
-                                                        )
-            )
-            (LM:vl-setattributevalue sss_obj_ "STATUS_VAL" "C" )
-            (LM:vl-setattributevalue sss_obj_ "SHEET_VAL" (LM:StringSubst
-                                                            ""
-                                                            "C-"
-                                                            (LM:StringSubst "" ".dwg" current_filename ) 
-                                                          ) 
-            )
-            (LM:vl-setattributevalue sss_obj_ "REVISION_VAL" "W" )
-            (LM:vl-setattributevalue sss_obj_ "SHEET_NO_VAL" (strcat 
-                                                            (rtos (+ true_list_data_index_val_ 1)  2 0)
-                                                            "/"
-                                                            (rtos (+ true_list_data_length_ 1) 2 0)
-                                                          ) 
-            )
+            ;
+            ;preloop_and_while
+              (setq ss_pre_filter_set_xx_i 0)
+              (setq External_ref_ename_ ())
+              (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+                (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+                (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+                (if
+                  (and
+                    ; (= (sslength ss_pre_filter_set_xx_) 1)
+                    (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_ )) (strcat "*" (strcase "ACM_Titleblock_MRTA") "*"))  T)
+                    
+                  )
+                  (progn
+                    (setq main_bol (LM:boundingbox ss_pre_filter_set_xx_obj_))
+                  )
+                )
+                (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+              )
+            ; 
           ;
-        ;
-        (wcmatch 
-          (vl-princ-to-string 
-            (vl-catch-all-apply 
-              (function 
-                (lambda () 
-                  (vla-Item (vla-get-Blocks doc) "000 - TA AUTO PAGE")
+          ;insert block process
+            (TA:vla-insertblock 
+              "000 - TA AUTO PAGE"
+              (car main_bol)
+              1
+              0
+            )
+            ;new_blk_entlast object
+              (setq sss_ename (entlast))
+              (setq sss_obj_ (vlax-ename->vla-object sss_ename))
+              (LM:vl-setattributevalue sss_obj_ "DATE_VAL" (strcat 
+                                                            (substr (rtos (getvar "cdate" ) 2 0) 7 2)
+                                                            "-"
+                                                            (substr (rtos (getvar "cdate" ) 2 0) 5 2)
+                                                            "-"
+                                                            (substr (rtos (getvar "cdate" ) 2 0) 1 4)
+                                                          )
+              )
+              (LM:vl-setattributevalue sss_obj_ "STATUS_VAL" "C" )
+              (LM:vl-setattributevalue sss_obj_ "SHEET_VAL" (LM:StringSubst
+                                                              ""
+                                                              "C-"
+                                                              (LM:StringSubst "" ".dwg" current_filename ) 
+                                                            ) 
+              )
+              (LM:vl-setattributevalue sss_obj_ "REVISION_VAL" "W" )
+              (LM:vl-setattributevalue sss_obj_ "SHEET_NO_VAL" (strcat 
+                                                              (rtos (+ true_list_data_index_val_ 1)  2 0)
+                                                              "/"
+                                                              (rtos (+ true_list_data_length_ 1) 2 0)
+                                                            ) 
+              )
+            ;
+          ;
+          (wcmatch 
+            (vl-princ-to-string 
+              (vl-catch-all-apply 
+                (function 
+                  (lambda () 
+                    (vla-Item (vla-get-Blocks doc) "000 - TA AUTO PAGE")
+                  )
                 )
               )
             )
+            "*error*,*IAcadBlock*"
           )
-          "*error*,*IAcadBlock*"
         )
+        (alert "plase insert block name \"000 - TA AUTO PAGE\" ")
       )
-      (alert "plase insert block name \"000 - TA AUTO PAGE\" ")
-    )
+    ;
   )
 ;
 
