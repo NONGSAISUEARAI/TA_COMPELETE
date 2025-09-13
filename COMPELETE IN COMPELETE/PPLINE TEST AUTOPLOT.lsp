@@ -147,6 +147,356 @@
     )
   ;
 ;
+;Filter Selection Set by Effectivename Ta Trai  
+  ;Note By Code_Developer
+  ;
+  ;Fully command must have sub-functions with names starting with TA: or LM:
+  ;
+  ;
+  (defun TA:EF_Filter_ss_set_ (ss_pre_filter_set_  effectivename) ;กรอง block object ด้วย LM:effectivename
+    (setq ss_post_filter_set_ (ssadd))
+    ; (setq effectivename "12a")
+    ;preloop_and_while
+      (setq ss_pre_filter_set_i 0)
+      (while 
+        ;get_data
+          (setq ss_pre_filter_set_ename (ssname  ss_pre_filter_set_ ss_pre_filter_set_i) )
+          (setq ss_pre_filter_set_obj (vlax-ename->vla-object ss_pre_filter_set_ename))
+          (setq ss_pre_filter_set_obj_efname_ (LM:effectivename ss_pre_filter_set_obj))
+        ;
+        ;filter_data
+          (if (= ss_pre_filter_set_obj_efname_ effectivename)
+            (progn
+            (ssadd ss_pre_filter_set_ename ss_post_filter_set_)
+            )
+            (princ (strcat "\nfilter_selection_set_and_sorting is processing " (rtos (* ss_pre_filter_set_i (/ 100 (float (sslength ss_pre_filter_set_)))) 2 0) "%\n"))
+          )
+        ;
+        (setq ss_pre_filter_set_i (+ ss_pre_filter_set_i 1))
+      )
+    ;
+    (sslength ss_post_filter_set_)
+    (princ ss_post_filter_set_)
+    (setq ss_post_filter_set_ ss_post_filter_set_)
+  )
+  (defun TA:EF_Filter_ss_set_v2_ (ss_pre_filter_set_  effectivename_list) ;กรอง block object ด้วย LM:effectivename 
+    (setq ss_post_filter_set_ (ssadd))
+    ; (setq effectivename "12a")
+    ;preloop_and_while
+      (setq ss_pre_filter_set_i 0)
+      (while 
+        ;get_data
+          (setq ss_pre_filter_set_ename (ssname  ss_pre_filter_set_ ss_pre_filter_set_i) )
+          (setq ss_pre_filter_set_obj (vlax-ename->vla-object ss_pre_filter_set_ename))
+          (setq ss_pre_filter_set_obj_efname_ (LM:effectivename ss_pre_filter_set_obj))
+        ;
+        ;filter_data
+          (if (= (TA:FIND_DUPLICATE_LIST ss_pre_filter_set_obj_efname_ effectivename_list) "Y")
+            (progn
+            (ssadd ss_pre_filter_set_ename ss_post_filter_set_)
+            )
+            (princ (strcat "\nfilter_selection_set_and_sorting is processing " (rtos (* ss_pre_filter_set_i (/ 100 (float (sslength ss_pre_filter_set_)))) 2 0) "%\n"))
+          )
+        ;
+        (setq ss_pre_filter_set_i (+ ss_pre_filter_set_i 1))
+      )
+    ;
+    (sslength ss_post_filter_set_)
+    (princ ss_post_filter_set_)
+    (setq ss_post_filter_set_ ss_post_filter_set_)
+  )
+  
+  (defun TA:Prop_Filter_ss_set_ (Selection_list_ nameprop_ propval_)
+    (setq temp_ssget_ (ssadd))
+    (setq Selection_list_i 0)
+    (while (< Selection_list_i (sslength Selection_list_))
+      (setq Selection_list_ename_ (ssname Selection_list_ Selection_list_i))
+      (setq Selection_list_obj_ (vlax-ename->vla-object Selection_list_ename_))
+        (if
+          (= (vlax-get-property Selection_list_obj_ nameprop_) propval_ )
+          (progn
+            (setq temp_ssget_ (ssadd Selection_list_ename_ temp_ssget_))
+          )
+          (princ "\n")
+        )
+      (setq Selection_list_i (+ Selection_list_i 1))
+    )
+    (sslength temp_ssget_)
+    (setq temp_ssget_ temp_ssget_)
+  )
+  (defun TA:member (str_name_ member_list_)
+      (setq member_list_i 0)
+      (setq found nil)
+      (while (and
+              (< member_list_i (length member_list_))
+              (/= found T)
+            )
+        (setq member_list_val (nth member_list_i member_list_))
+        (if (= str_name_ member_list_val)
+          (progn
+            (setq found T)  
+          )
+            (setq found nil)
+        )
+        (setq member_list_i (+ member_list_i 1))
+      )
+      (setq result found)
+  )
+  (defun TA:member_position (str_name_ pos member_list_)
+      (setq member_list_i 0)
+      (setq result_found_val ())
+      (setq found nil)
+      (while (and
+              (< member_list_i (length member_list_))
+              ; (/= found T)
+            )
+        (setq member_list_val (nth member_list_i member_list_))
+        (if (= str_name_ (nth pos member_list_val))
+          (progn
+            ; (setq found T)
+            (setq result_found_val (cons member_list_val result_found_val))          
+          )
+            (setq found nil)
+        )
+        (setq member_list_i (+ member_list_i 1))
+      )
+      (setq result result_found_val)
+  )
+  (defun remove_member_list_ (num_ point_list_)
+    (setq new_list_ ())
+    ; (setq num_ 2)
+    (setq point_list_i 0)
+    (while (< point_list_i (length point_list_))
+      
+      (setq point_list_set_ (nth point_list_i point_list_))
+      (setq point_list_set_remove (vl-remove (nth num_ point_list_set_) point_list_set_))
+      (setq new_list_ (cons point_list_set_remove new_list_))
+      (setq point_list_i (+ point_list_i 1))
+      
+    )
+    (setq result_ (reverse new_list_))
+  )
+  (defun remove_single_list_ (num_ point_list_)
+    (setq new_list_ ())
+      (setq point_list_set_ point_list_)
+      (setq point_list_set_remove (vl-remove (nth num_ point_list_set_) point_list_set_))
+
+    (setq result_ point_list_set_remove)
+  )
+  (defun TA:remove_val_list_ (val_list_ target_list_)
+    ;example
+      ; (setq target_list_ (list 1 2 3 4 5 6 7 8 9 nil))
+      ; (setq target_list_ (list "ปรับปรุงอาตาร_DERMA_HEALTH_คลอ" "ง9_DB_STUDIO" ""))
+      ; (setq val_list_ nil) 
+      ; (TA:remove_val_list_ 8 target_list_)
+    ;
+    ;preloop_and_while
+      (setq target_list_i 0)
+      (while (< target_list_i (length target_list_))
+        (setq target_list_ename_ (nth  target_list_i target_list_))
+        (if (or (= target_list_ename_ nil) (= target_list_ename_ "") )
+          (progn
+            (setq target_list_ (vl-remove (nth target_list_i target_list_) target_list_))
+          )
+        )
+        (setq target_list_i (+ target_list_i 1))
+      )
+      (setq target_list_ target_list_)
+    ; 
+  )
+  (defun TA:FIND_DUPLICATE_LIST (target_val_ target_list_)
+    ;example_code
+      ; (setq target_val_ 69)
+      ; (setq target_list_ (list 2 5 69 4 26 9 5 23 6 9 52  6))
+    ;
+    ;preloop_and_while
+      (setq target_list_i 0)
+      (setq check_list_val "N")
+      (while (and (< target_list_i (length target_list_)) (= check_list_val "N"))
+        (setq target_list_ename_ (nth  target_list_i target_list_))
+          (if (= target_val_ target_list_ename_ )
+            (progn
+              (setq check_list_val "Y")
+            )
+            (setq check_list_val "N")
+          )
+        (setq target_list_i (+ target_list_i 1))
+      )
+    ;
+    ;summary_checking_list_
+      (if (= target_list_i (length target_list_))
+        (progn
+          (princ (strcat "do not found duplicate targetlist \n" ))
+        )
+        (princ (strcat "target_val_ has been duplicate in " (rtos target_list_i 2 0) "\n" ))
+      )
+      (setq check_list_val check_list_val)
+    ;
+  )
+  (defun TA:Count_item_in_list_ (c_list_ )
+    ;
+      (setq result_ ())
+      (while (/= c_list_ nil)
+        (length c_list_)
+        (setq c_list_val_ (car c_list_))
+        (setq count_i (- 
+                  (length c_list_)
+                  (length (setq c_list_ (vl-remove c_list_val_ c_list_)))
+                )
+        )
+        (setq result_ (cons (cons c_list_val_ count_i ) result_))
+        
+      )
+    ;
+  )
+  (defun LM:CountItems (l / c l r x) 
+    (while l 
+      (setq x (car l))
+      (setq c (length l))
+      (setq l (vl-remove x (cdr l)))
+      (setq r (cons (cons x (- c (length l))) r))
+    )
+    (reverse r)
+  )
+  (defun TA:find-all-indexes (val lst / idx result)
+    (setq idx 0)
+    (setq result '())
+    (while lst
+      (if (equal (car lst) val)
+        (setq result (cons idx result))
+      )
+      (setq idx (1+ idx))
+      (setq lst (cdr lst))
+    )
+    (reverse result)
+  )
+  (defun TA:wcmatch_list (filter_string_list_ list_data_ strcase_val)
+    ;Note By Code_Developer
+    ;This command is designed to work exclusively with a list name & array.
+    ;The pripicle of the codework will read list name & array then filter target value that filter_string parameter indicate.
+    ;Fully command must have sub-functions with names starting with TA: or LM:
+    ;
+    ;Example how argument work
+      ; (setq filter_string_list_ (list 
+      ;                             "*text_that _you_need*"
+      ;                             "50"
+      ;                             "45" 50 48 69
+      ;                             "*re*"
+      ;                             "*ai*"
+      ;                           )
+      ; )
+      ; (setq list_data_ (list "50" "45" "A" "TRE" "TEXT" "ikwai na sonteen isud e heer" 48 55 69 50))
+      ; (setq strcase_val nil)
+    ;
+    ;1st condition
+    (cond
+      ((= strcase_val nil)
+        (progn
+          (setq filter_string_list_ (mapcar 
+                                      '(lambda (x) 
+                                          (if 
+                                            (and (= (type x) 'str) 
+                                                (/= (atof x) 'real)
+                                            ) 
+                                            (progn 
+                                              (strcase x T)
+                                            ) 
+                                            ""
+                                          ;  (if (testexpr)
+                                          ;   (progn
+                                          ;     (thenexpr)
+                                          ;   )
+                                          ;  )
+                                          )
+                                        )
+                                      filter_string_list_
+                                    )
+          )
+          (setq list_data_ (mapcar 
+                                      '(lambda (x) 
+                                          (if 
+                                            (and 
+                                              (= (type x) 'str)
+                                              (/= (atof x) 'real)
+                                            ) 
+                                            (progn 
+                                              
+                                              (strcase x T)
+                                            ) 
+                                            ""
+                                          ;  (if (testexpr)
+                                          ;   (progn
+                                          ;     (thenexpr)
+                                          ;   )
+                                          ;  )
+                                          )
+                                        )
+                                      list_data_
+                                    )
+          )
+        )
+      )
+      ; ((= strcase_val T)
+      ;   (progn
+      ;     (setq filter_string_list_ (mapcar 
+      ;                                 '(lambda (x) 
+      ;                                    (if 
+      ;                                      (and (= (type x) 'str) 
+      ;                                           (/= (atof x) 'real)
+      ;                                      ) 
+      ;                                      (progn 
+      ;                                        (strcase x T)
+      ;                                      ) 
+      ;                                      ""
+      ;                                     ;  (if (testexpr)
+      ;                                     ;   (progn
+      ;                                     ;     (thenexpr)
+      ;                                     ;   )
+      ;                                     ;  )
+      ;                                    )
+      ;                                  )
+      ;                                 filter_string_list_
+      ;                               )
+      ;     )
+      ;     (setq list_data_ (mapcar 
+      ;                                 '(lambda (x) 
+      ;                                    (if 
+      ;                                      (and  
+      ;                                           (/= (atof x) 'real)
+      ;                                      ) 
+      ;                                      (progn 
+      ;                                        (strcase x T)
+      ;                                      ) 
+      ;                                      ""
+      ;                                     ;  (if (testexpr)
+      ;                                     ;   (progn
+      ;                                     ;     (thenexpr)
+      ;                                     ;   )
+      ;                                     ;  )
+      ;                                    )
+      ;                                  )
+      ;                                 list_data_
+      ;                               )
+      ;     )
+      ;   )
+      ; )
+    )
+      (setq filter_result_ (vl-remove-if-not 
+                            '(lambda (x) 
+                                (apply 'or 
+                                        (mapcar 
+                                          '(lambda (p) (wcmatch x p))
+                                          filter_string_list_
+                                        )
+                                )
+                              )
+                            list_data_
+                          )
+      )
+      (setq filter_result_ (reverse filter_result_))
+    ;
+  )
+;
 ;Shell_FUNC
   ;Copy to clipboard FUNC
     (defun TA:copytext->clipboard (clipboard_text)
@@ -949,7 +1299,219 @@
     ;
     ;
   )
+  (defun c:Auto_page_AUPAGE (list_data_ filter_string_list_ )
+  ;detect and delete ex mtext 
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_mtext_detect_ (ssget "x"
+                                            (list
+                                              (cons 0 "mtext") ;type of object
+                                              (cons 410 (getvar "CTAB"))
+                                              (cons 8 "G-ANNO-TTLB")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              (cons 62 256)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )   
+          nil
+        )
+        (progn 
+          (setq ss_mtext_detect_ (ssget
+                                            (list
+                                              (cons 0 "mtext") ;type of object
+                                              (cons 410 (getvar "CTAB"))
+                                              (cons 8 "G-ANNO-TTLB")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              (cons 62 256)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    ;preloop_and_while
+      (setq ss_mtext_detect_i 0)
+      (setq ss_mtext_detect_temp  (ssadd))
+      (while (< ss_mtext_detect_i (sslength ss_mtext_detect_))
+        (setq ss_mtext_detect_ename_ (ssname ss_mtext_detect_ ss_mtext_detect_i))
+        (setq ss_mtext_detect_obj_ (vlax-ename->vla-object  ss_mtext_detect_ename_))
+        (setq ss_mtext_detect_obj_textstring (vla-get-textstring ss_mtext_detect_obj_))
+        (if (and
+              (= (wcmatch ss_mtext_detect_obj_textstring "*PP19*,*-2025*,*-2024*,C,B" ) T )
+              (/= (wcmatch ss_mtext_detect_obj_textstring "*STATION*,*.rvt*,*Autodesk*" ) T )
+              (/= (wcmatch ss_mtext_detect_obj_textstring "*PP19 :*") T )
+              (/= (wcmatch ss_mtext_detect_obj_textstring "*.rvt*" ) T )
+              (/= (wcmatch ss_mtext_detect_obj_textstring "*Autodesk*") T )
+              ; (= (wcmatch ss_mtext_detect_obj_textstring "*-2025*" ) T )
+              ; (= (wcmatch ss_mtext_detect_obj_textstring "*-2024*" ) T )
+              ; (= (wcmatch ss_mtext_detect_obj_textstring "C" ) T )
+              ; (= (wcmatch ss_mtext_detect_obj_textstring "B" ) T )
+            )
+          (progn
+            (setq ss_mtext_detect_temp (ssadd ss_mtext_detect_ename_ ss_mtext_detect_temp  ))
+            (command "pselect"  ss_mtext_detect_temp "" )
+          )
+        )
+        (setq ss_mtext_detect_i (+ ss_mtext_detect_i 1))
+      )
+    ;
+    ;enter for delete mtext 
+      (if (= (setq detectloop (getstring "enter to change length Object")) "")
+        (progn
+          (command "erase"  ss_mtext_detect_temp "")
+        )
+      )
+    ;
+  ;
+  ;creating block process
+    (command "circle" (list 0 0 0) 10 "" ) 
+    ;new_blk_entlast object
+      (setq circle_ename (entlast))
+      (setq circle_obj (vlax-ename->vla-object circle_ename))
+      (setq circle_obj_inscen_ (vlax-safearray->list (vlax-variant-value (vla-get-center circle_obj ))))
+      (command "_block" "000 - TA AUTO PAGE" circle_obj_inscen_ circle_ename "" )
+      (TA:vla-insertblock nameblk pttarget_torr 1 0 )
 
+    ;
+  ;
+  ;insert - process
+    (if (wcmatch 
+        (vl-princ-to-string (vl-catch-all-apply (function (lambda () (vla-Item (vla-get-Blocks doc) "000 - TA AUTO PAGE") ) ) ) ) "*IAcadBlock*" 
+      )
+      (progn
+        ;get-file-name_data_mode_
+          ;pre-settting
+            (setq filter_string_list_ (list "*C-1-Pp*"))
+            (setq current_filepath (getvar "dwgprefix"))
+            (setq current_filename (getvar "dwgname"))
+            (setq current_file_folder_list_ (vl-directory-files current_filepath "*.dwg"))
+            (setq list_data_ current_file_folder_list_)
+            (setq new_list_data_ ())
+          ;
+            (setq true_list_data_ (reverse (TA:wcmatch_list (list "*C-1-PP*") current_file_folder_list_ T)))
+            (setq true_list_data_index_val_ (car (TA:find-all-indexes current_filename true_list_data_)))
+            (setq true_list_data_length_ (length true_list_data_ ))
+          ;
+        ;
+        ;return
+        ;find tittle block
+            (command "ucs" "world")
+          ;
+          ;go_to_layout-process
+            (if 
+              (or 
+                (= (getvar "ctab") "model")
+                (/= (getvar "ctab") "layout1")
+              )
+              (progn 
+                (setvar "ctab" "layout1")
+                
+              )
+              (setvar "ctab" "layout1")
+            )
+          ;
+          ;selection_set_for_fillter_blk_name
+            (if  ;pre_select_ssget_or_post_select_ssget
+              (=
+                (setq ss_pre_filter_set_xx_ (ssget "x"
+                                                  (list
+                                                    (cons 0 "INSERT") ;type of object
+                                                    (cons 410 (getvar "CTAB"))
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+                nil
+              )
+              (progn
+                (setq ss_pre_filter_set_xx_ (ssget "X"
+                                                  (list
+                                                    (cons 0 "INSERT") ;type of object
+                                                    (cons 410 (getvar "CTAB"))
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+              )
+              (sslength ss_pre_filter_set_xx_)
+            )
+          ;
+          ;preloop_and_while
+            (setq ss_pre_filter_set_xx_i 0)
+            (setq External_ref_ename_ ())
+            (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+              (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+              (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+              (if
+                (and
+                  ; (= (sslength ss_pre_filter_set_xx_) 1)
+                  (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_ )) (strcat "*" (strcase "ACM_Titleblock_MRTA") "*"))  T)
+                  
+                )
+                (progn
+                  (setq main_bol (LM:boundingbox ss_pre_filter_set_xx_obj_))
+                )
+              )
+              (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+            )
+          ; 
+        ;
+        ;insert block process
+          (TA:vla-insertblock 
+            "000 - TA AUTO PAGE"
+            (car main_bol)
+            1
+            0
+          )
+          ;new_blk_entlast object
+            (setq sss_ename (entlast))
+            (setq sss_obj_ (vlax-ename->vla-object sss_ename))
+            (LM:vl-setattributevalue sss_obj_ "DATE_VAL" (strcat 
+                                                          (substr (rtos (getvar "cdate" ) 2 0) 7 2)
+                                                          "-"
+                                                          (substr (rtos (getvar "cdate" ) 2 0) 5 2)
+                                                          "-"
+                                                          (substr (rtos (getvar "cdate" ) 2 0) 1 4)
+                                                        )
+            )
+            (LM:vl-setattributevalue sss_obj_ "STATUS_VAL" "C" )
+            (LM:vl-setattributevalue sss_obj_ "SHEET_VAL" (LM:StringSubst
+                                                            ""
+                                                            "C-"
+                                                            (LM:StringSubst "" ".dwg" current_filename ) 
+                                                          ) 
+            )
+            (LM:vl-setattributevalue sss_obj_ "REVISION_VAL" "W" )
+            (LM:vl-setattributevalue sss_obj_ "SHEET_NO_VAL" (strcat 
+                                                            (rtos (+ true_list_data_index_val_ 1)  2 0)
+                                                            "/"
+                                                            (rtos (+ true_list_data_length_ 1) 2 0)
+                                                          ) 
+            )
+          ;
+        ;
+        (wcmatch 
+          (vl-princ-to-string 
+            (vl-catch-all-apply 
+              (function 
+                (lambda () 
+                  (vla-Item (vla-get-Blocks doc) "000 - TA AUTO PAGE")
+                )
+              )
+            )
+          )
+          "*error*,*IAcadBlock*"
+        )
+      )
+      (alert "plase insert block name \"000 - TA AUTO PAGE\" ")
+    )
+  )
 ;
 
 
@@ -979,4 +1541,15 @@
   ; (command "zoom" "a") 
   ; (command "close" "n" )
 ;  
-
+(setq filter_result_ (vl-remove-if-not 
+                              '(lambda (x) 
+                                  (apply 'or 
+                                         (mapcar 
+                                           '(lambda (p) (wcmatch x p))
+                                           '("A" "B" )
+                                         )
+                                  )
+                                )
+                              '( "A" "a" "B" "b" "c")
+                            )
+        )

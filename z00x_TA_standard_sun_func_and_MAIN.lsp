@@ -868,6 +868,7 @@
       (princ ss_post_filter_set_)
       (setq ss_post_filter_set_ ss_post_filter_set_)
     )
+    
     (defun TA:Prop_Filter_ss_set_ (Selection_list_ nameprop_ propval_)
       (setq temp_ssget_ (ssadd))
       (setq Selection_list_i 0)
@@ -1031,6 +1032,132 @@
         (setq lst (cdr lst))
       )
       (reverse result)
+    )
+    (defun TA:wcmatch_list (filter_string_list_ list_data_ strcase_val)
+      ;Note By Code_Developer
+      ;This command is designed to work exclusively with a list name & array.
+      ;The pripicle of the codework will read list name & array then filter target value that filter_string parameter indicate.
+      ;Fully command must have sub-functions with names starting with TA: or LM:
+      ;
+      ;Example how argument work
+        ; (setq filter_string_list_ (list 
+        ;                             "*text_that _you_need*"
+        ;                             "50"
+        ;                             "45" 50 48 69
+        ;                             "*re*"
+        ;                             "*ai*"
+        ;                           )
+        ; )
+        ; (setq list_data_ (list "50" "45" "A" "TRE" "TEXT" "ikwai na sonteen isud e heer" 48 55 69 50))
+        ; (setq strcase_val nil)
+      ;
+      ;1st condition
+      (cond
+        ((= strcase_val nil)
+          (progn
+            (setq filter_string_list_ (mapcar 
+                                        '(lambda (x) 
+                                           (if 
+                                             (and (= (type x) 'str) 
+                                                  (/= (atof x) 'real)
+                                             ) 
+                                             (progn 
+                                               (strcase x T)
+                                             ) 
+                                             ""
+                                            ;  (if (testexpr)
+                                            ;   (progn
+                                            ;     (thenexpr)
+                                            ;   )
+                                            ;  )
+                                           )
+                                         )
+                                        filter_string_list_
+                                      )
+            )
+            (setq list_data_ (mapcar 
+                                        '(lambda (x) 
+                                           (if 
+                                             (and 
+                                               (= (type x) 'str)
+                                               (/= (atof x) 'real)
+                                             ) 
+                                             (progn 
+                                               
+                                               (strcase x T)
+                                             ) 
+                                             ""
+                                            ;  (if (testexpr)
+                                            ;   (progn
+                                            ;     (thenexpr)
+                                            ;   )
+                                            ;  )
+                                           )
+                                         )
+                                        list_data_
+                                      )
+            )
+          )
+        )
+        ; ((= strcase_val T)
+        ;   (progn
+        ;     (setq filter_string_list_ (mapcar 
+        ;                                 '(lambda (x) 
+        ;                                    (if 
+        ;                                      (and (= (type x) 'str) 
+        ;                                           (/= (atof x) 'real)
+        ;                                      ) 
+        ;                                      (progn 
+        ;                                        (strcase x T)
+        ;                                      ) 
+        ;                                      ""
+        ;                                     ;  (if (testexpr)
+        ;                                     ;   (progn
+        ;                                     ;     (thenexpr)
+        ;                                     ;   )
+        ;                                     ;  )
+        ;                                    )
+        ;                                  )
+        ;                                 filter_string_list_
+        ;                               )
+        ;     )
+        ;     (setq list_data_ (mapcar 
+        ;                                 '(lambda (x) 
+        ;                                    (if 
+        ;                                      (and  
+        ;                                           (/= (atof x) 'real)
+        ;                                      ) 
+        ;                                      (progn 
+        ;                                        (strcase x T)
+        ;                                      ) 
+        ;                                      ""
+        ;                                     ;  (if (testexpr)
+        ;                                     ;   (progn
+        ;                                     ;     (thenexpr)
+        ;                                     ;   )
+        ;                                     ;  )
+        ;                                    )
+        ;                                  )
+        ;                                 list_data_
+        ;                               )
+        ;     )
+        ;   )
+        ; )
+      )
+        (setq filter_result_ (vl-remove-if-not 
+                              '(lambda (x) 
+                                  (apply 'or 
+                                         (mapcar 
+                                           '(lambda (p) (wcmatch x p))
+                                           filter_string_list_
+                                         )
+                                  )
+                                )
+                              list_data_
+                            )
+        )
+        (setq filter_result_ (reverse filter_result_))
+      ;
     )
   ;
   ;Get_Data Document Ta Trai
@@ -10249,7 +10376,7 @@
           (=
             (setq ss_pre_filter_set_xx_ (ssget "i"
                                               (list
-                                                (cons 0 "INSERT") ;type of object
+                                                (cons 0 "attdef,MTEXT,TEXT,INSERT") ;type of object
                                                 ; (cons 8 "000 - GRID")   ;kind of layer
                                                 ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                                 ; (cons 62 1)           ;kind of color call sign with color code index
@@ -10261,7 +10388,7 @@
           (progn
             (setq ss_pre_filter_set_xx_ (ssget
                                               (list
-                                                (cons 0 "INSERT") ;type of object
+                                                (cons 0 "attdef,MTEXT,TEXT,INSERT") ;type of object
                                                 ; (cons 8 "000 - GRID")   ;kind of layer
                                                 ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                                 ; (cons 62 1)           ;kind of color call sign with color code index
@@ -10278,15 +10405,47 @@
         (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
           (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
           (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (setq ss_pre_filter_set_xx_obj_name (vla-get-objectname  ss_pre_filter_set_xx_obj_))
           (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
-          (vla-put-insertionpoint 
-            ss_pre_filter_set_xx_obj_
-            (vlax-3d-point 
-              (TA:round-05 (car ss_pre_filter_set_xx_obj_ins_))
-              (TA:round-05 (cadr ss_pre_filter_set_xx_obj_ins_))
-              (TA:round-05 (caddr ss_pre_filter_set_xx_obj_ins_))
+          
+          (cond
+            (;_case_1
+               (and
+                  (/= ss_pre_filter_set_xx_obj_name "AcDbAttributeDefinition")
+               )
+               (progn
+                  (vla-put-insertionpoint 
+                    ss_pre_filter_set_xx_obj_
+                    (vlax-3d-point 
+                      (TA:round-05 (car ss_pre_filter_set_xx_obj_ins_))
+                      (TA:round-05 (cadr ss_pre_filter_set_xx_obj_ins_))
+                      (TA:round-05 (caddr ss_pre_filter_set_xx_obj_ins_))
+                    )
+                  )
+                  (princ "_case_1")
+               )
             )
+            (;_case_2
+               (and
+                  (= ss_pre_filter_set_xx_obj_name "AcDbAttributeDefinition")
+               )
+               (progn
+                  (setq ss_pre_filter_set_xx_obj_insalmentpt_ (vlax-safearray->list (vlax-variant-value (vla-get-textalignmentpoint ss_pre_filter_set_xx_obj_))))
+                  (vla-put-textalignmentpoint 
+                    ss_pre_filter_set_xx_obj_
+                    (vlax-3d-point 
+                      (TA:round-05 (car ss_pre_filter_set_xx_obj_insalmentpt_))
+                      (TA:round-05 (cadr ss_pre_filter_set_xx_obj_insalmentpt_))
+                      (TA:round-05 (caddr ss_pre_filter_set_xx_obj_insalmentpt_))
+                    )
+                  )
+                  (princ "_case_2")
+               )
+            )
+
           )
+          
+          
           (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
         )
       ;
@@ -28958,7 +29117,7 @@
         (setq Er-msg_ (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/COMPELETE NEXT 2025/Z73-Tranference_Autocad-Excel_data.lsp") ) ) ) )
         (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/COMPELETE NEXT 2025/REWORK DIM/z62x_REWORK_DIMENSION_REV02.lsp") ) ) ) )
         (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/COMPELETE IN COMPELETE/SFB_FINDING_SPECFILY_NAME_BLOCK.lsp") ) ) ) )
-        (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/CC11x_ADD_LINETYPE.lsp") ) ) ) )
+        (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/000 - automation_cad.lsp") ) ) ) )
       )
     )
     ((and 
@@ -28971,17 +29130,7 @@
         (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/Admin/Documents/GitHub/TA_COMPELETE/COMPELETE IN COMPELETE/SFB_FINDING_SPECFILY_NAME_BLOCK.lsp") ) ) ) )
       )
     )
-    ; ((and 
-    ;       (= (getenv "COMPUTERNAME") "NONGSAISUEARAI")
-    ;       (= (getenv "USERNAME") "popul")
-    ;     )
-    ;   (progn
-    ;     (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/Admin/Documents/GitHub/TA_COMPELETE/COMPELETE NEXT 2025/Z73-Tranference_Autocad-Excel_data.lsp") ) ) ) )
-    ;   )
-    ; )
   )
-  ; (setq Er-msg_ (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/z67x_CLEAN_FUNC.lsp") ) ) ) )
-  ; (setq Er-msg_ (vl-catch-all-apply (function (lambda () (load "C:/Users/Admin/Documents/GitHub/TA_COMPELETE/z67x_CLEAN_FUNC.lsp") ) ) ) )
 )
 (defun c:loadline ()
   (cond
@@ -30580,3 +30729,4 @@
       
       (setq osmode (getvar "osmode"))
     )
+
