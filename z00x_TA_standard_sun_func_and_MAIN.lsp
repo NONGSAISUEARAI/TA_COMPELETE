@@ -11064,7 +11064,8 @@
       
       (setq blk_obj_BOL-centroid_ (append (TA:midpoint (car (nth 0 blk_obj_BOL-data_list)) (caddr (nth 0 blk_obj_BOL-data_list))) (list 0)) )
       (setq blk_obj_ro (vla-get-rotation blk_obj_))
-      (vla-put-rotation blk_obj_ (deg-to-rad (TA:ModifyRotation  (rad-to-deg  blk_obj_ro) 90 )))
+      (command "rotate" (ssname ss_pre_filter_set_xx_ 0) "" blk_obj_BOL-centroid_  )
+      
       (command "pselect"  (ssname ss_pre_filter_set_xx_ 0) "" )
     )
     (defun c:rotate_by_2_point_ro2point ()
@@ -28550,7 +28551,7 @@
       (setq wildcard_string_slot_3 (strcase (strcat "*" "Luminaire" "*")) )
       (setq wildcard_string_slot_4 (strcase (strcat "*" "Horizontal with Gap" "*")) )
       (setq wildcard_string_slot_5 (strcase (strcat "*" "Square" "*")) )
-      (setq wildcard_string_slot_6 (strcase (strcat "*" "low" "*")) )
+      (setq wildcard_string_slot_6 (strcase (strcat "*" "lowp" "*")) )
       (setq wildcard_string_slot_7 (strcase (strcat "*" "rec" "*")) )
       (setq wildcard_string_slot_num_ (cond 
                                         ((getint 
