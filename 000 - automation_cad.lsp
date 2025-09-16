@@ -11256,7 +11256,24 @@
   ;
 
 ;
+;NEW FORMAT
+  (defun c:FL2025_MKLAYER ()
+    (setq FL2025_layerlist_ (list 
+                              (list "000-FL-SYMOBL-MAIN-COLOR" , 2)
+                              (list "000-FL-TEXT-MAIN-COLOR" , 2)
+                              (list "000-FL-GRID-MAIN-COLOR" , 2)
+                              (list "000-FL-DIMENSION-MAIN-COLOR" , 2)
+                              (list "000-FL-BUBBLE-MAIN-COLOR" , 2)
+                              (list "000-FL-TITLEBLOCK-MAIN-COLOR" , 2)
+                              (list "001-FL-ASCESSORIES-MAIN-COLOR" , 2)
+                              (list "001-FL-STEEL-SUBFAME-MAIN-COLOR" , 2)
+                              (list "000-FL-SYMOBL-MAIN-COLOR"  2 "Continuous")
 
+                            )
+    )
+  )
+
+;
   
 
 

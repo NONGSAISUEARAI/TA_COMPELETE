@@ -28,9 +28,11 @@
                 )
             )
             (princ "\nTotal Length: ")
+            (alert (strcat "\nTotal Length: " (rtos l 2 2)))
             (princ (rtos l))
         )
     )
     (princ)
+    
 )
 (vl-load-com) (princ)
