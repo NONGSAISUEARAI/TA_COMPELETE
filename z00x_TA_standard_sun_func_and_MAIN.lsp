@@ -13096,16 +13096,6 @@
 
 
 
-   
-
-
-
-
-  
-
-
-  
-
 
 
 
@@ -30790,141 +30780,145 @@
 )
   
 (defun c:xx2x2 ()
-    (setq ss_ename_ (car (entsel "specify Object")))
-    (setq blk_obj_ (vlax-ename->vla-object ss_ename_))
-    (defun TA:update-visible-boundingbox (blk_obj_ ) ;get coordinate real visible boundingbox 
-      ; (setq blk_ename_ (car (entsel "specify Object")))
-      ; (setq blk_obj_ (vlax-ename->vla-object blk_ename_))
-      (setq blk_obj_rotation (vla-get-rotation blk_obj_))
-      (setq blk_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint blk_obj_))))
-      (setq blk_list_ ())
-      (if (= (vla-get-objectname blk_obj_) "AcDbBlockReference")
+  (setq blk_ename_ (car (entsel "specify Object")))
+  (setq blk_obj_ (vlax-ename->vla-object blk_ename_))
+  (setq blk_obj_rotation (vla-get-rotation blk_obj_))
+  (setq blk_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint blk_obj_))))
+  (setq blk_list_ ())
+  (if (= (vla-get-objectname blk_obj_) "AcDbBlockReference")
+    (progn
+      (setq visible_list_ (ssadd))
+      (setq blkname (cdr (assoc 2 (entget (vlax-vla-object->ename blk_obj_)))))
+      (setq bdef (tblobjname "BLOCK" blkname))
+      (if (= (vl-prin1-to-string (type bdef)) "ENAME") ;สำหรับ ดึงข้อมูลเพื่อทำ vla-getboundingbox
         (progn
-          (setq visible_list_ (ssadd))
-          (setq blkname (cdr (assoc 2 (entget (vlax-vla-object->ename blk_obj_)))))
-          (setq bdef (tblobjname "BLOCK" blkname))
-          
-          (if (= (vl-prin1-to-string (type bdef)) "ENAME") ;สำหรับ ดึงข้อมูลเพื่อทำ vla-getboundingbox
-            (progn
-              (setq nested (entnext bdef))
-              (while 
-                (and nested 
-                    (/= (cdr (assoc 0 (entget nested))) "ENDBLK")
+          (setq nested (entnext bdef))
+          (setq main_border_assembly_ ())
+          (while 
+            (and nested 
+                (/= (cdr (assoc 0 (entget nested))) "ENDBLK")
+            )
+            (if (and 
+                  (setq nested_obj_ (vlax-ename->vla-object nested))
+                  (/= (vla-get-linetypescale nested_obj_) 1.234 )
+                  (/= (vla-get-objectname nested_obj_) "AcDbAttributeDefinition")
+                  (/= (vla-get-objectname nested_obj_) "AcDbAttribute")
+                  (/= (vla-get-objectname nested_obj_) "AcDbSequenceEnd")
+                  (= (vla-get-visible nested_obj_) :vlax-true)
                 )
-                (if (and 
-                      (setq nested_obj_ (vlax-ename->vla-object nested))
-                      (> (vla-get-length nested_obj_) 20 )
-                      (/= (vla-get-objectname nested_obj_) "AcDbAttributeDefinition")
-                      (/= (vla-get-objectname nested_obj_) "AcDbAttribute")
-                      (/= (vla-get-objectname nested_obj_) "AcDbSequenceEnd")
-                      (= (vla-get-visible nested_obj_) :vlax-true)
-                    )
-                  (progn 
-                    (setq nested_ename (vlax-vla-object->ename nested_obj_))
-                    (setq nested_obj_getboundingbox (vla-getboundingbox nested_obj_ 'min_ 'max_)) 
-                    (setq nested_min_ (vlax-safearray->list min_)) 
-                    (setq nested_max_ (vlax-safearray->list max_)) 
-                    (setq main_border_ (list nested_min_ nested_max_ ))
-                    (setq main_border_assembly (TA:assembly_coordinate_coner (list nested_min_ nested_max_ )   ))
-                    
-                    (setq visible_list_ (ssadd (entlast) visible_list_))
-                    (sslength visible_list_)
-                  )
-                )
-                (setq nested (entnext nested))
+              (progn 
+                (setq nested_ename (vlax-vla-object->ename nested_obj_))
+                (setq nested_obj_getboundingbox (vla-getboundingbox nested_obj_ 'min_ 'max_)) 
+                (setq nested_min_ (vlax-safearray->list min_)) 
+                (setq nested_max_ (vlax-safearray->list max_)) 
+                (setq main_border_ (list nested_min_ nested_max_ ))
+                (setq main_border_assembly_ (cons (TA:assembly_coordinate_coner (list nested_min_ nested_max_ )   ) main_border_assembly_))
                 
+                (setq visible_list_ (ssadd (entlast) visible_list_))
+                (sslength visible_list_)
               )
             )
+            (setq nested (entnext nested))
+            
           )
-          (if (/= (sslength visible_list_ ) 0) ;สำหรับ reset ตำแหน่ง vla-getboundingbox
-            (progn
-              (command "pselect"  visible_list_ "" )
-              (setq sss_ (ssget "i") )
-              (setq ssssss (TA:ss_vla-getboundingbox sss_))
-              (command "rectangle" (car ssssss) (cadr ssssss) )
-              (vla-rotate 
-                (vlax-ename->vla-object (entlast))
-                (vlax-3d-point 0 0 0)
-                blk_obj_rotation
-              )
-              (vla-move  
-                (vlax-ename->vla-object (entlast))
-                (vlax-3d-point 0 0 0)
-                (vlax-3d-point blk_obj_ins_)
-              )
-              (command "erase" visible_list_ "")
-              (setq lasted_ename (entlast))
-              (setq lasted_sss_ (ssadd  ))
-              (setq lasted_sss_ (ssadd lasted_ename lasted_sss_))
-              (setq lasted_gbound_ (TA:ss_vla-getboundingbox lasted_sss_))
-              ;get-data_
-                (setq main_border_ (TA:ss_vla-getboundingbox lasted_sss_ ) )
-                (setq ptmid_ (TA:midpoint (car main_border_) (cadr main_border_)))  
-                (setq pt1 (list 
-                    (car (car main_border_)) 
-                    (cadr (car main_border_)) 
-                    0 
-                  )
-                )
-                (setq pt2 (list 
-                    (car (cadr main_border_)) 
-                    (cadr (car main_border_)) 
-                    0 
-                  )
-                )
-                (setq pt3 (list 
-                    (car (cadr main_border_)) 
-                    (cadr (cadr main_border_)) 
-                    0 
-                  )
-                )
-                (setq pt4 (list 
-                    (car (car main_border_)) 
-                    (cadr (cadr main_border_)) 
-                    0 
-                  )
-                )
-                (setq Len_1 (distance pt1 pt2))
-                (setq Len_2 (distance pt2 pt3))
-                (setq Len_3 (distance pt3 pt4))
-                (setq Len_4 (distance pt4 pt1))
-              ;
-            )
-          )
-          ;result
-            (list 
-              (list pt1 pt2 pt3 pt4 )
-              (list Len_1 Len_2 Len_3 Len_4)
-            )
-          ;
         )
       )
+      ;preloop_and_while
+        (setq main_border_assembly_i 0)
+        (setq dynamic_length_cut_list_ (list "3_PANEL-1" "3_PANEL-2" "3_PANEL-3"))
+        (setq dynamic_length_front_list_ (list "Front_3_PANEL-1" "Front_3_PANEL-2" "Front_3_PANEL-3" "Front_3_PANEL-4"))
+        (setq dynamic_length_new_front_list_ ())
+        (setq main_border_assembly_ (reverse main_border_assembly_))
+        (while (< main_border_assembly_i (length main_border_assembly_)) ;get dyn val for make front view 
+          (setq main_border_assembly_list_ (nth  main_border_assembly_i main_border_assembly_))
+          (setq dynamic_length_cut_list_val (nth  main_border_assembly_i dynamic_length_cut_list_))
+          (setq dynamic_length_front_list_val (nth  main_border_assembly_i dynamic_length_front_list_))
+          (LM:setdynpropvalue blk_obj_ dynamic_length_front_list_val (distance (car main_border_assembly_list_) (cadddr main_border_assembly_list_) ))
+          (setq dynamic_length_new_front_list_ (cons 
+                                                (cons dynamic_length_front_list_val 
+                                                      (distance (car main_border_assembly_list_) (cadddr main_border_assembly_list_) ) 
+                                                      
+                                                )
+                                                dynamic_length_new_front_list_
+                                              )
+          )
+          (setq main_border_assembly_i (+ main_border_assembly_i 1))
+        )
+        
+        (setq offvalue_detect (TA:getkword "Insert new block ?"  "Yes" "No" "Y" "N" ) )
+        (cond 
+          ( ;_case_1
+            (and 
+              (= offvalue_detect "Y")
+            )
+            (progn 
+              ;new_blk_entlast object
+              (vla-copy blk_obj_)
+              (setq new_front_blk_ename (entlast))
+              (setq new_front_blk_obj_ (vlax-ename->vla-object new_front_blk_ename))
+              (vla-move new_front_blk_obj_ 
+                        (vlax-3d-point (setq blk_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint blk_obj_) ) ) ) )
+                        (vlax-3d-point (getpoint blk_obj_ins_))
+              )
+              (LM:setdynpropvalue new_front_blk_obj_ "view" "3_front_view")
+              ;
+              (princ "_case_2")
+            )
+          )
+          ( ;_case_2
+            (and 
+              (= offvalue_detect "N")
+            )
+            (progn 
+              ;new_blk_entlast object
+              (setq new_front_blk_ename (car (entsel "specify Object")))
+              (setq new_front_blk_obj_ (vlax-ename->vla-object new_front_blk_ename))
+              (LM:setdynpropvalue new_front_blk_obj_ "view" "3_front_view")
+              ;
+              (princ "_case_1")
+            )
+          )
+        )
+          
+        ;preloop_and_while
+        (setq dynamic_length_new_front_list_i 0)
+          (while (< dynamic_length_new_front_list_i (length dynamic_length_new_front_list_))
+            (setq dynamic_length_new_front_list_tag_ (car (nth  dynamic_length_new_front_list_i dynamic_length_new_front_list_)))
+            (setq dynamic_length_new_front_list_val_ (cdr (nth  dynamic_length_new_front_list_i dynamic_length_new_front_list_)))
+            (LM:setdynpropvalue new_front_blk_obj_ dynamic_length_new_front_list_tag_ dynamic_length_new_front_list_val_ )
+        
+            (setq dynamic_length_new_front_list_i (+ dynamic_length_new_front_list_i 1))
+          )
+        ;
+      ;
     )
+  )
 )
+
 (defun c:xxx1 ()
   ;selection_set_for_fillter_blk_name
     (if  ;pre_select_ssget_or_post_select_ssget
-      (=
-        (setq ppline_ (ssget "i"
-                                          (list
-                                            (cons 0 "lwpolyline") ;type of object
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
+      (= 
+        (setq ppline_ (ssget "i" 
+                             (list 
+                               (cons 0 "lwpolyline") ;type of object
+                               ; (cons 8 "000 - GRID")   ;kind of layer
+                               ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                               ; (cons 62 1)           ;kind of color call sign with color code index
+                             )
+                      )
         )
         nil
       )
-      (progn
-        (setq ppline_ (ssget
-                                          (list
-                                            (cons 0 "lwpolyline") ;type of object
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
+      (progn 
+        (setq ppline_ (ssget 
+                        (list 
+                          (cons 0 "lwpolyline") ;type of object
+                          ; (cons 8 "000 - GRID")   ;kind of layer
+                          ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                          ; (cons 62 1)           ;kind of color call sign with color code index
+                        )
+                      )
         )
       )
       (sslength ppline_)
@@ -30974,41 +30968,41 @@
 
 
   
-  (defun TA:assembly_coordinate_coner (main_border_ )
-    ;get-data_
-      (setq pt_mid (list 
-                  (/ (+ (car (car main_border_)) (car (cadr main_border_))) 2.0)
-                  (/ (+ (cadr (car main_border_)) (cadr (cadr main_border_))) 2.0)
-                )
-      )  
-      (setq pt1 (list 
-          (car (car main_border_)) 
-          (cadr (car main_border_)) 
-          0 
-        )
+(defun TA:assembly_coordinate_coner (main_border_ )
+  ;get-data_
+    (setq pt_mid (list 
+                (/ (+ (car (car main_border_)) (car (cadr main_border_))) 2.0)
+                (/ (+ (cadr (car main_border_)) (cadr (cadr main_border_))) 2.0)
+              )
+    )  
+    (setq pt1 (list 
+        (car (car main_border_)) 
+        (cadr (car main_border_)) 
+        0 
       )
-      (setq pt2 (list 
-          (car (cadr main_border_)) 
-          (cadr (car main_border_)) 
-          0 
-        )
+    )
+    (setq pt2 (list 
+        (car (cadr main_border_)) 
+        (cadr (car main_border_)) 
+        0 
       )
-      (setq pt3 (list 
-          (car (cadr main_border_)) 
-          (cadr (cadr main_border_)) 
-          0 
-        )
+    )
+    (setq pt3 (list 
+        (car (cadr main_border_)) 
+        (cadr (cadr main_border_)) 
+        0 
       )
-      (setq pt4 (list 
-          (car (car main_border_)) 
-          (cadr (cadr main_border_)) 
-          0 
-        )
+    )
+    (setq pt4 (list 
+        (car (car main_border_)) 
+        (cadr (cadr main_border_)) 
+        0 
       )
-      (setq Len_1 (distance pt1 pt2))
-      (setq Len_2 (distance pt2 pt3))
-      (setq Len_3 (distance pt3 pt4))
-      (setq Len_4 (distance pt4 pt1))
-    ;
-    (setq result (list pt1 pt2 pt3 pt4 pt_mid len_1 Len_2 Len_3 Len_4 ))
-  )
+    )
+    (setq Len_1 (distance pt1 pt2))
+    (setq Len_2 (distance pt2 pt3))
+    (setq Len_3 (distance pt3 pt4))
+    (setq Len_4 (distance pt4 pt1))
+  ;
+  (setq result (list pt1 pt2 pt3 pt4 pt_mid len_1 Len_2 Len_3 Len_4))
+)
