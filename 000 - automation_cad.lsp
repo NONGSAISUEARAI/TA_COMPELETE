@@ -11267,7 +11267,7 @@
                               (list "000-FL-TITLEBLOCK-MAIN-COLOR" , 2)
                               (list "001-FL-ASCESSORIES-MAIN-COLOR" , 2)
                               (list "001-FL-STEEL-SUBFAME-MAIN-COLOR" , 2)
-                              (list "000-FL-SYMOBL-MAIN-COLOR"  2 "Continuous")
+                              (list "000-FL-SYMOBL-MAIN-COLOR"  2"Continuous")
 
                             )
     )
