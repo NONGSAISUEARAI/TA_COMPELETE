@@ -30809,164 +30809,176 @@
     )
     (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_v2_ ss_pre_filter_set_xx_ (list "000 - DYNAMIC_COMBINE_FAMELINE_SOLID_PANEL_2-STEP_COMBINE_VIEW" "000 - DYNAMIC_COMBINE_FAMELINE_SOLID_PANEL_3-STEP_COMBINE_VIEW")))
   ;
- ;preloop_and_while
-   (setq ss_pre_filter_set_xx_i 0)
-   (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
-      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
-      (setq blk_obj_ (vlax-ename->vla-object blk_ename_))
-      (setq new_inspt_ (getpoint) )
+  ;preloop_and_while tranfering sec to front process
+      (setq new_inspt_ (getpoint (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint (vlax-ename->vla-object (car (entsel "specify reference point"))))))) )
       (setq keyword_value_detect "mode3")
-      (defun TA:solid_section-to-front (ss_pre_filter_set_xx_obj_ keyword_value_detect new_inspt_ )
-        ;Note By Code_Developer
-        ;principle of codework is developed method of tranfering section view to front elevation view by retrieving data via selection set
-        ;to create a front elevation view from a section view, the process retrieves the block’s dynamic length data and calculates the bounding box size based on the coordinate system.
-        ;After calculating the bounding box height for each panel, the panel height is then applied as the dynamic length.
-        ;
-        ; (setq blk_ename_ (car (entsel "specify Object"))) ;for tesing code
-        (setq blk_obj_ (vlax-ename->vla-object blk_ename_))
-        (setq blk_obj_rotation (vla-get-rotation blk_obj_))
-        (setq blk_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint blk_obj_))))
-        (setq blk_list_ ())
-        (if (= (vla-get-objectname blk_obj_) "AcDbBlockReference")
-          (progn
-            (setq visible_list_ (ssadd))
-            (setq blkname (cdr (assoc 2 (entget (vlax-vla-object->ename blk_obj_)))))
-            (setq bdef (tblobjname "BLOCK" blkname))
-            (if (= (vl-prin1-to-string (type bdef)) "ENAME") ;สำหรับ ดึงข้อมูลเพื่อทำ vla-getboundingbox
+      (setq ss_pre_filter_set_xx_i 0)
+      (setq new_pre_filter_set_xx_ (ssadd))
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (defun TA:solid_section-to-front (blk_obj_ keyword_value_detect new_inspt_ )
+            ;Note By Code_Developer
+            ;principle of codework is developed method of tranfering section view to front elevation view by retrieving data via selection set
+            ;to create a front elevation view from a section view, the process retrieves the block’s dynamic length data and calculates the bounding box size based on the coordinate system.
+            ;After calculating the bounding box height for each panel, the panel height is then applied as the dynamic length.
+            ;
+            ; (setq blk_ename_ (car (entsel "specify Object"))) ;for tesing code
+            ; (setq blk_obj_ (vlax-ename->vla-object blk_ename_))
+            (setq blk_obj_rotation (vla-get-rotation blk_obj_))
+            (setq blk_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint blk_obj_))))
+            (setq blk_list_ ())
+            (if (= (vla-get-objectname blk_obj_) "AcDbBlockReference")
               (progn
-                (setq nested (entnext bdef))
-                (setq main_border_assembly_ ())
-                (while 
-                  (and nested 
-                      (/= (cdr (assoc 0 (entget nested))) "ENDBLK")
-                  )
-                  (if (and 
-                        (setq nested_obj_ (vlax-ename->vla-object nested))
-                        (/= (vla-get-linetypescale nested_obj_) 1.234 )
-                        (/= (vla-get-objectname nested_obj_) "AcDbAttributeDefinition")
-                        (/= (vla-get-objectname nested_obj_) "AcDbAttribute")
-                        (/= (vla-get-objectname nested_obj_) "AcDbSequenceEnd")
-                        (= (vla-get-visible nested_obj_) :vlax-true)
+                (setq visible_list_ (ssadd))
+                (setq blkname (cdr (assoc 2 (entget (vlax-vla-object->ename blk_obj_)))))
+                (setq bdef (tblobjname "BLOCK" blkname))
+                (if (= (vl-prin1-to-string (type bdef)) "ENAME") ;สำหรับ ดึงข้อมูลเพื่อทำ vla-getboundingbox
+                  (progn
+                    (setq nested (entnext bdef))
+                    (setq main_border_assembly_ ())
+                    (while 
+                      (and nested 
+                          (/= (cdr (assoc 0 (entget nested))) "ENDBLK")
                       )
-                    (progn 
-                      (setq nested_ename (vlax-vla-object->ename nested_obj_))
-                      (setq nested_obj_getboundingbox (vla-getboundingbox nested_obj_ 'min_ 'max_)) 
-                      (setq nested_min_ (vlax-safearray->list min_)) 
-                      (setq nested_max_ (vlax-safearray->list max_)) 
-                      (setq main_border_ (list nested_min_ nested_max_ ))
-                      (setq main_border_assembly_ (cons (TA:assembly_coordinate_coner (list nested_min_ nested_max_ )   ) main_border_assembly_))
+                      (if (and 
+                            (setq nested_obj_ (vlax-ename->vla-object nested))
+                            (/= (vla-get-linetypescale nested_obj_) 1.234 )
+                            (/= (vla-get-objectname nested_obj_) "AcDbAttributeDefinition")
+                            (/= (vla-get-objectname nested_obj_) "AcDbAttribute")
+                            (/= (vla-get-objectname nested_obj_) "AcDbSequenceEnd")
+                            (= (vla-get-visible nested_obj_) :vlax-true)
+                          )
+                        (progn 
+                          (setq nested_ename (vlax-vla-object->ename nested_obj_))
+                          (setq nested_obj_getboundingbox (vla-getboundingbox nested_obj_ 'min_ 'max_)) 
+                          (setq nested_min_ (vlax-safearray->list min_)) 
+                          (setq nested_max_ (vlax-safearray->list max_)) 
+                          (setq main_border_ (list nested_min_ nested_max_ ))
+                          (setq main_border_assembly_ (cons (TA:assembly_coordinate_coner (list nested_min_ nested_max_ )   ) main_border_assembly_))
+                          
+                          (setq visible_list_ (ssadd (entlast) visible_list_))
+                          (sslength visible_list_)
+                        )
+                      )
+                      (setq nested (entnext nested))
                       
-                      (setq visible_list_ (ssadd (entlast) visible_list_))
-                      (sslength visible_list_)
                     )
                   )
-                  (setq nested (entnext nested))
-                  
                 )
+                ;preloop_and_while
+                  (setq main_border_assembly_i 0)
+                  (setq dynamic_length_cut_list_ (list "3_PANEL-1" "3_PANEL-2" "3_PANEL-3"))
+                  (setq dynamic_length_front_list_ (list "Front_3_PANEL-1" "Front_3_PANEL-2" "Front_3_PANEL-3" "Front_3_PANEL-4"))
+                  (setq dynamic_length_new_front_list_ ())
+                  (setq main_border_assembly_ (reverse main_border_assembly_))
+                  (while (< main_border_assembly_i (length main_border_assembly_)) ;get dyn val for make front view 
+                    (setq main_border_assembly_list_ (nth  main_border_assembly_i main_border_assembly_))
+                    (setq dynamic_length_cut_list_val (nth  main_border_assembly_i dynamic_length_cut_list_))
+                    (setq dynamic_length_front_list_val (nth  main_border_assembly_i dynamic_length_front_list_))
+                    (LM:setdynpropvalue blk_obj_ dynamic_length_front_list_val (distance (car main_border_assembly_list_) (cadddr main_border_assembly_list_) ))
+                    (setq dynamic_length_new_front_list_ (cons 
+                                                          (cons dynamic_length_front_list_val 
+                                                                (distance (car main_border_assembly_list_) (cadddr main_border_assembly_list_) ) 
+                                                                
+                                                          )
+                                                          dynamic_length_new_front_list_
+                                                        )
+                    )
+                    (setq main_border_assembly_i (+ main_border_assembly_i 1))
+                  )
+                  
+                  (if (= keyword_value_detect nil)
+                    (progn
+                      (setq keyword_value_detect (TA:getkword "Insert new block ?"  "Yes" "No" "Y" "N" ) )
+                    )
+                  )
+                  (cond 
+                    ( ;_case_1
+                      (and 
+                        (= keyword_value_detect "Y")
+                      )
+                      (progn 
+                        ;new_blk_entlast object
+                        (vla-copy blk_obj_)
+                        (setq new_front_blk_ename (entlast))
+                        (setq new_front_blk_obj_ (vlax-ename->vla-object new_front_blk_ename))
+                        (vla-move new_front_blk_obj_ 
+                                  (vlax-3d-point (setq blk_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint blk_obj_) ) ) ) )
+                                  (vlax-3d-point (getpoint blk_obj_ins_))
+                        )
+                        (LM:setdynpropvalue new_front_blk_obj_ "view" "3_front_view")
+                        ;
+                        (princ "_case_2")
+                      )
+                    )
+                    ( ;_case_2
+                      (and 
+                        (= keyword_value_detect "N")
+                      )
+                      (progn 
+                        ;new_blk_entlast object
+                        (setq new_front_blk_ename (car (entsel "specify Object")))
+                        (setq new_front_blk_obj_ (vlax-ename->vla-object new_front_blk_ename))
+                        (LM:setdynpropvalue new_front_blk_obj_ "view" "3_front_view")
+                        ;
+                        (princ "_case_1")
+                      )
+                    )
+                    ( ;_case_3 for selection set
+                      (and 
+                        (= keyword_value_detect "mode3")
+                      )
+                      (progn 
+                        ;new_blk_entlast object
+                        (vla-copy blk_obj_)
+                        (setq new_front_blk_ename (entlast))
+                        (setq new_front_blk_obj_ (vlax-ename->vla-object new_front_blk_ename))
+                        (vla-move new_front_blk_obj_ 
+                                  (vlax-3d-point (setq blk_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint blk_obj_) ) ) ) )
+                                  (vlax-3d-point (list 
+                                                  (car new_inspt_)
+                                                  (cadr blk_obj_ins_)
+                                                  (caddr blk_obj_ins_)
+                                                )
+                                  )
+                        )
+                        (LM:setdynpropvalue new_front_blk_obj_ "view" "3_front_view")
+                        ;
+                        (princ "_case_3")
+                      )
+                    )
+                  )
+                    
+                  ;preloop_and_while
+                    (setq dynamic_length_new_front_list_i 0)
+                    (while (< dynamic_length_new_front_list_i (length dynamic_length_new_front_list_))
+                      (setq dynamic_length_new_front_list_tag_ (car (nth  dynamic_length_new_front_list_i dynamic_length_new_front_list_)))
+                      (setq dynamic_length_new_front_list_val_ (cdr (nth  dynamic_length_new_front_list_i dynamic_length_new_front_list_)))
+                      (LM:setdynpropvalue new_front_blk_obj_ dynamic_length_new_front_list_tag_ dynamic_length_new_front_list_val_ )
+                  
+                      (setq dynamic_length_new_front_list_i (+ dynamic_length_new_front_list_i 1))
+                    )
+                  ;
+                ;
               )
             )
-            ;preloop_and_while
-              (setq main_border_assembly_i 0)
-              (setq dynamic_length_cut_list_ (list "3_PANEL-1" "3_PANEL-2" "3_PANEL-3"))
-              (setq dynamic_length_front_list_ (list "Front_3_PANEL-1" "Front_3_PANEL-2" "Front_3_PANEL-3" "Front_3_PANEL-4"))
-              (setq dynamic_length_new_front_list_ ())
-              (setq main_border_assembly_ (reverse main_border_assembly_))
-              (while (< main_border_assembly_i (length main_border_assembly_)) ;get dyn val for make front view 
-                (setq main_border_assembly_list_ (nth  main_border_assembly_i main_border_assembly_))
-                (setq dynamic_length_cut_list_val (nth  main_border_assembly_i dynamic_length_cut_list_))
-                (setq dynamic_length_front_list_val (nth  main_border_assembly_i dynamic_length_front_list_))
-                (LM:setdynpropvalue blk_obj_ dynamic_length_front_list_val (distance (car main_border_assembly_list_) (cadddr main_border_assembly_list_) ))
-                (setq dynamic_length_new_front_list_ (cons 
-                                                      (cons dynamic_length_front_list_val 
-                                                            (distance (car main_border_assembly_list_) (cadddr main_border_assembly_list_) ) 
-                                                            
-                                                      )
-                                                      dynamic_length_new_front_list_
-                                                    )
-                )
-                (setq main_border_assembly_i (+ main_border_assembly_i 1))
-              )
-              
-              (if (= keyword_value_detect nil)
-                (progn
-                  (setq keyword_value_detect (TA:getkword "Insert new block ?"  "Yes" "No" "Y" "N" ) )
-                )
-              )
-              (cond 
-                ( ;_case_1
-                  (and 
-                    (= keyword_value_detect "Y")
-                  )
-                  (progn 
-                    ;new_blk_entlast object
-                    (vla-copy blk_obj_)
-                    (setq new_front_blk_ename (entlast))
-                    (setq new_front_blk_obj_ (vlax-ename->vla-object new_front_blk_ename))
-                    (vla-move new_front_blk_obj_ 
-                              (vlax-3d-point (setq blk_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint blk_obj_) ) ) ) )
-                              (vlax-3d-point (getpoint blk_obj_ins_))
-                    )
-                    (LM:setdynpropvalue new_front_blk_obj_ "view" "3_front_view")
-                    ;
-                    (princ "_case_2")
-                  )
-                )
-                ( ;_case_2
-                  (and 
-                    (= keyword_value_detect "N")
-                  )
-                  (progn 
-                    ;new_blk_entlast object
-                    (setq new_front_blk_ename (car (entsel "specify Object")))
-                    (setq new_front_blk_obj_ (vlax-ename->vla-object new_front_blk_ename))
-                    (LM:setdynpropvalue new_front_blk_obj_ "view" "3_front_view")
-                    ;
-                    (princ "_case_1")
-                  )
-                )
-                ( ;_case_3 for selection set
-                  (and 
-                    (= keyword_value_detect "mode3")
-                  )
-                  (progn 
-                    ;new_blk_entlast object
-                    (vla-copy blk_obj_)
-                    (setq new_front_blk_ename (entlast))
-                    (setq new_front_blk_obj_ (vlax-ename->vla-object new_front_blk_ename))
-                    (vla-move new_front_blk_obj_ 
-                              (vlax-3d-point (setq blk_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint blk_obj_) ) ) ) )
-                              (vlax-3d-point (list 
-                                              (car new_inspt_)
-                                              (cadr blk_obj_ins_)
-                                              (caddr blk_obj_ins_)
-                                            )
-                              )
-                    )
-                    (LM:setdynpropvalue new_front_blk_obj_ "view" "3_front_view")
-                    ;
-                    (princ "_case_3")
-                  )
-                )
-              )
-                
-              ;preloop_and_while
-                (setq dynamic_length_new_front_list_i 0)
-                (while (< dynamic_length_new_front_list_i (length dynamic_length_new_front_list_))
-                  (setq dynamic_length_new_front_list_tag_ (car (nth  dynamic_length_new_front_list_i dynamic_length_new_front_list_)))
-                  (setq dynamic_length_new_front_list_val_ (cdr (nth  dynamic_length_new_front_list_i dynamic_length_new_front_list_)))
-                  (LM:setdynpropvalue new_front_blk_obj_ dynamic_length_new_front_list_tag_ dynamic_length_new_front_list_val_ )
-              
-                  (setq dynamic_length_new_front_list_i (+ dynamic_length_new_front_list_i 1))
-                )
-              ;
-            ;
           )
-        )
+          (TA:solid_section-to-front ss_pre_filter_set_xx_obj_ "mode3" new_inspt_)
+          (setq new_pre_filter_set_xx_ (ssadd (entlast) new_pre_filter_set_xx_ ))
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
       )
-      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
-   )
- ;
+  ;
+  ;preloop_and_while
+    (setq new_pre_filter_set_xx_i 0)
+    (setq new_inspt_ (getpoint (setq expoint_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint (vlax-ename->vla-object (car (entsel "specify reference point")))))))) )
+    (while (< new_pre_filter_set_xx_i (sslength new_pre_filter_set_xx_))
+      (setq new_pre_filter_set_xx_ename_ (ssname new_pre_filter_set_xx_ new_pre_filter_set_xx_i))
+      (setq new_pre_filter_set_xx_obj_ (vlax-ename->vla-object  new_pre_filter_set_xx_ename_))
+      (LM:setdynpropvalue new_pre_filter_set_xx_obj_ "width_panel" (distance expoint_ (list (car new_inspt_ ) (cadr new_inspt_ ) (caddr new_inspt_ )) ))
+      (setq new_pre_filter_set_xx_i (+ new_pre_filter_set_xx_i 1))
+    )
+  ;
 )
 
   (defun c:xxx1 ()
