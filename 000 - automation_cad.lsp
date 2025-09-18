@@ -7074,7 +7074,8 @@
       (setq handent_string_ (getstring "specify handent string"))
       (command "pselect"  (handent handent_string_) "" )
       
-      
+           
+ 
     )
     (defun c:lastselect_entity_lse ()
       (command "pselect"  (entlast) "" )
