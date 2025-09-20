@@ -18456,6 +18456,7 @@
       (setq move_length_ 25)
     ;
     ;user_input_
+    ;user_input_ss
       (initget "Yes No")
       (setq ss_ ;Detect the variable's result in case of a function error
         (vl-catch-all-apply 
@@ -19056,7 +19057,7 @@
             (setq ss_pre_filter_set_xx_obj_ins_list_ (cons ss_pre_filter_set_xx_obj_ins_ ss_pre_filter_set_xx_obj_ins_list_ ) )
             (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
           )
-          (if (/= (sslength ss_pre_filter_set_xx_) 1)
+          (if (/= (length ss_pre_filter_set_xx_obj_ins_list_) 1)
             (progn
               ;TA:stanndard_lambda_sorting
                 (setq ss_pre_filter_set_xx_obj_ins_list_sorted_ (vl-sort ss_pre_filter_set_xx_obj_ins_list_  ;bigest open indent list
@@ -19085,6 +19086,8 @@
               ;new_blk_entlast object
                 (setq newblk_ename (entlast))
                 (setq newblk_obj_ (vlax-ename->vla-object newblk_ename))
+                (vla-put-layer newblk_obj_ "defpoints")
+                (vla-put-color newblk_obj_ 130)
                 (LM:setdynpropvalue newblk_obj_ "x" x)
                 (LM:setdynpropvalue newblk_obj_ "length" (+ (* offset_length 2 ) ss_pre_filter_set_xx_obj_ins_list_sorted_length_))
                 (LM:setdynpropvalue newblk_obj_ "view" "2_top_view")
@@ -20791,6 +20794,43 @@
       )
     ;
     (command "pselect"  ss_pre_filter_set_xx_ "" )
+  )
+  ;
+  ;000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET
+  (defun c:selallhang ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "x"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              (cons 410 (getvar "CTAB"))
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              (cons 410 (getvar "CTAB"))
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_v2_ ss_pre_filter_set_xx_ (list "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET")))
+      (command "pselect"  ss_pre_filter_set_xx_ "" )
+    ;
+
   )
   ;
   ;000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_PLAN_AL.SOLID_SHEET_HAT-PROFILE-TYPE-R_COMBINE_SET
@@ -31127,76 +31167,76 @@
   ;
 )
 
-  (defun c:xxx1 ()
-    ;selection_set_for_fillter_blk_name
-      (if  ;pre_select_ssget_or_post_select_ssget
-        (= 
-          (setq ppline_ (ssget "i" 
-                              (list 
-                                (cons 0 "lwpolyline") ;type of object
-                                ; (cons 8 "000 - GRID")   ;kind of layer
-                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                ; (cons 62 1)           ;kind of color call sign with color code index
-                              )
-                        )
-          )
-          nil
+(defun c:xxx1 ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (= 
+        (setq ppline_ (ssget "i" 
+                            (list 
+                              (cons 0 "lwpolyline") ;type of object
+                              ; (cons 8 "000 - GRID")   ;kind of layer
+                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                              ; (cons 62 1)           ;kind of color call sign with color code index
+                            )
+                      )
         )
-        (progn 
-          (setq ppline_ (ssget 
-                          (list 
-                            (cons 0 "lwpolyline") ;type of object
-                            ; (cons 8 "000 - GRID")   ;kind of layer
-                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                            ; (cons 62 1)           ;kind of color call sign with color code index
-                          )
-                        )
-          )
-        )
-        (sslength ppline_)
+        nil
       )
-    ;
-    ;preloop_and_while
-      (setvar "osmode" 0)
-      (setq ppline_i 0)
-      (while (< ppline_i (sslength ppline_))
-        (setq ppline_ename_ (ssname ppline_ ppline_i))
-        (setq ppline_obj_ (vlax-ename->vla-object  ppline_ename_))
-        (setq vertex_data_ (cadr (TA:Get_pline_vertext_ins_point_ ppline_ename_)))
-        (setq ppline_ename_cenpt_ (LM:PolyCentroid ppline_ename_ ))
-        (rad-to-deg (angle (car vertex_data_) (cadr vertex_data_) ))
-        (TA:vla-insertblock
-          "A$C4de6133c"
-          ppline_ename_cenpt_
-          1
-          (if (< (distance (nth 0 vertex_data_ ) (nth 1 vertex_data_ )) (distance (nth 0 vertex_data_ ) (nth 3 vertex_data_ )) )
-            (progn
-              (deg-to-rad 330)
-            )
-            (angle (car vertex_data_) (cadr vertex_data_) )
+      (progn 
+        (setq ppline_ (ssget 
+                        (list 
+                          (cons 0 "lwpolyline") ;type of object
+                          ; (cons 8 "000 - GRID")   ;kind of layer
+                          ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                          ; (cons 62 1)           ;kind of color call sign with color code index
+                        )
+                      )
+        )
+      )
+      (sslength ppline_)
+    )
+  ;
+  ;preloop_and_while
+    (setvar "osmode" 0)
+    (setq ppline_i 0)
+    (while (< ppline_i (sslength ppline_))
+      (setq ppline_ename_ (ssname ppline_ ppline_i))
+      (setq ppline_obj_ (vlax-ename->vla-object  ppline_ename_))
+      (setq vertex_data_ (cadr (TA:Get_pline_vertext_ins_point_ ppline_ename_)))
+      (setq ppline_ename_cenpt_ (LM:PolyCentroid ppline_ename_ ))
+      (rad-to-deg (angle (car vertex_data_) (cadr vertex_data_) ))
+      (TA:vla-insertblock
+        "A$C4de6133c"
+        ppline_ename_cenpt_
+        1
+        (if (< (distance (nth 0 vertex_data_ ) (nth 1 vertex_data_ )) (distance (nth 0 vertex_data_ ) (nth 3 vertex_data_ )) )
+          (progn
+            (deg-to-rad 330)
           )
-          
-        ) 
-        ;new_blk_entlast object
-          (setq newppline_ename (entlast))
-          (setq newppline_obj_ (vlax-ename->vla-object newppline_ename))
-          (LM:setdynpropvalue newppline_obj_ "length_panel" (distance (cadr vertex_data_) (car vertex_data_)))
-          (LM:setdynpropvalue newppline_obj_ "width_panel" (distance (cadr vertex_data_) (caddr vertex_data_)))
-          (if (> (rad-to-deg (angle (car vertex_data_) (cadr vertex_data_) )) 270)
-            (progn
-              (LM:setdynpropvalue newppline_obj_ "flip state1" 1 )
-              (LM:vl-setattributevalue newppline_obj_ "name_tag" "RIGHT_PANEL" )
-            )
-            (LM:vl-setattributevalue newppline_obj_ "name_tag" "LEFT_PANEL" )
-          )
-        ;
+          (angle (car vertex_data_) (cadr vertex_data_) )
+        )
         
-        (setq ppline_i (+ ppline_i 1))
-      )
-    ;
-    (setvar "osmode" 1215)
-    ; (command "erase" ppline_ "")
-  )
+      ) 
+      ;new_blk_entlast object
+        (setq newppline_ename (entlast))
+        (setq newppline_obj_ (vlax-ename->vla-object newppline_ename))
+        (LM:setdynpropvalue newppline_obj_ "length_panel" (distance (cadr vertex_data_) (car vertex_data_)))
+        (LM:setdynpropvalue newppline_obj_ "width_panel" (distance (cadr vertex_data_) (caddr vertex_data_)))
+        (if (> (rad-to-deg (angle (car vertex_data_) (cadr vertex_data_) )) 270)
+          (progn
+            (LM:setdynpropvalue newppline_obj_ "flip state1" 1 )
+            (LM:vl-setattributevalue newppline_obj_ "name_tag" "RIGHT_PANEL" )
+          )
+          (LM:vl-setattributevalue newppline_obj_ "name_tag" "LEFT_PANEL" )
+        )
+      ;
+      
+      (setq ppline_i (+ ppline_i 1))
+    )
+  ;
+  (setvar "osmode" 1215)
+  ; (command "erase" ppline_ "")
+)
 
 
   
