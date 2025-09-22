@@ -18906,6 +18906,176 @@
     ;
 
   )
+  (defun c:mox ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_selection_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_selection_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_selection_)
+      )
+    ;
+    (setq ERR_ nil)
+    (setq temp_increment_num_ 0)
+    (while ;for keep insertion point and dist. fix length one side
+      (and
+        (= (vl-catch-all-error-p ERR_) nil)
+      )
+      (setq ERR_
+        (vl-catch-all-apply
+          (function
+            (lambda ()
+              (setq increment_num_ (cond ( (getint (strcat "\nSpecify sss_" (rtos (setq temp_increment_num_ (+ temp_increment_num_ increment_num_)) 2 2) " <" (rtos (setq increment_num_ (cond (increment_num_) (1.0) ) ) ) "> : " ) ) ) (increment_num_) ) )
+            )
+          )
+        )
+      )
+      ;preloop_and_while
+        (setq ss_selection_i 0)
+        (while 
+          (and
+            (= (vl-catch-all-error-p ERR_) nil)
+            (< ss_selection_i (sslength ss_selection_))
+          )
+          (setq ss_selection_ename_ (ssname ss_selection_ ss_selection_i)) 
+          (setq ss_selection_obj_ (vlax-ename->vla-object  ss_selection_ename_))
+          (setq ss_selection_obj_rotation_ (vla-get-rotation  ss_selection_obj_))
+          (setq ss_selection_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_selection_obj_))))
+          
+          (cond
+            (;ssss_case_1
+              (and
+                  (= (vl-catch-all-error-p ERR_) nil)
+                  (< increment_num_ 0)
+              )
+              (progn
+                (TA:move_axis_insertionpoint ss_selection_obj_ "x" increment_num_)
+                (princ "ssss_case_1")
+              )
+            )
+            (;ssss_case_2
+              (and
+                  (= (vl-catch-all-error-p ERR_) nil)
+                  (> increment_num_ 0)
+              )
+              (progn
+                (TA:move_axis_insertionpoint ss_selection_obj_ "x" increment_num_)
+                (princ "ssss_case_2")
+              )
+            )
+          )
+          
+          
+          (setq ss_selection_i (+ ss_selection_i 1))
+        )
+      ;
+    )
+  )
+  (defun c:moy ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_selection_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_selection_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_selection_)
+      )
+    ;
+    (setq ERR_ nil)
+    (setq temp_increment_num_ 0)
+    (while ;for keep insertion point and dist. fix length one side
+      (and
+        (= (vl-catch-all-error-p ERR_) nil)
+      )
+      (setq ERR_
+        (vl-catch-all-apply
+          (function
+            (lambda ()
+              (setq increment_num_ (cond ( (getint (strcat "\nSpecify sss_" (rtos (setq temp_increment_num_ (+ temp_increment_num_ increment_num_)) 2 2) " <" (rtos (setq increment_num_ (cond (increment_num_) (1.0) ) ) ) "> : " ) ) ) (increment_num_) ) )
+            )
+          )
+        )
+      )
+      ;preloop_and_while
+        (setq ss_selection_i 0)
+        (while 
+          (and
+            (= (vl-catch-all-error-p ERR_) nil)
+            (< ss_selection_i (sslength ss_selection_))
+          )
+          (setq ss_selection_ename_ (ssname ss_selection_ ss_selection_i)) 
+          (setq ss_selection_obj_ (vlax-ename->vla-object  ss_selection_ename_))
+          (setq ss_selection_obj_rotation_ (vla-get-rotation  ss_selection_obj_))
+          (setq ss_selection_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_selection_obj_))))
+          
+          (cond
+            (;ssss_case_1
+              (and
+                  (= (vl-catch-all-error-p ERR_) nil)
+                  (< increment_num_ 0)
+              )
+              (progn
+                (TA:move_axis_insertionpoint ss_selection_obj_ "y" increment_num_)
+                (princ "ssss_case_1")
+              )
+            )
+            (;ssss_case_2
+              (and
+                  (= (vl-catch-all-error-p ERR_) nil)
+                  (> increment_num_ 0)
+              )
+              (progn
+                (TA:move_axis_insertionpoint ss_selection_obj_ "y" increment_num_)
+                (princ "ssss_case_2")
+              )
+            )
+          )
+          
+          
+          (setq ss_selection_i (+ ss_selection_i 1))
+        )
+      ;
+    )
+  )
   (defun c:x+ ()
     ;for moving support frame Fameline celing SK300 (0.025 / 1 enter)
     ;set paremeter for moving
@@ -20113,6 +20283,296 @@
       (command "pselect"   "" )
     )
   )
+  (defun c:insert_point-to-point_steel_tube_steelcenter ()
+    ;presetting
+      (setq offset_length 150)
+      (setq increment_length 25)
+      (setq x 50)
+      (setq y 50)
+    ;
+    
+    (while ;continue loop
+      (/=
+        (vl-princ-to-string
+          (vl-catch-all-apply 
+            (function 
+              (lambda () 
+                ;selection_set_for_fillter_blk_name
+                  (if  ;pre_select_ssget_or_post_select_ssget
+                    (=
+                      (setq ss_pre_filter_set_xx_ (ssget "i"
+                                                        (list
+                                                          (cons 0 "INSERT") ;type of object
+                                                          ; (cons 8 "000 - GRID")   ;kind of layer
+                                                          ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                          ; (cons 62 1)           ;kind of color call sign with color code index
+                                                        )
+                                                  )
+                      )
+                      nil
+                    )
+                    (progn
+                      (setq ss_pre_filter_set_xx_ (ssget
+                                                        (list
+                                                          (cons 0 "INSERT") ;type of object
+                                                          ; (cons 8 "000 - GRID")   ;kind of layer
+                                                          ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                          ; (cons 62 1)           ;kind of color call sign with color code index
+                                                        )
+                                                  )
+                      )
+                    )
+                    (sslength ss_pre_filter_set_xx_)
+                  )
+                  (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET"))
+                ;
+              )
+            )
+          )
+        )
+        "#<%catch-all-apply-error%>"
+      )
+      (setq user_input_angle_val (cond ( (getint (strcat "\nSpecify user_input_angle_val <" (rtos (setq user_input_angle_val (cond (user_input_angle_val) (1.0) ) ) ) "> : " ) ) ) (user_input_angle_val) ) )
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (setq ss_pre_filter_set_xx_obj_ins_list_ ())
+        (setq ss_new_set_xx_ (ssadd))
+        (while (and 
+                 (/= ss_pre_filter_set_xx_ nil)
+                 (/= (sslength ss_pre_filter_set_xx_) 0)
+                 (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+               )
+          (if (/= (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i)) nil)
+            (progn
+              (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+              (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+              (TA:vla-insertblock  
+                "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_STEEL_TUBE_COMBINE_SET"
+                (polar ss_pre_filter_set_xx_obj_ins_ (deg-to-rad user_input_angle_val) offset_length )
+                1
+                (deg-to-rad (TA:ModifyRotation user_input_angle_val 180))
+              )
+              ;new_blk_entlast object
+                (setq newblk_ename (entlast))
+                (setq newblk_ss_new_set_xx_ename (ssadd (entlast) ss_new_set_xx_))
+                (setq newblk_obj_ (vlax-ename->vla-object newblk_ename))
+                (vla-put-layer newblk_obj_ "defpoints")
+                (vla-put-color newblk_obj_ 130)
+                (LM:setdynpropvalue newblk_obj_ "x" x)
+                (LM:setdynpropvalue newblk_obj_ "y" y)
+                (LM:setdynpropvalue newblk_obj_ "length" (+ (* offset_length 2 ) ))
+                (LM:setdynpropvalue newblk_obj_ "view" "2_top_view")
+              ;
+            )
+          )
+
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+        (setq ERR_ nil)
+        (while ;for keep insertion point and dist. fix length one side
+          (and
+            (= (vl-catch-all-error-p ERR_) nil)
+          )
+          (setq ERR_
+            (vl-catch-all-apply
+              (function
+                (lambda ()
+                  (setq increment_num_ (cond ( (getint (strcat "\nSpecify sss_" (rtos ss_new_set_xx_obj_length 2 2)  " <" (rtos (setq increment_num_ (cond (increment_num_) (1.0) ) ) ) "> : " ) ) ) (increment_num_) ) )
+                )
+              )
+            )
+          )
+          ;preloop_and_while
+            (setq ss_new_set_xx_i 0)
+            (while 
+              (and
+                (= (vl-catch-all-error-p ERR_) nil)
+                (/= (sslength ss_new_set_xx_) 0)
+                (< ss_new_set_xx_i (sslength ss_new_set_xx_))
+              )
+              (setq ss_new_set_xx_ename (ssname ss_new_set_xx_ ss_new_set_xx_i))  
+              (setq ss_new_set_xx_obj_ (vlax-ename->vla-object  ss_new_set_xx_ename))
+              (setq ss_new_set_xx_obj_rotation_ (vla-get-rotation  ss_new_set_xx_obj_))
+              (setq ss_new_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_new_set_xx_obj_))))
+              (setq ss_new_set_xx_obj_length (LM:getdynpropvalue ss_new_set_xx_obj_ "length" ))
+              
+              (cond
+                (;ssss_case_1
+                  (and
+                      (= (vl-catch-all-error-p ERR_) nil)
+                      (= (LM:getdynpropvalue ss_new_set_xx_obj_ "view") "2_top_view" )
+                      (= increment_num_ 1)
+                  )
+                  (progn
+                    (LM:setdynpropvalue ss_new_set_xx_obj_ "length" (setq ss_new_set_xx_obj_length (+ ss_new_set_xx_obj_length increment_length)))
+                    (princ "ssss_case_1")
+                  )
+                )
+                (;ssss_case_2
+                  (and
+                      (= (vl-catch-all-error-p ERR_) nil)
+                      (= (LM:getdynpropvalue ss_new_set_xx_obj_ "view") "2_top_view" )
+                      (= increment_num_ 0)
+                  )
+                  (progn
+                    (LM:setdynpropvalue ss_new_set_xx_obj_ "length" (setq ss_new_set_xx_obj_length (- ss_new_set_xx_obj_length increment_length)))
+                    (princ "ssss_case_2")
+                  )
+                )
+                (;ssss_case_3
+                  (and
+                      (= (vl-catch-all-error-p ERR_) nil)
+                      (= (LM:getdynpropvalue ss_new_set_xx_obj_ "view") "2_top_view" )
+                      (= increment_num_ -1)
+                  )
+                  (cond
+                      (;case3-1
+                        (and
+                            (= (rad-to-deg (setq ss_new_set_xx_obj_rotation_ (vla-get-rotation  ss_new_set_xx_obj_))) 0)
+                        )
+                        (progn
+                          (LM:setdynpropvalue ss_new_set_xx_obj_ "length" (setq ss_new_set_xx_obj_length (- ss_new_set_xx_obj_length increment_length)))
+                          (TA:move_axis_insertionpoint ss_new_set_xx_obj_ "x" (+ increment_length))
+                          (princ "case3-1")
+                        )
+                      )
+                      (;case3-2
+                        (and
+                            (= (rad-to-deg (setq ss_new_set_xx_obj_rotation_ (vla-get-rotation  ss_new_set_xx_obj_))) 270)
+                        )
+                        (progn
+                          (LM:setdynpropvalue ss_new_set_xx_obj_ "length" (setq ss_new_set_xx_obj_length (- ss_new_set_xx_obj_length increment_length)))
+                          (TA:move_axis_insertionpoint ss_new_set_xx_obj_ "Y" (- increment_length))
+                          (princ "case3-2")
+                        )
+                      )
+                    )
+                )
+                (;ssss_case_4
+                  (and
+                      (= (vl-catch-all-error-p ERR_) nil)
+                      (= (LM:getdynpropvalue ss_new_set_xx_obj_ "view") "2_top_view" )
+                      (= increment_num_ -2)
+                  )
+                  (progn
+                    (cond
+                      (;case4-1
+                        (and
+                            (or 
+                              (= (TA:round-05 (rad-to-deg (setq ss_new_set_xx_obj_rotation_ (vla-get-rotation  ss_new_set_xx_obj_)))) 0)
+                              (= (TA:round-05 (rad-to-deg (setq ss_new_set_xx_obj_rotation_ (vla-get-rotation  ss_new_set_xx_obj_)))) 180)
+                            )
+                        )
+                        (progn
+                          (LM:setdynpropvalue ss_new_set_xx_obj_ "length" (setq ss_new_set_xx_obj_length (+ ss_new_set_xx_obj_length increment_length)))
+                          (TA:move_axis_insertionpoint ss_new_set_xx_obj_ "x" (- increment_length))
+                          (princ "case4-1")
+                        )
+                      )
+                      (;case4-2
+                        (and
+                            (or 
+                              (= (TA:round-05 (rad-to-deg (setq ss_new_set_xx_obj_rotation_ (vla-get-rotation  ss_new_set_xx_obj_)))) 90)
+                              (= (TA:round-05 (rad-to-deg (setq ss_new_set_xx_obj_rotation_ (vla-get-rotation  ss_new_set_xx_obj_)))) 270)
+                            )
+                        )
+                        (progn
+                          (LM:setdynpropvalue ss_new_set_xx_obj_ "length" (setq ss_new_set_xx_obj_length (+ ss_new_set_xx_obj_length increment_length)))
+                          (TA:move_axis_insertionpoint ss_new_set_xx_obj_ "Y" increment_length)
+                          (princ "case4-2")
+                        )
+                      )
+                    )  
+                  )
+                )
+                (;ssss_case_5
+                  (and
+                      (= (vl-catch-all-error-p ERR_) nil)
+                      (= (LM:getdynpropvalue ss_new_set_xx_obj_ "view") "2_top_view" )
+                      (= increment_num_ 3)
+                  )
+                  (progn
+                    (cond
+                      (;case4-1
+                        (and
+                            (or 
+                              (= (TA:round-05 (rad-to-deg (setq ss_new_set_xx_obj_rotation_ (vla-get-rotation  ss_new_set_xx_obj_)))) 0)
+                              (= (TA:round-05 (rad-to-deg (setq ss_new_set_xx_obj_rotation_ (vla-get-rotation  ss_new_set_xx_obj_)))) 180)
+                            )
+                        )
+                        (progn
+                          (LM:setdynpropvalue ss_new_set_xx_obj_ "length" (setq ss_new_set_xx_obj_length (+ ss_new_set_xx_obj_length increment_length)))
+                          (TA:move_axis_insertionpoint ss_new_set_xx_obj_ "x" (- (/ increment_length 2)))
+                          (princ "case4-1")
+                        )
+                      )
+                      (;case4-2
+                        (and
+                            (or 
+                              (= (TA:round-05 (rad-to-deg (setq ss_new_set_xx_obj_rotation_ (vla-get-rotation  ss_new_set_xx_obj_)))) 90)
+                              (= (TA:round-05 (rad-to-deg (setq ss_new_set_xx_obj_rotation_ (vla-get-rotation  ss_new_set_xx_obj_)))) 270)
+                            )
+                        )
+                        (progn
+                          (LM:setdynpropvalue ss_new_set_xx_obj_ "length" (setq ss_new_set_xx_obj_length (+ ss_new_set_xx_obj_length increment_length)))
+                          (TA:move_axis_insertionpoint ss_new_set_xx_obj_ "Y" (/ increment_length 2))
+                          (princ "case4-2")
+                        )
+                      )
+                    )  
+                  )
+                )
+                (;ssss_case_6
+                  (and
+                      (= (vl-catch-all-error-p ERR_) nil)
+                      (= (LM:getdynpropvalue ss_new_set_xx_obj_ "view") "2_top_view" )
+                      (= increment_num_ 4)
+                  )
+                  (progn
+                    (cond
+                      (;case5-1
+                        (and
+                            (or 
+                              (= (TA:round-05 (rad-to-deg (setq ss_new_set_xx_obj_rotation_ (vla-get-rotation  ss_new_set_xx_obj_)))) 0)
+                              (= (TA:round-05 (rad-to-deg (setq ss_new_set_xx_obj_rotation_ (vla-get-rotation  ss_new_set_xx_obj_)))) 180)
+                            )
+                        )
+                        (progn
+                          (LM:setdynpropvalue ss_new_set_xx_obj_ "length" (setq ss_new_set_xx_obj_length (- ss_new_set_xx_obj_length increment_length)))
+                          (TA:move_axis_insertionpoint ss_new_set_xx_obj_ "x" (+ (/ increment_length 2)))
+                          (princ "case4-1")
+                        )
+                      )
+                      (;case4-2
+                        (and
+                            (or 
+                              (= (TA:round-05 (rad-to-deg (setq ss_new_set_xx_obj_rotation_ (vla-get-rotation  ss_new_set_xx_obj_)))) 90)
+                              (= (TA:round-05 (rad-to-deg (setq ss_new_set_xx_obj_rotation_ (vla-get-rotation  ss_new_set_xx_obj_)))) 270)
+                            )
+                        )
+                        (progn
+                          (LM:setdynpropvalue ss_new_set_xx_obj_ "length" (setq ss_new_set_xx_obj_length (- ss_new_set_xx_obj_length increment_length)))
+                          (TA:move_axis_insertionpoint ss_new_set_xx_obj_ "Y" (- (/ increment_length 2)))
+                          (princ "case4-2")
+                        )
+                      )
+                    )  
+                  )
+                )
+              )
+              
+              
+              (setq ss_new_set_xx_i (+ ss_new_set_xx_i 1))
+            )
+          ;
+        )
+      ;
+
+      ;
+      ;
+      (command "pselect"   "" )
+    )
+  )
   (defun c:steel_match_X_axis_stmax ()
     (setq steeL_ename_ (ssname (ssget "_+.:E:S") 0))
     (setq steel_obj_ (vlax-ename->vla-object steel_ename_))
@@ -20225,7 +20685,7 @@
         (vl-catch-all-apply
           (function
             (lambda ()
-              (setq increment_num_ (cond ( (getint (strcat "\nSpecify sss_   <" (rtos (setq increment_num_ (cond (increment_num_) (1.0) ) ) ) "> : " ) ) ) (increment_num_) ) )
+              (setq increment_num_ (cond ( (getint (strcat "\nSpecify sss_" (rtos ss_steel_tube_obj_length 2 2) " <" (rtos (setq increment_num_ (cond (increment_num_) (1.0) ) ) ) "> : " ) ) ) (increment_num_) ) )
             )
           )
         )
@@ -20306,8 +20766,8 @@
                   (;case4-1
                      (and
                         (or 
-                          (= (rad-to-deg (setq ss_steel_tube_obj_rotation_ (vla-get-rotation  ss_steel_tube_obj_))) 0)
-                          (= (rad-to-deg (setq ss_steel_tube_obj_rotation_ (vla-get-rotation  ss_steel_tube_obj_))) 180)
+                          (= (TA:round-05 (rad-to-deg (setq ss_steel_tube_obj_rotation_ (vla-get-rotation  ss_steel_tube_obj_)))) 0)
+                          (= (TA:round-05 (rad-to-deg (setq ss_steel_tube_obj_rotation_ (vla-get-rotation  ss_steel_tube_obj_)))) 180)
                         )
                      )
                      (progn
@@ -20319,8 +20779,8 @@
                   (;case4-2
                      (and
                         (or 
-                          (= (rad-to-deg (setq ss_steel_tube_obj_rotation_ (vla-get-rotation  ss_steel_tube_obj_))) 90)
-                          (= (rad-to-deg (setq ss_steel_tube_obj_rotation_ (vla-get-rotation  ss_steel_tube_obj_))) 270)
+                          (= (TA:round-05 (rad-to-deg (setq ss_steel_tube_obj_rotation_ (vla-get-rotation  ss_steel_tube_obj_)))) 90)
+                          (= (TA:round-05 (rad-to-deg (setq ss_steel_tube_obj_rotation_ (vla-get-rotation  ss_steel_tube_obj_)))) 270)
                         )
                      )
                      (progn
