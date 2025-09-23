@@ -8086,56 +8086,37 @@
       
     )
     (defun c:selection_by_handent_hand_ ()
-      (setq handent_string_ (getstring "specify handent string"))
-      (command "pselect"  (handent handent_string_) "" )
-      (if (= 2 1)
-          (progn
-            (setq sss_ename_ (car (entsel "specify Object")))
-            (setq sss_obj_ (vlax-ename->vla-object sss_ename_))
-            (vlax-dump-object sss_obj_)
-            (print (vla-get-handle sss_obj_))
-            (print (vla-get-objectid sss_obj_))
+      (setq copytext_val (LM:StringSubst "" "\r\n" (TA:GetClipboardText)))
+      (setq copytext_ (LM:StringSubst "" "\r\n" (TA:GetClipboardText)))
+      (setq copytext_ ;Get-string by keep previous value
+          (if
+            (or
+              (/= (setq copytext_val (getstring (strcat "\nSpecify Pattern name <" (if copytext_ copytext_ "") ">: ") ) ) "" )
+            )
+              (progn
+                (setq copytext_ copytext_val)
+                (setq copytext_keep_val_ copytext_val)
+              )
+            (setq copytext_val (TA:GetClipboardText))
           )
       )
-      ;selection_set_for_fillter_blk_name
-        (if  ;pre_select_ssget_or_post_select_ssget
-          (=
-            (setq ss_pre_filter_set_xx_ (ssget "i"
-                                              (list
-                                                (cons 0 "INSERT") ;type of object
-                                                ; (cons 8 "000 - GRID")   ;kind of layer
-                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                                ; (cons 62 1)           ;kind of color call sign with color code index
-                                              )
-                                        )
-            )
-            nil
-          )
-          (progn
-            (setq ss_pre_filter_set_xx_ (ssget
-                                              (list
-                                                (cons 0 "INSERT") ;type of object
-                                                ; (cons 8 "000 - GRID")   ;kind of layer
-                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                                ; (cons 62 1)           ;kind of color call sign with color code index
-                                              )
-                                        )
+      (command "pselect"  (setq temozoom_ (handent copytext_val)) "" )
+      (setq ERR_
+        (vl-catch-all-apply
+          (function
+            (lambda ()
+              (if (= (getint "zoom object" ) 1)
+                (progn
+                  (command "zoom" )
+                  (command "pselect"  (setq temozoom_ (handent copytext_val)) "" )
+                )
+              )
             )
           )
-          (sslength ss_pre_filter_set_xx_)
         )
-        
-      ;
-      ;preloop_and_while
-        (setq ss_pre_filter_set_xx_i 0)
-        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
-          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
-          (setq ss (cons (vl-princ-to-string ss_pre_filter_set_xx_ename_) ss))
-          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
-        )
-      ;
-      
+      )
+           
+ 
     )
     (defun c:lastselect_entity_lse ()
       (command "pselect"  (entlast) "" )
