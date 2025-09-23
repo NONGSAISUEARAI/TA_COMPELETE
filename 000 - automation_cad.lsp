@@ -7071,9 +7071,35 @@
       
     )
     (defun c:selection_by_handent_hand_ ()
-      (setq handent_string_ (getstring "specify handent string"))
-      (command "pselect"  (handent handent_string_) "" )
-      
+      (setq copytext_val (LM:StringSubst "" "\r\n" (TA:GetClipboardText)))
+      (setq copytext_ (LM:StringSubst "" "\r\n" (TA:GetClipboardText)))
+      (setq copytext_ ;Get-string by keep previous value
+          (if
+            (or
+              (/= (setq copytext_val (getstring (strcat "\nSpecify Pattern name <" (if copytext_ copytext_ "") ">: ") ) ) "" )
+            )
+              (progn
+                (setq copytext_ copytext_val)
+                (setq copytext_keep_val_ copytext_val)
+              )
+            (setq copytext_val (TA:GetClipboardText))
+          )
+      )
+      (command "pselect"  (setq temozoom_ (handent copytext_val)) "" )
+      (setq ERR_
+        (vl-catch-all-apply
+          (function
+            (lambda ()
+              (if (= (getint "zoom object" ) 1)
+                (progn
+                  (command "zoom" )
+                  (command "pselect"  (setq temozoom_ (handent copytext_val)) "" )
+                )
+              )
+            )
+          )
+        )
+      )
            
  
     )
@@ -8220,6 +8246,13 @@
           "Text"
           clipboard_text ;input อะไรลงไป
         )
+      )
+      (defun TA:GetClipboardText ( / htmlfile clipObj result)
+        (setq htmlfile (vlax-create-object "htmlfile"))
+        (setq clipObj  (vlax-get (vlax-get htmlfile 'ParentWindow) 'ClipBoardData))
+        (setq result   (vlax-invoke clipObj 'GetData "Text"))
+        (vlax-release-object htmlfile)
+        result
       )
     ;
     ;create_shortcut_FUNC

@@ -2264,21 +2264,28 @@
   )
 ;
 ;Shell_FUNC
-  ;Copy to clipboard FUNC
-    (defun TA:copytext->clipboard (clipboard_text)
-      ;sub FUNC สำหรับในคัดลอก text ให้อยู่ clipboard สำหรับ ctrl+v ในอนาคต
-      ;มีฟังชั่นแบบนี้ด้วยหรอ ถามจริง
-      (vlax-invoke
-        (vlax-get
-          (vlax-get (setq htmlfile (vlax-create-object "htmlfile")) 'ParentWindow)
-          'ClipBoardData
+    ;Copy to clipboard FUNC
+      (defun TA:copytext->clipboard (clipboard_text)
+        ;sub FUNC สำหรับในคัดลอก text ให้อยู่ clipboard สำหรับ ctrl+v ในอนาคต
+        ;มีฟังชั่นแบบนี้ด้วยหรอ ถามจริง
+        (vlax-invoke
+          (vlax-get
+            (vlax-get (setq htmlfile (vlax-create-object "htmlfile")) 'ParentWindow)
+            'ClipBoardData
+          )
+          'SetData
+          "Text"
+          clipboard_text ;input อะไรลงไป
         )
-        'SetData
-        "Text"
-        clipboard_text ;input อะไรลงไป
       )
-    )
-  ;
+      (defun TA:GetClipboardText ( / htmlfile clipObj result)
+        (setq htmlfile (vlax-create-object "htmlfile"))
+        (setq clipObj  (vlax-get (vlax-get htmlfile 'ParentWindow) 'ClipBoardData))
+        (setq result   (vlax-invoke clipObj 'GetData "Text"))
+        (vlax-release-object htmlfile)
+        result
+      )
+    ;
   ;create_shortcut_FUNC
     (defun TA:create_shortcut_file (targetPath shortcutPath shortcutName )
       ;Note By Code_Developer
