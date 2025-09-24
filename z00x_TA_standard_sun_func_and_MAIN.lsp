@@ -9292,6 +9292,13 @@
           clipboard_text ;input อะไรลงไป
         )
       )
+      (defun TA:GetClipboardText ( / htmlfile clipObj result)
+        (setq htmlfile (vlax-create-object "htmlfile"))
+        (setq clipObj  (vlax-get (vlax-get htmlfile 'ParentWindow) 'ClipBoardData))
+        (setq result   (vlax-invoke clipObj 'GetData "Text"))
+        (vlax-release-object htmlfile)
+        result
+      )
     ;
     ;create_shortcut_FUNC
       (defun TA:create_shortcut_file (targetPath shortcutPath shortcutName )
@@ -18973,6 +18980,115 @@
       ;
     )
   )
+  (defun c:move_line_liy_ ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_selection_ (ssget "i"
+                                            (list
+                                              (cons 0 "line") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_selection_ (ssget
+                                            (list
+                                              (cons 0 "line") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_selection_)
+      )
+    ;
+    (setq ERR_ nil)
+    (setq temp_increment_num_ 0)
+    (if (= increment_num_ nil) (progn (setq increment_num_ 0) ) )
+    (while ;for keep insertion point and dist. fix length one side
+      (and
+        (= (vl-catch-all-error-p ERR_) nil)
+      )
+      (setq ERR_
+        (vl-catch-all-apply
+          (function
+            (lambda ()
+              (setq increment_num_ (cond ( (getint (strcat "\nSpecify sss_" (rtos (setq temp_increment_num_ (+ temp_increment_num_ increment_num_)) 2 2) " <" (rtos (setq increment_num_ (cond (increment_num_) (1.0) ) ) ) "> : " ) ) ) (increment_num_) ) )
+            )
+          )
+        )
+      )
+      ;preloop_and_while
+        (setq ss_selection_i 0)
+        (while 
+            (and
+              (= (vl-catch-all-error-p ERR_) nil)
+              (< ss_selection_i (sslength ss_selection_))
+            )
+            (setq ss_selection_ename_ (ssname ss_selection_ ss_selection_i)) 
+            (setq ss_selection_obj_ (vlax-ename->vla-object  ss_selection_ename_))
+            (setq ss_selection_obj_start_end_pt_ (list 
+                                                   (setq ss_selection_obj_startpt_ (vlax-safearray->list ( vlax-variant-value ( vla-get-startpoint ss_selection_obj_ ) ) ) )
+                                                   (setq ss_selection_obj_endpt_ (vlax-safearray->list (vlax-variant-value ( vla-get-endpoint ss_selection_obj_ ) ) ) )
+                                                 )
+            )
+            (cond
+              (;ssss_case_1
+                (and
+                    (= (vl-catch-all-error-p ERR_) nil)
+                    (< increment_num_ 0)
+                )
+                (progn
+                  (vla-put-startpoint ss_selection_obj_ (vlax-3d-point 
+                                                          (- (car ss_selection_obj_startpt_) increment_num_)
+                                                          (- (cadr ss_selection_obj_startpt_) 0)
+                                                          (caddr ss_selection_obj_startpt_)
+                                                        )
+                  )
+                  (vla-put-endpoint ss_selection_obj_ (vlax-3d-point 
+                                                          (- (car ss_selection_obj_endpt_) increment_num_)
+                                                          (- (cadr ss_selection_obj_endpt_) 0)
+                                                          (caddr ss_selection_obj_endpt_)
+                                                        )
+                  )
+                  (princ "ssss_case_1")
+                )
+              )
+              (;ssss_case_2
+                (and
+                    (= (vl-catch-all-error-p ERR_) nil)
+                    (> increment_num_ 0)
+                )
+                (progn
+                  (vla-put-startpoint ss_selection_obj_ (vlax-3d-point 
+                                                          (- (car ss_selection_obj_startpt_) increment_num_)
+                                                          (- (cadr ss_selection_obj_startpt_) 0)
+                                                          (caddr ss_selection_obj_startpt_)
+                                                        )
+                  )
+                  (vla-put-endpoint ss_selection_obj_ (vlax-3d-point 
+                                                          (- (car ss_selection_obj_endpt_) increment_num_)
+                                                          (- (cadr ss_selection_obj_endpt_) 0)
+                                                          (caddr ss_selection_obj_endpt_)
+                                                        )
+                  )
+                  (princ "ssss_case_2")
+                )
+              )
+            )
+            (setq ss_selection_i (+ ss_selection_i 1))
+          )
+      ;
+    )
+  )
+  
   (defun c:moy ()
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget

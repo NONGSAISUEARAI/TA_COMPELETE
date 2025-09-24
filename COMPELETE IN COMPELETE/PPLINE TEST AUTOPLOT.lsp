@@ -3230,7 +3230,7 @@
               (setq list_data_ current_file_folder_list_)
               (setq new_list_data_ ())
             ;
-              (setq true_list_data_ (vl-sort (reverse (TA:wcmatch_list (list "*C-2-PP*") current_file_folder_list_ T)) '<))
+              (setq true_list_data_ (vl-sort (reverse (TA:wcmatch_list (list "*C-1-PP*") current_file_folder_list_ T)) '<))
               (setq true_list_data_index_val_ (car (TA:find-all-indexes current_filename true_list_data_)))
               (setq true_list_data_length_ (length true_list_data_ ))
             ;
@@ -3321,7 +3321,7 @@
                                                             (substr (rtos (getvar "cdate" ) 2 0) 1 4)
                                                           )
               )
-              (LM:vl-setattributevalue sss_obj_ "STATUS_VAL" "C" )
+              (LM:vl-setattributevalue sss_obj_ "STATUS_VAL" "W" )
               (LM:vl-setattributevalue 
                 sss_obj_
                 "SHEET_VAL"
@@ -3343,13 +3343,23 @@
                   )
                 )
               )
-              (LM:vl-setattributevalue sss_obj_ "REVISION_VAL" "W" )
+              (LM:vl-setattributevalue sss_obj_ "REVISION_VAL" "A" )
               (LM:vl-setattributevalue sss_obj_ "SHEET_NO_VAL" (strcat 
                                                               (rtos (if (= true_list_data_index_val_ 0 ) (progn 1 ) (+ true_list_data_index_val_ 1 ) )  2 0)
                                                               "/"
                                                               (rtos true_list_data_length_ 2 0)
                                                             ) 
               )
+              (LM:vl-setattributevalue sss_obj_ "REVISION_VAL_IS_1" "A" )
+              (LM:vl-setattributevalue sss_obj_ "DATE_VAL_IS_1" (strcat 
+                                                                  (substr (rtos (getvar "cdate") 2 0 ) 7 2 )
+                                                                  "-"
+                                                                  (substr (rtos (getvar "cdate") 2 0 ) 5 2 )
+                                                                  "-"
+                                                                  (substr (rtos (getvar "cdate") 2 0 ) 1 4 )
+                                                                ) 
+              )
+              (LM:vl-setattributevalue sss_obj_ "REVISION_TEXT_VAL_IS_1" "FIRST SUBMISSION" )
             ;
           ;
           (wcmatch 
@@ -3396,7 +3406,7 @@
               (setq list_data_ current_file_folder_list_)
               (setq new_list_data_ ())
             ;
-              (setq true_list_data_ (vl-sort (reverse (TA:wcmatch_list (list "*C-2-PP*") current_file_folder_list_ T)) '<))
+              (setq true_list_data_ (vl-sort (reverse (TA:wcmatch_list (list "*C-1-PP*") current_file_folder_list_ T)) '<))
               (setq true_list_data_index_val_ (car (TA:find-all-indexes current_filename true_list_data_)))
               (setq true_list_data_length_ (length true_list_data_ ))
             ;
@@ -3513,7 +3523,7 @@
                                                             (substr (rtos (getvar "cdate" ) 2 0) 1 4)
                                                           )
               )
-              (LM:vl-setattributevalue sss_obj_ "STATUS_VAL" "C" )
+              (LM:vl-setattributevalue sss_obj_ "STATUS_VAL" "W" )
               (LM:vl-setattributevalue 
                 sss_obj_
                 "SHEET_VAL"
@@ -3535,13 +3545,23 @@
                   )
                 )
               )
-              (LM:vl-setattributevalue sss_obj_ "REVISION_VAL" "W" )
+              (LM:vl-setattributevalue sss_obj_ "REVISION_VAL" "A" )
               (LM:vl-setattributevalue sss_obj_ "SHEET_NO_VAL" (strcat 
                                                               (rtos (if (= true_list_data_index_val_ 0 ) (progn 1 ) (+ true_list_data_index_val_ 1 ) )  2 0)
                                                               "/"
                                                               (rtos true_list_data_length_ 2 0)
                                                             ) 
               )
+              (LM:vl-setattributevalue sss_obj_ "REVISION_VAL_IS_1" "A" )
+              (LM:vl-setattributevalue sss_obj_ "DATE_VAL_IS_1" (strcat 
+                                                                  (substr (rtos (getvar "cdate") 2 0 ) 7 2 )
+                                                                  "-"
+                                                                  (substr (rtos (getvar "cdate") 2 0 ) 5 2 )
+                                                                  "-"
+                                                                  (substr (rtos (getvar "cdate") 2 0 ) 1 4 )
+                                                                ) 
+              )
+              (LM:vl-setattributevalue sss_obj_ "REVISION_TEXT_VAL_IS_1" "FIRST SUBMISSION" )
             ;
           ;
           (wcmatch 
@@ -3567,11 +3587,75 @@
         (vl-catch-all-apply 
           (function 
             (lambda () 
-              (if (= (setq detectloop (getstring "enter to change length Object")) "" ) (progn  (command "zoom" "E") (command "qsave") (command "close")) )
+              (if (= (setq detectloop (getstring "enter to save files")) "" ) (progn  (command "zoom" "E") (command "qsave") (command "close")) )
             )
           )
         )
       )
+  )
+  (defun c:ADDFLLOGO ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_mtext_ (ssget "x"
+                                            (list
+                                              (cons 0 "MTEXT") ;type of object
+                                              (cons 8 "G-ANNO-TEXT")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              (cons 62 7)           ;kind of color call sign with color code index
+                                                         ;kind of color call sign with color code index
+                                              (cons 410 "model")
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_mtext_ (ssget 
+                                (list 
+                                  (cons 0 "MTEXT") ;type of object
+                                  (cons 8 "G-ANNO-TEXT") ;kind of layer
+                                  ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                  (cons 62 7) ;kind of color call sign with color code index
+                                  (cons 410 "model")
+                                )
+                              )
+          )
+        )
+      )
+    ;
+    ;preloop_and_while
+      (setq ss_pre_mtext_i 0)
+      (setq ss_post_mtext_ (ssadd))
+      (while (< ss_pre_mtext_i (sslength ss_pre_mtext_))
+        (setq ss_pre_mtext_ename_ (ssname ss_pre_mtext_ ss_pre_mtext_i))
+        (setq ss_pre_mtext_obj_ (vlax-ename->vla-object  ss_pre_mtext_ename_))
+        (if (or 
+              (= (wcmatch (vla-get-textstring ss_pre_mtext_obj_) (strcat "*" "\LNOTES :" "*")) T )
+              (= (wcmatch (vla-get-textstring ss_pre_mtext_obj_) (strcat "*" "1  ALL DIMENSIONS IN MILLIMETRES UNLESS NOTED OTHERWISE" "*")) T )
+              (= (wcmatch (vla-get-textstring ss_pre_mtext_obj_) (strcat "*" "2  LEVELS ARE INDICATED IN METRES RELATIVE TO A DATUM 100M BELOW MEAN SEA LEVEL (MSL)" "*")) T )
+              (= (wcmatch (vla-get-textstring ss_pre_mtext_obj_) (strcat "*" "3  DRAWING TO SCALE WHEN PLOTTED AT A1" "*")) T )
+              (= (wcmatch (vla-get-textstring ss_pre_mtext_obj_) (strcat "*" "4  DO NOT SCALE FROM DRAWIN" "*")) T )
+              (= (wcmatch (vla-get-textstring ss_pre_mtext_obj_) (strcat "*" "5  ARCHITECTURAL DRAWINGS TO BE READ IN CONJUNCTION WITH STRUCTURAL DRAWINGS" "*")) T )
+              (= (wcmatch (vla-get-textstring ss_pre_mtext_obj_) (strcat "*" "E & M DRAWINGS" "*")) T )
+              (= (wcmatch (vla-get-textstring ss_pre_mtext_obj_) (strcat "*" "6  FOR STRUCTURAL SETTING OUT DIMENSIONS REFER STRUCTURAL DRAWINGS" "*")) T )
+              (= (wcmatch (vla-get-textstring ss_pre_mtext_obj_) (strcat "*" "7  FOR DRAINAGE DETAILS REFER DRAINAGE DRAWINGS" "*")) T )
+              (= (wcmatch (vla-get-textstring ss_pre_mtext_obj_) (strcat "*" "8  DIMENSIONS SHOWN IN GENERAL ARRANGEMENT" "*")) T )
+              (= (wcmatch (vla-get-textstring ss_pre_mtext_obj_) (strcat "*" "9  DIMENSIONS SHOWN FROM DIAPHRAGM" "*")) T )
+              (= (wcmatch (vla-get-textstring ss_pre_mtext_obj_) (strcat "*" "INDICATED. DIMENSIONS SHOWN" "*")) T )
+              (= (wcmatch (vla-get-textstring ss_pre_mtext_obj_) (strcat "*" "STRUCTURAL TOLERAN" "*")) T )
+              (= (wcmatch (vla-get-textstring ss_pre_mtext_obj_) (strcat "*" "10 FOR ROOM FINISHES REFER ARCHITECTURAL PARTICULAR SPECIFICATIONS" "*")) T )
+              (= (wcmatch (vla-get-textstring ss_pre_mtext_obj_) (strcat "*" "11 BLOCKWORK" "*")) T )
+            )
+          (progn
+            (vla-put-backgroundfill ss_pre_mtext_obj_ :vlax-false)
+            (setq ss_post_mtext_ (ssadd ss_pre_mtext_ename_ ss_post_mtext_ ))
+          )
+        )
+        (setq ss_pre_mtext_i (+ ss_pre_mtext_i 1))
+      )
+    ;
+    (command "pselect"  ss_post_mtext_ "" )
   )
   ; (c:loadlisp)
   ; (c:Auto_page_AU1PAGE)

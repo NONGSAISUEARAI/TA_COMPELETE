@@ -10928,6 +10928,13 @@
       (setq nameblk_obj_ (vlax-ename->vla-object nameblk_ename_))
       (TA:copytext->clipboard (vla-get-layer nameblk_obj_ ))
     )
+    (defun c:copytexttoclipboard_CPTEXT ()
+      (setq nameblk_ename_ (car (entsel "specify Object")))
+      (setq nameblk_obj_ (vlax-ename->vla-object nameblk_ename_))
+      
+      (TA:copytext->clipboard (vla-get-textstring nameblk_obj_))
+    )
+    
     (defun c:check_comment_block_cmm ()
       (setq blk_ename_ (car (entsel "specify Object")))
       (setq blk_obj_ (vlax-ename->vla-object blk_ename_))
