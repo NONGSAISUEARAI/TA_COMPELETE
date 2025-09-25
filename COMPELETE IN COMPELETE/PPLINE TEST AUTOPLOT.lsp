@@ -3116,7 +3116,7 @@
                                               (list
                                                 (cons 0 "mtext") ;type of object
                                                 (cons 410 (getvar "CTAB"))
-                                                (cons 8 "G-ANNO-TTLB")   ;kind of layer
+                                                (cons 8 "G-ANNO-TTLB,G-ANNO-SCHD")   ;kind of layer
                                                 ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                                 (cons 62 256)           ;kind of color call sign with color code index
                                               )
@@ -3129,7 +3129,7 @@
                                               (list
                                                 (cons 0 "mtext") ;type of object
                                                 (cons 410 (getvar "CTAB"))
-                                                (cons 8 "G-ANNO-TTLB")   ;kind of layer
+                                                (cons 8 "G-ANNO-TTLB,G-ANNO-SCHD")   ;kind of layer
                                                 ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                                 (cons 62 256)           ;kind of color call sign with color code index
                                               )
@@ -3147,7 +3147,7 @@
           (setq ss_mtext_detect_obj_ (vlax-ename->vla-object  ss_mtext_detect_ename_))
           (setq ss_mtext_detect_obj_textstring (vla-get-textstring ss_mtext_detect_obj_))
           (if (and
-                (= (wcmatch ss_mtext_detect_obj_textstring "*PP20*,*-2025*,*-2024*,C,B,A" ) T )
+                (= (wcmatch ss_mtext_detect_obj_textstring "*PP20*,*-2025*,*-2024*,C,B,A,*-25*,*-24*,*CRD UPDATED*,*FIRST SUBMISSION CRD*,SRB,AJT,LCC,PSE,OYT,CRD,PPP" ) T )
                 (/= (wcmatch ss_mtext_detect_obj_textstring "*STATION*,*.rvt*,*Autodesk*" ) T )
                 (/= (wcmatch ss_mtext_detect_obj_textstring "*PP20 :*") T )
                 (/= (wcmatch ss_mtext_detect_obj_textstring "*.rvt*" ) T )
@@ -3204,7 +3204,7 @@
                           (= (getenv "USERNAME") "Admin")
                         )
                         (progn 
-                          "C:\\TA WORK\\PPLINE CKST\\20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan\\C1-C2_Finishes-Reflected Ceiling Plan\\PP19\\CAD\\C-1-PP19-AR-4130-01-B.dwg")
+                          "C:\\TA WORK\\PPLINE CKST\\20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan\\C1-C2_Finishes-Reflected Ceiling Plan\\PP17\\CAD\\C-1-PP17-AR-4180-01-B.dwg")
                         )
                       )
                     "000 - TA AUTO PAGE" 
@@ -3230,7 +3230,7 @@
               (setq list_data_ current_file_folder_list_)
               (setq new_list_data_ ())
             ;
-              (setq true_list_data_ (vl-sort (reverse (TA:wcmatch_list (list "*C-1-PP*") current_file_folder_list_ T)) '<))
+              (setq true_list_data_ (vl-sort (reverse (TA:wcmatch_list (list "*C-2-PP*") current_file_folder_list_ T)) '<))
               (setq true_list_data_index_val_ (car (TA:find-all-indexes current_filename true_list_data_)))
               (setq true_list_data_length_ (length true_list_data_ ))
             ;
@@ -3360,6 +3360,16 @@
                                                                 ) 
               )
               (LM:vl-setattributevalue sss_obj_ "REVISION_TEXT_VAL_IS_1" "FIRST SUBMISSION" )
+              (if (= (wcmatch current_filename "*-AR-41*") T)
+                (progn
+                  (LM:setdynpropvalue sss_obj_ "view" "1_")
+                )
+              )
+              (if (= (wcmatch current_filename "*-AR-42*") T)
+                (progn
+                  (LM:setdynpropvalue sss_obj_ "view" "2_")
+                )
+              )
             ;
           ;
           (wcmatch 
@@ -3378,6 +3388,7 @@
         (alert "plase insert block name \"000 - TA AUTO PAGE\" ")
       )
     ;
+    (command "pasteclip" (setq ss (list 468.5 59 0)) )
     (command "zoom" "e")
     (command "qsave" )
   )
@@ -3393,6 +3404,98 @@
       )
       (setvar "ctab" "layout1")
     )
+    ;detect and delete ex mtext 
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_mtext_detect_ (ssget "x"
+                                              (list
+                                                (cons 0 "mtext") ;type of object
+                                                (cons 410 (getvar "CTAB"))
+                                                (cons 8 "G-ANNO-TTLB,G-ANNO-SCHD,G-ANNO-REVC-IDEN")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                (cons 62 256)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )   
+            nil
+          )
+          (progn 
+            (setq ss_mtext_detect_ (ssget
+                                              (list
+                                                (cons 0 "mtext") ;type of object
+                                                (cons 410 (getvar "CTAB"))
+                                                (cons 8 "G-ANNO-TTLB,G-ANNO-SCHD,G-ANNO-REVC-IDEN")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                (cons 62 256)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+        )
+      ;
+      
+      ;preloop_and_while
+        (setq ss_mtext_detect_i 0)
+        (setq ss_mtext_detect_temp  (ssadd))
+        (while (< ss_mtext_detect_i (sslength ss_mtext_detect_))
+          (setq ss_mtext_detect_ename_ (ssname ss_mtext_detect_ ss_mtext_detect_i))
+          (setq ss_mtext_detect_obj_ (vlax-ename->vla-object  ss_mtext_detect_ename_))
+          (setq ss_mtext_detect_obj_textstring (vla-get-textstring ss_mtext_detect_obj_))
+          (if (and
+                (= (wcmatch ss_mtext_detect_obj_textstring "*PP20*,*-2025*,*-2024*,C,B,A,*-25*,*-24*,*CRD UPDATED*,*FIRST SUBMISSION CRD*,SRB,AJT,LCC,PSE,OYT,CRD,PPP" ) T )
+                (/= (wcmatch ss_mtext_detect_obj_textstring "*STATION*,*.rvt*,*Autodesk*" ) T )
+                (/= (wcmatch ss_mtext_detect_obj_textstring "*PP20 :*") T )
+                (/= (wcmatch ss_mtext_detect_obj_textstring "*.rvt*" ) T )
+                (/= (wcmatch ss_mtext_detect_obj_textstring "*Autodesk*") T )
+                ; (= (wcmatch ss_mtext_detect_obj_textstring "*-2025*" ) T )
+                ; (= (wcmatch ss_mtext_detect_obj_textstring "*-2024*" ) T )
+                ; (= (wcmatch ss_mtext_detect_obj_textstring "C" ) T )
+                ; (= (wcmatch ss_mtext_detect_obj_textstring "B" ) T )
+              )
+            (progn
+              (setq ss_mtext_detect_temp (ssadd ss_mtext_detect_ename_ ss_mtext_detect_temp  ))
+              (command "pselect"  ss_mtext_detect_temp "" )
+            )
+          )
+          (setq ss_mtext_detect_i (+ ss_mtext_detect_i 1))
+        )
+      ;
+      ;enter for delete mtext 
+        (if (and 
+              (/= (sslength ss_mtext_detect_temp) 0)
+              (= (setq detectloop (getstring "enter to change length Object")) "")
+            )
+          (progn
+            (command "erase"  ss_mtext_detect_temp "")
+          )
+        )
+      ;
+    ;
+    (setq circle_obj_inscen_ (list 0.5000000 -1.0000000 0))
+    (command "-INSERTCONTENT" 
+            (cond 
+              ((and 
+                (= (getenv "COMPUTERNAME") "NONGSAISUEARAI")
+                (= (getenv "USERNAME") "popul")
+              )
+              (progn 
+                "C:\\TA FAMELINE old data\\TA\\TA_WORK\\MASS TRANSIT\\TA_PPLINE CKST\\TA_PPLINE CKST_combine_CSD-ceiling-plan\\20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan\\C1-C2_Finishes-Reflected Ceiling Plan\\PP19\\CAD\\C-1-PP19-AR-4130-01-B.dwg"
+              )
+              )
+              ((and 
+                (= (getenv "COMPUTERNAME") "DESKTOP-FSRT7SI")
+                (= (getenv "USERNAME") "Admin")
+              )
+              (progn 
+                "C:\\TA WORK\\PPLINE CKST\\20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan\\C1-C2_Finishes-Reflected Ceiling Plan\\PP17\\CAD\\C-1-PP17-AR-4180-01-B.dwg")
+              )
+            )
+          "000 - TA AUTO PAGE" 
+          circle_obj_inscen_ 1 0 0 "" "" "" "" 
+    )
+    (command "erase" "L" "")
+     
     ;insert - process
       (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
       (if (wcmatch (vl-princ-to-string (vl-catch-all-apply (function (lambda () (vla-Item (vla-get-Blocks doc) "000 - TA AUTO PAGE")) ) ) ) "*IAcadBlock*" )
@@ -3406,7 +3509,7 @@
               (setq list_data_ current_file_folder_list_)
               (setq new_list_data_ ())
             ;
-              (setq true_list_data_ (vl-sort (reverse (TA:wcmatch_list (list "*C-1-PP*") current_file_folder_list_ T)) '<))
+              (setq true_list_data_ (vl-sort (reverse (TA:wcmatch_list (list "*C-2-PP*") current_file_folder_list_ T)) '<))
               (setq true_list_data_index_val_ (car (TA:find-all-indexes current_filename true_list_data_)))
               (setq true_list_data_length_ (length true_list_data_ ))
             ;
@@ -3474,6 +3577,22 @@
                     (setq main_bol (LM:boundingbox ss_pre_filter_set_xx_obj_))
                   )
                 )
+                (if
+                  (and
+                    ; (= (sslength ss_pre_filter_set_xx_) 1)
+                    (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_ )) (strcat 
+                                                                                          "*" (strcase "M_Revision Tag - M_Revision Ta") "*" 
+                                                                                          "*" (strcase "DPA_AN_Revision T") "*" 
+                                                                                        )
+                       )  
+                       T
+                    )
+                    
+                  )
+                  (progn
+                    (vla-delete ss_pre_filter_set_xx_obj_)
+                  )
+                )
                 (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
               )
             ; 
@@ -3513,6 +3632,8 @@
             ;new_blk_entlast object
 
               (setq sss_ename (ssname ss_pre_filter_set_xx_ 0))
+              (command "attsync" "n" "000 - TA AUTO PAGE")
+              (setq sss_obj_ (vlax-ename->vla-object sss_ename))
               (setq sss_obj_ (vlax-ename->vla-object sss_ename))
               (vla-put-color sss_obj_ 2)
               (LM:vl-setattributevalue sss_obj_ "DATE_VAL" (strcat 
@@ -3562,6 +3683,16 @@
                                                                 ) 
               )
               (LM:vl-setattributevalue sss_obj_ "REVISION_TEXT_VAL_IS_1" "FIRST SUBMISSION" )
+              (if (= (wcmatch current_filename "*-AR-41*") T)
+                (progn
+                  (LM:setdynpropvalue sss_obj_ "view" "1_")
+                )
+              )
+              (if (= (wcmatch current_filename "*-AR-42*,*-AR-43*") T)
+                (progn
+                  (LM:setdynpropvalue sss_obj_ "view" "2_")
+                )
+              )
             ;
           ;
           (wcmatch 
@@ -3581,17 +3712,18 @@
       )
     ;
     
+    (command "pasteclip" (setq ss (list 468.5 59 0)) )
     
     
-      (setq Er-msg_ 
-        (vl-catch-all-apply 
-          (function 
-            (lambda () 
-              (if (= (setq detectloop (getstring "enter to save files")) "" ) (progn  (command "zoom" "E") (command "qsave") (command "close")) )
-            )
+    (setq Er-msg_ 
+      (vl-catch-all-apply 
+        (function 
+          (lambda () 
+            (if (= (setq detectloop (getstring "enter to save files")) "" ) (progn  (command "zoom" "E") (command "qsave") (command "close")) )
           )
         )
       )
+    )
   )
   (defun c:ADDFLLOGO ()
     ;selection_set_for_fillter_blk_name
@@ -3650,6 +3782,11 @@
           (progn
             (vla-put-backgroundfill ss_pre_mtext_obj_ :vlax-false)
             (setq ss_post_mtext_ (ssadd ss_pre_mtext_ename_ ss_post_mtext_ ))
+            (if (= (wcmatch (vla-get-textstring ss_pre_mtext_obj_) (strcat "*" "\LNOTES :" "*")) T )
+              (progn
+                (vlax-dump-object ss_pre_mtext_obj_)
+              )
+            )
           )
         )
         (setq ss_pre_mtext_i (+ ss_pre_mtext_i 1))
@@ -3658,7 +3795,7 @@
     (command "pselect"  ss_post_mtext_ "" )
   )
   ; (c:loadlisp)
-  ; (c:Auto_page_AU1PAGE)
+  ; (c:update_up1auto_)
 ;
 
 

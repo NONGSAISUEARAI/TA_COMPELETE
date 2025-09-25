@@ -808,6 +808,17 @@
       )
       (apply 'append (reverse rtn))
     )
+    (defun LM:intersectionsinset+0 ( sel / id1 id2 ob1 ob2 rtn )
+      (repeat (setq id1 (sslength sel))
+          (setq ob1 (vlax-ename->vla-object (ssname sel (setq id1 (1- id1)))))
+          (repeat (setq id2 id1)
+              (setq ob2 (vlax-ename->vla-object (ssname sel (setq id2 (1- id2))))
+                    rtn (cons (LM:intersections+0 ob1 ob2 acextendnone) rtn)
+              )
+          )
+      )
+      (apply 'append (reverse rtn))
+    )
     
   ;
   ;Filter Selection Set by Effectivename Ta Trai  
@@ -12525,6 +12536,74 @@
     (defun c:simsetting ()
       (command "selectsimilar" "se" )
     )
+    (defun c:objdistance ()
+      (setq 1_ename_ (car (entsel "specify Object")))
+      (setq 1_obj_ (vlax-ename->vla-object 1_ename_))
+      (setq 1_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 1_obj_))))
+      (setq 2_ename_ (car (entsel "specify Object")))
+      (setq 2_obj_ (vlax-ename->vla-object 2_ename_))
+      (setq 2_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 2_obj_))))
+      (alert (rtos (distance 1_obj_ins_ 2_obj_ins_) 2 4))
+    )
+    (defun c:linedistance ()
+      (setq 1_ename_ (car (entsel "specify Object")))
+      (setq 1_obj_ (vlax-ename->vla-object 1_ename_))
+      (setq 1_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 1_obj_))))
+      (setq 2_ename_ (car (entsel "specify Object")))
+      (setq 2_obj_ (vlax-ename->vla-object 2_ename_))
+      (setq 2_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 2_obj_))))
+      (command "line" 1_obj_ins_ 2_obj_ins_ "" )
+    )
+    (defun c:sslinedistance ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+        (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ (setq ef_obj_ (vlax-ename->vla-object (setq ef_ename_ (car (entsel "specify Filter EF name Object"))))) ))
+      ;
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+          ;ไว้ก่อน เดวมาทำให้เสด
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+    )
+    (defun c:inerbreak ()
+      (setq 1_ename_ (car (entsel "specify Object")))
+      (setq 1_obj_ (vlax-ename->vla-object 1_ename_))
+      (setq 2_ename_ (car (entsel "specify Object")))
+      (setq 2_obj_ (vlax-ename->vla-object 2_ename_))
+      (setq pt_break_ (LM:intersections+0 1_obj_ 2_obj_ acextendnone))
+      (command "breakatpoint" 1_ename_  (car pt_break_)  )
+      
+    )
   ;
   ;Fastern Func
     (defun c:insSSHex ()
@@ -19047,13 +19126,13 @@
                 )
                 (progn
                   (vla-put-startpoint ss_selection_obj_ (vlax-3d-point 
-                                                          (- (car ss_selection_obj_startpt_) increment_num_)
+                                                          (- (car ss_selection_obj_startpt_) (- increment_num_))
                                                           (- (cadr ss_selection_obj_startpt_) 0)
                                                           (caddr ss_selection_obj_startpt_)
                                                         )
                   )
                   (vla-put-endpoint ss_selection_obj_ (vlax-3d-point 
-                                                          (- (car ss_selection_obj_endpt_) increment_num_)
+                                                          (- (car ss_selection_obj_endpt_) (- increment_num_))
                                                           (- (cadr ss_selection_obj_endpt_) 0)
                                                           (caddr ss_selection_obj_endpt_)
                                                         )
@@ -19068,14 +19147,122 @@
                 )
                 (progn
                   (vla-put-startpoint ss_selection_obj_ (vlax-3d-point 
-                                                          (- (car ss_selection_obj_startpt_) increment_num_)
-                                                          (- (cadr ss_selection_obj_startpt_) 0)
+                                                          (+ (car ss_selection_obj_startpt_) increment_num_)
+                                                          (+ (cadr ss_selection_obj_startpt_) 0)
                                                           (caddr ss_selection_obj_startpt_)
                                                         )
                   )
                   (vla-put-endpoint ss_selection_obj_ (vlax-3d-point 
-                                                          (- (car ss_selection_obj_endpt_) increment_num_)
-                                                          (- (cadr ss_selection_obj_endpt_) 0)
+                                                          (+ (car ss_selection_obj_endpt_) increment_num_)
+                                                          (+ (cadr ss_selection_obj_endpt_) 0)
+                                                          (caddr ss_selection_obj_endpt_)
+                                                        )
+                  )
+                  (princ "ssss_case_2")
+                )
+              )
+            )
+            (setq ss_selection_i (+ ss_selection_i 1))
+          )
+      ;
+    )
+  )
+  (defun c:move_line_lix_ ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_selection_ (ssget "i"
+                                            (list
+                                              (cons 0 "line") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_selection_ (ssget
+                                            (list
+                                              (cons 0 "line") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_selection_)
+      )
+    ;
+    (setq ERR_ nil)
+    (setq temp_increment_num_ 0)
+    (if (= increment_num_ nil) (progn (setq increment_num_ 0) ) )
+    (while ;for keep insertion point and dist. fix length one side
+      (and
+        (= (vl-catch-all-error-p ERR_) nil)
+      )
+      (setq ERR_
+        (vl-catch-all-apply
+          (function
+            (lambda ()
+              (setq increment_num_ (cond ( (getint (strcat "\nSpecify sss_" (rtos (setq temp_increment_num_ (+ temp_increment_num_ increment_num_)) 2 2) " <" (rtos (setq increment_num_ (cond (increment_num_) (1.0) ) ) ) "> : " ) ) ) (increment_num_) ) )
+            )
+          )
+        )
+      )
+      ;preloop_and_while
+        (setq ss_selection_i 0)
+        (while 
+            (and
+              (= (vl-catch-all-error-p ERR_) nil)
+              (< ss_selection_i (sslength ss_selection_))
+            )
+            (setq ss_selection_ename_ (ssname ss_selection_ ss_selection_i)) 
+            (setq ss_selection_obj_ (vlax-ename->vla-object  ss_selection_ename_))
+            (setq ss_selection_obj_start_end_pt_ (list 
+                                                   (setq ss_selection_obj_startpt_ (vlax-safearray->list ( vlax-variant-value ( vla-get-startpoint ss_selection_obj_ ) ) ) )
+                                                   (setq ss_selection_obj_endpt_ (vlax-safearray->list (vlax-variant-value ( vla-get-endpoint ss_selection_obj_ ) ) ) )
+                                                 )
+            )
+            (cond
+              (;ssss_case_1
+                (and
+                    (= (vl-catch-all-error-p ERR_) nil)
+                    (< increment_num_ 0)
+                )
+                (progn
+                  (vla-put-startpoint ss_selection_obj_ (vlax-3d-point 
+                                                          (- (car ss_selection_obj_startpt_) 0)
+                                                          (- (cadr ss_selection_obj_startpt_) (- increment_num_))
+                                                          (caddr ss_selection_obj_startpt_)
+                                                        )
+                  )
+                  (vla-put-endpoint ss_selection_obj_ (vlax-3d-point 
+                                                          (- (car ss_selection_obj_endpt_) 0)
+                                                          (- (cadr ss_selection_obj_endpt_) (- increment_num_))
+                                                          (caddr ss_selection_obj_endpt_)
+                                                        )
+                  )
+                  (princ "ssss_case_1")
+                )
+              )
+              (;ssss_case_2
+                (and
+                    (= (vl-catch-all-error-p ERR_) nil)
+                    (> increment_num_ 0)
+                )
+                (progn
+                  (vla-put-startpoint ss_selection_obj_ (vlax-3d-point 
+                                                          (+ (car ss_selection_obj_startpt_) 0)
+                                                          (+ (cadr ss_selection_obj_startpt_) increment_num_)
+                                                          (caddr ss_selection_obj_startpt_)
+                                                        )
+                  )
+                  (vla-put-endpoint ss_selection_obj_ (vlax-3d-point 
+                                                          (+ (car ss_selection_obj_endpt_) 0)
+                                                          (+ (cadr ss_selection_obj_endpt_) increment_num_)
                                                           (caddr ss_selection_obj_endpt_)
                                                         )
                   )
@@ -24148,6 +24335,175 @@
       
     )
     (setvar "osmode" 1215)
+  )
+  (defun c:lineinter_Lit_ ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "line") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              (cons 62 4)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "line") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              (cons 62 4)             ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    (while
+      (/=
+        (vl-princ-to-string
+          (setq Er-msg_new_ename_
+            (vl-catch-all-apply 
+              (function 
+                (lambda () 
+                  (setq new_ss_ (ssadd))
+                  (setq new_ss_ (ssget "_+.:E:S" 
+                                        (list 
+                                          (cons 0 "line") ;type of object
+                                          ; (cons 8 "000 - GRID")   ;kind of layer
+                                          ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                          ;  (cons 62 4)             ;kind of color call sign with color code index
+                                        )
+                                  )
+                  )
+                  (setq new_obj_ (vlax-ename->vla-object (ssname  new_ss_ 0)))
+                  (setq new_obj_ro_ (vla-get-angle new_obj_))
+                )
+              )
+            )
+          )
+        )
+        "#<%catch-all-apply-error%>"
+      )
+      (setvar "CMDECHO" 0)
+      (TA:interface_text_ T) 
+      (setq new-lee_ (TA:Combine-SS new_ss_ ss_pre_filter_set_xx_ ) )
+      (setq inter_hang_list_ (LM:intersectionsinset+0 new-lee_))
+      ;preloop_and_while
+        (setq inter_hang_list_i 0)
+        (while (< inter_hang_list_i (length inter_hang_list_))
+          (setq inter_hang_list_val_ (nth  inter_hang_list_i inter_hang_list_))
+          (TA:vla-insertblock ;insert loop * dist. time (hanging_dist_time_i by hanging_dist_time_i)
+            "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET"
+            inter_hang_list_val_
+            1
+            new_obj_ro_
+          )
+          ;new_blk_entlast object
+            (setq newhang_ename (entlast))
+            (setq newhang_obj_ (vlax-ename->vla-object newhang_ename))
+            (setq newhang_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint newhang_obj_))))
+            (vla-put-layer newhang_obj_ "001 - ASCESSORIES")
+            (vla-put-color newhang_obj_ 256)
+            (vla-put-linetype newhang_obj_ "byblock")
+            (LM:setdynpropvalue newhang_obj_ "view" "2_top_view")
+          ;
+          (TA:textscr_process_V2 "insert" inter_hang_list_i inter_hang_list_ )
+          (setq inter_hang_list_i (+ inter_hang_list_i 1))
+        )
+      ;
+      (setvar "CMDECHO" 0)
+      (TA:interface_text_ nil) 
+    )
+  )
+  (defun c:revhang_ ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              (cons -4 "<NOT")
+                                              (cons 8 "000 - CSD_PL_A-_ANOT----_T-,") 
+                                              (cons -4 "NOT>")
+                                              (cons 8 "001 - ASCESSORIES,000 - CSD_PL_Defpoints,000 - CSD_PL_001 - ASCESSORIES")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              (cons -4 "<NOT")
+                                              (cons 8 "000 - CSD_PL_A-_ANOT----_T-") 
+                                              (cons -4 "NOT>")
+                                              (cons 8 "001 - ASCESSORIES,000 - CSD_PL_Defpoints,000 - CSD_PL_001 - ASCESSORIES")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    (textscr)
+    (setq ss_pre_filter_set_xx_  (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_  "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET"))
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (setvar "CMDECHO" 0)
+      (TA:interface_text_ T)
+      (setq new_rev_ss_ (ssadd))
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+        
+        (command "circle" 
+                  (if (= (getvar "worlducs") 0)(progn (trans ss_pre_filter_set_xx_obj_ins_ 0 1)) ss_pre_filter_set_xx_obj_ins_ ) 
+                  150
+        )
+        ;new_blk_entlast object
+          (setq new_revc_ename (entlast))
+          (setq new_rev_ss_ (ssadd new_revc_ename new_rev_ss_)) 
+          ; (setq new_revc_obj_ (vlax-ename->vla-object new_revc_ename))
+          ; (command "revcloud"  "A"  80 "" "o" new_revc_ename "n") 
+          ; (setq new_revc_ename (entlast))
+          ; (setq new_revc_obj_ (vlax-ename->vla-object new_revc_ename))
+          ; (vla-put-color new_revc_obj_ 6)
+          ; (vla-put-ConstantWidth new_revc_obj_ 10)
+    
+        ;
+        (TA:textscr_process "\nupdate" ss_pre_filter_set_xx_i ss_pre_filter_set_xx_)
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        
+      )
+    ;
+      (setvar "osmode" 0)
+      (setq main_bol_ (TA:ss_vla-getboundingbox new_rev_ss_ ))
+      (command "rectangle" (car main_bol_ ) (cadr main_bol_ ))
+      (setq new_revc_ename (entlast))
+      (setq new_revc_obj_ (vlax-ename->vla-object new_revc_ename))
+      (command "revcloud"  "A"  200 "" "o" new_revc_ename "n") 
+      (setq new_revc_ename (entlast))
+      (setq new_revc_obj_ (vlax-ename->vla-object new_revc_ename))
+      (vla-put-color new_revc_obj_ 6)
+      (vla-put-ConstantWidth new_revc_obj_ 10)
+      (command "erase" new_rev_ss_ "")
+      (TA:interface_text_ nil)
+      (setvar "CMDECHO" 1)
+      (setvar "osmode" 1215)
+    
   )
 ;
 ;PURPLE_LINE_CKST
