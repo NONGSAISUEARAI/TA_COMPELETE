@@ -12576,13 +12576,58 @@
       (setq 2_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 2_obj_))))
       (alert (rtos (distance 1_obj_ins_ 2_obj_ins_) 2 4))
     )
+    (defun c:circledistance_cdit_ ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "circle") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "circle") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      (if (and 
+            (/= ss_pre_filter_set_xx_ nil)
+            (= (sslength ss_pre_filter_set_xx_) 2)
+          )
+        (progn
+          (setq 1_ename_ (ssname ss_pre_filter_set_xx_ 0))
+          (setq 1_obj_ (vlax-ename->vla-object 1_ename_))
+          (setq 1_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-center 1_obj_))))
+          (setq 2_ename_ (ssname ss_pre_filter_set_xx_ 1))
+          (setq 2_obj_ (vlax-ename->vla-object 2_ename_))
+          (setq 2_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-center 2_obj_))))
+          (alert (rtos (distance 1_obj_ins_ 2_obj_ins_) 2 4))
+        )
+      )
+
+    )
     (defun c:linedistance ()
       (setq 1_ename_ (car (entsel "specify Object")))
       (setq 1_obj_ (vlax-ename->vla-object 1_ename_))
-      (setq 1_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 1_obj_))))
+      (setq 1_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-center 1_obj_))))
       (setq 2_ename_ (car (entsel "specify Object")))
       (setq 2_obj_ (vlax-ename->vla-object 2_ename_))
-      (setq 2_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 2_obj_))))
+      (setq 2_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-center 2_obj_))))
       (command "line" 1_obj_ins_ 2_obj_ins_ "" )
     )
     (defun c:sslinedistance ()
@@ -24540,6 +24585,187 @@
       (TA:interface_text_ nil) 
     )
   )
+  (defun c:lineinter_Lity_ ()
+    (setvar "SELECTIONPREVIEW" 0)
+    (while
+      (/=
+        (vl-princ-to-string
+          (setq Er-msg_new_ename_
+            (vl-catch-all-apply 
+              (function 
+                (lambda () 
+                  (setq new_ss_ (ssadd))
+                  ;selection_set_for_fillter_blk_name
+                    (if  ;pre_select_ssget_or_post_select_ssget
+                      (= 
+                        (setq new_ss_ (ssget "i"
+                                        (list 
+                                          (cons 0 "line") ;type of object
+                                          ; (cons 8 "000 - GRID")   ;kind of layer
+                                          ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                          '(-4 . "<OR")
+                                          ; (cons 62 1) ; สีเบอร์ 2
+                                          (cons 62 2) ; สีเบอร์ 3
+                                          ; (cons 62 3) ; สีเบอร์ 3
+                                          (cons 62 4) ; สีเบอร์ 3
+                                          '(-4 . "OR>")
+                                        )
+                                      )
+                        )
+                        nil
+                      )
+                      (progn 
+                        (setq new_ss_ (ssget 
+                                        (list 
+                                          (cons 0 "line") ;type of object
+                                          ; (cons 8 "000 - GRID")   ;kind of layer
+                                          ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                          '(-4 . "<OR")
+                                          ; (cons 62 1) ; สีเบอร์ 2
+                                          (cons 62 2) ; สีเบอร์ 3
+                                          ; (cons 62 3) ; สีเบอร์ 3
+                                          (cons 62 4) ; สีเบอร์ 3
+                                          '(-4 . "OR>")
+                                        )
+                                      )
+                        )
+                      )
+                      (sslength new_ss_)
+                    )
+                  ;
+                )
+              )
+            )
+          )
+        )
+        "#<%catch-all-apply-error%>"
+      )
+      (setvar "CMDECHO" 0)
+      (setvar "osmode" 0)
+      ; (TA:interface_text_ T) 
+      (setq inter_hang_list_ (LM:intersectionsinset+0 new_ss_))
+      ;preloop_and_while
+        (setq inter_hang_list_i 0)
+        (while (and 
+                 
+                 (< inter_hang_list_i (length inter_hang_list_))
+               )
+          (setq inter_hang_list_val_ (nth  inter_hang_list_i inter_hang_list_))
+          ; (TA:vla-insertblock ;insert loop * dist. time (hanging_dist_time_i by hanging_dist_time_i)
+          ;   "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET"
+          ;   inter_hang_list_val_
+          ;   1
+          ;   new_obj_ro_
+          ; )
+          ;new_blk_entlast object
+            (command "circle" inter_hang_list_val_  100 )
+            (setq newhang_ename (entlast))
+            (setq newhang_obj_ (vlax-ename->vla-object newhang_ename))
+            ; (setq newhang_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint newhang_obj_))))
+            (vla-put-layer newhang_obj_ "001 - ASCESSORIES")
+            (vla-put-color newhang_obj_ 3)
+            ; (vla-put-linetype newhang_obj_ "byblock")
+            ; (LM:setdynpropvalue newhang_obj_ "view" "2_top_view")
+          ;
+          (TA:textscr_process_V2 "insert" inter_hang_list_i inter_hang_list_ )
+          (setq inter_hang_list_i (+ inter_hang_list_i 1))
+        )
+      ;
+      (setvar "CMDECHO" 0)
+      ; (TA:interface_text_ nil) 
+    )
+    (setvar "SELECTIONPREVIEW" 3)
+    (setvar "osmode" 1215)
+  )
+  (defun c:lineinter_Litr ()
+    (setvar "SELECTIONPREVIEW" 0)
+    (while
+      (/=
+        (vl-princ-to-string
+          (setq Er-msg_new_ename_
+            (vl-catch-all-apply 
+              (function 
+                (lambda () 
+                  (setq new_ss_ (ssadd))
+                  ;selection_set_for_fillter_blk_name
+                    (if  ;pre_select_ssget_or_post_select_ssget
+                      (= 
+                        (setq new_ss_ (ssget "i"
+                                        (list 
+                                          (cons 0 "line") ;type of object
+                                          ; (cons 8 "000 - GRID")   ;kind of layer
+                                          ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                          '(-4 . "<OR")
+                                          (cons 62 1) ; สีเบอร์ 2
+                                          ; (cons 62 2) ; สีเบอร์ 3
+                                          ; (cons 62 3) ; สีเบอร์ 3
+                                          (cons 62 4) ; สีเบอร์ 3
+                                          '(-4 . "OR>")
+                                        )
+                                      )
+                        )
+                        nil
+                      )
+                      (progn 
+                        (setq new_ss_ (ssget 
+                                        (list 
+                                          (cons 0 "line") ;type of object
+                                          ; (cons 8 "000 - GRID")   ;kind of layer
+                                          ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                          '(-4 . "<OR")
+                                          (cons 62 1) ; สีเบอร์ 2
+                                          ; (cons 62 2) ; สีเบอร์ 3
+                                          ; (cons 62 3) ; สีเบอร์ 3
+                                          (cons 62 4) ; สีเบอร์ 3
+                                          '(-4 . "OR>")
+                                        )
+                                      )
+                        )
+                      )
+                      (sslength new_ss_)
+                    )
+                  ;
+                )
+              )
+            )
+          )
+        )
+        "#<%catch-all-apply-error%>"
+      )
+      (setvar "CMDECHO" 0)
+      (setvar "osmode" 0)
+      ; (TA:interface_text_ T) 
+      (setq inter_hang_list_ (LM:intersectionsinset+0 new_ss_))
+      ;preloop_and_while
+        (setq inter_hang_list_i 0)
+        (while (< inter_hang_list_i (length inter_hang_list_))
+          (setq inter_hang_list_val_ (nth  inter_hang_list_i inter_hang_list_))
+          ; (TA:vla-insertblock ;insert loop * dist. time (hanging_dist_time_i by hanging_dist_time_i)
+          ;   "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET"
+          ;   inter_hang_list_val_
+          ;   1
+          ;   new_obj_ro_
+          ; )
+          ;new_blk_entlast object
+            (command "circle" inter_hang_list_val_  100 )
+            (setq newhang_ename (entlast))
+            (setq newhang_obj_ (vlax-ename->vla-object newhang_ename))
+            ; (setq newhang_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint newhang_obj_))))
+            (vla-put-layer newhang_obj_ "001 - ASCESSORIES")
+            (vla-put-color newhang_obj_ 3)
+            ; (vla-put-linetype newhang_obj_ "byblock")
+            ; (LM:setdynpropvalue newhang_obj_ "view" "2_top_view")
+          ;
+          (TA:textscr_process_V2 "insert" inter_hang_list_i inter_hang_list_ )
+          (setq inter_hang_list_i (+ inter_hang_list_i 1))
+        )
+      ;
+      (setvar "CMDECHO" 0)
+      ; (TA:interface_text_ nil) 
+    )
+    (setvar "SELECTIONPREVIEW" 3)
+    (setvar "osmode" 1215)
+  )
   (defun c:lineinter_Litc_ ()
     ;user_input_
       (initget "Yes No")
@@ -24600,7 +24826,8 @@
                                     ; (cons 8 "000 - GRID")   ;kind of layer
                                     ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                     '(-4 . "<OR")
-                                    (cons 62 2) ; สีเบอร์ 2
+                                    (cons 62 1) ; สีเบอร์ 2
+                                    (cons 62 2) ; สีเบอร์ 3
                                     (cons 62 3) ; สีเบอร์ 3
                                     '(-4 . "OR>")
                                   )
@@ -24883,52 +25110,79 @@
         )
     )
     ;selection_set_for_fillter_blk_name
-      (if  ;pre_select_ssget_or_post_select_ssget
-        (=
-          (setq ss_pre_filter_set_xx_ (ssget "i"
-                                            (list
-                                              (cons 0 "circle") ;type of object
-                                              ; (cons 8 "000 - GRID")   ;kind of layer
-                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                              ; (cons 62 1)           ;kind of color call sign with color code index
-                                            )
-                                      )
-          )
-          nil
+      (setq ss_pre_filter_set_xx_ ())
+      (setq Er-msg_ ())
+      (setq jkj ())
+      (while
+        (/= (wcmatch 
+            (vl-princ-to-string
+              (setq Er-msg_ 
+                     (vl-catch-all-apply 
+                       (function (lambda () 
+                                   (setq ss_pre_filter_set_xx_ (cons  
+                                                                  (ssname
+                                                                        (setq Er-msg_2 
+                                                                          (vl-catch-all-apply 
+                                                                            (function 
+                                                                              (lambda () 
+                                                                                (setq sub_sset (ssget "_+.:E:S"
+                                                                                            (list 
+                                                                                              (cons 0 "circle") ;type of object
+                                                                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                                                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                                                              '(-4 . "<OR")
+                                                                                              (cons 62 1) ; สีเบอร์ 2
+                                                                                              (cons 62 2) ; สีเบอร์ 3
+                                                                                              (cons 62 3) ; สีเบอร์ 3
+                                                                                              '(-4 . "OR>")
+                                                                                            )
+                                                                                      )
+                                                                                )
+                                                                              )
+                                                                            )
+                                                                          )
+                                                                        )
+                                                                      
+                                                                    0
+                                                                  )
+                                                                  ss_pre_filter_set_xx_ 
+                                                                ) 
+                                    ) 
+                                    
+                                 ) 
+                       ) 
+                     ) 
+              ) 
+            )
+            "*error*"
+          ) 
+          T
         )
-        (progn
-          (setq ss_pre_filter_set_xx_ (ssget
-                                            (list
-                                              (cons 0 "circle") ;type of object
-                                              ; (cons 8 "000 - GRID")   ;kind of layer
-                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                              ; (cons 62 1)           ;kind of color call sign with color code index
-                                            )
-                                      )
-          )
-        )
-        (sslength ss_pre_filter_set_xx_)
       )
     ;
     ;preloop_and_while
       (setq ss_pre_filter_set_xx_i 0)
       (setq new_ss_circle_ins_ ())
-      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (while (and 
+               (= Er-msg_2 nil)
+               (< ss_pre_filter_set_xx_i (length ss_pre_filter_set_xx_))
+             )
+        (setq ss_pre_filter_set_xx_ename_ (nth ss_pre_filter_set_xx_i ss_pre_filter_set_xx_ ))
         (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
         (setq new_ss_circle_ins_ (cons (setq ss_pre_filter_set_xx_obj_cenpt (vlax-safearray->list (vlax-variant-value (vla-get-center ss_pre_filter_set_xx_obj_)))) new_ss_circle_ins_ ))
         (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
       )
     ;
     ;TA:stanndard_lambda_sorting
-      (setq new_ss_circle_ins_sorted_ (vl-sort new_ss_circle_ins_  ;bigest open indent list
-                                                (function 
-                                                  (lambda (a b) 
-                                                    (< (car a) (car b))
-                                                  )
-                                                )
-                            ) ;bigest close indent list
-      )
+      (setq new_ss_circle_ins_sorted_ new_ss_circle_ins_ )
+      ; (setq new_ss_circle_ins_sorted_ (vl-sort new_ss_circle_ins_  ;bigest open indent list
+      ;                                           (function 
+      ;                                             (lambda (a b) 
+      ;                                               (< (car a) (car b))
+      ;                                             )
+      ;                                           )
+      ;                       ) ;bigest close indent list
+      ; )
     ;
     (setvar "osmode" 0)
     (create-plines new_ss_circle_ins_sorted_ "open" )
@@ -24945,8 +25199,94 @@
       (command "erase" new_revc_ename "")
       (setq newnew_revc_ename (entlast))
       (command "revcloud"  "A"  200 "" "o" newnew_revc_ename "n")
+      (setq newnewnew_revc_ename (entlast)) 
+      (setq newnewnew_revc_ename_obj_ (vlax-ename->vla-object newnewnew_revc_ename))
+      (vla-put-color newnewnew_revc_ename_obj_ 6)
+      (vla-put-constantwidth newnewnew_revc_ename_obj_ 10)
       (setvar "osmode" 1215)
     ;
+    
+  )
+  (defun c:revhang3_ ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "circle") ;type of object
+                                              (cons -4 "<NOT")
+                                              (cons 8 "000 - CSD_PL_A-_ANOT----_T-,") 
+                                              (cons -4 "NOT>")
+                                              (cons 8 "001 - ASCESSORIES,000 - CSD_PL_Defpoints,000 - CSD_PL_001 - ASCESSORIES")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "circle") ;type of object
+                                              (cons -4 "<NOT")
+                                              (cons 8 "000 - CSD_PL_A-_ANOT----_T-") 
+                                              (cons -4 "NOT>")
+                                              (cons 8 "001 - ASCESSORIES,000 - CSD_PL_Defpoints,000 - CSD_PL_001 - ASCESSORIES")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    (textscr)
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (setvar "CMDECHO" 0)
+      (TA:interface_text_ T)
+      (setq new_rev_ss_ (ssadd))
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-center ss_pre_filter_set_xx_obj_))))
+        
+        (command "circle" 
+                  (if (= (getvar "worlducs") 0)(progn (trans ss_pre_filter_set_xx_obj_ins_ 0 1)) ss_pre_filter_set_xx_obj_ins_ ) 
+                  150
+        )
+        ;new_blk_entlast object
+          (setq new_revc_ename (entlast))
+          (setq new_rev_ss_ (ssadd new_revc_ename new_rev_ss_)) 
+          ; (setq new_revc_obj_ (vlax-ename->vla-object new_revc_ename))
+          ; (command "revcloud"  "A"  80 "" "o" new_revc_ename "n") 
+          ; (setq new_revc_ename (entlast))
+          ; (setq new_revc_obj_ (vlax-ename->vla-object new_revc_ename))
+          ; (vla-put-color new_revc_obj_ 6)
+          ; (vla-put-ConstantWidth new_revc_obj_ 10)
+    
+        ;
+        (TA:textscr_process "\nupdate" ss_pre_filter_set_xx_i ss_pre_filter_set_xx_)
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        
+      )
+    ;
+      (setvar "osmode" 0)
+      (setq main_bol_ (TA:ss_vla-getboundingbox new_rev_ss_ ))
+      (command "rectangle" (car main_bol_ ) (cadr main_bol_ ))
+      (setq new_revc_ename (entlast))
+      (setq new_revc_obj_ (vlax-ename->vla-object new_revc_ename))
+      (command "revcloud"  "A"  200 "" "o" new_revc_ename "n") 
+      (setq new_revc_ename (entlast))
+      (setq new_revc_obj_ (vlax-ename->vla-object new_revc_ename))
+      (vla-put-color new_revc_obj_ 6)
+      (vla-put-ConstantWidth new_revc_obj_ 10)
+      (command "erase" new_rev_ss_ "")
+      (TA:interface_text_ nil)
+      (setvar "CMDECHO" 1)
+      (setvar "osmode" 1215)
     
   )
 ;
