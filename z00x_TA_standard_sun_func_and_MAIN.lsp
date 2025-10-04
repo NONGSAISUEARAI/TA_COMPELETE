@@ -11336,6 +11336,24 @@
       (command "pselect"  target_move_ "" )
 
     )
+    (defun c:txmayy ()
+      (setq text_ename_ (car (entsel "specify ref Object")))
+      (setq text_obj_ (vlax-ename->vla-object text_ename_))
+      (setq text_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint text_obj_))))
+      
+      (setq text1_ename_ (car (entsel "specify ref Object")))
+      (setq text1_obj_ (vlax-ename->vla-object text1_ename_))
+      (setq text1_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint text1_obj_))))
+      (setq text1_obj_ins_ (vla-put-insertionpoint text1_obj_ 
+                                                   (vlax-3d-point 
+                                                     (list (car text1_obj_ins_) 
+                                                           (cadr text_obj_ins_)
+                                                           (caddr text1_obj_ins_)
+                                                     )
+                                                   )
+                           )
+      )
+    )
     (defun c:centroid_move_cenmo ()
       ;selection_set_for_fillter_blk_name
         (if  ;pre_select_ssget_or_post_select_ssget
@@ -18269,7 +18287,7 @@
           ; (princ)
         (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
       )
-    ;)
+    ;
     ;TA:stanndard_lambda_sorting
       (setq sum_sorted_ (vl-sort sum_  ;bigest open indent list
                                 (function 
@@ -25290,7 +25308,88 @@
     
   )
 ;
+;PURPLE_LINE_CSKT_TTB
+  (defun c:PPLINE_CKST_UPDATE_WORKING_DRAWING_CKSTUPWDTB ()
+    ;presetting
+      (setq new_start_numbering_ 100) ;user_input_in_code
+    ;
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_v2_ ss_pre_filter_set_xx_ (list "Title Block_Under Ground_C1 v3")))
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (setq new_pre_ ())
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+        (setq new_pre_
+          (cons (list 
+                  ss_pre_filter_set_xx_obj_ins_
+                  ss_pre_filter_set_xx_ename_
+                )
+            new_pre_
+          )
+        )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+    (setq new_sort_ (TA:corrd_sorting_group new_pre_ 1))
+    ;preloop_and_while
+      (setq new_sort_i 0)
+      (setq new_numbering_ new_start_numbering_)
+      (while (< new_sort_i (length new_sort_))
+        (setq new_sort_group_list_ (nth  new_sort_i new_sort_))
+        ;preloop_and_while
+          (setq new_sort_group_list_i 0)
+          (while (< new_sort_group_list_i (length new_sort_group_list_))
+            (setq new_sort_group_list_ename_ (cadr (nth  new_sort_group_list_i new_sort_group_list_)))
+            
+            (setq new_sort_group_list_obj_ (vlax-ename->vla-object  new_sort_group_list_ename_))
+            (setq EX_SHEET_NO_VAL (LM:vl-getattributevalue new_sort_group_list_obj_ "SHEET_NO_VAL" ))
+            (LM:vl-setattributevalue new_sort_group_list_obj_ "SHEET_NO_VAL" (strcat 
+                                                                                EX_SHEET_NO_VAL
+                                                                                (rtos (+ new_numbering_ 1) 2 0)
+                                                                             )
+            )
+            (setq new_numbering_ (+ new_numbering_ 1))
+            (setq new_sort_group_list_i (+ new_sort_group_list_i 1))
+          )
+        ; 
+        (setq new_sort_i (+ new_sort_i 1))
+      )
+    ;
+    
+  )
+;
 ;PURPLE_LINE_CKST
+
   (defun c:PPLINE_CKST_CKO () 
       ;selection_set_for_fillter_blk_name
         (if  ;pre_select_ssget_or_post_select_ssget

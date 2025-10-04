@@ -3794,6 +3794,353 @@
     ;
     (command "pselect"  ss_post_mtext_ "" )
   )
+  (defun c:PPLINE_CKST_REWORK-TTB_ ()
+    ;return
+      (command "ucs" "world")
+    ;
+    ;go_to_layout-process
+      (if 
+        (or 
+          (= (getvar "ctab") "model")
+          (/= (getvar "ctab") "layout1")
+        )
+        (progn 
+          (setvar "ctab" "layout1")
+          
+        )
+        (setvar "ctab" "layout1")
+      )
+    ;
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "x"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              (cons 410 (getvar "CTAB"))
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget 
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              (cons 410 (getvar "CTAB"))
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_) 
+      )
+    ;
+    ;get ex data_
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (setq External_ref_ename_ ())
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+          (if
+            (and
+              ; (= (sslength ss_pre_filter_set_xx_) 1)
+              (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_ )) (strcat "*" (strcase "000 - TA AUTO") "*"))  T)
+            )
+            (progn
+              (setq ss_pre_filter_set_xx_ename_auto_ ss_pre_filter_set_xx_ename_ )
+              (setq SHEET_VAL (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "SHEET_VAL"))
+              (setq SHEET_NO_VAL (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "SHEET_NO_VAL"))
+              (setq REVISION_VAL (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "REVISION_VAL"))
+              (setq STATUS_VAL (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "STATUS_VAL"))
+              (setq DATE_VAL (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "DATE_VAL"))
+              (setq DATE_VAL_IS_1 (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "DATE_VAL_IS_1"))
+              (setq REVISION_VAL_IS_1 (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "REVISION_VAL_IS_1"))
+              (setq REVISION_TEXT_VAL_IS_1 (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "REVISION_TEXT_VAL_IS_1"))
+              
+            )
+          )
+          (if
+            (and
+              ; (= (sslength ss_pre_filter_set_xx_) 1)
+              (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_ )) (strcat "*" (strcase "ACM_Titleblock_MRTA") "*"))  T)
+            )
+            (progn
+              (setq ss_pre_filter_set_xx_ename_TTB_ ss_pre_filter_set_xx_ename_ )
+            )
+          )
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+    ;
+    ;get mtext title block
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "x"
+                                              (list 
+                                                (cons 0 "mtext") ;type of object
+                                                (cons 7 "Arial_7,Arial_8,Arial_10")   ;kind of layer
+                                                (cons 8 "G-ANNO-TTLB")   ;kind of layer
+                                                (cons 410 (getvar "CTAB"))
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list 
+                                                (cons 0 "mtext") ;type of object
+                                                (cons 7 "Arial_7,Arial_8,Arial_10")   ;kind of layer
+                                                (cons 8 "G-ANNO-TTLB")   ;kind of layer
+                                                (cons 410 (getvar "CTAB"))
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_) 
+        )
+      ;
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (setq ss_pre_filter_set_xx_obj_ins_list_ ())
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_)) 
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+          (setq ss_pre_filter_set_xx_obj_textstr_ (vla-get-textstring ss_pre_filter_set_xx_obj_  ))
+          (setq ss_pre_filter_set_xx_obj_ins_list_ 
+            (cons 
+              (list 
+                ss_pre_filter_set_xx_obj_textstr_
+                ss_pre_filter_set_xx_obj_ins_
+              )
+              ss_pre_filter_set_xx_obj_ins_list_
+            )
+          )
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+        ;TA:stanndard_lambda_sorting
+          (setq ss_pre_filter_set_xx_obj_ins_list_sorted_ (vl-sort ss_pre_filter_set_xx_obj_ins_list_  ;bigest open indent list
+                                                    (function 
+                                                      (lambda (a b) 
+                                                        (> (nth 1 (cadr a)) (nth 1 (cadr b)))
+                                                      )
+                                                    )
+                                ) ;bigest close indent list
+          )
+          (setq contact_no (car (nth 0 ss_pre_filter_set_xx_obj_ins_list_sorted_)))
+          (setq title_1 (car (nth 1 ss_pre_filter_set_xx_obj_ins_list_sorted_)))
+          (setq title_2 (car (nth 2 ss_pre_filter_set_xx_obj_ins_list_sorted_)))
+          (setq title_3 (car (nth 3 ss_pre_filter_set_xx_obj_ins_list_sorted_)))
+        ;
+      ;
+      
+    ;
+    ;creating block process
+      (if (= 
+            (wcmatch (vl-princ-to-string (vl-catch-all-apply (function (lambda () 
+                                                                         (vla-Item 
+                                                                           (vla-get-Blocks 
+                                                                             (setq doc ( vla-get-ActiveDocument ( vlax-get-acad-object ) ) )
+                                                                           ) 
+                                                                           "Title Block_Under Ground_C1 v3"
+                                                                         )
+                                                                       ) 
+                                                             ) 
+                                         ) 
+                     ) "*IAcadBlock*" 
+            )
+            nil
+          )
+        (progn
+          (setvar "osmode" 0)
+          (command "circle" (list 0 0 0) 10 "" ) 
+          ;new_blk_entlast object
+            (setq circle_ename (entlast))
+            (setq circle_obj (vlax-ename->vla-object circle_ename))
+            (setq circle_obj_inscen_ (vlax-safearray->list (vlax-variant-value (vla-get-center circle_obj ))))
+            (command "_block" "Title Block_Under Ground_C1 v3" circle_obj_inscen_ circle_ename "" )
+            ; (TA:vla-insertblock "Title Block_Under Ground_C1 v3" circle_obj_inscen_ 1 0 )
+            (TA:set-block-blockscaling "Title Block_Under Ground_C1 v3" acUniform )
+            (setvar "BLOCKREDEFINEMODE" 1)
+            (command "-INSERTCONTENT" 
+                  (cond 
+                    ((and 
+                        (= (getenv "COMPUTERNAME") 
+                          "NONGSAISUEARAI"
+                        )
+                        (= (getenv "USERNAME") "popul")
+                      )
+                      (progn 
+                        "C:\\TA FAMELINE old data\\TA\\TA_WORK\\MASS TRANSIT\\TA_PPLINE CKST\\TA_PPLINE CKST_combine_CSD-ceiling-plan\\C1-C2_Finishes-Reflected Ceiling Plan\\TA-FL-CKST-TTB_.dwg"
+                      )
+                    )
+                    ((and 
+                        (= (getenv "COMPUTERNAME") "DESKTOP-FSRT7SI" )
+                        (= (getenv "USERNAME") "Admin")
+                      )
+                      (progn 
+                        "ไม่มี เอาไว้ก่อน เออเน่อไปเลย"
+                      )
+                    )
+                  )
+                  "Title Block_Under Ground_C1 v3"
+                  circle_obj_inscen_
+                  1
+                  0
+                  "" "" "" "" "" 
+                  "" "" "" "" "" 
+                  "" "" "" "" "" 
+                  "" "" "" "" "" 
+                  "" "" "" "" "" 
+                  "" "" "" "" "" 
+                  "" "" "" "" "" 
+                  "" "" "" "" "" 
+                  "" "" "" "" "" 
+            )
+            
+
+          ;
+        )
+        (TA:vla-insertblock "Title Block_Under Ground_C1 v3" (list 0 0 0) 1 0 )
+      )
+
+    ;
+    ;new_blk_entlast object
+      (setq new_WD-TTB_ename (entlast))
+      (setq new_WD-TTB_obj_ (vlax-ename->vla-object new_WD-TTB_ename))
+      (LM:setdynpropvalue new_WD-TTB_obj_ "paper size" "A1" )
+      (LM:vl-setattributevalue new_WD-TTB_obj_ "contact_working_val" 
+        (if (= contact_no "1")
+          (progn
+            "CONTRACT 1 : UNDERGROUND CIVIL WORKS"
+          )
+          "CONTRACT 1 : UNDERGROUND CIVIL WORKS"
+        )
+      )
+      (LM:vl-setattributevalue new_WD-TTB_obj_ "title_1_val"  (if (= title_1 nil) (progn "" ) title_1 ))
+      (LM:vl-setattributevalue new_WD-TTB_obj_ "title_2_val"  (if (= title_2 nil) (progn "" ) title_2))
+      (LM:vl-setattributevalue new_WD-TTB_obj_ "title_3_val"  (if (= title_3 nil) (progn "" ) title_3))
+      (LM:vl-setattributevalue new_WD-TTB_obj_ "status_val"  "w")
+      (LM:vl-setattributevalue 
+        new_WD-TTB_obj_
+        "drawing_no_val"
+        (LM:StringSubst 
+          ""
+          "1-A"
+          (LM:StringSubst 
+            ""
+            "-B"
+            (LM:StringSubst 
+              ""
+              "C-"
+              (LM:StringSubst 
+                ""
+                ".dwg"
+                (getvar "dwgname")
+              )
+            )
+          )
+        )
+      )
+      (LM:vl-setattributevalue 
+        new_WD-TTB_obj_
+        "designed_by_date_val"
+        (strcat (substr (rtos (getvar "cdate") 2 0) 7 2) 
+                "-"
+                (substr (rtos (getvar "cdate") 2 0) 5 2)
+                "-"
+                (substr (rtos (getvar "cdate") 2 0) 1 4)
+        )
+      )
+      
+      (LM:vl-setattributevalue new_WD-TTB_obj_ "rev_no_val" "A" )
+      (LM:vl-setattributevalue new_WD-TTB_obj_ "sheet_no_val" "-" )
+      (LM:vl-setattributevalue new_WD-TTB_obj_ "scale_for_a1_val" "A1 = 1:500" )
+      (LM:vl-setattributevalue new_WD-TTB_obj_ "dwg_scale_val" "A3 = 1:1000" )
+      (LM:vl-setattributevalue new_WD-TTB_obj_ "units_val" "mm." )
+    ;
+    ;get mtext title block for del
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "x"
+                                              (list 
+                                                (cons 0 "mtext") ;type of object
+                                                ; (cons 7 "Arial_7,Arial_8")   ;kind of layer
+                                                (cons 8 "G-ANNO-TTLB")   ;kind of layer
+                                                (cons 410 (getvar "CTAB"))
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list 
+                                                (cons 0 "mtext") ;type of object
+                                                ; (cons 7 "Arial_7,Arial_8")   ;kind of layer
+                                                (cons 8 "G-ANNO-TTLB")   ;kind of layer
+                                                (cons 410 (getvar "CTAB"))
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_) 
+        )
+      ;
+      ;preloop_and_while
+        (command "pselect"  ss_pre_filter_set_xx_ "" )
+      ;
+      ;enter for delete mtext 
+        (if (and 
+              (= (setq detectloop (getstring "enter to delete Object")) "")
+            )
+          (progn
+            (command "erase"  ss_pre_filter_set_xx_ "")
+            (command "erase"  ss_pre_filter_set_xx_ename_auto_ "")
+            (command "erase"  ss_pre_filter_set_xx_ename_ttb_ "")
+          )
+        )
+      ;
+    ;
+    (command "pasteclip" (setq ss (list 0 0 0)) )
+    (setvar "osmode" 1215)
+  )
+  (defun c:PPLINE_CKST_MATHEADING ()
+    (setq ttb_ename_ (car (entsel "specify ref for heading Object")))
+    (setq ttb_obj_ (vlax-ename->vla-object ttb_ename_))
+    (setq heading_text_
+     (strcat 
+        (LM:vl-getattributevalue ttb_obj_ "title_2_val")
+        " "
+        (LM:vl-getattributevalue ttb_obj_ "title_3_val")
+      )
+    )
+    (setq target_ename_ (car (entsel "specify Object")))
+    (setq target_obj_ (vlax-ename->vla-object target_ename_))
+    (LM:vl-setattributevalue target_obj_ "heading-name" heading_text_)
+    (setq ss_pre_filter_set_xx_obj_getboundingbox (vla-getboundingbox target_obj_ 'min_ 'max_)) 
+    (setq ss_pre_filter_set_xx_min_ (vlax-safearray->list min_)) 
+    (setq ss_pre_filter_set_xx_max_ (vlax-safearray->list max_)) 
+    (LM:setdynpropvalue target_obj_ "distance1" (fix (+ (- (car ss_pre_filter_set_xx_max_) (car ss_pre_filter_set_xx_min_) ) 1)))
+  )
   ; (c:loadlisp)
   ; (c:update_up1auto_)
 ;
@@ -3825,15 +4172,3 @@
   ; (command "zoom" "a") 
   ; (command "close" "n" )
 ;  
-(setq filter_result_ (vl-remove-if-not 
-                              '(lambda (x) 
-                                  (apply 'or 
-                                         (mapcar 
-                                           '(lambda (p) (wcmatch x p))
-                                           '("A" "B" )
-                                         )
-                                  )
-                                )
-                              '( "A" "a" "B" "b" "c")
-                            )
-        )
