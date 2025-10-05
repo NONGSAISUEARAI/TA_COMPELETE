@@ -6663,6 +6663,159 @@
       )
     )
 
+    (defun c:te11 ()
+      (setq Er-msg_ 
+        (vl-catch-all-apply 
+          (function 
+            (lambda () 
+              (setq xasd (getpoint  ))
+              (setq xasd1 (getcorner xasd ))
+              (command "rectangle" xasd xasd1)
+              ;user_input_
+                (setq obj_name_ (vla-get-objectname (vlax-ename->vla-object (setq hatch_ename_ (entlast)))))
+                
+                (cond
+                  ( ;first process
+                    (or
+                      
+                      (= obj_name_ "AcDbPolyline")
+                    )
+                    (progn
+                      (= (vla-get-closed (setq hatch_ename_obj_ (vlax-ename->vla-object hatch_ename_))) :vlax-true)
+                      (setq 1st_process "AcDbPolyline")
+                    )
+                  )
+                  (;first process
+                    (or
+                      (= obj_name_ "AcDbBlockReference")
+                    )
+                    (progn
+                      (setq 1st_process "AcDbBlockReference")
+                      
+                    )
+                  )
+                )
+                
+                
+                (if 
+                  (and 
+                    (= hatch_ename_getang_ nil)
+                    (= hatch_ename_getsc_ nil)
+                  )
+                  (progn
+                    (setq  hatch_ename_getang_ 0)
+                    (setq  hatch_ename_getsc_ 1)
+                    
+                  )
+                )
+                ;preseting_data_
+                  (setq hatch_Layer_ "000 - H A T C H")
+                  (setq hatch_patt_ "ANSI31")
+                  (setq hatch_color_ 3)
+                  (setq hatch_background_ ".")
+                  
+                ;
+                (setq hatch_ename_getang_ 0 )
+                (setq hatch_ename_getsc_ 0.5 )
+                (setq hatch_obj_ (vlax-ename->vla-object hatch_ename_))
+
+                
+                (command ".-hatch" "s"  hatch_ename_  
+                          "" 
+                          "c" hatch_color_ hatch_background_
+                          "p" hatch_patt_ hatch_ename_getsc_ hatch_ename_getang_ 
+                          "L" hatch_Layer_ 
+                          ""  
+                        
+                )
+                (command "erase" hatch_ename_ "")
+              ;
+            )
+          )
+        )
+      )
+      (setvar "BLOCKREDEFINEMODE" 1)
+      (command "-INSERTCONTENT" 
+          (cond 
+            ((and 
+                (= (getenv "COMPUTERNAME") 
+                  "NONGSAISUEARAI"
+                )
+                (= (getenv "USERNAME") "popul")
+              )
+              (progn 
+                "C:\\TA FAMELINE old data\\TA\\TA_WORK\\MASS TRANSIT\\TA_PPLINE CKST\\TA_PPLINE CKST_combine_CSD-ceiling-plan\\C1-C2_Finishes-Reflected Ceiling Plan\\TA-FL-CKST-TTB_.dwg"
+              )
+            )
+            ((and 
+                (= (getenv "COMPUTERNAME") "DESKTOP-FSRT7SI" )
+                (= (getenv "USERNAME") "Admin")
+              )
+              (progn 
+                "C:\\TA WORK\\PPLINE CKST\\20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan\\C1-C2_Finishes-Reflected Ceiling Plan\\TA-FL-CKST-TTB_.dwg"
+              )
+            )
+          )
+          "Title Block_Under Ground_C1 v3"
+          (list 0 0 0)
+          1
+          0
+      )
+      (command "erase" "L" "")
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "x"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                (cons 410 "layout1")           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                (cons 410 "layout1")           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+        (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "Title Block_Under Ground_C1 v3"))
+      ;
+      (setq ename1_ (ssname ss_pre_filter_set_xx_ 0 ))
+      (setq ename1_obj_ (vlax-ename->vla-object ename1_))
+      (setq REV-LV "01")
+      (setq REV (strcat "REV_" REV-LV))
+      (setq REV_DATE_ (strcat "REV_DATE_" REV-LV))
+      (setq REV_DESC_ (strcat "REV_DESC_" REV-LV))
+      (setq DWG (strcat "DWG" REV-LV))
+      (setq CHK (strcat "CHK" REV-LV))
+      (setq APP (strcat "APP" REV-LV))
+      
+      (LM:vl-setattributevalue ename1_obj_ REV        "A")
+      (LM:vl-setattributevalue ename1_obj_ REV_DATE_  "24-09-2025")
+      (LM:vl-setattributevalue ename1_obj_ REV_DESC_  "FRIST SUBMISSION")
+      (LM:vl-setattributevalue ename1_obj_ DWG        "TA")
+      (LM:vl-setattributevalue ename1_obj_ CHK        "")
+      (LM:vl-setattributevalue ename1_obj_ APP        "")
+      
+      (LM:vl-setattributevalue ename1_obj_ "DESIGNED_BY_val"     "OYT")
+      (LM:vl-setattributevalue ename1_obj_ "CHECKED_BY_val"      "AJT")
+      (LM:vl-setattributevalue ename1_obj_ "APRVD_BY_val"        "LCC")
+              
+      (command "zoom" "extent")
+      (command "qsave")
+    )
+
   ;
   ;symbol_FUNC_
     (defun c:add_breakline_to_rectangle_ADBK ()
