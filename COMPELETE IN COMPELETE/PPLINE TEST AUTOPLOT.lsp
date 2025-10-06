@@ -4201,15 +4201,15 @@
               )
             (progn
               
-              (setq ss_pre_filter_set_xx_obj_ins_list_ 
-                (cons 
-                  (list 
-                    ss_pre_filter_set_xx_obj_textstr_
-                    ss_pre_filter_set_xx_obj_ins_
-                  )
-                  ss_pre_filter_set_xx_obj_ins_list_
-                )
+          (setq ss_pre_filter_set_xx_obj_ins_list_ 
+            (cons 
+              (list 
+                ss_pre_filter_set_xx_obj_textstr_
+                ss_pre_filter_set_xx_obj_ins_
               )
+              ss_pre_filter_set_xx_obj_ins_list_
+            )
+          )
           )
           
           )
@@ -4233,21 +4233,21 @@
       
     ;
     ;creating block process
-        (if (= 
-              (wcmatch (vl-princ-to-string (vl-catch-all-apply (function (lambda () 
-                                                                          (vla-Item 
-                                                                            (vla-get-Blocks 
-                                                                              (setq doc ( vla-get-ActiveDocument ( vlax-get-acad-object ) ) )
-                                                                            ) 
-                                                                            "Title Block_Under Ground_C1 v3"
-                                                                          )
-                                                                        ) 
-                                                              ) 
-                                          ) 
-                      ) "*IAcadBlock*" 
-              )
-              nil
+      (if (= 
+            (wcmatch (vl-princ-to-string (vl-catch-all-apply (function (lambda () 
+                                                                         (vla-Item 
+                                                                           (vla-get-Blocks 
+                                                                             (setq doc ( vla-get-ActiveDocument ( vlax-get-acad-object ) ) )
+                                                                           ) 
+                                                                           "Title Block_Under Ground_C1 v3"
+                                                                         )
+                                                                       ) 
+                                                             ) 
+                                         ) 
+                     ) "*IAcadBlock*" 
             )
+            nil
+          )
         (progn
           (setvar "osmode" 0)
           (command "circle" (list 0 0 0) 10 "" ) 
@@ -4284,17 +4284,16 @@
                   circle_obj_inscen_
                   1
                   0
-                  ; "" "" "" "" "" 
-                  ; "" "" "" "" "" 
-                  ; "" "" "" "" "" 
-                  ; "" "" "" "" "" 
-                  ; "" "" "" "" "" 
-                  ; "" "" "" "" "" 
-                  ; "" "" "" "" "" 
-                  ; "" "" "" "" "" 
-                  ; "" "" "" "" "" 
+                  "" "" "" "" "" 
+                  "" "" "" "" "" 
+                  "" "" "" "" "" 
+                  "" "" "" "" "" 
+                  "" "" "" "" "" 
+                  "" "" "" "" "" 
+                  "" "" "" "" "" 
+                  "" "" "" "" "" 
+                  "" "" "" "" "" 
             )
-            
             
 
           ;
@@ -4309,9 +4308,9 @@
       (LM:vl-setattributevalue new_WD-TTB_obj_ "contact_working_val" 
         (cond
           ( (= contact_no "1")
-            (progn
-              "CONTRACT 1 : UNDERGROUND CIVIL WORKS"
-            )
+          (progn
+            "CONTRACT 1 : UNDERGROUND CIVIL WORKS"
+          )
           )
           ( (= contact_no "2")
             (progn
@@ -4403,7 +4402,7 @@
               (= (setq detectloop (getstring "enter to delete Object")) "")
             )
           (progn
-            (command "erase"  ss_pre_filter_set_xx_ "")z
+            (command "erase"  ss_pre_filter_set_xx_ "")
             (command "erase"  ss_pre_filter_set_xx_ename_auto_ "")
             (command "erase"  ss_pre_filter_set_xx_ename_ttb_ "")
           )
