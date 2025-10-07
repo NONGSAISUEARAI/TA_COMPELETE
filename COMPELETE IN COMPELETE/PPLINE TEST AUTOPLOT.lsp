@@ -2857,7 +2857,21 @@
   )
 ;
 
+(defun TA:ChangeFont ( / styName newFont styObj)    
+  (setq styName "CVA-C2-P-PP00-TBKA1 (WD)$0$CVA-E2-P-OR00-TBKA1D$0$CVA-E2-P-OR00-TBKA1$0$A1-TITLE$0$ROMANT")     ; ← ใส่ชื่อ Style ที่ต้องการแก้
+  (setq newFont "romant.shx")   ; ← ใส่ชื่อ Font ใหม่ เช่น arial.ttf, AngsanaUPC, Tahoma ฯลฯ
 
+  (if (setq styObj (tblobjname "style" styName))
+    (progn
+      (entmod
+        (subst (cons 3 newFont) (assoc 3 (entget styObj)) (entget styObj))
+      )
+      (princ (strcat "\nFont ของ Style \"" styName "\" ถูกเปลี่ยนเป็น \"" newFont "\" แล้ว."))
+    )
+    (princ (strcat "\nไม่พบ Style ชื่อ \"" styName "\""))
+  )
+  (princ)
+)
 (defun c:loadlisp ()
   (cond
     ((and 
@@ -3212,9 +3226,10 @@
           (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
           (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
           (if
-            (and
+            (or
               ; (= (sslength ss_pre_filter_set_xx_) 1)
               (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_ )) (strcat "*" (strcase "Title Block_Under Ground_C1 v3") "*"))  T)
+              (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_ )) (strcat "*" (strcase "Title Block_Under Ground_C2 v3") "*"))  T)
               
             )
             (progn
@@ -4412,6 +4427,713 @@
     (command "pasteclip" (setq ss (list 0 0 0)) )
     (setvar "osmode" 1215)
   )
+  (defun c:PPLINE_CKST_REWORK-TTB11_ ()
+    (defun TA:ChangeFont ( / styName newFont styObj)
+      (setq styName "CVA-C2-P-PP00-TBKA1 (WD)$0$CVA-E2-P-OR00-TBKA1D$0$CVA-E2-P-OR00-TBKA1$0$A1-TITLE$0$ROMANT")     ; ← ใส่ชื่อ Style ที่ต้องการแก้
+      (setq newFont "romant.shx")   ; ← ใส่ชื่อ Font ใหม่ เช่น arial.ttf, AngsanaUPC, Tahoma ฯลฯ
+
+      (if (setq styObj (tblobjname "style" styName))
+        (progn
+          (entmod
+            (subst (cons 3 newFont) (assoc 3 (entget styObj)) (entget styObj))
+          )
+          (princ (strcat "\nFont ของ Style \"" styName "\" ถูกเปลี่ยนเป็น \"" newFont "\" แล้ว."))
+        )
+        (princ (strcat "\nไม่พบ Style ชื่อ \"" styName "\""))
+      )
+      (princ)
+    )
+    ;return
+      (command "ucs" "world")
+    ;
+    ;go_to_layout-process
+      (if 
+        (or 
+          (= (getvar "ctab") "model")
+          (/= (getvar "ctab") "layout1")
+        )
+        (progn 
+          (setvar "ctab" "layout1")
+          
+        )
+        (setvar "ctab" "layout1")
+      )
+    ;
+    ;update process
+      ; (TA:set-block-explodable "CVA-C2-P-PP00-TBKA1 (WD)$0$CVA-C2-P-OR00-TBKA1-WD" :vlax-true)
+      (command "-INSERTCONTENT" 
+          (cond 
+            ((and 
+                (= (getenv "COMPUTERNAME") 
+                  "NONGSAISUEARAI"
+                )
+                (= (getenv "USERNAME") "popul")
+              )
+              (progn 
+                "C:\\TA FAMELINE old data\\TA\\TA_WORK\\MASS TRANSIT\\TA_PPLINE CKST\\TA_PPLINE CKST_combine_CSD-ceiling-plan\\C1-C2_Finishes-Reflected Ceiling Plan\\TA-FL-CKST-TTB_.dwg"
+              )
+            )
+            ((and 
+                (= (getenv "COMPUTERNAME") "DESKTOP-FSRT7SI" )
+                (= (getenv "USERNAME") "Admin")
+              )
+              (progn 
+                "C:\\TA WORK\\PPLINE CKST\\20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan\\C1-C2_Finishes-Reflected Ceiling Plan\\TA-FL-CKST-TTB_.dwg"
+              )
+            )
+          )
+          "Title Block_Under Ground_C1 v3"
+          (list 900 0 0)
+          1
+          1
+          0
+      )
+      (command "erase" "L" "" )
+      (command "-INSERTCONTENT" 
+          (cond 
+            ((and 
+                (= (getenv "COMPUTERNAME") 
+                  "NONGSAISUEARAI"
+                )
+                (= (getenv "USERNAME") "popul")
+              )
+              (progn 
+                "C:\\TA FAMELINE old data\\TA\\TA_WORK\\MASS TRANSIT\\TA_PPLINE CKST\\TA_PPLINE CKST_combine_CSD-ceiling-plan\\C1-C2_Finishes-Reflected Ceiling Plan\\TA-FL-CKST-TTB_.dwg"
+              )
+            )
+            ((and 
+                (= (getenv "COMPUTERNAME") "DESKTOP-FSRT7SI" )
+                (= (getenv "USERNAME") "Admin")
+              )
+              (progn 
+                "C:\\TA WORK\\PPLINE CKST\\20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan\\C1-C2_Finishes-Reflected Ceiling Plan\\TA-FL-CKST-TTB_.dwg"
+              )
+            )
+          )
+          "CVA-C2-P-PP00-TBKA1 (WD)$0$CVA-C2-P-OR00-TBKA1-WD"
+          (list 850 0 0)
+          1
+          1
+          0
+      )
+      (command "erase" "L" "" )
+    ;
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "x"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              (cons 410 (getvar "CTAB"))
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget 
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              (cons 410 (getvar "CTAB"))
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_) 
+      )
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "Title Block_Under Ground_C1 v3"))
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (if (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "Title Block_Under Ground_C1 v3")
+          (progn
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DESIGNED_BY_DATE_val" "03-10-2025")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "STATUS_val" "W")
+            
+            (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "title_1_val" )
+
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "title_2_val" (strcat 
+                                                                              (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "title_2_val" )
+                                                                              " "
+                                                                              (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "title_3_val" )
+                                                                            )
+            )
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "title_3_val" "" )
+
+            
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "STATUS_val" "W")
+            ; (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DRAWING_NO_val")
+            
+            (setq REV-LV "01")
+            (setq REV (strcat "REV_" REV-LV))
+            (setq REV_DATE_ (strcat "REV_DATE_" REV-LV))
+            (setq REV_DESC_ (strcat "REV_DESC_" REV-LV))
+            (setq DWG (strcat "DWG" REV-LV))
+            (setq CHK (strcat "CHK" REV-LV))
+            (setq APP (strcat "APP" REV-LV))
+            
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ REV        "A")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ REV_DATE_  "03-10-2025")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ REV_DESC_  "FIRST SUBMISSION")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ DWG        "TA")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ CHK        "KEN")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ APP        "MK")
+            
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DESIGNED_BY_val"     "SA")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "CHECKED_BY_val"      "UY")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "APRVD_BY_val"        "PP")
+          )
+        )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+    (TA:ChangeFont)
+    
+    (command "qsave")
+    (command "pselect"  ss_pre_filter_set_xx_ "" )
+  )
+  (defun c:PPLINE_CKST_REWORK-TTB12_ ()
+    (defun TA:ChangeFont ( / styName newFont styObj)
+      (setq styName "CVA-C2-P-PP00-TBKA1 (WD)$0$CVA-E2-P-OR00-TBKA1D$0$CVA-E2-P-OR00-TBKA1$0$A1-TITLE$0$ROMANT")     ; ← ใส่ชื่อ Style ที่ต้องการแก้
+      (setq newFont "romant.shx")   ; ← ใส่ชื่อ Font ใหม่ เช่น arial.ttf, AngsanaUPC, Tahoma ฯลฯ
+
+      (if (setq styObj (tblobjname "style" styName))
+        (progn
+          (entmod
+            (subst (cons 3 newFont) (assoc 3 (entget styObj)) (entget styObj))
+          )
+          (princ (strcat "\nFont ของ Style \"" styName "\" ถูกเปลี่ยนเป็น \"" newFont "\" แล้ว."))
+        )
+        (princ (strcat "\nไม่พบ Style ชื่อ \"" styName "\""))
+      )
+      (princ)
+    )
+    ;return
+      (command "ucs" "world")
+    ;
+    ;go_to_layout-process
+      (if 
+        (or 
+          (= (getvar "ctab") "model")
+          (/= (getvar "ctab") "layout1")
+        )
+        (progn 
+          (setvar "ctab" "layout1")
+          
+        )
+        (setvar "ctab" "layout1")
+      )
+    ;
+    ;update process
+      ; (TA:set-block-explodable "CVA-C2-P-PP00-TBKA1 (WD)$0$CVA-C2-P-OR00-TBKA1-WD" :vlax-true)
+      (command "-INSERTCONTENT" 
+          (cond 
+            ((and 
+                (= (getenv "COMPUTERNAME") 
+                  "NONGSAISUEARAI"
+                )
+                (= (getenv "USERNAME") "popul")
+              )
+              (progn 
+                "C:\\TA FAMELINE old data\\TA\\TA_WORK\\MASS TRANSIT\\TA_PPLINE CKST\\TA_PPLINE CKST_combine_CSD-ceiling-plan\\C1-C2_Finishes-Reflected Ceiling Plan\\TA-FL-CKST-TTB_.dwg"
+              )
+            )
+            ((and 
+                (= (getenv "COMPUTERNAME") "DESKTOP-FSRT7SI" )
+                (= (getenv "USERNAME") "Admin")
+              )
+              (progn 
+                "C:\\TA WORK\\PPLINE CKST\\20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan\\C1-C2_Finishes-Reflected Ceiling Plan\\TA-FL-CKST-TTB_.dwg"
+              )
+            )
+          )
+          "Title Block_Under Ground_C1 v3"
+          (list 900 0 0)
+          1
+          1
+          0
+      )
+      (command "erase" "L" "" )
+      (command "-INSERTCONTENT" 
+          (cond 
+            ((and 
+                (= (getenv "COMPUTERNAME") 
+                  "NONGSAISUEARAI"
+                )
+                (= (getenv "USERNAME") "popul")
+              )
+              (progn 
+                "C:\\TA FAMELINE old data\\TA\\TA_WORK\\MASS TRANSIT\\TA_PPLINE CKST\\TA_PPLINE CKST_combine_CSD-ceiling-plan\\C1-C2_Finishes-Reflected Ceiling Plan\\TA-FL-CKST-TTB_.dwg"
+              )
+            )
+            ((and 
+                (= (getenv "COMPUTERNAME") "DESKTOP-FSRT7SI" )
+                (= (getenv "USERNAME") "Admin")
+              )
+              (progn 
+                "C:\\TA WORK\\PPLINE CKST\\20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan\\C1-C2_Finishes-Reflected Ceiling Plan\\TA-FL-CKST-TTB_.dwg"
+              )
+            )
+          )
+          "CVA-C2-P-PP00-TBKA1 (WD)$0$CVA-C2-P-OR00-TBKA1-WD"
+          (list 850 0 0)
+          1
+          1
+          0
+      )
+      (command "erase" "L" "" )
+    ;
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "x"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              (cons 410 (getvar "CTAB"))
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget 
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              (cons 410 (getvar "CTAB"))
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_) 
+      )
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "Title Block_Under Ground_C1 v3"))
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (if (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "Title Block_Under Ground_C1 v3")
+          (progn
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DESIGNED_BY_DATE_val" "03-10-2025")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "STATUS_val" "W")
+            
+            (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "title_1_val" )
+
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "title_2_val" (strcat 
+                                                                              (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "title_2_val" )
+                                                                              " "
+                                                                              (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "title_3_val" )
+                                                                            )
+            )
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "title_3_val" "" )
+
+            
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "SCALE_FOR_A1_VAL" "A1 = 1:100")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "dwg_scale_val" "A3 = 1:200")
+            ; (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DRAWING_NO_val")
+            
+            
+            
+            (setq REV-LV "01")
+            (setq REV (strcat "REV_" REV-LV))
+            (setq REV_DATE_ (strcat "REV_DATE_" REV-LV))
+            (setq REV_DESC_ (strcat "REV_DESC_" REV-LV))
+            (setq DWG (strcat "DWG" REV-LV))
+            (setq CHK (strcat "CHK" REV-LV))
+            (setq APP (strcat "APP" REV-LV))
+            
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ REV        "A")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ REV_DATE_  "03-10-2025")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ REV_DESC_  "FIRST SUBMISSION")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ DWG        "TA")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ CHK        "KEN")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ APP        "MK")
+            
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DESIGNED_BY_val"     "SA")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "CHECKED_BY_val"      "UY")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "APRVD_BY_val"        "PP")
+          )
+        )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+    (TA:ChangeFont)
+    
+    (command "qsave")
+    (command "pselect"  ss_pre_filter_set_xx_ "" )
+  )
+  (defun c:PPLINE_CKST_REWORK-TTB21_ ()
+    (defun TA:ChangeFont ( / styName newFont styObj)
+      (setq styName "CVA-C2-P-PP00-TBKA1 (WD)$0$CVA-E2-P-OR00-TBKA1D$0$CVA-E2-P-OR00-TBKA1$0$A1-TITLE$0$ROMANT")     ; ← ใส่ชื่อ Style ที่ต้องการแก้
+      (setq newFont "romant.shx")   ; ← ใส่ชื่อ Font ใหม่ เช่น arial.ttf, AngsanaUPC, Tahoma ฯลฯ
+
+      (if (setq styObj (tblobjname "style" styName))
+        (progn
+          (entmod
+            (subst (cons 3 newFont) (assoc 3 (entget styObj)) (entget styObj))
+          )
+          (princ (strcat "\nFont ของ Style \"" styName "\" ถูกเปลี่ยนเป็น \"" newFont "\" แล้ว."))
+        )
+        (princ (strcat "\nไม่พบ Style ชื่อ \"" styName "\""))
+      )
+      (princ)
+    )
+    ; (command "rename" "B" "Title Block_Under Ground_C1 v3" "Title Block_Under Ground_C2 v3")
+    ;return
+      (command "ucs" "world")
+    ;
+    ;go_to_layout-process
+      (if 
+        (or 
+          (= (getvar "ctab") "model")
+          (/= (getvar "ctab") "layout1")
+        )
+        (progn 
+          (setvar "ctab" "layout1")
+          
+        )
+        (setvar "ctab" "layout1")
+      )
+    ;
+    ;update process
+      ; (TA:set-block-explodable "CVA-C2-P-PP00-TBKA1 (WD)$0$CVA-C2-P-OR00-TBKA1-WD" :vlax-true)
+      (command "-INSERTCONTENT" 
+          (cond 
+            ((and 
+                (= (getenv "COMPUTERNAME") 
+                  "NONGSAISUEARAI"
+                )
+                (= (getenv "USERNAME") "popul")
+              )
+              (progn 
+                "C:\\TA FAMELINE old data\\TA\\TA_WORK\\MASS TRANSIT\\TA_PPLINE CKST\\TA_PPLINE CKST_combine_CSD-ceiling-plan\\C1-C2_Finishes-Reflected Ceiling Plan\\TA-FL-CKST-TTB_.dwg"
+              )
+            )
+            ((and 
+                (= (getenv "COMPUTERNAME") "DESKTOP-FSRT7SI" )
+                (= (getenv "USERNAME") "Admin")
+              )
+              (progn 
+                "C:\\TA WORK\\PPLINE CKST\\20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan\\C1-C2_Finishes-Reflected Ceiling Plan\\TA-FL-CKST-TTB_.dwg"
+              )
+            )
+          )
+          "Title Block_Under Ground_C2 v3"
+          (list 900 0 0)
+          1
+          1
+          0
+      )
+      (command "erase" "L" "" )
+      (command "-INSERTCONTENT" 
+          (cond 
+            ((and 
+                (= (getenv "COMPUTERNAME") 
+                  "NONGSAISUEARAI"
+                )
+                (= (getenv "USERNAME") "popul")
+              )
+              (progn 
+                "C:\\TA FAMELINE old data\\TA\\TA_WORK\\MASS TRANSIT\\TA_PPLINE CKST\\TA_PPLINE CKST_combine_CSD-ceiling-plan\\C1-C2_Finishes-Reflected Ceiling Plan\\TA-FL-CKST-TTB_.dwg"
+              )
+            )
+            ((and 
+                (= (getenv "COMPUTERNAME") "DESKTOP-FSRT7SI" )
+                (= (getenv "USERNAME") "Admin")
+              )
+              (progn 
+                "C:\\TA WORK\\PPLINE CKST\\20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan\\C1-C2_Finishes-Reflected Ceiling Plan\\TA-FL-CKST-TTB_.dwg"
+              )
+            )
+          )
+          "CVA-C2-P-PP00-TBKA1 (WD)$0$CVA-C2-P-OR00-TBKA1-WD"
+          (list 850 0 0)
+          1
+          1
+          0
+      )
+      (command "erase" "L" "" )
+    ;
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "x"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              (cons 410 (getvar "CTAB"))
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget 
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              (cons 410 (getvar "CTAB"))
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_) 
+      )
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "Title Block_Under Ground_C2 v3"))
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (if (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "Title Block_Under Ground_C2 v3")
+          (progn
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DESIGNED_BY_DATE_val" "03-10-2025")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "STATUS_val" "W")
+            
+            (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "title_1_val" )
+
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "title_2_val" (strcat 
+                                                                              (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "title_2_val" )
+                                                                              " "
+                                                                              (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "title_3_val" )
+                                                                            )
+            )
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "title_3_val" "" )
+
+            
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "SCALE_FOR_A1_VAL" "A1 = 1:500")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "dwg_scale_val" "A3 = 1:1000")
+            ; (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DRAWING_NO_val")
+            
+            
+            
+            (setq REV-LV "01")
+            (setq REV (strcat "REV_" REV-LV))
+            (setq REV_DATE_ (strcat "REV_DATE_" REV-LV))
+            (setq REV_DESC_ (strcat "REV_DESC_" REV-LV))
+            (setq DWG (strcat "DWG" REV-LV))
+            (setq CHK (strcat "CHK" REV-LV))
+            (setq APP (strcat "APP" REV-LV))
+            
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ REV        "A")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ REV_DATE_  "03-10-2025")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ REV_DESC_  "FIRST SUBMISSION")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ DWG        "TA")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ CHK        "KEN")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ APP        "MK")
+            
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DESIGNED_BY_val"     "SA")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "CHECKED_BY_val"      "BL")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "APRVD_BY_val"        "PT")
+          )
+        )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+    (TA:ChangeFont)
+    
+    (command "qsave")
+    (command "pselect"  ss_pre_filter_set_xx_ "" )
+  )
+  (defun c:PPLINE_CKST_REWORK-TTB22_ ()
+    (defun TA:ChangeFont ( / styName newFont styObj)
+      (setq styName "CVA-C2-P-PP00-TBKA1 (WD)$0$CVA-E2-P-OR00-TBKA1D$0$CVA-E2-P-OR00-TBKA1$0$A1-TITLE$0$ROMANT")     ; ← ใส่ชื่อ Style ที่ต้องการแก้
+      (setq newFont "romant.shx")   ; ← ใส่ชื่อ Font ใหม่ เช่น arial.ttf, AngsanaUPC, Tahoma ฯลฯ
+
+      (if (setq styObj (tblobjname "style" styName))
+        (progn
+          (entmod
+            (subst (cons 3 newFont) (assoc 3 (entget styObj)) (entget styObj))
+          )
+          (princ (strcat "\nFont ของ Style \"" styName "\" ถูกเปลี่ยนเป็น \"" newFont "\" แล้ว."))
+        )
+        (princ (strcat "\nไม่พบ Style ชื่อ \"" styName "\""))
+      )
+      (princ)
+    )
+    (command "rename" "B" "Title Block_Under Ground_C1 v3" "Title Block_Under Ground_C2 v3")
+    ;return
+      (command "ucs" "world")
+    ;
+    ;go_to_layout-process
+      (if 
+        (or 
+          (= (getvar "ctab") "model")
+          (/= (getvar "ctab") "layout1")
+        )
+        (progn 
+          (setvar "ctab" "layout1")
+          
+        )
+        (setvar "ctab" "layout1")
+      )
+    ;
+    ;update process
+      ; (TA:set-block-explodable "CVA-C2-P-PP00-TBKA1 (WD)$0$CVA-C2-P-OR00-TBKA1-WD" :vlax-true)
+      (command "-INSERTCONTENT" 
+          (cond 
+            ((and 
+                (= (getenv "COMPUTERNAME") 
+                  "NONGSAISUEARAI"
+                )
+                (= (getenv "USERNAME") "popul")
+              )
+              (progn 
+                "C:\\TA FAMELINE old data\\TA\\TA_WORK\\MASS TRANSIT\\TA_PPLINE CKST\\TA_PPLINE CKST_combine_CSD-ceiling-plan\\C1-C2_Finishes-Reflected Ceiling Plan\\TA-FL-CKST-TTB_.dwg"
+              )
+            )
+            ((and 
+                (= (getenv "COMPUTERNAME") "DESKTOP-FSRT7SI" )
+                (= (getenv "USERNAME") "Admin")
+              )
+              (progn 
+                "C:\\TA WORK\\PPLINE CKST\\20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan\\C1-C2_Finishes-Reflected Ceiling Plan\\TA-FL-CKST-TTB_.dwg"
+              )
+            )
+          )
+          "Title Block_Under Ground_C2 v3"
+          (list 900 0 0)
+          1
+          1
+          0
+      )
+      (command "erase" "L" "" )
+      (command "-INSERTCONTENT" 
+          (cond 
+            ((and 
+                (= (getenv "COMPUTERNAME") 
+                  "NONGSAISUEARAI"
+                )
+                (= (getenv "USERNAME") "popul")
+              )
+              (progn 
+                "C:\\TA FAMELINE old data\\TA\\TA_WORK\\MASS TRANSIT\\TA_PPLINE CKST\\TA_PPLINE CKST_combine_CSD-ceiling-plan\\C1-C2_Finishes-Reflected Ceiling Plan\\TA-FL-CKST-TTB_.dwg"
+              )
+            )
+            ((and 
+                (= (getenv "COMPUTERNAME") "DESKTOP-FSRT7SI" )
+                (= (getenv "USERNAME") "Admin")
+              )
+              (progn 
+                "C:\\TA WORK\\PPLINE CKST\\20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan\\C1-C2_Finishes-Reflected Ceiling Plan\\TA-FL-CKST-TTB_.dwg"
+              )
+            )
+          )
+          "CVA-C2-P-PP00-TBKA1 (WD)$0$CVA-C2-P-OR00-TBKA1-WD"
+          (list 850 0 0)
+          1
+          1
+          0
+      )
+      (command "erase" "L" "" )
+    ;
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "x"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              (cons 410 (getvar "CTAB"))
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget 
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              (cons 410 (getvar "CTAB"))
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_) 
+      )
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "Title Block_Under Ground_C2 v3"))
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (if (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "Title Block_Under Ground_C2 v3")
+          (progn
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DESIGNED_BY_DATE_val" "03-10-2025")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "STATUS_val" "W")
+            
+            (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "title_1_val" )
+
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "title_2_val" (strcat 
+                                                                              (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "title_2_val" )
+                                                                              " "
+                                                                              (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "title_3_val" )
+                                                                            )
+            )
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "title_3_val" "" )
+
+            
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "SCALE_FOR_A1_VAL" "A1 = 1:100")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "dwg_scale_val" "A3 = 1:200")
+            ; (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DRAWING_NO_val")
+            
+            
+            
+            (setq REV-LV "01")
+            (setq REV (strcat "REV_" REV-LV))
+            (setq REV_DATE_ (strcat "REV_DATE_" REV-LV))
+            (setq REV_DESC_ (strcat "REV_DESC_" REV-LV))
+            (setq DWG (strcat "DWG" REV-LV))
+            (setq CHK (strcat "CHK" REV-LV))
+            (setq APP (strcat "APP" REV-LV))
+            
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ REV        "A")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ REV_DATE_  "03-10-2025")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ REV_DESC_  "FIRST SUBMISSION")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ DWG        "TA")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ CHK        "KEN")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ APP        "MK")
+            
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DESIGNED_BY_val"     "SA")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "CHECKED_BY_val"      "BL")
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "APRVD_BY_val"        "PT")
+          )
+        )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+    (TA:ChangeFont)
+    
+    (command "qsave")
+    (command "pselect"  ss_pre_filter_set_xx_ "" )
+  )
   (defun c:PPLINE_CKST_MATHEADING ()
     (setq ttb_ename_ (car (entsel "specify ref for heading Object")))
     (setq ttb_obj_ (vlax-ename->vla-object ttb_ename_))
@@ -4487,7 +5209,7 @@
 ;
 
 
-
+(TA:ChangeFont)
 ; ; ; automation_Process
 ;   (if (= (getvar "ctab") "Model") ;move model
 ;     (progn
@@ -4498,11 +5220,12 @@
 ;   ; (c:Plotter_CKST_CSD-R-PLOT) ; csd file1
 ;   (c:Plotter_CKST_CSD3plot) ; newest plotter
 ;   ; (c:Plotter_CKST_CSDPLOT)
+;   ; (c:PPLINE_CKST_REWORK-TTB2_)
 ;   (command "zoom" "a") 
-; ;   ; (c:find_xref_)
+; ; ;   ; (c:find_xref_)
 ; ;   ; (c:RUNPPEL_plot)
 ;   (command "close" "n" )
-; ;  
+;  
 
 ; automation_Process
   ; (if (= (getvar "ctab") "Model") ;move model
