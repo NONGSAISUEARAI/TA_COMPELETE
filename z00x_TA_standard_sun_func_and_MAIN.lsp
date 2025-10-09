@@ -13487,30 +13487,30 @@
 
 
 
-  (defun format-list (data)
-    (print "(") ; พิมพ์เปิดวงเล็บ
-    (foreach point data
-      (princ " ") ; เพิ่มช่องว่างก่อนแต่ละรายการ
-      (print point) ; แสดงแต่ละจุด
-    )
-    (print ")") ; พิมพ์ปิดวงเล็บ
+(defun format-list (data)
+  (print "(") ; พิมพ์เปิดวงเล็บ
+  (foreach point data
+    (princ " ") ; เพิ่มช่องว่างก่อนแต่ละรายการ
+    (print point) ; แสดงแต่ละจุด
   )
-  (defun format-entity-list (data)
-    (print "(") ; พิมพ์เปิดวงเล็บ
-    (foreach entry data
-      (cond
-        ((listp entry) ; ตรวจสอบว่าเป็น list ย่อยหรือไม่
-        (princ " ")   ; เพิ่มช่องว่าง
-        (print entry) ; แสดง list
-        )
-        (T ; อื่น ๆ เช่น entity name
-        (princ " ")   ; เพิ่มช่องว่าง
-        (princ entry) ; แสดง entity
-        )
+  (print ")") ; พิมพ์ปิดวงเล็บ
+)
+(defun format-entity-list (data)
+  (print "(") ; พิมพ์เปิดวงเล็บ
+  (foreach entry data
+    (cond
+      ((listp entry) ; ตรวจสอบว่าเป็น list ย่อยหรือไม่
+      (princ " ")   ; เพิ่มช่องว่าง
+      (print entry) ; แสดง list
+      )
+      (T ; อื่น ๆ เช่น entity name
+      (princ " ")   ; เพิ่มช่องว่าง
+      (princ entry) ; แสดง entity
       )
     )
-    (print ")") ; พิมพ์ปิดวงเล็บ
   )
+  (print ")") ; พิมพ์ปิดวงเล็บ
+)
 
 
 
@@ -24150,11 +24150,10 @@
         (sslength ss_pre_filter_set_xx_)
       )
     ;
-    (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000-GRID_LINE_DYN_V2"))
-    (TA:interface_text_ T)
+    (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000-GRID_LINE_DYN_V2-FOR-CC012"))
+    (_StartUndo doc)
     ;preloop_and_while
       (setq ss_pre_filter_set_xx_i 0)
-      (setq new_ss_c012_ (ssadd))
       (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
         (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
         (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
@@ -24185,14 +24184,10 @@
               ;new_blk_entlast object
                 (setq new_ename (entlast))
                 (setq new_obj_ (vlax-ename->vla-object new_ename))
-
                 (TA:move_polar_insertionpoint new_obj_ "Y" ss_pre_filter_set_xx_obj_dyn_offset_length)
-                (LM:setdynpropvalue new_obj_ "view" "2_top_view")
+                (LM:setdynpropvalue new_obj_ "view" "2_top")
                 (LM:setdynpropvalue new_obj_ "array_length" ss_pre_filter_set_xx_obj_dyn_time_length)
                 (LM:setdynpropvalue new_obj_ "fragment_length" ss_pre_filter_set_xx_obj_dyn_fragment_length)
-                (LM:setdynpropvalue new_obj_ "fragment_start" 4000)
-             
-                (setq new_ss_c012_ (ssadd new_ename new_ss_c012_ ))
               ;
               (princ "_case_1")
             )
@@ -24240,34 +24235,12 @@
           )
         )
         
-        (TA:textscr_process_V2 "insert" ss_pre_filter_set_xx_i ss_pre_filter_set_xx_ )
+        (TA:textscr_process_V2 "insert" iss_pre_filter_set_xx_inter_hang_list_i ss_pre_filter_set_xx_ )
         (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
       )
-      (TA:interface_text_ nil)
-      
-      
       (command "pselect"  ss_pre_filter_set_xx_ "" )
-    
-      (setq ERR_
-        (vl-catch-all-apply
-          (function
-            (lambda ()
-              ;enter for delete mtext 
-                (if (and 
-                      (= (setq detectloop (getstring "enter to change length Object")) "")
-                    )
-                  (progn
-                    (command "pselect"  new_ss_c012_ "" )
-                  )
-                )
-              ;
-            )
-          )
-        )
-      )
-    
-      
     ;
+    (_EndUndo doc)
   )
   (defun c:call_lasted_ssset_cc01_lscc01 ()
     (command "pselect"  lasted_cc01_ssset "" )
