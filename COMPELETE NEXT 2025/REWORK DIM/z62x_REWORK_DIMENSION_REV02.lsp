@@ -11332,7 +11332,7 @@
               )
               (sslength ss_pre_filter_set_xx_)
             )
-            (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000-GRID_LINE_DYN_V2"))
+            (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_v2_ ss_pre_filter_set_xx_ (list "000-GRID_LINE_DYN_V2" "000-GRID_LINE_DYN_V2-FOR-CC012")))
           ;
           ;preloop_and_while ins Current UCS
             (setq ss_pre_filter_set_xx_i 0)
@@ -13569,7 +13569,7 @@
         )
       )
     )
-  ;
+  ; 
   ;select gird
     (defun c:select_grid_sssg ()
       ;selection_set_for_fillter_blk_name
@@ -13703,7 +13703,7 @@
         )
         (sslength ss_pre_filter_set_xx_)
       )
-      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000-GRID_LINE_DYN_V2"))
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_v2_ ss_pre_filter_set_xx_ (list "000-GRID_LINE_DYN_V2" "000-GRID_LINE_DYN_V2-FOR-CC012" "000 - TRANSFER")))
     ;
     ;preloop_and_while ins Current UCS
       (setq ss_pre_filter_set_xx_i 0)
@@ -13842,6 +13842,7 @@
       )
     ;
     (setq pass_lv1_ nil)
+    (_StartUndo doc)
     (if (and 
           (/= DIM_E-C nil)
           (/= DIM_C-C nil)
@@ -13940,7 +13941,7 @@
           (setq ss_pre_filter_set_xx_inslist_sorted_find_Y_ (vl-sort ss_pre_filter_set_xx_inslist_  ;bigest open indent list
                                                                             (function 
                                                                               (lambda (a b) 
-                                                                                (< (nth 1 (cadr a ) ) (nth 1 (cadr b ) ) )
+                                                                                (> (nth 1 (cadr a ) ) (nth 1 (cadr b ) ) )
                                                                               )
                                                                             )
                                                                     ) ;bigest close indent list
@@ -14026,18 +14027,19 @@
 
         ;preloop_and_while
           ;TA:stanndard_lambda_sorting
-            (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_ (vl-sort ss_pre_filter_set_xx_inslist_sorted_highest_Y_  ;bigest open indent list
-                                                                                  (function 
-                                                                                    (lambda (a b) 
-                                                                                      (< (nth 0 (cadr a)) 
-                                                                                        (nth 0 (cadr b))
+              (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_ (vl-sort ss_pre_filter_set_xx_inslist_sorted_highest_Y_  ;bigest open indent list
+                                                                                    (function 
+                                                                                      (lambda (a b) 
+                                                                                        (> (nth 0 (cadr a)) 
+                                                                                          (nth 0 (cadr b))
+                                                                                        )
                                                                                       )
                                                                                     )
-                                                                                  )
-                                                                        ) ;bigest close indent list
-            )
+                                                                          ) ;bigest close indent list
+              )
           ;
           (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 0)
+          (setq new_ss_dim_ (ssadd))
           (while (< ss_pre_filter_set_xx_inslist_sorted_highest_Y_i (length ss_pre_filter_set_xx_inslist_sorted_highest_Y_))
             (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_ (car (nth  ss_pre_filter_set_xx_inslist_sorted_highest_Y_i ss_pre_filter_set_xx_inslist_sorted_highest_Y_)))
             (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_))
@@ -14134,6 +14136,7 @@
               ; (command "dimreassociate" dim_ename "" ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_cur-ins_ ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_next-ins_)
               (command "_AIDIMPREC" dimprec dim_ename "" )
               
+              (setq new_ss_dim_ (ssadd dim_ename  new_ss_dim_))
             ;
             (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_i (+ ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 1))
           )
@@ -14141,6 +14144,8 @@
       )
       (alert "please go to C:Dimsettin /nand set DIM EE EC CC CE")
     )
+    (_EndUndo doc)
+    (command "pselect"  new_ss_dim_ "" )
   )
 ;
 

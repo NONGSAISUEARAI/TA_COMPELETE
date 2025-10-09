@@ -819,14 +819,14 @@
       )
       (apply 'append (reverse rtn))
     )
-  (defun LM:intersectionsinobjlist ( lst / ob1 rtn )
-    (while (setq ob1 (car lst))
-        (foreach ob2 (setq lst (cdr lst))
-            (setq rtn (cons (LM:intersections ob1 ob2 acextendnone) rtn))
-        )
+    (defun LM:intersectionsinobjlist ( lst / ob1 rtn )
+      (while (setq ob1 (car lst))
+          (foreach ob2 (setq lst (cdr lst))
+              (setq rtn (cons (LM:intersections ob1 ob2 acextendnone) rtn))
+          )
+      )
+      (apply 'append (reverse rtn))
     )
-    (apply 'append (reverse rtn))
-  )
     
   ;
   ;Filter Selection Set by Effectivename Ta Trai  
@@ -10198,6 +10198,28 @@
       ;
     )
   ;
+  ;UNDO FUNC
+    (defun _StartUndo ( doc ) (_EndUndo doc)
+      (if (= doc nil)
+        (progn
+          (setq doc (vla-get-ActiveDocument (vlax-get-Acad-Object)))
+        )
+      )
+      (vla-StartUndoMark doc)
+    )
+  
+    (defun _EndUndo ( doc )
+      (if (= doc nil)
+        (progn
+          (setq doc (vla-get-ActiveDocument (vlax-get-Acad-Object)))
+        )
+      )
+      (if (= 8 (logand 8 (getvar 'UNDOCTL)))
+        (vla-EndUndoMark doc)
+      )
+    )
+    
+  ;
   ;check-detecty FUNC
     (defun c:Check_overlap_object_COBJ_ ()
       ;Note By Code_Developer
@@ -13191,7 +13213,7 @@
         (progn
           ;switch window
             (textscr)
-            (vla-put-WindowState (vlax-get-acad-object) acmin)
+            (vla-put-WindowState (vlax-get-acad-object) acmax)
           ;
         )
         (graphscr)
@@ -23708,6 +23730,149 @@
       )
       (setvar "osmode" 1215)
     )
+    (defun c:PPLINE-CKST-INShang3 ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+        (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01-4_COMBINE_VIEW"))
+      ;
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (setq cc-01_inters_list_ ())
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+          (setq ss_pre_filter_set_xx_obj_rotation_ (rad-to-deg (vla-get-rotation ss_pre_filter_set_xx_obj_)))
+          (setq cc-01_inters_list_ 
+            (cons 
+              (list
+                ss_pre_filter_set_xx_obj_ins_
+                (polar ss_pre_filter_set_xx_obj_ins_  
+                       (vla-get-rotation ss_pre_filter_set_xx_obj_) 
+                       (if (= (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "view" ) "7_dynamic_length_view")
+                        (progn
+                          (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "fragment_start" )
+                        )
+                         (+
+                          (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "array_length" )
+                          (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "fragment_length" )
+                         )
+                       )
+                
+                )
+              )
+              cc-01_inters_list_
+            )
+          )  
+          
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+      (setq Er-msg_ nil)
+      (setvar "osmode" 0)
+      (while
+        (and (/= (vl-catch-all-error-p Er-msg_) T) )
+        (graphscr)
+        (setq Er-msg_ (vl-catch-all-apply (function (lambda () (setq ss_line_ename_ (ssname  (ssget  (list (cons 0 "line") ) ) 0)) ) ) ) )
+        
+        (if (and 
+              (/= (vl-catch-all-error-p Er-msg_) T)
+              (= (vla-get-objectname (vlax-ename->vla-object ss_line_ename_)) "AcDbLine")
+            )
+
+          (progn
+            ;switch window
+              (textscr)
+              (vla-put-WindowState (vlax-get-acad-object) acmin)
+            ; 
+            (setq ss_line_obj_ (vlax-ename->vla-object ss_line_ename_))
+            (setq ss_line_obj_start_end_pt_ (list
+                                            (setq ss_line_obj_startpt_ (vlax-safearray->list
+                                                                       (vlax-variant-value ( vla-get-startpoint ss_line_obj_ ))
+                                                                     )
+                                            )
+                                            (setq ss_line_obj_endpt_ (vlax-safearray->list
+                                                                      (vlax-variant-value ( vla-get-endpoint ss_line_obj_ ))
+                                                                   )
+                                            )
+                                          )
+            )
+          )
+          (graphscr)
+        )
+        ;preloop_and_while
+          (setq cc-01_inters_list_i 0)
+          (while (and
+                   (/= (vl-catch-all-error-p Er-msg_) T)
+                   (< cc-01_inters_list_i (length cc-01_inters_list_) )
+                 )
+            (setq cc-01_inters_list_val_1 (car (nth  cc-01_inters_list_i cc-01_inters_list_)))
+            (setq cc-01_inters_list_val_2 (cadr (nth  cc-01_inters_list_i cc-01_inters_list_)))
+            
+            (if (/= (inters ss_line_obj_startpt_ ss_line_obj_endpt_ cc-01_inters_list_val_1 cc-01_inters_list_val_2 ) nil)
+              (progn
+                ; (TA:vla-insertblock 
+                ;   "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_BRACKET-L-PROFILE_50x45mm.+HEX_BOLT-M5-SET_non-code_COMBINE_SET"
+                ;   (inters ss_line_obj_startpt_ ss_line_obj_endpt_ cc-01_inters_list_val_1 cc-01_inters_list_val_2 )
+                ;   1
+                ;   0
+                ; )
+                (command "circle" 
+                  (if (= (getvar "worlducs") 0)
+                    (progn 
+                      (trans 
+                        (inters ss_line_obj_startpt_ ss_line_obj_endpt_ cc-01_inters_list_val_1 cc-01_inters_list_val_2 ) 
+                        0 1
+                      )
+                    ) 
+                    (inters ss_line_obj_startpt_ ss_line_obj_endpt_ cc-01_inters_list_val_1 cc-01_inters_list_val_2 ) 
+                  ) 
+                  60
+                )
+                ;new_blk_entlast object
+                  (setq new_ename (entlast))
+                  (setq new_obj_ (vlax-ename->vla-object new_ename))
+                  (vla-put-color new_obj_ 3)
+                  ; (TA:move_axis_insertionpoint new_obj_ "x" -17)
+                  ; (LM:setdynpropvalue new_obj_  "view" "2_top_view")
+                ; 
+              )
+            )
+   
+            (TA:textscr_process "insertion process " cc-01_inters_list_i cc-01_inters_list_)
+        
+            (setq cc-01_inters_list_i (+ cc-01_inters_list_i 1))
+          )
+        ;
+        
+      )
+      (setvar "osmode" 1215)
+    )
 
   ;
   ;000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_COMBINE_VIEW
@@ -24121,7 +24286,7 @@
       (command "pselect"  ss_pre_filter_set_xx_ "" )
     ;
   )
-  (defun c:PPLINE_300HK_grid_to_cc012_g012x ()
+  (defun c:PPLINE_300HK_grid_to_cc012_g012 ()
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget
         (=
@@ -24152,28 +24317,31 @@
     ;
     (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000-GRID_LINE_DYN_V2-FOR-CC012"))
     (_StartUndo doc)
+    (TA:interface_text_ T)
     ;preloop_and_while
       (setq ss_pre_filter_set_xx_i 0)
+      (setq new_ss_c012_ (ssadd)) 
       (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
         (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
         (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
         (setq ss_pre_filter_set_xx_obj_rotation_ (rad-to-deg (vla-get-rotation  ss_pre_filter_set_xx_obj_)))
-        (setq ss_pre_filter_set_xx_obj_dyn_time_length (* 4000 (fix (/ (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "H") 4000))))
+        
         
         (setq ss_pre_filter_set_xx_obj_dyn_inner_length (* 25 (fix (/ (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "H") 25))))
-        (setq ss_pre_filter_set_xx_obj_dyn_offset_length (* 25 (fix (/ (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "OFFSET") 25))))
+        (setq ss_pre_filter_set_xx_obj_dyn_offset_length (* 25 (LM:round (/ (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "OFFSET") 25))))
         (setq ss_pre_filter_set_xx_obj_dyn_all_length (+ 
                                                         ss_pre_filter_set_xx_obj_dyn_inner_length
                                                         ss_pre_filter_set_xx_obj_dyn_offset_length
                                                       )
         )
+        (setq ss_pre_filter_set_xx_obj_dyn_time_length (* 4000 (fix (/ ss_pre_filter_set_xx_obj_dyn_all_length 4000))))
         (setq ss_pre_filter_set_xx_obj_dyn_fragment_length (- ss_pre_filter_set_xx_obj_dyn_all_length ss_pre_filter_set_xx_obj_dyn_time_length))
         (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
         (cond 
           ( ;_case_1
            (and 
-              (> ss_pre_filter_set_xx_obj_dyn_all_length 4000)
-            )
+             (> ss_pre_filter_set_xx_obj_dyn_all_length 4000)
+           )
            (progn 
               (TA:vla-insertblock
                 "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01-4_COMBINE_VIEW"
@@ -24184,10 +24352,14 @@
               ;new_blk_entlast object
                 (setq new_ename (entlast))
                 (setq new_obj_ (vlax-ename->vla-object new_ename))
+
                 (TA:move_polar_insertionpoint new_obj_ "Y" ss_pre_filter_set_xx_obj_dyn_offset_length)
-                (LM:setdynpropvalue new_obj_ "view" "2_top")
+                (LM:setdynpropvalue new_obj_ "view" "2_top_view")
                 (LM:setdynpropvalue new_obj_ "array_length" ss_pre_filter_set_xx_obj_dyn_time_length)
                 (LM:setdynpropvalue new_obj_ "fragment_length" ss_pre_filter_set_xx_obj_dyn_fragment_length)
+                (LM:setdynpropvalue new_obj_ "fragment_start" 4000)
+             
+                (setq new_ss_c012_ (ssadd new_ename new_ss_c012_ ))
               ;
               (princ "_case_1")
             )
@@ -24235,10 +24407,29 @@
           )
         )
         
-        (TA:textscr_process_V2 "insert" iss_pre_filter_set_xx_inter_hang_list_i ss_pre_filter_set_xx_ )
+        (TA:textscr_process_V2 "insert" ss_pre_filter_set_xx_i ss_pre_filter_set_xx_ )
         (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
       )
+      (TA:interface_text_ nil)
       (command "pselect"  ss_pre_filter_set_xx_ "" )
+      (setq ERR_
+        (vl-catch-all-apply
+          (function
+            (lambda ()
+              ;enter for delete mtext 
+                (if (and 
+                      (= (setq detectloop (getstring "enter to change length Object")) "")
+                    )
+                  (progn
+                    (command "pselect"  new_ss_c012_ "" )
+                  )
+                )
+              ;
+            )
+          )
+        )
+      )
+      (sslength new_ss_c012_)
     ;
     (_EndUndo doc)
   )
@@ -25242,7 +25433,10 @@
                 (= (vla-get-objectname ss_pre_filter_set_xx_obj1_ ) "AcDbLine")
                 (and 
                   (= (vla-get-objectname ss_pre_filter_set_xx_obj1_ ) "AcDbBlockReference")
-                  (= (LM:effectivename ss_pre_filter_set_xx_obj1_)  "000-GRID_LINE_DYN_V2")
+                  (or
+                    (= (LM:effectivename ss_pre_filter_set_xx_obj1_)  "000-GRID_LINE_DYN_V2-FOR-CC012")
+                    (= (LM:effectivename ss_pre_filter_set_xx_obj1_)  "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01-4_COMBINE_VIEW")
+                  )
                 )
               )
             (progn
@@ -25252,9 +25446,13 @@
           (TA:textscr_process_V2 "insert" ss_pre_filter_set_xx_i ss_pre_filter_set_xx_ )
           (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
         )
+        
         (setq xxxx (LM:intersectionsinobjlist inter_for_list_))
         (foreach x xxxx
-          (command "circle" x 60)
+          (command "circle" 
+                  (if (= (getvar "worlducs") 0)(progn (trans x 0 1)) x ) 
+                  150
+          )
           ;new_blk_entlast object
             (setq new_ename (entlast))
             (setq new_obj_ (vlax-ename->vla-object new_ename))
