@@ -9157,6 +9157,28 @@
       ;
     )
   ;
+  ;UNDO FUNC
+    (defun _StartUndo ( doc ) (_EndUndo doc)
+      (if (= doc nil)
+        (progn
+          (setq doc (vla-get-ActiveDocument (vlax-get-Acad-Object)))
+        )
+      )
+      (vla-StartUndoMark doc)
+    )
+  
+    (defun _EndUndo ( doc )
+      (if (= doc nil)
+        (progn
+          (setq doc (vla-get-ActiveDocument (vlax-get-Acad-Object)))
+        )
+      )
+      (if (= 8 (logand 8 (getvar 'UNDOCTL)))
+        (vla-EndUndoMark doc)
+      )
+    )
+    
+  ;
   ;Common_commmand 
     (defun c:stamp_layer_to_model ()
       ;user_inpput for specify point
@@ -11223,6 +11245,7 @@
       )
     )
     (defun c:Dex ()
+      (_StartUndo doc)
       ; ;special for me only work with CKST Drwaing Construction 
       ;   (setq DIM_E-C "FAMELINE-CKST_E-C") ;Ref from C:dimsetting 
       ;   (setq DIM_C-C "FAMELINE-CKST_C-C") ;Ref from C:dimsetting 
@@ -11574,6 +11597,7 @@
         )
         (alert "please go to C:Dimsettin /nand set DIM EE EC CC CE")
       )
+      (_EndUndo doc)
     )
     (defun c:De1x ()
       ;Keep setting dimension
@@ -13764,7 +13788,361 @@
     ;
   )
 ;
+;special_dimfor-block
+  (defun c:CEX ()
+    ; ;special for me only work with CKST Drwaing Construction 
+    ;   (setq DIM_E-C "FAMELINE-CKST_E-C") ;Ref from C:dimsetting 
+    ;   (setq DIM_C-C "FAMELINE-CKST_C-C") ;Ref from C:dimsetting 
+    ;   (setq DIM_C-E "FAMELINE-CKST_C-E") ;Ref from C:dimsetting 
+    ;   (setq DIM_E-E "FAMELINE-CKST_E-E") ;Ref from C:dimsetting 
+    ;   (setq dimprec 0 )
+    ; ;
+    ;Keep setting dimension
+      (setq acadObj (vlax-get-acad-object))
+      (setq doc (vla-get-ActiveDocument acadObj))
+      (setq modelSpace (vla-get-ModelSpace doc))
+      (setq layoutactive (vla-get-paperspace doc))
+      (initget "Yes No")
+      (setq ss_ ;Detect the variable's result in case of a function error
+        (vl-catch-all-apply 
+          (function 
+            (lambda () 
+              (setq setting_ (not (eq "No" (getkword "\nKeep setting dimension ? \nSpecify Dim Scale Overall [Yes/No] <Y>: " ))))
+            )
+          )
+        )
+      )
+      (if ;Keep setting dimension
+        (and 
+          (= setting_ nil)
+          (= ss_ nil)
+        )
+        (progn
+          ;set model
+            (setq acadObj (vlax-get-acad-object))
+            (setq doc (vla-get-ActiveDocument acadObj))
+            (setq modelSpace (vla-get-ModelSpace doc))
+            (setq scl (cond ( (getreal (strcat "\nSpecify Dim Scale Overall <" (rtos (setq scl (cond (scl) (1.0) ) ) ) "> : " ) ) ) (scl) ) )
+            (setq lv_ (cond ( (getreal (strcat "\nSpecify Level <" (rtos (setq lv_ (cond (lv_) (1.0) ) ) ) "> : " ) ) ) (lv_) ) )
+            (setq dimprec (cond ( (getreal (strcat "\nSpecify _AIDIMPREC <" (rtos (setq dimprec (cond (dimprec) (1.0) ) ) ) "> : " ) ) ) (dimprec) ) )
+            (setq lv_add (* lv_ 1.25))
+            (setq sc (* scl 10)) ; 5 = 50 2 = 20
+            (setq of_point 4.5); OF_DIM OFFSET FROM pt2 = 6 mm.
+            (setq hi_point 4); OF_DIM OFFSET FROM pt2 = 6 mm.
+            (setq OF_DIM (*(* (* scl 1) of_point) lv_add))
+            (setq HI_DIM (*(* (* scl 1) hi_point) lv_add))
+            (setvar "dimscale" sc )
+            ;while_select_block_on_condition_
+              (setq sss_ename_ nil)
+              (setq Er-msg_sss_ename_ nil)
+              (setq sss_obj_dimname_ nil)
+            ;
+          ;
+        )
+      )
+    ;
+    (setq pass_lv1_ nil)
+    (if (and 
+          (/= DIM_E-C nil)
+          (/= DIM_C-C nil)
+          (/= DIM_C-E nil)
+          (/= DIM_E-E nil)
+        )
+      (progn
+        ;selection_set_for_fillter_blk_name
+          (if  ;pre_select_ssget_or_post_select_ssget
+            (=
+              (setq ss_pre_filter_set_xx_ (ssget "i"
+                                                (list
+                                                  (cons 0 "INSERT") ;type of object
+                                                  ; (cons 8 "000 - GRID")   ;kind of layer
+                                                  ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                  ; (cons 62 1)           ;kind of color call sign with color code index
+                                                )
+                                          )
+              )
+              nil
+            )
+            (progn
+              (setq ss_pre_filter_set_xx_ (ssget
+                                                (list
+                                                  (cons 0 "INSERT") ;type of object
+                                                  ; (cons 8 "000 - GRID")   ;kind of layer
+                                                  ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                  ; (cons 62 1)           ;kind of color call sign with color code index
+                                                )
+                                          )
+              )
+            )
+            (sslength ss_pre_filter_set_xx_)
+          )
+          (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01-4_COMBINE_VIEW"))
+        ;
+        ;preloop_and_while ins Current UCS
+          (setq ss_pre_filter_set_xx_i 0)
+          (setq ss_pre_filter_set_xx_inslist_ ())
+          (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+            (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+            (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+            (setq ss_pre_filter_set_xx_obj_rotation (rad-to-deg (vla-get-rotation ss_pre_filter_set_xx_obj_)))
+            (if (and
+                  (= ss_pre_filter_set_xx_i 0)
+                  ; (= (/= (rtos ss_pre_filter_set_xx_obj_rotation 2 5) "0.00000") T)
+                  ; (= (/= (rtos ss_pre_filter_set_xx_obj_rotation 2 5) "90.00000") T)
+                  ; (= (/= (rtos ss_pre_filter_set_xx_obj_rotation 2 5) "180.00000") T)
+                  ; (= (/= (rtos ss_pre_filter_set_xx_obj_rotation 2 5) "270.00000") T)
+                )
+              (progn
+                (command "ucs" "ob" ss_pre_filter_set_xx_ename_ )
+                (command "ucs" "z" "270")
+              )
+            )
+            (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+            
+            (setq ss_pre_filter_set_xx_obj_H 0)
+            (setq ss_pre_filter_set_xx_obj_offset -50)
+            
+            
+            (if (= (getvar "worlducs") 1) ;รอแก้
+              (progn
+                (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+              )
+              (setq ss_pre_filter_set_xx_obj_ins_ (trans
+                                                    (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_)))
+                                                    0 1
+                                                  )
+              )
+            )
+            (setq ss_pre_filter_set_xx_inslist_ (cons
+                                                  (list 
+                                                    ss_pre_filter_set_xx_ename_
+                                                    ss_pre_filter_set_xx_obj_ins_
+                                                  )
+                                                  ss_pre_filter_set_xx_inslist_
+                                                )
+            )
+            (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+          )
+        ;
+        ;TA:stanndard_lambda_sorting_X
+          (setq ss_pre_filter_set_xx_inslist_sorted_X_ (vl-sort ss_pre_filter_set_xx_inslist_  ;bigest open indent list
+                                                              (function 
+                                                                (lambda (a b) 
+                                                                  (< (nth 0 (cadr a)) 
+                                                                    (nth 0 (cadr b))
+                                                                  )
+                                                                )
+                                                              )
+                                                    ) ;bigest close indent list
+          )
+        ;
+        ;TA:stanndard_lambda_finding lowest highest Y
+          (setq ss_pre_filter_set_xx_inslist_sorted_find_Y_ (vl-sort ss_pre_filter_set_xx_inslist_  ;bigest open indent list
+                                                                            (function 
+                                                                              (lambda (a b) 
+                                                                                (< (nth 1 (cadr a ) ) (nth 1 (cadr b ) ) )
+                                                                              )
+                                                                            )
+                                                                    ) ;bigest close indent list
+          )
+          ;preloop_and_while
+            (setq ss_pre_filter_set_xx_inslist_sorted_find_Y_i 0)
+            (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_ ())
+            (while (< ss_pre_filter_set_xx_inslist_sorted_find_Y_i (length ss_pre_filter_set_xx_inslist_sorted_find_Y_)) ;highest_Y
+              (setq ss_pre_filter_set_xx_inslist_sorted_find_Y_ename_ (car (nth  ss_pre_filter_set_xx_inslist_sorted_find_Y_i ss_pre_filter_set_xx_inslist_sorted_find_Y_)))
+              (setq ss_pre_filter_set_xx_inslist_sorted_find_Y_ins_ (cadr (nth  ss_pre_filter_set_xx_inslist_sorted_find_Y_i ss_pre_filter_set_xx_inslist_sorted_find_Y_)))
+              (setq ss_pre_filter_set_xx_inslist_sorted_find_Y_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_inslist_sorted_find_Y_ename_))
+              (setq ss_pre_filter_set_xx_inslist_sorted_find_Y_obj_H ss_pre_filter_set_xx_obj_H)
+              (setq ss_pre_filter_set_xx_inslist_sorted_find_Y_obj_offset ss_pre_filter_set_xx_obj_offset)
+              (setq ss_pre_filter_set_xx_inslist_sorted_highest_newins_Y (list 
+                                                                          (+ (car ss_pre_filter_set_xx_inslist_sorted_find_Y_ins_) 0)
+                                                                          (+ (cadr ss_pre_filter_set_xx_inslist_sorted_find_Y_ins_) ss_pre_filter_set_xx_inslist_sorted_find_Y_obj_offset )
+                                                                          (+ (caddr ss_pre_filter_set_xx_inslist_sorted_find_Y_ins_) 0)
+                                                                        )
+              )
+              (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_ (cons 
+                                                                    (list ss_pre_filter_set_xx_inslist_sorted_find_Y_ename_ 
+                                                                          ss_pre_filter_set_xx_inslist_sorted_highest_newins_Y
+                                                                    )
+                                                                    ss_pre_filter_set_xx_inslist_sorted_highest_Y_
+                                                                  )
+              )
+              (setq ss_pre_filter_set_xx_inslist_sorted_find_Y_i (+ ss_pre_filter_set_xx_inslist_sorted_find_Y_i 1))
+            )
+            ;TA:stanndard_lambda_sorting
+              (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_sorted_ (vl-sort ss_pre_filter_set_xx_inslist_sorted_highest_Y_  ;bigest open indent list
+                                                                                  (function 
+                                                                                    (lambda 
+                                                                                      (a b)
+                                                                                      (> (nth 1 ( cadr a ) ) (nth 1 ( cadr b ) ) )
+                                                                                    )
+                                                                                  )
+                                                                          ) ;bigest close indent list
+              )
+            ;
+            (setq ss_pre_filter_set_xx_inslist_sorted_find_Y_i 0)
+            (setq ss_pre_filter_set_xx_inslist_sorted_lowest_Y_ ())
+            (while (< ss_pre_filter_set_xx_inslist_sorted_find_Y_i (length ss_pre_filter_set_xx_inslist_sorted_find_Y_)) ;loweset_Y
+              (setq ss_pre_filter_set_xx_inslist_sorted_find_Y_ename_ (car (nth  ss_pre_filter_set_xx_inslist_sorted_find_Y_i ss_pre_filter_set_xx_inslist_sorted_find_Y_)))
+              (setq ss_pre_filter_set_xx_inslist_sorted_find_Y_ins_ (cadr (nth  ss_pre_filter_set_xx_inslist_sorted_find_Y_i ss_pre_filter_set_xx_inslist_sorted_find_Y_)))
+              (setq ss_pre_filter_set_xx_inslist_sorted_find_Y_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_inslist_sorted_find_Y_ename_))
+              (setq ss_pre_filter_set_xx_inslist_sorted_find_Y_obj_H ss_pre_filter_set_xx_obj_H)
+              (setq ss_pre_filter_set_xx_inslist_sorted_find_Y_obj_offset ss_pre_filter_set_xx_obj_offset)
+              (setq ss_pre_filter_set_xx_inslist_sorted_lowest_newins_Y (list 
+                                                                          (+ (car ss_pre_filter_set_xx_inslist_sorted_find_Y_ins_) 0)
+                                                                          (- ( - (cadr ss_pre_filter_set_xx_inslist_sorted_find_Y_ins_) ss_pre_filter_set_xx_inslist_sorted_find_Y_obj_H) ss_pre_filter_set_xx_inslist_sorted_find_Y_obj_offset )
+                                                                          (+ (caddr ss_pre_filter_set_xx_inslist_sorted_find_Y_ins_) 0)
+                                                                        )
+              )
+              (setq ss_pre_filter_set_xx_inslist_sorted_lowest_Y_ (cons 
+                                                                    (list ss_pre_filter_set_xx_inslist_sorted_find_Y_ename_ 
+                                                                          ss_pre_filter_set_xx_inslist_sorted_lowest_newins_Y
+                                                                    )
+                                                                    ss_pre_filter_set_xx_inslist_sorted_lowest_Y_
+                                                                  )
+              )
+              (setq ss_pre_filter_set_xx_inslist_sorted_find_Y_i (+ ss_pre_filter_set_xx_inslist_sorted_find_Y_i 1))
+            )
+            ;TA:stanndard_lambda_sorting
+              (setq ss_pre_filter_set_xx_inslist_sorted_lowest_Y_sorted_ (vl-sort ss_pre_filter_set_xx_inslist_sorted_lowest_Y_  ;bigest open indent list
+                                                        (function 
+                                                          (lambda (a b) 
+                                                            (< (nth 1 (cadr a ) ) (nth 1 (cadr b ) ) )
+                                                          )
+                                                        )
+                                    ) ;bigest close indent list
+              )
+            ;
+            (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_ (cadr (car ss_pre_filter_set_xx_inslist_sorted_highest_Y_)))
+            (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_  (list 
+                                                                    (+ (car ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_) 0 )
+                                                                    (+ (cadr ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_) (- OF_DIM) )
+                                                                    (+ (caddr ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_))
+                                                                  )
+                                                                
+            )
+          ;
+        ;
 
+        ;preloop_and_while
+          ;TA:stanndard_lambda_sorting
+            (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_ (vl-sort ss_pre_filter_set_xx_inslist_sorted_highest_Y_  ;bigest open indent list
+                                                                                  (function 
+                                                                                    (lambda (a b) 
+                                                                                      (< (nth 0 (cadr a)) 
+                                                                                        (nth 0 (cadr b))
+                                                                                      )
+                                                                                    )
+                                                                                  )
+                                                                        ) ;bigest close indent list
+            )
+          ;
+          (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 0)
+          (while (< ss_pre_filter_set_xx_inslist_sorted_highest_Y_i (length ss_pre_filter_set_xx_inslist_sorted_highest_Y_))
+            (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_ (car (nth  ss_pre_filter_set_xx_inslist_sorted_highest_Y_i ss_pre_filter_set_xx_inslist_sorted_highest_Y_)))
+            (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_))
+            (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_obj_rotation (rad-to-deg (vla-get-rotation ss_pre_filter_set_xx_inslist_sorted_highest_Y_obj_)))
+            (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_cur-ins_ (cadr (nth  ss_pre_filter_set_xx_inslist_sorted_highest_Y_i ss_pre_filter_set_xx_inslist_sorted_highest_Y_)))
+            (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_next-ins_ (cadr (nth  (+ 1 ss_pre_filter_set_xx_inslist_sorted_highest_Y_i) ss_pre_filter_set_xx_inslist_sorted_highest_Y_)))
+            (cond
+              ((= (getvar "worlducs") 1) ;รอแก้
+                (progn
+                  (vl-catch-all-apply 
+                    (function 
+                      (lambda () 
+                        (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
+                                      (vlax-3d-point (list 
+                                                      (+ (car ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_cur-ins_) 0 )
+                                                      (+ (cadr ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_cur-ins_) 0 )
+                                                      (+ (caddr ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_cur-ins_) 0 )
+                                                    ))
+                                      (vlax-3d-point (list 
+                                                      (+ (car ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_next-ins_) 0 )
+                                                      (+ (cadr ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_next-ins_) 0 )
+                                                      (+ (caddr ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_next-ins_) 0 )
+                                                    ))
+                                      (vlax-3d-point ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_)
+                                      (deg-to-rad (+ ss_pre_filter_set_xx_inslist_sorted_highest_Y_obj_rotation 90 ))
+                        )
+                      )
+                    )
+                  )
+                )
+                
+              )
+              ((= (getvar "worlducs") 0) ;รอแก้
+                (progn
+                  (vl-catch-all-apply 
+                    (function 
+                      (lambda () 
+                        (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
+                                    (vlax-3d-point (trans 
+                                                    (list 
+                                                      (+ (car ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_cur-ins_) 0 )
+                                                      (+ (cadr ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_cur-ins_) 0 )
+                                                      (+ (caddr ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_cur-ins_) 0 )
+                                                    )
+                                                    1
+                                                    0
+                                                  )
+                                    )
+                                    (vlax-3d-point (trans 
+                                                    (list 
+                                                      (+ (car ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_next-ins_) 0 )
+                                                      (+ (cadr ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_next-ins_) 0 )
+                                                      (+ (caddr ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_next-ins_) 0 )
+                                                    )
+                                                    1
+                                                    0
+                                                  )
+                                    )
+                                    (vlax-3d-point (trans ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_ 1 0))
+                                    (deg-to-rad (+ ss_pre_filter_set_xx_inslist_sorted_highest_Y_obj_rotation 90 ))
+                        )
+                      )
+                    )
+                  )
+                )
+              )
+            )
+            ;new_blk_entlast object
+              (setq dim_ename (entlast))
+              (setq dim_obj_ (vlax-ename->vla-object dim_ename))
+              (cond
+                ((= ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 0)
+                  (progn
+                    ; (vla-put-stylename dim_obj_ "DIM E-C") ;metthod for model for TA
+                    (vla-put-stylename dim_obj_ DIM_E-E) ;metthod for layout for Fameline
+                  )
+                )
+                ((and (= ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 0) (= ss_pre_filter_set_xx_inslist_sorted_highest_Y_i (- (length ss_pre_filter_set_xx_inslist_sorted_highest_Y_) 2)))
+                  (progn
+                    ; (vla-put-stylename dim_obj_ "DIM E-C") ;metthod for model for TA
+                    (vla-put-stylename dim_obj_ DIM_E-E) ;metthod for layout for Fameline
+                  )
+                )
+                ((= ss_pre_filter_set_xx_inslist_sorted_highest_Y_i (- (length ss_pre_filter_set_xx_inslist_sorted_highest_Y_) 2))
+                  (progn
+                    ; (vla-put-stylename dim_obj_ "DIM C-E") ;metthod for model for TA
+                    (vla-put-stylename dim_obj_ DIM_E-E) ;metthod for layout for Fameline
+                  )
+                )
+              )
+              (vla-put-ScaleFactor  dim_obj_ sc )
+              ; (vlax-dump-object  dim_obj_  )
+              (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
+              ; (command "dimreassociate" dim_ename "" ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_cur-ins_ ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_next-ins_)
+              (command "_AIDIMPREC" dimprec dim_ename "" )
+              
+            ;
+            (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_i (+ ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 1))
+          )
+        ;
+      )
+      (alert "please go to C:Dimsettin /nand set DIM EE EC CC CE")
+    )
+  )
+;
 
 
 
