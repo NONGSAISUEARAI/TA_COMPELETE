@@ -5209,7 +5209,7 @@
 ;
 
 
-(TA:ChangeFont)
+; (TA:ChangeFont)
 ; ; ; automation_Process
 ;   (if (= (getvar "ctab") "Model") ;move model
 ;     (progn
