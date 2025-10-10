@@ -10517,7 +10517,7 @@
           ;summary_data/loop_
             (if (= sum_heading_ nil)
               (progn
-                (setq sum_heading_ (list (append (append (append  standard_heading_ att_heading_ )dyn_heading_ )target_block_obj_nestblock_name)) )
+                (setq sum_heading_ (list (append (append (append  standard_heading_ att_heading_ )dyn_heading_ ) target_block_obj_nestblock_name)) )
               )
             )      
           ;

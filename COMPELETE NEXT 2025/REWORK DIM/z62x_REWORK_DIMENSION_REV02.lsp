@@ -13569,7 +13569,7 @@
         )
       )
     )
-  ; 
+  ;
   ;select gird
     (defun c:select_grid_sssg ()
       ;selection_set_for_fillter_blk_name
@@ -14027,16 +14027,16 @@
 
         ;preloop_and_while
           ;TA:stanndard_lambda_sorting
-              (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_ (vl-sort ss_pre_filter_set_xx_inslist_sorted_highest_Y_  ;bigest open indent list
-                                                                                    (function 
-                                                                                      (lambda (a b) 
+            (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_ (vl-sort ss_pre_filter_set_xx_inslist_sorted_highest_Y_  ;bigest open indent list
+                                                                                  (function 
+                                                                                    (lambda (a b) 
                                                                                         (> (nth 0 (cadr a)) 
-                                                                                          (nth 0 (cadr b))
-                                                                                        )
+                                                                                        (nth 0 (cadr b))
                                                                                       )
                                                                                     )
-                                                                          ) ;bigest close indent list
-              )
+                                                                                  )
+                                                                        ) ;bigest close indent list
+            )
           ;
           (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 0)
           (setq new_ss_dim_ (ssadd))
