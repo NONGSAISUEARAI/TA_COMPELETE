@@ -4074,6 +4074,7 @@
         )
       (setvar "osmode" 1215)
       (setq pttarget_torr (getpoint "specify point for basepoint"))
+      
       ; (setq ssssasas (TA:ss_vla-getboundingbox sstarget_))
       ; (setq pttarget_ (car ssssasas))
       ; (setq pttarget_torr (list 
@@ -13157,6 +13158,26 @@
           (vla-put-textoverride ss_pre_filter_set_xx_obj_ "varies")
           (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
         )
+      ;
+    )
+  ;
+  ;create_grid
+    (defun c:create_grid_line_creg ()
+      (setq pt1 (getpoint "specify point 1"))
+      (setq pt2 (getpoint "specify point 2"))
+      (TA:vla-insertblock 
+        "000-GRID_LINE_DYN_V2-FOR-CC012"
+        (if (= (getvar "worlducs") 0)(progn (trans pt1 1 0)) pt1 )
+        1
+        (angle pt2 pt1)
+      )
+      ;new_blk_entlast object
+        (setq newgird_ename (entlast))
+        (setq newgird_obj_ (vlax-ename->vla-object newgird_ename))
+        (LM:setdynpropvalue newgird_obj_ "H" (distance pt1 pt2))
+        (LM:setdynpropvalue newgird_obj_ "OFSET" 1)
+        (vla-put-layer newgird_obj_ "000 - GRID" )
+        (vla-put-color newgird_obj_ 4 )
       ;
     )
   ;
