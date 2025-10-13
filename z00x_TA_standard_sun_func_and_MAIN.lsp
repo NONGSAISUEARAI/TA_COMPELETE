@@ -19371,7 +19371,7 @@
           (setq ss_selection_ (ssget "i"
                                             (list
                                               (cons 0 "INSERT") ;type of object
-                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              (cons 8 "001 - ASCESSORIES")   ;kind of layer
                                               ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                               ; (cons 62 1)           ;kind of color call sign with color code index
                                             )
@@ -19383,7 +19383,7 @@
           (setq ss_selection_ (ssget
                                             (list
                                               (cons 0 "INSERT") ;type of object
-                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              (cons 8 "001 - ASCESSORIES")   ;kind of layer
                                               ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                               ; (cons 62 1)           ;kind of color call sign with color code index
                                             )
@@ -19671,7 +19671,114 @@
       ;
     )
   )
-  
+  (defun c:temp_inner_move_imx ()
+    (_StartUndo doc)
+    (while
+      (/=
+        (vl-princ-to-string
+          (setq ERR_
+            (vl-catch-all-apply
+              (function
+                (lambda ()
+                  ;selection_set_for_fillter_blk_name
+                    (if  ;pre_select_ssget_or_post_select_ssget
+                      (=
+                        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                                          (list
+                                                            (cons 0 "INSERT") ;type of object
+                                                            (cons 8 "001 - ASCESSORIES")   ;kind of layer
+                                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                                          ) 
+                                                    )
+                        )
+                        nil
+                      )
+                      (progn
+                        (setq ss_pre_filter_set_xx_ (ssget
+                                                          (list
+                                                            (cons 0 "INSERT") ;type of object
+                                                            (cons 8 "001 - ASCESSORIES")   ;kind of layer
+                                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                                          )
+                                                    )
+                        )
+                      )
+                      (sslength ss_pre_filter_set_xx_)
+                    )
+                    (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01-4_COMBINE_VIEW"))
+                    (setq ss_pre_filter_set_xx_ (TA:standard_list_croodinate_sorting ss_pre_filter_set_xx_ "X"))
+                  ;
+                )
+              )
+            )
+          )
+        )
+        "#<%catch-all-apply-error%>"
+      )
+      (setq blank_ss_ (ssadd))
+      (setq blk1_ename_ (car (nth 0 ss_pre_filter_set_xx_ )))
+      (setq blk1_obj_ (vlax-ename->vla-object blk1_ename_))
+      (setq blk1_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint blk1_obj_))))
+      (setq blk1_obj_ro (vla-get-rotation blk1_obj_))
+      (setq blk2_ename_ (car (nth 1 ss_pre_filter_set_xx_ )))
+      (setq blk2_obj_ (vlax-ename->vla-object blk2_ename_))
+      (setq blk2_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint blk2_obj_))))
+      (TA:move_axis_insertionpoint blk1_obj_ "X" 25)
+      (TA:move_axis_insertionpoint blk2_obj_ "X" -25)
+      (vla-put-color blk1_obj_ 4)
+      (vla-put-color blk2_obj_ 4)
+      (command "pselect"  blank_ss_  "" )
+    ) 
+    (_EndUndo doc)
+  )
+  (defun c:temp_inner_move_imy ()
+    (_StartUndo doc)
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              (cons 8 "001 - ASCESSORIES")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            ) 
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              (cons 8 "001 - ASCESSORIES")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01-4_COMBINE_VIEW"))
+      (setq ss_pre_filter_set_xx_ (TA:standard_list_croodinate_sorting ss_pre_filter_set_xx_ "Y"))
+    ;
+    ;preloop_and_while
+      
+    ;
+    (setq blk1_ename_ (car (nth 0 ss_pre_filter_set_xx_ )))
+    (setq blk1_obj_ (vlax-ename->vla-object blk1_ename_))
+    (setq blk1_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint blk1_obj_))))
+    (setq blk1_obj_ro (vla-get-rotation blk1_obj_))
+    (setq blk2_ename_ (car (nth 1 ss_pre_filter_set_xx_ )))
+    (setq blk2_obj_ (vlax-ename->vla-object blk2_ename_))
+    (setq blk2_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint blk2_obj_))))
+    (TA:move_axis_insertionpoint blk1_obj_ "y" 25)
+    (TA:move_axis_insertionpoint blk2_obj_ "y" -25)
+    (_EndUndo doc)
+  )
   (defun c:moy ()
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget
@@ -19760,7 +19867,7 @@
   (defun c:x+ ()
     ;for moving support frame Fameline celing SK300 (0.025 / 1 enter)
     ;set paremeter for moving
-      (setq move_length_ 1200)
+      (setq move_length_ 25)
     ;
     ;user_input_
     ;user_input_ss
@@ -19851,7 +19958,7 @@
   (defun c:x- ()
     ;for moving support frame Fameline celing SK300 (0.025 / 1 enter)
     ;set paremeter for moving
-      (setq move_length_ 1200)
+      (setq move_length_ 25)
     ;
     ;user_input_
       (initget "Yes No")
