@@ -2417,7 +2417,31 @@
       (vla-put-PaperUnits lyout acMillimeters)
     ;
   )
-
+  (defun TA:preset_plotter_mode_5-a1 ()
+    ;set_var_plot
+      ; (setq ss (car (entsel)))
+      (setq adoc (vla-get-activedocument (vlax-get-acad-object)))
+      (setq lyout (vla-get-activelayout adoc))
+      (setq styleSheet "A3_Standard (MRT-AGATE) - purple line.ctb")
+      (setq cfgName "AutoCAD PDF (High Quality Print).pc3")
+      (vla-RefreshPlotDeviceInfo lyout)
+      (vla-put-ConfigName lyout CfgName)
+      (vla-put-PaperUnits lyout acMillimeters)
+      (vla-put-plotrotation lyout ac0degrees)
+      ; (vla-put-PlotType lyout acWindow)
+      (vla-put-PlotType lyout acExtents)
+      (vla-put-CanonicalMediaName lyout "ISO_full_bleed_A1_(841.00_x_594.00_MM)")
+      (vla-put-PlotWithLineweights lyout :vlax-true)
+      (vla-put-PlotWithPlotStyles lyout :vlax-true)
+      (vla-put-StyleSheet lyout styleSheet)
+      (vla-put-CenterPlot lyout :vlax-true)
+      (vla-put-standardscale lyout acScaleToFit )
+      (vla-put-plotrotation lyout ac90degrees)
+      (vla-put-PaperUnits lyout acMillimeters)
+      (vlax-dump-object lyout)
+      (setvar "PLOTTRANSPARENCYOVERRIDE" 2)
+    ;
+  ) 
 ;PPLINE-ITD
   (defun c:find_xref_ ()
     ;selection_set_for_fillter_blk_name
@@ -3310,6 +3334,142 @@
       ;
     ;
   )
+  (defun c:Plotter_CKST_CSD5plot ()
+      ;return
+        (command "ucs" "world")
+      ;
+      ;go_to_layout-process
+        (if 
+          (or 
+            (= (getvar "ctab") "model")
+            (/= (getvar "ctab") "A1")
+          )
+          (progn 
+            (setvar "ctab" "A1")
+            
+          )
+          (setvar "ctab" "A1")
+        )
+      ;
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                (cons 410 (getvar "CTAB"))
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget 
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                (cons 410 (getvar "CTAB"))
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (setq External_ref_ename_ ())
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+          (if
+            (or
+              ; (= (sslength ss_pre_filter_set_xx_) 1)
+              (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_ )) (strcat "*" (strcase "A$C360265d3") "*"))  T)
+              ; (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_ )) (strcat "*" (strcase "Title Block_Under Ground_C2 v3") "*"))  T)
+              
+            )
+            (progn
+              (setq main_bol (LM:boundingbox ss_pre_filter_set_xx_obj_))
+              (setq pre-name_ (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "LAYOUT_NAME"))
+              ;plot process
+                (if 
+                  (findfile (setq filename (strcat "" (getvar 'DWGPREFIX) (LM:StringSubst "" ".dwg" (getvar 'DWGNAME)) "_A1_" pre-name_ ".pdf"))) 
+                  (vl-file-delete filename)
+                )
+              ;
+              ;input_type_of_plot_
+                (TA:preset_plotter_mode_5-a1) 
+              ;
+            ;   (command "-plot" 
+            ;         "Yes" ;Detailed Plot Configuration?
+            ;         (getvar "ctab")
+            ;         "DWG To PDF.pc3" ;Printer Name
+            ;         "ISO_full_bleed_A3_(420.00_x_297.00_mm)" ;Paper Size
+            ;         ;paper_size ;Paper Size
+            ;         "m" ;Paper Units Millimeters
+            ;         "Landscape" ;Orientation
+            ;         "No" ;Plot Upside Down
+            ;         ; "extents" ;Plot Area
+            ;         (nth 0 main_bol) ;vla-getboundingbox
+            ;         (nth 2 main_bol) ;vla-getboundingbox
+            ;         ;llpt				;Lower left corner of window
+            ;         ;urpt				;Upper right corner of window
+            ;         "Fit" ;Plot Scale	"Fit"
+            ;         "Center" ;Plot Offset
+            ;         "yes" ;Use Plot Style?
+            ;         "A3_Standard (MRT-AGATE) - purple line.ctb" ;Plot Style Name
+            ;         "Yes" ;Plot Lineweights?
+            ;         "" ;Enter shade plot setting ["As displayed"/"Wireframe"/"Hidden"/"Visual styles"/"Rendered"]
+            ;         "N"
+            ;         "N"
+            ;         filename ; Name file and Location
+            ;         "Y"
+            ;         "Y"
+                
+            ; )
+              (command "-plot" 
+                    "Yes" ;Detailed Plot Configuration?
+                    (getvar "ctab")
+                    "DWG To PDF.pc3" ;Printer Name
+                    "ISO_full_bleed_A1_(841.00_x_594.00_MM)" ;Paper Size
+                    ;paper_size ;Paper Size
+                    "m" ;Paper Units Millimeters
+                    "Landscape" ;Orientation
+                    "No" ;Plot Upside Down
+                    "window" ;Plot Area
+                    (nth 0 main_bol) ;vla-getboundingbox
+                    (nth 2 main_bol) ;vla-getboundingbox
+                    ;llpt				;Lower left corner of window
+                    ;urpt				;Upper right corner of window
+                    "Fit" ;Plot Scale	"Fit"
+                    "Center" ;Plot Offset
+                    "yes" ;Use Plot Style?
+                    "A3_Standard (MRT-AGATE) - purple line.ctb" ;Plot Style Name
+                    "Yes" ;Plot Lineweights?
+                    "" ;Enter shade plot setting ["As displayed"/"Wireframe"/"Hidden"/"Visual styles"/"Rendered"]
+                    "N"
+                    "N"
+                    filename ; Name file and Location
+                    "Y"
+                    "Y"
+                
+            )
+            )
+          )
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+
+      
+    
+    ;
+  )
   (defun c:Plotter_CKST_GEN-PLOT ()
       ;return
         (command "ucs" "world")
@@ -3385,6 +3545,7 @@
     ;
     ;
   )
+
   (defun c:Auto_page_AU1PAGE (  )
     (if 
       (or 

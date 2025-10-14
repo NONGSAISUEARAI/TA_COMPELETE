@@ -8390,6 +8390,37 @@
 
       newSS ; return selection set ที่รวมแล้ว
     )
+    (defun c:quick_select_yellow_qyel ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "line") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                (cons 62 2)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "line") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                (cons 62 2)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+        (command "qdim"  ss_pre_filter_set_xx_  )
+      ;
+    )
   ;
   ;test_command
     (defun TA:dump_obj_ (dump_ename_ )
@@ -19369,25 +19400,25 @@
       (if  ;pre_select_ssget_or_post_select_ssget
         (=
           (setq ss_selection_ (ssget "i"
-                                            (list
-                                              (cons 0 "INSERT") ;type of object
-                                              (cons 8 "001 - ASCESSORIES")   ;kind of layer
-                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                              ; (cons 62 1)           ;kind of color call sign with color code index
-                                            )
+                                            (list 
+                                  (cons 0 "INSERT") ;type of object
+                                  (cons 8 "000 - GRID,001 - ASCESSORIES") ;kind of layer
+                                  ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                  ; (cons 62 1)           ;kind of color call sign with color code index
+                                )
                                       )
           )
           nil
         )
         (progn
-          (setq ss_selection_ (ssget
-                                            (list
-                                              (cons 0 "INSERT") ;type of object
-                                              (cons 8 "001 - ASCESSORIES")   ;kind of layer
-                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                              ; (cons 62 1)           ;kind of color call sign with color code index
-                                            )
-                                      )
+          (setq ss_selection_ (ssget 
+                                (list 
+                                  (cons 0 "INSERT") ;type of object
+                                  (cons 8 "000 - GRID,001 - ASCESSORIES") ;kind of layer
+                                  ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                  ; (cons 62 1)           ;kind of color call sign with color code index
+                                )
+                              )
           )
         )
         (sslength ss_selection_)
@@ -19671,6 +19702,70 @@
       ;
     )
   )
+  (defun c:temp_outer_move_omx ()
+    
+    (while
+      (/=
+        (vl-princ-to-string
+          (setq ERR_
+            (vl-catch-all-apply
+              (function
+                (lambda ()
+                  ;selection_set_for_fillter_blk_name
+                    (if  ;pre_select_ssget_or_post_select_ssget
+                      (=
+                        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                                          (list
+                                                            (cons 0 "INSERT") ;type of object
+                                                            (cons 8 "000 - GRID,001 - ASCESSORIES")   ;kind of layer
+                                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                                          ) 
+                                                    )
+                        )
+                        nil
+                      )
+                      (progn
+                        (setq ss_pre_filter_set_xx_ (ssget
+                                                          (list
+                                                            (cons 0 "INSERT") ;type of object
+                                                            (cons 8 "000 - GRID,001 - ASCESSORIES")   ;kind of layer
+                                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                                          )
+                                                    )
+                        )
+                      )
+                      (sslength ss_pre_filter_set_xx_)
+                    )
+                    (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000-GRID_LINE_DYN_V2-FOR-CC012"))
+                    (setq ss_pre_filter_set_xx_ (TA:standard_list_croodinate_sorting ss_pre_filter_set_xx_ "X"))
+                  ;
+                )
+              )
+            )
+          )
+        )
+        "#<%catch-all-apply-error%>"
+      )
+      (_StartUndo doc)
+      (setq blank_ss_ (ssadd))
+      (setq blk1_ename_ (car (nth 0 ss_pre_filter_set_xx_ )))
+      (setq blk1_obj_ (vlax-ename->vla-object blk1_ename_))
+      (setq blk1_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint blk1_obj_))))
+      (setq blk1_obj_ro (vla-get-rotation blk1_obj_))
+      (setq blk2_ename_ (car (nth 1 ss_pre_filter_set_xx_ )))
+      (setq blk2_obj_ (vlax-ename->vla-object blk2_ename_))
+      (setq blk2_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint blk2_obj_))))
+      (TA:move_axis_insertionpoint blk1_obj_ "X" -50)
+      (TA:move_axis_insertionpoint blk2_obj_ "X" 50)
+      (vla-put-color blk1_obj_ 3)
+      (vla-put-color blk2_obj_ 3)
+      (command "pselect"  blank_ss_  "" )
+      (_EndUndo doc)
+    ) 
+    
+  )
   (defun c:temp_inner_move_imx ()
     (_StartUndo doc)
     (while
@@ -19686,7 +19781,7 @@
                         (setq ss_pre_filter_set_xx_ (ssget "i"
                                                           (list
                                                             (cons 0 "INSERT") ;type of object
-                                                            (cons 8 "001 - ASCESSORIES")   ;kind of layer
+                                                            (cons 8 "000 - GRID,001 - ASCESSORIES")   ;kind of layer
                                                             ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                                             ; (cons 62 1)           ;kind of color call sign with color code index
                                                           ) 
@@ -19698,7 +19793,7 @@
                         (setq ss_pre_filter_set_xx_ (ssget
                                                           (list
                                                             (cons 0 "INSERT") ;type of object
-                                                            (cons 8 "001 - ASCESSORIES")   ;kind of layer
+                                                            (cons 8 "000 - GRID,001 - ASCESSORIES")   ;kind of layer
                                                             ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                                             ; (cons 62 1)           ;kind of color call sign with color code index
                                                           )
@@ -19707,7 +19802,7 @@
                       )
                       (sslength ss_pre_filter_set_xx_)
                     )
-                    (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01-4_COMBINE_VIEW"))
+                    (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000-GRID_LINE_DYN_V2-FOR-CC012"))
                     (setq ss_pre_filter_set_xx_ (TA:standard_list_croodinate_sorting ss_pre_filter_set_xx_ "X"))
                   ;
                 )
@@ -33458,10 +33553,12 @@
 (defun c:CKdim ()
   ;presetting
     (command "-layer" "n" "000 - D I M" "")
-    (command "-layer" "c" 8 "000 - D I M" "" ) 
+    (command "-layer" "c" 251 "000 - D I M" "" ) 
     (command "-layer" "c" 251 "000 - GRID" "" ) 
-    (command "-layer" "c" 251 "001 - ASCESSORIES" "" ) 
-    (command "-layer" "c" 1 "A04_TUBE SERIES" "" ) 
+    (command "-layer" "c" 3 "001 - ASCESSORIES" "" ) 
+    (command "-layer" "c" 251 "008 - LIGHTING" "" ) 
+    (command "-layer" "c" 251 "A04_TUBE SERIES" "" ) 
+    (command "-layer" "c" 251 "A11_ALU.SOLID SHEET" "" ) 
   ;
   ;selection_set_for_fillter_blk_name
     (if  ;pre_select_ssget_or_post_select_ssget

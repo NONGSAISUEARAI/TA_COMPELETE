@@ -11494,6 +11494,7 @@
                                                                           ) ;bigest close indent list
               )
             ;
+            (setq new_ss_dim_ (ssadd))
             (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 0)
             (while (< ss_pre_filter_set_xx_inslist_sorted_highest_Y_i (length ss_pre_filter_set_xx_inslist_sorted_highest_Y_))
               (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_ (car (nth  ss_pre_filter_set_xx_inslist_sorted_highest_Y_i ss_pre_filter_set_xx_inslist_sorted_highest_Y_)))
@@ -11565,6 +11566,7 @@
               ;new_blk_entlast object
                 (setq dim_ename (entlast))
                 (setq dim_obj_ (vlax-ename->vla-object dim_ename))
+                (setq new_ss_dim_ (ssadd dim_ename new_ss_dim_))
                 (cond
                   ((= ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 0)
                     (progn
@@ -11598,6 +11600,7 @@
         )
         (alert "please go to C:Dimsettin /nand set DIM EE EC CC CE")
       )
+      (command "pselect"  new_ss_dim_ "" )
       (_EndUndo doc)
     )
     (defun c:De1x ()
@@ -13889,7 +13892,7 @@
               (setq ss_pre_filter_set_xx_ (ssget
                                                 (list
                                                   (cons 0 "INSERT") ;type of object
-                                                  ; (cons 8 "000 - GRID")   ;kind of layer
+                                                  (cons 8 "000 - GRID,001 - ASCESSORIES")   ;kind of layer
                                                   ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                                   ; (cons 62 1)           ;kind of color call sign with color code index
                                                 )
