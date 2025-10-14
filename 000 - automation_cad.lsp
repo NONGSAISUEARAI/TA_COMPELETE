@@ -1253,7 +1253,7 @@
                   (setq sss_obj_getboundingbox_list_ (cons (list sss_min_ sss_max_) sss_obj_getboundingbox_list_))      
                   (setq sss_i (+ sss_i 1))
                 )
-                ;TA:stanndard_lambda_sorting
+                ;TA:stanndard_lambda_sorting  
                   (setq low_xy_ (list 
                                   (setq low_x (car 
                                                 (car 
