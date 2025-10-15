@@ -13811,6 +13811,118 @@
       )
     ;
   )
+  (defun c:z626_grid_line_length_goffset ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_v2_ ss_pre_filter_set_xx_ (list "000-GRID_LINE_DYN_V2" "000-GRID_LINE_DYN_V2-FOR-CC012" "000 - TRANSFER")))
+    ;
+    ;preloop_and_while ins Current UCS
+      (setq ss_pre_filter_set_xx_i 0)
+      (setq ss_pre_filter_set_xx_inslist_ ())
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (setq ss_pre_filter_set_xx_obj_rotation (rad-to-deg (vla-get-rotation ss_pre_filter_set_xx_obj_)))
+        (if (and
+              (= ss_pre_filter_set_xx_i 0)
+              ; (= (/= (rtos ss_pre_filter_set_xx_obj_rotation 2 5) "0.00000") T)
+              ; (= (/= (rtos ss_pre_filter_set_xx_obj_rotation 2 5) "90.00000") T)
+              ; (= (/= (rtos ss_pre_filter_set_xx_obj_rotation 2 5) "180.00000") T)
+              ; (= (/= (rtos ss_pre_filter_set_xx_obj_rotation 2 5) "270.00000") T)
+            )
+          (progn
+            (command "ucs" "ob" ss_pre_filter_set_xx_ename_ )
+            (command "ucs" "z" "270")
+          )
+        )
+        (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+        
+        (setq ss_pre_filter_set_xx_obj_H (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "H"))
+        (setq ss_pre_filter_set_xx_obj_offset (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "offset"))
+        
+        
+        (if (= (getvar "worlducs") 1) ;รอแก้
+          (progn
+            (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+          )
+          (setq ss_pre_filter_set_xx_obj_ins_ (trans
+                                                (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_)))
+                                                0 1
+                                              )
+          )
+        )
+        (setq ss_pre_filter_set_xx_inslist_ (cons
+                                              (list 
+                                                ss_pre_filter_set_xx_ename_
+                                                ss_pre_filter_set_xx_obj_ins_
+                                              )
+                                              ss_pre_filter_set_xx_inslist_
+                                            )
+        )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+    ;TA:stanndard_lambda_sorting_X
+      (setq ss_pre_filter_set_xx_inslist_sorted_X_ (vl-sort ss_pre_filter_set_xx_inslist_  ;bigest open indent list
+                                                          (function 
+                                                            (lambda (a b) 
+                                                              (< (nth 0 (cadr a)) 
+                                                                (nth 0 (cadr b))
+                                                              )
+                                                            )
+                                                          )
+                                                ) ;bigest close indent list
+      )
+    ;
+    ;input length process
+      (setq ss_pre_filter_set_xx_inslist_sorted_X_ename_ (car (nth 0 ss_pre_filter_set_xx_inslist_sorted_X_)))
+      (setq ss_pre_filter_set_xx_inslist_sorted_X_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_inslist_sorted_X_ename_))
+      (setq ss_pre_filter_set_xx_inslist_sorted_X_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_inslist_sorted_X_obj_))))
+      (setq get-point_ (getpoint (trans ss_pre_filter_set_xx_inslist_sorted_X_obj_ins_ 0 1) ))
+      (setq get-dist_ (distance (trans ss_pre_filter_set_xx_inslist_sorted_X_obj_ins_ 0 1) 
+                                  (list 
+                                    (car (trans ss_pre_filter_set_xx_inslist_sorted_X_obj_ins_ 0 1))                                           
+                                    (cadr get-point_)                                           
+                                    (caddr (trans ss_pre_filter_set_xx_inslist_sorted_X_obj_ins_ 0 1))                                           
+                                  )
+                      )
+      )
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "offset" get-dist_)
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+  )
 ;
 ;special_dimfor-block
   (defun c:CEX ()
