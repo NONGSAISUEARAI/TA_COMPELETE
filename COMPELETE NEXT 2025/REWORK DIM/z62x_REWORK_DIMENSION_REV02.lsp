@@ -13811,7 +13811,7 @@
       )
     ;
   )
-  (defun c:z626_grid_line_length_goffset ()
+  (defun c:z626_grid_line_length_gff ()
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget
         (=
@@ -13922,6 +13922,7 @@
         (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
       )
     ;
+    (command "pselect"  ss_pre_filter_set_xx_ "" )
   )
 ;
 ;special_dimfor-block
