@@ -13612,6 +13612,75 @@
       )
     )
   ; 
+  ;LAYOUT_FUNC
+    (defun c:foo11 ()
+      ;return
+        (command "ucs" "world")
+      ;
+      ;go_to_layout-process
+        (if 
+          (or 
+            (= (getvar "ctab") "model")
+            (/= (getvar "ctab") "layout1")
+          )
+          (progn 
+            (setvar "ctab" "layout1")
+            (if  ;pre_select_ssget_or_post_select_ssget
+              (=
+                (setq ss_pre_filter_set_xx_ (ssget "x"
+                                                  (list
+                                                    ; (cons 0 "INSERT") ;type of object
+                                                    (cons 410 (getvar "CTAB"))
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+                nil
+              )
+              (progn
+                (setq ss_pre_filter_set_xx_ (ssget "X"
+                                                  (list
+                                                    ; (cons 0 "INSERT") ;type of object
+                                                    (cons 410 (getvar "CTAB"))
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+              )
+              (sslength ss_pre_filter_set_xx_)
+            )
+          )
+        )
+        (if (= (getvar "ctab") "Layout1")
+          (progn
+            (command "copybase" (list 0 0 0) ss_pre_filter_set_xx_ "")
+            (command "layout" "n" "FAMING")
+
+            
+            (setvar "ctab" "FAMING")
+            (setq delete_ss_ (ssget "X" 
+                                    (list 
+                                      ; (cons 0 "INSERT") ;type of object
+                                      (cons 410 (getvar "CTAB"))
+                                      ; (cons 8 "000 - GRID")   ;kind of layer
+                                      ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                      ; (cons 62 1)           ;kind of color call sign with color code index
+                                    )
+                             )
+            )
+            (command "erase" delete_ss_ "")
+            (command "pasteclip" (list 0 0 0))
+          )
+        )
+            
+      ;
+      
+    )
+  ;
 ;
 
   ;                                   
@@ -24395,7 +24464,7 @@
                                                 (cons 0 "INSERT") ;type of object
                                                 (cons 8 "000 - GRID,001 - ASCESSORIES")   ;kind of layer
                                                 ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                                (cons 62 256)           ;kind of color call sign with color code index
                                               )
                                         )
             )
@@ -24407,7 +24476,7 @@
                                                 (cons 0 "INSERT") ;type of object
                                                 (cons 8 "000 - GRID,001 - ASCESSORIES")   ;kind of layer
                                                 ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                                (cons 62 256)           ;kind of color call sign with color code index
                                               )
                                         )
             )
@@ -24425,6 +24494,7 @@
           (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
           (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
           (setq ss_pre_filter_set_xx_obj_rotation_ (rad-to-deg (vla-get-rotation ss_pre_filter_set_xx_obj_)))
+          (vla-put-color ss_pre_filter_set_xx_obj_ 1)
           (setq cc-01_inters_list_ 
             (cons 
               (list
