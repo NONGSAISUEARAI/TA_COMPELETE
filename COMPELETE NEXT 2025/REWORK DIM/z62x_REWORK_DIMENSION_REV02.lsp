@@ -10832,6 +10832,7 @@
               )
             ;
             (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 0)
+            (setq new_ss_dim_ (ssadd   ))
             (while (< ss_pre_filter_set_xx_inslist_sorted_highest_Y_i (length ss_pre_filter_set_xx_inslist_sorted_highest_Y_))
               (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_ (car (nth  ss_pre_filter_set_xx_inslist_sorted_highest_Y_i ss_pre_filter_set_xx_inslist_sorted_highest_Y_)))
               (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_))
@@ -10905,6 +10906,7 @@
                 (vla-put-ScaleFactor  dim_obj_ sc )
                 (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
                 (command "_AIDIMPREC" dimprec dim_ename "" )
+                (setq new_ss_dim_ (ssadd dim_ename  new_ss_dim_))
               ;
               (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_i (+ ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 1))
               
@@ -10913,6 +10915,7 @@
         )
         (alert "please go to C:Dimsettin /nand set DIM EE EC CC CE")
       )
+      (command "pselect"  new_ss_dim_ "" )
     )
     (defun c:Dcx ()
       ;special for me only work with CKST Drwaing Construction 
@@ -11592,7 +11595,7 @@
                 (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
                 ; (command "dimreassociate" dim_ename "" ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_cur-ins_ ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_next-ins_)
                 (command "_AIDIMPREC" dimprec dim_ename "" )
-                
+                (setq new_ss_dim_ (ssadd dim_ename  new_ss_dim_))
               ;
               (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_i (+ ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 1))
             )

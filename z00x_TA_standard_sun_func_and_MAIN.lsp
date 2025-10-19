@@ -24453,7 +24453,7 @@
       ;presetting_
         (setq intersection_mode_ 0)
         (if (= intersection_mode_ 1) (progn (setq inter_blk_name_ "000 - TRANSFER" ) ) )
-        (if (= intersection_mode_ 2) (progn (setq inter_blk_name_ "000 - TRANSFER" ) ) )
+        (if (= intersection_mode_ 2) (progn (setq inter_blk_name_ "000 - CIRCLE" ) ) )
       
       ;
       ;selection_set_for_fillter_blk_name
@@ -24500,16 +24500,16 @@
               (list
                 ss_pre_filter_set_xx_obj_ins_
                 (polar ss_pre_filter_set_xx_obj_ins_  
-                       (vla-get-rotation ss_pre_filter_set_xx_obj_) 
-                       (if (= (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "view" ) "7_dynamic_length_view")
+                      (vla-get-rotation ss_pre_filter_set_xx_obj_) 
+                      (if (= (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "view" ) "7_dynamic_length_view")
                         (progn
                           (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "fragment_start" )
                         )
-                         (+
+                        (+
                           (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "array_length" )
                           (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "fragment_length" )
-                         )
-                       )
+                        )
+                      )
                 
                 )
               )
@@ -24521,43 +24521,46 @@
         )
       ;
       (setq Er-msg_ nil)
-      
       (setq new_tranfer_ss_ (ssadd))
+      
       (while
         (and (/= (vl-catch-all-error-p Er-msg_) T) )
-        (graphscr)
-        (setq Er-msg_ (vl-catch-all-apply (function (lambda () (setq ss_line_ename_ (ssname  (ssget  (list (cons 0 "line") ) ) 0)) ) ) ) )
+        (setq Er-msg_ (vl-catch-all-apply (function (lambda () 
+                                                      
+                                                      (setq ss_line_ename_ (ssname  (ssget  (list (cons 0 "line") ) ) 0) ) 
+                                                    ) 
+                                          ) 
+                      ) 
+        )
         (if (and 
               (/= (vl-catch-all-error-p Er-msg_) T)
               (= (vla-get-objectname (vlax-ename->vla-object ss_line_ename_)) "AcDbLine")
             )
 
           (progn
-            ;switch window
-              (textscr)
-              (vla-put-WindowState (vlax-get-acad-object) acmin)
-            ; 
+            (TA:interface_text_ T)
             (setq ss_line_obj_ (vlax-ename->vla-object ss_line_ename_))
             (setq ss_line_obj_start_end_pt_ (list
                                             (setq ss_line_obj_startpt_ (vlax-safearray->list
-                                                                       (vlax-variant-value ( vla-get-startpoint ss_line_obj_ ))
-                                                                     )
+                                                                      (vlax-variant-value ( vla-get-startpoint ss_line_obj_ ))
+                                                                    )
                                             )
                                             (setq ss_line_obj_endpt_ (vlax-safearray->list
                                                                       (vlax-variant-value ( vla-get-endpoint ss_line_obj_ ))
-                                                                   )
+                                                                  )
                                             )
                                           )
             )
           )
-          (graphscr)
+          
         )
         ;preloop_and_while
           (setq cc-01_inters_list_i 0)
+          (TA:interface_text_ T)
           (while (and
-                   (/= (vl-catch-all-error-p Er-msg_) T)
-                   (< cc-01_inters_list_i (length cc-01_inters_list_) )
-                 )
+                  (/= (vl-catch-all-error-p Er-msg_) T)
+                  (< cc-01_inters_list_i (length cc-01_inters_list_) )
+                )
             (setq cc-01_inters_list_val_1 (car (nth  cc-01_inters_list_i cc-01_inters_list_)))
             (setq cc-01_inters_list_val_2 (cadr (nth  cc-01_inters_list_i cc-01_inters_list_)))
             
@@ -24649,7 +24652,7 @@
                 )
               )
             )
-   
+  
             (TA:textscr_process "insertion process " cc-01_inters_list_i cc-01_inters_list_)
         
             (setq cc-01_inters_list_i (+ cc-01_inters_list_i 1))
@@ -33295,6 +33298,33 @@
 
 
 ;PPLINE CKST - Layer Func
+  (defun c:PPLINE_CKST_viewport_layer_CKST-VPpanel()
+    (command "vplayer" "c" 2 "A11_ALU.SOLID SHEET" "c" "") 
+    (command "vplayer" "c" 2 "A04_TUBE SERIES" "c" "") 
+    (command "vplayer" "f" "001 - ASCESSORIES" "c" "")
+    (command "vplayer" "f" "001 - ASCESSORIES_HANGING" "c" "")
+    (command "vplayer" "f" "000 - DEF GRID" "c" "")
+    (command "vplayer" "f" "000 - CSD_*" "c" "")
+    
+  )
+  (defun c:PPLINE_CKST_viewport_layer_CKST-VPfaming()
+    (command "vplayer" "c" 251 "A11_ALU.SOLID SHEET" "c" "") 
+    (command "vplayer" "c" 251 "A04_TUBE SERIES" "c" "") 
+    (command "vplayer" "f" "A-ROOM-IDEN" "c" "") 
+    (command "vplayer" "f" "A-ANNO-KEYN" "c" "") 
+    (command "vplayer" "f" "G-ANNO-TEXT" "c" "") 
+    (command "vplayer" "f" "A-ANNO-DIMS-100" "c" "") 
+    (command "vplayer" "f" "A-ANNO-NOTE" "c" "")
+    (command "vplayer" "f" "A-ANNO-NOTE" "c" "")
+    (command "vplayer" "f" "A-DETL-GENF" "c" "")
+    (command "vplayer" "f" "000 - DEF GRID" "c" "")
+    (command "vplayer" "f" "PPLS Master ROW C1 C2_dwg _2_" "c" "")
+    (command "vplayer" "F" "000 - CSD_*" "c" "")
+    (command "vplayer" "t" "*duct*" "c" "")
+  )
+  (defun c:PPLINE_CKST_viewport_layer_CKST-VPthawall()
+    (command "_.VPLAYER" "_T" "*" "") 
+  )
   (defun c:PPLINE_CKST_CSDprefixLayer_ ()
     (setq Ex_layer_List_ (TA:get_name_layer_in_drawing ))
     (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
@@ -33321,7 +33351,6 @@
       )
     ;
   )
-
   (defun c:PPLINE-Filter_FAMELINElayer ()
     ;preloop_and_while
       (setq TA-FL_Layer_ (list "ssddd" "0" "Defpoints" "000 - DEF GRID" "000 - T E X T" "000 - TITLEBLOCK" 
@@ -35431,7 +35460,7 @@
          (= (getenv "COMPUTERNAME") "DESKTOP-FSRT7SI")
        )
        (progn
-         (setq pp18_path "C:/TA WORK/PPLINE CKST/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP18/CAD/")
+         (setq pp18_path "C:/TA WORK/PPLINE CKST/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP17/CAD/")
          (princ "_case_1")
        )
     )
@@ -35440,7 +35469,7 @@
          (= (getenv "COMPUTERNAME") "NONGSAISUEARAI")
        )
        (progn
-         (setq pp18_path "C:/TA FAMELINE old data/TA/TA_WORK/MASS TRANSIT/TA_PPLINE CKST/TA_PPLINE CKST_combine_CSD-ceiling-plan/C1-C2_Finishes-Reflected Ceiling Plan/PP18/CAD/")
+         (setq pp18_path "C:/TA FAMELINE old data/TA/TA_WORK/MASS TRANSIT/TA_PPLINE CKST/TA_PPLINE CKST_combine_CSD-ceiling-plan/C1-C2_Finishes-Reflected Ceiling Plan/PP17/CAD/")
          (princ "_case_2")
        )
     )
