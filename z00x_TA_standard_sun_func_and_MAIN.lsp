@@ -10961,7 +10961,7 @@
                                         )
             )
             nil
-          )
+          ) 
           (progn
             (setq ss_pre_filter_set_xx_ (ssget
                                               (list
@@ -13157,7 +13157,7 @@
     )
     (defun c:offset_block_ofblk ()
       ;presettting
-        (setq offset_value -1750)
+        (setq offset_value 17.5)
       ;
       (setq blk_ename_ (car (entsel "specify Object")))
       (setq blk_obj_ (vlax-ename->vla-object blk_ename_))
@@ -33273,6 +33273,7 @@
     ; 
     (command "-layer" "filter" "n" "G" "" "*CSD*" "CSD" ""  )
   )
+
 ;
 (defun c:csdflayer_ ()
   (if (= 1 1)
@@ -36396,6 +36397,191 @@
   (check-clockwise sss_ename_vertex_)
 )
 
+  ;REwork_tittle_block
+    (defun C:FL-LOGO ( )
+      (setq line_color 7)
+      (setq hatch_color 7)
+      (setq hatches_ '())
+      (setq blkdef (tblobjname "BLOCK" "FAMELINE - EXAMPLE PART 2025_20250912-111943_FAMELINE_LOGO"))
+      (setq ent (entnext blkdef))
+      (while ent
+        (setq ed (entget ent))
+        (if (= (cdr (assoc 0 ed)) "HATCH")
+          (progn
+            (setq hatches_ (cons ent hatches_))
+            ;main idea of code keep or delete don't affect with core code
+              (setq hatches_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+              (vla-put-color hatches_obj_  hatch_color)
+              ; (vla-put-EntityTransparency hatches_obj_ 80 )
+            ;
+          )
+        )
+        (if (= (cdr (assoc 0 ed)) "ARC")
+          (progn
+            ; (setq hatches_ (cons ent hatches_))
+            ;main idea of code keep or delete don't affect with core code
+              (setq hatches_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+              (vla-put-color hatches_obj_  line_color)
+              
+            ;
+          )
+        )
+        (if (= (cdr (assoc 0 ed)) "LINE")
+          (progn
+            ; (setq hatches_ (cons ent hatches_))
+            ;main idea of code keep or delete don't affect with core code
+              (setq hatches_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+              (if (/= (vla-get-layer hatches_obj_ ) "A-ANNO-SYMB")
+                (progn
+                  (vla-put-color hatches_obj_  line_color)
+                )
+              )
+            ;
+          )
+        )
+        (if (= (cdr (assoc 0 ed)) "LWPOLYLINE")
+          (progn
+            ; (setq hatches_ (cons ent hatches_))
+            ;main idea of code keep or delete don't affect with core code
+              (setq hatches_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+              (vla-put-color hatches_obj_  line_color)
+              
+            ;
+          )
+        )
+        (if (= (cdr (assoc 0 ed)) "SPLINE")
+          (progn
+            ; (setq hatches_ (cons ent hatches_))
+            ;main idea of code keep or delete don't affect with core code
+              (setq hatches_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+              (vla-put-color hatches_obj_  line_color)
+              
+            ;
+          )
+        )
+        (if (= (cdr (assoc 0 ed)) "ELLIPSE")
+          (progn
+            ; (setq hatches_ (cons ent hatches_))
+            ;main idea of code keep or delete don't affect with core code
+              (setq hatches_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+              (vla-put-color hatches_obj_  line_color)
+              
+            ;
+          )
+        )
+        (setq ent (entnext ent))
+      )
+      (reverse hatches)
+    )
+    (defun C:Rework_TTB_legend1 ( )
+      (setq blk_list_ (list "TA-FL-CKST-TTB__20251003-150151LE6" "TA-FL-CKST-TTB__20251003-150158LE7" "TA-FL-CKST-TTB__20251003-150204LE8" "TA-FL-CKST-TTB__20251003-150213LE8"))
+      ;preloop_and_while
+        (setq blk_list_i 0)
+        (while (< blk_list_i (length blk_list_))
+          (setq blk_list_name_ (nth  blk_list_i blk_list_))
+          ;
+            (setq hatches_ '())
+            (setq blkdef (tblobjname "BLOCK" blk_list_name_))
+            (setq ent (entnext blkdef))
+            (while ent
+              (setq ed (entget ent))
+              (if (= (cdr (assoc 0 ed)) "LWPOLYLINE")
+                (progn
+                  ; (setq hatches_ (cons ent hatches_))
+                  ;main idea of code keep or delete don't affect with core code
+                    (setq hatches_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+                    (if (= (vla-get-color hatches_obj_) 8 )
+                      (progn
+                        (vla-put-layer hatches_obj_  "Defpoints")
+                      )
+                    )
+                    
+                  ;
+                )
+              )
+              (setq ent (entnext ent))
+            )
+          ;
+          (setq blk_list_i (+ blk_list_i 1))
+        )
+      ;
+    )
+    (defun C:REwork-TTB_legend2 ( )
+      (setq blk_list_ (list "TA-FL-CKST-TTB__20251003-165007_PP17_V2"))
+      ;preloop_and_while
+        (setq blk_list_i 0)
+        (while (< blk_list_i (length blk_list_))
+          (setq blk_list_name_ (nth  blk_list_i blk_list_))
+          ;
+            (setq hatches_ '())
+            (setq blkdef (tblobjname "BLOCK" blk_list_name_))
+            (setq ent (entnext blkdef))
+            (while ent
+              (setq ed (entget ent))
+              (if (= (cdr (assoc 0 ed)) "HATCH")
+                (progn
+                  (setq hatches_ (cons ent hatches_))
+                  ;main idea of code keep or delete don't affect with core code
+                    (setq hatches_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+                    (if (and 
+                          (= (vla-get-layer hatches_obj_ ) "A-DETL-GENF")
+                          (= (vla-get-color hatches_obj_ ) 7)
+                        )
+                      (progn
+                        (vla-erase hatches_obj_)
+                      )
+                    )
+                  ;
+                )
+              )
+              (setq ent (entnext ent))
+            )
+          ;
+          (setq blk_list_i (+ blk_list_i 1))
+        )
+      ;
+    )
+    (defun C:REwork-TTB_legend3 ( )
+      (setq blk_list_ (list "CVA-C2-P-PP00-TBKA1 (WD)$0$CVA-C2-P-OR00-TBKA1-WD"))
+      ;preloop_and_while
+        (setq blk_list_i 0)
+        (while (< blk_list_i (length blk_list_))
+          (setq blk_list_name_ (nth  blk_list_i blk_list_))
+          ;
+            (setq hatches_ '())
+            (setq blkdef (tblobjname "BLOCK" blk_list_name_))
+            (setq ent (entnext blkdef))
+            (while ent
+              (setq ed (entget ent))
+              (if (= (cdr (assoc 0 ed)) "TEXT")
+                (progn
+                  (setq hatches_ (cons ent hatches_))
+                  ;main idea of code keep or delete don't affect with core code
+                    (setq hatches_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+                    (if (and 
+                          (= (vla-get-textstring hatches_obj_ ) "PURPLE LINE PROJECT")
+                        )
+                      (progn
+                        (vla-put-color hatches_obj_ 7 )
+                      )
+                    )
+                  ;
+                )
+              )
+              (setq ent (entnext ent))
+            )
+          ;
+          (setq blk_list_i (+ blk_list_i 1))
+        )
+      ;
+    )
+    (defun c:ReworkTTB_ ()
+      (C:FL-LOGO)
+      (C:Rework_TTB_legend1)
+      (C:REwork-TTB_legend2)
+      (C:REwork-TTB_legend3)
+    )
+  ;
 
   
 
