@@ -34213,10 +34213,10 @@
     (command "-layer" "n" "000 - D I M" "")
     (command "-layer" "c" 251 "000 - D I M" "" ) 
     (command "-layer" "c" 251 "000 - GRID" "" ) 
-    (command "-layer" "c" 3 "001 - ASCESSORIES" "" ) 
-    (command "-layer" "c" 251 "008 - LIGHTING" "" ) 
-    (command "-layer" "c" 251 "A04_TUBE SERIES" "" ) 
-    (command "-layer" "c" 251 "A11_ALU.SOLID SHEET" "" ) 
+    ; (command "-layer" "c" 3 "001 - ASCESSORIES" "" ) 
+    ; (command "-layer" "c" 251 "008 - LIGHTING" "" ) 
+    ; (command "-layer" "c" 251 "A04_TUBE SERIES" "" ) 
+    ; (command "-layer" "c" 251 "A11_ALU.SOLID SHEET" "" ) 
   ;
   ;selection_set_for_fillter_blk_name
     (if  ;pre_select_ssget_or_post_select_ssget
