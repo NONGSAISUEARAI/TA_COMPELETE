@@ -13157,7 +13157,9 @@
     )
     (defun c:offset_block_ofblk ()
       ;presettting
-        (setq offset_value -17.5)
+        ; (setq offset_value -17.5)
+        (setq offset_value (cond ( (getreal (strcat "\nspecify_height blank size\n<" (rtos (setq offset_value (cond (offset_value) (1.0) ) ) ) "> : " ) ) ) (offset_value) ) )
+        (setq offset_value offset_value)
       ;
       (setq blk_ename_ (car (entsel "specify Object")))
       (setq blk_obj_ (vlax-ename->vla-object blk_ename_))
