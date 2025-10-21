@@ -13157,7 +13157,7 @@
     )
     (defun c:offset_block_ofblk ()
       ;presettting
-        (setq offset_value 17.5)
+        (setq offset_value -17.5)
       ;
       (setq blk_ename_ (car (entsel "specify Object")))
       (setq blk_obj_ (vlax-ename->vla-object blk_ename_))
@@ -36542,6 +36542,40 @@
       ;
     )
     (defun C:REwork-TTB_legend3 ( )
+      (setq blk_list_ (list "CVA-C2-P-PP00-TBKA1 (WD)$0$CVA-C2-P-OR00-TBKA1-WD" "CVA-C2-P-PP00-TBKA1 (WD)$0$CVA-C2-P-OR00-TBKA1-WD"))
+      ;preloop_and_while
+        (setq blk_list_i 0)
+        (while (< blk_list_i (length blk_list_))
+          (setq blk_list_name_ (nth  blk_list_i blk_list_))
+          ;
+            (setq hatches_ '())
+            (setq blkdef (tblobjname "BLOCK" blk_list_name_))
+            (setq ent (entnext blkdef))
+            (while ent
+              (setq ed (entget ent))
+              (if (= (cdr (assoc 0 ed)) "TEXT")
+                (progn
+                  (setq hatches_ (cons ent hatches_))
+                  ;main idea of code keep or delete don't affect with core code
+                    (setq hatches_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+                    (if (and 
+                          (= (vla-get-textstring hatches_obj_ ) "PURPLE LINE PROJECT")
+                        )
+                      (progn
+                        (vla-put-color hatches_obj_ 7 )
+                      )
+                    )
+                  ;
+                )
+              )
+              (setq ent (entnext ent))
+            )
+          ;
+          (setq blk_list_i (+ blk_list_i 1))
+        )
+      ;
+    )
+    (defun C:REwork-TTB_legend4 ( )
       (setq blk_list_ (list "CVA-C2-P-PP00-TBKA1 (WD)$0$CVA-C2-P-OR00-TBKA1-WD"))
       ;preloop_and_while
         (setq blk_list_i 0)
@@ -36580,6 +36614,7 @@
       (C:Rework_TTB_legend1)
       (C:REwork-TTB_legend2)
       (C:REwork-TTB_legend3)
+      (C:REwork-TTB_legend4)
     )
   ;
 

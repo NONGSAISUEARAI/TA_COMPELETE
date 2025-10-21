@@ -2881,21 +2881,31 @@
   )
 ;
 
-(defun TA:ChangeFont ( / styName newFont styObj)    
-  (setq styName "CVA-C2-P-PP00-TBKA1 (WD)$0$CVA-E2-P-OR00-TBKA1D$0$CVA-E2-P-OR00-TBKA1$0$A1-TITLE$0$ROMANT")     ; ← ใส่ชื่อ Style ที่ต้องการแก้
-  (setq newFont "romant.shx")   ; ← ใส่ชื่อ Font ใหม่ เช่น arial.ttf, AngsanaUPC, Tahoma ฯลฯ
+(defun TA:ChangeFont ( / styName newFont newWidth styObj edata)
+  ; (setq styName "CVA-C2-P-PP00-TBKA1 (WD)$0$CVA-E2-P-OR00-TBKA1D$0$CVA-E2-P-OR00-TBKA1$0$A1-TITLE$0$ROMANT") ; ← ชื่อ Style
+  ; (setq newFont "romant.shx")    ; ← ชื่อ Font ใหม่
+  ; (setq newWidth 1.0010)         ; ← ค่า Width Factor ใหม่
 
-  (if (setq styObj (tblobjname "style" styName))
-    (progn
-      (entmod
-        (subst (cons 3 newFont) (assoc 3 (entget styObj)) (entget styObj))
-      )
-      (princ (strcat "\nFont ของ Style \"" styName "\" ถูกเปลี่ยนเป็น \"" newFont "\" แล้ว."))
-    )
-    (princ (strcat "\nไม่พบ Style ชื่อ \"" styName "\""))
-  )
-  (princ)
+  ; (if (setq styObj (tblobjname "style" styName))
+  ;   (progn
+  ;     (setq edata (entget styObj))
+  ;     (setq edata
+  ;       (subst (cons 3 newFont) (assoc 3 edata) edata)   ; เปลี่ยน font
+  ;     )
+  ;     (if (assoc 41 edata)
+  ;       (setq edata (subst (cons 41 newWidth) (assoc 41 edata) edata)) ; ถ้ามี 41 อยู่แล้ว → แทนที่
+  ;       (setq edata (append edata (list (cons 41 newWidth))))          ; ถ้าไม่มี → เพิ่มใหม่
+  ;     )
+  ;     (entmod edata)
+  ;     (princ (strcat "\nเปลี่ยน Font ของ Style \"" styName "\" เป็น \"" newFont "\" และ Width Factor = " (rtos newWidth 2 4) " แล้ว."))
+  ;   )
+  ;   (princ (strcat "\nไม่พบ Style ชื่อ \"" styName "\""))
+  ; )
+  ; (princ)
+  
+  (command "style" "CVA-C2-P-PP00-TBKA1 (WD)$0$CVA-E2-P-OR00-TBKA1D$0$CVA-E2-P-OR00-TBKA1$0$A1-TITLE$0$ROMANT" "romant.shx" 0 1.001 0 "no" "no" "no")
 )
+
 (defun c:loadlisp ()
   (cond
     ((and 
