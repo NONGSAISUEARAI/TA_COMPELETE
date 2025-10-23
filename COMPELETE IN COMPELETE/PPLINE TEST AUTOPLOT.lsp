@@ -2882,28 +2882,28 @@
 ;
 
 (defun TA:ChangeFont ( / styName newFont newWidth styObj edata)
-  ; (setq styName "CVA-C2-P-PP00-TBKA1 (WD)$0$CVA-E2-P-OR00-TBKA1D$0$CVA-E2-P-OR00-TBKA1$0$A1-TITLE$0$ROMANT") ; ← ชื่อ Style
-  ; (setq newFont "romant.shx")    ; ← ชื่อ Font ใหม่
-  ; (setq newWidth 1.0010)         ; ← ค่า Width Factor ใหม่
+  (setq styName "CVA-C2-P-PP00-TBKA1 (WD)$0$CVA-E2-P-OR00-TBKA1D$0$CVA-E2-P-OR00-TBKA1$0$A1-TITLE$0$ROMANT") ; ← ชื่อ Style
+  (setq newFont "romant.shx")    ; ← ชื่อ Font ใหม่
+  (setq newWidth 1.0010)         ; ← ค่า Width Factor ใหม่
 
-  ; (if (setq styObj (tblobjname "style" styName))
-  ;   (progn
-  ;     (setq edata (entget styObj))
-  ;     (setq edata
-  ;       (subst (cons 3 newFont) (assoc 3 edata) edata)   ; เปลี่ยน font
-  ;     )
-  ;     (if (assoc 41 edata)
-  ;       (setq edata (subst (cons 41 newWidth) (assoc 41 edata) edata)) ; ถ้ามี 41 อยู่แล้ว → แทนที่
-  ;       (setq edata (append edata (list (cons 41 newWidth))))          ; ถ้าไม่มี → เพิ่มใหม่
-  ;     )
-  ;     (entmod edata)
-  ;     (princ (strcat "\nเปลี่ยน Font ของ Style \"" styName "\" เป็น \"" newFont "\" และ Width Factor = " (rtos newWidth 2 4) " แล้ว."))
-  ;   )
-  ;   (princ (strcat "\nไม่พบ Style ชื่อ \"" styName "\""))
-  ; )
-  ; (princ)
+  (if (setq styObj (tblobjname "style" styName))
+    (progn
+      (setq edata (entget styObj))
+      (setq edata
+        (subst (cons 3 newFont) (assoc 3 edata) edata)   ; เปลี่ยน font
+      )
+      (if (assoc 41 edata)
+        (setq edata (subst (cons 41 newWidth) (assoc 41 edata) edata)) ; ถ้ามี 41 อยู่แล้ว → แทนที่
+        (setq edata (append edata (list (cons 41 newWidth))))          ; ถ้าไม่มี → เพิ่มใหม่
+      )
+      (entmod edata)
+      (princ (strcat "\nเปลี่ยน Font ของ Style \"" styName "\" เป็น \"" newFont "\" และ Width Factor = " (rtos newWidth 2 4) " แล้ว."))
+    )
+    (princ (strcat "\nไม่พบ Style ชื่อ \"" styName "\""))
+  )
+  (princ)
   
-  (command "style" "CVA-C2-P-PP00-TBKA1 (WD)$0$CVA-E2-P-OR00-TBKA1D$0$CVA-E2-P-OR00-TBKA1$0$A1-TITLE$0$ROMANT" "romant.shx" 0 1.001 0 "no" "no" "no")
+  ; (command "style" "CVA-C2-P-PP00-TBKA1 (WD)$0$CVA-E2-P-OR00-TBKA1D$0$CVA-E2-P-OR00-TBKA1$0$A1-TITLE$0$ROMANT" "romant.shx" 0 1.001 0 "no" "no" "no")
 )
 
 (defun c:loadlisp ()
@@ -3480,6 +3480,149 @@
     
     ;
   )
+  (defun c:Plotter_CKST_CSDframeplot ()
+      ;return
+        (command "ucs" "world")
+      ;
+      ;go_to_layout-process
+        (if 
+          (or 
+            (= (getvar "ctab") "model")
+            (/= (getvar "ctab") "FAMING")
+          )
+          (progn 
+            (setvar "ctab" "FAMING")
+            
+          )
+          (setvar "ctab" "FAMING")
+        )
+      ;
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "x"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                (cons 410 (getvar "CTAB"))
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget 
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                (cons 410 (getvar "CTAB"))
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (setq External_ref_ename_ ())
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+          (if
+            (or
+              ; (= (sslength ss_pre_filter_set_xx_) 1)
+              (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_ )) (strcat "*" (strcase "Title Block_Under Ground_C1 v3") "*"))  T)
+              (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_ )) (strcat "*" (strcase "Title Block_Under Ground_C2 v3") "*"))  T)
+              
+            )
+            (progn
+              (setq main_bol (LM:boundingbox ss_pre_filter_set_xx_obj_))
+              (setq pre-name_ (strcat 
+                                (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "STATUS_VAL")
+                                "-"
+                                (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "DRAWING_NO_val")
+                                "-"
+                                (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "rev_no_val")
+                              )
+              )
+              ;plot process
+                (if 
+                  (findfile (setq filename (strcat "" (getvar 'DWGPREFIX)  pre-name_ ".pdf")))
+                  (vl-file-delete filename)
+                )
+              ;
+              ;input_type_of_plot_
+                (TA:preset_plotter_mode_3) 
+              ;
+            ;   (command "-plot" 
+            ;         "Yes" ;Detailed Plot Configuration?
+            ;         (getvar "ctab")
+            ;         "DWG To PDF.pc3" ;Printer Name
+            ;         "ISO_full_bleed_A3_(420.00_x_297.00_mm)" ;Paper Size
+            ;         ;paper_size ;Paper Size
+            ;         "m" ;Paper Units Millimeters
+            ;         "Landscape" ;Orientation
+            ;         "No" ;Plot Upside Down
+            ;         ; "extents" ;Plot Area
+            ;         (nth 0 main_bol) ;vla-getboundingbox
+            ;         (nth 2 main_bol) ;vla-getboundingbox
+            ;         ;llpt				;Lower left corner of window
+            ;         ;urpt				;Upper right corner of window
+            ;         "Fit" ;Plot Scale	"Fit"
+            ;         "Center" ;Plot Offset
+            ;         "yes" ;Use Plot Style?
+            ;         "A3_Standard (MRT-AGATE) - purple line.ctb" ;Plot Style Name
+            ;         "Yes" ;Plot Lineweights?
+            ;         "" ;Enter shade plot setting ["As displayed"/"Wireframe"/"Hidden"/"Visual styles"/"Rendered"]
+            ;         "N"
+            ;         "N"
+            ;         filename ; Name file and Location
+            ;         "Y"
+            ;         "Y"
+                
+            ; )
+              (command "-plot" 
+                    "Yes" ;Detailed Plot Configuration?
+                    (getvar "ctab")
+                    "DWG To PDF.pc3" ;Printer Name
+                    "ISO_full_bleed_A1_(841.00_x_594.00_MM)" ;Paper Size
+                    ;paper_size ;Paper Size
+                    "m" ;Paper Units Millimeters
+                    "Landscape" ;Orientation
+                    "No" ;Plot Upside Down
+                    "window" ;Plot Area
+                    (nth 0 main_bol) ;vla-getboundingbox
+                    (nth 2 main_bol) ;vla-getboundingbox
+                    ;llpt				;Lower left corner of window
+                    ;urpt				;Upper right corner of window
+                    "Fit" ;Plot Scale	"Fit"
+                    "Center" ;Plot Offset
+                    "yes" ;Use Plot Style?
+                    "A3_Standard (MRT-AGATE) - purple line.ctb" ;Plot Style Name
+                    "Yes" ;Plot Lineweights?
+                    "" ;Enter shade plot setting ["As displayed"/"Wireframe"/"Hidden"/"Visual styles"/"Rendered"]
+                    "N"
+                    "N"
+                    filename ; Name file and Location
+                    "Y"
+                    "Y"
+                
+            )
+            )
+          )
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+
+      
+    
+    ;
+  )
   (defun c:Plotter_CKST_GEN-PLOT ()
       ;return
         (command "ucs" "world")
@@ -3555,7 +3698,6 @@
     ;
     ;
   )
-
   (defun c:Auto_page_AU1PAGE (  )
     (if 
       (or 
@@ -5450,6 +5592,7 @@
 
 
 ; (TA:ChangeFont)
+; (c:Plotter_CKST_CSDframeplot)
 ; ; ; automation_Process
 ;   (if (= (getvar "ctab") "Model") ;move model
 ;     (progn
