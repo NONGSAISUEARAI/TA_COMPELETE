@@ -14130,7 +14130,7 @@
       (command "pselect"  new_ss_dim_ "" )
       (_EndUndo doc)
     )
-    (defun c:BBDx ()
+    (defun c:BBex ()
       ;special for me only work with CKST Drwaing Construction 
         (setq DIM_E-C "FAMELINE-CKST_E-C") ;Ref from C:dimsetting  
         (setq DIM_C-C "FAMELINE-CKST_C-C") ;Ref from C:dimsetting 
@@ -14451,6 +14451,7 @@
         (alert "please go to C:Dimsettin /nand set DIM EE EC CC CE")
       )
       (command "pselect"  new_ss_dim_ "" )
+      (c:move_dim_level_mvdim)
       (_EndUndo doc)
     )
     (defun c:BBCx ()
@@ -14774,6 +14775,7 @@
         (alert "please go to C:Dimsettin /nand set DIM EE EC CC CE")
       )
       (command "pselect"  new_ss_dim_ "" )
+      (c:move_dim_level_mvdim)
       (_EndUndo doc)
     )
   ;
@@ -16448,6 +16450,203 @@
     (_EndUndo doc)
     (command "erase" ss_pre_filter_set_xx_  "" )
     (command "pselect"  new_ss_dim_ "" )
+  )
+  (defun c:starter_dim_stdim ()
+    (setq staterblk_ename_ (car (entsel "specify Object")))
+    (setq staterblk_obj_ (vlax-ename->vla-object staterblk_ename_))
+    (setq staterblk_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint staterblk_obj_))))
+    (setq staterblk_obj_rotation_ (vla-get-rotation staterblk_obj_))
+    (setq staterblk_obj_dist_1 (LM:getdynpropvalue staterblk_obj_ "distance1"))
+    (setq staterblk_obj_dist_2 (LM:getdynpropvalue staterblk_obj_ "distance2"))
+    (setq staterblk_obj_dist_3 (LM:getdynpropvalue staterblk_obj_ "distance3"))
+    (setq staterblk_obj_dist_4 (LM:getdynpropvalue staterblk_obj_ "distance4"))
+    ;dist_1
+      (cond
+        ((= (getvar "worlducs") 1) ;รอแก้
+            (progn
+              (vl-catch-all-apply 
+                (function 
+                  (lambda () 
+                    (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
+                                  (vlax-3d-point staterblk_obj_ins_)
+                                  (vlax-3d-point (polar staterblk_obj_ins_ (deg-to-rad 180) staterblk_obj_dist_1))
+                                  (vlax-3d-point (polar staterblk_obj_ins_ (deg-to-rad 90) (/ staterblk_obj_dist_2 2)))
+                                  (deg-to-rad 180)
+                    )
+                  )
+                )
+              )
+            )
+          )
+          ((= (getvar "worlducs") 0) ;รอแก้
+            (progn
+              (vl-catch-all-apply 
+                (function 
+                  (lambda () 
+                    (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
+                                (vlax-3d-point (trans staterblk_obj_ins_ 1 0))
+                                (vlax-3d-point (trans (polar staterblk_obj_ins_ (deg-to-rad 180) staterblk_obj_dist_1) 1 0))
+                                (vlax-3d-point (trans (polar staterblk_obj_ins_ (deg-to-rad 90) (/ staterblk_obj_dist_2 2)) 1 0))
+                                (deg-to-rad 180)
+                    )
+                  )
+                )
+              )
+            )
+          )
+      )
+      ;new_blk_entlast object
+        (setq dim_ename (entlast))
+        (setq new_ss_dim_ (ssadd dim_ename  new_ss_dim_))
+        (setq dim_obj_ (vlax-ename->vla-object dim_ename))
+        (command "_AIDIMPREC" dimprec dim_ename "" )
+        (vla-put-stylename dim_obj_ "FAMELINE-CKST_C-C")
+        (vla-put-ScaleFactor  dim_obj_ (/ sc 2) )
+        (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
+        (command "_AIDIMPREC" dimprec dim_ename "" )
+      ;
+    ;
+    ;dist_2
+      (cond
+        ((= (getvar "worlducs") 1) ;รอแก้
+          (progn
+            (vl-catch-all-apply 
+              (function 
+                (lambda () 
+                  (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
+                                (vlax-3d-point staterblk_obj_ins_)
+                                (vlax-3d-point (polar staterblk_obj_ins_ (deg-to-rad 90) staterblk_obj_dist_2))
+                                (vlax-3d-point (polar staterblk_obj_ins_ (deg-to-rad 0) (/ staterblk_obj_dist_3 2)))
+                                (deg-to-rad 90)
+                  )
+                )
+              )
+            )
+          )
+          
+        )
+        ((= (getvar "worlducs") 0) ;รอแก้
+          (progn
+            (vl-catch-all-apply 
+              (function 
+                (lambda () 
+                  (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
+                              (vlax-3d-point (trans staterblk_obj_ins_ 1 0))
+                              (vlax-3d-point (trans (polar staterblk_obj_ins_ (deg-to-rad 90) staterblk_obj_dist_2) 1 0))
+                              (vlax-3d-point (trans (polar staterblk_obj_ins_ (deg-to-rad 0) (/ staterblk_obj_dist_3 2)) 1 0))
+                              (deg-to-rad 90)
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+      ;new_blk_entlast object
+        (setq dim_ename (entlast))
+        (setq new_ss_dim_ (ssadd dim_ename  new_ss_dim_))
+        (setq dim_obj_ (vlax-ename->vla-object dim_ename))
+        (command "_AIDIMPREC" dimprec dim_ename "" )
+        (vla-put-stylename dim_obj_ "FAMELINE-CKST_C-C")
+        (vla-put-ScaleFactor  dim_obj_ (/ sc 2) )
+        (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
+        (command "_AIDIMPREC" dimprec dim_ename "" )
+      ;
+    ;
+    ;dist_3
+      (cond
+        ((= (getvar "worlducs") 1) ;รอแก้
+          (progn
+            (vl-catch-all-apply 
+              (function 
+                (lambda () 
+                  (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
+                                (vlax-3d-point staterblk_obj_ins_)
+                                (vlax-3d-point (polar staterblk_obj_ins_ (deg-to-rad 0) staterblk_obj_dist_3))
+                                (vlax-3d-point (polar staterblk_obj_ins_ (deg-to-rad 270) (/ staterblk_obj_dist_4 2)))
+                                (deg-to-rad 0)
+                  )
+                )
+              )
+            )
+          )
+          
+        )
+        ((= (getvar "worlducs") 0) ;รอแก้
+          (progn
+            (vl-catch-all-apply 
+              (function 
+                (lambda () 
+                  (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
+                              (vlax-3d-point (trans staterblk_obj_ins_ 1 0))
+                              (vlax-3d-point (trans (polar staterblk_obj_ins_ (deg-to-rad 0) staterblk_obj_dist_3) 1 0))
+                              (vlax-3d-point (trans (polar staterblk_obj_ins_ (deg-to-rad 270) (/ staterblk_obj_dist_4 2)) 1 0))
+                              (deg-to-rad 0)
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+      ;new_blk_entlast object
+        (setq dim_ename (entlast))
+        (setq new_ss_dim_ (ssadd dim_ename  new_ss_dim_))
+        (setq dim_obj_ (vlax-ename->vla-object dim_ename))
+        (command "_AIDIMPREC" dimprec dim_ename "" )
+        (vla-put-stylename dim_obj_ "FAMELINE-CKST_C-C")
+        (vla-put-ScaleFactor  dim_obj_ (/ sc 2) )
+        (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
+        (command "_AIDIMPREC" dimprec dim_ename "" )
+      ;
+    ;
+    ;dist_4
+      (cond
+        ((= (getvar "worlducs") 1) ;รอแก้
+          (progn
+            (vl-catch-all-apply 
+              (function 
+                (lambda () 
+                  (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
+                                (vlax-3d-point staterblk_obj_ins_)
+                                (vlax-3d-point (polar staterblk_obj_ins_ (deg-to-rad 270) staterblk_obj_dist_4))
+                                (vlax-3d-point (polar staterblk_obj_ins_ (deg-to-rad 180) (/ staterblk_obj_dist_1 2)))
+                                (deg-to-rad 90)
+                  )
+                )
+              )
+            )
+          )
+          
+        )
+        ((= (getvar "worlducs") 0) ;รอแก้
+          (progn
+            (vl-catch-all-apply 
+              (function 
+                (lambda () 
+                  (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
+                              (vlax-3d-point (trans staterblk_obj_ins_ 1 0))
+                              (vlax-3d-point (trans (polar staterblk_obj_ins_ (deg-to-rad 270) staterblk_obj_dist_4) 1 0))
+                              (vlax-3d-point (trans (polar staterblk_obj_ins_ (deg-to-rad 180) (/ staterblk_obj_dist_1 2)) 1 0))
+                              (deg-to-rad 90)
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+      ;new_blk_entlast object
+        (setq dim_ename (entlast))
+        (setq new_ss_dim_ (ssadd dim_ename  new_ss_dim_))
+        (setq dim_obj_ (vlax-ename->vla-object dim_ename))
+        (command "_AIDIMPREC" dimprec dim_ename "" )
+        (vla-put-stylename dim_obj_ "FAMELINE-CKST_C-C")
+        (vla-put-ScaleFactor  dim_obj_ (/ sc 2) )
+        (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
+        (command "_AIDIMPREC" dimprec dim_ename "" )
+      ;
+    ;
   )
 ;
 
