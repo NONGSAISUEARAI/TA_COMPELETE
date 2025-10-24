@@ -15558,7 +15558,7 @@
         )
         (sslength ss_pre_filter_set_xx_)
       )
-      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_v2_ ss_pre_filter_set_xx_ (list "000-GRID_LINE_DYN_V2" "000-GRID_LINE_DYN_V2-FOR-CC012" "000 - TRANSFER")))
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_v2_ ss_pre_filter_set_xx_ (list "000-GRID_LINE_DYN_V2" "000-GRID_LINE_DYN_V2-FOR-CC012" "000 - TRANSFER" )))
     ;
     ;preloop_and_while ins Current UCS
       (setq ss_pre_filter_set_xx_i 0)
@@ -16452,6 +16452,13 @@
     (command "pselect"  new_ss_dim_ "" )
   )
   (defun c:starter_dim_stdim ()
+    ;presetting
+      (setq acadObj (vlax-get-acad-object))
+      (setq doc (vla-get-ActiveDocument acadObj))
+      (setq modelSpace (vla-get-ModelSpace doc))
+      (setq layoutactive (vla-get-paperspace doc))
+    ;
+    (setq new_ss_dim_ (ssadd   ))
     (setq staterblk_ename_ (car (entsel "specify Object")))
     (setq staterblk_obj_ (vlax-ename->vla-object staterblk_ename_))
     (setq staterblk_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint staterblk_obj_))))
@@ -16470,7 +16477,7 @@
                     (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
                                   (vlax-3d-point staterblk_obj_ins_)
                                   (vlax-3d-point (polar staterblk_obj_ins_ (deg-to-rad 180) staterblk_obj_dist_1))
-                                  (vlax-3d-point (polar staterblk_obj_ins_ (deg-to-rad 90) (/ staterblk_obj_dist_2 2)))
+                                  (vlax-3d-point (polar staterblk_obj_ins_ (deg-to-rad 90) 3))
                                   (deg-to-rad 180)
                     )
                   )
@@ -16486,7 +16493,7 @@
                     (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
                                 (vlax-3d-point (trans staterblk_obj_ins_ 1 0))
                                 (vlax-3d-point (trans (polar staterblk_obj_ins_ (deg-to-rad 180) staterblk_obj_dist_1) 1 0))
-                                (vlax-3d-point (trans (polar staterblk_obj_ins_ (deg-to-rad 90) (/ staterblk_obj_dist_2 2)) 1 0))
+                                (vlax-3d-point (trans (polar staterblk_obj_ins_ (deg-to-rad 90) 3) 1 0))
                                 (deg-to-rad 180)
                     )
                   )
@@ -16503,7 +16510,8 @@
         (vla-put-stylename dim_obj_ "FAMELINE-CKST_C-C")
         (vla-put-ScaleFactor  dim_obj_ (/ sc 2) )
         (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
-        (command "_AIDIMPREC" dimprec dim_ename "" )
+        (vla-put-PrimaryUnitsPrecision dim_obj_ 2)
+        ; (command "_AIDIMPREC" dimprec dim_ename "" )
       ;
     ;
     ;dist_2
@@ -16516,7 +16524,7 @@
                   (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
                                 (vlax-3d-point staterblk_obj_ins_)
                                 (vlax-3d-point (polar staterblk_obj_ins_ (deg-to-rad 90) staterblk_obj_dist_2))
-                                (vlax-3d-point (polar staterblk_obj_ins_ (deg-to-rad 0) (/ staterblk_obj_dist_3 2)))
+                                (vlax-3d-point (polar staterblk_obj_ins_ (deg-to-rad 0) 3))
                                 (deg-to-rad 90)
                   )
                 )
@@ -16533,7 +16541,7 @@
                   (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
                               (vlax-3d-point (trans staterblk_obj_ins_ 1 0))
                               (vlax-3d-point (trans (polar staterblk_obj_ins_ (deg-to-rad 90) staterblk_obj_dist_2) 1 0))
-                              (vlax-3d-point (trans (polar staterblk_obj_ins_ (deg-to-rad 0) (/ staterblk_obj_dist_3 2)) 1 0))
+                              (vlax-3d-point (trans (polar staterblk_obj_ins_ (deg-to-rad 0) 3) 1 0))
                               (deg-to-rad 90)
                   )
                 )
@@ -16550,7 +16558,8 @@
         (vla-put-stylename dim_obj_ "FAMELINE-CKST_C-C")
         (vla-put-ScaleFactor  dim_obj_ (/ sc 2) )
         (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
-        (command "_AIDIMPREC" dimprec dim_ename "" )
+        (vla-put-PrimaryUnitsPrecision dim_obj_ 2)
+        ; (command "_AIDIMPREC" dimprec dim_ename "" )
       ;
     ;
     ;dist_3
@@ -16563,7 +16572,7 @@
                   (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
                                 (vlax-3d-point staterblk_obj_ins_)
                                 (vlax-3d-point (polar staterblk_obj_ins_ (deg-to-rad 0) staterblk_obj_dist_3))
-                                (vlax-3d-point (polar staterblk_obj_ins_ (deg-to-rad 270) (/ staterblk_obj_dist_4 2)))
+                                (vlax-3d-point (polar staterblk_obj_ins_ (deg-to-rad 270) 3))
                                 (deg-to-rad 0)
                   )
                 )
@@ -16580,7 +16589,7 @@
                   (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
                               (vlax-3d-point (trans staterblk_obj_ins_ 1 0))
                               (vlax-3d-point (trans (polar staterblk_obj_ins_ (deg-to-rad 0) staterblk_obj_dist_3) 1 0))
-                              (vlax-3d-point (trans (polar staterblk_obj_ins_ (deg-to-rad 270) (/ staterblk_obj_dist_4 2)) 1 0))
+                              (vlax-3d-point (trans (polar staterblk_obj_ins_ (deg-to-rad 270) 3) 1 0))
                               (deg-to-rad 0)
                   )
                 )
@@ -16597,7 +16606,8 @@
         (vla-put-stylename dim_obj_ "FAMELINE-CKST_C-C")
         (vla-put-ScaleFactor  dim_obj_ (/ sc 2) )
         (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
-        (command "_AIDIMPREC" dimprec dim_ename "" )
+        (vla-put-PrimaryUnitsPrecision dim_obj_ 2)
+        ; (command "_AIDIMPREC" dimprec dim_ename "" )
       ;
     ;
     ;dist_4
@@ -16610,7 +16620,7 @@
                   (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
                                 (vlax-3d-point staterblk_obj_ins_)
                                 (vlax-3d-point (polar staterblk_obj_ins_ (deg-to-rad 270) staterblk_obj_dist_4))
-                                (vlax-3d-point (polar staterblk_obj_ins_ (deg-to-rad 180) (/ staterblk_obj_dist_1 2)))
+                                (vlax-3d-point (polar staterblk_obj_ins_ (deg-to-rad 180) 3))
                                 (deg-to-rad 90)
                   )
                 )
@@ -16627,7 +16637,7 @@
                   (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
                               (vlax-3d-point (trans staterblk_obj_ins_ 1 0))
                               (vlax-3d-point (trans (polar staterblk_obj_ins_ (deg-to-rad 270) staterblk_obj_dist_4) 1 0))
-                              (vlax-3d-point (trans (polar staterblk_obj_ins_ (deg-to-rad 180) (/ staterblk_obj_dist_1 2)) 1 0))
+                              (vlax-3d-point (trans (polar staterblk_obj_ins_ (deg-to-rad 180) 3) 1 0))
                               (deg-to-rad 90)
                   )
                 )
@@ -16644,7 +16654,8 @@
         (vla-put-stylename dim_obj_ "FAMELINE-CKST_C-C")
         (vla-put-ScaleFactor  dim_obj_ (/ sc 2) )
         (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
-        (command "_AIDIMPREC" dimprec dim_ename "" )
+        (vla-put-PrimaryUnitsPrecision ss_pre_filter_set_xx_obj_ 2)
+        ; (command "_AIDIMPREC" dimprec dim_ename "" )
       ;
     ;
   )

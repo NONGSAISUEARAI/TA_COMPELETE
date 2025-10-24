@@ -33311,6 +33311,7 @@
     
   )
   (defun c:PPLINE_CKST_viewport_layer_CKST-VPfaming()
+    (_StartUndo doc)
     (command "vplayer" "c" 251 "A11_ALU.SOLID SHEET" "c" "") 
     (command "vplayer" "c" 251 "A04_TUBE SERIES" "c" "") 
     (command "vplayer" "c" 251 "A-WALL-PATT" "c" "") 
@@ -33325,6 +33326,7 @@
     (command "vplayer" "f" "PPLS Master ROW C1 C2_dwg _2_" "c" "")
     (command "vplayer" "F" "000 - CSD_*" "c" "")
     (command "vplayer" "t" "*duct*" "c" "")
+    (_endUndo doc)
   )
   (defun c:PPLINE_CKST_viewport_layer_CKST-VPthawall()
     (command "_.VPLAYER" "_T" "*" "") 
@@ -35524,7 +35526,7 @@
          (= (getenv "COMPUTERNAME") "DESKTOP-FSRT7SI")
        )
        (progn
-         (setq pp18_path "C:/TA WORK/PPLINE CKST/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP17/CAD/")
+         (setq pp18_path "C:/TA WORK/PPLINE CKST/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP20/CAD/")
          (princ "_case_1")
        )
     )
@@ -35533,7 +35535,7 @@
          (= (getenv "COMPUTERNAME") "NONGSAISUEARAI")
        )
        (progn
-         (setq pp18_path "C:/TA FAMELINE old data/TA/TA_WORK/MASS TRANSIT/TA_PPLINE CKST/TA_PPLINE CKST_combine_CSD-ceiling-plan/C1-C2_Finishes-Reflected Ceiling Plan/PP17/CAD/")
+         (setq pp18_path "C:/TA FAMELINE old data/TA/TA_WORK/MASS TRANSIT/TA_PPLINE CKST/TA_PPLINE CKST_combine_CSD-ceiling-plan/C1-C2_Finishes-Reflected Ceiling Plan/PP20/CAD/")
          (princ "_case_2")
        )
     )
