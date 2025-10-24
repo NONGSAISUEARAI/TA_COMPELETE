@@ -33313,6 +33313,7 @@
   (defun c:PPLINE_CKST_viewport_layer_CKST-VPfaming()
     (command "vplayer" "c" 251 "A11_ALU.SOLID SHEET" "c" "") 
     (command "vplayer" "c" 251 "A04_TUBE SERIES" "c" "") 
+    (command "vplayer" "c" 251 "A-WALL-PATT" "c" "") 
     (command "vplayer" "f" "A-ROOM-IDEN" "c" "") 
     (command "vplayer" "f" "A-ANNO-KEYN" "c" "") 
     (command "vplayer" "f" "G-ANNO-TEXT" "c" "") 
@@ -33488,7 +33489,67 @@
     (c:PPLINE-Filter_CKSTCSDlayer_)
     (c:PPLINE-Filter_CKST_EX_CL_)
   )
-
+  (defun c:PPLINE-CKST-DropVPcolor_ ()
+    (_StartUndo doc)
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              ; (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              ; (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (setq ss_pre_filter_set_xx_layet_list_ ())
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (setq ss_pre_filter_set_xx_layet_list_ (cons (vla-get-layer ss_pre_filter_set_xx_obj_) ss_pre_filter_set_xx_layet_list_))
+          
+          
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+        (setq target_layer_list_ (TA:Count_item_in_list_ ss_pre_filter_set_xx_layet_list_))
+        ;preloop_and_while
+          (setq target_layer_list_i 0)
+          (while (< target_layer_list_i (length target_layer_list_))
+            (setq target_layer_list_ename_ (car (nth  target_layer_list_i target_layer_list_)))
+            (if (and 
+                  (/= target_layer_list_ename_ "0")
+                )
+              (progn
+                (command "vplayer" "c" 251 target_layer_list_ename_ "c" "")
+              )
+            )
+            
+        
+            (setq target_layer_list_i (+ target_layer_list_i 1))
+          )
+        ;
+      ;
+    ;
+    (_endUndo doc)
+  )
 ;
 ;PPLINE CKST - Visibility Func
   (defun c:PPLINE-CKST-reset300layer () ;ใช้สำหรับ set layer ในบล็อก เพื่อให้เรียบร้อย

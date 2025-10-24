@@ -3485,17 +3485,17 @@
         (command "ucs" "world")
       ;
       ;go_to_layout-process
-        (if 
-          (or 
-            (= (getvar "ctab") "model")
-            (/= (getvar "ctab") "FAMING")
-          )
-          (progn 
-            (setvar "ctab" "FAMING")
+        ; (if 
+        ;   (or 
+        ;     (= (getvar "ctab") "model")
+        ;     (/= (getvar "ctab") "FAMING")
+        ;   )
+        ;   (progn 
+        ;     (setvar "ctab" "FAMING")
             
-          )
-          (setvar "ctab" "FAMING")
-        )
+        ;   )
+        ;   (setvar "ctab" "FAMING")
+        ; )
       ;
       ;selection_set_for_fillter_blk_name
         (if  ;pre_select_ssget_or_post_select_ssget

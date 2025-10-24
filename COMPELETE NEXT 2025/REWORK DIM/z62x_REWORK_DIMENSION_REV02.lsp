@@ -9924,11 +9924,13 @@
         
         (setq Li_sc_ (vlax-get-property  ss_pre_filter_set_xx_obj_  'LinearScaleFactor ))
         (setq Fac_sc_ (vlax-get-property  ss_pre_filter_set_xx_obj_  'ScaleFactor  ))
+        (setq dim_Precision_ (vla-get-PrimaryUnitsPrecision ss_pre_filter_set_xx_obj_ ))
         
 
         (vla-put-stylename  ss_pre_filter_set_xx_obj_  DD )
         (vlax-put-property  ss_pre_filter_set_xx_obj_  'LinearScaleFactor Li_sc_)
         (vlax-put-property  ss_pre_filter_set_xx_obj_  'ScaleFactor Fac_sc_)
+        (vla-put-PrimaryUnitsPrecision ss_pre_filter_set_xx_obj_ dim_Precision_)
         (command "dimedit" "h" (vlax-vla-object->ename ss_pre_filter_set_xx_obj_) "")
         (if  (= (vlax-get-property  ss_pre_filter_set_xx_obj_  'TextMovement  ) 1)
           (progn
@@ -10585,6 +10587,137 @@
       ;
       (command "pselect"  ss_pre_filter_set_xx_ "" )
     )
+    (defun C:Switch_loop_dimstyle_swdims (  )
+      ;presetting
+        (setq dimstyle_list (list DIM_E-E DIM_C-E DIM_C-E DIM_C-C))
+        (setq dimstyle_list_length (length dimstyle_list))
+      ;
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "dimension") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "dimension") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ 0)) 
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (setq ss_pre_filter_set_xx_obj_dim_text_pos (vlax-safearray->list (vlax-variant-value (vla-get-textposition ss_pre_filter_set_xx_obj_))))
+      ;
+      ;presetting dynamic tag&val
+        (command "ucs" "w")
+        (setq ERR_ nil)
+        (setq ex-value 0)
+        (if (= vis_value nil)
+          (progn
+            (setq vis_value 0)
+          )
+          
+        )
+        (while 
+          (and
+            (= (vl-catch-all-error-p ERR_) nil)
+          )
+          (setq ERR_
+            (vl-catch-all-apply
+              (function
+                (lambda ()
+                  (setq vis_value (cond 
+                                    ((getint 
+                                       (strcat "\n0 = previous \n1 = next \n" (vla-get-stylename ss_pre_filter_set_xx_obj_ ) "\n<" (rtos (setq vis_value (cond (vis_value) (1.0) ) ) ) "> : " )
+                                     )
+                                    )
+                                    (vis_value)
+                                  )
+                  )
+                )
+              )
+            )
+          )
+          ;preloop_and_while
+            (setq ex-value (+ ex-value vis_value))
+            (setq ss_pre_filter_set_xx_i 0)
+            (while (and 
+                     (= (vl-catch-all-error-p ERR_) nil)
+                     (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+                   ) 
+              (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i)) 
+              (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+              (setq ss_pre_filter_set_xx_obj_dim_text_pos (vlax-safearray->list (vlax-variant-value (vla-get-textposition ss_pre_filter_set_xx_obj_))))
+              (cond
+                (;changing_case_1
+                   (and
+                      (= ex-value 1)
+                   )
+                   (progn
+                     (TA:change_dim_side_ ss_pre_filter_set_xx_obj_ DIM_E-E)
+                     (vla-put-textposition ss_pre_filter_set_xx_obj_ (vlax-3d-point ss_pre_filter_set_xx_obj_dim_text_pos))
+                     (princ "changing_case_1")
+                   )
+                )
+                (;changing_case_2
+                   (and
+                      (= ex-value 2)
+                   )
+                   (progn
+                     (TA:change_dim_side_ ss_pre_filter_set_xx_obj_ DIM_C-E)
+                     (vla-put-textposition ss_pre_filter_set_xx_obj_ (vlax-3d-point ss_pre_filter_set_xx_obj_dim_text_pos))
+                     (princ "changing_case_2")
+                   )
+                )
+                (;changing_case_3
+                   (and
+                      (= ex-value 3)
+                   )
+                   (progn
+                     (TA:change_dim_side_ ss_pre_filter_set_xx_obj_ DIM_E-C)
+                     (vla-put-textposition ss_pre_filter_set_xx_obj_ (vlax-3d-point ss_pre_filter_set_xx_obj_dim_text_pos))
+                     (princ "changing_case_3")
+                   )
+                )
+                (;changing_case_4
+                   (and
+                      (= ex-value 4)
+                   )
+                   (progn
+                     (TA:change_dim_side_ ss_pre_filter_set_xx_obj_ DIM_C-C)
+                     (vla-put-textposition ss_pre_filter_set_xx_obj_ (vlax-3d-point ss_pre_filter_set_xx_obj_dim_text_pos))
+                     (setq ex-value 0)
+                     (princ "changing_case_4")
+                   )
+                )
+              )
+              (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+            )
+          ;
+          
+        )
+      ;
+
+        
+      ;
+      (command "ucs" "p")
+    )
+    
   ;
   ;create dim
     (defun c:Dcc ()
@@ -12323,7 +12456,7 @@
         (alert "please go to C:Dimsettin /nand set DIM EE EC CC CE")
       )
     )
-    (defun c:DDx ()
+    (defun c:DDex ()
       ;special for me only work with CKST Drwaing Construction 
         (setq DIM_E-C "FAMELINE-CKST_E-C") ;Ref from C:dimsetting  
         (setq DIM_C-C "FAMELINE-CKST_C-C") ;Ref from C:dimsetting 
@@ -13997,7 +14130,7 @@
       (command "pselect"  new_ss_dim_ "" )
       (_EndUndo doc)
     )
-    (defun c:BBx ()
+    (defun c:BBDx ()
       ;special for me only work with CKST Drwaing Construction 
         (setq DIM_E-C "FAMELINE-CKST_E-C") ;Ref from C:dimsetting  
         (setq DIM_C-C "FAMELINE-CKST_C-C") ;Ref from C:dimsetting 
@@ -14148,7 +14281,7 @@
             (setq ss_pre_filter_set_xx_inslist_sorted_find_Y_ (vl-sort ss_pre_filter_set_xx_inslist_  ;bigest open indent list
                                                                               (function 
                                                                                 (lambda (a b) 
-                                                                                  (< (nth 1 (cadr a ) ) (nth 1 (cadr b ) ) )
+                                                                                  (> (nth 1 (cadr a ) ) (nth 1 (cadr b ) ) )
                                                                                 )
                                                                               )
                                                                       ) ;bigest close indent list
@@ -14243,7 +14376,7 @@
                                                                                       )
                                                                                     )
                                                                           ) ;bigest close indent list
-              )
+              ) 
             ;
             (setq new_ss_dim_ (ssadd   ))
             (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 0)
@@ -14320,7 +14453,7 @@
       (command "pselect"  new_ss_dim_ "" )
       (_EndUndo doc)
     )
-    (defun c:DDcx ()
+    (defun c:BBCx ()
       ;special for me only work with CKST Drwaing Construction 
         (setq DIM_E-C "FAMELINE-CKST_E-C") ;Ref from C:dimsetting  
         (setq DIM_C-C "FAMELINE-CKST_C-C") ;Ref from C:dimsetting 
@@ -14471,7 +14604,7 @@
             (setq ss_pre_filter_set_xx_inslist_sorted_find_Y_ (vl-sort ss_pre_filter_set_xx_inslist_  ;bigest open indent list
                                                                               (function 
                                                                                 (lambda (a b) 
-                                                                                  (< (nth 1 (cadr a ) ) (nth 1 (cadr b ) ) )
+                                                                                  (> (nth 1 (cadr a ) ) (nth 1 (cadr b ) ) )
                                                                                 )
                                                                               )
                                                                       ) ;bigest close indent list
@@ -14487,7 +14620,7 @@
                 (setq ss_pre_filter_set_xx_inslist_sorted_find_Y_obj_offset (LM:getdynpropvalue ss_pre_filter_set_xx_inslist_sorted_find_Y_obj_ "offset"))
                 (setq ss_pre_filter_set_xx_inslist_sorted_highest_newins_Y (list 
                                                                             (+ (car ss_pre_filter_set_xx_inslist_sorted_find_Y_ins_) 0)
-                                                                            (+ (cadr ss_pre_filter_set_xx_inslist_sorted_find_Y_ins_) ss_pre_filter_set_xx_inslist_sorted_find_Y_obj_offset )
+                                                                            (- (cadr ss_pre_filter_set_xx_inslist_sorted_find_Y_ins_) (+ ss_pre_filter_set_xx_inslist_sorted_find_Y_obj_H ss_pre_filter_set_xx_inslist_sorted_find_Y_obj_offset) )
                                                                             (+ (caddr ss_pre_filter_set_xx_inslist_sorted_find_Y_ins_) 0)
                                                                           )
                 )
@@ -14538,7 +14671,7 @@
                 (setq ss_pre_filter_set_xx_inslist_sorted_lowest_Y_sorted_ (vl-sort ss_pre_filter_set_xx_inslist_sorted_lowest_Y_  ;bigest open indent list
                                                           (function 
                                                             (lambda (a b) 
-                                                              (< (nth 1 (cadr a ) ) (nth 1 (cadr b ) ) )
+                                                              (> (nth 1 (cadr a ) ) (nth 1 (cadr b ) ) )
                                                             )
                                                           )
                                       ) ;bigest close indent list
@@ -14547,7 +14680,7 @@
               (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_ (cadr (car ss_pre_filter_set_xx_inslist_sorted_highest_Y_)))
               (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_  (list 
                                                                       (+ (car ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_) 0 )
-                                                                      (+ (cadr ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_) OF_DIM )
+                                                                      (+ (cadr ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_) (- OF_DIM) )
                                                                       (+ (caddr ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_))
                                                                     )
                                                                   
@@ -14566,8 +14699,9 @@
                                                                                       )
                                                                                     )
                                                                           ) ;bigest close indent list
-              )
+              ) 
             ;
+            (setq new_ss_dim_ (ssadd   ))
             (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 0)
             (while (< ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 1)
               (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_ (car (nth  ss_pre_filter_set_xx_inslist_sorted_highest_Y_i ss_pre_filter_set_xx_inslist_sorted_highest_Y_)))
@@ -14612,6 +14746,7 @@
               )
               ;new_blk_entlast object
                 (setq dim_ename (entlast))
+                (setq new_ss_dim_ (ssadd dim_ename  new_ss_dim_))
                 (setq dim_obj_ (vlax-ename->vla-object dim_ename))
                 (command "_AIDIMPREC" dimprec dim_ename "" )
                 (cond
@@ -14638,6 +14773,8 @@
         )
         (alert "please go to C:Dimsettin /nand set DIM EE EC CC CE")
       )
+      (command "pselect"  new_ss_dim_ "" )
+      (_EndUndo doc)
     )
   ;
   ;dim text 
