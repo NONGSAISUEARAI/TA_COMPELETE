@@ -20310,6 +20310,7 @@
     ;
     (setq ERR_ nil)
     (setq temp_increment_num_ 0)
+    (if (= increment_num_ nil) (progn (setq increment_num_ 0) ) )
     (while ;for keep insertion point and dist. fix length one side
       (and
         (= (vl-catch-all-error-p ERR_) nil)
@@ -33315,15 +33316,17 @@
     (command "vplayer" "c" 251 "A11_ALU.SOLID SHEET" "c" "") 
     (command "vplayer" "c" 251 "A04_TUBE SERIES" "c" "") 
     (command "vplayer" "c" 251 "A-WALL-PATT" "c" "") 
+    (command "vplayer" "c" 251 "A-CLNG" "c" "") 
+    (command "vplayer" "c" 251 "A-CLNG-PATT" "c" "") 
     (command "vplayer" "f" "A-ROOM-IDEN" "c" "") 
-    (command "vplayer" "f" "A-ANNO-KEYN" "c" "") 
+    ; (command "vplayer" "f" "A-ANNO-KEYN" "c" "") 
     (command "vplayer" "f" "G-ANNO-TEXT" "c" "") 
     (command "vplayer" "f" "A-ANNO-DIMS-100" "c" "") 
     (command "vplayer" "f" "A-ANNO-NOTE" "c" "")
     (command "vplayer" "f" "A-ANNO-NOTE" "c" "")
     (command "vplayer" "f" "A-DETL-GENF" "c" "")
     (command "vplayer" "f" "000 - DEF GRID" "c" "")
-    (command "vplayer" "f" "PPLS Master ROW C1 C2_dwg _2_" "c" "")
+    ; (command "vplayer" "f" "PPLS Master ROW C1 C2_dwg _2_" "c" "")
     (command "vplayer" "F" "000 - CSD_*" "c" "")
     (command "vplayer" "t" "*duct*" "c" "")
     (_endUndo doc)
