@@ -3550,6 +3550,8 @@
                                 (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "rev_no_val")
                               )
               )
+              (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "REV_DATE_01" "27-10-2025")
+              (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DESIGNED_BY_DATE_val" "27-10-2025" )
               ;plot process
                 (if 
                   (findfile (setq filename (strcat "" (getvar 'DWGPREFIX)  pre-name_ ".pdf")))

@@ -11059,6 +11059,7 @@
         (alert "please go to C:Dimsettin /nand set DIM EE EC CC CE")
       )
       (command "pselect"  new_ss_dim_ "" )
+      (c:move_dim_level_mvdim)
       (_EndUndo doc)
     )
     (defun c:Dcx ()
@@ -11395,6 +11396,7 @@
         (alert "please go to C:Dimsettin /nand set DIM EE EC CC CE")
       )
       (command "pselect"  new_ss_dim_ "" )
+      (c:move_dim_level_mvdim)
       (_EndUndo doc)
     )
     (defun c:Dex ()
@@ -13331,7 +13333,7 @@
                                       ) ;bigest close indent list
                 )
               ;
-              (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_ (cadr (car ss_pre_filter_set_xx_inslist_sorted_highest_Y_)))
+              (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_ (cadr (car ss_pre_filter_set_xx_inslist_sorted_lowest_Y_sorted_)))
               (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_  (list 
                                                                       (+ (car ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_) 0 )
                                                                       (+ (cadr ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_) (- OF_DIM) )
@@ -13440,6 +13442,7 @@
         (alert "please go to C:Dimsettin /nand set DIM EE EC CC CE")
       )
       (command "pselect"  new_ss_dim_ "" )
+      (c:move_dim_level_mvdim)
       (_EndUndo doc)
     )
     (defun c:Bcx ()
@@ -13667,7 +13670,7 @@
                                       ) ;bigest close indent list
                 )
               ;
-              (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_ (cadr (car ss_pre_filter_set_xx_inslist_sorted_highest_Y_)))
+              (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_ (cadr (car ss_pre_filter_set_xx_inslist_sorted_lowest_Y_sorted_)))
               (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_  (list 
                                                                       (+ (car ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_) 0 )
                                                                       (+ (cadr ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_) (- OF_DIM) )
@@ -14003,7 +14006,7 @@
                                       ) ;bigest close indent list
                 )
               ;
-              (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_ (cadr (car ss_pre_filter_set_xx_inslist_sorted_highest_Y_)))
+              (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_ (cadr (car ss_pre_filter_set_xx_inslist_sorted_lowest_Y_sorted_)))
               (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_  (list 
                                                                       (+ (car ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_) 0 )
                                                                       (+ (cadr ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_) (- OF_DIM) )
@@ -14354,13 +14357,13 @@
                 (setq ss_pre_filter_set_xx_inslist_sorted_lowest_Y_sorted_ (vl-sort ss_pre_filter_set_xx_inslist_sorted_lowest_Y_  ;bigest open indent list
                                                           (function 
                                                             (lambda (a b) 
-                                                              (> (nth 1 (cadr a ) ) (nth 1 (cadr b ) ) )
+                                                              (< (nth 1 (cadr a ) ) (nth 1 (cadr b ) ) )
                                                             )
                                                           )
                                       ) ;bigest close indent list
                 )
               ;
-              (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_ (cadr (car ss_pre_filter_set_xx_inslist_sorted_highest_Y_)))
+              (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_ (cadr (car ss_pre_filter_set_xx_inslist_sorted_lowest_Y_sorted_)))
               (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_  (list 
                                                                       (+ (car ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_) 0 )
                                                                       (+ (cadr ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_) (- OF_DIM) )
@@ -14678,13 +14681,13 @@
                 (setq ss_pre_filter_set_xx_inslist_sorted_lowest_Y_sorted_ (vl-sort ss_pre_filter_set_xx_inslist_sorted_lowest_Y_  ;bigest open indent list
                                                           (function 
                                                             (lambda (a b) 
-                                                              (> (nth 1 (cadr a ) ) (nth 1 (cadr b ) ) )
+                                                              (< (nth 1 (cadr a ) ) (nth 1 (cadr b ) ) )
                                                             )
                                                           )
                                       ) ;bigest close indent list
                 )
               ;
-              (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_ (cadr (car ss_pre_filter_set_xx_inslist_sorted_highest_Y_)))
+              (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_ (cadr (car ss_pre_filter_set_xx_inslist_sorted_lowest_Y_sorted_)))
               (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_  (list 
                                                                       (+ (car ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_) 0 )
                                                                       (+ (cadr ss_pre_filter_set_xx_inslist_sorted_highest_Y_val_) (- OF_DIM) )
