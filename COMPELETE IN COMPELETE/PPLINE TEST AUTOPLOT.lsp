@@ -3481,6 +3481,7 @@
     ;
   )
   (defun c:Plotter_CKST_CSDframeplot ()
+      (c:PPLINE_CKST_REWORK-TTB24_)
       ;return
         (command "ucs" "world")
       ;
@@ -3550,8 +3551,8 @@
                                 (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "rev_no_val")
                               )
               )
-              (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "REV_DATE_01" "27-10-2025")
-              (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DESIGNED_BY_DATE_val" "27-10-2025" )
+              ; (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "REV_DATE_01" "27-10-2025")
+              ; (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DESIGNED_BY_DATE_val" "27-10-2025" )
               ;plot process
                 (if 
                   (findfile (setq filename (strcat "" (getvar 'DWGPREFIX)  pre-name_ ".pdf")))
@@ -5587,6 +5588,65 @@
         (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
       )
     ;
+  )
+  (defun c:PPLINE_CKST_REWORK-TTB24_ ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "x"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              (cons 410 (getvar "CTAB"))
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              (cons 410 (getvar "CTAB"))
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_v2_ ss_pre_filter_set_xx_ (list "Title Block_Under Ground_C1 v3" "Title Block_Under Ground_C2 v3")))
+    ;
+    ; (setq REV-LV_level_val (strcat "0" (rtos (cond ( (getint (strcat "\nspecify get level issue\n<" (rtos (setq REV-LV_level_val (cond (REV-LV_level_val) (1.0) ) ) ) "> : " ) ) ) (REV-LV_level_val) ) 2 0)) )
+    (setq REV-LV_level_val "02" )
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (setq REV-LV REV-LV_level_val)
+        (setq REV (strcat "REV_" REV-LV))
+        (setq REV_DATE_ (strcat "REV_DATE_" REV-LV))
+        (setq REV_DESC_ (strcat "REV_DESC_" REV-LV))
+        (setq DWG (strcat "DWG" REV-LV))
+        (setq CHK (strcat "CHK" REV-LV))
+        (setq APP (strcat "APP" REV-LV))
+        
+        (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DESIGNED_BY_DATE_val"  "29-10-2025")
+        (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ REV        "A")
+        (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ REV_DATE_  "29-10-2025")
+        (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ REV_DESC_  "FIRST ISSUED REV01")
+        (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ DWG        "TA")
+        (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ CHK        "KEN")
+        (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ APP        "MK")
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+
   )
   ; (c:loadlisp)
   ; (c:update_up1auto_)

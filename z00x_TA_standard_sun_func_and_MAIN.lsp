@@ -33309,7 +33309,9 @@
     (command "vplayer" "f" "001 - ASCESSORIES_HANGING" "c" "")
     (command "vplayer" "f" "000 - DEF GRID" "c" "")
     (command "vplayer" "f" "000 - CSD_*" "c" "")
-    
+    (command "vplayer" "F" "*000_PPLINE_CKST_SMOKE_ACESSORIES*" "c" "")
+    (command "vplayer" "F" "*000_PPLINE_CKST_SMOKE_BARRIER*" "c" "")
+    (command "-layer" "color" 251 "VP" "SMOKE" "")
   )
   (defun c:PPLINE_CKST_viewport_layer_CKST-VPfaming()
     (_StartUndo doc)
@@ -33328,6 +33330,10 @@
     (command "vplayer" "f" "000 - DEF GRID" "c" "")
     ; (command "vplayer" "f" "PPLS Master ROW C1 C2_dwg _2_" "c" "")
     (command "vplayer" "F" "000 - CSD_*" "c" "")
+    (command "vplayer" "F" "*000_PPLINE_CKST_SMOKE_ACESSORIES*" "c" "")
+    (command "vplayer" "F" "*000_PPLINE_CKST_SMOKE_BARRIER*" "c" "")
+    
+    
     (command "vplayer" "t" "*duct*" "c" "")
     (_endUndo doc)
   )
@@ -33575,6 +33581,24 @@
     (command "-layer" "n" "000_PPLINE_CKST_SMOKE_ACESSORIESSUB_COLOR_2" "")
     (command "-layer" "n" "000_PPLINE_CKST_SMOKE_ACESSORIES_HATCH" "")
     (command "-layer" "n" "000_PPLINE_CKST_SMOKE_ACESSORIES_WIPEOUT" "")
+
+    (command "-layer" "c" 3 "000_PPLINE_CKST_SMOKE_GLASS_FIN_MAIN_COLOR" "" ) 
+    (command "-layer" "c" 1 "000_PPLINE_CKST_SMOKE_GLASS_FIN_SUB_COLOR_1" "" ) 
+    (command "-layer" "c" 1 "000_PPLINE_CKST_SMOKE_GLASS_FIN_SUB_COLOR_2" "" ) 
+    (command "-layer" "c" 251 "000_PPLINE_CKST_SMOKE_GLASS_FIN_HATCH" "" ) 
+    (command "-layer" "c" 250 "000_PPLINE_CKST_SMOKE_GLASS_FIN_WIPEOUT" "" ) 
+    
+    (command "-layer" "c" 2 "000_PPLINE_CKST_SMOKE_BARRIER_MAIN_COLOR" "" ) 
+    (command "-layer" "c" 1 "000_PPLINE_CKST_SMOKE_BARRIER_SUB_COLOR_1" "" ) 
+    (command "-layer" "c" 1 "000_PPLINE_CKST_SMOKE_BARRIER_SUB_COLOR_2" "" ) 
+    (command "-layer" "c" 251 "000_PPLINE_CKST_SMOKE_BARRIER_HATCH" "" ) 
+    (command "-layer" "c" 250 "000_PPLINE_CKST_SMOKE_BARRIER_WIPEOUT" "" ) 
+    
+    (command "-layer" "c" 1 "000_PPLINE_CKST_SMOKE_ACESSORIES_MAIN_COLOR" "" ) 
+    (command "-layer" "c" 1 "000_PPLINE_CKST_SMOKE_ACESSORIESSUB_COLOR_1" "" ) 
+    (command "-layer" "c" 1 "000_PPLINE_CKST_SMOKE_ACESSORIESSUB_COLOR_2" "" ) 
+    (command "-layer" "c" 251 "000_PPLINE_CKST_SMOKE_ACESSORIES_HATCH" "" ) 
+    (command "-layer" "c" 250 "000_PPLINE_CKST_SMOKE_GLASS_FIN_WIPEOUT" "" ) 
 
     ;(command "-layer" "filter" "n" "G" "" "*000 - CSD_PL_*" "CSD" ""  )
     (setq MAIN-filter_1 "SMOKE")
