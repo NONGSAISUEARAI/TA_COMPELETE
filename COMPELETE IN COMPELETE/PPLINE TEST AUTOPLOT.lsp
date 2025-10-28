@@ -5654,23 +5654,25 @@
 
 
 ; (TA:ChangeFont)
-; (c:Plotter_CKST_CSDframeplot)
-; ; ; automation_Process
-;   (if (= (getvar "ctab") "Model") ;move model
-;     (progn
-;       (setvar "ctab" (nth 1 (getdrawinglayouts (getvar "dwgname"))))
-;     )
-;   )
-; ;   ; (c:CKdim)
-;   ; (c:Plotter_CKST_CSD-R-PLOT) ; csd file1
-;   (c:Plotter_CKST_CSD3plot) ; newest plotter
-;   ; (c:Plotter_CKST_CSDPLOT)
-;   ; (c:PPLINE_CKST_REWORK-TTB2_)
+
+; ; automation_Process
+  ; (if (= (getvar "ctab") "Model") ;move model
+  ;   (progn
+  ;     (setvar "ctab" (nth 1 (getdrawinglayouts (getvar "dwgname"))))
+  ;   )
+;   ; )
+;   (setvar "ctab" (nth 1 (getdrawinglayouts (getvar "dwgname"))))
+;   (c:Plotter_CKST_CSDframeplot)
+; ; ;   ; (c:CKdim)
+; ;   ; (c:Plotter_CKST_CSD-R-PLOT) ; csd file1
+; ;   (c:Plotter_CKST_CSD3plot) ; newest plotter
+; ;   ; (c:Plotter_CKST_CSDPLOT)
+; ;   ; (c:PPLINE_CKST_REWORK-TTB2_)
 ;   (command "zoom" "a") 
-; ; ;   ; (c:find_xref_)
-; ;   ; (c:RUNPPEL_plot)
+; ; ; ;   ; (c:find_xref_)
+; ; ;   ; (c:RUNPPEL_plot)
 ;   (command "close" "n" )
-;  
+; ;  
 
 ; automation_Process
   ; (if (= (getvar "ctab") "Model") ;move model
