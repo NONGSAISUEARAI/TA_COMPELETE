@@ -33556,6 +33556,40 @@
     (_endUndo doc)
   )
 ;
+;PPLINE CKST - SMOKE BARRIER Layer Func
+  (defun c:PPLINE_CKST_SMOKE_create ()
+    (command "-layer" "n" "000_PPLINE_CKST_SMOKE_GLASS_FIN_MAIN_COLOR" "")
+    (command "-layer" "n" "000_PPLINE_CKST_SMOKE_GLASS_FIN_SUB_COLOR_1" "")
+    (command "-layer" "n" "000_PPLINE_CKST_SMOKE_GLASS_FIN_SUB_COLOR_2" "")
+    (command "-layer" "n" "000_PPLINE_CKST_SMOKE_GLASS_FIN_HATCH" "")
+    (command "-layer" "n" "000_PPLINE_CKST_SMOKE_GLASS_FIN_WIPEOUT" "")
+    
+    (command "-layer" "n" "000_PPLINE_CKST_SMOKE_BARRIER_MAIN_COLOR" "")
+    (command "-layer" "n" "000_PPLINE_CKST_SMOKE_BARRIER_SUB_COLOR_1" "")
+    (command "-layer" "n" "000_PPLINE_CKST_SMOKE_BARRIER_SUB_COLOR_2" "")
+    (command "-layer" "n" "000_PPLINE_CKST_SMOKE_BARRIER_HATCH" "")
+    (command "-layer" "n" "000_PPLINE_CKST_SMOKE_BARRIER_WIPEOUT" "")
+
+    (command "-layer" "n" "000_PPLINE_CKST_SMOKE_ACESSORIES_MAIN_COLOR" "")
+    (command "-layer" "n" "000_PPLINE_CKST_SMOKE_ACESSORIESSUB_COLOR_1" "")
+    (command "-layer" "n" "000_PPLINE_CKST_SMOKE_ACESSORIESSUB_COLOR_2" "")
+    (command "-layer" "n" "000_PPLINE_CKST_SMOKE_ACESSORIES_HATCH" "")
+    (command "-layer" "n" "000_PPLINE_CKST_SMOKE_ACESSORIES_WIPEOUT" "")
+
+    ;(command "-layer" "filter" "n" "G" "" "*000 - CSD_PL_*" "CSD" ""  )
+    (setq MAIN-filter_1 "SMOKE")
+    (setq MAIN-filter_1-1 "PPLINE_CKST_SMOKE_GLASS_FIN")
+    (setq MAIN-filter_1-2 "PPLINE_CKST_SMOKE_BARRIER")
+    (setq MAIN-filter_1-3 "PPLINE_CKST_SMOKE_ACESSORIES")
+  
+    (command "-layer" "filter" "n" "G" "" "*000_PPLINE_CKST_SMOKE_*" MAIN-filter_1 ""  )
+    (command "-LAYER" "filter" "new" "group"  MAIN-filter_1 "*000_PPLINE_CKST_SMOKE_G*" MAIN-filter_1-1 "" ) 
+    (command "-LAYER" "filter" "new" "group"  MAIN-filter_1 "*000_PPLINE_CKST_SMOKE_BARRIER*" MAIN-filter_1-2 "" ) 
+    (command "-LAYER" "filter" "new" "group"  MAIN-filter_1 "*000_PPLINE_CKST_SMOKE_ACESSORIES*" MAIN-filter_1-3 "" ) 
+
+    
+  )
+;
 ;PPLINE CKST - Visibility Func
   (defun c:PPLINE-CKST-reset300layer () ;ใช้สำหรับ set layer ในบล็อก เพื่อให้เรียบร้อย
     ;selection_set_for_fillter_blk_name
