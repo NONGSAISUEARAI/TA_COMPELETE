@@ -3482,6 +3482,7 @@
   )
   (defun c:Plotter_CKST_CSDframeplot ()
       (c:PPLINE_CKST_REWORK-TTB24_)
+      (c:PPLINE_CKST_REWORK-TTB25_)
       ;return
         (command "ucs" "world")
       ;
@@ -4743,6 +4744,7 @@
     (command "pasteclip" (setq ss (list 0 0 0)) )
     (setvar "osmode" 1215)
   )
+  
   (defun c:PPLINE_CKST_REWORK-TTB11_ ()
     (defun TA:ChangeFont ( / styName newFont styObj)
       (setq styName "CVA-C2-P-PP00-TBKA1 (WD)$0$CVA-E2-P-OR00-TBKA1D$0$CVA-E2-P-OR00-TBKA1$0$A1-TITLE$0$ROMANT")     ; ← ใส่ชื่อ Style ที่ต้องการแก้
@@ -5636,9 +5638,9 @@
         (setq CHK (strcat "CHK" REV-LV))
         (setq APP (strcat "APP" REV-LV))
         
-        (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DESIGNED_BY_DATE_val"  "29-10-2025")
+        (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DESIGNED_BY_DATE_val"  "31-10-2025")
         (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ REV        "A")
-        (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ REV_DATE_  "29-10-2025")
+        (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ REV_DATE_  "31-10-2025")
         (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ REV_DESC_  "FIRST ISSUED")
         (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ DWG        "TA")
         (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ CHK        "KEN")
@@ -5648,7 +5650,7 @@
     ;
 
   )
-  (defun c:PPLINE_CKST_REWORK-TTB25_ ()
+  (defun c:PPLINE_CKST_REWORK-TTB25_ () 
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget
         (=
@@ -5695,7 +5697,7 @@
         (setq CHK (strcat "CHK" REV-LV))
         (setq APP (strcat "APP" REV-LV))
         
-        (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DESIGNED_BY_DATE_val"  "29-10-2025")
+        ; (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DESIGNED_BY_DATE_val"  "31-10-2025")
         (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ REV        "")
         (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ REV_DATE_  "")
         (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ REV_DESC_  "")
@@ -5749,3 +5751,44 @@
   ; (command "zoom" "a") 
   ; (command "close" "n" )
 ;  
+  (defun c:PP20_lengendup_20up ()
+    (setq doc ( vla-get-ActiveDocument ( vlax-get-acad-object ) ) )
+    (if (= 
+          (wcmatch (vl-princ-to-string (vl-catch-all-apply (function (lambda () (vla-Item (vla-get-Blocks doc) "TA-FL-CKST-TTB__20251003-165007_PP20_V1")) ) ) ) "*IAcadBlock*" )
+          nil
+        )
+      (progn
+        (command "circle" (list 0 0 0) 10 "" ) 
+        ;new_blk_entlast object
+          (setq circle_ename (entlast))
+          (setq circle_obj (vlax-ename->vla-object circle_ename))
+          (setq circle_obj_inscen_ (vlax-safearray->list (vlax-variant-value (vla-get-center circle_obj ))))
+          (command "_block" "TA-FL-CKST-TTB__20251003-165007_PP20_V1" circle_obj_inscen_ circle_ename "" )
+          (setvar "BLOCKREDEFINEMODE" 1)
+          (command "-INSERTCONTENT" 
+                    (cond 
+                      ((and 
+                        (= (getenv "COMPUTERNAME") "NONGSAISUEARAI")
+                        (= (getenv "USERNAME") "popul")
+                      )
+                      (progn 
+                        "C:\\TA FAMELINE old data\\TA\\TA_WORK\\MASS TRANSIT\\TA_PPLINE CKST\\TA_PPLINE CKST_combine_CSD-ceiling-plan\\20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan\\C1-C2_Finishes-Reflected Ceiling Plan\\PP20\\CAD\\W-2-PP20-AR-4130-01-A.dwg"
+                      )
+                      )
+                      ((and 
+                        (= (getenv "COMPUTERNAME") "DESKTOP-FSRT7SI")
+                        (= (getenv "USERNAME") "Admin")
+                      )
+                      (progn 
+                        "C:\\TA WORK\\PPLINE CKST\\20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan\\C1-C2_Finishes-Reflected Ceiling Plan\\PP20\\CAD\\W-2-PP20-AR-4130-01-A.dwg")
+                      )
+                    )
+                  "TA-FL-CKST-TTB__20251003-165007_PP20_V1" 
+                  circle_obj_inscen_ 1 1 0 "" "" "" "" 
+          )
+          (setvar "BLOCKREDEFINEMODE" 1)
+        ;
+      )
+    )
+  )
+      
