@@ -33605,12 +33605,97 @@
     (setq MAIN-filter_1-2 "PPLINE_CKST_SMOKE_BARRIER")
     (setq MAIN-filter_1-3 "PPLINE_CKST_SMOKE_ACESSORIES")
   
-    (command "-layer" "filter" "n" "G" "" "*000_PPLINE_CKST_SMOKE_*" MAIN-filter_1 ""  )
+    (command "-layer" "filter" "new" "group" "" "*000_PPLINE_CKST_SMOKE_*" MAIN-filter_1 ""  )
     (command "-LAYER" "filter" "new" "group"  MAIN-filter_1 "*000_PPLINE_CKST_SMOKE_G*" MAIN-filter_1-1 "" ) 
     (command "-LAYER" "filter" "new" "group"  MAIN-filter_1 "*000_PPLINE_CKST_SMOKE_BARRIER*" MAIN-filter_1-2 "" ) 
     (command "-LAYER" "filter" "new" "group"  MAIN-filter_1 "*000_PPLINE_CKST_SMOKE_ACESSORIES*" MAIN-filter_1-3 "" ) 
-
-    
+  )
+  (defun c:create_main_and_sub_filter_creF1 ()
+    ;presettting
+      (setq main_filter_name_ (list 
+                                (list "A" "A1" "A2")
+                                (list "B" "B1" "B2")
+                                (list "C" "C1" "C2")
+                                (list "D" "D1" "D2")
+                                (list "A2" "A22" "A23")
+                              )
+      )
+      (setq wildcard_layer_name_ "*0*")
+    ;
+    ;preloop_and_while_main_filter
+      (setq main_filter_name_i 0)
+      (while (< main_filter_name_i (length main_filter_name_))
+        (setq main_filter_name_val_ (nth  main_filter_name_i main_filter_name_))
+        (if (= (type main_filter_name_val_) 'list)
+          (progn
+            ;preloop_and_while
+              (command "-layer" "filter" "new" "group" "" wildcard_layer_name_ (car main_filter_name_val_) ""  )
+              (setq main_filter_name_val_i 1)
+              (while (< main_filter_name_val_i (length main_filter_name_val_))
+                (setq main_filter_name_val_sval_ (nth  main_filter_name_val_i main_filter_name_val_))
+                ; (command "-layer" "filter" "new" "group" "" wildcard_layer_name_ main_filter_name_val_sval_ ""  )    
+                (command "-LAYER" "filter" "new" "group"  
+                         (car main_filter_name_val_)
+                         "" ;(add layer name to filter, Can use wildcard for adding)
+                         main_filter_name_val_sval_ 
+                         "" )
+                (setq main_filter_name_val_i (+ main_filter_name_val_i 1))
+              )
+            ;
+          )
+          (command "-layer" "filter" "new" "group" "" wildcard_layer_name_ main_filter_name_val_ ""  )
+        )
+        (setq main_filter_name_i (+ main_filter_name_i 1))
+      )
+    ;
+  )
+  (defun c:add_layer_main_and_sub_filter_addLFilter ()
+    ;presettting
+      ;Note By Code_Developer
+        ;fist val in list   = filter name
+        ;second val in list = wildcard_layer name
+        ;sub array list in filter name must be 2 val only 
+      ;
+        (setq main_filter_name_ (list 
+                                  (list "A1" "*FIN*")
+                                  (list "B2" "*HATCH*")
+                                  (list "C2" "*MAIN*")
+                                  (list "D1" "*SUB*")
+                                  (list "A2" "")
+                                  (list "A1" "HATCH")
+                                )
+        )
+      ;
+      ;
+    ;
+    ;preloop_and_while_main_filter
+      (setq main_filter_name_i 0)
+      (while (< main_filter_name_i (length main_filter_name_))
+        (setq main_filter_name_val_ (nth  main_filter_name_i main_filter_name_))
+        (if (and 
+              (= (type main_filter_name_val_) 'list)
+              (= (length main_filter_name_val_) 2)
+            )
+          (progn
+            ;preloop_and_while
+              (setq main_filter_name_val_i 0)
+                (setq main_filter_name_val_sval1_ (car main_filter_name_val_))
+                (setq main_filter_name_val_sval2_ (cadr main_filter_name_val_))
+                ; (command "-layer" "filter" "new" "group" "" wildcard_layer_name_ main_filter_name_val_sval_ ""  )    
+                (command "-layer"
+                         "filter"
+                         "edit"
+                         main_filter_name_val_sval1_ ; (Filter name must be sensitibe case)
+                         "add"
+                         main_filter_name_val_sval2_ ;(add layer name to filter, Can use wildcard for adding)
+                         "x" ""
+                )
+            ;
+          )
+        )
+        (setq main_filter_name_i (+ main_filter_name_i 1))
+      )
+    ;
   )
 ;
 ;PPLINE CKST - Visibility Func
