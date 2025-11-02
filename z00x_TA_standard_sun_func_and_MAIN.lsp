@@ -33576,8 +33576,8 @@
     (command "-layer" "n" "000_PPLINE_CKST_SMOKE_BARRIER_WIPEOUT" "")
 
     (command "-layer" "n" "000_PPLINE_CKST_SMOKE_ACESSORIES_MAIN_COLOR" "")
-    (command "-layer" "n" "000_PPLINE_CKST_SMOKE_ACESSORIESSUB_COLOR_1" "")
-    (command "-layer" "n" "000_PPLINE_CKST_SMOKE_ACESSORIESSUB_COLOR_2" "")
+    (command "-layer" "n" "000_PPLINE_CKST_SMOKE_ACESSORIES_SUB_COLOR_1" "")
+    (command "-layer" "n" "000_PPLINE_CKST_SMOKE_ACESSORIES_SUB_COLOR_2" "")
     (command "-layer" "n" "000_PPLINE_CKST_SMOKE_ACESSORIES_HATCH" "")
     (command "-layer" "n" "000_PPLINE_CKST_SMOKE_ACESSORIES_WIPEOUT" "")
 
@@ -33594,8 +33594,8 @@
     (command "-layer" "c" 250 "000_PPLINE_CKST_SMOKE_BARRIER_WIPEOUT" "" ) 
     
     (command "-layer" "c" 1 "000_PPLINE_CKST_SMOKE_ACESSORIES_MAIN_COLOR" "" ) 
-    (command "-layer" "c" 1 "000_PPLINE_CKST_SMOKE_ACESSORIESSUB_COLOR_1" "" ) 
-    (command "-layer" "c" 1 "000_PPLINE_CKST_SMOKE_ACESSORIESSUB_COLOR_2" "" ) 
+    (command "-layer" "c" 1 "000_PPLINE_CKST_SMOKE_ACESSORIES_SUB_COLOR_1" "" ) 
+    (command "-layer" "c" 1 "000_PPLINE_CKST_SMOKE_ACESSORIES_SUB_COLOR_2" "" ) 
     (command "-layer" "c" 251 "000_PPLINE_CKST_SMOKE_ACESSORIES_HATCH" "" ) 
     (command "-layer" "c" 250 "000_PPLINE_CKST_SMOKE_GLASS_FIN_WIPEOUT" "" ) 
 
@@ -33610,6 +33610,49 @@
     (command "-LAYER" "filter" "new" "group"  MAIN-filter_1 "*000_PPLINE_CKST_SMOKE_BARRIER*" MAIN-filter_1-2 "" ) 
     (command "-LAYER" "filter" "new" "group"  MAIN-filter_1 "*000_PPLINE_CKST_SMOKE_ACESSORIES*" MAIN-filter_1-3 "" ) 
   )
+  (defun c:PPLINE_CKST_SMOKE_smk1_temp ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "A$C49D3615B" "A$C34021FDE" )))
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (vla-put-layer ss_pre_filter_set_xx_obj_ "000_PPLINE_CKST_SMOKE_ACESSORIES_MAIN_COLOR")
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+  )
+;
+
+;prototype for filter layer
   (defun c:create_main_and_sub_filter_creF1 ()
     ;presettting
       (setq main_filter_name_ (list 
