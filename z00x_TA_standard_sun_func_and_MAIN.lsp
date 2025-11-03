@@ -27638,6 +27638,16 @@
     (TA:blockname_finder_ ss_pre_filter_set_xx_ 1 (list "CSD-PLAN"))
     (command "pselect"  selection_target_ "" )
   )
+  (defun c:PPLINE_CKST_addCSD_ ()
+    (command "-layer" ;
+            "filter" ;
+            "edit" ;
+            "CSD" ; (Filter name must be sensitibe case)
+            "add" ;
+            "*000 - CSD*" ;(add layer name to filter, Can use wildcard for adding)
+            "x" "" ;
+    )
+  )
 ;
 ;Method Installation
   (defun c:z63A_text2att () 
@@ -35740,6 +35750,8 @@
   ; (TA:get_name_block_in_drawing_to_list)
   ; (TA:get_name_block_in_drawing_to_list)
   (setvar "BLOCKREDEFINEMODE" 1)
+  (setq input_station_no_ (cond ( (getint (strcat "\nspecify input_station_no_  \n<" (rtos (setq input_station_no_ (cond (input_station_no_) (1.0) ) ) ) "> : " ) ) ) (input_station_no_) ) )
+  (setq station_fullname_ (strcat "PP" (rtos input_station_no_ 2 0 )))
   (setq CSD_MERGE_LIST_ ())
   (setq err_ "S")
   (while (/= (wcmatch (strcase (vl-princ-to-string err_)) "*ERROR*") T) 
@@ -35759,7 +35771,7 @@
          (= (getenv "COMPUTERNAME") "DESKTOP-FSRT7SI")
        )
        (progn
-         (setq pp18_path "C:/TA WORK/PPLINE CKST/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/PP20/CAD/")
+         (setq pp18_path (strcat "C:/TA WORK/PPLINE CKST/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/" station_fullname_ "/CAD/"))
          (princ "_case_1")
        )
     )
@@ -35768,7 +35780,7 @@
          (= (getenv "COMPUTERNAME") "NONGSAISUEARAI")
        )
        (progn
-         (setq pp18_path "C:/TA FAMELINE old data/TA/TA_WORK/MASS TRANSIT/TA_PPLINE CKST/TA_PPLINE CKST_combine_CSD-ceiling-plan/C1-C2_Finishes-Reflected Ceiling Plan/PP20/CAD/")
+         (setq pp18_path (strcat "C:/TA FAMELINE old data/TA/TA_WORK/MASS TRANSIT/TA_PPLINE CKST/TA_PPLINE CKST_combine_CSD-ceiling-plan/C1-C2_Finishes-Reflected Ceiling Plan/" station_fullname_ "/CAD/"))
          (princ "_case_2")
        )
     )
