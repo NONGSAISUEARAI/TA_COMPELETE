@@ -15468,7 +15468,8 @@
     )
     (defun c:insgl ()
       (setq grid_point (getpoint "specify grid line point"))
-      (setq next_point_ (deg-to-rad (TA:ModifyRotation (rad-to-deg (angle grid_point (getpoint grid_point "specify direction" ) )) 180)))
+      (setq grid_point2 (getpoint grid_point "specify direction" ))
+      (setq next_point_ (deg-to-rad (TA:ModifyRotation (rad-to-deg (angle grid_point grid_point2 )) 180)))
       (setq ERR_
         (vl-catch-all-apply
           (function
@@ -15483,8 +15484,7 @@
                 (setq new_grid_ename (entlast))
                 (setq new_grid_obj (vlax-ename->vla-object new_grid_ename))
                 (vla-put-layer new_grid_obj "000 - GRID")
-                (command "pselect" new_grid_ename  "" )
-                (c:z626_grid_line_length_GYY )
+                (LM:setdynpropvalue new_grid_obj "H" (distance grid_point grid_point2))
               ;
             )
           )

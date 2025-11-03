@@ -13161,7 +13161,7 @@
         (setq offset_value (cond ( (getreal (strcat "\nspecify_height blank size\n<" (rtos (setq offset_value (cond (offset_value) (1.0) ) ) ) "> : " ) ) ) (offset_value) ) )
         (setq offset_value offset_value)
       ;
-      (setq blk_ename_ (car (entsel "specify Object")))
+      (setq blk_ename_ (ssname (ssget "i" ) 0))
       (setq blk_obj_ (vlax-ename->vla-object blk_ename_))
       ;preloop_and_while
         (setq Er-msg_new_ename nil)
@@ -33321,7 +33321,7 @@
     (command "vplayer" "f" "000 - CSD_*" "c" "")
     (command "vplayer" "F" "*000_PPLINE_CKST_SMOKE_ACESSORIES*" "c" "")
     (command "vplayer" "F" "*000_PPLINE_CKST_SMOKE_BARRIER*" "c" "")
-    (command "-layer" "color" 251 "VP" "SMOKE" "")
+    ; (command "-layer" "color" 251 "VP" "SMOKE" "")
   )
   (defun c:PPLINE_CKST_viewport_layer_CKST-VPfaming()
     (_StartUndo doc)
