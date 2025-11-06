@@ -13615,7 +13615,7 @@
     )
   ; 
   ;LAYOUT_FUNC
-    (defun c:foo11 ()
+    (defun c:foo111 ()
       ;return
         (command "ucs" "world")
       ;
@@ -33508,6 +33508,29 @@
     (c:PPLINE-Filter_FAMELINElayer)
     (c:PPLINE-Filter_CKSTCSDlayer_)
     (c:PPLINE-Filter_CKST_EX_CL_)
+    
+    (command "-LAYER" "filter" "new" "group"  
+                         "PPLINE-FAMELINE"
+                         "*001 - ASCESSORIES*" ;(add layer name to filter, Can use wildcard for adding)
+                         "PPLINE-FAMELINE_ASCESSORIES_" 
+                         "" 
+    )
+    (command "-LAYER" "filter" "new" "group"  
+                         "PPLINE-FAMELINE"
+                         "" ;(add layer name to filter, Can use wildcard for adding)
+                         "PPLINE-FAMELINE_PANEL" 
+                         "" 
+    )
+    (command "-layer"
+            "filter"
+            "edit"
+            "PPLINE-FAMELINE_PANEL" ; (Filter name must be sensitibe case)
+            "add"
+            "A04_TUBE SERIES" ;(add layer name to filter, Can use wildcard for adding)
+             "add"
+            "A11_ALU.SOLID SHEET"  ;(add layer name to filter, Can use wildcard for adding)
+            "x" ""
+    )
   )
   (defun c:PPLINE-CKST-DropVPcolor_ ()
     (_StartUndo doc)

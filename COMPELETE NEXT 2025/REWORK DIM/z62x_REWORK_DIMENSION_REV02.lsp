@@ -16837,9 +16837,9 @@
                 (function 
                   (lambda () 
                     (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
-                                  (vlax-3d-point (setq new_pt (polar staterblk_obj_ins_ (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ 0)) 8)))
+                                  (vlax-3d-point (setq new_pt (polar staterblk_obj_ins_ (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ 0)) (* 5.625 0))))
                                   (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ 90)) staterblk_obj_dist_2))
-                                  (vlax-3d-point (polar new_pt (TA:ModifyRotation staterblk_obj_rotation_ 0) (* (/ 1 0.55 ) -6) ))
+                                  (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ 0)) -5.625 ))
                                   (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ -90))
                     )
                   )
@@ -16887,9 +16887,10 @@
                 (function 
                   (lambda () 
                     (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
-                                  (vlax-3d-point (setq new_pt (polar staterblk_obj_ins_ (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ 0)) 8)))
+                                  (vlax-3d-point (setq new_pt (polar staterblk_obj_ins_ (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ 0)) (* 5.625 0))))
                                   (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ 270)) staterblk_obj_dist_4))
-                                  (vlax-3d-point (polar new_pt (TA:ModifyRotation staterblk_obj_rotation_ 0) (* (/ 1 0.55 ) -6)))
+                                  (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ 0)) -5.625)) 
+                                     
                                   (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ -90))
                     )
                   )
