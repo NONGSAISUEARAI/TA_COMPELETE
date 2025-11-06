@@ -5645,6 +5645,7 @@
                          (setq year_val_ (substr (rtos (getvar "cdate") 2 0) 1 4))
                        )
         )
+        ; (setq now_val_ "07-11-2025")
         (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DESIGNED_BY_DATE_val"  now_val_)
         (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ REV        "A")
         (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ REV_DATE_  now_val_)
@@ -5739,7 +5740,7 @@
 
 ; ; ; ;   ; (c:find_xref_)
 ; ; ;   ; (c:RUNPPEL_plot)
-
+; (c:Plotter_CKST_CSDframeplot)
 ; ;  
 
   ; (setvar "ctab" (nth 1 (getdrawinglayouts (getvar "dwgname"))))
