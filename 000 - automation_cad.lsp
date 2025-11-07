@@ -11127,7 +11127,8 @@
     )
     (defun c:nselLayer_ ()
       (setq target_layer_ (car (nentsel)))
-      (command "_SelectSimilar" target_layer_ "")
+      ; (command "_SelectSimilar" target_layer_ "")
+      (command "vplayer" "c" 251 (vla-get-layer (vlax-ename->vla-object target_layer_ )) "c" "")
     )
   ;
   ;copy func

@@ -33491,7 +33491,12 @@
         
         (command "-layer" "filter" "n" "G" "" "*000 - CSD_PL_*" "CSD" ""  )
         (command "-layer" "filter" "s" "All" "")
-        
+        (command "-LAYER" "filter" "new" "group"  
+                         "CSD"
+                         "*Duct*" ;(add layer name to filter, Can use wildcard for adding)
+                         "DUCT" 
+                         "" 
+        )
       )
     )
   )
@@ -33679,6 +33684,43 @@
         (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
         (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
         (vla-put-layer ss_pre_filter_set_xx_obj_ "000_PPLINE_CKST_SMOKE_ACESSORIES_MAIN_COLOR")
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+  )
+  (defun c:TEMP_2sk_ ()
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "hatch") ;type of object
+                                            (cons 8 "A-DETL-GENF")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "hatch") ;type of object
+                                            (cons 8 "A-DETL-GENF")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (vla-put-layer ss_pre_filter_set_xx_obj_ "000_PPLINE_CKST_SMOKE_GLASS_FIN_MAIN_COLOR")
         (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
       )
     ;
