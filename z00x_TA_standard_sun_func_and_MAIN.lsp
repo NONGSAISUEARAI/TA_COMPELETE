@@ -37036,8 +37036,148 @@
 )
 
   
-  
-  
+(vl-load-com)
 
+(defun c:GetDriveProps (/ wmi drives drive props)
+  ;; สร้าง WMI object
+  (setq wmi (vlax-create-object "winmgmts:\\\\.\\root\\cimv2"))
+  
+  ;; เลือก drive ทุกตัว (Local, Removable, Network)
+  (setq drives (vlax-invoke wmi 'ExecQuery "SELECT * FROM Win32_LogicalDisk"))
 
+  ;; วนลูปแต่ละ drive
+  (vlax-for drive drives
+    (princ "\n---------------------------")
+    (princ (strcat "\nDrive Letter: " (vlax-get drive 'DeviceID)))
     
+    ;; ดึง properties หลักๆ
+    (princ (strcat "\nVolume Name: " (vlax-get drive 'VolumeName)))
+    (princ (strcat "\nFile System: " (vlax-get drive 'FileSystem)))
+    (princ (strcat "\nSize (bytes): " (vlax-get drive 'Size)))
+    (princ (strcat "\nFree Space (bytes): " (vlax-get drive 'FreeSpace)))
+    (princ (strcat "\nDrive Type: " (itoa (vlax-get drive 'DriveType))))
+  )
+  (princ "\nDone.")
+  (princ)
+)
+
+(defun foo ( / fso drive fs m)
+  (vl-load-com)
+  (setq	fso    (vlax-create-object "Scripting.FileSystemObject"))
+  (setq drive  (vlax-invoke-method fso 'GetDrive "F"))
+  (setq fs     (vlax-get-property drive 'FreeSpace)) (vlax-dump-object drive)
+  (setq m      (vlax-variant-value fs))
+  (rtos m 2 2)
+)
+(defun Get_BaseBoardSerialNumber (/ LocatorObj ServiceObj ObjectSetObj SerialNumber)
+   (vl-load-com)
+   (setq LocatorObj (vlax-create-object "WbemScripting.SWbemLocator") )
+   (setq ServiceObj (vlax-invoke LocatorObj 'ConnectServer nil nil nil nil nil nil nil nil) )
+   (setq ObjectSetObj (vlax-invoke service 'ExecQuery "SELECT * FROM Win32_DiskDrive") )
+   (vlax-for Obj ObjectSetObj
+      (setq SerialNumber (vlax-get Obj 'SerialNumber) )
+   )
+   (foreach Obj (list LocatorObj ServiceObj ObjectSetObj) 
+      (and Obj (vlax-release-object Obj))
+   )
+   (princ (strcat "\nThe SerialNumber is: " SerialNumber))
+   SerialNumber
+)
+
+(setq sss (Get-Drive-Hardware-Serial))
+(nth 0 sss)
+(nth 1 sss)
+(nth 2 sss)
+(nth 3 sss)
+(type sss)
+(defun Get-Drive-Hardware-Serial ( / locator service drives partitions logical letter serial model)
+  (vl-load-com)
+
+  ;; สร้าง WMI locator
+  (setq locator (vlax-create-object "WbemScripting.SWbemLocator"))
+  (setq service (vlax-invoke locator 'ConnectServer "." "root\\cimv2"))
+
+  ;; ดึงทุก DiskDrive (USB + HDD + SSD)
+  (setq drives (vlax-invoke service 'ExecQuery "SELECT * FROM Win32_DiskDrive"))
+
+  ;; วนทุก drive
+  (vlax-for dev drives
+    ;; ดึง hardware serial / PNPDeviceID
+    (setq serial (vlax-get dev 'PNPDeviceID))
+    ;; ดึงชื่อรุ่น / Model ที่ WMI มี
+    (setq model (vlax-get dev 'Model))
+
+    ;; แสดงผล
+    (princ (strcat "\nDevice: " model " | Serial: " serial))
+
+    ;; map partitions → logical disks (drive letters)
+    (setq partitions
+          (vlax-invoke service 'ExecQuery
+            (strcat "ASSOCIATORS OF {Win32_DiskDrive.DeviceID='"
+                    (vlax-get dev 'DeviceID)
+                    "'} WHERE AssocClass = Win32_DiskDriveToDiskPartition")))
+
+    (vlax-for part partitions
+      (setq logical
+            (vlax-invoke service 'ExecQuery
+              (strcat "ASSOCIATORS OF {Win32_DiskPartition.DeviceID='"
+                      (vlax-get part 'DeviceID)
+                      "'} WHERE AssocClass = Win32_LogicalDiskToPartition")))
+      (vlax-for ld logical
+        (setq letter (vlax-get ld 'DeviceID))
+        (princ (strcat " | Drive Letter: " letter))
+      )
+    )
+  )
+
+  ;; ปล่อย COM objects
+  (vlax-release-object service)
+  (vlax-release-object locator)
+  (princ)
+)
+
+
+(defun Get-Drive-Hardware-Serial ( / locator service drives partitions logical letter serial model result)
+  (vl-load-com)
+  (setq result '()) ; list เก็บผลลัพธ์
+
+  ;; สร้าง WMI locator
+  (setq locator (vlax-create-object "WbemScripting.SWbemLocator"))
+  (setq service (vlax-invoke locator 'ConnectServer "." "root\\cimv2"))
+
+  ;; ดึงทุก DiskDrive (USB + HDD + SSD)
+  (setq drives (vlax-invoke service 'ExecQuery "SELECT * FROM Win32_DiskDrive"))
+
+  ;; วนทุก drive
+  (vlax-for dev drives
+    (setq serial (vlax-get dev 'PNPDeviceID))
+    (setq model  (vlax-get dev 'Model))
+
+    ;; map partitions → logical disks (drive letters)
+    (setq partitions
+          (vlax-invoke service 'ExecQuery
+            (strcat "ASSOCIATORS OF {Win32_DiskDrive.DeviceID='"
+                    (vlax-get dev 'DeviceID)
+                    "'} WHERE AssocClass = Win32_DiskDriveToDiskPartition")))
+
+    (vlax-for part partitions
+      (setq logical
+            (vlax-invoke service 'ExecQuery
+              (strcat "ASSOCIATORS OF {Win32_DiskPartition.DeviceID='"
+                      (vlax-get part 'DeviceID)
+                      "'} WHERE AssocClass = Win32_LogicalDiskToPartition")))
+      (vlax-for ld logical
+        (setq letter (vlax-get ld 'DeviceID))
+        ;; เพิ่มข้อมูลลง list
+        (setq result (cons (list model serial letter) result))
+      )
+    )
+  )
+
+  ;; ปล่อย COM objects
+  (vlax-release-object service)
+  (vlax-release-object locator)
+
+  ;; คืนค่า list (กลับลำดับให้เหมือน query)
+  (reverse result)
+)
