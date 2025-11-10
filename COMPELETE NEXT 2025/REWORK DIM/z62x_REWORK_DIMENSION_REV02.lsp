@@ -14137,6 +14137,7 @@
         (alert "please go to C:Dimsettin /nand set DIM EE EC CC CE")
       )
       (command "pselect"  new_ss_dim_ "" )
+      (c:move_dim_level_mvdim)
       (_EndUndo doc)
     )
     (defun c:BBex ()
