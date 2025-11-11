@@ -69,7 +69,6 @@
                                       (strcat Prefix_filter_name_ Prefix_filter_name_LV1 "WIPEOUT_" )
                                       (strcat Prefix_filter_name_ Prefix_filter_name_LV1 "HIDDEN_" )
                                       (strcat Prefix_filter_name_ Prefix_filter_name_LV1 "SYMBOL_" )
-                                      (strcat Prefix_filter_name_ Prefix_filter_name_LV1 "DEFPOINT_" )
                                 )
                                 (list (strcat Prefix_filter_name_ Prefix_filter_name_LV2) 
                                       (strcat Prefix_filter_name_ Prefix_filter_name_LV2 "MAIN_COLOR_" )
@@ -78,7 +77,6 @@
                                       (strcat Prefix_filter_name_ Prefix_filter_name_LV2 "WIPEOUT_" )
                                       (strcat Prefix_filter_name_ Prefix_filter_name_LV2 "HIDDEN_" )
                                       (strcat Prefix_filter_name_ Prefix_filter_name_LV2 "SYMBOL_" )
-                                      (strcat Prefix_filter_name_ Prefix_filter_name_LV2 "DEFPOINT_" )
                                 )
                                 (list (strcat Prefix_filter_name_ Prefix_filter_name_LV3) 
                                       (strcat Prefix_filter_name_ Prefix_filter_name_LV3 "MAIN_COLOR_" )
@@ -87,7 +85,75 @@
                                       (strcat Prefix_filter_name_ Prefix_filter_name_LV3 "WIPEOUT_" )
                                       (strcat Prefix_filter_name_ Prefix_filter_name_LV3 "HIDDEN_" )
                                       (strcat Prefix_filter_name_ Prefix_filter_name_LV3 "SYMBOL_" )
-                                      (strcat Prefix_filter_name_ Prefix_filter_name_LV3 "DEFPOINT_" )
+                                )
+                              )
+      )
+      (setq wildcard_layer_name_ "*0*")
+    ;
+    ;preloop_and_while_main_filter
+      (setq main_filter_name_i 0)
+      (while (< main_filter_name_i (length main_filter_name_))
+        (setq main_filter_name_val_ (nth  main_filter_name_i main_filter_name_))
+        (if (= (type main_filter_name_val_) 'list)
+          (progn
+            ;preloop_and_while
+              (command "-layer" "filter" "new" "group" "" wildcard_layer_name_ (car main_filter_name_val_) ""  )
+              (setq main_filter_name_val_i 1)
+              (while (< main_filter_name_val_i (length main_filter_name_val_))
+                (setq main_filter_name_val_sval_ (nth  main_filter_name_val_i main_filter_name_val_))
+                ; (command "-layer" "filter" "new" "group" "" wildcard_layer_name_ main_filter_name_val_sval_ ""  )    
+                (command "-LAYER" "filter" "new" "group"  
+                         (car main_filter_name_val_)
+                         "" ;(add layer name to filter, Can use wildcard for adding)
+                         main_filter_name_val_sval_ 
+                         "" )
+                (setq main_filter_name_val_i (+ main_filter_name_val_i 1))
+              )
+            ;
+          )
+          (command "-layer" "filter" "new" "group" "" wildcard_layer_name_ main_filter_name_val_ ""  )
+        )
+        (setq main_filter_name_i (+ main_filter_name_i 1))
+      )
+    ;
+  )
+  (defun c:create_main_and_sub_filter_creF3 ()
+    ;presettting
+      (setq Prefix_filter_name_ "000_CLIP-IN_")
+      (setq Prefix_filter_name_LV1 "PANEL_")
+      (setq Prefix_filter_name_LV2 "ACESSORIES_")
+      (setq Prefix_filter_name_LV3 "SUBFAME_")
+      (setq main_filter_name_ (list 
+                                (List "PPLINE-FAMELINE" (strcat Prefix_filter_name_))
+                                (list 
+                                  (strcat Prefix_filter_name_) 
+                                  (strcat Prefix_filter_name_ Prefix_filter_name_LV1) 
+                                  (strcat Prefix_filter_name_ Prefix_filter_name_LV2)
+                                  (strcat Prefix_filter_name_ Prefix_filter_name_LV3)
+                                )
+                                (list (strcat Prefix_filter_name_ Prefix_filter_name_LV1) 
+                                      (strcat Prefix_filter_name_ Prefix_filter_name_LV1 "MAIN_COLOR_" )
+                                      (strcat Prefix_filter_name_ Prefix_filter_name_LV1 "SUB_COLOR_" )
+                                      (strcat Prefix_filter_name_ Prefix_filter_name_LV1 "HATCH_" )
+                                      (strcat Prefix_filter_name_ Prefix_filter_name_LV1 "WIPEOUT_" )
+                                      (strcat Prefix_filter_name_ Prefix_filter_name_LV1 "HIDDEN_" )
+                                      (strcat Prefix_filter_name_ Prefix_filter_name_LV1 "SYMBOL_" )
+                                )
+                                (list (strcat Prefix_filter_name_ Prefix_filter_name_LV2) 
+                                      (strcat Prefix_filter_name_ Prefix_filter_name_LV2 "MAIN_COLOR_" )
+                                      (strcat Prefix_filter_name_ Prefix_filter_name_LV2 "SUB_COLOR_" )
+                                      (strcat Prefix_filter_name_ Prefix_filter_name_LV2 "HATCH_" )
+                                      (strcat Prefix_filter_name_ Prefix_filter_name_LV2 "WIPEOUT_" )
+                                      (strcat Prefix_filter_name_ Prefix_filter_name_LV2 "HIDDEN_" )
+                                      (strcat Prefix_filter_name_ Prefix_filter_name_LV2 "SYMBOL_" )
+                                )
+                                (list (strcat Prefix_filter_name_ Prefix_filter_name_LV3) 
+                                      (strcat Prefix_filter_name_ Prefix_filter_name_LV3 "MAIN_COLOR_" )
+                                      (strcat Prefix_filter_name_ Prefix_filter_name_LV3 "SUB_COLOR_" )
+                                      (strcat Prefix_filter_name_ Prefix_filter_name_LV3 "HATCH_" )
+                                      (strcat Prefix_filter_name_ Prefix_filter_name_LV3 "WIPEOUT_" )
+                                      (strcat Prefix_filter_name_ Prefix_filter_name_LV3 "HIDDEN_" )
+                                      (strcat Prefix_filter_name_ Prefix_filter_name_LV3 "SYMBOL_" )
                                 )
                               )
       )
@@ -204,7 +270,6 @@
                                     "WIPEOUT_"
                                     "HIDDEN_"
                                     "SYMBOL_"
-                                    "DEFPOINT_"
                                   )
         )
       ;
@@ -246,7 +311,7 @@
       )
     ;
   )
-  (defun c:create_layerset_LF1 ()
+  (defun c:create_layerset_ ()
     ;presetting_
       (setq Prefix_filter_name_ "000_CLIP-IN_")
       (setq layer_prefix_overall_ (list 
@@ -263,14 +328,13 @@
                                   (list "WIPEOUT_" 250)
                                   (list "HIDDEN_" 251)
                                   (list "SYMBOL_" 251)
-                                  (list "DEFPOINT_" 250)
                                 )
       )
     ;
     ;preloop_and_while
-      (setq layer_prefix_overall_i 0)
-      (while (< layer_prefix_overall_i (length layer_prefix_overall_))
-        (setq layer_overall_val_ (nth  layer_prefix_overall_i layer_prefix_overall_))
+      (setq prefix_layer_overall_i 1)
+      (while (< prefix_layer_overall_i (length prefix_layer_overall_))
+        (setq layer_overall_val_ (nth  prefix_layer_overall_i prefix_layer_overall_))
         ;preloop_and_while
           (setq layer_subfix_name_i 0)
           (while (< layer_subfix_name_i (length layer_subfix_name_))
@@ -287,7 +351,7 @@
             (setq layer_subfix_name_i (+ layer_subfix_name_i 1))
           )
         ;
-        (setq layer_prefix_overall_i (+ layer_prefix_overall_i 1))
+        (setq prefix_layer_overall_i (+ prefix_layer_overall_i 1))
       )
     ;
   )
