@@ -33395,10 +33395,16 @@
       )
       (setq ii 0)
       (command "-layer" "filter" "n" "G" "" "0" "PPLINE-FAMELINE" ""  )
+      (command "-LAYER" "filter" "new" "group"  
+            "PPLINE-FAMELINE"
+            "" ;(add layer name to filter, Can use wildcard for adding)
+            "NOM_LAYER" 
+            "" 
+      )
       (while (< ii (length TA-FL_Layer_))
         (setq TA-FL_Layer_list_ (nth ii TA-FL_Layer_))
         
-        (command "-layer" "filter"  "e" "0" "PPLINE-FAMELINE" "a" TA-FL_Layer_list_ "L" "") 
+        (command "-layer" "filter"  "e" "0" "NOM_LAYER" "a" TA-FL_Layer_list_ "L" "") 
         
         
         (setq ii (+ ii 1))
@@ -34582,6 +34588,126 @@
       (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
       (setq ss_pre_filter_set_xx_obj_put_color (vla-put-color ss_pre_filter_set_xx_obj_ 1)) ;0 = bylock, 256 = bylayer
       
+      
+      (setq ss_pre_filter_set_xx_obj_put_layer (vla-put-layer ss_pre_filter_set_xx_obj_ "000 - D I M")) ;by_string_name_layer
+       
+      
+      
+
+      
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "x"
+                                          (list
+                                            (cons 0 "insert") ;type of object
+                                            (cons 410 (getvar "CTAB"))
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget "X"
+                                          (list
+                                            (cons 0 "insert") ;type of object
+                                            (cons 410 (getvar "CTAB"))
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000-GRID_LINE_DYN_V2"))
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      (setq ss_pre_filter_set_xx_obj_put_color (vla-put-color ss_pre_filter_set_xx_obj_ 256)) ;0 = bylock, 256 = bylayer
+      (setq ss_pre_filter_set_xx_obj_put_color (vla-put-linetype ss_pre_filter_set_xx_obj_ "TA_GL_000.90000")) ;0 = bylock, 256 = bylayer
+      
+      
+       ;by_string_name_layer
+       
+      
+      
+
+      
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+)
+(defun c:CKgen ()
+  ;presetting
+    (command "-layer" "n" "000 - D I M" "")
+    (command "-layer" "c" 251 "000 - D I M" "" ) 
+    (command "-layer" "c" 251 "000 - GRID" "" ) 
+    ; (command "-layer" "c" 3 "001 - ASCESSORIES" "" ) 
+    ; (command "-layer" "c" 251 "008 - LIGHTING" "" ) 
+    ; (command "-layer" "c" 251 "A04_TUBE SERIES" "" ) 
+    ; (command "-layer" "c" 251 "A11_ALU.SOLID SHEET" "" ) 
+  ;
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "x"
+                                          (list
+                                            (cons 0 "DIMENSION") ;type of object
+                                            (cons 410 (getvar "CTAB"))
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget 
+                                          (list
+                                            (cons 0 "DIMENSION") ;type of object
+                                            (cons 410 (getvar "CTAB"))
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      (setq ss_pre_filter_set_xx_obj_put_color (vla-put-color ss_pre_filter_set_xx_obj_ 1)) ;0 = bylock, 256 = bylayer
+      
+      (if (= (vla-get-arrowhead1block ss_pre_filter_set_xx_obj_  ) "Oblique")
+        (progn
+          (vla-put-arrowhead1block ss_pre_filter_set_xx_obj_ "ArchTick" )
+        )
+      )
+      (if (= (vla-get-arrowhead2block ss_pre_filter_set_xx_obj_ ) "Oblique")
+        (progn
+          (vla-put-arrowhead2block ss_pre_filter_set_xx_obj_ "ArchTick" )
+        )
+      )
+      (vla-put-ArrowheadSize  ss_pre_filter_set_xx_obj_ 0.2 )
+      (vla-put-textcolor  ss_pre_filter_set_xx_obj_ 3 )
+      (vla-put-linearscalefactor  ss_pre_filter_set_xx_obj_ -10 )
       
       (setq ss_pre_filter_set_xx_obj_put_layer (vla-put-layer ss_pre_filter_set_xx_obj_ "000 - D I M")) ;by_string_name_layer
        
