@@ -8510,20 +8510,20 @@
           )
       )
       (command "pselect"  (setq temozoom_ (handent copytext_val)) "" )
-      (setq ERR_
-        (vl-catch-all-apply
-          (function
-            (lambda ()
-              (if (= (getint "zoom object" ) 1)
-                (progn
-                  (command "zoom" )
-                  (command "pselect"  (setq temozoom_ (handent copytext_val)) "" )
-                )
-              )
-            )
-          )
-        )
-      )
+      ; (setq ERR_
+      ;   (vl-catch-all-apply
+      ;     (function
+      ;       (lambda ()
+      ;         (if (= (getint "zoom object" ) 1)
+      ;           (progn
+      ;             (command "zoom" )
+      ;             (command "pselect"  (setq temozoom_ (handent copytext_val)) "" )
+      ;           )
+      ;         )
+      ;       )
+      ;     )
+      ;   )
+      ; )
            
  
     )
@@ -23590,6 +23590,61 @@
 
     )
   )
+  (defun c:ovlhr9 ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-09B_TOP_VIEW"))
+    ; 
+    ;preloop_and_while
+      (_StartUndo doc)
+      (TA:interface_text_ T)
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (if (= (rad-to-deg (vla-get-rotation ss_pre_filter_set_xx_obj_)) 180)
+          (progn
+            (setq ovl_length_ (car (nth 1 (TA:get-visible-boundingbox ss_pre_filter_set_xx_obj_))))
+            ;new_blk_entlast object
+              (setq newrec_ename (entlast))
+              (setq newrec_obj (vlax-ename->vla-object newrec_ename))
+              (vla-delete newrec_obj)
+            ;
+          )
+        )
+        (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "GALV.OVL-LENGTH_" (rtos ovl_length_ 2 2))
+        
+        (TA:textscr_process_V2 "\nupdate dynamic" ss_pre_filter_set_xx_i ss_pre_filter_set_xx_)
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+      (_EndUndo doc)
+    ;
+  )
   ;
   ;000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_FAMELINE_BK-08_HANGING_SYSTEM_300HK_COMBINE_SET
   (defun c:PPLINE_300HK_insHanging_ ()
@@ -25546,148 +25601,6 @@
   )
   (defun c:call_lasted_ssset_cc01_lscc01 ()
     (command "pselect"  lasted_cc01_ssset "" )
-  )
-  (defun c:ssc011 ()
-    ;selection_set_for_fillter_blk_name
-      (if  ;pre_select_ssget_or_post_select_ssget
-        (=
-          (setq c011_ (ssget "i"
-                                            (list
-                                              (cons 0 "INSERT") ;type of object
-                                              ; (cons 8 "000 - GRID")   ;kind of layer
-                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                              ; (cons 62 1)           ;kind of color call sign with color code index
-                                            )
-                                      )
-          )
-          nil
-        )
-        (progn
-          (setq c011_ (ssget
-                                            (list
-                                              (cons 0 "INSERT") ;type of object
-                                              ; (cons 8 "000 - GRID")   ;kind of layer
-                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                              ; (cons 62 1)           ;kind of color call sign with color code index
-                                            )
-                                      )
-          )
-        )
-        (sslength c011_)
-      )
-      (setq c011_ (TA:EF_Filter_ss_set_ c011_ "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_COMBINE_VIEW"))
-    ;
-    (setq ERR_ nil)
-    (while ;for keep insertion point and dist. fix length one side
-      (and
-        (= (vl-catch-all-error-p ERR_) nil)
-      )
-      (setq ERR_
-        (vl-catch-all-apply
-          (function
-            (lambda ()
-              (setq increment_num_ (cond ( (getint (strcat "\nSpecify sss_   <" (rtos (setq increment_num_ (cond (increment_num_) (1.0) ) ) ) "> : " ) ) ) (increment_num_) ) )
-            )
-          )
-        )
-      )
-      ;preloop_and_while
-        (setq c011_i 0)
-        (while 
-          (and
-            (= (vl-catch-all-error-p ERR_) nil)
-            (< c011_i (sslength c011_))
-          )
-          (setq c011_ename_ (ssname c011_ c011_i)) 
-          (setq c011_obj_ (vlax-ename->vla-object  c011_ename_))
-          (setq c011_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint c011_obj_))))
-          (setq c011_obj_fragment_mid_ (LM:getdynpropvalue c011_obj_ "fragment_middle" ))
-          (setq c011_obj_array_length_ (LM:getdynpropvalue c011_obj_ "array_length" ))
-          
-          (cond
-            (;ssss_case_1
-              (and
-                  (= (vl-catch-all-error-p ERR_) nil)
-                  (= (LM:getdynpropvalue c011_obj_ "view") "7_dynamic_length_view" )
-                  (= increment_num_ 1)
-              )
-              (progn
-                (LM:setdynpropvalue c011_obj_ "fragment_middle" (setq c011_obj_fragment_mid_ (+ c011_obj_fragment_mid_ 25)))
-                (TA:move_polar_insertionpoint  c011_obj_ "Y" -12.5)
-                (princ "ssss_case_1")
-              )
-            )
-            (;ssss_case_2
-              (and
-                  (= (vl-catch-all-error-p ERR_) nil)
-                  (= (LM:getdynpropvalue c011_obj_ "view") "7_dynamic_length_view" )
-                  (= increment_num_ 0)
-              )
-              (progn
-                (LM:setdynpropvalue c011_obj_ "fragment_middle" (setq c011_obj_fragment_mid_ (- c011_obj_fragment_mid_ 25)))
-                (TA:move_polar_insertionpoint  c011_obj_ "Y" 12.5)
-                (princ "ssss_case_2")
-              )
-            )
-            (;ssss_case_2-1
-              (and
-                  (= (vl-catch-all-error-p ERR_) nil)
-                  (= (LM:getdynpropvalue c011_obj_ "view") "7_dynamic_length_view" )
-                  (< increment_num_ 0)
-                  (> (fix c011_obj_fragment_mid_)   )
-              )
-              (progn
-                (LM:setdynpropvalue c011_obj_ "fragment_middle" (setq c011_obj_fragment_mid_ (- c011_obj_fragment_mid_ (* 25 (abs increment_num_)))))
-                (TA:move_polar_insertionpoint  c011_obj_ "Y" (* 12.5 (abs increment_num_)) )
-                (princ "ssss_case_2")
-              )
-            )
-            (;ssss_case_2-2
-              (and
-                  (= (vl-catch-all-error-p ERR_) nil)
-                  (= (LM:getdynpropvalue c011_obj_ "view") "7_dynamic_length_view" )      
-                  (> increment_num_ 0)
-                  (<  (fix c011_obj_fragment_mid_) 3000)
-                  (< (+ c011_obj_fragment_mid_ (* 25 increment_num_ ) ) 3000 )
-              )
-              (progn
-                (LM:setdynpropvalue c011_obj_ "fragment_middle" (setq c011_obj_fragment_mid_ (+ c011_obj_fragment_mid_ (* 25 increment_num_))))
-                (TA:move_polar_insertionpoint  c011_obj_ "Y" (* 12.5 (- increment_num_)) )
-                (princ "ssss_case_2")
-              )
-            )
-            (;ssss_case_3
-              (and
-                  (= (vl-catch-all-error-p ERR_) nil)
-                  (= (LM:getdynpropvalue c011_obj_ "view") "2_top_view" )
-                  (= increment_num_ 1)
-              )
-              (progn
-                (LM:setdynpropvalue c011_obj_ "array_length" (setq c011_obj_array_length_ (+ c011_obj_array_length_ 3000)))
-                (TA:move_polar_insertionpoint  c011_obj_ "Y" -1500)
-                (princ "ssss_case_3")
-              )
-            )
-            (;ssss_case_4
-              (and
-                  (= (vl-catch-all-error-p ERR_) nil)
-                  (= (LM:getdynpropvalue c011_obj_ "view") "2_top_view" )
-                  (/= (LM:getdynpropvalue c011_obj_ "array_length") 3000 )
-                  (= increment_num_ 0)
-              )
-              (progn
-                (LM:setdynpropvalue c011_obj_ "array_length" (setq c011_obj_array_length_ (- c011_obj_array_length_ 3000)))
-                (TA:move_polar_insertionpoint  c011_obj_ "Y" 1500)
-                (princ "ssss_case_4")
-              )
-            )
-          )
-          
-          
-          (setq c011_i (+ c011_i 1))
-        )
-      ;
-    )
   )
   ;
   (defun c:inshang1 ()

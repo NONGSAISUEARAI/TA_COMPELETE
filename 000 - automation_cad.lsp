@@ -11651,10 +11651,10 @@
         )
       ;
     )
-    (defun c:Dlength ()
+    (defun c:DL1 ()
       ;presetting ; for seting before run core code 
-        (setq att-target_ "length")
-        (setq att-target_incremental_val 100)
+        (setq att-target_ "fragment_start")
+        (setq att-target_incremental_val 25)
       ;
       ;selection_set_for_fillter_blk_name
         (if  ;pre_select_ssget_or_post_select_ssget
@@ -11683,7 +11683,7 @@
           )
           (sslength ss_pre_filter_set_xx_)
         )
-        (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000 - DYNAMIC_LENGTH+COMBINE+VIEW_ASSCESSORIES_STEEL_TUBE_COMBINE_SET"))
+        (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01-4_COMBINE_VIEW"))
       ;
       ;loop input
         (setq ss_ nil)
@@ -11717,7 +11717,7 @@
                   )
                   (progn
                     (setq att-target_val  (LM:getdynpropvalue ss_pre_filter_set_xx_obj_  att-target_))
-                    (if (= input_length 1)
+                    (if (> input_length 0)
                       (progn
                         (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ att-target_ (setq att-target_val (+ att-target_val att-target_incremental_val)))
                       )
@@ -11848,7 +11848,458 @@
         )
       ;
     )
+    (defun c:ADD_Sequnce_attribute_attsqA ()
+      ;presetting
+        (setq att-name_ "NAME")
+        (setq numbering_ (cond ( (getint (strcat "\nspecify input numbering_ \n<" (rtos (setq numbering_ (cond (numbering_) (1.0) ) ) ) "> : " ) ) ) (numbering_) ) )
+      ;
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+        (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list  "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_COMBINE_VIEW")))
+        
+      ;
+      ;preloop_and_while
+        (setq ERR_1
+          (vl-catch-all-apply
+            (function
+              (lambda ()
+                (setq ss_pre_filter_set_xx_sorted_ (TA:standard_list_croodinate_sorting ss_pre_filter_set_xx_  (strcase (getstring "input axis for sorting" ))))
+              )
+            )
+          )
+        )
+        (setq ERR_2 ;Detect the variable's result in case of a function error
+          (vl-catch-all-apply 
+            (function 
+              (lambda () 
+                (setq  prefix_1__name_ ;Get-string by keep previous value
+                    (if
+                      (or
+                        (/= (setq prefix_1__name_val (getstring (strcat "\nSpecify prefix 1 name <" (if  prefix_1__name_  prefix_1__name_ "") ">: ") ) ) "" )
+                      )
+                        (progn
+                          (setq  prefix_1__name_  prefix_1__name_val)
+                          (setq  prefix_1__name_keep_val_  prefix_1__name_val)
+                        )
+                      (setq  prefix_1__name_val  prefix_1__name_keep_val_)
+                    )
+                )
+              )
+            )
+          )
+        )
+        (setq ERR_3 ;Detect the variable's result in case of a function error
+          (vl-catch-all-apply 
+            (function 
+              (lambda () 
+                (setq  prefix_2__name_ ;Get-string by keep previous value
+                    (if
+                      (or
+                        (/= (setq prefix_2__name_val (getstring (strcat "\nSpecify prefix 2 name <" (if  prefix_2__name_  prefix_2__name_ "") ">: ") ) ) "" )
+                      )
+                        (progn
+                          (setq  prefix_2__name_  prefix_2__name_val)
+                          (setq  prefix_2__name_keep_val_  prefix_2__name_val)
+                        )
+                      (setq  prefix_2__name_val  prefix_2__name_keep_val_)
+                    )
+                )
+              )
+            )
+          )
+        )
 
+        (setq ss_pre_filter_set_xx_sorted_i 0)
+        (while (and 
+                 (= (type ERR_1) 'list)
+                 (= (type ERR_2) 'str)
+                 (= (type ERR_3) 'str)
+                 (< ss_pre_filter_set_xx_sorted_i (length ss_pre_filter_set_xx_sorted_))
+               )
+          (setq ss_pre_filter_set_xx_sorted_ename_ (car (nth  ss_pre_filter_set_xx_sorted_i ss_pre_filter_set_xx_sorted_)))
+          (setq ss_pre_filter_set_xx_sorted_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_sorted_ename_))
+          (if (/= (TA:find-all-indexes (strcase att-name_ ) (mapcar 'strcase (mapcar 'car (LM:vl-getattributevalues ss_pre_filter_set_xx_sorted_obj_ )))) nil)
+            (progn
+              (LM:vl-setattributevalue 
+                ss_pre_filter_set_xx_sorted_obj_ 
+                (strcase att-name_ )
+                (strcat ERR_2
+                        "-"
+                        ERR_3
+                        "-"
+                        (rtos (setq numbering_ (+ numbering_ 1)) 2 0)
+                )
+              )
+            )
+          )
+          (cond          
+            ( (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_sorted_obj_) ) "*HR-02A*") nil)
+              (progn
+                (LM:vl-setattributevalue 
+                  ss_pre_filter_set_xx_sorted_obj_ 
+                  (strcase "GALV-TYPE_" ) 
+                  "HR-02A"
+                )
+              )
+            )
+            ( (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_sorted_obj_) ) "*HR-02B*") nil)
+              (progn
+                (LM:vl-setattributevalue 
+                  ss_pre_filter_set_xx_sorted_obj_ 
+                  (strcase "GALV-TYPE_" ) 
+                  "HR-02B"
+                )
+              )
+            )
+            ( (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_sorted_obj_) ) "*HR-09*") nil)
+              (progn
+                (LM:vl-setattributevalue 
+                  ss_pre_filter_set_xx_sorted_obj_ 
+                  (strcase "GALV-TYPE_" ) 
+                  "HR-09"
+                )
+              )
+            )
+          )
+          (setq ss_pre_filter_set_xx_sorted_i (+ ss_pre_filter_set_xx_sorted_i 1))
+        )
+      ;
+    )
+    (defun c:ADD_Sequnce_attribute_attsqC ()
+      ;presetting
+        (setq att-name_ "NAME")
+        (setq numberingA_ (cond ( (getint (strcat "\nspecify input numberingB_ \n<" (rtos (setq numberingA_ (cond (numberingA_) (1.0) ) ) ) "> : " ) ) ) (numberingA_) ) )
+        (setq numberingB_ (cond ( (getint (strcat "\nspecify input numberingB_ \n<" (rtos (setq numberingB_ (cond (numberingB_) (1.0) ) ) ) "> : " ) ) ) (numberingB_) ) )
+      ;
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+        (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list  "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_COMBINE_VIEW" "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_COMBINE_VIEW")))
+        
+      ;
+      ;preloop_and_while
+        (setq ERR_1
+          (vl-catch-all-apply
+            (function
+              (lambda ()
+                (setq ss_pre_filter_set_xx_sorted_ (TA:standard_list_croodinate_sorting ss_pre_filter_set_xx_  (strcase (getstring "input axis for sorting" ))))
+              )
+            )
+          )
+        )
+        (setq ERR_2 ;Detect the variable's result in case of a function error
+          (vl-catch-all-apply 
+            (function 
+              (lambda () 
+                (setq  prefix_1__name_ ;Get-string by keep previous value
+                    (if
+                      (or
+                        (/= (setq prefix_1__name_val (getstring (strcat "\nSpecify prefix 1 name <" (if  prefix_1__name_  prefix_1__name_ "") ">: ") ) ) "" )
+                      )
+                        (progn
+                          (setq  prefix_1__name_  prefix_1__name_val)
+                          (setq  prefix_1__name_keep_val_  prefix_1__name_val)
+                        )
+                      (setq  prefix_1__name_val  prefix_1__name_keep_val_)
+                    )
+                )
+              )
+            )
+          )
+        )
+        (setq ERR_3 ;Detect the variable's result in case of a function error
+          (vl-catch-all-apply 
+            (function 
+              (lambda () 
+                (setq  prefix_2__name_ ;Get-string by keep previous value
+                    (if
+                      (or
+                        (/= (setq prefix_2__name_val (getstring (strcat "\nSpecify prefix 2 name <" (if  prefix_2__name_  prefix_2__name_ "") ">: ") ) ) "" )
+                      )
+                        (progn
+                          (setq  prefix_2__name_  prefix_2__name_val)
+                          (setq  prefix_2__name_keep_val_  prefix_2__name_val)
+                        )
+                      (setq  prefix_2__name_val  prefix_2__name_keep_val_)
+                    )
+                )
+              )
+            )
+          )
+        )
+
+        (setq ss_pre_filter_set_xx_sorted_i 0)
+        (while (and 
+                 (= (type ERR_1) 'list)
+                 (= (type ERR_2) 'str)
+                 (= (type ERR_3) 'str)
+                 (< ss_pre_filter_set_xx_sorted_i (length ss_pre_filter_set_xx_sorted_))
+               )
+          (setq ss_pre_filter_set_xx_sorted_ename_ (car (nth  ss_pre_filter_set_xx_sorted_i ss_pre_filter_set_xx_sorted_)))
+          (setq ss_pre_filter_set_xx_sorted_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_sorted_ename_))
+          (cond
+            ( (and 
+                  (/= (TA:find-all-indexes (strcase att-name_ ) (mapcar 'strcase (mapcar 'car (LM:vl-getattributevalues ss_pre_filter_set_xx_sorted_obj_ )))) nil)
+                  (= (LM:effectivename ss_pre_filter_set_xx_sorted_obj_) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02AA_COMBINE_VIEW")
+                )
+              (progn
+                (LM:vl-setattributevalue 
+                  ss_pre_filter_set_xx_sorted_obj_ 
+                  (strcase att-name_ )
+                  (strcat ERR_2
+                          "-"
+                          ERR_3
+                          "-"
+                          (rtos (setq numberingA_ (+ numberingA_ 1)) 2 0)
+                  )
+                )
+              )
+            )
+            ( (and
+                  (/= (TA:find-all-indexes (strcase att-name_ ) (mapcar 'strcase (mapcar 'car (LM:vl-getattributevalues ss_pre_filter_set_xx_sorted_obj_ )))) nil)
+                  (= (LM:effectivename ss_pre_filter_set_xx_sorted_obj_) "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_COMBINE_VIEW")
+                )
+              (progn
+                (LM:vl-setattributevalue 
+                  ss_pre_filter_set_xx_sorted_obj_ 
+                  (strcase att-name_ )
+                  (strcat ERR_2
+                          "-"
+                          ERR_3
+                          "-"
+                          (rtos (setq numberingB_ (+ numberingB_ 1)) 2 0)
+                  )
+                )
+              )
+            )
+          )
+          
+          
+          (cond          
+            ( (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_sorted_obj_) ) "*HR-02A*") nil)
+              (progn
+                (LM:vl-setattributevalue 
+                  ss_pre_filter_set_xx_sorted_obj_ 
+                  (strcase "GALV-TYPE_" ) 
+                  "HR-02A"
+                )
+              )
+            )
+            ( (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_sorted_obj_) ) "*HR-02B*") nil)
+              (progn
+                (LM:vl-setattributevalue 
+                  ss_pre_filter_set_xx_sorted_obj_ 
+                  (strcase "GALV-TYPE_" ) 
+                  "HR-02B"
+                )
+              )
+            )
+            ( (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_sorted_obj_) ) "*HR-09*") nil)
+              (progn
+                (LM:vl-setattributevalue 
+                  ss_pre_filter_set_xx_sorted_obj_ 
+                  (strcase "GALV-TYPE_" ) 
+                  "HR-09"
+                )
+              )
+            )
+          )
+          (setq ss_pre_filter_set_xx_sorted_i (+ ss_pre_filter_set_xx_sorted_i 1))
+        )
+      ;
+    )
+    (defun c:ADD_Sequnce_attribute_attsqB ()
+      ;presetting
+        (setq att-name_ "NAME")
+        (setq numberingB_ (cond ( (getint (strcat "\nspecify input numberingB_ \n<" (rtos (setq numberingB_ (cond (numberingB_) (1.0) ) ) ) "> : " ) ) ) (numberingB_) ) )
+      ;
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+        (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list  "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_Z-PROFILE_HR-02B_COMBINE_VIEW")))
+        
+      ;
+      ;preloop_and_while
+        (setq ERR_1
+          (vl-catch-all-apply
+            (function
+              (lambda ()
+                (setq ss_pre_filter_set_xx_sorted_ (TA:standard_list_croodinate_sorting ss_pre_filter_set_xx_  (strcase (getstring "input axis for sorting" ))))
+              )
+            )
+          )
+        )
+        (setq ERR_2 ;Detect the variable's result in case of a function error
+          (vl-catch-all-apply 
+            (function 
+              (lambda () 
+                (setq  prefix_1__name_ ;Get-string by keep previous value
+                    (if
+                      (or
+                        (/= (setq prefix_1__name_val (getstring (strcat "\nSpecify prefix 1 name <" (if  prefix_1__name_  prefix_1__name_ "") ">: ") ) ) "" )
+                      )
+                        (progn
+                          (setq  prefix_1__name_  prefix_1__name_val)
+                          (setq  prefix_1__name_keep_val_  prefix_1__name_val)
+                        )
+                      (setq  prefix_1__name_val  prefix_1__name_keep_val_)
+                    )
+                )
+              )
+            )
+          )
+        )
+        (setq ERR_3 ;Detect the variable's result in case of a function error
+          (vl-catch-all-apply 
+            (function 
+              (lambda () 
+                (setq  prefix_2__name_ ;Get-string by keep previous value
+                    (if
+                      (or
+                        (/= (setq prefix_2__name_val (getstring (strcat "\nSpecify prefix 2 name <" (if  prefix_2__name_  prefix_2__name_ "") ">: ") ) ) "" )
+                      )
+                        (progn
+                          (setq  prefix_2__name_  prefix_2__name_val)
+                          (setq  prefix_2__name_keep_val_  prefix_2__name_val)
+                        )
+                      (setq  prefix_2__name_val  prefix_2__name_keep_val_)
+                    )
+                )
+              )
+            )
+          )
+        )
+
+        (setq ss_pre_filter_set_xx_sorted_i 0)
+        (while (and 
+                 (= (type ERR_1) 'list)
+                 (= (type ERR_2) 'str)
+                 (= (type ERR_3) 'str)
+                 (< ss_pre_filter_set_xx_sorted_i (length ss_pre_filter_set_xx_sorted_))
+               )
+          (setq ss_pre_filter_set_xx_sorted_ename_ (car (nth  ss_pre_filter_set_xx_sorted_i ss_pre_filter_set_xx_sorted_)))
+          (setq ss_pre_filter_set_xx_sorted_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_sorted_ename_))
+          (if (/= (TA:find-all-indexes (strcase att-name_ ) (mapcar 'strcase (mapcar 'car (LM:vl-getattributevalues ss_pre_filter_set_xx_sorted_obj_ )))) nil)
+            (progn
+              (LM:vl-setattributevalue 
+                ss_pre_filter_set_xx_sorted_obj_ 
+                (strcase att-name_ )
+                (strcat ERR_2
+                        "-"
+                        ERR_3
+                        "-"
+                        (rtos (setq numberingB_ (+ numberingB_ 1)) 2 0)
+                )
+              )
+            )
+          )
+          (cond          
+            ( (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_sorted_obj_) ) "*HR-02A*") nil)
+              (progn
+                (LM:vl-setattributevalue 
+                  ss_pre_filter_set_xx_sorted_obj_ 
+                  (strcase "GALV-TYPE_" ) 
+                  "HR-02A"
+                )
+              )
+            )
+            ( (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_sorted_obj_) ) "*HR-02B*") nil)
+              (progn
+                (LM:vl-setattributevalue 
+                  ss_pre_filter_set_xx_sorted_obj_ 
+                  (strcase "GALV-TYPE_" ) 
+                  "HR-02B"
+                )
+              )
+            )
+            ( (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_sorted_obj_) ) "*HR-09*") nil)
+              (progn
+                (LM:vl-setattributevalue 
+                  ss_pre_filter_set_xx_sorted_obj_ 
+                  (strcase "GALV-TYPE_" ) 
+                  "HR-09"
+                )
+              )
+            )
+          )
+          (setq ss_pre_filter_set_xx_sorted_i (+ ss_pre_filter_set_xx_sorted_i 1))
+        )
+      ;
+    )
+    
   ;
 ;
 ;NEW FORMAT
@@ -11869,6 +12320,8 @@
   )
 
 ;
+
+
   
 
 
