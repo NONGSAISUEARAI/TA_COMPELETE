@@ -4166,10 +4166,10 @@
             (vlax-put-property Excel_lasted_worksheet_obj_ 'name  Worksheet_name)
             (setq sheet_data_list_1st (caddr (car (cadddr (cadr (TA:Excel_Assembly_ALL-obj_list_ Workbooks_obj_))))))
             (setq sheet_data_list_last (caddr (car (reverse (cadddr (cadr (TA:Excel_Assembly_ALL-obj_list_ Workbooks_obj_)))))))
-            (vlax-invoke-method Excel_lasted_worksheet_obj_ 'Move sheet_data_list_last)
-            (vlax-invoke-method sheet_data_list_last  'Move Excel_lasted_worksheet_obj_)
-            (setq Excel_lasted_worksheet_obj_ (vlax-get-property Excel_lasted_sheet_obj_ 'item (length (cadddr (cadr (TA:Excel_Assembly_ALL-obj_list_ Workbooks_obj_))))))
-            (vlax-invoke-method Excel_lasted_worksheet_obj_ 'Activate)
+            ; (vlax-invoke-method Excel_lasted_worksheet_obj_ 'Move sheet_data_list_last) ;มีปัญหา
+            ; (vlax-invoke-method sheet_data_list_last  'Move Excel_lasted_worksheet_obj_)  ;มีปัญหา
+            ; (setq Excel_lasted_worksheet_obj_ (vlax-get-property Excel_lasted_sheet_obj_ 'item (length (cadddr (cadr (TA:Excel_Assembly_ALL-obj_list_ Workbooks_obj_))))))
+            ; (vlax-invoke-method Excel_lasted_worksheet_obj_ 'Activate)
             (if ( = clear_file_mode 1)
               (progn
                 (TA:Excel_Clearcontents Excel_lasted_worksheet_obj_ )

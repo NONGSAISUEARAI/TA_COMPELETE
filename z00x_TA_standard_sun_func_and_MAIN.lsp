@@ -870,10 +870,13 @@
           ;get_data
             (setq ss_pre_filter_set_ename (ssname  ss_pre_filter_set_ ss_pre_filter_set_i) )
             (setq ss_pre_filter_set_obj (vlax-ename->vla-object ss_pre_filter_set_ename))
-            (setq ss_pre_filter_set_obj_efname_ (LM:effectivename ss_pre_filter_set_obj))
+            
           ;
           ;filter_data
-            (if (= (TA:FIND_DUPLICATE_LIST ss_pre_filter_set_obj_efname_ effectivename_list) "Y")
+            (if (and 
+                  (= (vla-get-objectname ss_pre_filter_set_obj) "AcDbBlockReference")
+                  (= (TA:FIND_DUPLICATE_LIST (LM:effectivename ss_pre_filter_set_obj) effectivename_list) "Y")
+                )
               (progn
               (ssadd ss_pre_filter_set_ename ss_post_filter_set_)
               )
@@ -23627,21 +23630,28 @@
       (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
         (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
         (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
-        (if (= (rad-to-deg (vla-get-rotation ss_pre_filter_set_xx_obj_)) 180)
+        (if (or 
+              (= (rad-to-deg (vla-get-rotation ss_pre_filter_set_xx_obj_)) 0)
+              (= (rad-to-deg (vla-get-rotation ss_pre_filter_set_xx_obj_)) 180)
+              
+            )
           (progn
+            (setvar "osmode" 0)
             (setq ovl_length_ (car (nth 1 (TA:get-visible-boundingbox ss_pre_filter_set_xx_obj_))))
             ;new_blk_entlast object
               (setq newrec_ename (entlast))
               (setq newrec_obj (vlax-ename->vla-object newrec_ename))
               (vla-delete newrec_obj)
+              (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "GALV.OVL-LENGTH_" (rtos ovl_length_ 2 2))
             ;
           )
         )
-        (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "GALV.OVL-LENGTH_" (rtos ovl_length_ 2 2))
+        
         
         (TA:textscr_process_V2 "\nupdate dynamic" ss_pre_filter_set_xx_i ss_pre_filter_set_xx_)
         (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
       )
+      (setvar "osmode" 1215)
       (_EndUndo doc)
     ;
   )
@@ -24720,6 +24730,62 @@
       )
       (command "pselect"  new_tranfer_ss_ "" )
       (setvar "osmode" 1215)
+    )
+    (defun c:hang_count_HAC ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "insert,circle") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "insert,circle") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_) 
+        )
+      ; 
+      (setq count_circle_ (sslength (TA:Prop_Filter_ss_set_ ss_pre_filter_set_xx_ 'ObjectName "AcDbCircle" )))
+      (setq target_ename_ (ssname 
+                            (TA:EF_Filter_ss_set_v2_ ss_pre_filter_set_xx_ 
+                              (list "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01-4_COMBINE_VIEW")
+                            ) 
+                            0
+                          )
+      )
+      (setq zone_val_
+        (substr 
+          (LM:vl-getattributevalue (vlax-ename->vla-object target_ename_) "NAME")
+          (+ (vl-string-search "ZONE-" (LM:vl-getattributevalue (vlax-ename->vla-object target_ename_) "NAME" ) 0 ) 6)
+          1
+        )
+      )
+      (setq count_box_ename_ (car (entsel "specify Object")))
+      (setq count_box_obj_ (vlax-ename->vla-object count_box_ename_))
+      (LM:vl-setattributevalue count_box_obj_ "NAME" "HANGING")
+      (LM:vl-setattributevalue 
+        count_box_obj_
+        "ZONE"
+        (strcat "ZONE-" (if (>= (setq zone_val_ (atoi zone_val_)) 10) (progn (strcat (rtos zone_val_ 2 0)) ) (strcat "0" (rtos zone_val_ 2 0)) ) )
+      )
+      (LM:vl-setattributevalue count_box_obj_ "TOTAL" count_circle_)
+      ; (LM:vl-setattributevalue count_box_obj_ "UNIT" )
+      
     )
     (defun TA:Switch_lookup (ss_pre_filter_set_xx_ blk_fitter_name_ blk_filter_tag_)
       ;presetting

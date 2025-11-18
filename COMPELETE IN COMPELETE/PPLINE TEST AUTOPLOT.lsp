@@ -1,4 +1,4 @@
-;update 20250613 0220 ssdasasdsda
+;update 20250613 0220 ssdasasdsdaDAFT4
 ;Effective Block Name Funcition Lee Mac
   ;; Effective Block Name  -  Lee Mac
     ;; obj - [vla] VLA Block Reference object
@@ -229,10 +229,13 @@
         ;get_data
           (setq ss_pre_filter_set_ename (ssname  ss_pre_filter_set_ ss_pre_filter_set_i) )
           (setq ss_pre_filter_set_obj (vlax-ename->vla-object ss_pre_filter_set_ename))
-          (setq ss_pre_filter_set_obj_efname_ (LM:effectivename ss_pre_filter_set_obj))
+          
         ;
         ;filter_data
-          (if (= (TA:FIND_DUPLICATE_LIST ss_pre_filter_set_obj_efname_ effectivename_list) "Y")
+          (if (and 
+                (= (vla-get-objectname ss_pre_filter_set_obj) "AcDbBlockReference")
+                (= (TA:FIND_DUPLICATE_LIST (LM:effectivename ss_pre_filter_set_obj) effectivename_list) "Y")
+              )
             (progn
             (ssadd ss_pre_filter_set_ename ss_post_filter_set_)
             )
