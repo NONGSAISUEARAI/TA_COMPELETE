@@ -24768,21 +24768,21 @@
                             0
                           )
       )
-      (setq zone_val_
-        (substr 
-          (LM:vl-getattributevalue (vlax-ename->vla-object target_ename_) "NAME")
-          (+ (vl-string-search "ZONE-" (LM:vl-getattributevalue (vlax-ename->vla-object target_ename_) "NAME" ) 0 ) 6)
-          1
-        )
-      )
+      ; (setq zone_val_
+      ;   (substr 
+      ;     (LM:vl-getattributevalue (vlax-ename->vla-object target_ename_) "NAME")
+      ;     (+ (vl-string-search "ZONE-" (LM:vl-getattributevalue (vlax-ename->vla-object target_ename_) "NAME" ) 0 ) 6)
+      ;     1
+      ;   )
+      ; )
       (setq count_box_ename_ (car (entsel "specify Object")))
       (setq count_box_obj_ (vlax-ename->vla-object count_box_ename_))
       (LM:vl-setattributevalue count_box_obj_ "NAME" "HANGING")
-      (LM:vl-setattributevalue 
-        count_box_obj_
-        "ZONE"
-        (strcat "ZONE-" (if (>= (setq zone_val_ (atoi zone_val_)) 10) (progn (strcat (rtos zone_val_ 2 0)) ) (strcat "0" (rtos zone_val_ 2 0)) ) )
-      )
+      ; (LM:vl-setattributevalue 
+      ;   count_box_obj_
+      ;   "ZONE"
+      ;   (strcat "ZONE-" (if (>= (setq zone_val_ (atoi zone_val_)) 10) (progn (strcat (rtos zone_val_ 2 0)) ) (strcat "0" (rtos zone_val_ 2 0)) ) )
+      ; )
       (LM:vl-setattributevalue count_box_obj_ "TOTAL" count_circle_)
       ; (LM:vl-setattributevalue count_box_obj_ "UNIT" )
       
