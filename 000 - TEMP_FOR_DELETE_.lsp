@@ -471,7 +471,7 @@
       ;
       (setq wildcard_layer_name_ "*0*")
       ;
-      (setq main_filter_name_ (nth 0 main_filter_name_ovl_))
+      (setq main_filter_name_ (nth 1 main_filter_name_ovl_))
     ;
     ;preloop_and_while_main_filter
       (setq main_filter_name_i 0)
@@ -650,7 +650,7 @@
         
       )
     )
-    (setq main_filter_name_ (nth 0 main_filter_name_ovl_))
+    (setq main_filter_name_ (nth 1 main_filter_name_ovl_))
     (c:create_main_and_sub_filter_creF4)
     (c:create_layerset_Lset4)
     (c:add_layer_main_and_sub_filter_addLFilter_ADD_LF4)
