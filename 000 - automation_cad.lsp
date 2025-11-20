@@ -12009,9 +12009,9 @@
     (defun c:ADD_Sequnce_attribute_attsqC ()
       ;presetting
         (setq att-name_ "NAME")
-        (setq numberingzone_ (cond ( (getint (strcat "\nspecify input numberingzone_ \n<" (rtos (setq numberingzone_ (cond (numberingzone_) (1.0) ) ) ) "> : " ) ) ) (numberingzone_) ) )
-        (setq numberingA_ (cond ( (getint (strcat "\nspecify input numberingB_ \n<" (rtos (setq numberingA_ (cond (numberingA_) (1.0) ) ) ) "> : " ) ) ) (numberingA_) ) )
-        (setq numberingB_ (cond ( (getint (strcat "\nspecify input numberingB_ \n<" (rtos (setq numberingB_ (cond (numberingB_) (1.0) ) ) ) "> : " ) ) ) (numberingB_) ) )
+        (setq numberingzone_ (cond ( (getint (strcat "\nspecify input numberingzone_ \n<" (rtos (setq numberingzone_ (cond (numberingzone_) (0) ) ) ) "> : " ) ) ) (numberingzone_) ) )
+        (setq numberingA_ (cond ( (getint (strcat "\nspecify input numberingB_ \n<" (rtos (setq numberingA_ (cond (numberingA_) (1000) ) ) ) "> : " ) ) ) (numberingA_) ) )
+        (setq numberingB_ (cond ( (getint (strcat "\nspecify input numberingB_ \n<" (rtos (setq numberingB_ (cond (numberingB_) (1000) ) ) ) "> : " ) ) ) (numberingB_) ) )
       ;
       ;selection_set_for_fillter_blk_name
         (if  ;pre_select_ssget_or_post_select_ssget
@@ -12091,7 +12091,14 @@
           (LM:vl-setattributevalue 
             ss_pre_filter_set_xx_sorted_obj_  
             (strcase "GALV-TYPE_" )
-            (strcat "ZONE_" (rtos  numberingzone_ 2 0))
+            (strcat "ZONE-"
+                    (if (>= numberingzone_ 10)
+                      (progn
+                        (strcat   (rtos numberingzone_ 2 0))
+                      )
+                      (strcat   "0" (rtos numberingzone_ 2 0))
+                    )
+            )
           )
           (cond
             ( (and 

@@ -4072,6 +4072,7 @@
           )
           (sslength sstarget_)
         )
+      ;
       (setvar "osmode" 1215)
       (setq pttarget_torr (getpoint "specify point for basepoint"))
       
@@ -4137,7 +4138,12 @@
             )
             (progn
               (command "_block" nameblk pttarget_torr sstarget_ "" )
-              (TA:vla-insertblock nameblk pttarget_torr 1 0 )
+              (TA:vla-insertblock 
+                nameblk 
+                (if (= (getvar "worlducs") 0)(progn (trans pttarget_torr 1 0)) pttarget_torr ) 
+                1 
+                0 
+              )
             )
           )
         )
