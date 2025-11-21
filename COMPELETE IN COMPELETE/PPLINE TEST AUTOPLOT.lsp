@@ -3491,7 +3491,7 @@
   )
   (defun c:Plotter_CKST_CSDframeplot ()
       
-      ; (c:PPLINE_CKST_REWORK-TTB24_)
+      (c:PPLINE_CKST_REWORK-TTB24_)
       ; (c:PPLINE_CKST_REWORK-TTB25_)
       ;return
         (command "ucs" "world")
@@ -5828,15 +5828,15 @@
         (setq DWG (strcat "DWG" REV-LV))
         (setq CHK (strcat "CHK" REV-LV))
         (setq APP (strcat "APP" REV-LV))
-        ; (setq now_val_ (strcat 
-        ;                  (setq today_val_ (substr (rtos (getvar "cdate") 2 0) 7 2))
-        ;                  "-"
-        ;                  (setq month_val_ (substr (rtos (getvar "cdate") 2 0) 5 2))
-        ;                  "-"
-        ;                  (setq year_val_ (substr (rtos (getvar "cdate") 2 0) 1 4))
-        ;                )
-        ; )
-        (setq now_val_ "12-11-2025")
+        (setq now_val_ (strcat 
+                         (setq today_val_ (substr (rtos (getvar "cdate") 2 0) 7 2))
+                         "-"
+                         (setq month_val_ (substr (rtos (getvar "cdate") 2 0) 5 2))
+                         "-"
+                         (setq year_val_ (substr (rtos (getvar "cdate") 2 0) 1 4))
+                       )
+        )
+        ; (setq now_val_ "12-11-2025")
         (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DESIGNED_BY_DATE_val"  now_val_)
         (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ REV        "A")
         (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ REV_DATE_  now_val_)
