@@ -14838,7 +14838,7 @@
       (setq dimtext_obj_textpos_ (vlax-safearray->list (vlax-variant-value (vla-get-textposition dimtext_obj_)))) ;method 2 
       
       
-      (command "point" (cdr (assoc 10 (entget dimtext_ename_))))
+      ; (command "point" (cdr (assoc 10 (entget dimtext_ename_))))
       ; (command "point" dimtext_obj_textpos_)
       (setvar "osmode" 0) 
       ; (command "point" (polar dimtext_obj_textpos_ (deg-to-rad dim_angle) 10))

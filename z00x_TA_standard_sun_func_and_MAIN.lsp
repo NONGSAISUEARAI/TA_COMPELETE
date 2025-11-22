@@ -13535,6 +13535,47 @@
       
     )
   ;
+  ;TIME_FUNC
+    (defun TA:CDATE (split-sym time_format)
+      (cond
+        (;_case_1
+          (and
+              (= (type split-sym) 'str)
+              (and (= (type time_format) 'str) (= time_format "MMDDYYY"))    
+          )
+          (progn
+                (setq now_val_ (strcat 
+                          (setq month_val_ (substr (rtos (getvar "cdate") 2 0) 5 2))
+                          split-sym
+                          (setq today_val_ (substr (rtos (getvar "cdate") 2 0) 7 2))
+                          split-sym
+                          (setq year_val_ (substr (rtos (getvar "cdate") 2 0) 1 4))
+                        )
+                )
+            
+          )
+        )
+        (;_case_2
+          (and
+              (= (type split-sym) 'str)
+              (and (= (type time_format) 'str) (= time_format "DDMMYYYY"))    
+          )
+          (progn
+                (setq now_val_ (strcat 
+                          (setq today_val_ (substr (rtos (getvar "cdate") 2 0) 7 2))
+                          split-sym
+                          (setq month_val_ (substr (rtos (getvar "cdate") 2 0) 5 2))
+                          split-sym
+                          (setq year_val_ (substr (rtos (getvar "cdate") 2 0) 1 4))
+                        )
+                )
+            
+          )
+        )
+        
+      )
+    )
+  ;
 ;
 
   ;                                   

@@ -2940,6 +2940,109 @@
     )
   )
 )
+;PPLINE-CKST-TITTLE_BLOCK_ATT_OFFICIAL_EDITOR
+  (defun TA:CDATE (split-sym time_format)
+    (cond
+      (;_case_1
+         (and
+            (= (type split-sym) 'str)
+            (and (= (type time_format) 'str) (= time_format "MMDDYYY"))    
+         )
+         (progn
+              (setq now_val_ (strcat 
+                        (setq month_val_ (substr (rtos (getvar "cdate") 2 0) 5 2))
+                        split-sym
+                        (setq today_val_ (substr (rtos (getvar "cdate") 2 0) 7 2))
+                        split-sym
+                        (setq year_val_ (substr (rtos (getvar "cdate") 2 0) 1 4))
+                      )
+              )
+           
+         )
+      )
+      (;_case_2
+         (and
+            (= (type split-sym) 'str)
+            (and (= (type time_format) 'str) (= time_format "DDMMYYYY"))    
+         )
+         (progn
+              (setq now_val_ (strcat 
+                        (setq today_val_ (substr (rtos (getvar "cdate") 2 0) 7 2))
+                        split-sym
+                        (setq month_val_ (substr (rtos (getvar "cdate") 2 0) 5 2))
+                        split-sym
+                        (setq year_val_ (substr (rtos (getvar "cdate") 2 0) 1 4))
+                      )
+              )
+           
+         )
+      )
+      
+    )
+  )
+  (defun TA:PPLINE_CKST_REWORK-REV_ (title_block_obj_ REV-LV_level_val_ REV_VAL_ REV_DATE_VAL REV_DESC_VAL DWG_VAL CHK_VAL APP_VAL)
+    ;Note By Code_Developer
+    ;The principle of codework is designed for insert text-string into attrubutes title block 
+    ;
+    ;example for using
+    ; (TA:PPLINE_CKST_REWORK-REV_ ss_obj_ (list "01" "03" ) 
+    ;   "A" 
+    ;   (TA:CDATE "/" "DDMMYYYY") 
+    ;   "REVISED ACCORDING TO THE COMMENTS" 
+    ;   "TA"
+    ;   "KEN" 
+    ;   "MK" 
+    ; )
+    ;
+    ;presetting
+      ; (setq title_block_ename_ (car (entsel "specify Object")))
+      ; (setq title_block_obj_ (vlax-ename->vla-object title_block_ename_))
+      ; (setq REV-LV_level_val_ (list 1 2 3 4 5) )
+
+      ; (setq REV_VAL         "1")
+      ; (setq REV_DATE_VAL    "2")
+      ; (setq REV_DESC_VAL    "3")
+      ; (setq DWG_VAL         "a12a4")
+      ; (setq CHK_VAL         "5")
+      ; (setq APP_VAL         "6")
+    ;
+    ;preloop_and_while
+      (setq REV-LV_level_val_i 0)
+      (while (and
+                (and 
+                  (= (type title_block_obj_) 'vla-object)
+                  (= (LM:effectivename title_block_obj_) "Title Block_Under Ground_C1 v3")
+                )
+                (= (type REV-LV_level_val_) 'list )
+                (< REV-LV_level_val_i (length REV-LV_level_val_))
+             )
+        
+        (setq REV-LV_level_val (nth  REV-LV_level_val_i REV-LV_level_val_))
+        ;attribute process
+          (setq REV-LV (strcat "0" (rtos REV-LV_level_val 2 0)))
+          (setq REV       (strcat "REV_" REV-LV))
+          (setq REV_DATE_ (strcat "REV_DATE_" REV-LV))
+          (setq REV_DESC_ (strcat "REV_DESC_" REV-LV))
+          (setq DWG       (strcat "DWG" REV-LV))
+          (setq CHK       (strcat "CHK" REV-LV))
+          (setq APP       (strcat "APP" REV-LV))
+        ;
+        ;
+          (setq 1_ (LM:vl-setattributevalue title_block_obj_ REV  REV_VAL_))
+          (setq 2_ (LM:vl-setattributevalue title_block_obj_ REV_DATE_ REV_DATE_VAL ))
+          (setq 3_ (LM:vl-setattributevalue title_block_obj_ REV_DESC_ REV_DESC_VAL ))
+          (setq 4_ (LM:vl-setattributevalue title_block_obj_ DWG  DWG_VAL))
+          (setq 5_ (LM:vl-setattributevalue title_block_obj_ CHK  CHK_VAL))
+          (setq 6_ (LM:vl-setattributevalue title_block_obj_ APP  APP_VAL))
+        ;
+        (setq REV-LV_level_val_i (+ REV-LV_level_val_i 1))
+      )
+    ;
+    (list 1_ 2_ 3_ 4_ 5_ 6_)
+  )
+
+  
+;
 ;PPLINE-CKST
   (defun c:Plotter_CKST_CSDPLOT ()
       ;return
@@ -3490,9 +3593,18 @@
     ;
   )
   (defun c:Plotter_CKST_CSDframeplot ()
-      
-      (c:PPLINE_CKST_REWORK-TTB24_)
-      ; (c:PPLINE_CKST_REWORK-TTB25_)
+      ;presetting
+        (setq REV_list_         (list 2)
+              REV_VAL           "A"
+              REV_DATE_VAL       "24/11/2025" ;(TA:CDATE "/" "DDMMYYYY")
+              REV_DESC_VAL      "REVISED ACCORDING TO THE COMMENTS"
+              DWG_VAL           "TA"
+              CHK_VAL           "KEN" 
+              APP_VAL           "MK"
+        )
+        ; (c:PPLINE_CKST_REWORK-TTB24_)
+        ; (c:PPLINE_CKST_REWORK-TTB25_)
+      ;
       ;return
         (command "ucs" "world")
       ;
@@ -3542,9 +3654,16 @@
       ;preloop_and_while
         (setq ss_pre_filter_set_xx_i 0)
         (setq External_ref_ename_ ())
-        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (while (and 
+                (= (type REV_list_) 'list)
+                (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+              )
           (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
           (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+          
+          (TA:PPLINE_CKST_REWORK-REV_ ss_pre_filter_set_xx_obj_ REV_list_ REV_VAL REV_DATE_VAL REV_DESC_VAL DWG_VAL CHK_VAL APP_VAL)
+
+          
           (if
             (or
               ; (= (sslength ss_pre_filter_set_xx_) 1)
