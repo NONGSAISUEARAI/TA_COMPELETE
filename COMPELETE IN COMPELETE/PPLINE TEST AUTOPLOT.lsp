@@ -3594,14 +3594,15 @@
   )
   (defun c:Plotter_CKST_CSDframeplot ()
       ;presetting
-        (setq REV_list_         (list 2)
-              REV_VAL           "A"
-              REV_DATE_VAL       "24/11/2025" ;(TA:CDATE "/" "DDMMYYYY")
-              REV_DESC_VAL      "REVISED ACCORDING TO THE COMMENTS"
-              DWG_VAL           "TA"
-              CHK_VAL           "KEN" 
-              APP_VAL           "MK"
-        )
+      (setq REV_list_         (list 2)
+            REV_VAL           "A"
+            REV_DATE_VAL       "24-11-2025" ;(TA:CDATE "/" "DDMMYYYY")
+            REV_DESC_VAL      "REVISED ACCORDING TO THE COMMENTS"
+            DWG_VAL           "TA"
+            CHK_VAL           "KEN" 
+            APP_VAL           "MK"
+      )
+      (setq DESIGNED_BY_DATE_val REV_DATE_VAL)
         ; (c:PPLINE_CKST_REWORK-TTB24_)
         ; (c:PPLINE_CKST_REWORK-TTB25_)
       ;
@@ -3682,7 +3683,7 @@
                               )
               )
               ; (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "REV_DATE_01" "27-10-2025")
-              ; (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DESIGNED_BY_DATE_val" "27-10-2025" )
+              (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DESIGNED_BY_DATE_val" DESIGNED_BY_DATE_val )
               ;plot process
                 (if 
                   (findfile (setq filename (strcat "" (getvar 'DWGPREFIX)  pre-name_ ".pdf")))

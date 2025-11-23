@@ -36978,7 +36978,7 @@
   ;
   (_endundo doc)
 )
-(defun c:te2 ()
+(defun c:tee2 ()
 
   ;selection_set_for_fillter_blk_name
     (if  ;pre_select_ssget_or_post_select_ssget
@@ -37013,7 +37013,7 @@
   (setq inters_ss_ (ssadd))
   (foreach x inters_list_
     (TA:vla-insertblock
-      "LGF_DL_SAA_LowPower_DL1a - LGF_DL_SAA_LowPower_DL1a-13759355-4150-01 - CONCOURSE LEVEL PLAN - REFLECTED CEILING PLAN"
+      "LGF_DL_SAA_LowPower_DL1a - LGF_DL_SAA_LowPower_DL1a-15164315-4180-01 - PLATFORM LEVEL PLAN - REFLECTED CEILING PLAN"
       x
       1
       0
@@ -37027,5 +37027,18 @@
     ;
   )
   (command "pselect"  inters_ss_ "" )
-)
+) 
 
+
+(defun c:input_subfix_name_block ()
+  (setq file_block_list_ (TA:get_name_block_in_drawing_to_list))
+  ;preloop_and_while
+    (setq file_block_list_i 0)
+    (while (< file_block_list_i (length file_block_list_))
+      (setq file_block_list_val_ (nth  file_block_list_i file_block_list_))
+      (command "rename" "b" file_block_list_val_ (strcat file_block_list_val_ "_" "for_C09" ) )
+  
+      (setq file_block_list_i (+ file_block_list_i 1))
+    )
+  ;
+)
