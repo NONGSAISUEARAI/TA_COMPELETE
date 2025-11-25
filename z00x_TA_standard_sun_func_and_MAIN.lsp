@@ -36986,9 +36986,9 @@
         (setq ss_pre_filter_set_xx_ (ssget "i"
                                           (list
                                             (cons 0 "xline") ;type of object
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            (cons 8 "Defpoints")   ;kind of layer
                                             ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                            (cons 62 6)           ;kind of color call sign with color code index
                                           )
                                     )
         )
@@ -36998,9 +36998,9 @@
         (setq ss_pre_filter_set_xx_ (ssget
                                           (list
                                             (cons 0 "xline") ;type of object
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            (cons 8 "Defpoints")   ;kind of layer
                                             ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                            (cons 62 6)           ;kind of color call sign with color code index
                                           )
                                     )
         )
@@ -37008,21 +37008,25 @@
       (sslength ss_pre_filter_set_xx_)
     )
   ;
-
-  (setq inters_list_ (LM:intersectionsinset   ss_pre_filter_set_xx_))
+  (setq ss_pre_filter_set_xx_ename (ssname ss_pre_filter_set_xx_ 0 ))
+  (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename))
+  (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-basepoint ss_pre_filter_set_xx_obj_))))
+  (setq ss_pre_filter_set_xx_obj_2ndins_ (vlax-safearray->list (vlax-variant-value (vla-get-SecondPoint  ss_pre_filter_set_xx_obj_))))
+  (setq inters_list_ (LM:intersectionsinset  ss_pre_filter_set_xx_))
   (setq inters_ss_ (ssadd))
   (foreach x inters_list_
     (TA:vla-insertblock
-      "LGF_DL_SAA_LowPower_DL1a - LGF_DL_SAA_LowPower_DL1a-15164315-4180-01 - PLATFORM LEVEL PLAN - REFLECTED CEILING PLAN"
+      "D2 - D2-18784047-4130-01 MULTIPURPOSE LEVEL- REFLECTED CEILING PLAN"
       x
       1
-      0
+      (angle ss_pre_filter_set_xx_obj_ins_ ss_pre_filter_set_xx_obj_2ndins_)
     
     )
     ;new_blk_entlast object
       (setq new_dn_ename (entlast))
       (setq new_dn_obj (vlax-ename->vla-object new_dn_ename))
       (vla-put-layer new_dn_obj "E-LITE-EQPM")
+      (vla-put-color new_dn_obj 256)
       (setq inters_ss_ (ssadd new_dn_ename inters_ss_))
     ;
   )
