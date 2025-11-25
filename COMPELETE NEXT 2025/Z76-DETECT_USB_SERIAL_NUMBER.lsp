@@ -41,9 +41,10 @@
   (reverse result)
   
 )
-(defun TA:serial_number_finder ( all_target_drive_list_ drive_list_val_ )
+(defun TA:serial_number_finder ( all_drive_list_ drive_list_val_ )
   ;presetting
     ; (setq all_drive_list_ (Get-Drive-Hardware-Serial))
+    ; (setq all_drive_list_ (list (list "ss1" "asdasdasda1231" "ifs9af90afok") (list "ssdasda11" "a23sdas1" "iff90as9afok") (list "ss23sdd1" "a23sdas1" "iff23sd90as9afok") ))
     ; (setq drive_list_val_ (list 
     ;                         (strcat "*" "8&17206EBA&0&000000" "*")
     ;                         (strcat "*" "4&11742CA2&0&070000" "*")
@@ -200,9 +201,20 @@
 )
 (TA:serial_number_finder 
   (Get-Drive-Hardware-Serial)
-  (list 
-    (strcat "*" "5&1ED003EB&0&000000" "*")
-    (strcat "*" "AAasdasdAAAAAAA" "*")
-    (strcat "*" "asadasdasdadasda" "*")
+  (setq 2ss12 (list 
+                (strcat "*" "5&1ED003EB&0&000000" "*")
+                (strcat "*" "AAasdasdAAAAAAA" "*")
+                (strcat "*" "asadasdasdadasda" "*")
+              )
+  )
+)
+(TA:serial_number_finder 
+  (list (list "ss1" "asdasdasda1231" "ifs9af90afok") (list "ssdasda11" "a23sdas1" "iff90as9afok") (list "ss23sdd1" "a23sdas1" "iff23sd90as9afok") )
+  (setq 2ss12 (list 
+                (strcat "*" "5&1ED00asdasdasda12313EB&0&000000" "*")
+                (strcat "*" "AAasdasdAAAAAAA" "*")
+                (strcat "*" "asadasdasdadasda" "*")
+                (strcat "*" "iff23sd90as9afok" "*")
+              )
   )
 )
