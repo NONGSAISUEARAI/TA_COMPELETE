@@ -6151,6 +6151,134 @@
       
       
     )
+    (defun c:hatch_obj_Metal_HHM1_ ()
+      ;user_input_
+      (setq obj_name_ (vla-get-objectname (vlax-ename->vla-object (setq hatch_ename_ (car (entsel "specify Object"))))))
+      
+      (cond
+        ( ;first process
+          (or
+            
+            (= obj_name_ "AcDbPolyline")
+          )
+          (progn
+            (= (vla-get-closed (setq hatch_ename_obj_ (vlax-ename->vla-object hatch_ename_))) :vlax-true)
+            (setq 1st_process "AcDbPolyline")
+          )
+        )
+        (;first process
+          (or
+            (= obj_name_ "AcDbBlockReference")
+          )
+          (progn
+            (setq 1st_process "AcDbBlockReference")
+            
+          )
+        )
+      )
+      
+      
+      (if 
+        (and 
+          (= hatch_ename_getang_ nil)
+          (= hatch_ename_getsc_ nil)
+        )
+        (progn
+          (setq  hatch_ename_getang_ 0)
+          (setq  hatch_ename_getsc_ 1)
+          
+        )
+      )
+      ;preseting_data_
+        (setq hatch_Layer_ "000 - H A T C H")
+        (setq hatch_patt_ "ANSI38")
+        (setq hatch_color_ 251)
+        (setq hatch_background_ ".")
+        (setq hatch_ename_getang_ 0 )
+        (setq hatch_ename_getsc_ 50 )
+      ;
+      (setq hatch_obj_ (vlax-ename->vla-object hatch_ename_))
+
+      
+      (command ".-hatch" "s"  hatch_ename_  
+                "" 
+                "c" hatch_color_ hatch_background_
+                "p" hatch_patt_ hatch_ename_getsc_ hatch_ename_getang_ 
+                "L" hatch_Layer_ 
+                ""  
+               
+      )
+      
+      
+      
+    )
+    (defun c:hatch_obj_Metal_HHM2_ ()
+      ;user_input_
+      (setvar "osmode" 0)
+      (setq obj_name_ (vla-get-objectname (vlax-ename->vla-object (car (setq hatch_ename_ (nentsel "specify Object"))))))
+      (cond
+        ( ;first process
+          (or
+            
+            (= obj_name_ "AcDbPolyline")
+          )
+          (progn
+            (= (vla-get-closed (setq hatch_ename_obj_ (vlax-ename->vla-object (car hatch_ename_)))) :vlax-true)
+            (setq 1st_process "AcDbPolyline")
+          )
+        )
+        (;first process
+          (or
+            (= obj_name_ "AcDbBlockReference")
+          )
+          (progn
+            (setq 1st_process "AcDbBlockReference")
+            
+          )
+        )
+      )
+      (if 
+        (and 
+          (= hatch_ename_getang_ nil)
+          (= hatch_ename_getsc_ nil)
+        )
+        (progn
+          (setq  hatch_ename_getang_ 0)
+          (setq  hatch_ename_getsc_ 1)
+          
+        )
+      )
+      ;preseting_data_
+        (setq hatch_Layer_ "000 - H A T C H")
+        (setq hatch_patt_ "ANSI38")
+        (setq hatch_color_ 251)
+        (setq hatch_background_ ".")
+        (setq hatch_ename_getang_ 0 )
+        (setq hatch_ename_getsc_ 50 )
+      ;
+      (setq hatch_obj_ (vlax-ename->vla-object (car hatch_ename_)))
+      (create-plines (nth 1 (TA:Get_Pline_vertext_ins_point_ (car hatch_ename_))) "close")
+      ;new_blk_entlast object
+        (car (nth 1 ( TA:Get_Pline_vertext_ins_point_ (entlast))))
+      ;
+      (setq hatch_obj_ins (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint (vlax-ename->vla-object (nth 0 (car (reverse hatch_ename_))))))))
+      (vla-move 
+        (vlax-ename->vla-object (setq kuy_mk (entlast)))
+        (vlax-3d-point 0 0 0 )
+        (vlax-3d-point hatch_obj_ins)
+        
+      )
+      (command ".-hatch" "s"  (entlast)  
+                "" 
+                "c" hatch_color_ hatch_background_
+                "p" hatch_patt_ hatch_ename_getsc_ hatch_ename_getang_ 
+                "L" hatch_Layer_ 
+                ""  
+               
+      )
+      ; (command "erase" kuy_mk "")
+      (setvar "osmode" 1215)
+    )
     (defun c:hatch_obj_Subfame_HHSF_ ()
       ;user_input_
       (setq obj_name_ (vla-get-objectname (vlax-ename->vla-object (setq hatch_ename_ (car (entsel "specify Object"))))))
@@ -36978,8 +37106,10 @@
   ;
   (_endundo doc)
 )
-(defun c:tee2 ()
-
+(defun c:xline_intersect_block_xl1_ ()
+  ;presettting
+    (setq blkname_inter_target_ "D2 - D2-18784047-4150-01 CONCOURSE LEVEL - REFLECTED CEILING PLAN")
+  ;
   ;selection_set_for_fillter_blk_name
     (if  ;pre_select_ssget_or_post_select_ssget
       (=
@@ -37016,7 +37146,7 @@
   (setq inters_ss_ (ssadd))
   (foreach x inters_list_
     (TA:vla-insertblock
-      "D2 - D2-18784047-4130-01 MULTIPURPOSE LEVEL- REFLECTED CEILING PLAN"
+      blkname_inter_target_
       x
       1
       (angle ss_pre_filter_set_xx_obj_ins_ ss_pre_filter_set_xx_obj_2ndins_)
@@ -37046,3 +37176,57 @@
     )
   ;
 )
+  (defun c:ssss_ss1 ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_ssss_ (ssget "i"
+              (list
+                (cons 0 "line") ;type of object
+                (cons 8 "A-DETL")   ;kind of layer
+                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                ; (cons 62 1)           ;kind of color call sign with color code index
+              )
+            )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_ssss_ (ssget
+              (list
+                (cons 0 "line") ;type of object
+                (cons 8 "A-DETL")   ;kind of layer
+                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                ; (cons 62 1)           ;kind of color call sign with color code index
+              )
+            )
+          )
+          (sslength ss_pre_filter_set_ssss_)
+        )
+      )
+    ;
+    (command "pselect"  ss_pre_filter_set_ssss_ "" )
+  )
+  (defun c:tee3 ()
+    (setq blkname_inter_target_ "D2 - D2-18784047-4150-01 CONCOURSE LEVEL - REFLECTED CEILING PLAN")
+    (setq sss (getpoint  "specify Object 1"))
+    (setq koo (getpoint sss "specify Object 2"))
+    (setq ss_pre_filter_set_ssssssssssasasass_ (ssget "W" sss koo
+        (list
+          (cons 0 "insert") ;type of object
+          ; (cons 8 "Defpoints")   ;kind of layer
+          ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+          ; (cons 62 1)           ;kind of color call sign with color code index
+        )
+      )
+    )
+    
+    (TA:vla-insertblock
+      blkname_inter_target_
+      (nth 4 (TA:assembly_coordinate_coner (list sss koo) ))
+      1
+      0
+    )
+    (command "erase" ss_pre_filter_set_ssssssssssasasass_ "")
+  )
+  

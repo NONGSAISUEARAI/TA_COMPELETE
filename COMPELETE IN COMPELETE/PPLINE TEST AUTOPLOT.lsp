@@ -3011,7 +3011,10 @@
       (while (and
                 (and 
                   (= (type title_block_obj_) 'vla-object)
-                  (= (LM:effectivename title_block_obj_) "Title Block_Under Ground_C1 v3")
+                  (or 
+                    (= (LM:effectivename title_block_obj_) "Title Block_Under Ground_C1 v3")
+                    (= (LM:effectivename title_block_obj_) "Title Block_Under Ground_C2 v3")
+                  )
                 )
                 (= (type REV-LV_level_val_) 'list )
                 (< REV-LV_level_val_i (length REV-LV_level_val_))
