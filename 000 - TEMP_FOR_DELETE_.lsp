@@ -422,12 +422,17 @@
         )
       ;
       (setq overall_line (append (List 1st_line_) (List 3rd_line_) 4th_line_ ))
+      ; (setq overall_line2 (append overall_line (list 4th_filter_)  ))
+    ;
+    ;process command
+      (c:create_main_and_sub_filter_creF4 overall_line)
+      (c:create_layerset_Lset4 2nd_filter_val_main 3rd_filter_val_main 4th_filter_val_main)
+      (c:add_layer_main_and_sub_filter_addLFilter_ADD_LF4 2nd_filter_val_main 3rd_filter_val_main 4th_filter_val_main)
     ;
   )
   
-  
 
-  (defun c:create_main_and_sub_filter_creF4 ()
+  (defun c:create_main_and_sub_filter_creF4 (main_filter_name_)
     ;presettting
       ;example
         ; (setq Prefix_filter_name_ "000_CLIP-IN_")
@@ -471,7 +476,8 @@
       ;
       (setq wildcard_layer_name_ "*0*")
       ;
-      (setq main_filter_name_ (nth 1 main_filter_name_ovl_))
+      ; (setq main_filter_name_ (nth 1 main_filter_name_ovl_))
+      (setq main_filter_name_ main_filter_name_)
     ;
     ;preloop_and_while_main_filter
       (setq main_filter_name_i 0)
@@ -511,7 +517,7 @@
       )
     ;
   )
-  (defun c:create_layerset_Lset4 ()
+  (defun c:create_layerset_Lset4 (2nd_filter_val_main 3rd_filter_val_main 4th_filter_val_main)
     ;presetting_
       (setq Prefix_filter_name_ 2nd_filter_val_main)
       (setq layer_prefix_overall_ 3rd_filter_val_main )
@@ -541,7 +547,7 @@
       )
     ;
   )
-  (defun c:add_layer_main_and_sub_filter_addLFilter_ADD_LF4 ()
+  (defun c:add_layer_main_and_sub_filter_addLFilter_ADD_LF4 ( 2nd_filter_val_main 3rd_filter_val_main 4th_filter_val_main)
     ;presettting
       ;Note By Code_Developer
         ;fist val in list   = filter name
@@ -601,100 +607,151 @@
   )
 
   (defun c:runset1 ()
-    (setq main_filter_name_ovl_
-      (list  
-        (TA:generate_filter_list
-          "PPLINE-FAMELINE" ;1s_filter
-          (setq 2nd_filter_val_main "000_CLIP-IN_") ;2nd_filter
-          (setq 3rd_filter_val_main (list ;3rd_filter
-                                      "PANEL_" ;
-                                      "ACESSORIES_" ;
-                                      "SUBFAME_" ;
-                                )
+    (defun TA:choice_ (i)
+      (setq main_filter_name_ovl_
+        (list  
+          (TA:generate_filter_list
+            "PPLINE-FAMELINE" ;1s_filter
+            (setq 2nd_filter_val_main "000_CLIP-IN_") ;2nd_filter
+            (setq 3rd_filter_val_main (list ;3rd_filter
+                                        "PANEL_" ;
+                                        "ACESSORIES_" ;
+                                        "SUBFAME_" ;
+                                  )
+            )
+            (setq 4th_filter_val_main (list  ;4th_filter
+                                        (list "MAIN_COLOR_1" 3) ;
+                                        (list "MAIN_COLOR_2" 2) ;
+                                        (list "SUB_COLOR_1" 1) ;
+                                        (list "SUB_COLOR_2" 1) ;
+                                        (list "SUB_COLOR_3" 251) ;
+                                        (list "HATCH_" 251) ;
+                                        (list "WIPEOUT_" 250) ;
+                                        (list "HIDDEN_" 251) ;
+                                        (list "SYMBOL_" 251) ;
+                                        (list "DEF_SUB" 250) ;
+                                  )
+            )
           )
-          (setq 4th_filter_val_main (list  ;4th_filter
-                                      (list "MAIN_COLOR_1" 3) ;
-                                      (list "MAIN_COLOR_2" 2) ;
-                                      (list "SUB_COLOR_1" 1) ;
-                                      (list "SUB_COLOR_2" 1) ;
-                                      (list "SUB_COLOR_3" 251) ;
-                                      (list "HATCH_" 251) ;
-                                      (list "WIPEOUT_" 250) ;
-                                      (list "HIDDEN_" 251) ;
-                                      (list "SYMBOL_" 251) ;
-                                      (list "DEF_SUB" 250) ;
-                                )
+          (TA:generate_filter_list
+            (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+            (setq 2nd_filter_val_main "000_FASTERN_") ;2nd_filter
+            (setq 3rd_filter_val_main (list ;3rd_filter
+                                        "ACESSORIES_" ;
+                                  )
+            )
+            (setq 4th_filter_val_main (list  ;4th_filter
+                                            (list "MAIN_COLOR_1" 3) ;
+                                            (list "MAIN_COLOR_2" 2) ;
+                                            (list "SUB_COLOR_1" 1) ;
+                                            (list "SUB_COLOR_2" 3) ;
+                                            (list "SUB_COLOR_3" 251) ;
+                                            (list "HATCH_" 251) ;
+                                            (list "WIPEOUT_" 250) ;
+                                            (list "HIDDEN_" 251) ;
+                                            (list "SYMBOL_" 251) ;
+                                            (list "DEF_SUB" 250) ;
+                                      )
+            )
+          )
+          (TA:generate_filter_list
+            (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+            (setq 2nd_filter_val_main "000 - SYMBOL CON") ;2nd_filter
+            (setq 3rd_filter_val_main (list ;3rd_filter
+                                        "_" ;
+                                      )
+            )
+            (setq 4th_filter_val_main (list  ;4th_filter
+                                            (list "MAIN_COLOR_1" 3) ;
+                                            (list "MAIN_COLOR_2" 2) ;
+                                            (list "SUB_COLOR_1" 1) ;
+                                            (list "SUB_COLOR_2" 1) ;
+                                            (list "SUB_COLOR_3" 251) ;
+                                            (list "HATCH_" 251) ;
+                                            (list "WIPEOUT_" 250) ;
+                                            (list "HIDDEN_" 251) ;
+                                            (list "SYMBOL_" 251) ;
+                                            (list "DEF_SUB" 250) ;
+                                      )
+            )
+          )
+          (TA:generate_filter_list 
+            (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+            (setq 2nd_filter_val_main "FRAMING_") ;2nd_filter
+            (setq 3rd_filter_val_main (list  ;3rd_filter
+                                            "ACESSORIES_" ;
+                                      )
+            )
+            (setq 4th_filter_val_main (list  ;4th_filter
+                                            (list "MAIN_COLOR_1" 3) ;
+                                            (list "MAIN_COLOR_2" 2) ;
+                                            (list "SUB_COLOR_1" 1) ;
+                                            (list "SUB_COLOR_2" 1) ;
+                                            (list "SUB_COLOR_3" 251) ;
+                                            (list "HATCH_" 251) ;
+                                            (list "WIPEOUT_" 250) ;
+                                            (list "HIDDEN_" 251) ;
+                                            (list "SYMBOL_" 251) ;
+                                            (list "DEF_SUB" 250) ;
+                                      )
+            )
           )
         )
-        (TA:generate_filter_list
-          (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
-          (setq 2nd_filter_val_main "000_FASTERN_") ;2nd_filter
-          (setq 3rd_filter_val_main (list ;3rd_filter
-                                      "ACESSORIES_" ;
-                                )
-          )
-          (setq 4th_filter_val_main (list  ;4th_filter
-                                          (list "MAIN_COLOR_1" 3) ;
-                                          (list "MAIN_COLOR_2" 2) ;
-                                          (list "SUB_COLOR_1" 1) ;
-                                          (list "SUB_COLOR_2" 1) ;
-                                          (list "SUB_COLOR_3" 251) ;
-                                          (list "HATCH_" 251) ;
-                                          (list "WIPEOUT_" 250) ;
-                                          (list "HIDDEN_" 251) ;
-                                          (list "SYMBOL_" 251) ;
-                                          (list "DEF_SUB" 250) ;
-                                    )
-          )
-        )
-        (TA:generate_filter_list
-          (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
-          (setq 2nd_filter_val_main "000 - SYMBOL CON") ;2nd_filter
-          (setq 3rd_filter_val_main (list ;3rd_filter
-                                      "_" ;
-                                    )
-          )
-          (setq 4th_filter_val_main (list  ;4th_filter
-                                          (list "MAIN_COLOR_1" 3) ;
-                                          (list "MAIN_COLOR_2" 2) ;
-                                          (list "SUB_COLOR_1" 1) ;
-                                          (list "SUB_COLOR_2" 1) ;
-                                          (list "SUB_COLOR_3" 251) ;
-                                          (list "HATCH_" 251) ;
-                                          (list "WIPEOUT_" 250) ;
-                                          (list "HIDDEN_" 251) ;
-                                          (list "SYMBOL_" 251) ;
-                                          (list "DEF_SUB" 250) ;
-                                    )
-          )
-        )
-        (TA:generate_filter_list
-          (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
-          (setq 2nd_filter_val_main "FRAMING_") ;2nd_filter
-          (setq 3rd_filter_val_main (list  ;3rd_filter
-                                          "ACESSORIES_" ;
-                                    )
-          )
-          (setq 4th_filter_val_main (list  ;4th_filter
-                                          (list "MAIN_COLOR_1" 3) ;
-                                          (list "MAIN_COLOR_2" 2) ;
-                                          (list "SUB_COLOR_1" 1) ;
-                                          (list "SUB_COLOR_2" 1) ;
-                                          (list "SUB_COLOR_3" 251) ;
-                                          (list "HATCH_" 251) ;
-                                          (list "WIPEOUT_" 250) ;
-                                          (list "HIDDEN_" 251) ;
-                                          (list "SYMBOL_" 251) ;
-                                          (list "DEF_SUB" 250) ;
-                                    )
-          )
-        )
-        
-        
-      )
+      ) 
+      (nth i main_filter_name_ovl_)
     )
-    (setq main_filter_name_ (nth 1 main_filter_name_ovl_))
-    (c:create_main_and_sub_filter_creF4)
+    (TA:choice_ 1)
+    (setq i 0)
+    (setq main_filter_name_ (nth 0 main_filter_name_ovl_))
+    (c:create_main_and_sub_filter_creF4 (TA:choice_ i))
     (c:create_layerset_Lset4)
     (c:add_layer_main_and_sub_filter_addLFilter_ADD_LF4)
   )
+
+  
+
+
+      
+(:LayerFilterList)
+(defun :LayerFilterList (/ :SubFilterList)
+
+  ; su returns list of main filter and sub filters right behind
+  (defun :SubFilterList (dict / ent lst)
+    (foreach ent (mapcar 'cdr (vl-remove-if-not '(lambda (x) (= (car x) 350)) dict))
+      (setq lst (append lst
+                        (cons ent (if (assoc 360 (entget ent))
+                                    (:SubFilterList (entget (cdr (assoc 360 (entget (cdr (assoc 360 (entget ent)))))))))))))
+    lst)
+
+  (mapcar '(lambda (x) (cdr (assoc 300 (entget x))))
+          (:SubFilterList (dictsearch
+                            (vlax-vla-object->ename
+                              (vla-getextensiondictionary
+                                (vla-get-layers
+                                  (vla-get-activedocument
+                                    (vlax-get-acad-object)))))
+                            "ACLYDICTIONARY"))))
+(defun test (/ dict topLevel ed ents)
+  (if (setq dict (dictsearch
+                   (vlax-vla-object->ename
+                     (vla-getextensiondictionary
+                       (vla-get-layers
+                         (vla-get-activedocument
+                           (vlax-get-acad-object)))))
+                             "ACLYDICTIONARY"))
+                           
+(progn
+(setq topLevel (mapcar 'cdr (vl-remove-if-not '(lambda (x) (= (car x) 350)) dict)))
+                     
+(foreach ent topLevel
+(setq ed (entget ent))
+(if (assoc 360 ed)
+
+(setq ents (append topLevel (mapcar 'cdr (vl-remove-if-not '(lambda (x) (= (car x) 350)) (entget (cdr (assoc 360 (entget (cdr (assoc 360 ed))))))))))
+)
+)
+
+))
+(mapcar '(lambda (x) (cdr (assoc 300 (entget x)))) ents)
+);defun
+(test)

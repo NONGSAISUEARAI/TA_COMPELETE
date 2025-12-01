@@ -35148,7 +35148,7 @@
       )
       (vla-put-ArrowheadSize  ss_pre_filter_set_xx_obj_ 0.2 )
       (vla-put-textcolor  ss_pre_filter_set_xx_obj_ 3 )
-      (vla-put-linearscalefactor  ss_pre_filter_set_xx_obj_ -10 )
+      ; (vla-put-linearscalefactor  ss_pre_filter_set_xx_obj_ -10 )
       
       (setq ss_pre_filter_set_xx_obj_put_layer (vla-put-layer ss_pre_filter_set_xx_obj_ "000 - D I M")) ;by_string_name_layer
        
