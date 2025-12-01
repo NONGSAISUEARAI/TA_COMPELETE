@@ -37115,7 +37115,6 @@
 )
 (defun c:xline_intersect_block_xl1_ ()
   ;presettting
-    (setq blkname_inter_target_ "D2 - D2-18784047-4150-01 CONCOURSE LEVEL - REFLECTED CEILING PLAN")
     (setq blkname_inter_target_ "D2 - D2-18784047-4130-01 MULTIPURPOSE LEVEL- REFLECTED CEILING PLAN")
   ;
   ;selection_set_for_fillter_blk_name
