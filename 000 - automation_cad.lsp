@@ -11130,6 +11130,11 @@
       ; (command "_SelectSimilar" target_layer_ "")
       (command "vplayer" "c" 251 (vla-get-layer (vlax-ename->vla-object target_layer_ )) "c" "")
     )
+    (defun c:hselLayer_ ()
+      (setq target_layer_ (car (nentsel)))
+      ; (command "_SelectSimilar" target_layer_ "")
+      (command "vplayer" "f" (vla-get-layer (vlax-ename->vla-object target_layer_ )) "C" "")
+    )
   ;
   ;copy func
     (defun c:copynameblocktoclipboard_blkN2cl ()

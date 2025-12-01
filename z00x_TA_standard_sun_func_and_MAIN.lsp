@@ -33937,6 +33937,13 @@
                          "DUCT" 
                          "" 
         )
+          (command "-LAYER" "filter" "new" "group"  
+                          "CSD"
+                          "~*Duct*" ;(add layer name to filter, Can use wildcard for adding)
+                          "NO-DUCT" 
+                          "" 
+          )
+        
       )
     )
   )
@@ -37109,6 +37116,7 @@
 (defun c:xline_intersect_block_xl1_ ()
   ;presettting
     (setq blkname_inter_target_ "D2 - D2-18784047-4150-01 CONCOURSE LEVEL - REFLECTED CEILING PLAN")
+    (setq blkname_inter_target_ "D2 - D2-18784047-4130-01 MULTIPURPOSE LEVEL- REFLECTED CEILING PLAN")
   ;
   ;selection_set_for_fillter_blk_name
     (if  ;pre_select_ssget_or_post_select_ssget
@@ -37176,230 +37184,57 @@
     )
   ;
 )
-  (defun c:ssss_ss1 ()
-    ;selection_set_for_fillter_blk_name
-      (if  ;pre_select_ssget_or_post_select_ssget
-        (=
-          (setq ss_pre_filter_set_ssss_ (ssget "i"
-              (list
-                (cons 0 "line") ;type of object
-                (cons 8 "A-DETL")   ;kind of layer
-                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                ; (cons 62 1)           ;kind of color call sign with color code index
-              )
-            )
-          )
-          nil
-        )
-        (progn
-          (setq ss_pre_filter_set_ssss_ (ssget
-              (list
-                (cons 0 "line") ;type of object
-                (cons 8 "A-DETL")   ;kind of layer
-                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                ; (cons 62 1)           ;kind of color call sign with color code index
-              )
-            )
-          )
-          (sslength ss_pre_filter_set_ssss_)
-        )
-      )
-    ;
-    (command "pselect"  ss_pre_filter_set_ssss_ "" )
-  )
-  (defun c:tee3 ()
-    (setq blkname_inter_target_ "D2 - D2-18784047-4150-01 CONCOURSE LEVEL - REFLECTED CEILING PLAN")
-    (setq sss (getpoint  "specify Object 1"))
-    (setq koo (getpoint sss "specify Object 2"))
-    (setq ss_pre_filter_set_ssssssssssasasass_ (ssget "W" sss koo
-        (list
-          (cons 0 "insert") ;type of object
-          ; (cons 8 "Defpoints")   ;kind of layer
-          ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-          ; (cons 62 1)           ;kind of color call sign with color code index
-        )
-      )
-    )
-    
-    (TA:vla-insertblock
-      blkname_inter_target_
-      (nth 4 (TA:assembly_coordinate_coner (list sss koo) ))
-      1
-      0
-    )
-    (command "erase" ss_pre_filter_set_ssssssssssasasass_ "")
-  )
-  
-
-
-
-
-
-
-
-
-
-
-
-(defun c:rrr1_ ()
+(defun c:ssss_ss2 ()
   ;selection_set_for_fillter_blk_name
     (if  ;pre_select_ssget_or_post_select_ssget
       (=
-        (setq ss_pre_filter_set_xx_filter_ (ssget "i"
-                                          (list
-                                            (cons 0 "INSERT") ;type of object
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
+        (setq ss_pre_filter_set_ssss_ (ssget "i"
+            (list
+              (cons 0 "line") ;type of object
+              (cons 8 "A-WALL")   ;kind of layer
+              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+              ; (cons 62 1)           ;kind of color call sign with color code index
+            )
+          )
         )
         nil
       )
       (progn
-        (setq ss_pre_filter_set_xx_filter_ (ssget
-                                          (list
-                                            (cons 0 "INSERT") ;type of object
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
+        (setq ss_pre_filter_set_ssss_ (ssget
+            (list
+              (cons 0 "line") ;type of object
+              (cons 8 "A-WALL")   ;kind of layer
+              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+              ; (cons 62 1)           ;kind of color call sign with color code index
+            )
+          )
         )
+        (sslength ss_pre_filter_set_ssss_)
       )
-      (sslength ss_pre_filter_set_xx_filter_)
     )
   ;
-  ; (setq ss_pre_filter_set_xx_filter_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "L1-2 RECESSED FLUORESCENT - L1-2  RECESSED FLUORESCENT-14230294-CONCOURSE LEVEL_LIGHTING Copy 1")))
-  ; (setq ss_pre_filter_set_xx_filter_length_ (sslength ss_pre_filter_set_xx_filter_ ))
-  ;preloop_and_while
-    (setq ss_pre_filter_set_xx_filter_i 0)
-    (while (< ss_pre_filter_set_xx_filter_i (sslength ss_pre_filter_set_xx_filter_))
-      (setq ss_pre_filter_set_xx_filter_ename_ (ssname ss_pre_filter_set_xx_filter_ ss_pre_filter_set_xx_filter_i))
-      (setq ss_pre_filter_set_xx_filter_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_filter_ename_))
-      (setq ss_pre_filter_set_xx_filter_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_filter_obj_))))
-      (setq ss_pre_filter_set_xx_filter_obj_ro (LM:round (rad-to-deg (vla-get-rotation ss_pre_filter_set_xx_filter_obj_))))
-      (cond
-        ( (and 
-            (wcmatch (LM:effectivename ss_pre_filter_set_xx_filter_obj_) "*L1-2 RECESSED FLUORESCENT*")
-            ( = ss_pre_filter_set_xx_filter_obj_ro 90)
-          )
-          (progn
-            (TA:vla-insertblock 
-              "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_TRAKC_LIGHT_REC.1257x120mm_COMBINE_SET"
-              ss_pre_filter_set_xx_filter_obj_ins_
-              1
-              (vla-get-rotation ss_pre_filter_set_xx_filter_obj_)
-            )
-            ;new_blk_entlast object
-              (setq newblk_ename (entlast))
-              (setq newblk_obj_ (vlax-ename->vla-object newblk_ename))
-              (LM:setdynpropvalue newblk_obj_ "view" "6_bottom_view")
-              (TA:move_polar_insertionpoint newblk_obj_ "x" 52.50)
-            ;
-          )
-        )
-        ( (and 
-            (wcmatch (LM:effectivename ss_pre_filter_set_xx_filter_obj_) "*L1-2 RECESSED FLUORESCENT*")
-            ( = ss_pre_filter_set_xx_filter_obj_ro 180)
-          )
-          (progn
-            (TA:vla-insertblock 
-              "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_TRAKC_LIGHT_REC.1257x120mm_COMBINE_SET"
-              ss_pre_filter_set_xx_filter_obj_ins_
-              1
-              (vla-get-rotation ss_pre_filter_set_xx_filter_obj_)
-            )
-            ;new_blk_entlast object
-              (setq newblk_ename (entlast))
-              (setq newblk_obj_ (vlax-ename->vla-object newblk_ename))
-              (LM:setdynpropvalue newblk_obj_ "view" "6_bottom_view")
-              (TA:move_polar_insertionpoint newblk_obj_ "x" 52.50)
-            ;
-          )
-        )
-        ( (and 
-            (wcmatch (LM:effectivename ss_pre_filter_set_xx_filter_obj_) "*L1-2 RECESSED FLUORESCENT*")
-            ( = ss_pre_filter_set_xx_filter_obj_ro 270)
-          )
-          (progn
-            (TA:vla-insertblock 
-              "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_TRAKC_LIGHT_REC.1257x120mm_COMBINE_SET"
-              ss_pre_filter_set_xx_filter_obj_ins_
-              1
-              (vla-get-rotation ss_pre_filter_set_xx_filter_obj_)
-            )
-            ;new_blk_entlast object
-              (setq newblk_ename (entlast))
-              (setq newblk_obj_ (vlax-ename->vla-object newblk_ename))
-              (LM:setdynpropvalue newblk_obj_ "view" "6_bottom_view")
-              (TA:move_polar_insertionpoint newblk_obj_ "x" 52.50)
-            ;
-          )
-        )
-      )
-      (setq ss_pre_filter_set_xx_filter_i (+ ss_pre_filter_set_xx_filter_i 1))
-    )
-  ;
-
-  
+  (command "pselect"  ss_pre_filter_set_ssss_ "" )
 )
-(defun c:xline_intersect_block_xl2_ ()
-  ;presettting
-    ; (setq blkname_inter_target_ "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_CUT_VIEW")
-    (setq blkname_inter_ename_ (car (entsel "specify Object")))
-    (setq blkname_inter_obj_ (vlax-ename->vla-object blkname_inter_ename_))
-    (setq blkname_inter_target_ (LM:effectivename blkname_inter_obj_ ))
-  ;
-  ;selection_set_for_fillter_blk_name
-    (if  ;pre_select_ssget_or_post_select_ssget
-      (=
-        (setq ss_pre_filter_set_xx_ (ssget "i"
-                                          (list
-                                            (cons 0 "xline") ;type of object
-                                            ; (cons 8 "Defpoints")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 6)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-        nil
+(defun c:tee3 ()
+  (setq blkname_inter_target_ "D2 - D2-18784047-4150-01 CONCOURSE LEVEL - REFLECTED CEILING PLAN")
+  (setq sss (getpoint  "specify Object 1"))
+  (setq koo (getpoint sss "specify Object 2"))
+  (setq ss_pre_filter_set_ssssssssssasasass_ (ssget "W" sss koo
+      (list
+        (cons 0 "insert") ;type of object
+        ; (cons 8 "Defpoints")   ;kind of layer
+        ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+        ; (cons 62 1)           ;kind of color call sign with color code index
       )
-      (progn
-        (setq ss_pre_filter_set_xx_ (ssget
-                                          (list
-                                            (cons 0 "xline") ;type of object
-                                            ; (cons 8 "Defpoints")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 6)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-      )
-      (sslength ss_pre_filter_set_xx_)
     )
-  ;
-  (setq ss_pre_filter_set_xx_ename (ssname ss_pre_filter_set_xx_ 0 ))
-  (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename))
-  (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-basepoint ss_pre_filter_set_xx_obj_))))
-  (setq ss_pre_filter_set_xx_obj_2ndins_ (vlax-safearray->list (vlax-variant-value (vla-get-SecondPoint  ss_pre_filter_set_xx_obj_))))
-  (setq inters_list_ (LM:intersectionsinset  ss_pre_filter_set_xx_))
-  (setq inters_ss_ (ssadd))
-  (foreach x inters_list_
-    (TA:vla-insertblock
-      blkname_inter_target_
-      x
-      1
-      (angle ss_pre_filter_set_xx_obj_ins_ ss_pre_filter_set_xx_obj_2ndins_)
-    
-    )
-    ;new_blk_entlast object
-      (setq new_dn_ename (entlast))
-      (setq new_dn_obj (vlax-ename->vla-object new_dn_ename))
-      (vla-put-layer new_dn_obj "E-LITE-EQPM")
-      (vla-put-color new_dn_obj 256)
-      (setq inters_ss_ (ssadd new_dn_ename inters_ss_))
-    ;
   )
-  (command "pselect"  inters_ss_ "" )
+  
+  (TA:vla-insertblock
+    blkname_inter_target_
+    (nth 4 (TA:assembly_coordinate_coner (list sss koo) ))
+    1
+    0
+  )
+  (command "erase" ss_pre_filter_set_ssssssssssasasass_ "")
 )
+  

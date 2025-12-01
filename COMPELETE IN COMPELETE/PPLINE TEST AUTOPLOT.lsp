@@ -188,6 +188,1062 @@
     )
   ;
 ;
+;Get_Data Function Ta Trai
+  (defun TA:get_name_block_in_drawing (mode)
+    ;user_input_
+      (setq mode "mode")
+    ;
+    ;get_obj_file_
+      (setq multi_blocks_obj (vla-get-blocks (vla-get-ActiveDocument (vlax-get-acad-object))))
+      (setq block_list_ ())
+    ;
+    ;method_for_get_name_block_in_drawing
+      ;method_1_get_name_
+        (vlax-for block_ multi_blocks_obj 
+          (setq block_list_ (append block_list_ (list (vla-get-name block_))))
+        )
+      ;
+      ; ;method_2_get_name_
+      ;   (setq block_i 0)
+      ;   (while (< block_i (vla-get-count multi_blocks_obj))
+      ;     (setq block_ (vla-item multi_blocks_obj block_i))
+      ;     (setq block_list_ (append block_list_ (list (vla-get-name block_))))
+      ;     (setq block_i (1+ block_i))
+      ;   )
+      ; ;
+    ;
+    ;sorting_name_block
+      (setq sorted_block_list_ (acad_strlsort block_list_))
+    ;
+    ;preloop_and_while filtter_
+      (setq sorted_block_list_i 0)
+      (setq filter_sorted_block_ ())
+
+      (while (< sorted_block_list_i (length sorted_block_list_))
+        (setq filter_sorted_block_effectivename_ (nth sorted_block_list_i sorted_block_list_))
+        
+        (if (/= (substr filter_sorted_block_effectivename_ 1 1) "*") ; ตรวจสอบว่าชื่อเริ่มต้นด้วย *
+          (progn
+            (setq filter_sorted_block_ (cons filter_sorted_block_effectivename_ filter_sorted_block_))
+          )
+        )
+        (setq sorted_block_list_i (+ sorted_block_list_i 1))
+      )
+    ;
+
+    
+    (setq filter_sorted_block_total (length filter_sorted_block_))
+    (princ "\n                  |=====================|")
+    (princ "\n                  | TOTAL BLOCK IN FILE |")
+    (princ (strcat "\n                  |     = " (itoa filter_sorted_block_total) " block     |"))
+    (princ "\n                  |          set        |")
+    (princ "\n                  |---------------------|\n")
+    (setq filter_sorted_block_ filter_sorted_block_)
+
+  )
+  (defun TA:get_name_layer_in_drawing ()
+    (setq layers_list_ ())
+    (setq layers_obj (vla-get-layers (vla-get-ActiveDocument (vlax-get-acad-object))))
+    ;method_1_get_layers_name
+      (vlax-for lay layers_obj
+        (setq layers_list (append layers_list (list (vla-get-Name lay))))
+      )
+    ;
+    ;method_2_get_layers_name
+      (setq layers_i 0)
+      (while (< layers_i (vla-get-count layers_obj))
+        (setq layers_ (vla-item layers_obj layers_i))
+        (setq layers_list_ (append layers_list_ (list (vla-get-name layers_))))
+        (setq layers_i (1+ layers_i))
+      )
+    ;
+    ;summary_layer_data
+      (setq layers_list_total (length layers_list_))
+      (princ "\n                  |=====================|")
+      (princ "\n                  | TOTAL LAYERS IN FILE |")
+      (princ (strcat "\n                  |     = " (itoa layers_list_total) " layer     |"))
+      (princ "\n                  |          set        |")
+      (princ "\n                  |---------------------|")
+      (setq layers_list_ layers_list_)
+    ;
+  )
+  (defun TA:ename+vla-get-insertionpoint (obj) ;ประกอบ entity_name กับ insertion_poiint ให้เป็น list (BLOCK ONLY)
+    (if (= (vla-get-objectname obj) "AcDbBlockReference")
+      (progn
+        ;get_data
+          (setq ename_ (vlax-vla-object->ename obj)) 
+          
+          (setq _inspt (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint obj))))
+        ;
+        ;sum_data_to_list
+          (setq sum_list (list 
+                          ename_
+                          _inspt
+                          ;add more
+                        )
+          )
+        ;
+      )
+      (setq error "OBJECT IS NOT BLOCK")
+    )
+  )
+  (defun TA:vla-get-insertionpoint+ename (obj) ;ประกอบ entity_name กับ insertion_poiint ให้เป็น list (BLOCK ONLY)
+    (if (= (vla-get-objectname obj) "AcDbBlockReference")
+      (progn
+        ;get_data
+          (setq ename_ (vlax-vla-object->ename obj)) 
+          
+          (setq _inspt (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint obj))))
+        ;
+        ;sum_data_to_list
+          (setq sum_list (list 
+                          _inspt
+                          ename_
+                          ;add more
+                        )
+          )
+        ;
+      )
+      (setq error "OBJECT IS NOT BLOCK")
+    )
+  )
+  (defun TA:move_axis_insertionpoint (blk_obj_ axis_set_ axis_val_) ;ใช้ move axis_set_ ทีละแกน = "x" "y" "z" 
+    (if (= (vla-get-objectname blk_obj_) "AcDbBlockReference")
+      (progn
+        (setq blk_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint blk_obj_))))
+        (cond
+          (;aixs_case_1
+            (and 
+              (= (strcase axis_set_) "X")
+              (= (numberp axis_val_) T)
+            )
+            (progn
+              (vla-put-insertionpoint blk_obj_ 
+                                      (vlax-3d-point (list
+                                                        (+ (car blk_obj_ins_) axis_val_)
+                                                        (+ (cadr blk_obj_ins_) 0)
+                                                        (+ (caddr blk_obj_ins_) 0)
+                                                      )
+                                      )
+              )
+              (princ "aixs_case_1")
+            )
+          )
+          (;aixs_case_2
+            (and
+                (= (strcase axis_set_ ) "Y")
+                (= (numberp axis_val_) T)
+            )
+            (progn
+              (vla-put-insertionpoint blk_obj_ 
+                                      (vlax-3d-point (list
+                                                        (+ (car blk_obj_ins_) 0)
+                                                        (+ (cadr blk_obj_ins_) axis_val_)
+                                                        (+ (caddr blk_obj_ins_) 0)
+                                                      )
+                                      )
+              )
+              (princ "aixs_case_2")
+            )
+          )
+          (;aixs_case_3
+            (and 
+              (= (strcase axis_set_) "Z")
+              (= (numberp axis_val_) T)
+            )
+            (progn
+              (vla-put-insertionpoint blk_obj_ 
+                                      (vlax-3d-point (list
+                                                        (+ (car blk_obj_ins_) 0)
+                                                        (+ (cadr blk_obj_ins_) 0)
+                                                        (+ (caddr blk_obj_ins_) axis_val_)
+                                                      )
+                                      )
+              )
+              (princ "aixs_case_3")
+            )
+          )
+        )
+        
+      )
+    )
+  )
+  (defun TA:move_polar_insertionpoint (blk_obj_  axis_set_ axis_val_) ;ใช้ move axis_set_ ทีละแกน = "x" "y" "z" 
+    ; (setq polar_val )
+    ; (setq blk_ename_ (car (entsel "specify Object")))
+    ; (setq blk_obj_ (vlax-ename->vla-object blk_ename_))
+    ; (setq rotation_val (vla-get-rotation blk_obj_))
+    ; (setq axis_set_ "y")
+    ; (setq axis_val_ 20)
+    (if (= (vla-get-objectname blk_obj_) "AcDbBlockReference")
+      (progn
+        (setq blk_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint blk_obj_))))
+        (setq blk_obj_rotation_val (vla-get-rotation blk_obj_))
+        (cond
+          (;aixs_case_1
+            (and 
+              (= (strcase axis_set_) "X")
+              (= (numberp axis_val_) T)
+              (= (numberp blk_obj_rotation_val) T)
+            )
+            (progn
+              (setq new_ins_ (polar blk_obj_ins_ (deg-to-rad (TA:ModifyRotation (rad-to-deg blk_obj_rotation_val) 90)) axis_val_))
+              (vla-put-insertionpoint blk_obj_ 
+                                      (vlax-3d-point (list
+                                                        (+ (car new_ins_) 0)
+                                                        (+ (cadr new_ins_) 0)
+                                                        (+ (caddr new_ins_) 0)
+                                                      )
+                                      )
+              )
+              (princ "aixs_case_1")
+            )
+          )
+          (;aixs_case_2
+            (and
+                (= (strcase axis_set_ ) "Y")
+                (= (numberp axis_val_) T)
+                (= (numberp blk_obj_rotation_val) T)
+            )
+            (progn
+              (setq new_ins_ (polar blk_obj_ins_ (deg-to-rad (TA:ModifyRotation (rad-to-deg blk_obj_rotation_val) 180)) axis_val_))
+              (vla-put-insertionpoint blk_obj_ 
+                                      (vlax-3d-point (list
+                                                        (+ (car new_ins_) 0)
+                                                        (+ (cadr new_ins_) 0)
+                                                        (+ (caddr new_ins_) 0)
+                                                      )
+                                      )
+              )
+              (princ "aixs_case_2")
+            )
+          )
+          (;aixs_case_3
+            (and 
+              (= (strcase axis_set_) "Z")
+              (= (numberp axis_val_) T)
+            )
+            (progn
+              (alert "no polar FUNC FOR Z")
+              (princ "aixs_case_3")
+            )
+          )
+        )
+        
+      )
+    )
+  )
+  (defun TA:ename+vla-getboundingbox (obj) ;ประกอบ entity_name กับ vla-getboundingbox ให้เป็น list (LINE OR POLYLINE ONLY)
+    ; (setq obj (vla-get-objectname (vlax-ename->vla-object (car (entsel))))) ;For Check objectname
+    (if (or
+          (= (vla-get-objectname obj) "AcDbLine")
+          (= (vla-get-objectname obj) "AcDbPolyline")
+          (= (vla-get-objectname obj) "AcDbBlockReference") 
+          (= (vla-get-objectname obj) "AcDbArc") 
+        )
+      (progn
+        ;get_data
+          (setq ename_ (vlax-vla-object->ename obj)) 
+          
+          (setq _inspt (vla-getboundingbox obj 'min_ 'max_))
+          (setq min_ (vlax-safearray->list min_))
+          (setq max_ (vlax-safearray->list max_))
+        ;
+        ;sum_data_to_list
+          (setq sum_list (list 
+                          ename_
+                          min_
+                          max_
+                          ;add more
+                        )
+          )
+        ;
+      )
+      (setq error "OBJECT IS NOT LINE/POLYLINE")
+    )
+  )
+  (defun TA:ss_vla-getboundingbox (sss_)
+    ; (setq sss_ (ssget))
+    (cond
+      (;type_case_1
+          (and
+            (= (type sss_) 'PICKSET)
+          )
+          (progn
+            ;preloop_and_while
+              (setq sss_i 0)
+              (setq sss_obj_getboundingbox_list_ nil)
+              (while (< sss_i (sslength sss_))
+                (setq sss_ename_ (ssname sss_ sss_i))
+                (setq sss_obj_ (vlax-ename->vla-object sss_ename_))
+                (setq sss_obj_getboundingbox (vla-getboundingbox sss_obj_ 'min_ 'max_)) 
+                (setq sss_min_ (vlax-safearray->list min_)) 
+                (setq sss_max_ (vlax-safearray->list max_))
+                (setq sss_obj_getboundingbox_list_ (cons (list sss_min_ sss_max_) sss_obj_getboundingbox_list_))      
+                (setq sss_i (+ sss_i 1))
+              )
+              ;TA:stanndard_lambda_sorting
+                (setq low_xy_ (list 
+                                (setq low_x (car 
+                                              (car 
+                                                (car 
+                                                  (vl-sort sss_obj_getboundingbox_list_  ;bigest open indent list
+                                                          (function 
+                                                            (lambda (a b) 
+                                                              (< (nth 0 (car a)) 
+                                                                  (nth 0 (car b))
+                                                              )
+                                                            )
+                                                          )
+                                                  )
+                                                )
+                                              )
+                                            ) ;bigest close indent list
+                                )
+                                (setq low_y (cadr 
+                                              (car 
+                                                (car 
+                                                  (vl-sort sss_obj_getboundingbox_list_  ;bigest open indent list
+                                                          (function 
+                                                            (lambda (a b) 
+                                                              (< (nth 1 (car a)) 
+                                                                  (nth 1 (car b))
+                                                              )
+                                                            )
+                                                          )
+                                                  )
+                                                )
+                                              )
+                                            ) ;bigest close indent list
+                                )
+                              )
+                )
+                (setq high_xy_ (list 
+                                (setq high_x (car 
+                                                (cadr 
+                                                  (car 
+                                                    (vl-sort sss_obj_getboundingbox_list_  ;bigest open indent list
+                                                            (function 
+                                                              (lambda (a b) 
+                                                                (> (nth 0 (cadr a)) 
+                                                                    (nth 0 (cadr b))
+                                                                )
+                                                              )
+                                                            )
+                                                    )
+                                                  )
+                                                )
+                                              ) ;bigest close indent list
+                                )
+                                (setq high_y (cadr 
+                                                (cadr 
+                                                  (car 
+                                                    (vl-sort sss_obj_getboundingbox_list_  ;bigest open indent list
+                                                            (function 
+                                                              (lambda (a b) 
+                                                                (> (nth 1 (cadr a)) 
+                                                                    (nth 1 (cadr b))
+                                                                )
+                                                              )
+                                                            )
+                                                    )
+                                                  )
+                                                )
+                                              ) ;bigest close indent list
+                                )
+                              )
+                )
+              ;
+              (list low_xy_ high_xy_  )
+              
+            ;
+            ; (princ "type_case_1")
+          )
+      )
+      (;type_case_2
+        (and
+          (= (type sss_) 'LIST)
+        )
+        (progn
+          (progn
+            ;preloop_and_while
+              (setq sss_i 0)
+              (setq sss_obj_getboundingbox_list_ nil)
+              (while (< sss_i (length sss_))
+                (setq sss_ename_ (nth sss_i sss_ ))
+                (setq sss_obj_ (vlax-ename->vla-object sss_ename_))
+                (setq sss_obj_getboundingbox (vla-getboundingbox sss_obj_ 'min_ 'max_)) 
+                (setq sss_min_ (vlax-safearray->list min_)) 
+                (setq sss_max_ (vlax-safearray->list max_))
+                (setq sss_obj_getboundingbox_list_ (cons (list sss_min_ sss_max_) sss_obj_getboundingbox_list_))      
+                (setq sss_i (+ sss_i 1))
+              )
+              ;TA:stanndard_lambda_sorting
+                (setq low_xy_ (list 
+                                (setq low_x (car 
+                                              (car 
+                                                (car 
+                                                  (vl-sort sss_obj_getboundingbox_list_  ;bigest open indent list
+                                                          (function 
+                                                            (lambda (a b) 
+                                                              (< (nth 0 (car a)) 
+                                                                  (nth 0 (car b))
+                                                              )
+                                                            )
+                                                          )
+                                                  )
+                                                )
+                                              )
+                                            ) ;bigest close indent list
+                                )
+                                (setq low_y (cadr 
+                                              (car 
+                                                (car 
+                                                  (vl-sort sss_obj_getboundingbox_list_  ;bigest open indent list
+                                                          (function 
+                                                            (lambda (a b) 
+                                                              (< (nth 0 (cadr a)) 
+                                                                  (nth 0 (cadr b))
+                                                              )
+                                                            )
+                                                          )
+                                                  )
+                                                )
+                                              )
+                                            ) ;bigest close indent list
+                                )
+                              )
+                )
+                (setq high_xy_ (list 
+                                (setq high_x (car 
+                                                (cadr 
+                                                  (car 
+                                                    (vl-sort sss_obj_getboundingbox_list_  ;bigest open indent list
+                                                            (function 
+                                                              (lambda (a b) 
+                                                                (> (nth 0 (car a)) 
+                                                                    (nth 0 (car b))
+                                                                )
+                                                              )
+                                                            )
+                                                    )
+                                                  )
+                                                )
+                                              ) ;bigest close indent list
+                                )
+                                (setq high_y (cadr 
+                                                (cadr 
+                                                  (car 
+                                                    (vl-sort sss_obj_getboundingbox_list_  ;bigest open indent list
+                                                            (function 
+                                                              (lambda (a b) 
+                                                                (> (nth 0 (cadr a)) 
+                                                                    (nth 0 (cadr b))
+                                                                )
+                                                              )
+                                                            )
+                                                    )
+                                                  )
+                                                )
+                                              ) ;bigest close indent list
+                                )
+                              )
+                )
+              ;
+              (list low_xy_ high_xy_  )
+            ;
+            ; (princ "type_case_1")
+          ) 
+        )
+      )
+    ) 
+  )
+  (defun TA:get-visible-boundingbox (blk_obj_ ) ;get coordinate real visible boundingbox 
+    ; (setq blk_ename_ (car (entsel "specify Object")))
+    ; (setq blk_obj_ (vlax-ename->vla-object blk_ename_))
+    (setq blk_obj_rotation (vla-get-rotation blk_obj_))
+    (setq blk_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint blk_obj_))))
+    (setq blk_list_ ())
+    (if (= (vla-get-objectname blk_obj_) "AcDbBlockReference")
+      (progn
+        (setq visible_list_ (ssadd))
+        (setq blkname (cdr (assoc 2 (entget (vlax-vla-object->ename blk_obj_)))))
+        (setq bdef (tblobjname "BLOCK" blkname))
+        
+        (if (= (vl-prin1-to-string (type bdef)) "ENAME") ;สำหรับ ดึงข้อมูลเพื่อทำ vla-getboundingbox
+          (progn
+            (setq nested (entnext bdef))
+            (while 
+              (and nested 
+                  (/= (cdr (assoc 0 (entget nested))) "ENDBLK")
+              )
+              (if (and 
+                    (setq nested_obj_ (vlax-ename->vla-object nested))
+                    (/= (vla-get-objectname nested_obj_) "AcDbAttributeDefinition")
+                    (/= (vla-get-objectname nested_obj_) "AcDbAttribute")
+                    (/= (vla-get-objectname nested_obj_) "AcDbSequenceEnd")
+                    (= (vla-get-visible nested_obj_) :vlax-true)
+                  )
+                (progn 
+                  (setq nested_ename (vlax-vla-object->ename nested_obj_))
+                  (setq nested_obj_getboundingbox (vla-getboundingbox nested_obj_ 'min_ 'max_)) 
+                  (setq nested_min_ (vlax-safearray->list min_)) 
+                  (setq nested_max_ (vlax-safearray->list max_)) 
+                  (command "rectangle" nested_min_ nested_max_)
+                  (setq visible_list_ (ssadd (entlast) visible_list_))
+                  (sslength visible_list_)
+                )
+              )
+              (setq nested (entnext nested))
+              
+            )
+          )
+        )
+        (if (/= (sslength visible_list_ ) 0) ;สำหรับ reset ตำแหน่ง vla-getboundingbox
+          (progn
+            (command "pselect"  visible_list_ "" )
+            (setq sss_ (ssget "i") )
+            (setq ssssss (TA:ss_vla-getboundingbox sss_))
+            (command "rectangle" (car ssssss) (cadr ssssss) )
+            (vla-rotate 
+              (vlax-ename->vla-object (entlast))
+              (vlax-3d-point 0 0 0)
+              blk_obj_rotation
+            )
+            (vla-move  
+              (vlax-ename->vla-object (entlast))
+              (vlax-3d-point 0 0 0)
+              (vlax-3d-point blk_obj_ins_)
+            )
+            (command "erase" visible_list_ "")
+            (setq lasted_ename (entlast))
+            (setq lasted_sss_ (ssadd  ))
+            (setq lasted_sss_ (ssadd lasted_ename lasted_sss_))
+            (setq lasted_gbound_ (TA:ss_vla-getboundingbox lasted_sss_))
+            ;get-data_
+              (setq main_border_ (TA:ss_vla-getboundingbox lasted_sss_ ) )
+              (setq ptmid_ (TA:midpoint (car main_border_) (cadr main_border_)))  
+              (setq pt1 (list 
+                  (car (car main_border_)) 
+                  (cadr (car main_border_)) 
+                  0 
+                )
+              )
+              (setq pt2 (list 
+                  (car (cadr main_border_)) 
+                  (cadr (car main_border_)) 
+                  0 
+                )
+              )
+              (setq pt3 (list 
+                  (car (cadr main_border_)) 
+                  (cadr (cadr main_border_)) 
+                  0 
+                )
+              )
+              (setq pt4 (list 
+                  (car (car main_border_)) 
+                  (cadr (cadr main_border_)) 
+                  0 
+                )
+              )
+              (setq Len_1 (distance pt1 pt2))
+              (setq Len_2 (distance pt2 pt3))
+              (setq Len_3 (distance pt3 pt4))
+              (setq Len_4 (distance pt4 pt1))
+            ;
+          )
+        )
+        ;result
+          (list 
+            (list pt1 pt2 pt3 pt4 )
+            (list Len_1 Len_2 Len_3 Len_4)
+          )
+        ;
+      )
+    )
+  )
+  (defun TA:get-visible-boundingbox (blk_obj_ ) ;get coordinate real visible boundingbox 
+    ; (setq blk_ename_ (car (entsel "specify Object")))
+    ; (setq blk_obj_ (vlax-ename->vla-object blk_ename_))
+    (setq blk_obj_rotation (vla-get-rotation blk_obj_))
+    (setq blk_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint blk_obj_))))
+    (setq blk_list_ ())
+    (if (= (vla-get-objectname blk_obj_) "AcDbBlockReference")
+      (progn
+        (setq visible_list_ (ssadd))
+        (setq blkname (cdr (assoc 2 (entget (vlax-vla-object->ename blk_obj_)))))
+        (setq bdef (tblobjname "BLOCK" blkname))
+        
+        (if (= (vl-prin1-to-string (type bdef)) "ENAME") ;สำหรับ ดึงข้อมูลเพื่อทำ vla-getboundingbox
+          (progn
+            (setq nested (entnext bdef))
+            (while 
+              (and nested 
+                  (/= (cdr (assoc 0 (entget nested))) "ENDBLK")
+              )
+              (if (and 
+                    (setq nested_obj_ (vlax-ename->vla-object nested))
+                    (/= (vla-get-objectname nested_obj_) "AcDbAttributeDefinition")
+                    (/= (vla-get-objectname nested_obj_) "AcDbAttribute")
+                    (/= (vla-get-objectname nested_obj_) "AcDbSequenceEnd")
+                    (= (vla-get-visible nested_obj_) :vlax-true)
+                  )
+                (progn 
+                  (setq nested_ename (vlax-vla-object->ename nested_obj_))
+                  (setq nested_obj_getboundingbox (vla-getboundingbox nested_obj_ 'min_ 'max_)) 
+                  (setq nested_min_ (vlax-safearray->list min_)) 
+                  (setq nested_max_ (vlax-safearray->list max_)) 
+                  (command "rectangle" nested_min_ nested_max_)
+                  (setq visible_list_ (ssadd (entlast) visible_list_))
+                  (sslength visible_list_)
+                )
+              )
+              (setq nested (entnext nested))
+              
+            )
+          )
+        )
+        (if (/= (sslength visible_list_ ) 0) ;สำหรับ reset ตำแหน่ง vla-getboundingbox
+          (progn
+            (command "pselect"  visible_list_ "" )
+            (setq sss_ (ssget "i") )
+            (setq ssssss (TA:ss_vla-getboundingbox sss_))
+            (command "rectangle" (car ssssss) (cadr ssssss) )
+            (vla-rotate 
+              (vlax-ename->vla-object (entlast))
+              (vlax-3d-point 0 0 0)
+              blk_obj_rotation
+            )
+            (vla-move  
+              (vlax-ename->vla-object (entlast))
+              (vlax-3d-point 0 0 0)
+              (vlax-3d-point blk_obj_ins_)
+            )
+            (command "erase" visible_list_ "")
+            (setq lasted_ename (entlast))
+            (setq lasted_sss_ (ssadd  ))
+            (setq lasted_sss_ (ssadd lasted_ename lasted_sss_))
+            (setq lasted_gbound_ (TA:ss_vla-getboundingbox lasted_sss_))
+            ;get-data_
+              (setq main_border_ (TA:ss_vla-getboundingbox lasted_sss_ ) )
+              (setq ptmid_ (TA:midpoint (car main_border_) (cadr main_border_)))  
+              (setq pt1 (list 
+                  (car (car main_border_)) 
+                  (cadr (car main_border_)) 
+                  0 
+                )
+              )
+              (setq pt2 (list 
+                  (car (cadr main_border_)) 
+                  (cadr (car main_border_)) 
+                  0 
+                )
+              )
+              (setq pt3 (list 
+                  (car (cadr main_border_)) 
+                  (cadr (cadr main_border_)) 
+                  0 
+                )
+              )
+              (setq pt4 (list 
+                  (car (car main_border_)) 
+                  (cadr (cadr main_border_)) 
+                  0 
+                )
+              )
+              (setq Len_1 (distance pt1 pt2))
+              (setq Len_2 (distance pt2 pt3))
+              (setq Len_3 (distance pt3 pt4))
+              (setq Len_4 (distance pt4 pt1))
+            ;
+          )
+        )
+        ;result
+          (list 
+            (list pt1 pt2 pt3 pt4 )
+            (list Len_1 Len_2 Len_3 Len_4)
+          )
+        ;
+      )
+    )
+  )
+  (defun TA:Get_Pline_vertext_angle_case1 (ename_) 
+    ; (setq ename_ new_rec)
+    (setq s_ (cadr (TA:Get_Pline_vertext_ins_point_ ename_)))
+    (setq d1 (angtos (angle (nth 1 s_) (nth 2 s_))))
+    (setq s_i 0)
+    (setq s_ii 1)
+    (setq end_val_ nil)
+    (setq sum_ ())
+    (while (< s_i (length s_))
+        (setq pt_1 (nth s_i s_))
+        (setq pt_3 (nth s_i s_))
+        (if (= s_ii (length s_)) 
+          (progn 
+            (setq end_val_ "end")
+            (setq pt_3 (nth (- s_i 1) s_))
+          )
+          (setq pt_2 (nth s_ii s_))
+        )
+        (setq angle_pt (atof (angtos (angle pt_1 pt_2))))
+        (if (= end_val_ "end") 
+          (progn
+            (setq angle_pt (atof (angtos (angle pt_3 pt_1))))
+            (setq sum (append  (list pt_1) (list angle_pt s_ii) ))
+          )
+          (setq sum (append  (list pt_1) (list angle_pt s_ii)))
+        )
+        
+        (setq sum_ (cons sum sum_))
+        (setq s_i (+ s_i 1))
+        (setq s_ii (+ s_ii 1))
+    )
+    (setq result_ (reverse sum_))
+  )
+  (defun TA:Get_Pline_vertext_angle_case2 (ename_) 
+    (setq s_ (cadr (TA:Get_Pline_vertext_ins_point_ ename_)))
+    (setq d1 (angtos (angle (nth 1 s_) (nth 2 s_))))
+    (setq s_i 0)
+    (setq s_ii 1)
+    (setq end_val_ nil)
+    (setq sum_ ())
+    (while (< s_i (length s_))
+        (setq pt_1 (nth s_i s_))
+        (if (= s_ii (length s_)) 
+          (progn 
+            (setq end_val_ "end")
+          )
+          (setq pt_2 (nth s_ii s_))
+        )
+        (setq angle_pt (atof (angtos (angle pt_1 pt_2))))
+        (if (= end_val_ "end") 
+          (progn 
+            (setq sum (append  (list pt_1) (list end_val_ s_ii) ))
+          )
+          (setq sum (append  (list pt_1) (list angle_pt s_ii)))
+        )
+        
+        (setq sum_ (cons sum sum_))
+        (setq s_i (+ s_i 1))
+        (setq s_ii (+ s_ii 1))
+    )
+    (setq result_ (reverse sum_))
+  )
+  (defun TA:Get_Pline_vertext_ins_point_ (ename_) ;must be (car (entsel))
+    (setq Get_Pline_ (entget ename_))
+    (setq Get_Pline_vtx_pt (vl-remove-if-not '(lambda (x) (= 10 (car x))) Get_Pline_))
+    (setq Get_Pline_vtx_pt_ (mapcar 'cdr Get_Pline_vtx_pt))
+    (setq ename+Get_Pline_vtx_pt_ (list
+                                    ename_
+                                    Get_Pline_vtx_pt_
+                                  )
+    
+    )
+  )
+  (defun TA:get_vertex_len_ (ename_)
+    ; (setq ref_line (car (entsel)))
+    (setq ss (vlax-ename->vla-object ename_))
+    (setq vertex_total (length (cadr (TA:Get_Pline_vertext_ins_point_ ename_))))
+    (setq sum_ ())
+
+    (setq vertex_i 0)
+    (setq vertex_ii 1)
+
+    (while (< vertex_i vertex_total)
+      (cond
+        (;_case_1
+          (and
+              (/= vertex_i (- vertex_total 1))
+          )
+          (progn
+            ;get_data_len
+              (setq len_i (vlax-curve-getDistatParam ss vertex_i) )
+              (setq len_ii (vlax-curve-getDistatParam ss vertex_ii))
+              ;
+              ;sum
+                (setq sum (list (- len_ii len_i)))
+                (setq sum_ (append sum sum_ ))
+              ;
+            (princ "_case_1\n")
+          )
+        )
+        (;_case_2
+          (and
+            (= vertex_i (- vertex_total 1))    
+          )
+          (progn
+            ;ไม่มี
+            (princ "_case_2\n")
+          )
+        )
+
+      )
+      
+      
+      (setq vertex_i (+ vertex_i 1))
+      (setq vertex_ii (+ vertex_ii 1))
+    )
+    ;summary_reverse
+      (setq sum_len (reverse sum_))
+    ;
+  )
+  (defun TA:midpoint (ins_start_ ins_end_) ;คำนวณ midpoint จากระยะหัว-ท้าย ของเส้น
+    ; (setq ins_start_ (list ins_start_x1 ins_start_y1))
+    ; (setq ins_end_ (list ins_end_x1 ins_end_y1))
+    (setq ins_mid_ (list 
+                (/ (+ (car ins_start_) (car ins_end_)) 2.0)
+                (/ (+ (cadr ins_start_) (cadr ins_end_)) 2.0)
+              )
+    )
+  )
+  (defun LM:PolyCentroid (e / l) 
+    (foreach x (setq e (entget e)) (if (= 10 (car x)) (setq l (cons (cdr x) l))))
+    ((lambda (a) 
+      (if (not (equal 0.0 a 1e-8)) 
+        (trans 
+          (mapcar '/ 
+                  (apply 'mapcar 
+                        (cons '+ 
+                              (mapcar 
+                                (function 
+                                  (lambda (a b) 
+                                    ((lambda (m) 
+                                        (mapcar 
+                                          (function (lambda (c d) (* (+ c d) m)))
+                                          a
+                                          b
+                                        )
+                                      ) 
+                                      (- (* (car a) (cadr b)) (* (car b) (cadr a)))
+                                    )
+                                  )
+                                )
+                                l
+                                (cons (last l) l)
+                              )
+                        )
+                  )
+                  (list a a)
+          )
+          (cdr (assoc 210 e))
+          0
+        )
+      )
+    ) 
+    (* 3.0 
+        (apply '+ 
+              (mapcar 
+                (function 
+                  (lambda (a b) (- (* (car a) (cadr b)) (* (car b) (cadr a))))
+                )
+                l
+                (cons (last l) l)
+              )
+        )
+    )
+    )
+  )
+  (defun TA:find_center (main_border_) -
+    (setq main_border_obj_ (vlax-ename->vla-object main_border_))
+    (setq obj (vla-get-objectname main_border_obj_)) ;For Check objectname
+    (if (= obj "AcDbPolyline") 
+      (progn 
+        (setq main_border_obj_boline_ (TA:ename+vla-getboundingbox main_border_obj_))
+        (setq min_crood (cadr main_border_obj_boline_))
+        (setq max_crood (caddr main_border_obj_boline_))
+        (setq Mx (/ (+ (car min_crood) (car max_crood)) 2))
+        (setq My (/ (+ (cadr min_crood) (cadr max_crood)) 2))
+        (setq Mz (/ (+ (caddr min_crood) (caddr max_crood)) 2))
+        (setq center_point_ (list Mx My Mz))
+      )
+      (alert "TA:find_center : Object is not PolyLine")
+    )
+  )
+  (defun TA:Find_boundary_line_ (main_border_)
+    ;for testing code
+      ; (setq main_border_ (car (entsel)))
+    ;
+    ;get_data_
+      (setq main_border_obj_ (vlax-ename->vla-object main_border_))
+      (setq obj (vla-get-objectname main_border_obj_)) ;For Check objectname
+      (if (or (= obj "AcDbPolyline") (= obj "AcDbBlockReference") (= obj "AcDbArc")) 
+        (progn 
+          (setq main_border_obj_boline_ (TA:ename+vla-getboundingbox main_border_obj_))
+          (setq min_crood (cadr main_border_obj_boline_))
+          (setq max_crood (caddr main_border_obj_boline_))
+          ; (setq Mx (/ (+ (car min_crood) (car max_crood)) 2))
+          ; (setq My (/ (+ (cadr min_crood) (cadr max_crood)) 2))
+          ; (setq Mz (/ (+ (caddr min_crood) (caddr max_crood)) 2))
+          ; (setq center_point_ (list Mx My Mz))
+          (setq obj_boline_ (list 
+                              (cadr main_border_obj_boline_ )
+                              (caddr main_border_obj_boline_ )
+                            )
+          )
+        )
+        (alert "TA:find_center : Object is not PolyLine")
+      )
+    ;
+  )
+  (defun TA:textscr_process (msg Overall_rangecell_data_list_i Overall_rangecell_data_list_) ;for showing while loop process
+    ; (textscr)
+    ; (setq msg "sdsadsdasdasdasdas \n asasdsa ")
+    ; (setq Overall_rangecell_data_list_i ss_pre_filter_set_xx_i )
+    ; (setq Overall_rangecell_data_list_ ss_pre_filter_set_xx_ )
+    (if (and
+          (= (type msg) 'STR)            
+          (= (type Overall_rangecell_data_list_i) 'INT)
+          (or
+            (= (type Overall_rangecell_data_list_) 'PICKSET )
+            (= (type Overall_rangecell_data_list_) 'LIST )
+          )
+        )
+      (progn
+        (setq percent-sub
+                (fix (* (/ (float Overall_rangecell_data_list_i) 
+                          (if (= (type Overall_rangecell_data_list_) 'PICKSET )
+                          (progn
+                            (sslength Overall_rangecell_data_list_)
+                          )
+                            (length Overall_rangecell_data_list_)
+                          )
+                        ) 
+                        100
+                    )
+                )
+        )
+        (princ 
+          (strcat 
+            msg
+            (rtos percent-sub 2 0) " / " (rtos 100 2 0) "\n"
+          )
+        )
+      )
+    )
+  )
+  (defun TA:textscr_process_V2 (msg-1 Overall_rangecell_data_list_i Overall_rangecell_data_list_) ;for showing while loop process
+    ; (textscr)
+    ; (setq msg-1 "sdsadsdasdasdasdas \n asasdsa ")
+    ; (setq Overall_rangecell_data_list_i ss_pre_filter_set_xx_i )
+    ; (setq Overall_rangecell_data_list_ ss_pre_filter_set_xx_ )
+    (if (and
+          (= (type msg-1) 'STR)            
+          (= (type Overall_rangecell_data_list_i) 'INT)
+          (or
+            (= (type Overall_rangecell_data_list_) 'PICKSET )
+            (= (type Overall_rangecell_data_list_) 'LIST )
+          )
+        )
+      (progn
+        (setq percent-sub
+                (fix (* (/ (float Overall_rangecell_data_list_i) 
+                          (if (= (type Overall_rangecell_data_list_) 'PICKSET )
+                          (progn
+                            (setq total_in_list_ (sslength Overall_rangecell_data_list_))
+                          )
+                            (setq total_in_list_ (length Overall_rangecell_data_list_))
+                          )
+                        ) 
+                        100
+                    )
+                )
+        )
+        (princ 
+          (strcat 
+            msg-1 " "
+            (rtos percent-sub 2 0) "/" (rtos 100 2 0) "%" " " "(" 
+            (rtos Overall_rangecell_data_list_i 2 0) "/" (rtos total_in_list_ 2 0) ")" "\n"
+            
+          )
+        )
+      )
+    )
+  )
+  (defun c:breakline_Brdist ()
+    (setq pline_ename_ (car (entsel "specify Object")))
+    (setq pline_obj_ (vlax-ename->vla-object pline_ename_))
+    (if (= (vla-get-objectname pline_obj_) "AcDbPolyline")
+      (progn
+        (setq osmode (getvar "osmode"))
+        (setvar "osmode" 0)
+        (if (< (setq real (getreal "specify dist.")) 0)
+          (progn
+            (setq ss (+ (vla-get-length pline_obj_) real))
+            
+            (command "breakatpoint" pline_ename_ (vlax-curve-getPointAtDist pline_obj_ ss))
+          )
+          (command "breakatpoint" pline_ename_ (vlax-curve-getPointAtDist pline_obj_ real))
+        )
+        
+        (setvar "osmode" osmode)
+      )
+    )
+  )
+  (defun TA:getkword ( getkword_text_ initget_text1_ initget_text2_ value-true1 value-false1 ) ; for if true-false by keyword
+    ; (setq getkword_text_ "keep input offset value ?")
+    ; (setq initget_text1_ "Yes")
+    ; (setq initget_text2_ "No")
+    ; (setq value-true1 22)
+    ; (setq value-false1 23)
+    (setq initget_text_ovl_ (strcat initget_text1_ " " initget_text2_))
+    (initget 2)
+    (initget initget_text_ovl_)
+    (setq condition_object_case_detect_ ;Detect the variable's result in case of a function error
+      (vl-catch-all-apply 
+        (function 
+          (lambda () 
+            (setq condition_object_case_val_type1_ (not (eq "No" (getkword (strcat getkword_text_ " [" (LM:StringSubst "/" " " initget_text_ovl_ ) "] " "<Y>:" ) ) ) ) ) 
+          )
+        )
+      )
+    )
+    (if (= condition_object_case_val_type1_ T)
+      (progn
+        value-true1
+      )
+      value-false1
+    )
+  )
+  (defun TA:assembly_coordinate_coner (main_border_)
+    ;get-data_
+      (setq pt_mid (list 
+                  (/ (+ (car (car main_border_)) (car (cadr main_border_))) 2.0)
+                  (/ (+ (cadr (car main_border_)) (cadr (cadr main_border_))) 2.0)
+                )
+      )  
+      (setq pt1 (list 
+          (car (car main_border_)) 
+          (cadr (car main_border_)) 
+          0 
+        )
+      )
+      (setq pt2 (list 
+          (car (cadr main_border_)) 
+          (cadr (car main_border_)) 
+          0 
+        )
+      )
+      (setq pt3 (list 
+          (car (cadr main_border_)) 
+          (cadr (cadr main_border_)) 
+          0 
+        )
+      )
+      (setq pt4 (list 
+          (car (car main_border_)) 
+          (cadr (cadr main_border_)) 
+          0 
+        )
+      )
+      (setq Len_1 (distance pt1 pt2))
+      (setq Len_2 (distance pt2 pt3))
+      (setq Len_3 (distance pt3 pt4))
+      (setq Len_4 (distance pt4 pt1))
+    ;
+    (setq result (list pt1 pt2 pt3 pt4 pt_mid len_1 Len_2 Len_3 Len_4))
+  )
+;
 ;Filter Selection Set by Effectivename Ta Trai  
   ;Note By Code_Developer
   ;
@@ -3043,8 +4099,205 @@
     ;
     (list 1_ 2_ 3_ 4_ 5_ 6_)
   )
+;
+;PPLINE-CKST-RCL-F&H-PLOT
+  (defun c:plotsetup ()
+    (setq x_checker_ 
+      (vl-catch-all-apply 
+        (function 
+          (lambda () 
+            (setq x_ ;Get-string by keep previous value
+                (if
+                  (or
+                    (/= (setq x_val (getstring (strcat "\nALL PAGE PLOT <" (if x_ x_ "x") ">: ") ) ) "" )
+                  )
+                    (progn
+                      (setq x_ x_val)
+                      (setq x_keep_val_ x_val)
+                    )
+                  (setq x_val x_keep_val_)
+                )
+            )
+          )
+        )
+      )
+    )
+  )
+  (defun c:Plotter_CKST_CSDframeplot ()
+      ;presetting
+      (setq REV_list_         (list 2)
+            REV_VAL           "A"
+            REV_DATE_VAL       "28-11-2025" ;(TA:CDATE "/" "DDMMYYYY")
+            REV_DESC_VAL      "REVISED ACCORDING TO THE COMMENTS"
+            DWG_VAL           "TA"
+            CHK_VAL           "KEN" 
+            APP_VAL           "MK"
+      )
+      (setq DESIGNED_BY_DATE_val REV_DATE_VAL)
+        ; (c:PPLINE_CKST_REWORK-TTB24_)
+        ; (c:PPLINE_CKST_REWORK-TTB25_)
+      ;
+      ;return
+        (command "ucs" "world")
+      ;
+      ;go_to_layout-process
+        ; (if 
+        ;   (or 
+        ;     (= (getvar "ctab") "model")
+        ;     (/= (getvar "ctab") "FAMING")
+        ;   )
+        ;   (progn 
+        ;     (setvar "ctab" "FAMING")
+            
+        ;   )
+        ;   (setvar "ctab" "FAMING")
+        ; )
+      ;
+      ;selection_set_for_fillter_blk_name
+        (if (= x_checker_ nil)
+          (progn
+            (setq x_checker_ "x")
+          )
+        )
+        (if 
+          (=
+            x_checker_
+            "x"
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget x_checker_
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                (cons 410 (getvar "CTAB"))
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (setq ss_pre_filter_set_xx_ (ssget 
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                (cons 410 (getvar "CTAB"))
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+        )
+      ;
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (setq External_ref_ename_ ())
+        (while (and 
+                (= (type REV_list_) 'list)
+                (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+              )
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+          
+          (TA:PPLINE_CKST_REWORK-REV_ ss_pre_filter_set_xx_obj_ REV_list_ REV_VAL REV_DATE_VAL REV_DESC_VAL DWG_VAL CHK_VAL APP_VAL)
 
-  
+          
+          (if
+            (or
+              ; (= (sslength ss_pre_filter_set_xx_) 1)
+              (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_ )) (strcat "*" (strcase "Title Block_Under Ground_C1 v3") "*"))  T)
+              (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_ )) (strcat "*" (strcase "Title Block_Under Ground_C2 v3") "*"))  T)
+              
+            )
+            (progn
+              (setq main_bol (LM:boundingbox ss_pre_filter_set_xx_obj_))
+              (setq pre-name_ (strcat 
+                                (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "STATUS_VAL")
+                                "-"
+                                (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "DRAWING_NO_val")
+                                "-"
+                                (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "rev_no_val")
+                              )
+              )
+              ; (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "REV_DATE_01" "27-10-2025")
+              (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DESIGNED_BY_DATE_val" DESIGNED_BY_DATE_val )
+              ;plot process
+                (if 
+                  (findfile (setq filename (strcat "" (getvar 'DWGPREFIX)  pre-name_ ".pdf")))
+                  (vl-file-delete filename)
+                )
+              ;
+              ;input_type_of_plot_
+                (TA:preset_plotter_mode_3) 
+              ;
+            ;   (command "-plot" 
+            ;         "Yes" ;Detailed Plot Configuration?
+            ;         (getvar "ctab")
+            ;         "DWG To PDF.pc3" ;Printer Name
+            ;         "ISO_full_bleed_A3_(420.00_x_297.00_mm)" ;Paper Size
+            ;         ;paper_size ;Paper Size
+            ;         "m" ;Paper Units Millimeters
+            ;         "Landscape" ;Orientation
+            ;         "No" ;Plot Upside Down
+            ;         ; "extents" ;Plot Area
+            ;         (nth 0 main_bol) ;vla-getboundingbox
+            ;         (nth 2 main_bol) ;vla-getboundingbox
+            ;         ;llpt				;Lower left corner of window
+            ;         ;urpt				;Upper right corner of window
+            ;         "Fit" ;Plot Scale	"Fit"
+            ;         "Center" ;Plot Offset
+            ;         "yes" ;Use Plot Style?
+            ;         "A3_Standard (MRT-AGATE) - purple line.ctb" ;Plot Style Name
+            ;         "Yes" ;Plot Lineweights?
+            ;         "" ;Enter shade plot setting ["As displayed"/"Wireframe"/"Hidden"/"Visual styles"/"Rendered"]
+            ;         "N"
+            ;         "N"
+            ;         filename ; Name file and Location
+            ;         "Y"
+            ;         "Y"
+                
+            ; )
+              (command "-plot" 
+                    "Yes" ;Detailed Plot Configuration?
+                    (getvar "ctab")
+                    "DWG To PDF.pc3" ;Printer Name
+                    "ISO_full_bleed_A1_(841.00_x_594.00_MM)" ;Paper Size
+                    ;paper_size ;Paper Size
+                    "m" ;Paper Units Millimeters
+                    "Landscape" ;Orientation
+                    "No" ;Plot Upside Down
+                    "window" ;Plot Area
+                    (nth 0 main_bol) ;vla-getboundingbox
+                    (nth 2 main_bol) ;vla-getboundingbox
+                    ;llpt				;Lower left corner of window
+                    ;urpt				;Upper right corner of window
+                    "Fit" ;Plot Scale	"Fit"
+                    "Center" ;Plot Offset
+                    "yes" ;Use Plot Style?
+                    "A3_Standard (MRT-AGATE) - purple line.ctb" ;Plot Style Name
+                    "Yes" ;Plot Lineweights?
+                    "" ;Enter shade plot setting ["As displayed"/"Wireframe"/"Hidden"/"Visual styles"/"Rendered"]
+                    "N"
+                    "N"
+                    filename ; Name file and Location
+                    "Y"
+                    "Y"
+                
+            )
+            )
+          )
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+    ;
+  )
+  (defun c:Ploter_CKST_allplot ()
+    (setvar "ctab" "Layout1")
+    (command "zoom" "E")
+    (c:Plotter_CKST_CSDframeplot)
+    (setvar "ctab" "FAMING")
+    (command "zoom" "E")
+    (c:Plotter_CKST_CSDframeplot)
+  )
 ;
 ;PPLINE-CKST
   (defun c:Plotter_CKST_CSDPLOT ()
@@ -3595,11 +4848,11 @@
     
     ;
   )
-  (defun c:Plotter_CKST_CSDframeplot ()
+  (defun c:Plotter_CKST_CSDfra0 ()
       ;presetting
       (setq REV_list_         (list 2)
             REV_VAL           "A"
-            REV_DATE_VAL       "24-11-2025" ;(TA:CDATE "/" "DDMMYYYY")
+            REV_DATE_VAL       "28-11-2025" ;(TA:CDATE "/" "DDMMYYYY")
             REV_DESC_VAL      "REVISED ACCORDING TO THE COMMENTS"
             DWG_VAL           "TA"
             CHK_VAL           "KEN" 
