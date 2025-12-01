@@ -36772,7 +36772,7 @@
           (setq sss_ename_vertex_list_sorted_i (+ sss_ename_vertex_list_sorted_i 1))
         )
       ;
-      (setq xest_new_ (reverse xest_new_))
+      (setq xest_new_ (reverse xest_new_)) 
       (setq xest_old_ (reverse xest_old_))
       (setq xest_all (append  xest_old_ xest_new_))
       (setq xest_all-1 (mapcar 
