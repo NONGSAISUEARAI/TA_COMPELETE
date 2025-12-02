@@ -353,7 +353,7 @@
 ;
 
 
-  (defun TA:generate_filter_list (1st_filter_ 2nd_filter_ 3rd_filter_ 4th_filter_)
+  (defun TA:generate_filter_list (1st_filter_ 2nd_filter_val_main 3rd_filter_val_main 4th_filter_val_main)
     ;example_for_use
       ; (setq 1st_filter_ "PPLINE-FAMELINE")
       ; (setq 2nd_filter_ "000_CLIP-IN_")
@@ -378,6 +378,13 @@
       ; )
     ;
     ;core
+      (setq  1st_filter_ 1st_filter_
+              2nd_filter_ 2nd_filter_val_main
+             3rd_filter_ 3rd_filter_val_main
+              4th_filter_ 4th_filter_val_main
+              
+      
+      )
       (setq overall_line ())
       (setq 1st_line_ (list 1st_filter_ 2nd_filter_))
       ;preloop_and_while 3rd
@@ -408,7 +415,7 @@
                     (= (wcmatch 4th_filter_val_ "*_3" ) nil)
                   )
                 (progn
-                  (setq 4th_line_sub (cons (strcat 2nd_filter_ (substr (nth 3rd_filter_i 3rd_filter_) 1 2) "_"  4th_filter_val_ ) 4th_line_sub))
+                  (setq 4th_line_sub (cons (strcat 2nd_filter_ (substr (nth 3rd_filter_i 3rd_filter_) 1 20) "_"  4th_filter_val_ ) 4th_line_sub)) ;บรรทัดนี่ ใช้ทำตัว ac = acessories
                 )
               )             
               (setq 4th_filter_i (+ 4th_filter_i 1))
@@ -535,6 +542,7 @@
             (setq layer_name_set_ (strcat 
                                     Prefix_filter_name_ 
                                     layer_overall_val_
+                                    "_"
                                     layer_subfix_name_val_
                                   )
             )
@@ -565,7 +573,7 @@
         ; )
         (setq Prefix_filter_name_ 2nd_filter_val_main)
         (setq main_filter_name_next_ 3rd_filter_val_main )
-        (setq sub_filter_nameset_ layer_subfix_name_)
+        (setq sub_filter_nameset_ 4th_filter_val_main)
       ;
       ;
     ;
@@ -586,9 +594,9 @@
                   (command "-layer"
                           "filter"
                           "edit"
-                          (strcat Prefix_filter_name_ (substr main_filter_name_next_val_ 1 2) "_" (LM:StringSubst "_1" "_2" sub_filter_nameset_val_)) ; (Filter name must be sensitibe case)
+                          (strcat Prefix_filter_name_ (substr main_filter_name_next_val_ 1 20) "_" (LM:StringSubst "_1" "_2" sub_filter_nameset_val_)) ; (Filter name must be sensitibe case)
                           "add"
-                          (strcat "*" Prefix_filter_name_ main_filter_name_next_val_ sub_filter_nameset_val_ "*") ;(add layer name to filter, Can use wildcard for adding)
+                          (strcat "*" Prefix_filter_name_ main_filter_name_next_val_ "_" sub_filter_nameset_val_ "*") ;(add layer name to filter, Can use wildcard for adding)
                           "x" ""
                   )
 
@@ -696,6 +704,48 @@
                                       )
             )
           )
+          (TA:generate_filter_list 
+            (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+            (setq 2nd_filter_val_main "FRAMING_") ;2nd_filter
+            (setq 3rd_filter_val_main (list  ;3rd_filter
+                                            "HR-09B" ;
+                                      )
+            )
+            (setq 4th_filter_val_main (list  ;4th_filter
+                                            (list "MAIN_COLOR_1" 3) ;
+                                            (list "MAIN_COLOR_2" 2) ;
+                                            (list "SUB_COLOR_1" 1) ;
+                                            (list "SUB_COLOR_2" 1) ;
+                                            (list "SUB_COLOR_3" 251) ;
+                                            (list "HATCH_" 251) ;
+                                            (list "WIPEOUT_" 250) ;
+                                            (list "HIDDEN_" 251) ;
+                                            (list "SYMBOL_" 251) ;
+                                            (list "DEF_SUB" 250) ;
+                                      )
+            )
+          )
+          (TA:generate_filter_list 
+            (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+            (setq 2nd_filter_val_main "FRAMING_") ;2nd_filter
+            (setq 3rd_filter_val_main (list  ;3rd_filter
+                                            "HR-02A" ;
+                                      )
+            )
+            (setq 4th_filter_val_main (list  ;4th_filter
+                                            (list "MAIN_COLOR_1" 3) ;
+                                            (list "MAIN_COLOR_2" 2) ;
+                                            (list "SUB_COLOR_1" 1) ;
+                                            (list "SUB_COLOR_2" 1) ;
+                                            (list "SUB_COLOR_3" 251) ;
+                                            (list "HATCH_" 251) ;
+                                            (list "WIPEOUT_" 250) ;
+                                            (list "HIDDEN_" 251) ;
+                                            (list "SYMBOL_" 251) ;
+                                            (list "DEF_SUB" 250) ;
+                                      )
+            )
+          )
         )
       ) 
       (nth i main_filter_name_ovl_)
@@ -704,7 +754,7 @@
     (setq i 0)
     (setq main_filter_name_ (nth 0 main_filter_name_ovl_))
     (c:create_main_and_sub_filter_creF4 (TA:choice_ i))
-    (c:create_layerset_Lset4)
+    (c:c reate_layerset_Lset4)
     (c:add_layer_main_and_sub_filter_addLFilter_ADD_LF4)
   )
 
@@ -712,7 +762,7 @@
 
 
       
-(:LayerFilterList)
+
 (defun :LayerFilterList (/ :SubFilterList)
 
   ; su returns list of main filter and sub filters right behind
