@@ -746,6 +746,72 @@
                                       )
             )
           )
+          (TA:generate_filter_list 
+            (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+            (setq 2nd_filter_val_main "008 - LIGHT_") ;2nd_filter
+            (setq 3rd_filter_val_main (list  ;3rd_filter
+                                            "FLUORESCENT" ;
+                                            "DN" ;
+                                      )
+            )
+            (setq 4th_filter_val_main (list  ;4th_filter
+                                            (list "MAIN_COLOR_1" 3) ;
+                                            (list "MAIN_COLOR_2" 2) ;
+                                            (list "SUB_COLOR_1" 1) ;
+                                            (list "SUB_COLOR_2" 1) ;
+                                            (list "SUB_COLOR_3" 251) ;
+                                            (list "HATCH_" 251) ;
+                                            (list "WIPEOUT_" 250) ;
+                                            (list "HIDDEN_" 251) ;
+                                            (list "SYMBOL_" 251) ;
+                                            (list "DEF_SUB" 250) ;
+                                      )
+            )
+          )
+          (TA:generate_filter_list 
+            (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+            (setq 2nd_filter_val_main "008 - AIR_") ;2nd_filter
+            (setq 3rd_filter_val_main (list  ;3rd_filter
+                                            "MASK" ;
+                                      )
+            )
+            (setq 4th_filter_val_main (list  ;4th_filter
+                                            (list "MAIN_COLOR_1" 3) ;
+                                            (list "MAIN_COLOR_2" 2) ;
+                                            (list "SUB_COLOR_1" 1) ;
+                                            (list "SUB_COLOR_2" 1) ;
+                                            (list "SUB_COLOR_3" 251) ;
+                                            (list "HATCH_" 251) ;
+                                            (list "WIPEOUT_" 250) ;
+                                            (list "HIDDEN_" 251) ;
+                                            (list "SYMBOL_" 251) ;
+                                            (list "DEF_SUB" 250) ;
+                                      )
+            )
+          )
+          (TA:generate_filter_list 
+            (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+            (setq 2nd_filter_val_main "008 - E&M_") ;2nd_filter
+            (setq 3rd_filter_val_main (list  ;3rd_filter
+                                            "ACESSORIES" ;
+                                            "ALARM" ;
+                                      )
+            )
+            (setq 4th_filter_val_main (list  ;4th_filter
+                                            (list "MAIN_COLOR_1" 3) ;
+                                            (list "MAIN_COLOR_2" 2) ;
+                                            (list "SUB_COLOR_1" 1) ;
+                                            (list "SUB_COLOR_2" 1) ;
+                                            (list "SUB_COLOR_3" 251) ;
+                                            (list "HATCH_" 251) ;
+                                            (list "WIPEOUT_" 250) ;
+                                            (list "HIDDEN_" 251) ;
+                                            (list "SYMBOL_" 251) ;
+                                            (list "DEF_SUB" 250) ;
+                                            (list "TEXT" 3) ;
+                                      )
+            )
+          )
         )
       ) 
       (nth i main_filter_name_ovl_)
@@ -763,45 +829,47 @@
 
       
 
-(defun :LayerFilterList (/ :SubFilterList)
+;
+  (defun :LayerFilterList (/ :SubFilterList)
 
-  ; su returns list of main filter and sub filters right behind
-  (defun :SubFilterList (dict / ent lst)
-    (foreach ent (mapcar 'cdr (vl-remove-if-not '(lambda (x) (= (car x) 350)) dict))
-      (setq lst (append lst
-                        (cons ent (if (assoc 360 (entget ent))
-                                    (:SubFilterList (entget (cdr (assoc 360 (entget (cdr (assoc 360 (entget ent)))))))))))))
-    lst)
+    ; su returns list of main filter and sub filters right behind
+    (defun :SubFilterList (dict / ent lst)
+      (foreach ent (mapcar 'cdr (vl-remove-if-not '(lambda (x) (= (car x) 350)) dict))
+        (setq lst (append lst
+                          (cons ent (if (assoc 360 (entget ent))
+                                      (:SubFilterList (entget (cdr (assoc 360 (entget (cdr (assoc 360 (entget ent)))))))))))))
+      lst)
 
-  (mapcar '(lambda (x) (cdr (assoc 300 (entget x))))
-          (:SubFilterList (dictsearch
-                            (vlax-vla-object->ename
-                              (vla-getextensiondictionary
-                                (vla-get-layers
-                                  (vla-get-activedocument
-                                    (vlax-get-acad-object)))))
-                            "ACLYDICTIONARY"))))
-(defun test (/ dict topLevel ed ents)
-  (if (setq dict (dictsearch
-                   (vlax-vla-object->ename
-                     (vla-getextensiondictionary
-                       (vla-get-layers
-                         (vla-get-activedocument
-                           (vlax-get-acad-object)))))
-                             "ACLYDICTIONARY"))
-                           
-(progn
-(setq topLevel (mapcar 'cdr (vl-remove-if-not '(lambda (x) (= (car x) 350)) dict)))
-                     
-(foreach ent topLevel
-(setq ed (entget ent))
-(if (assoc 360 ed)
+    (mapcar '(lambda (x) (cdr (assoc 300 (entget x))))
+            (:SubFilterList (dictsearch
+                              (vlax-vla-object->ename
+                                (vla-getextensiondictionary
+                                  (vla-get-layers
+                                    (vla-get-activedocument
+                                      (vlax-get-acad-object)))))
+                              "ACLYDICTIONARY"))))
+  (defun test (/ dict topLevel ed ents)
+    (if (setq dict (dictsearch
+                    (vlax-vla-object->ename
+                      (vla-getextensiondictionary
+                        (vla-get-layers
+                          (vla-get-activedocument
+                            (vlax-get-acad-object)))))
+                              "ACLYDICTIONARY"))
+                            
+  (progn
+  (setq topLevel (mapcar 'cdr (vl-remove-if-not '(lambda (x) (= (car x) 350)) dict)))
+                      
+  (foreach ent topLevel
+  (setq ed (entget ent))
+  (if (assoc 360 ed)
 
-(setq ents (append topLevel (mapcar 'cdr (vl-remove-if-not '(lambda (x) (= (car x) 350)) (entget (cdr (assoc 360 (entget (cdr (assoc 360 ed))))))))))
-)
-)
+  (setq ents (append topLevel (mapcar 'cdr (vl-remove-if-not '(lambda (x) (= (car x) 350)) (entget (cdr (assoc 360 (entget (cdr (assoc 360 ed))))))))))
+  )
+  )
 
-))
-(mapcar '(lambda (x) (cdr (assoc 300 (entget x)))) ents)
-);defun
-(test)
+  ))
+  (mapcar '(lambda (x) (cdr (assoc 300 (entget x)))) ents)
+  );defun
+  (test)
+;

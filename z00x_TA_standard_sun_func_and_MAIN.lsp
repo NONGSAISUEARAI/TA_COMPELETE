@@ -37392,7 +37392,7 @@
     ;new_blk_entlast object
       (setq new_dn_ename (entlast))
       (setq new_dn_obj (vlax-ename->vla-object new_dn_ename))
-      (vla-put-layer new_dn_obj "E-LITE-EQPM")
+      ; (vla-put-layer new_dn_obj "E-LITE-EQPM")
       (vla-put-color new_dn_obj 256)
       (setq inters_ss_ (ssadd new_dn_ename inters_ss_))
     ;
@@ -37428,14 +37428,15 @@
       (sslength ss_pre_filter_set_xx_)
     )
   ;
-  (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ (LM:effectivename (vlax-ename->vla-object (car (entsel "filter name block")))) ))
+  ; (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ (LM:effectivename (vlax-ename->vla-object (car (entsel "filter name block")))) ))
+  (setq ss_pre_filter_set_xx_ ss_pre_filter_set_xx_)
   ;preloop_and_while
     (setq ss_pre_filter_set_xx_i 0)
     (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
       (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
       (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
       (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
-      (if (= (vla-get-ActiveSpace doc) acModelSpace) 
+      (if (= (vla-get-ActiveSpace (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))) acModelSpace) 
         ;; อยู่ใน Model Space
         (setq space (vla-get-ModelSpace doc))
         ;; ถ้าไม่ใช่ = อยู่ใน Paper Space ของ Layout
@@ -37450,3 +37451,259 @@
     )
   ;
 )
+
+
+
+  (defun TA:editblock_ (blockname line_color layer_name)
+    ; (setq blockname "L2-2 - Surface Mounted LED Tube - 1223L x 170W x 93H - 36W-V1-CONCOURSE LEVEL_LIGHTING Copy 1")
+    ; (setq line_color 256)
+    ; (setq layer_name "008 - E&M_ACESSORIES_MAIN_COLOR_1")
+    (setq target_ '())
+    (setq blkdef (tblobjname "BLOCK" blockname))
+    (setq ent (entnext blkdef))
+    (while ent
+      (setq ed (entget ent))
+      (if (= (cdr (assoc 0 ed)) "HATCH")
+        (progn
+          (setq target_ (cons ent target_))
+          ;main idea of code keep or delete don't affect with core code
+            (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+            (vla-put-color target_obj_  line_color)
+            (vla-put-layer target_obj_  layer_name)
+            ; (vla-put-EntityTransparency target_obj_ 80 )
+          ;
+        )
+      )
+      (if (= (cdr (assoc 0 ed)) "ARC")
+        (progn
+          ; (setq target_ (cons ent target_))
+          ;main idea of code keep or delete don't affect with core code
+            (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+            (vla-put-color target_obj_  line_color)
+            (vla-put-layer target_obj_  layer_name)
+            
+          ;
+        )
+      )
+      (if (= (cdr (assoc 0 ed)) "LINE")
+        (progn
+          ; (setq target_ (cons ent target_))
+          ;main idea of code keep or delete don't affect with core code
+            (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+            (if (/= (vla-get-layer target_obj_ ) "A-ANNO-SYMB")
+              (progn
+                (vla-put-color target_obj_  line_color)
+                (vla-put-layer target_obj_  layer_name)
+              )
+            )
+          ;
+        )
+      )
+      (if (= (cdr (assoc 0 ed)) "LWPOLYLINE")
+        (progn
+          ; (setq target_ (cons ent target_))
+          ;main idea of code keep or delete don't affect with core code
+            (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+            (vla-put-color target_obj_  line_color)
+            (vla-put-layer target_obj_  layer_name)
+            
+          ;
+        )
+      )
+      (if (= (cdr (assoc 0 ed)) "SPLINE")
+        (progn
+          ; (setq target_ (cons ent target_))
+          ;main idea of code keep or delete don't affect with core code
+            (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+            (vla-put-color target_obj_  line_color)
+            (vla-put-layer target_obj_  layer_name)
+            
+          ;
+        )
+      )
+      (if (= (cdr (assoc 0 ed)) "ELLIPSE")
+        (progn
+          ; (setq target_ (cons ent target_))
+          ;main idea of code keep or delete don't affect with core code
+            (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+            (vla-put-color target_obj_  line_color)
+            (vla-put-layer target_obj_  layer_name)
+            
+          ;
+        )
+      )
+      (if (= (cdr (assoc 0 ed)) "CIRCLE")
+        (progn
+          ; (setq target_ (cons ent target_))
+          ;main idea of code keep or delete don't affect with core code
+            (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+            (vla-put-color target_obj_  line_color)
+            (vla-put-layer target_obj_  layer_name)
+            
+          ;
+        )
+      )
+      (setq ent (entnext ent))
+    )
+    (reverse target)
+  )
+(defun c:foo ()
+  
+
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (if (and 
+              (= 1 1) 
+              ; (= (wcmatch (LM:effectivename ss_pre_filter_set_xx_obj_) "*Alarm*") T)
+            )
+          (progn
+            (TA:editblock_ (LM:effectivename ss_pre_filter_set_xx_obj_) 256 "008 - AIR_MASK_MAIN_COLOR_1")
+          )
+        )
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    ) 
+  ;
+ )
+    
+
+  (defun c:insblk ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (setq new_S2S4 (ssadd))
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+        (setq ss_pre_filter_set_xx_obj_ro_ (vla-get-rotation ss_pre_filter_set_xx_obj_))
+        (if (and 
+              ; ( =  (wcmatch (LM:effectivename ss_pre_filter_set_xx_obj_ ) "*U12*" ) T)
+              ( =  (wcmatch (LM:effectivename ss_pre_filter_set_xx_obj_ ) "*Slot_Supply_*" ) T)
+            )
+          (progn
+            (TA:vla-insertblock
+              ; "ACM_Linear Slot_Supply_Side Connected _1590x200x450_ - 1590x200-21133948-CONCOURSE LEVEL CB CEILING PLAN"
+              ; "000 - CSKT_ACESSORIES_FLUORESCENT_FIXTURE_BOTTOM_VIEW"
+              "ACM_Linear Slot_Supply_Side Connected _1590x200x450_ - 1590x200-21133948-CONCOURSE LEVEL CB CEILING PLAN"
+              ss_pre_filter_set_xx_obj_ins_
+              1
+              ss_pre_filter_set_xx_obj_ro_
+            )
+            (setq new_S2S4 (ssadd ss_pre_filter_set_xx_ename_ new_S2S4))
+          )
+        )
+        
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+    (command "pselect"  new_S2S4 "" )
+    
+  )
+  (defun c:q1 ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "circle") ;type of object
+                                              (cons 8 "008 - E&M_ALARM_MAIN_COLOR_2")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "circle") ;type of object
+                                              (cons 8 "008 - E&M_ALARM_MAIN_COLOR_2")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i)) 
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (setq ss_pre_filter_set_xx_obj_center_ (vlax-safearray->list (vlax-variant-value (vla-get-center ss_pre_filter_set_xx_obj_))))
+        (create-text-vla (vlax-3d-point ss_pre_filter_set_xx_obj_center_) "S" 200 0)
+        ;new_blk_entlast object
+          (setq new_text_ename (entlast))
+          (setq new_text_obj (vlax-ename->vla-object new_text_ename))
+          (setq new_text_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint new_text_obj))))
+          (vla-put-alignment  new_text_obj acAlignmentMiddleCenter)
+          (vla-put-textalignmentpoint new_text_obj (vlax-3d-point new_text_obj_ins_))
+          
+        ;
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+    
+  )
+
