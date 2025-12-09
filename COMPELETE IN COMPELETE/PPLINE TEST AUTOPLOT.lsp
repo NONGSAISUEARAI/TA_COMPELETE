@@ -4127,7 +4127,7 @@
       ;presetting
       (setq REV_list_         (list 2)
             REV_VAL           "A"
-            REV_DATE_VAL       "28-11-2025" ;(TA:CDATE "/" "DDMMYYYY")
+            REV_DATE_VAL       "13-12-2025" ;(TA:CDATE "/" "DDMMYYYY")
             REV_DESC_VAL      "REVISED ACCORDING TO THE COMMENTS"
             DWG_VAL           "TA"
             CHK_VAL           "KEN" 
@@ -4295,6 +4295,9 @@
     (command "zoom" "E")
     (c:Plotter_CKST_CSDframeplot)
     (setvar "ctab" "FAMING")
+    (command "zoom" "E")
+    (c:Plotter_CKST_CSDframeplot)
+    (setvar "ctab" "AR-LIGHT_E&M")
     (command "zoom" "E")
     (c:Plotter_CKST_CSDframeplot)
   )

@@ -13658,7 +13658,31 @@
             (command "pasteclip" (list 0 0 0))
           )
         )
-            
+        (setq ss_pre_filter_set_xx_ (ssget "X"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            (cons 410 (getvar "CTAB"))
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )   
+        ;preloop_and_while
+          (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "Title Block_Under Ground_C1 v3"))
+          (setq ss_pre_filter_set_xx_i 0)
+          (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+            (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+            (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DRAWING_NO_val" 
+              (strcat 
+                (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "DRAWING_NO_val" )
+                "_reviewE&M"
+              )
+            )
+            (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+          )
+        ; 
             
       ;
       
@@ -37117,7 +37141,7 @@
 (defun c:xline_intersect_block_xl1_ ()
   ;presettting
     (setq blkname_inter_target_ "A$C40eac883")
-    (setq match_layer_name_ "0")
+    (setq match_layer_name_ "008 - E&M_ALARM_MAIN_COLOR_1")
     (setq match_color 256)
   ;
   ;selection_set_for_fillter_blk_name
@@ -37555,6 +37579,53 @@
   (reverse target)
 )
 
+(defun c:mkEM()
+
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (if (and 
+              (= 1 1) 
+              ; (= (wcmatch (LM:effectivename ss_pre_filter_set_xx_obj_) "*Alarm*") T)
+            )
+          (progn
+            (TA:editblock_ (LM:effectivename ss_pre_filter_set_xx_obj_) 256 "008 - E&M_ACESSORIES_MAIN_COLOR_1")
+          )
+        )
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    ) 
+  ;
+)
 (defun c:mkalarm()
 
   ;selection_set_for_fillter_blk_name
@@ -37743,6 +37814,53 @@
     ) 
   ;
 )
+(defun c:mkair()
+
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            ; (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            ; (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (if (and 
+              (= 1 1) 
+              ; (= (wcmatch (LM:effectivename ss_pre_filter_set_xx_obj_) "*Alarm*") T)
+            )
+          (progn
+            (TA:editblock_ (LM:effectivename ss_pre_filter_set_xx_obj_) 256 "008 - AIR_MASK_MAIN_COLOR_1")
+          )
+        )
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    ) 
+  ;
+)
     
 
   (defun c:insblk ()
@@ -37867,6 +37985,18 @@
     (TA:interface_text_ T)
     ;preloop_and_while
       (setq layer_list_i 0)
+      (command "vplayer" 
+                "f" 
+                "E-LITE-EQPM"
+                "c" 
+                ""
+      )
+      (command "vplayer" 
+                "f" 
+                "A-ANNO-DIMS-100"
+                "c" 
+                ""
+      )
       (while (< layer_list_i (length layer_list_))
         (setq layer_list_ename_ (nth  layer_list_i layer_list_))
         (cond
@@ -37927,9 +38057,10 @@
         (setq layer_list_i (+ layer_list_i 1))
       )
   )
-  (defun C:droplight  ()
-    (setq color_val_ 251)
+  (defun C:redight  ()
+    (setq color_val_ 1)
     (setq layer_list_ (TA:get_name_layer_in_drawing))
+    (TA:interface_text_ T)
     ;preloop_and_while
       (setq layer_list_i 0)
       (while (< layer_list_i (length layer_list_))
@@ -37985,12 +38116,140 @@
           )
           
         )
+        (TA:textscr_process_V2 "sorting" layer_list_i layer_list_ )
+        (setq layer_list_i (+ layer_list_i 1))
+      )
+  )
+  (defun C:yellight  ()
+    (setq color_val_ 2)
+    (setq layer_list_ (TA:get_name_layer_in_drawing))
+    (TA:interface_text_ T)
+    ;preloop_and_while
+      (setq layer_list_i 0)
+      (while (< layer_list_i (length layer_list_))
+        (setq layer_list_ename_ (nth  layer_list_i layer_list_))
+        (cond
+          (;_case_1
+            (and
+                (= 1 1)
+                (= (wcmatch layer_list_ename_ "008 - E&M*") t)
+            )
+            (progn
+              (command "vplayer" 
+                        "c" 
+                        color_val_
+                        layer_list_ename_
+                        "c"
+                        ""
+              )
+              (princ "_case_1")
+            )
+          )
+          (;_case_2
+            (and
+                (= 1 1)
+                (= (wcmatch layer_list_ename_ "008 - LIGHT_*") t)
+            )
+            (progn
+              (command "vplayer" 
+                        "c" 
+                        color_val_
+                        layer_list_ename_
+                        "c"
+                        ""
+              )
+              (princ "_case_2")
+            )
+          )
+          (;_case_3
+            (and
+                (= 1 1)
+                (= (wcmatch layer_list_ename_ "008 - AIR_MASK*") t)
+            )
+            (progn
+              (command "vplayer" 
+                        "c" 
+                        color_val_
+                        layer_list_ename_
+                        "c"
+                        ""
+              )
+              (princ "_case_3")
+            )
+          )
+          
+        )
+        (TA:textscr_process_V2 "sorting" layer_list_i layer_list_ )
+        (setq layer_list_i (+ layer_list_i 1))
+      )
+  )
+  (defun C:droplight  ()
+    (setq color_val_ 251)
+    (setq layer_list_ (TA:get_name_layer_in_drawing))
+    (TA:interface_text_ T)
+    ;preloop_and_while
+      (setq layer_list_i 0)
+      (while (< layer_list_i (length layer_list_))
+        (setq layer_list_ename_ (nth  layer_list_i layer_list_))
+        (cond
+          (;_case_1
+            (and
+                (= 1 1)
+                (= (wcmatch layer_list_ename_ "008 - E&M*") t)
+            )
+            (progn
+              (command "vplayer" 
+                        "c" 
+                        color_val_
+                        layer_list_ename_
+                        "c"
+                        ""
+              )
+              (princ "_case_1")
+            )
+          )
+          (;_case_2
+            (and
+                (= 1 1)
+                (= (wcmatch layer_list_ename_ "008 - LIGHT_*") t)
+            )
+            (progn
+              (command "vplayer" 
+                        "c" 
+                        color_val_
+                        layer_list_ename_
+                        "c"
+                        ""
+              )
+              (princ "_case_2")
+            )
+          )
+          (;_case_3
+            (and
+                (= 1 1)
+                (= (wcmatch layer_list_ename_ "008 - AIR_MASK*") t)
+            )
+            (progn
+              (command "vplayer" 
+                        "c" 
+                        color_val_
+                        layer_list_ename_
+                        "c"
+                        ""
+              )
+              (princ "_case_3")
+            )
+          )
+          
+        )
+        (TA:textscr_process_V2 "sorting" layer_list_i layer_list_ )
         (setq layer_list_i (+ layer_list_i 1))
       )
   )
   (defun C:hidelight  ()
     (setq color_val_ 251)
     (setq layer_list_ (TA:get_name_layer_in_drawing))
+    (TA:interface_text_ T)
     ;preloop_and_while
       (setq layer_list_i 0)
       (while (< layer_list_i (length layer_list_))
@@ -38043,6 +38302,7 @@
           )
           
         )
+        (TA:textscr_process_V2 "sorting" layer_list_i layer_list_ )
         (setq layer_list_i (+ layer_list_i 1))
       )
   )
