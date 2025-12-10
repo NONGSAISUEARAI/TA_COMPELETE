@@ -24444,7 +24444,7 @@
     )
     (defun c:Extr9 ()
       (TA:vla-insertblock 
-        "temp1"
+        "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_COMBINE_VIEW"
         (setq pt1 (getpoint))
         1
         (setq new_rad (angle pt1 (setq pt2 (getpoint pt1) )))
@@ -24452,8 +24452,8 @@
       ;new_blk_entlast object
         (setq sss_ename (entlast))
         (setq sss_obj_ (vlax-ename->vla-object sss_ename))
-        (vla-explode sss_obj_)
-        (vla-delete sss_obj_)
+        (vla-put-rotation  sss_obj_ (deg-to-rad (TA:ModifyRotation (rad-to-deg new_rad) -90)))
+        (LM:setdynpropvalue sss_obj_ "view" "6_bottom_view")
         (setq sss_ename (entlast))
         (setq sss_obj_ (vlax-ename->vla-object sss_ename))
         (setq H (LM:setdynpropvalue sss_obj_ "H" (- (distance pt1 pt2) 25)))
