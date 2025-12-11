@@ -1728,6 +1728,17 @@
         )
       ) 
     )
+    (defun TA:ss-erase (ss_pre_filter_set_xx_)
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (vla-delete ss_pre_filter_set_xx_obj_)
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+  )
     (defun TA:get-visible-boundingbox (blk_obj_ ) ;get coordinate real visible boundingbox 
       ; (setq blk_ename_ (car (entsel "specify Object")))
       ; (setq blk_obj_ (vlax-ename->vla-object blk_ename_))
@@ -2416,6 +2427,12 @@
       )
       (/ n 2.0)                      ; ย่อกลับมา .0 หรือ .5
     )
+    (defun TA:round-10 (num / n)
+      ;; ปัดค่าทีละ 10 แบบไม่ให้มีเศษหลุด
+      (setq n (+ (/ num 10.0) (if (minusp num) -0.0001 0.0001)))
+      (* 10 (fix (+ n (if (minusp num) -0.5 0.5))))
+    )
+
     (defun relocate_ins_ (data_list_ x_sym x_num_ y_sym y_num_ )
       (if (= (length data_list_) 2)
         (progn
@@ -10888,6 +10905,7 @@
             (;_case_1
                (and
                   (/= ss_pre_filter_set_xx_obj_name "AcDbAttributeDefinition")
+                  (= (getvar "worlducs") 1)
                )
                (progn
                   (vla-put-insertionpoint 
@@ -10904,6 +10922,7 @@
             (;_case_2
                (and
                   (= ss_pre_filter_set_xx_obj_name "AcDbAttributeDefinition")
+                  (= (getvar "worlducs") 1)
                )
                (progn
                   (setq ss_pre_filter_set_xx_obj_insalmentpt_ (vlax-safearray->list (vlax-variant-value (vla-get-textalignmentpoint ss_pre_filter_set_xx_obj_))))
@@ -10916,6 +10935,30 @@
                     )
                   )
                   (princ "_case_2")
+               )
+            )
+            (;_case_3
+              (and
+                (/= ss_pre_filter_set_xx_obj_name "AcDbAttributeDefinition")
+                (= (getvar "worlducs") 0)
+              )
+              (progn
+                  (setq new_ss_pre_filter_set_xx_obj_ins_xyz (list 
+                                                               (TA:round-10 (car (trans ss_pre_filter_set_xx_obj_ins_ 0 1)))
+                                                               (TA:round-10 (cadr (trans ss_pre_filter_set_xx_obj_ins_ 0 1)))
+                                                               (TA:round-10 (caddr (trans ss_pre_filter_set_xx_obj_ins_ 0 1)))
+                                                             )
+                  )
+                  (setq new_ss_pre_filter_set_xx_obj_ins_ (trans new_ss_pre_filter_set_xx_obj_ins_xyz 1 0))
+                  (vla-put-insertionpoint 
+                    ss_pre_filter_set_xx_obj_
+                    (vlax-3d-point 
+                      (car new_ss_pre_filter_set_xx_obj_ins_)
+                      (cadr new_ss_pre_filter_set_xx_obj_ins_)
+                      0 ;(caddr new_ss_pre_filter_set_xx_obj_ins_)
+                    )
+                  )
+                  (princ "_case_3")
                )
             )
 
@@ -10971,6 +11014,7 @@
               (TA:round-05 (caddr ss_pre_filter_set_xx_obj_ins_))
             )
           )
+          
           (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
         )
       ;
@@ -37373,8 +37417,8 @@
 )
 (defun c:xline_intersect_block_xl2_ ()
   ;presettting
-    ; (setq blkname_inter_target_ "000 - ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_CUT_VIEW")
-    (setq blkname_inter_ename_ (car (entsel "specify Object")))
+    (setq blkname_inter_target_ "000 - CKST_DOWNLIGHT_SYMBOL")
+    ; (setq blkname_inter_ename_ (car (entsel "specify Object")))
     (setq blkname_inter_obj_ (vlax-ename->vla-object blkname_inter_ename_))
     (setq blkname_inter_obj_ro (vla-get-rotation blkname_inter_obj_ ))
     (setq blkname_inter_target_ (LM:effectivename blkname_inter_obj_ ))
@@ -37598,7 +37642,7 @@
       (progn
         (setq ss_pre_filter_set_xx_ (ssget
                                           (list
-                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 0 "INSERT") ;type of object
                                             ; (cons 8 "000 - GRID")   ;kind of layer
                                             ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                             ; (cons 62 1)           ;kind of color call sign with color code index
@@ -37624,6 +37668,63 @@
         )
       (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
     ) 
+  ;
+)
+(defun c:mkcsem ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            ; (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            ; (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+    
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      (if (or 
+            (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbPolyline"  )
+            (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbLine"  )
+          )
+        (progn
+          (vla-put-layer ss_pre_filter_set_xx_obj_ "008 - E&M_ACESSORIES_SUB_COLOR_1" )
+          (vla-put-color ss_pre_filter_set_xx_obj_ 256)
+        )
+      )
+      (if (or 
+            (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbMText"  )
+            (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbText"  )
+          )
+        (progn
+          (vla-put-layer ss_pre_filter_set_xx_obj_ "008 - E&M_ACESSORIES_TEXT" )
+          (vla-put-color ss_pre_filter_set_xx_obj_ 256)
+        )
+      )
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
   ;
 )
 (defun c:mkalarm()
@@ -37863,13 +37964,786 @@
 )
     
 
-  (defun c:insblk ()
+
+(defun c:q1 ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "circle") ;type of object
+                                            (cons 8 "008 - E&M_ALARM_MAIN_COLOR_2")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "circle") ;type of object
+                                            (cons 8 "008 - E&M_ALARM_MAIN_COLOR_2")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i)) 
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      (setq ss_pre_filter_set_xx_obj_center_ (vlax-safearray->list (vlax-variant-value (vla-get-center ss_pre_filter_set_xx_obj_))))
+      (create-text-vla (vlax-3d-point ss_pre_filter_set_xx_obj_center_) "S" 200 0)
+      ;new_blk_entlast object
+        (setq new_text_ename (entlast))
+        (setq new_text_obj (vlax-ename->vla-object new_text_ename))
+        (setq new_text_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint new_text_obj))))
+        (vla-put-alignment  new_text_obj acAlignmentMiddleCenter)
+        (vla-put-textalignmentpoint new_text_obj (vlax-3d-point new_text_obj_ins_))
+        
+      ;
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+  
+)
+
+
+(defun rgb-to-obj (R G B)
+  (vla-setrgb c R G B)
+  (vla-setrgb c (vla-get-red c) (vla-get-green c) (vla-get-blue c))
+  (setq c c)
+)
+
+(defun C:showlight  ()
+  (setq layer_list_ (TA:get_name_layer_in_drawing))
+  (TA:interface_text_ T)
+  ;preloop_and_while
+    (setq layer_list_i 0)
+    (command "vplayer" 
+              "f" 
+              "E-LITE-EQPM"
+              "c" 
+              ""
+    )
+    (command "vplayer" 
+              "f" 
+              "A-ANNO-DIMS-100"
+              "c" 
+              ""
+    )
+    (while (< layer_list_i (length layer_list_))
+      (setq layer_list_ename_ (nth  layer_list_i layer_list_))
+      (cond
+        (;_case_1
+          (and
+              (= 1 1)
+              (= (wcmatch layer_list_ename_ "008 - E&M*") t)
+          )
+          (progn
+            (command "vplayer" 
+                      "c" 
+                      "T" 
+                      "0,0,255" 
+                      layer_list_ename_
+                      "c"
+                      ""
+            )
+            (princ "_case_1")
+          )
+        )
+        (;_case_2
+          (and
+              (= 1 1)
+              (= (wcmatch layer_list_ename_ "008 - LIGHT_*") t)
+          )
+          (progn
+            (command "vplayer" 
+                      "c" 
+                      "T" 
+                      "0,255,0" 
+                      layer_list_ename_
+                      "c"
+                      ""
+            )
+            (princ "_case_2")
+          )
+        )
+        (;_case_3
+          (and
+              (= 1 1)
+              (= (wcmatch layer_list_ename_ "008 - AIR_MASK*") t)
+          )
+          (progn
+            (command "vplayer" 
+                      "c" 
+                      "T" 
+                      "255,0,0" 
+                      layer_list_ename_
+                      "c"
+                      ""
+            )
+            (princ "_case_3")
+          )
+        )
+        
+      )
+      (TA:textscr_process_V2 "sorting" layer_list_i layer_list_ )
+      (setq layer_list_i (+ layer_list_i 1))
+    )
+)
+(defun C:redlight  ()
+  (setq color_val_ 1)
+  (setq layer_list_ (TA:get_name_layer_in_drawing))
+  (TA:interface_text_ T)
+  ;preloop_and_while
+    (setq layer_list_i 0)
+    (while (< layer_list_i (length layer_list_))
+      (setq layer_list_ename_ (nth  layer_list_i layer_list_))
+      (cond
+        (;_case_1
+          (and
+              (= 1 1)
+              (= (wcmatch layer_list_ename_ "008 - E&M*") t)
+          )
+          (progn
+            (command "vplayer" 
+                      "c" 
+                      color_val_
+                      layer_list_ename_
+                      "c"
+                      ""
+            )
+            (princ "_case_1")
+          )
+        )
+        (;_case_2
+          (and
+              (= 1 1)
+              (= (wcmatch layer_list_ename_ "008 - LIGHT_*") t)
+          )
+          (progn
+            (command "vplayer" 
+                      "c" 
+                      color_val_
+                      layer_list_ename_
+                      "c"
+                      ""
+            )
+            (princ "_case_2")
+          )
+        )
+        (;_case_3
+          (and
+              (= 1 1)
+              (= (wcmatch layer_list_ename_ "008 - AIR_MASK*") t)
+          )
+          (progn
+            (command "vplayer" 
+                      "c" 
+                      color_val_
+                      layer_list_ename_
+                      "c"
+                      ""
+            )
+            (princ "_case_3")
+          )
+        )
+        
+      )
+      (TA:textscr_process_V2 "sorting" layer_list_i layer_list_ )
+      (setq layer_list_i (+ layer_list_i 1))
+    )
+)
+(defun C:yellight  ()
+  (setq color_val_ 2)
+  (setq layer_list_ (TA:get_name_layer_in_drawing))
+  (TA:interface_text_ T)
+  ;preloop_and_while
+    (setq layer_list_i 0)
+    (while (< layer_list_i (length layer_list_))
+      (setq layer_list_ename_ (nth  layer_list_i layer_list_))
+      (cond
+        (;_case_1
+          (and
+              (= 1 1)
+              (= (wcmatch layer_list_ename_ "008 - E&M*") t)
+          )
+          (progn
+            (command "vplayer" 
+                      "c" 
+                      color_val_
+                      layer_list_ename_
+                      "c"
+                      ""
+            )
+            (princ "_case_1")
+          )
+        )
+        (;_case_2
+          (and
+              (= 1 1)
+              (= (wcmatch layer_list_ename_ "008 - LIGHT_*") t)
+          )
+          (progn
+            (command "vplayer" 
+                      "c" 
+                      color_val_
+                      layer_list_ename_
+                      "c"
+                      ""
+            )
+            (princ "_case_2")
+          )
+        )
+        (;_case_3
+          (and
+              (= 1 1)
+              (= (wcmatch layer_list_ename_ "008 - AIR_MASK*") t)
+          )
+          (progn
+            (command "vplayer" 
+                      "c" 
+                      color_val_
+                      layer_list_ename_
+                      "c"
+                      ""
+            )
+            (princ "_case_3")
+          )
+        )
+        
+      )
+      (TA:textscr_process_V2 "sorting" layer_list_i layer_list_ )
+      (setq layer_list_i (+ layer_list_i 1))
+    )
+)
+(defun C:droplight  ()
+  (setq color_val_ 251)
+  (setq layer_list_ (TA:get_name_layer_in_drawing))
+  (TA:interface_text_ T)
+  ;preloop_and_while
+    (setq layer_list_i 0)
+    (while (< layer_list_i (length layer_list_))
+      (setq layer_list_ename_ (nth  layer_list_i layer_list_))
+      (cond
+        (;_case_1
+          (and
+              (= 1 1)
+              (= (wcmatch layer_list_ename_ "008 - E&M*") t)
+          )
+          (progn
+            (command "vplayer" 
+                      "c" 
+                      color_val_
+                      layer_list_ename_
+                      "c"
+                      ""
+            )
+            (princ "_case_1")
+          )
+        )
+        (;_case_2
+          (and
+              (= 1 1)
+              (= (wcmatch layer_list_ename_ "008 - LIGHT_*") t)
+          )
+          (progn
+            (command "vplayer" 
+                      "c" 
+                      color_val_
+                      layer_list_ename_
+                      "c"
+                      ""
+            )
+            (princ "_case_2")
+          )
+        )
+        (;_case_3
+          (and
+              (= 1 1)
+              (= (wcmatch layer_list_ename_ "008 - AIR_MASK*") t)
+          )
+          (progn
+            (command "vplayer" 
+                      "c" 
+                      color_val_
+                      layer_list_ename_
+                      "c"
+                      ""
+            )
+            (princ "_case_3")
+          )
+        )
+        
+      )
+      (TA:textscr_process_V2 "sorting" layer_list_i layer_list_ )
+      (setq layer_list_i (+ layer_list_i 1))
+    )
+)
+(defun C:hidelight  ()
+  (setq color_val_ 251)
+  (setq layer_list_ (TA:get_name_layer_in_drawing))
+  (TA:interface_text_ T)
+  ;preloop_and_while
+    (setq layer_list_i 0)
+    (while (< layer_list_i (length layer_list_))
+      (setq layer_list_ename_ (nth  layer_list_i layer_list_))
+      (cond
+        (;_case_1
+          (and
+              (= 1 1)
+              (= (wcmatch layer_list_ename_ "008 - E&M*") t)
+          )
+          (progn
+            (command "vplayer" 
+                      "f" 
+                      layer_list_ename_
+                      "c" 
+                      ""
+            )
+            (princ "_case_1")
+          )
+        )
+        (;_case_2
+          (and
+              (= 1 1)
+              (= (wcmatch layer_list_ename_ "008 - LIGHT_*") t)
+          )
+          (progn
+            (command "vplayer" 
+                      "f" 
+                      layer_list_ename_
+                      "c" 
+                      ""
+            )
+            (princ "_case_2")
+          )
+        )
+        (;_case_3
+          (and
+              (= 1 1)
+              (= (wcmatch layer_list_ename_ "008 - AIR_MASK*") t)
+          )
+          (progn
+            (command "vplayer" 
+                      "f" 
+                      layer_list_ename_
+                      "c" 
+                      ""
+            )
+            (princ "_case_3")
+          )
+        )
+        
+      )
+      (TA:textscr_process_V2 "sorting" layer_list_i layer_list_ )
+      (setq layer_list_i (+ layer_list_i 1))
+    )
+)
+;
+  
+(defun c:temp_insSDD ()
+  
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "circle,mtext,arc") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "circle,mtext,arc") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  (_startundo doc)
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (setq ss_pre_filter_set_xx_list_ ())
+    (setq text_val_ ())
+    (setq no1 ())
+    (setq no2 ())
+    (setq no3 ())
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname   ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      
+      (setq sum_value_
+        (cond
+          ( (or 
+              (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbCircle")
+              (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbArc")
+            )
+            (progn
+              (list
+                "circle"
+                (setq ss_pre_filter_set_xx_obj_circle_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-center ss_pre_filter_set_xx_obj_))))
+              )
+            )
+          )
+          ( (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbMText")
+            (progn
+              (setq text_val_
+                (list
+                  (vla-get-textstring ss_pre_filter_set_xx_obj_)
+                  (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+                )
+              )
+              (setq ss_pre_filter_set_xx_list_ (cons text_val_ ss_pre_filter_set_xx_list_ ))
+            )
+          )
+        )
+      )
+      
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+  
+  (if (= (length ss_pre_filter_set_xx_list_) 3)
+    (progn
+      ;TA:stanndard_lambda_sorting
+        (setq ss_pre_filter_set_xx_list_sorted_for_1_3_ (vl-sort ss_pre_filter_set_xx_list_  ;bigest open indent list
+                                                  (function 
+                                                    (lambda (a b) 
+                                                      (> (nth 1 (cadr a)) (nth 1 (cadr b)))
+                                                    )
+                                                  )
+                              ) ;bigest close indent list
+        )
+        (setq ss_pre_filter_set_xx_list_sorted_for_2 (vl-sort ss_pre_filter_set_xx_list_  ;bigest open indent list
+                                                  (function 
+                                                    (lambda (a b) 
+                                                      (< (nth 0 (cadr a)) (nth 0 (cadr b)))
+                                                    )
+                                                  )
+                              ) ;bigest close indent list
+        )
+        (setq no1 (nth 0 (nth 0 ss_pre_filter_set_xx_list_sorted_for_1_3_)))
+        (setq no2 (nth 0 (nth 0 ss_pre_filter_set_xx_list_sorted_for_2)))
+        (setq no3 (nth 0 (nth 2 ss_pre_filter_set_xx_list_sorted_for_1_3_)))
+      ;
+    )
+  )
+  (if (= (length ss_pre_filter_set_xx_list_) 2)
+    (progn
+      ;TA:stanndard_lambda_sorting
+        (setq ss_pre_filter_set_xx_list_sorted_for_2 (vl-sort ss_pre_filter_set_xx_list_  ;bigest open indent list
+                                                  (function 
+                                                    (lambda (a b) 
+                                                      (< (nth 0 (cadr a)) (nth 0 (cadr b)))
+                                                    )
+                                                  )
+                              ) ;bigest close indent list
+        )
+        (if (> 
+              (cadr (nth 1 (car ss_pre_filter_set_xx_list_sorted_for_2)))
+              (cadr (nth 1 (cadr ss_pre_filter_set_xx_list_sorted_for_2)))
+            )
+          (progn
+            (setq no3 (nth 0 (cadr ss_pre_filter_set_xx_list_sorted_for_2)))
+          )
+            (setq no1 (nth 0 (cadr ss_pre_filter_set_xx_list_sorted_for_2)))
+        )
+        (setq no2 (nth 0 (car ss_pre_filter_set_xx_list_sorted_for_2)) )
+      ;
+    )
+  )
+
+  (TA:vla-insertblock 
+    "000 - CKST_E&M_SYMBOL"
+     ss_pre_filter_set_xx_obj_circle_ins_
+    1
+    0
+  )
+  ;new_blk_entlast object
+    (setq newcirblk_ename (entlast))
+    (setq newcirblk_obj (vlax-ename->vla-object newcirblk_ename))
+    (LM:vl-setattributevalue newcirblk_obj "1" (if (/= no2 nil) (progn no2 ) "" ))
+    (LM:vl-setattributevalue newcirblk_obj "2" (if (/= no1 nil) (progn no1 ) ""))
+    (LM:vl-setattributevalue newcirblk_obj "3" (if (/= no3 nil) (progn no3 ) ""))
+  ;
+  
+  (TA:ss-erase ss_pre_filter_set_xx_)
+  (_endUndo doc)
+  
+)
+(defun c:temp_insdl2 ()
+  
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "insert,mtext,text") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "insert,mtext,text") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+      (if (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbBlockReference")
+        (progn
+          (TA:vla-insertblock 
+            "000 - CKST_DOWNLIGHT_SYMBOL"
+            ss_pre_filter_set_xx_obj_ins_
+            1
+            0
+          )
+        )
+      )
+      
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+    (TA:ss-erase ss_pre_filter_set_xx_)
+  ;
+
+  
+
+  (_endUndo doc)
+  
+)
+(defun c:temp_insdl1 ()
+  
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "insert,mtext") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "insert,mtext") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+      (if (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbBlockReference")
+        (progn
+          (TA:vla-insertblock 
+            "000 - CKST_DOWNLIGHT_SYMBOL_sed LED Downlight Luminaire - ø114 x 40H - 12W"
+            ss_pre_filter_set_xx_obj_ins_
+            1
+            0
+          )
+        )
+      )
+      
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+    (TA:ss-erase ss_pre_filter_set_xx_)
+  ;
+
+  
+
+  (_endUndo doc)
+  
+)
+(defun c:temp_insfu1 ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT,mtext,text") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT,mtext,text") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (setq new_S2S4 (ssadd))
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      
+      
+      (if (and 
+            ; ( =  (wcmatch (LM:effectivename ss_pre_filter_set_xx_obj_ ) "*U12*" ) T)
+            (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbBlockReference")
+            (= 1 1)
+            ; ( =  (wcmatch (LM:effectivename ss_pre_filter_set_xx_obj_ ) "*Slot_Supply_*" ) T)
+          )
+        (progn
+          (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+          (setq ss_pre_filter_set_xx_obj_ro_ (vla-get-rotation ss_pre_filter_set_xx_obj_))
+          (TA:vla-insertblock
+            ; "ACM_Linear Slot_Supply_Side Connected _1590x200x450_ - 1590x200-21133948-CONCOURSE LEVEL CB CEILING PLAN"
+            ; "000 - CSKT_ACESSORIES_FLUORESCENT_FIXTURE_BOTTOM_VIEW"
+            "L1-2 RECESSED FLUORESCENT2 - L1-2  RECESSED FLUORESCENT"
+            ss_pre_filter_set_xx_obj_ins_
+            1
+            ss_pre_filter_set_xx_obj_ro_
+          )
+          (setq new_S2S4 (ssadd ss_pre_filter_set_xx_ename_ new_S2S4))
+          ;add on option
+            ;new_blk_entlast object
+              (setq newblk_ename (entlast))
+              (setq newblk_obj_ (vlax-ename->vla-object newblk_ename))
+              (LM:vl-setattributevalue newblk_obj_ "name" "L1-2")
+              ; (TA:move_polar_insertionpoint newblk_obj_ "x" 52.5)
+            ;
+          ;
+        )
+      )
+      
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+  (command "pselect"  new_S2S4 "" )
+  (command "pselect"  ss_pre_filter_set_xx_ "" )
+  (TA:ss-erase ss_pre_filter_set_xx_)
+  
+)
+(defun c:temp_insfu5 ()
+  
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "insert,mtext") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "insert,mtext") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+      (if (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbBlockReference")
+        (progn
+          (TA:vla-insertblock 
+            "000 - CKST_L5 - Ceiling Recessed_Surface Mounted Modular LED Tube - 1195L x 595W x 85H - 36W"
+            ss_pre_filter_set_xx_obj_ins_
+            1
+            0
+          )
+        )
+      )
+      
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+    (TA:ss-erase ss_pre_filter_set_xx_)
+  ;
+
+  
+
+  (_endUndo doc)
+  
+)
+  (defun c:temp_inssk ()
+    (_startundo doc)
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget
         (=
           (setq ss_pre_filter_set_xx_ (ssget "i"
                                             (list
-                                              (cons 0 "INSERT") ;type of object
+                                              (cons 0 "arc,circle,line,lwpolyline") ;type of object
                                               ; (cons 8 "000 - GRID")   ;kind of layer
                                               ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                               ; (cons 62 1)           ;kind of color call sign with color code index
@@ -37881,7 +38755,7 @@
         (progn
           (setq ss_pre_filter_set_xx_ (ssget
                                             (list
-                                              (cons 0 "INSERT") ;type of object
+                                              (cons 0 "arc,circle,line,lwpolyline") ;type of object
                                               ; (cons 8 "000 - GRID")   ;kind of layer
                                               ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                               ; (cons 62 1)           ;kind of color call sign with color code index
@@ -37894,418 +38768,169 @@
     ;
     ;preloop_and_while
       (setq ss_pre_filter_set_xx_i 0)
-      (setq new_S2S4 (ssadd))
-      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq check_ nil)
+      (while (and 
+              (= check_ nil)
+              (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+            )
         (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
         (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
-        (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
-        (setq ss_pre_filter_set_xx_obj_ro_ (vla-get-rotation ss_pre_filter_set_xx_obj_))
-        (if (and 
-              ; ( =  (wcmatch (LM:effectivename ss_pre_filter_set_xx_obj_ ) "*U12*" ) T)
-              ( =  (wcmatch (LM:effectivename ss_pre_filter_set_xx_obj_ ) "*Slot_Supply_*" ) T)
-            )
+        
+        (if (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbCircle")
+          
           (progn
-            (TA:vla-insertblock
-              ; "ACM_Linear Slot_Supply_Side Connected _1590x200x450_ - 1590x200-21133948-CONCOURSE LEVEL CB CEILING PLAN"
-              ; "000 - CSKT_ACESSORIES_FLUORESCENT_FIXTURE_BOTTOM_VIEW"
-              "ACM_Linear Slot_Supply_Side Connected _1590x200x450_ - 1590x200-21133948-CONCOURSE LEVEL CB CEILING PLAN"
+            (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-center ss_pre_filter_set_xx_obj_))))
+            (TA:vla-insertblock 
+              "000 - CKST_SPRINKLER"
               ss_pre_filter_set_xx_obj_ins_
               1
-              ss_pre_filter_set_xx_obj_ro_
+              0
             )
-            (setq new_S2S4 (ssadd ss_pre_filter_set_xx_ename_ new_S2S4))
+            (setq check_ 1)
           )
         )
         
         (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
       )
+      (TA:ss-erase ss_pre_filter_set_xx_)
     ;
-    (command "pselect"  new_S2S4 "" )
-    
-  )
-  (defun c:q1 ()
-    ;selection_set_for_fillter_blk_name
-      (if  ;pre_select_ssget_or_post_select_ssget
-        (=
-          (setq ss_pre_filter_set_xx_ (ssget "i"
-                                            (list
-                                              (cons 0 "circle") ;type of object
-                                              (cons 8 "008 - E&M_ALARM_MAIN_COLOR_2")   ;kind of layer
-                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                              ; (cons 62 1)           ;kind of color call sign with color code index
-                                            )
-                                      )
-          )
-          nil
-        )
-        (progn
-          (setq ss_pre_filter_set_xx_ (ssget
-                                            (list
-                                              (cons 0 "circle") ;type of object
-                                              (cons 8 "008 - E&M_ALARM_MAIN_COLOR_2")   ;kind of layer
-                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                              ; (cons 62 1)           ;kind of color call sign with color code index
-                                            )
-                                      )
-          )
-        )
-        (sslength ss_pre_filter_set_xx_)
-      )
-    ;
-    ;preloop_and_while
-      (setq ss_pre_filter_set_xx_i 0)
-      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i)) 
-        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
-        (setq ss_pre_filter_set_xx_obj_center_ (vlax-safearray->list (vlax-variant-value (vla-get-center ss_pre_filter_set_xx_obj_))))
-        (create-text-vla (vlax-3d-point ss_pre_filter_set_xx_obj_center_) "S" 200 0)
-        ;new_blk_entlast object
-          (setq new_text_ename (entlast))
-          (setq new_text_obj (vlax-ename->vla-object new_text_ename))
-          (setq new_text_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint new_text_obj))))
-          (vla-put-alignment  new_text_obj acAlignmentMiddleCenter)
-          (vla-put-textalignmentpoint new_text_obj (vlax-3d-point new_text_obj_ins_))
-          
-        ;
-        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
-      )
-    ;
-    
-  )
-  
-  
-  (defun rgb-to-obj (R G B)
-    (vla-setrgb c R G B)
-    (vla-setrgb c (vla-get-red c) (vla-get-green c) (vla-get-blue c))
-    (setq c c)
-  )
 
-  (defun C:showlight  ()
-    (setq layer_list_ (TA:get_name_layer_in_drawing))
-    (TA:interface_text_ T)
-    ;preloop_and_while
-      (setq layer_list_i 0)
-      (command "vplayer" 
-                "f" 
-                "E-LITE-EQPM"
-                "c" 
-                ""
-      )
-      (command "vplayer" 
-                "f" 
-                "A-ANNO-DIMS-100"
-                "c" 
-                ""
-      )
-      (while (< layer_list_i (length layer_list_))
-        (setq layer_list_ename_ (nth  layer_list_i layer_list_))
-        (cond
-          (;_case_1
-            (and
-                (= 1 1)
-                (= (wcmatch layer_list_ename_ "008 - E&M*") t)
-            )
-            (progn
-              (command "vplayer" 
-                        "c" 
-                        "T" 
-                        "0,0,255" 
-                        layer_list_ename_
-                        "c"
-                        ""
-              )
-              (princ "_case_1")
-            )
-          )
-          (;_case_2
-            (and
-                (= 1 1)
-                (= (wcmatch layer_list_ename_ "008 - LIGHT_*") t)
-            )
-            (progn
-              (command "vplayer" 
-                        "c" 
-                        "T" 
-                        "0,255,0" 
-                        layer_list_ename_
-                        "c"
-                        ""
-              )
-              (princ "_case_2")
-            )
-          )
-          (;_case_3
-            (and
-                (= 1 1)
-                (= (wcmatch layer_list_ename_ "008 - AIR_MASK*") t)
-            )
-            (progn
-              (command "vplayer" 
-                        "c" 
-                        "T" 
-                        "255,0,0" 
-                        layer_list_ename_
-                        "c"
-                        ""
-              )
-              (princ "_case_3")
-            )
-          )
-          
-        )
-        (TA:textscr_process_V2 "sorting" layer_list_i layer_list_ )
-        (setq layer_list_i (+ layer_list_i 1))
-      )
-  )
-  (defun C:redight  ()
-    (setq color_val_ 1)
-    (setq layer_list_ (TA:get_name_layer_in_drawing))
-    (TA:interface_text_ T)
-    ;preloop_and_while
-      (setq layer_list_i 0)
-      (while (< layer_list_i (length layer_list_))
-        (setq layer_list_ename_ (nth  layer_list_i layer_list_))
-        (cond
-          (;_case_1
-            (and
-                (= 1 1)
-                (= (wcmatch layer_list_ename_ "008 - E&M*") t)
-            )
-            (progn
-              (command "vplayer" 
-                        "c" 
-                        color_val_
-                        layer_list_ename_
-                        "c"
-                        ""
-              )
-              (princ "_case_1")
-            )
-          )
-          (;_case_2
-            (and
-                (= 1 1)
-                (= (wcmatch layer_list_ename_ "008 - LIGHT_*") t)
-            )
-            (progn
-              (command "vplayer" 
-                        "c" 
-                        color_val_
-                        layer_list_ename_
-                        "c"
-                        ""
-              )
-              (princ "_case_2")
-            )
-          )
-          (;_case_3
-            (and
-                (= 1 1)
-                (= (wcmatch layer_list_ename_ "008 - AIR_MASK*") t)
-            )
-            (progn
-              (command "vplayer" 
-                        "c" 
-                        color_val_
-                        layer_list_ename_
-                        "c"
-                        ""
-              )
-              (princ "_case_3")
-            )
-          )
-          
-        )
-        (TA:textscr_process_V2 "sorting" layer_list_i layer_list_ )
-        (setq layer_list_i (+ layer_list_i 1))
-      )
-  )
-  (defun C:yellight  ()
-    (setq color_val_ 2)
-    (setq layer_list_ (TA:get_name_layer_in_drawing))
-    (TA:interface_text_ T)
-    ;preloop_and_while
-      (setq layer_list_i 0)
-      (while (< layer_list_i (length layer_list_))
-        (setq layer_list_ename_ (nth  layer_list_i layer_list_))
-        (cond
-          (;_case_1
-            (and
-                (= 1 1)
-                (= (wcmatch layer_list_ename_ "008 - E&M*") t)
-            )
-            (progn
-              (command "vplayer" 
-                        "c" 
-                        color_val_
-                        layer_list_ename_
-                        "c"
-                        ""
-              )
-              (princ "_case_1")
-            )
-          )
-          (;_case_2
-            (and
-                (= 1 1)
-                (= (wcmatch layer_list_ename_ "008 - LIGHT_*") t)
-            )
-            (progn
-              (command "vplayer" 
-                        "c" 
-                        color_val_
-                        layer_list_ename_
-                        "c"
-                        ""
-              )
-              (princ "_case_2")
-            )
-          )
-          (;_case_3
-            (and
-                (= 1 1)
-                (= (wcmatch layer_list_ename_ "008 - AIR_MASK*") t)
-            )
-            (progn
-              (command "vplayer" 
-                        "c" 
-                        color_val_
-                        layer_list_ename_
-                        "c"
-                        ""
-              )
-              (princ "_case_3")
-            )
-          )
-          
-        )
-        (TA:textscr_process_V2 "sorting" layer_list_i layer_list_ )
-        (setq layer_list_i (+ layer_list_i 1))
-      )
-  )
-  (defun C:droplight  ()
-    (setq color_val_ 251)
-    (setq layer_list_ (TA:get_name_layer_in_drawing))
-    (TA:interface_text_ T)
-    ;preloop_and_while
-      (setq layer_list_i 0)
-      (while (< layer_list_i (length layer_list_))
-        (setq layer_list_ename_ (nth  layer_list_i layer_list_))
-        (cond
-          (;_case_1
-            (and
-                (= 1 1)
-                (= (wcmatch layer_list_ename_ "008 - E&M*") t)
-            )
-            (progn
-              (command "vplayer" 
-                        "c" 
-                        color_val_
-                        layer_list_ename_
-                        "c"
-                        ""
-              )
-              (princ "_case_1")
-            )
-          )
-          (;_case_2
-            (and
-                (= 1 1)
-                (= (wcmatch layer_list_ename_ "008 - LIGHT_*") t)
-            )
-            (progn
-              (command "vplayer" 
-                        "c" 
-                        color_val_
-                        layer_list_ename_
-                        "c"
-                        ""
-              )
-              (princ "_case_2")
-            )
-          )
-          (;_case_3
-            (and
-                (= 1 1)
-                (= (wcmatch layer_list_ename_ "008 - AIR_MASK*") t)
-            )
-            (progn
-              (command "vplayer" 
-                        "c" 
-                        color_val_
-                        layer_list_ename_
-                        "c"
-                        ""
-              )
-              (princ "_case_3")
-            )
-          )
-          
-        )
-        (TA:textscr_process_V2 "sorting" layer_list_i layer_list_ )
-        (setq layer_list_i (+ layer_list_i 1))
-      )
-  )
-  (defun C:hidelight  ()
-    (setq color_val_ 251)
-    (setq layer_list_ (TA:get_name_layer_in_drawing))
-    (TA:interface_text_ T)
-    ;preloop_and_while
-      (setq layer_list_i 0)
-      (while (< layer_list_i (length layer_list_))
-        (setq layer_list_ename_ (nth  layer_list_i layer_list_))
-        (cond
-          (;_case_1
-            (and
-                (= 1 1)
-                (= (wcmatch layer_list_ename_ "008 - E&M*") t)
-            )
-            (progn
-              (command "vplayer" 
-                       "f" 
-                       layer_list_ename_
-                       "c" 
-                       ""
-              )
-              (princ "_case_1")
-            )
-          )
-          (;_case_2
-            (and
-                (= 1 1)
-                (= (wcmatch layer_list_ename_ "008 - LIGHT_*") t)
-            )
-            (progn
-              (command "vplayer" 
-                       "f" 
-                       layer_list_ename_
-                       "c" 
-                       ""
-              )
-              (princ "_case_2")
-            )
-          )
-          (;_case_3
-            (and
-                (= 1 1)
-                (= (wcmatch layer_list_ename_ "008 - AIR_MASK*") t)
-            )
-            (progn
-              (command "vplayer" 
-                       "f" 
-                       layer_list_ename_
-                       "c" 
-                       ""
-              )
-              (princ "_case_3")
-            )
-          )
-          
-        )
-        (TA:textscr_process_V2 "sorting" layer_list_i layer_list_ )
-        (setq layer_list_i (+ layer_list_i 1))
-      )
-  )
-  ;
     
+
+    (_endUndo doc)
+    
+  )
+(defun c:temp_insfu60 ()
+  
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "insert,mtext") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "insert,mtext") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+      (if (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbBlockReference")
+        (progn
+          (TA:vla-insertblock 
+            "L6 - Ceiling Recessed Modular LED Tube - 1195L x 595W x 85H - 36W"
+            ss_pre_filter_set_xx_obj_ins_
+            1
+            0
+          )
+        )
+      )
       
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+    (TA:ss-erase ss_pre_filter_set_xx_)
+  ;
+
+  
+
+  (_endUndo doc)
+  
+)
+(defun c:temp_insfu61 ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT,mtext") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT,mtext") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (setq new_S2S4 (ssadd))
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      
+      
+      (if (and 
+            ; ( =  (wcmatch (LM:effectivename ss_pre_filter_set_xx_obj_ ) "*U12*" ) T)
+            (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbBlockReference")
+            (= 1 1)
+            ; ( =  (wcmatch (LM:effectivename ss_pre_filter_set_xx_obj_ ) "*Slot_Supply_*" ) T)
+          )
+        (progn
+          (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+          (setq ss_pre_filter_set_xx_obj_ro_ (vla-get-rotation ss_pre_filter_set_xx_obj_))
+          (TA:vla-insertblock
+            ; "ACM_Linear Slot_Supply_Side Connected _1590x200x450_ - 1590x200-21133948-CONCOURSE LEVEL CB CEILING PLAN"
+            ; "000 - CSKT_ACESSORIES_FLUORESCENT_FIXTURE_BOTTOM_VIEW"
+            "L6 - Ceiling Recessed Modular LED Tube - 1195L x 595W x 85H - 36W"
+            ss_pre_filter_set_xx_obj_ins_
+            1
+            ss_pre_filter_set_xx_obj_ro_
+          )
+          (setq new_S2S4 (ssadd ss_pre_filter_set_xx_ename_ new_S2S4))
+          ;add on option
+            ;new_blk_entlast object
+              (setq newblk_ename (entlast))
+              (setq newblk_obj_ (vlax-ename->vla-object newblk_ename))
+              ; (LM:vl-setattributevalue newblk_obj_ "name" "L1-2")
+              (TA:move_polar_insertionpoint newblk_obj_ "x" 300)
+            ;
+          ;
+        )
+      )
+      
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+  (command "pselect"  new_S2S4 "" )
+  (command "pselect"  ss_pre_filter_set_xx_ "" )
+  (TA:ss-erase ss_pre_filter_set_xx_)
+  
+)
+    
+
+  

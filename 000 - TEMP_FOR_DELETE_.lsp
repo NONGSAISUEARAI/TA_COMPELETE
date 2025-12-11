@@ -766,6 +766,7 @@
                                             (list "HIDDEN_" 251) ;
                                             (list "SYMBOL_" 251) ;
                                             (list "DEF_SUB" 250) ;
+                                            (list "TEXT" 3) ;
                                       )
             )
           )
