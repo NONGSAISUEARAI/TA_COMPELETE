@@ -645,7 +645,8 @@
             (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
             (setq 2nd_filter_val_main "000_FASTERN_") ;2nd_filter
             (setq 3rd_filter_val_main (list ;3rd_filter
-                                        "ACESSORIES_" ;
+                                        "HEX-BOLT" ;
+                                        "BRACKET" ;
                                   )
             )
             (setq 4th_filter_val_main (list  ;4th_filter
@@ -664,9 +665,9 @@
           )
           (TA:generate_filter_list
             (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
-            (setq 2nd_filter_val_main "000 - SYMBOL CON") ;2nd_filter
+            (setq 2nd_filter_val_main "000 - SYMBOL CON_") ;2nd_filter
             (setq 3rd_filter_val_main (list ;3rd_filter
-                                        "_" ;
+                                        "ASBUILT_WALL" ;
                                       )
             )
             (setq 4th_filter_val_main (list  ;4th_filter
@@ -680,6 +681,7 @@
                                             (list "HIDDEN_" 251) ;
                                             (list "SYMBOL_" 251) ;
                                             (list "DEF_SUB" 250) ;
+                                            (list "TEXT" 5) ;
                                       )
             )
           )
@@ -708,6 +710,9 @@
             (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
             (setq 2nd_filter_val_main "FRAMING_") ;2nd_filter
             (setq 3rd_filter_val_main (list  ;3rd_filter
+                                            "CC-01" ;
+                                            "HR-02A" ;
+                                            "HR-02B" ;
                                             "HR-09B" ;
                                       )
             )
@@ -924,5 +929,5 @@
 );defun
 (test)
 ;
-(get-all)
+
 

@@ -2479,22 +2479,22 @@
       (sslength ss_pre_filter_set_xx_)
     )
   ;
-  ; (setq wildcard_string_ ;Get-string by keep previous value ; old method
-    ;     (if
-    ;       (or
-    ;         (/= (setq wildcard_string_val (getstring (strcat "\nSpecify Pattern name <" (if wildcard_string_ wildcard_string_ "") ">: ") ) ) "" )
-    ;       )
-    ;         (progn
-    ;           (setq wildcard_string_ wildcard_string_val)
-    ;           (setq wildcard_string_keep_val_ wildcard_string_val)
-    ;         )
-    ;       (setq wildcard_string_val wildcard_string_keep_val_)
-    ;     )
-  ; )
-  (setq wildcard_string_ename_ (car (entsel "specify Object")))
-  (setq wildcard_string_obj_ (vlax-ename->vla-object wildcard_string_ename_))
-  (setq wildcard_string_obj_textstring_ (vla-get-textstring wildcard_string_obj_ ) )
-  (setq wildcard_string_ (strcase (strcat "*" (vla-get-textstring wildcard_string_obj_ ) "*")) )
+  (setq wildcard_string_ ;Get-string by keep previous value ; old method
+        (if
+          (or
+            (/= (setq wildcard_string_val (getstring (strcat "\nSpecify Pattern name <" (if wildcard_string_ wildcard_string_ "") ">: ") ) ) "" )
+          )
+            (progn
+              (setq wildcard_string_ wildcard_string_val)
+              (setq wildcard_string_keep_val_ wildcard_string_val)
+            )
+          (setq wildcard_string_val wildcard_string_keep_val_)
+        )
+  )
+  ; (setq wildcard_string_ename_ (car (entsel "specify Object")))
+  ; (setq wildcard_string_obj_ (vlax-ename->vla-object wildcard_string_ename_))
+  ; (setq wildcard_string_obj_textstring_ (vla-get-textstring wildcard_string_obj_ ) )
+  ; (setq wildcard_string_ (strcase (strcat "*" (vla-get-textstring wildcard_string_obj_ ) "*")) )
   
   ;preloop_and_while
     (setq ss_pre_filter_set_xx_i 0)

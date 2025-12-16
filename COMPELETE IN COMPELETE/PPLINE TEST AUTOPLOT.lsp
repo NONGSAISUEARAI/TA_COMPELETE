@@ -4125,9 +4125,9 @@
   )
   (defun c:Plotter_CKST_CSDframeplot ()
       ;presetting
-      (setq REV_list_         (list 1)
+      (setq REV_list_         (list 2)
             REV_VAL           "A"
-            REV_DATE_VAL       "10-12-2025" ;(TA:CDATE "/" "DDMMYYYY")
+            REV_DATE_VAL       "12-12-2025" ;(TA:CDATE "/" "DDMMYYYY")
             REV_DESC_VAL      "REVISED ACCORDING TO THE COMMENTS"
             DWG_VAL           "TA"
             CHK_VAL           "KEN" 
@@ -4292,9 +4292,10 @@
   )
   (defun c:Plotter_CKST_CSDgen ()
       ;presetting
+      (setq CONTRACT_num_val_ 1)
       (setq REV_list_         (list 1)
             REV_VAL           "A"
-            REV_DATE_VAL       "13-12-2025" ;(TA:CDATE "/" "DDMMYYYY")
+            REV_DATE_VAL       "12-12-2025" ;(TA:CDATE "/" "DDMMYYYY")
             REV_DESC_VAL      "FIRST ISSUED"
             DWG_VAL           "TA"
             CHK_VAL           "KEN" 
@@ -4377,8 +4378,16 @@
             )
             (progn
               (setq main_bol (LM:boundingbox ss_pre_filter_set_xx_obj_))
+              (if (= CONTRACT_num_val_ 2 )
+                (progn
+                  (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "CONTACT_WORKING_VAL" "CONTRACT 2 : UNDERGROUND CIVIL WORKS" )
+                )
+                (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "CONTACT_WORKING_VAL" "CONTRACT 1 : UNDERGROUND CIVIL WORKS" )
+              )
               (setq pre-name_ (strcat 
                                 (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "STATUS_VAL")
+                                "-"
+                                (rtos CONTRACT_num_val_ 2 0)
                                 "-"
                                 (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "DRAWING_NO_val")
                                 "-"
@@ -4464,10 +4473,11 @@
     ; (setvar "ctab" "FAMING")
     ; (command "zoom" "E")
     ; (c:Plotter_CKST_CSDframeplot)
-    (setvar "ctab" "AR-LIGHT_E&M")
-    (command "zoom" "E")
-    (c:Plotter_CKST_CSDframeplot)
+    ; (setvar "ctab" "AR-LIGHT_E&M")
+    ; (command "zoom" "E")5
+    ; (c:Plotter_CKST_CSDframeplot)
   )
+  ; (c:Ploter_CKST_allplot)
 ;
 ;PPLINE-CKST
   (defun c:Plotter_CKST_CSDPLOT ()
