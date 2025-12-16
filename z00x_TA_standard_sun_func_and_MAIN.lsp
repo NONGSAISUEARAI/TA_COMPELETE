@@ -7937,8 +7937,40 @@
 
 
     )
-    (defun c:foo ()
-      (command "_.RENAME" pause pause)
+    (defun c:rename_block_RENBLKV4_RENB4 ()
+      (setq text1_ename_ (car (entsel "specify Old Object")))
+      (setq text1_obj_EFNAME (LM:effectivename (vlax-ename->vla-object text1_ename_)))
+      ;checking_process
+        (if 
+          (and 
+            (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
+              (setq Er-msg_EFNAME_TARGET
+                (vl-catch-all-apply 
+                  (function 
+                    (lambda () 
+                      (setq EFNAME_TARGET (car (entsel "specify EFNAME_TARGET Object")))
+                    )
+                  )
+                )
+              )
+            
+            
+            (setq block-def (vla-Item (vla-get-Blocks doc) block-name))
+            (= (setq alert_val_1 (vla-get-objectname eee_ename_obj_)) "AcDbBlockReference")
+            (= (setq alert_val_2 (LM:effectivename new_ename_obj_)) "000 - BOX_EF_NAME")
+            (/= eee_ename_ dynamic_ename_)
+          )
+          (progn
+            ;get_data_old_EF_NAME_
+              (setq old_block_name_ (LM:effectivename (setq eee_ename_obj_ (vlax-ename->vla-object eee_ename_))))
+            ;
+            ;get_data
+              (setq new_ef_name_ (LM:vl-getattributevalue new_ename_obj_ "nameblk"  ))
+            ;
+          )
+          (alert "SOMETHING BAD")
+        )
+      ;
     )
     (defun c:limit_content_name_[limittext_] ()
       ;Note By Code_Developer
@@ -13773,6 +13805,25 @@
       )
     )
   ;
+  ;COLOR_FUNC
+    (defun TA:put-RGB  (vla-obj R G B)
+      ;Note By Code_Developer
+      ;This command is designed to work exclusively with a block named 'LV_DATA_FROM_EXCEl'.
+      ;The operation of the command will read the block's attribute values and generate a set of text.
+      ;Fully command must have sub-functions with names starting with TA: or LM:
+      ;
+      ;
+      ;example argument
+      ; (setq R 22
+      ;       G 22
+      ;       B 222
+      ; )
+      ;
+      (setq truecolor_obj_ (vla-get-truecolor vla-obj ))
+      (vla-setrgb truecolor_obj_ R G B)
+      (vla-put-TrueColor  vla-obj truecolor_obj_)
+    )
+  ; 
 ;
 
   ;                                   
@@ -38065,29 +38116,11 @@
 )
 
 
-(defun TA:put-RGB  (vla-obj R G B)
-  ;Note By Code_Developer
-  ;This command is designed to work exclusively with a block named 'LV_DATA_FROM_EXCEl'.
-  ;The operation of the command will read the block's attribute values and generate a set of text.
-  ;Fully command must have sub-functions with names starting with TA: or LM:
-  ;
-  ;
-  ;example argument
-  ; (setq R 22
-  ;       G 22
-  ;       B 222
-  ; )
-  ;
-  (setq truecolor_obj_ (vla-get-truecolor vla-obj ))
-  (vla-setrgb truecolor_obj_ R G B)
-  (vla-put-TrueColor  vla-obj truecolor_obj_)
-)
 
 
 
-(setq ggg_ename_ (car (entsel "specify Object")))
-(setq ggg_obj_ (vlax-ename->vla-object ggg_ename_))
-(TA:put-RGB ggg_obj_ 100 100 100)
+
+
 
 
 (defun C:showlight  ()
@@ -39346,3 +39379,4 @@
 (defun c:w1 ()
   (vla-put-color (vlax-ename->vla-object (car (nentsel))) 8)
 )
+
