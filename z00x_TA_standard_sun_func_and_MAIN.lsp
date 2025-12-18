@@ -7940,36 +7940,51 @@
     (defun c:rename_block_RENBLKV4_RENB4 ()
       (setq text1_ename_ (car (entsel "specify Old Object")))
       (setq text1_obj_EFNAME (LM:effectivename (vlax-ename->vla-object text1_ename_)))
+      (setq Er-msg_EFNAME_TARGET nil)
+      (setq Er-msg_block-def nil)
       ;checking_process
-        (if 
-          (and 
-            (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
+      (if 
+        (and 
+          (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
+          (=
+            (type
               (setq Er-msg_EFNAME_TARGET
-                (vl-catch-all-apply 
-                  (function 
-                    (lambda () 
-                      (setq EFNAME_TARGET (car (entsel "specify EFNAME_TARGET Object")))
+                (vl-catch-all-apply
+                  (function
+                    (lambda ()
+                      (setq EFNAME_TARGET_ (vla-get-textstring (vlax-ename->vla-object (car (entsel "specify EFNAME_TARGET Object\n Object should be Text or Mtext" ) ) ) ) )
                     )
                   )
                 )
               )
-            
-            
-            (setq block-def (vla-Item (vla-get-Blocks doc) block-name))
-            (= (setq alert_val_1 (vla-get-objectname eee_ename_obj_)) "AcDbBlockReference")
-            (= (setq alert_val_2 (LM:effectivename new_ename_obj_)) "000 - BOX_EF_NAME")
-            (/= eee_ename_ dynamic_ename_)
+            )
+          'STR
           )
-          (progn
-            ;get_data_old_EF_NAME_
-              (setq old_block_name_ (LM:effectivename (setq eee_ename_obj_ (vlax-ename->vla-object eee_ename_))))
-            ;
-            ;get_data
-              (setq new_ef_name_ (LM:vl-getattributevalue new_ename_obj_ "nameblk"  ))
-            ;
+          (=
+            (type
+              (setq Er-msg_block-def
+                (vl-catch-all-apply
+                  (function
+                    (lambda ()
+                      (setq block-def
+                        (vla-Item
+                          (vla-get-Blocks doc)
+                          Er-msg_EFNAME_TARGET
+                        )
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          'VL-CATCH-ALL-APPLY-ERROR
           )
-          (alert "SOMETHING BAD")
         )
+        (progn
+          (command "rename" "b" text1_obj_EFNAME Er-msg_EFNAME_TARGET )
+        )
+        (alert "SOMETHING BAD")
+      )
       ;
     )
     (defun c:limit_content_name_[limittext_] ()
@@ -13822,6 +13837,14 @@
       (setq truecolor_obj_ (vla-get-truecolor vla-obj ))
       (vla-setrgb truecolor_obj_ R G B)
       (vla-put-TrueColor  vla-obj truecolor_obj_)
+    )
+    (defun c:deep_color_DPC ()
+      (setq DEEP_color_ename_ (car (nentsel "specify Object")))
+      (setq DEEP_color_obj_ (vlax-ename->vla-object DEEP_color_ename_))
+      (vla-get-layer DEEP_color_obj_ )
+      (vla-put-color DEEP_color_obj_ 
+        (setq LV_3_ans_int_ (cond ( (getint (strcat "\nspecify get move to point\n<" (rtos (setq LV_3_ans_int_ (cond (LV_3_ans_int_) (0) ) ) ) "> : " ) ) ) (LV_3_ans_int_) ) )
+      )
     )
   ; 
 ;
