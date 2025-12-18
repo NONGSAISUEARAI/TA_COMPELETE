@@ -526,6 +526,7 @@
   )
   (defun c:create_layerset_Lset4 (2nd_filter_val_main 3rd_filter_val_main 4th_filter_val_main)
     ;presetting_
+      (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
       (setq Prefix_filter_name_ 2nd_filter_val_main)
       (setq layer_prefix_overall_ 3rd_filter_val_main )
       (setq layer_subfix_name_ 4th_filter_val_main ) 
@@ -537,6 +538,7 @@
         ;preloop_and_while
           (setq layer_subfix_name_i 0)
           (while (< layer_subfix_name_i (length layer_subfix_name_))
+            (setq layer_subfix_name_length_ (nth  layer_subfix_name_i layer_subfix_name_))
             (setq layer_subfix_name_val_ (car (nth  layer_subfix_name_i layer_subfix_name_)))
             (setq layer_subfix_name_color_ (cadr (nth  layer_subfix_name_i layer_subfix_name_)))
             (setq layer_name_set_ (strcat 
@@ -546,8 +548,28 @@
                                     layer_subfix_name_val_
                                   )
             )
-            (command "-layer" "n" layer_name_set_ "")
-            (command "-layer" "c" layer_subfix_name_color_ layer_name_set_ "" )
+            (setq layers (vla-get-Layers doc))
+            (setq layObj (vla-Add layers layer_name_set_))
+            (if (= (length layer_subfix_name_length_) 4)
+              (progn
+                (cdr layer_subfix_name_length_)
+                (setq layObj (vla-Item 
+                               (vla-get-Layers doc)
+                               layer_name_set_ ; ← ชื่อ Layer
+                             )
+                )
+                (setq truecolor_obj_ (vla-get-truecolor layObj ))
+                (vla-setrgb 
+                  truecolor_obj_ 
+                            (car (cdr layer_subfix_name_length_)) 
+                            (cadr (cdr layer_subfix_name_length_)) 
+                            (caddr (cdr layer_subfix_name_length_)) 
+                )
+                (vla-put-TrueColor  layObj truecolor_obj_)
+              )
+              (vla-put-color layObj layer_subfix_name_color_)
+            )
+            
             (setq layer_subfix_name_i (+ layer_subfix_name_i 1))
           )
         ;
@@ -671,9 +693,9 @@
                                       )
             )
             (setq 4th_filter_val_main (list  ;4th_filter
-                                            (list "MAIN_COLOR_1" 3) ;
-                                            (list "MAIN_COLOR_2" 2) ;
-                                            (list "SUB_COLOR_1" 1) ;
+                                            (list "MAIN_COLOR_1" 255 0 0) ;
+                                            (list "MAIN_COLOR_2"  255 135 0) ;
+                                            (list "SUB_COLOR_1" 152 5 190) ;
                                             (list "SUB_COLOR_2" 1) ;
                                             (list "SUB_COLOR_3" 251) ;
                                             (list "HATCH_" 251) ;

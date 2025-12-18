@@ -39400,6 +39400,64 @@
 )
 
 (defun c:w1 ()
-  (vla-put-color (vlax-ename->vla-object (car (nentsel))) 8)
+  
+  (setq target_ename_ (car (nentselp "specify Object")))
+  (setq target_obj_ (vlax-ename->vla-object target_ename_))
+  (print (vla-get-objectname target_obj_))
+  (print (vla-get-layer target_obj_))
+  (print (vla-get-color target_obj_))
+  
 )
 
+(defun c:change_layer_color-rgb_set_ ()
+  (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
+  (setq layer_list_ (list 
+                      (list "000 - SYMBOL CON_ASBUILT_WALL_MAIN_COLOR_1" (list 255 0 0) )                  
+                      (list "000 - SYMBOL CON_ASBUILT_WALL_MAIN_COLOR_2" (list 255 135 0) )                  
+                      (list "000 - SYMBOL CON_ASBUILT_WALL_SUB_COLOR_1" (list 0 255 0) )                  
+                    )
+  )
+  ;preloop_and_while
+    (setq layer_list_i 0)
+    (while (< layer_list_i (length layer_list_))
+      (if (= (length (nth  layer_list_i layer_list_) ) 2 )
+        (progn
+          (setq layer_list_name_ (car (nth  layer_list_i layer_list_)))
+          (setq layer_list_color_ (cadr (nth  layer_list_i layer_list_)))
+          
+          (if (and 
+                (= (length layer_list_color_ ) 3)
+                (=
+                  (type 
+                    (setq ERR_layObj
+                      (vl-catch-all-apply
+                        (function
+                          (lambda ()
+                            (setq layObj (vla-Item 
+                                          (vla-get-Layers doc)
+                                          layer_list_name_ ; ← ชื่อ Layer
+                                        )
+                            )
+                          )
+                        )
+                      )
+                    )
+                  )
+                'VLA-OBJECT
+                )
+
+              )
+            (progn
+              (TA:put-rgb layObj (car layer_list_color_) (cadr layer_list_color_) (caddr layer_list_color_))
+            )
+          )
+        )
+        
+      )
+
+      (setq layer_list_i (+ layer_list_i 1))
+    )
+  ;
+  
+
+) 
