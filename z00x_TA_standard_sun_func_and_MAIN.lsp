@@ -13846,7 +13846,15 @@
         (setq LV_3_ans_int_ (cond ( (getint (strcat "\nspecify get move to point\n<" (rtos (setq LV_3_ans_int_ (cond (LV_3_ans_int_) (0) ) ) ) "> : " ) ) ) (LV_3_ans_int_) ) )
       )
     )
-  ; 
+  ;
+  ;STR_FUNC
+    (defun TA:rightstr (str_value_ right_value_)
+      ; (setq str_value_ "abcdefg")
+      ; (setq right_value_ 2)
+      (setq str_value_length (strlen str_value_))
+      (substr str_value_ (- (+ str_value_length right_value_) 1 ) 100)
+    )
+  ;
 ;
 
   ;                                   
@@ -39461,3 +39469,6 @@
   
 
 ) 
+
+
+

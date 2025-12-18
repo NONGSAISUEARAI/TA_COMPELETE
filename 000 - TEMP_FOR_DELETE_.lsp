@@ -46,7 +46,14 @@
     (command "-LAYER" "filter" "new" "group"  MAIN-filter_1 "*000_PPLINE_CKST_SMOKE_BARRIER*" MAIN-filter_1-2 "" ) 
     (command "-LAYER" "filter" "new" "group"  MAIN-filter_1 "*000_PPLINE_CKST_SMOKE_ACESSORIES*" MAIN-filter_1-3 "" ) 
   )
-
+;STR_FUNC
+  (defun TA:rightstr (str_value_ right_value_)
+    ; (setq str_value_ "abcdefg")
+    ; (setq right_value_ 2)
+    (setq str_value_length (strlen str_value_))
+    (substr str_value_ (- (+ str_value_length 1) right_value_ ) 100)
+  )
+;
 ;prototype for filter layer
   (defun TA:generate_filter_list1 (1st_filter_ 2nd_filter_ 3rd_filter_ 4th_filter)
     ;example_for_use
@@ -613,14 +620,33 @@
                 (while (< sub_filter_nameset_i (length sub_filter_nameset_))
                   (setq sub_filter_nameset_val_ (car (nth  sub_filter_nameset_i sub_filter_nameset_)))
                   
-                  (command "-layer"
-                          "filter"
-                          "edit"
-                          (strcat Prefix_filter_name_ (substr main_filter_name_next_val_ 1 20) "_" (LM:StringSubst "_1" "_2" sub_filter_nameset_val_)) ; (Filter name must be sensitibe case)
+                  (command "-layer" 
+                           "filter"
+                           "edit"
+                            (strcat Prefix_filter_name_ 
+                                    (substr main_filter_name_next_val_ 1 20)
+                                    "_"
+                                    (LM:StringSubst 
+                                      "_1"
+                                      (if 
+                                        (or 
+                                          (= (wcmatch sub_filter_nameset_val_ "*_1") T )
+                                          (= (wcmatch sub_filter_nameset_val_ "*_2") T )
+                                          (= (wcmatch sub_filter_nameset_val_ "*_3") T )
+                                          (= (wcmatch sub_filter_nameset_val_ "*_4") T )
+                                        )
+                                        (progn 
+                                          (TA:rightstr sub_filter_nameset_val_ 2)
+                                        )
+                                        "XIOIOXIOXOXIOXชื่อมั่วๆ"
+                                      )
+                                      sub_filter_nameset_val_
+                                    )
+                            ); (Filter name must be sensitibe case)
                           "add"
                           (strcat "*" Prefix_filter_name_ main_filter_name_next_val_ "_" sub_filter_nameset_val_ "*") ;(add layer name to filter, Can use wildcard for adding)
                           "x" ""
-                  )
+                    )
 
                   (setq sub_filter_nameset_i (+ sub_filter_nameset_i 1))
                 )
@@ -741,9 +767,13 @@
             (setq 4th_filter_val_main (list  ;4th_filter
                                             (list "MAIN_COLOR_1" 3) ;
                                             (list "MAIN_COLOR_2" 2) ;
+                                            (list "MAIN_COLOR_3" 2) ;
+                                            (list "MAIN_COLOR_5" 2) ;
                                             (list "SUB_COLOR_1" 1) ;
                                             (list "SUB_COLOR_2" 1) ;
                                             (list "SUB_COLOR_3" 251) ;
+                                            (list "SUB_COLOR_4" 251) ;
+                                            (list "SUB_COLOR_4" 251) ;
                                             (list "HATCH_" 251) ;
                                             (list "WIPEOUT_" 250) ;
                                             (list "HIDDEN_" 251) ;
