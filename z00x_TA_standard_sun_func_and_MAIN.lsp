@@ -13852,7 +13852,7 @@
       ; (setq str_value_ "abcdefg")
       ; (setq right_value_ 2)
       (setq str_value_length (strlen str_value_))
-      (substr str_value_ (- (+ str_value_length right_value_) 1 ) 100)
+      (substr str_value_ (- (+ str_value_length 1) right_value_ ) 100)
     )
   ;
 ;
@@ -37499,7 +37499,7 @@
 )
 (defun c:xline_intersect_block_xl2_ ()
   ;presettting
-    (setq blkname_inter_target_ "000 - CKST_DOWNLIGHT_SYMBOL")
+    (setq blkname_inter_target_ "ACM_Linear Slot_Supply_Side Connected _1590x200x450_ - 1590x200-21133948-CONCOURSE LEVEL CB CEILING PLAN")
     ; (setq blkname_inter_ename_ (car (entsel "specify Object")))
     (setq blkname_inter_obj_ (vlax-ename->vla-object blkname_inter_ename_))
     (setq blkname_inter_obj_ro (vla-get-rotation blkname_inter_obj_ ))
@@ -39472,3 +39472,295 @@
 
 
 
+
+
+(defun TA:nested_data_block_ (blk_obj_ data_mode propertie_name_list_)
+  ; (setq blockname "L2-2 - Surface Mounted LED Tube - 1223L x 170W x 93H - 36W-V1-CONCOURSE LEVEL_LIGHTING Copy 1")
+  ; (setq data_mode 4)
+  ; (setq propertie_name_list_ (list 
+  ;                              "HANDLE"
+  ;                              "Layer"
+  ;                            )
+  ; )
+  ; (setq line_color 256)
+  ; (setq layer_name "008 - E&M_ACESSORIES_MAIN_COLOR_1")
+  ; (setq layer_name "008 - E&M_ACESSORIES_MAIN_COLOR_1")
+  (setq target_ '())
+  (setq result_data_ ())
+  
+  ; (setq blkdef (tblobjname "BLOCK" blockname))
+  ; (setq ent (entnext blkdef))
+  (if (= (vla-get-objectname blk_obj_) "AcDbBlockReference")
+    (progn
+      (setq blkname (cdr (assoc 2 (entget (vlax-vla-object->ename blk_obj_)))))
+      (setq bdef (tblobjname "BLOCK" blkname))
+      (setq ent (entnext bdef))
+      (while ent
+        (setq ed (entget ent))
+        (cond
+          ( (and 
+                (= data_mode 1)
+                (= (cdr (assoc 0 ed)) "HATCH")
+              )
+            (progn
+              ; (setq target_ (cons ent target_))
+              ;main idea of code keep or delete don't affect with core code
+                (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+                (setq target_data_ (vlax-get-property target_obj_ propertie_name_))
+                (setq result_data_ (cons target_data_ result_data_))
+              ;
+            )
+          )
+          ( (and 
+                (= data_mode 2)
+                (= (cdr (assoc 0 ed)) "ARC")
+                (= (type propertie_name_list_ ) 'list)
+              )
+            (progn
+              ; (setq target_ (cons ent target_))
+              ;main idea of code keep or delete don't affect with core code
+                (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+                (vlax-dump-object target_obj_)
+                (setq target_data_ (vlax-get-property target_obj_ propertie_name_))
+                (setq result_data_ (cons target_data_ result_data_))
+              ;
+            )
+          )
+          ( (and 
+                (= data_mode 3)
+                (= (cdr (assoc 0 ed)) "LINE")
+              )
+            (progn
+              ; (setq target_ (cons ent target_))
+              ;main idea of code keep or delete don't affect with core code
+                (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+                (setq target_data_ (vlax-get-property target_obj_ propertie_name_))
+                (setq result_data_ (cons target_data_ result_data_))
+              ;
+            )
+          )
+          ( (and 
+                (= data_mode 4)
+                (= (cdr (assoc 0 ed)) "LWPOLYLINE")
+              )
+            (progn
+              ; (setq target_ (cons ent target_))
+              ;main idea of code keep or delete don't affect with core code
+                (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+                ;preloop_and_while
+                  (setq propertie_name_list_i 0)
+                  (setq propertie_name_list_sum_ ())
+                  (while (< propertie_name_list_i (length propertie_name_list_))
+                    (setq propertie_name_list_val_ (nth  propertie_name_list_i propertie_name_list_))
+                    (setq propertie_name_list_val_val_ (vlax-get-property target_obj_ propertie_name_list_val_))
+                    (setq propertie_name_list_sum_ (cons propertie_name_list_val_val_ propertie_name_list_sum_ ))
+                    (setq propertie_name_list_i (+ propertie_name_list_i 1))
+                  )
+                ;
+                (setq result_data_ (cons (reverse propertie_name_list_sum_) result_data_))
+              ;
+            )
+          )
+          ( (and 
+                (= data_mode 1)
+                (= (cdr (assoc 0 ed)) "SPLINE")
+              )
+            (progn
+              ; (setq target_ (cons ent target_))
+              ;main idea of code keep or delete don't affect with core code
+                (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+                (setq target_data_ (vlax-get-property target_obj_ propertie_name_))
+                (setq result_data_ (cons target_data_ result_data_))
+              ;
+            )
+          )
+          ( (and 
+                (= data_mode 1)
+                (= (cdr (assoc 0 ed)) "ELLIPSE")
+              )
+            (progn
+              ; (setq target_ (cons ent target_))
+              ;main idea of code keep or delete don't affect with core code
+                (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+                (setq target_data_ (vlax-get-property target_obj_ propertie_name_))
+                (setq result_data_ (cons target_data_ result_data_))
+              ;
+            )
+          )
+          ( (and 
+                (= data_mode 1)
+                (= (cdr (assoc 0 ed)) "CIRCLE")
+              )
+            (progn
+              ; (setq target_ (cons ent target_))
+              ;main idea of code keep or delete don't affect with core code
+                (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+                (setq target_data_ (vlax-get-property target_obj_ propertie_name_))
+                (setq result_data_ (cons target_data_ result_data_))
+              ;
+            )
+          )
+        )
+        (setq ent (entnext ent))
+      )
+    )
+  )
+
+  (reverse result_data_)
+)
+
+    (defun TA:Assembly_block_ (blk_obj_ )
+      ; (setq blk_ename_ (car (entsel "specify Object")))
+      ; (setq blk_obj_ (vlax-ename->vla-object blk_ename_))
+      (setq blk_list_ ())
+      (if (= (vla-get-objectname blk_obj_) "AcDbBlockReference")
+        (progn
+          (setq blkname (cdr (assoc 2 (entget (vlax-vla-object->ename blk_obj_)))))
+          (setq bdef (tblobjname "BLOCK" blkname))
+          (if (= (vl-prin1-to-string (type bdef)) "ENAME")
+            (progn
+              (setq nested (entnext bdef))
+              
+              (while 
+                (and nested 
+                    (/= (cdr (assoc 0 (entget nested))) "ENDBLK")
+                )
+                (if (= (cdr (assoc 0 (entget nested))) "INSERT")
+                  (progn 
+
+
+                    (setq nested_obj_ (vlax-ename->vla-object nested))
+                    
+                    (if (= (vla-get-visible nested_obj_) :vlax-true)
+                      (progn
+                        (princ (strcat "\n  └─ Nested block: " (LM:effectivename nested_obj_)) )
+                        (setq blk_list_ (cons (LM:effectivename nested_obj_) blk_list_))
+                      )
+                    )
+                    
+                  )
+                )
+                (setq nested (entnext nested))
+              )
+            )
+          )
+        )
+      )
+      (TA:Count_item_in_list_ blk_list_ )
+      
+    
+    
+    )
+(defun c:mat1()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_pre (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_pre (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_pre)
+    )
+  ;
+  (setq ss_pre_filter_set_xx_main (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_pre (list "000 - FAMELINE-CKST_AL.CELING_PANEL_300HK_@400mm_BOTTOM_VIEW")))
+  (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_pre (list "000 - FAMELINE-CKST_CODE_PANEL_DATA")))
+  (setq ss_pre_filter_set_xx_ (TA:standard_list_croodinate_sorting ss_pre_filter_set_xx_ "X"))
+  (setq panel_obj_ (vlax-ename->vla-object (ssname ss_pre_filter_set_xx_main 0)))
+  (if (and 
+         (= (sslength ss_pre_filter_set_xx_main ) 1)
+         (= (LM:effectivename (setq panel_obj_ (vlax-ename->vla-object (ssname ss_pre_filter_set_xx_main 0 ))) ) "000 - FAMELINE-CKST_AL.CELING_PANEL_300HK_@400mm_BOTTOM_VIEW")
+       )
+    (progn
+      (setq station_val (TA:rightstr (substr (getvar 'dwgname ) 1 8) 4))
+      (setq level_val 
+        (cond
+          ((and 
+             (or 
+               (= station_val "PP18")
+               (= station_val "PP19")
+               (= station_val "PP20")
+             )
+             (= (TA:rightstr (substr (getvar 'dwgname) 1 16) 4) "4130")
+           ) 
+            (progn "Multi-perpose Level")
+          )
+          ((and 
+             (or 
+               (= station_val "PP17")
+               (= station_val "PP18")
+               (= station_val "PP19")
+               (= station_val "PP20")
+             )
+             (= (TA:rightstr (substr (getvar 'dwgname) 1 16) 4) "4150")
+           )
+           (progn "Concourse Level")
+          )
+          ((and 
+             (or 
+               (= station_val "PP17")
+               (= station_val "PP20")
+             )
+             (= (TA:rightstr (substr (getvar 'dwgname) 1 16) 4) "4180")
+           ) 
+            (progn "Platform Level")
+          )
+          ((and 
+             (or 
+               (= station_val "PP18")
+               (= station_val "PP19")
+             )
+             (= (TA:rightstr (substr (getvar 'dwgname) 1 16) 4) "4160")
+           ) 
+            (progn ("Upper Platform Level"))
+          )
+          ((and 
+             (or 
+               (= station_val "PP18")
+               (= station_val "PP19")
+             )
+             (= (TA:rightstr (substr (getvar 'dwgname) 1 16) 4) "4180")
+           ) 
+            (progn ("Lower Platform Level"))
+          )
+        )
+      )
+      (setq PANEL-TYPE_val (LM:getdynpropvalue panel_obj_ "PANEL-TYPE"))
+      (setq panel_width_val_ (rtos (LM:getdynpropvalue panel_obj_ "panel_width") 2 0) )
+      (setq panel_length_val "300")
+    )
+  )
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (while (< ss_pre_filter_set_xx_i (length ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (car (nth  ss_pre_filter_set_xx_i  ss_pre_filter_set_xx_ )))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "STATION_" (strcat station_val " " level_val ) )
+      (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "PANEL-TYPE" (strcat  panel_length_val "x" panel_width_val_ "mm." ) )
+      (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "name" "300HK" )
+      
+      
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+  
+
+
+)

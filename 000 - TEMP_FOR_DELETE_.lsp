@@ -715,6 +715,7 @@
             (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
             (setq 2nd_filter_val_main "000 - SYMBOL CON_") ;2nd_filter
             (setq 3rd_filter_val_main (list ;3rd_filter
+                                        "TYPEICAL" ;
                                         "ASBUILT_WALL" ;
                                       )
             )
