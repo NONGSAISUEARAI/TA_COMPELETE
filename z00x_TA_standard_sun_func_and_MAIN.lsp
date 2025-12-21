@@ -11067,6 +11067,74 @@
       ;
       (command "pselect"  new_ss_pre_filter_set_xx_ "" )
     )
+    (defun c:insx1750 ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          ) 
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (setq new_ss_pre_filter_set_xx_ (ssadd))
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+          
+          (vla-put-insertionpoint 
+            ss_pre_filter_set_xx_obj_
+            (if (= (getvar "worlducs") 0)
+              (progn
+                  (setq 1st_trans (list 
+                                    (round-1750 (car (trans ss_pre_filter_set_xx_obj_ins_ 0 1) ) )
+                                    (cadr (trans ss_pre_filter_set_xx_obj_ins_ 0 1))
+                                    (TA:round-05 (caddr (trans ss_pre_filter_set_xx_obj_ins_ 0 1) ) )
+                                  )
+                  )
+                  (vlax-3d-point 
+                    (car (trans 1st_trans 1 0))
+                    (cadr (trans 1st_trans 1 0))
+                    0
+                  )
+                
+              )
+              (vlax-3d-point 
+                (round-1750  (car ss_pre_filter_set_xx_obj_ins_))
+                (cadr ss_pre_filter_set_xx_obj_ins_)
+                (TA:round-05 (caddr ss_pre_filter_set_xx_obj_ins_))
+              )
+            )
+            
+          )
+          
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+      (command "pselect"  new_ss_pre_filter_set_xx_ "" )
+    )
     (defun c:insydec ()
       ;selection_set_for_fillter_blk_name
         (if  ;pre_select_ssget_or_post_select_ssget
@@ -37501,9 +37569,9 @@
   ;presettting
     (setq blkname_inter_target_ "ACM_Linear Slot_Supply_Side Connected _1590x200x450_ - 1590x200-21133948-CONCOURSE LEVEL CB CEILING PLAN")
     ; (setq blkname_inter_ename_ (car (entsel "specify Object")))
-    (setq blkname_inter_obj_ (vlax-ename->vla-object blkname_inter_ename_))
-    (setq blkname_inter_obj_ro (vla-get-rotation blkname_inter_obj_ ))
-    (setq blkname_inter_target_ (LM:effectivename blkname_inter_obj_ ))
+    ; (setq blkname_inter_obj_ (vlax-ename->vla-object blkname_inter_ename_))
+    ; (setq blkname_inter_obj_ro (vla-get-rotation blkname_inter_obj_ ))
+    ; (setq blkname_inter_target_ (LM:effectivename blkname_inter_obj_ ))
   ;
   ;selection_set_for_fillter_blk_name
     (if  ;pre_select_ssget_or_post_select_ssget
@@ -37539,21 +37607,28 @@
   (setq ss_pre_filter_set_xx_obj_2ndins_ (vlax-safearray->list (vlax-variant-value (vla-get-SecondPoint  ss_pre_filter_set_xx_obj_))))
   (setq inters_list_ (LM:intersectionsinset  ss_pre_filter_set_xx_))
   (setq inters_ss_ (ssadd))
-  (foreach x inters_list_
-    (TA:vla-insertblock
-      blkname_inter_target_
-      x
-      1
-      blkname_inter_obj_ro
+  ;preloop_and_while
+    (setq inters_ss_new_trans_i 0)
+    (setq inters_ss_new_trans_ ())
+    (while (< inters_ss_new_trans_i (length inters_list_))
+      (setq inters_ss_new_trans_val_ (if (= (getvar "worlducs") 0)(progn (trans (nth  inters_ss_new_trans_i inters_list_) 1 1)) (nth  inters_ss_new_trans_i inters_list_) ))
+      (TA:vla-insertblock
+        blkname_inter_target_
+        inters_ss_new_trans_val_
+        1
+        0
+      )
+      ;new_blk_entlast object
+        (setq new_dn_ename (entlast))
+        (setq new_dn_obj (vlax-ename->vla-object new_dn_ename))
+        ; (vla-put-layer new_dn_obj "E-LITE-EQPM")
+        (vla-put-color new_dn_obj 256)
+        (setq inters_ss_ (ssadd new_dn_ename inters_ss_))
+      ;
+      ; (setq inters_ss_new_trans_ (cons inters_ss_new_trans_val_ inters_ss_new_trans_ ))
+      (setq inters_ss_new_trans_i (+ inters_ss_new_trans_i 1))
     )
-    ;new_blk_entlast object
-      (setq new_dn_ename (entlast))
-      (setq new_dn_obj (vlax-ename->vla-object new_dn_ename))
-      ; (vla-put-layer new_dn_obj "E-LITE-EQPM")
-      (vla-put-color new_dn_obj 256)
-      (setq inters_ss_ (ssadd new_dn_ename inters_ss_))
-    ;
-  )
+  ;
   (command "pselect"  inters_ss_ "" )
 )
 (defun c:xl_to_block_xlblk ()
@@ -39764,3 +39839,10 @@
 
 
 )
+
+(defun round-1750 (n / step)
+  (setq step 1750.0)
+  (* step (LM:round (/ n step)))
+)
+
+(round-1750 1541)
