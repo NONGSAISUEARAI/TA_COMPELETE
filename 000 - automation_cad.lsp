@@ -11125,17 +11125,17 @@
       (command "pselect"  ss_pre_filter_set_xx_ "" )
       ; (command "erase" ss_pre_filter_set_xx_ "")
     )
-    (defun c:nselLayer_ ()
+    (defun c:dropdeepcolor_ ()
       (setq target_layer_ (car (nentsel)))
       ; (command "_SelectSimilar" target_layer_ "")
       (command "vplayer" "c" 251 (vla-get-layer (vlax-ename->vla-object target_layer_ )) "c" "")
     )
-    (defun c:hselLayer_ ()
+    (defun c:FreezeNElayer_ ()
       (setq target_layer_ (car (nentsel)))
       ; (command "_SelectSimilar" target_layer_ "")
       (command "vplayer" "f" (vla-get-layer (vlax-ename->vla-object target_layer_ )) "C" "")
     )
-  ;
+  ; 
   ;copy func
     (defun c:copynameblocktoclipboard_blkN2cl ()
       (setq nameblk_ename_ (car (entsel "specify Object")))
