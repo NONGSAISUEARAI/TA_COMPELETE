@@ -3971,31 +3971,7 @@
   ; (command "style" "CVA-C2-P-PP00-TBKA1 (WD)$0$CVA-E2-P-OR00-TBKA1D$0$CVA-E2-P-OR00-TBKA1$0$A1-TITLE$0$ROMANT" "romant.shx" 0 1.001 0 "no" "no" "no")
 )
 
-(defun c:loadlisp ()
-  (cond
-    ((and 
-          (= (getenv "COMPUTERNAME") "NONGSAISUEARAI")
-          (= (getenv "USERNAME") "popul")
-        )
-      (progn
-        (setq Er-msg_ (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/COMPELETE NEXT 2025/Z73-Tranference_Autocad-Excel_data.lsp") ) ) ) )
-        (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/COMPELETE NEXT 2025/REWORK DIM/z62x_REWORK_DIMENSION_REV02.lsp") ) ) ) )
-        (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/COMPELETE IN COMPELETE/SFB_FINDING_SPECFILY_NAME_BLOCK.lsp") ) ) ) )
-        (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/000 - automation_cad.lsp") ) ) ) )
-      )
-    )
-    ((and 
-       (= (getenv "COMPUTERNAME") "DESKTOP-FSRT7SI")
-       (= (getenv "USERNAME") "Admin")
-     )
-      (progn
-        (setq Er-msg_ (vl-catch-all-apply (function (lambda () (load "C:/Users/Admin/Documents/GitHub/TA_COMPELETE/COMPELETE NEXT 2025/Z73-Tranference_Autocad-Excel_data.lsp") ) ) ) )
-        (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/Admin/Documents/GitHub/TA_COMPELETE/COMPELETE NEXT 2025/REWORK DIM/z62x_REWORK_DIMENSION_REV02.lsp") ) ) ) )
-        (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/Admin/Documents/GitHub/TA_COMPELETE/COMPELETE IN COMPELETE/SFB_FINDING_SPECFILY_NAME_BLOCK.lsp") ) ) ) )
-      )
-    )
-  )
-)
+
 ;PPLINE-CKST-TITTLE_BLOCK_ATT_OFFICIAL_EDITOR
   (defun TA:CDATE (split-sym time_format)
     (cond
@@ -4127,7 +4103,7 @@
       ;presetting
       (setq REV_list_         (list 2)
             REV_VAL           "A"
-            REV_DATE_VAL       "12-12-2025" ;(TA:CDATE "/" "DDMMYYYY")
+            REV_DATE_VAL       "23-12-2025" ;(TA:CDATE "/" "DDMMYYYY")
             REV_DESC_VAL      "REVISED ACCORDING TO THE COMMENTS"
             DWG_VAL           "TA"
             CHK_VAL           "KEN" 
@@ -4292,10 +4268,10 @@
   )
   (defun c:Plotter_CKST_CSDgen ()
       ;presetting
-      (setq CONTRACT_num_val_ 1)
+      (setq CONTRACT_num_val_ 2)
       (setq REV_list_         (list 1)
             REV_VAL           "A"
-            REV_DATE_VAL       "12-12-2025" ;(TA:CDATE "/" "DDMMYYYY")
+            REV_DATE_VAL       "23-12-2025" ;(TA:CDATE "/" "DDMMYYYY")
             REV_DESC_VAL      "FIRST ISSUED"
             DWG_VAL           "TA"
             CHK_VAL           "KEN" 

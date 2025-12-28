@@ -689,28 +689,7 @@
                                   )
             )
           )
-          (TA:generate_filter_list
-            (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
-            (setq 2nd_filter_val_main "000_FASTERN_") ;2nd_filter
-            (setq 3rd_filter_val_main (list ;3rd_filter
-                                        "HEX-BOLT" ;
-                                        "BRACKET" ;
-                                  )
-            )
-            (setq 4th_filter_val_main (list  ;4th_filter
-                                            (list "MAIN_COLOR_1" 3) ;
-                                            (list "MAIN_COLOR_2" 2) ;
-                                            (list "SUB_COLOR_1" 1) ;
-                                            (list "SUB_COLOR_2" 3) ;
-                                            (list "SUB_COLOR_3" 251) ;
-                                            (list "HATCH_" 251) ;
-                                            (list "WIPEOUT_" 250) ;
-                                            (list "HIDDEN_" 251) ;
-                                            (list "SYMBOL_" 251) ;
-                                            (list "DEF_SUB" 250) ;
-                                      )
-            )
-          )
+          
           (TA:generate_filter_list
             (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
             (setq 2nd_filter_val_main "000 - SYMBOL CON_") ;2nd_filter
@@ -734,18 +713,19 @@
                                       )
             )
           )
-          (TA:generate_filter_list 
+          (TA:generate_filter_list
             (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
-            (setq 2nd_filter_val_main "FRAMING_") ;2nd_filter
-            (setq 3rd_filter_val_main (list  ;3rd_filter
-                                            "ACESSORIES_" ;
-                                      )
+            (setq 2nd_filter_val_main "000_FASTERN_") ;2nd_filter
+            (setq 3rd_filter_val_main (list ;3rd_filter
+                                        "HEX-BOLT" ;
+                                        "BRACKET" ;
+                                  )
             )
             (setq 4th_filter_val_main (list  ;4th_filter
                                             (list "MAIN_COLOR_1" 3) ;
                                             (list "MAIN_COLOR_2" 2) ;
                                             (list "SUB_COLOR_1" 1) ;
-                                            (list "SUB_COLOR_2" 1) ;
+                                            (list "SUB_COLOR_2" 3) ;
                                             (list "SUB_COLOR_3" 251) ;
                                             (list "HATCH_" 251) ;
                                             (list "WIPEOUT_" 250) ;
@@ -763,6 +743,7 @@
                                             "HR-02A" ;
                                             "HR-02B" ;
                                             "HR-09B" ;
+                                            "HANGING" ;
                                       )
             )
             (setq 4th_filter_val_main (list  ;4th_filter
@@ -783,27 +764,7 @@
                                       )
             )
           )
-          (TA:generate_filter_list 
-            (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
-            (setq 2nd_filter_val_main "FRAMING_") ;2nd_filter
-            (setq 3rd_filter_val_main (list  ;3rd_filter
-                                            "HR-02A" ;
-                                      )
-            )
-            (setq 4th_filter_val_main (list  ;4th_filter
-                                            (list "MAIN_COLOR_1" 3) ;
-                                            (list "MAIN_COLOR_2" 2) ;
-                                            (list "SUB_COLOR_1" 1) ;
-                                            (list "SUB_COLOR_2" 1) ;
-                                            (list "SUB_COLOR_3" 251) ;
-                                            (list "HATCH_" 251) ;
-                                            (list "WIPEOUT_" 250) ;
-                                            (list "HIDDEN_" 251) ;
-                                            (list "SYMBOL_" 251) ;
-                                            (list "DEF_SUB" 250) ;
-                                      )
-            )
-          )
+          
           ;light
           (TA:generate_filter_list 
             (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
@@ -883,7 +844,137 @@
     (c:c reate_layerset_Lset4)
     (c:add_layer_main_and_sub_filter_addLFilter_ADD_LF4)
   )
-
+  (defun c:crelaylight ()
+    (TA:generate_filter_list 
+      (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+      (setq 2nd_filter_val_main "008 - LIGHT_") ;2nd_filter
+      (setq 3rd_filter_val_main (list  ;3rd_filter
+                                      "FLUORESCENT" ;
+                                      "DN" ;
+                                )
+      )
+      (setq 4th_filter_val_main (list  ;4th_filter
+                                      (list "MAIN_COLOR_1" 3) ;
+                                      (list "MAIN_COLOR_2" 2) ;
+                                      (list "SUB_COLOR_1" 1) ;
+                                      (list "SUB_COLOR_2" 1) ;
+                                      (list "SUB_COLOR_3" 251) ;
+                                      (list "HATCH_" 251) ;
+                                      (list "WIPEOUT_" 250) ;
+                                      (list "HIDDEN_" 251) ;
+                                      (list "SYMBOL_" 251) ;
+                                      (list "DEF_SUB" 250) ;
+                                      (list "TEXT" 3) ;
+                                )
+      )
+    )
+    (TA:generate_filter_list 
+      (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+      (setq 2nd_filter_val_main "008 - AIR_") ;2nd_filter
+      (setq 3rd_filter_val_main (list  ;3rd_filter
+                                      "MASK" ;
+                                )
+      )
+      (setq 4th_filter_val_main (list  ;4th_filter
+                                      (list "MAIN_COLOR_1" 3) ;
+                                      (list "MAIN_COLOR_2" 2) ;
+                                      (list "SUB_COLOR_1" 1) ;
+                                      (list "SUB_COLOR_2" 1) ;
+                                      (list "SUB_COLOR_3" 251) ;
+                                      (list "HATCH_" 251) ;
+                                      (list "WIPEOUT_" 250) ;
+                                      (list "HIDDEN_" 251) ;
+                                      (list "SYMBOL_" 251) ;
+                                      (list "DEF_SUB" 250) ;
+                                )
+      )
+    )
+    (TA:generate_filter_list 
+      (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+      (setq 2nd_filter_val_main "008 - E&M_") ;2nd_filter
+      (setq 3rd_filter_val_main (list  ;3rd_filter
+                                      "ACESSORIES" ;
+                                      "ALARM" ;
+                                )
+      )
+      (setq 4th_filter_val_main (list  ;4th_filter
+                                      (list "MAIN_COLOR_1" 3) ;
+                                      (list "MAIN_COLOR_2" 2) ;
+                                      (list "SUB_COLOR_1" 1) ;
+                                      (list "SUB_COLOR_2" 1) ;
+                                      (list "SUB_COLOR_3" 251) ;
+                                      (list "HATCH_" 251) ;
+                                      (list "WIPEOUT_" 250) ;
+                                      (list "HIDDEN_" 251) ;
+                                      (list "SYMBOL_" 251) ;
+                                      (list "DEF_SUB" 250) ;
+                                      (list "TEXT" 3) ;
+                                )
+      )
+    )
+  )
+  (defun c:crelaysymbol ()
+    (TA:generate_filter_list
+      (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+      (setq 2nd_filter_val_main "000 - SYMBOL CON_") ;2nd_filter
+      (setq 3rd_filter_val_main (list ;3rd_filter
+                                  "TYPICAL" ;
+                                  "ASBUILT_WALL" ;
+                                  "COMMENT_ASBUILT_WALL" ;
+                                )
+      )
+      (setq 4th_filter_val_main (list  ;4th_filter
+                                      (list "MAIN_COLOR_1" 255 0 0) ;
+                                      (list "MAIN_COLOR_2"  255 135 0) ;
+                                      (list "SUB_COLOR_1" 152 5 190) ;
+                                      (list "SUB_COLOR_2" 1) ;
+                                      (list "SUB_COLOR_3" 251) ;
+                                      (list "HATCH_" 251) ;
+                                      (list "WIPEOUT_" 250) ;
+                                      (list "HIDDEN_" 251) ;
+                                      (list "SYMBOL_" 251) ;
+                                      (list "DEF_SUB" 250) ;
+                                      (list "TEXT" 5) ;
+                                )
+      )
+    )
+  )
+  (defun c:crelayfram ()
+    (TA:generate_filter_list 
+      (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+      (setq 2nd_filter_val_main "FRAMING_") ;2nd_filter
+      (setq 3rd_filter_val_main (list  ;3rd_filter
+                                      "CC-01" ;
+                                      "HR-02A" ;
+                                      "HR-02B" ;
+                                      "HR-09B" ;
+                                      "HANGING" ;
+                                )
+      )
+      (setq 4th_filter_val_main (list  ;4th_filter
+                                      (list "MAIN_COLOR_1" 3) ;
+                                      (list "MAIN_COLOR_2" 2) ;
+                                      (list "MAIN_COLOR_3" 2) ;
+                                      (list "MAIN_COLOR_5" 2) ;
+                                      (list "SUB_COLOR_1" 1) ;
+                                      (list "SUB_COLOR_2" 1) ;
+                                      (list "SUB_COLOR_3" 251) ;
+                                      (list "SUB_COLOR_4" 251) ;
+                                      (list "SUB_COLOR_4" 251) ;
+                                      (list "HATCH_" 251) ;
+                                      (list "WIPEOUT_" 250) ;
+                                      (list "HIDDEN_" 251) ;
+                                      (list "SYMBOL_" 251) ;
+                                      (list "DEF_SUB" 250) ;
+                                )
+      )
+    )
+  )
+  (defun c:crelaytemp ()
+    (c:crelaylight)
+    (c:crelaysymbol)
+    (c:crelayfram)
+  )
   
 
 
