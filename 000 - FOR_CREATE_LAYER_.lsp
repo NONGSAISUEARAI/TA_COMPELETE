@@ -448,46 +448,46 @@
 
   (defun c:create_main_and_sub_filter_creF4 (main_filter_name_)
     ;presettting
-      ;example
-        ; (setq Prefix_filter_name_ "000_CLIP-IN_")
-        ; (setq Prefix_filter_name_LV1 "PANEL_")
-        ; (setq Prefix_filter_name_LV2 "ACESSORIES_")
-        ; (setq Prefix_filter_name_LV3 "SUBFAME_")
-        ; (setq main_filter_name_ (list 
-        ;                           (List "PPLINE-FAMELINE" (strcat Prefix_filter_name_))
-        ;                           (list 
-        ;                             (strcat Prefix_filter_name_) 
-        ;                             (strcat Prefix_filter_name_ Prefix_filter_name_LV1) 
-        ;                             (strcat Prefix_filter_name_ Prefix_filter_name_LV2)
-        ;                             (strcat Prefix_filter_name_ Prefix_filter_name_LV3)
-        ;                           )
-        ;                           (list (strcat Prefix_filter_name_ Prefix_filter_name_LV1) 
-        ;                                 (strcat (substr Prefix_filter_name_LV1 1 2) "_" "MAIN_COLOR_" )
-        ;                                 (strcat (substr Prefix_filter_name_LV1 1 2) "_" "SUB_COLOR_" )
-        ;                                 (strcat (substr Prefix_filter_name_LV1 1 2) "_" "HATCH_" )
-        ;                                 (strcat (substr Prefix_filter_name_LV1 1 2) "_" "WIPEOUT_" )
-        ;                                 (strcat (substr Prefix_filter_name_LV1 1 2) "_" "HIDDEN_" )
-        ;                                 (strcat (substr Prefix_filter_name_LV1 1 2) "_" "SYMBOL_" )
-        ;                           )
-        ;                           (list (strcat Prefix_filter_name_ Prefix_filter_name_LV2) 
-        ;                                 (strcat (substr Prefix_filter_name_LV2 1 2) "_" "MAIN_COLOR_" )
-        ;                                 (strcat (substr Prefix_filter_name_LV2 1 2) "_" "SUB_COLOR_" )
-        ;                                 (strcat (substr Prefix_filter_name_LV2 1 2) "_" "HATCH_" )
-        ;                                 (strcat (substr Prefix_filter_name_LV2 1 2) "_" "WIPEOUT_" )
-        ;                                 (strcat (substr Prefix_filter_name_LV2 1 2) "_" "HIDDEN_" )
-        ;                                 (strcat (substr Prefix_filter_name_LV2 1 2) "_" "SYMBOL_" )
-        ;                           )
-        ;                           (list (strcat Prefix_filter_name_ Prefix_filter_name_LV3) 
-        ;                                 (strcat (substr Prefix_filter_name_LV3 1 2) "_"  "MAIN_COLOR_" )
-        ;                                 (strcat (substr Prefix_filter_name_LV3 1 2) "_"  "SUB_COLOR_" )
-        ;                                 (strcat (substr Prefix_filter_name_LV3 1 2) "_"  "HATCH_" )
-        ;                                 (strcat (substr Prefix_filter_name_LV3 1 2) "_"  "WIPEOUT_" )
-        ;                                 (strcat (substr Prefix_filter_name_LV3 1 2) "_"  "HIDDEN_" )
-        ;                                 (strcat (substr Prefix_filter_name_LV3 1 2) "_"  "SYMBOL_" )
-        ;                           )
-        ;                         )
-        ; )
-      ;
+      ; example
+      ;   (setq Prefix_filter_name_ "000_CLIP-IN_")
+      ;   (setq Prefix_filter_name_LV1 "PANEL_")
+      ;   (setq Prefix_filter_name_LV2 "ACESSORIES_")
+      ;   (setq Prefix_filter_name_LV3 "SUBFAME_")
+      ;   (setq main_filter_name_ (list 
+      ;                             (List "PPLINE-FAMELINE" (strcat Prefix_filter_name_))
+      ;                             (list 
+      ;                               (strcat Prefix_filter_name_) 
+      ;                               (strcat Prefix_filter_name_ Prefix_filter_name_LV1) 
+      ;                               (strcat Prefix_filter_name_ Prefix_filter_name_LV2)
+      ;                               (strcat Prefix_filter_name_ Prefix_filter_name_LV3)
+      ;                             )
+      ;                             (list (strcat Prefix_filter_name_ Prefix_filter_name_LV1) 
+      ;                                   (strcat (substr Prefix_filter_name_LV1 1 2) "_" "MAIN_COLOR_" )
+      ;                                   (strcat (substr Prefix_filter_name_LV1 1 2) "_" "SUB_COLOR_" )
+      ;                                   (strcat (substr Prefix_filter_name_LV1 1 2) "_" "HATCH_" )
+      ;                                   (strcat (substr Prefix_filter_name_LV1 1 2) "_" "WIPEOUT_" )
+      ;                                   (strcat (substr Prefix_filter_name_LV1 1 2) "_" "HIDDEN_" )
+      ;                                   (strcat (substr Prefix_filter_name_LV1 1 2) "_" "SYMBOL_" )
+      ;                             )
+      ;                             (list (strcat Prefix_filter_name_ Prefix_filter_name_LV2) 
+      ;                                   (strcat (substr Prefix_filter_name_LV2 1 2) "_" "MAIN_COLOR_" )
+      ;                                   (strcat (substr Prefix_filter_name_LV2 1 2) "_" "SUB_COLOR_" )
+      ;                                   (strcat (substr Prefix_filter_name_LV2 1 2) "_" "HATCH_" )
+      ;                                   (strcat (substr Prefix_filter_name_LV2 1 2) "_" "WIPEOUT_" )
+      ;                                   (strcat (substr Prefix_filter_name_LV2 1 2) "_" "HIDDEN_" )
+      ;                                   (strcat (substr Prefix_filter_name_LV2 1 2) "_" "SYMBOL_" )
+      ;                             )
+      ;                             (list (strcat Prefix_filter_name_ Prefix_filter_name_LV3) 
+      ;                                   (strcat (substr Prefix_filter_name_LV3 1 2) "_"  "MAIN_COLOR_" )
+      ;                                   (strcat (substr Prefix_filter_name_LV3 1 2) "_"  "SUB_COLOR_" )
+      ;                                   (strcat (substr Prefix_filter_name_LV3 1 2) "_"  "HATCH_" )
+      ;                                   (strcat (substr Prefix_filter_name_LV3 1 2) "_"  "WIPEOUT_" )
+      ;                                   (strcat (substr Prefix_filter_name_LV3 1 2) "_"  "HIDDEN_" )
+      ;                                   (strcat (substr Prefix_filter_name_LV3 1 2) "_"  "SYMBOL_" )
+      ;                             )
+      ;                           )
+      ;   )
+      
       (setq wildcard_layer_name_ "*0*")
       ;
       ; (setq main_filter_name_ (nth 1 main_filter_name_ovl_))
@@ -970,10 +970,35 @@
       )
     )
   )
+  (defun c:crelayfas ()
+    (TA:generate_filter_list
+      (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+      (setq 2nd_filter_val_main "000_FASTERN_") ;2nd_filter
+      (setq 3rd_filter_val_main (list ;3rd_filter
+                                  "HEX-BOLT" ;
+                                  "BRACKET" ;
+                            )
+      )
+      (setq 4th_filter_val_main (list  ;4th_filter
+                                      (list "MAIN_COLOR_1" 3) ;
+                                      (list "MAIN_COLOR_2" 2) ;
+                                      (list "SUB_COLOR_1" 1) ;
+                                      (list "SUB_COLOR_2" 3) ;
+                                      (list "SUB_COLOR_3" 251) ;
+                                      (list "HATCH_" 251) ;
+                                      (list "WIPEOUT_" 250) ;
+                                      (list "HIDDEN_" 251) ;
+                                      (list "SYMBOL_" 251) ;
+                                      (list "DEF_SUB" 250) ;
+                                )
+      )
+    )
+  )
   (defun c:crelaytemp ()
     (c:crelaylight)
     (c:crelaysymbol)
     (c:crelayfram)
+    (c:crelayfas)
   )
   
 

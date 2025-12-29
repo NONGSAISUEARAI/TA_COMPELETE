@@ -9499,6 +9499,50 @@
     )
   ;
 ;
+;Example
+  (defun example_form ()
+    ;creating filter name level 1
+    (command "-layer" ;process Level 1
+             "filter" ;process Level 1
+             "new"    ;process Level 1
+             "group"  ;process Level 1
+             ""       ;process Level 1
+             "*name_*" ;Layer name (ใช้ wildcard ได้)
+             "(car main_filter_name_val_)" ;Filter name create for one time only
+             ""  
+    )
+    ;creating filter name level 1
+    (command "-layer" ;process Level 1
+            "filter"  ;process Level 1
+            "new"     ;process Level 1
+            "group"   ;process Level 1
+            "(car main_filter_name_val_)"       ;process Level 1
+            "" ;Layer name (ใช้ wildcard ได้)
+            "(car main_filter_name_val_)111" ;create process name level 2
+            ""  
+    )
+    ;creating filter name level 1
+    (command "-layer" ;process Level 1
+            "filter"  ;process Level 1
+            "new"     ;process Level 1
+            "group"   ;process Level 1
+            "(car main_filter_name_val_)111"       ;process Level 2
+            "" ;Layer name (ใช้ wildcard ได้)
+            "(car main_filter_name_val_)222" ;create process name level 3
+            ""  
+    )
+    
+    (command "-layer" 
+         "filter"
+         "edit"
+         "PPLINE-FAMELINE" ; (Filter name must be sensitibe case) ;ตัวหยังสือต้องตรงเป๊ะๆ
+         "add"
+         (strcat "*" "000 - DEF GRID" "*") ;(add layer name to filter, Can use wildcard for adding) ใช้ wildcard ได้
+         "x"
+         ""
+    )
+  )
+;
 ;core
   ;Change_color
     (defun c:RED ()
