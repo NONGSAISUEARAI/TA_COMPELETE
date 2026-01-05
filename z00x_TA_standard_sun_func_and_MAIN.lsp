@@ -1056,116 +1056,117 @@
       (reverse result)
     )
     (defun TA:wcmatch_list (filter_string_list_ list_data_ strcase_val)
-      ;Note By Code_Developer
-      ;This command is designed to work exclusively with a list name & array.
-      ;The pripicle of the codework will read list name & array then filter target value that filter_string parameter indicate.
-      ;Fully command must have sub-functions with names starting with TA: or LM:
-      ;
-      ;Example how argument work
-        ; (setq filter_string_list_ (list 
-        ;                             "*text_that _you_need*"
-        ;                             "50"
-        ;                             "45" 50 48 69
-        ;                             "*re*"
-        ;                             "*ai*"
-        ;                           )
-        ; )
-        ; (setq list_data_ (list "50" "45" "A" "TRE" "TEXT" "ikwai na sonteen isud e heer" 48 55 69 50))
-        ; (setq strcase_val nil)
-      ;
-      ;1st condition
-      (cond
-        ((= strcase_val nil)
-          (progn
-            (setq filter_string_list_ (mapcar 
-                                        '(lambda (x) 
-                                           (if 
-                                             (and (= (type x) 'str) 
-                                                  (/= (atof x) 'real)
-                                             ) 
-                                             (progn 
-                                               (strcase x T)
-                                             ) 
-                                             ""
-                                            ;  (if (testexpr)
-                                            ;   (progn
-                                            ;     (thenexpr)
-                                            ;   )
-                                            ;  )
-                                           )
-                                         )
-                                        filter_string_list_
-                                      )
-            )
-            (setq list_data_ (mapcar 
-                                        '(lambda (x) 
-                                           (if 
-                                             (and 
-                                               (= (type x) 'str)
-                                               (/= (atof x) 'real)
-                                             ) 
-                                             (progn 
-                                               
-                                               (strcase x T)
-                                             ) 
-                                             ""
-                                            ;  (if (testexpr)
-                                            ;   (progn
-                                            ;     (thenexpr)
-                                            ;   )
-                                            ;  )
-                                           )
-                                         )
-                                        list_data_
-                                      )
-            )
+    ;Note By Code_Developer
+    ;This command is designed to work exclusively with a list name & array.
+    ;The pripicle of the codework will read list name & array then filter target value that filter_string parameter indicate.
+    ;Fully command must have sub-functions with names starting with TA: or LM:
+    ;
+    ;Example how argument work
+      ; (setq filter_string_list_ (list 
+      ;                             "*text_that _you_need*"
+      ;                             "50"
+      ;                             "45"   
+      ;                             "*re*"
+      ;                             "*ai*"
+      ;                           )
+      ; )
+      ; (setq list_data_ (list "5s0" "45a" ))
+      ; (setq strcase_val nil)
+      ; (TA:wcmatch_list filter_string_list_ list_data_ T)
+    ;
+    ;1st condition
+    (cond
+      ((= strcase_val nil)
+        (progn
+          (setq filter_string_list_ (mapcar 
+                                      '(lambda (x) 
+                                          (if 
+                                            (and (= (type x) 'str) 
+                                                (/= (atof x) 'real)
+                                            ) 
+                                            (progn 
+                                              (strcase x T)
+                                            ) 
+                                            ""
+                                          ;  (if (testexpr)
+                                          ;   (progn
+                                          ;     (thenexpr)
+                                          ;   )
+                                          ;  )
+                                          )
+                                        )
+                                      filter_string_list_
+                                    )
+          )
+          (setq list_data_ (mapcar 
+                                      '(lambda (x) 
+                                          (if 
+                                            (and 
+                                              (= (type x) 'str)
+                                              (/= (atof x) 'real)
+                                            ) 
+                                            (progn 
+                                              
+                                              (strcase x T)
+                                            ) 
+                                            ""
+                                          ;  (if (testexpr)
+                                          ;   (progn
+                                          ;     (thenexpr)
+                                          ;   )
+                                          ;  )
+                                          )
+                                        )
+                                      list_data_
+                                    )
           )
         )
-        ; ((= strcase_val T)
-        ;   (progn
-        ;     (setq filter_string_list_ (mapcar 
-        ;                                 '(lambda (x) 
-        ;                                    (if 
-        ;                                      (and (= (type x) 'str) 
-        ;                                           (/= (atof x) 'real)
-        ;                                      ) 
-        ;                                      (progn 
-        ;                                        (strcase x T)
-        ;                                      ) 
-        ;                                      ""
-        ;                                     ;  (if (testexpr)
-        ;                                     ;   (progn
-        ;                                     ;     (thenexpr)
-        ;                                     ;   )
-        ;                                     ;  )
-        ;                                    )
-        ;                                  )
-        ;                                 filter_string_list_
-        ;                               )
-        ;     )
-        ;     (setq list_data_ (mapcar 
-        ;                                 '(lambda (x) 
-        ;                                    (if 
-        ;                                      (and  
-        ;                                           (/= (atof x) 'real)
-        ;                                      ) 
-        ;                                      (progn 
-        ;                                        (strcase x T)
-        ;                                      ) 
-        ;                                      ""
-        ;                                     ;  (if (testexpr)
-        ;                                     ;   (progn
-        ;                                     ;     (thenexpr)
-        ;                                     ;   )
-        ;                                     ;  )
-        ;                                    )
-        ;                                  )
-        ;                                 list_data_
-        ;                               )
-        ;     )
-        ;   )
-        ; )
       )
+      ; ((= strcase_val T)
+      ;   (progn
+      ;     (setq filter_string_list_ (mapcar 
+      ;                                 '(lambda (x) 
+      ;                                    (if 
+      ;                                      (and (= (type x) 'str) 
+      ;                                           (/= (atof x) 'real)
+      ;                                      ) 
+      ;                                      (progn 
+      ;                                        (strcase x T)
+      ;                                      ) 
+      ;                                      ""
+      ;                                     ;  (if (testexpr)
+      ;                                     ;   (progn
+      ;                                     ;     (thenexpr)
+      ;                                     ;   )
+      ;                                     ;  )
+      ;                                    )
+      ;                                  )
+      ;                                 filter_string_list_
+      ;                               )
+      ;     )
+      ;     (setq list_data_ (mapcar 
+      ;                                 '(lambda (x) 
+      ;                                    (if 
+      ;                                      (and  
+      ;                                           (/= (atof x) 'real)
+      ;                                      ) 
+      ;                                      (progn 
+      ;                                        (strcase x T)
+      ;                                      ) 
+      ;                                      ""
+      ;                                     ;  (if (testexpr)
+      ;                                     ;   (progn
+      ;                                     ;     (thenexpr)
+      ;                                     ;   )
+      ;                                     ;  )
+      ;                                    )
+      ;                                  )
+      ;                                 list_data_
+      ;                               )
+      ;     )
+      ;   )
+      ; )
+    )
       (setq filter_result_ (vl-remove-if-not 
                             '(lambda (x) 
                                 (apply 'or 
@@ -1179,8 +1180,8 @@
                           )
       )
       (setq filter_result_ (reverse filter_result_))
-      ;
-    )
+    ;
+  )
   ;
   ;Get_Data Document Ta Trai
     (defun LM:getdocumentobject ( dwg / app dbx dwl err vrs )
@@ -1729,16 +1730,16 @@
       ) 
     )
     (defun TA:ss-erase (ss_pre_filter_set_xx_)
-    ;preloop_and_while
-      (setq ss_pre_filter_set_xx_i 0)
-      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
-        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
-        (vla-delete ss_pre_filter_set_xx_obj_)
-        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
-      )
-    ;
-  )
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (vla-delete ss_pre_filter_set_xx_obj_)
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+    )
     (defun TA:get-visible-boundingbox (blk_obj_ ) ;get coordinate real visible boundingbox 
       ; (setq blk_ename_ (car (entsel "specify Object")))
       ; (setq blk_obj_ (vlax-ename->vla-object blk_ename_))
@@ -10167,6 +10168,26 @@
       ;
 
       (alert (strcat "distance " (rtos (distance (nth 0 ss_pre_filter_set_xx_dist) (nth 1 ss_pre_filter_set_xx_dist)) 2 2) "mm."))
+    )
+    (defun TA:if_found_layer_ (layer_val_)
+      (if (=  (type (setq iferror_ ;Detect the variable's result in case of a function error
+                    (vl-catch-all-apply 
+                      (function 
+                        (lambda () 
+                          (setq iferror_val_ (vla-Item (vla-get-layers (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))) layer_val_))
+                        )
+                      )
+                    )
+                  )
+              
+              ) 
+            'VLA-OBJECT
+          )
+      (progn
+        T
+      )
+      nil
+      )
     )
 
 
@@ -34219,14 +34240,65 @@
 
 ;PPLINE CKST - Layer Func
   (defun c:PPLINE_CKST_viewport_layer_CKST-VPpanel()
-    (command "vplayer" "c" 2 "A11_ALU.SOLID SHEET" "c" "") 
-    (command "vplayer" "c" 2 "A04_TUBE SERIES" "c" "") 
-    (command "vplayer" "f" "001 - ASCESSORIES" "c" "")
-    (command "vplayer" "f" "001 - ASCESSORIES_HANGING" "c" "")
-    (command "vplayer" "f" "000 - DEF GRID" "c" "")
-    (command "vplayer" "f" "000 - CSD_*" "c" "")
-    (command "vplayer" "F" "*000_PPLINE_CKST_SMOKE_ACESSORIES*" "c" "")
-    (command "vplayer" "F" "*000_PPLINE_CKST_SMOKE_BARRIER*" "c" "")
+    ;detect_mode_
+      ;เพิ่มคำสั่งที่ใช้เช็คตัวตนของเลเยอร์อีกครั้ง
+    ;
+    (_StartUndo doc)
+    (if (= (TA:if_found_layer_ "A11_ALU.SOLID SHEET" ) T)
+      (progn
+        (command "vplayer" "c" 2 "A11_ALU.SOLID SHEET" "c" "")
+      )
+    )
+    (if (= (TA:if_found_layer_ "A04_TUBE SERIES" ) T)
+      (progn
+        (command "vplayer" "c" 2 "A04_TUBE SERIES" "c" "")
+      )
+    )
+    (if (= (TA:if_found_layer_ "001 - ASCESSORIES" ) T)
+      (progn
+        (command "vplayer" "f" "001 - ASCESSORIES" "c" "")
+      )
+    )
+    (if (= (TA:if_found_layer_ "001 - ASCESSORIES_HANGING" ) T)
+      (progn
+        (command "vplayer" "f" "001 - ASCESSORIES_HANGING" "c" "")
+      )
+    )
+    (if (= (TA:if_found_layer_ "FRAMING_HANGING_MAIN_COLOR_1" ) T)
+      (progn
+        (command "vplayer" "f" "FRAMING_HANGING_MAIN_COLOR_1" "c" "")
+      )
+    )
+    (if (= (TA:if_found_layer_ "000 - GRID" ) T)
+      (progn
+        (command "vplayer" "f" "000 - GRID" "c" "")
+      )
+    )
+    (if (= (TA:if_found_layer_ "000 - DEF GRID" ) T)
+      (progn
+        (command "vplayer" "f" "000 - DEF GRID" "c" "")
+      )
+    )
+    (setq TA_layer_ (TA:get_name_layer_in_drawing))
+    (if (and 
+          (/= (TA:wcmatch_list (list "*000_PPLINE_CKST_SMOKE_ACESSORIES*") TA_layer_ T) nil)
+          (/= (TA:wcmatch_list (list "*000_PPLINE_CKST_SMOKE_BARRIER*") TA_layer_ T) nil)
+        )
+      (progn
+        (command "vplayer" "F" "*000_PPLINE_CKST_SMOKE_ACESSORIES*" "c" "")
+        (command "vplayer" "F" "*000_PPLINE_CKST_SMOKE_BARRIER*" "c" "")
+      )
+    )
+    (if (and 
+          (/= (TA:wcmatch_list (list "*000 - CSD_*") TA_layer_ T) nil)
+        )
+      (progn
+        (command "vplayer" "f" "000 - CSD_*" "c" "")
+      )
+    )
+    (_endUndo doc)
+    
+    
     ; (command "-layer" "color" 251 "VP" "SMOKE" "")
   )
   (defun c:PPLINE_CKST_viewport_layer_CKST-VPfaming()
@@ -37532,13 +37604,14 @@
       )
     ;
   )
-  (defun c:ReworkTTB_ ()
+  (defun c:repairttb ()
     (C:FL-LOGO)
-    (C:Rework_TTB_legend1)
+
     (C:REwork-TTB_legend2)
-    (C:REwork-TTB_legend3)
+
     (C:REwork-TTB_legend4)
   )
+
 ;
 
 (defun c:te1 ()
@@ -40109,3 +40182,32 @@
 
 
 
+  
+(defun TA:editblock_asas (blockname line_color layer_name)
+  ; (setq blockname "L2-2 - Surface Mounted LED Tube - 1223L x 170W x 93H - 36W-V1-CONCOURSE LEVEL_LIGHTING Copy 1")
+  (setq line_color 256)
+  ; (setq layer_name "008 - E&M_ACESSORIES_MAIN_COLOR_1")
+  (setq blockname (LM:effectivename (vlax-ename->vla-object (car (entsel)))))
+  (setq target_ '())
+  (setq blkdef (tblobjname "BLOCK" blockname))
+  (setq ent (entnext blkdef))
+  (while ent
+    (setq ed (entget ent))
+    (if (= (cdr (assoc 0 ed)) "HATCH")
+      (progn
+        (setq target_ (cons ent target_))
+        ;main idea of code keep or delete don't affect with core code
+          (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+          (vla-put-color target_obj_  line_color)
+          (vla-put-patternscale target_obj_  50)
+          (vlax-dump-object target_obj_)
+          ; (vla-put-EntityTransparency target_obj_ 80 )
+        ;
+      )
+    )
+
+    (setq ent (entnext ent))
+  )
+  (reverse target)
+)
+      
