@@ -36682,6 +36682,7 @@
     (;_case_1
        (and 
          (= (getenv "COMPUTERNAME") "DESKTOP-FSRT7SI")
+        ;  (/= (wcmatch (strcase (vl-princ-to-string err_)) "*ERROR*") T)
        )
        (progn
          (setq pp18_path (strcat "C:/TA WORK/PPLINE CKST/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/" station_fullname_ "/CAD/"))
@@ -36691,6 +36692,7 @@
     (;_case_2
        (and 
          (= (getenv "COMPUTERNAME") "NONGSAISUEARAI")
+        ;  (/= (wcmatch (strcase (vl-princ-to-string err_)) "*ERROR*") T)
        )
        (progn
          (setq pp18_path (strcat "C:/TA FAMELINE old data/TA/TA_WORK/MASS TRANSIT/TA_PPLINE CKST/TA_PPLINE CKST_combine_CSD-ceiling-plan/C1-C2_Finishes-Reflected Ceiling Plan/" station_fullname_ "/CAD/"))
@@ -40199,7 +40201,7 @@
         ;main idea of code keep or delete don't affect with core code
           (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
           (vla-put-color target_obj_  line_color)
-          (vla-put-patternscale target_obj_  50)
+          (vla-put-patternscale target_obj_  25)
           (vlax-dump-object target_obj_)
           ; (vla-put-EntityTransparency target_obj_ 80 )
         ;
@@ -40211,3 +40213,291 @@
   (reverse target)
 )
       
+
+
+;summary_panel
+  (defun c:300CU ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@400mm_COMBINE_SET" ) ))
+    
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (setq ss_pre_filter_set_xx_obj_total_panel_TL_ 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (setq ss_pre_filter_set_xx_obj_total_panel (/ (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "array_panel_length") 400))
+        
+        (setq ss_pre_filter_set_xx_obj_total_panel_TL_ (+ ss_pre_filter_set_xx_obj_total_panel_TL_ ss_pre_filter_set_xx_obj_total_panel))
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+    ;
+      (create-text-vla (vlax-3d-point (getpoint "insert point for text")) (strcat "300HK = " (rtos ss_pre_filter_set_xx_obj_total_panel_TL_ 2 0 ) "pc."   ) 5000 0 )
+    (command "pselect"  ss_pre_filter_set_xx_ "" )
+  )
+  (defun c:310CU ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@310mm_COMBINE_SET" ) ))
+    
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (setq ss_pre_filter_set_xx_obj_total_panel_TL_ 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (setq ss_pre_filter_set_xx_obj_total_panel (/ (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "array_panel_length") 310))
+        
+        (setq ss_pre_filter_set_xx_obj_total_panel_TL_ (+ ss_pre_filter_set_xx_obj_total_panel_TL_ ss_pre_filter_set_xx_obj_total_panel))
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+    ;
+      (create-text-vla (vlax-3d-point (getpoint "insert point for text")) (strcat "300HK (C10) = " (rtos ss_pre_filter_set_xx_obj_total_panel_TL_ 2 0 ) "pc."   ) 5000 0 )
+    (command "pselect"  ss_pre_filter_set_xx_ "" )
+  )
+  (defun c:360CU ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ 
+                                  ss_pre_filter_set_xx_
+                                  (list "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@310mm_COMBINE_SET" 
+                                        "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_360HK_@372mm_COMBINE_SET"
+                                  )
+                                )
+    )
+    
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (setq ss_pre_filter_set_xx_obj_total_panel_TL_ 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (setq ss_pre_filter_set_xx_obj_total_panel (/ (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "array_panel_length") 372))
+        
+        (setq ss_pre_filter_set_xx_obj_total_panel_TL_ (+ ss_pre_filter_set_xx_obj_total_panel_TL_ ss_pre_filter_set_xx_obj_total_panel))
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+    ;
+      (create-text-vla (vlax-3d-point (getpoint "insert point for text")) (strcat "360HK = " (rtos ss_pre_filter_set_xx_obj_total_panel_TL_ 2 0 ) "pc."   ) 5000 0 )
+    (command "pselect"  ss_pre_filter_set_xx_ "" )
+  )
+  (defun c:3617CU ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ 
+                                  ss_pre_filter_set_xx_
+                                  (list "000 - DYNAMIC_ARRAY+COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK_@310mm_COMBINE_SET" 
+                                  )
+                                )
+    )
+    
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (setq ss_pre_filter_set_xx_obj_total_panel_TL_ 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (setq ss_pre_filter_set_xx_obj_total_panel (/ (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "array_panel_length") 310))
+        
+        (setq ss_pre_filter_set_xx_obj_total_panel_TL_ (+ ss_pre_filter_set_xx_obj_total_panel_TL_ ss_pre_filter_set_xx_obj_total_panel))
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+    ;
+      (create-text-vla (vlax-3d-point (getpoint "insert point for text")) (strcat "360HK = " (rtos ss_pre_filter_set_xx_obj_total_panel_TL_ 2 0 ) "pc."   ) 5000 0 )
+    (command "pselect"  ss_pre_filter_set_xx_ "" )
+  )
+  (defun c:300VACU ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ 
+                                  ss_pre_filter_set_xx_
+                                  (list "A$Cf2bb5ec2"
+                                      "000 - DYNAMIC_ARRAY_ASSCESSORIES_FAMELINE_AL.CELL_CELING_PANEL_300HK-VA_@400mm_BOTTOM_VIEW" 
+                                  )
+                                )
+    )
+    
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (setq ss_pre_filter_set_xx_obj_total_panel_TL_ 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        ; (setq ss_pre_filter_set_xx_obj_total_panel (/ (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "array_panel_length") 400))
+        
+        ; (setq ss_pre_filter_set_xx_obj_total_panel_TL_ (+ ss_pre_filter_set_xx_obj_total_panel_TL_ ss_pre_filter_set_xx_obj_total_panel))
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+    ;
+      (create-text-vla (vlax-3d-point (getpoint "insert point for text")) (strcat "300VARIES = " (rtos (sslength ss_pre_filter_set_xx_) 2 0 ) "pc. (block)"   ) 5000 0 )
+    (command "pselect"  ss_pre_filter_set_xx_ "" )
+  )
+  (defun c:tckgreen ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "lwpolyline") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              (cons 62 3)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "lwpolyline") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              (cons 62 3)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    (create-text-vla (vlax-3d-point (getpoint "insert point for text")) (strcat "300VARIES = " (rtos (sslength ss_pre_filter_set_xx_) 2 0 ) "pc. (pline)"   ) 5000 0 )
+    (command "pselect"  ss_pre_filter_set_xx_ "" )
+  )
+;

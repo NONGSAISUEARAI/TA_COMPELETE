@@ -2503,7 +2503,7 @@
       (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
       (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
 
-      (if (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_)) wildcard_string_)
+      (if (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_)) (strcase wildcard_string_))
         (progn
           (setq new_pre_filter_set_xx_  (ssadd ss_pre_filter_set_xx_ename_ new_pre_filter_set_xx_))
         )

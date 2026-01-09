@@ -16885,6 +16885,7 @@
           (vla-put-ScaleFactor  dim_obj_ (/ sc 1) )
           (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
           (vla-put-PrimaryUnitsPrecision dim_obj_ 0)
+          (vla-put-ExtensionLineOffset dim_obj_ 0.2)
           ; (command "_AIDIMPREC" dimprec dim_ename "" )
         ;
       )
@@ -16936,6 +16937,7 @@
           (vla-put-ScaleFactor  dim_obj_ (/ sc 1) )
           (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
           (vla-put-PrimaryUnitsPrecision dim_obj_ 0)
+          (vla-put-ExtensionLineOffset dim_obj_ 0.2)
           ; (command "_AIDIMPREC" dimprec dim_ename "" )
         ;
       )
@@ -16948,6 +16950,3 @@
     (command "ucs" "W")
   )
 ;
-
-
-
