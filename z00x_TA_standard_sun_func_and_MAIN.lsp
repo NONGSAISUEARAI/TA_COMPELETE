@@ -39203,7 +39203,7 @@
               (setq newblk_ename (entlast))
               (setq newblk_obj_ (vlax-ename->vla-object newblk_ename))
               (LM:vl-setattributevalue newblk_obj_ "name" "L1-2")
-              ; (TA:move_polar_insertionpoint newblk_obj_ "x" 52.5)
+              (TA:move_polar_insertionpoint newblk_obj_ "x" 52.5)
             ;
           ;
         )
@@ -40212,7 +40212,50 @@
   )
   (reverse target)
 )
-      
+
+(defun c:temp1 ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i)) 
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      (if (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_)) "*SIGN*") T)
+        (progn
+          (TA:editblock_ (LM:effectivename ss_pre_filter_set_xx_obj_) 256 "008 - E&M_SIGNAGE_MAIN_COLOR_1") 
+        )
+      )
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+)
 
 
 ;summary_panel
@@ -40501,3 +40544,56 @@
     (command "pselect"  ss_pre_filter_set_xx_ "" )
   )
 ;
+
+
+(defun TA:filter_select_ (ss_finder_ wildcard_val_)
+
+  ;preloop_and_while
+    (setq ss_finder_i 0)
+    (setq ss_finder_newss_ (ssadd))
+    (while (< ss_finder_i (sslength ss_finder_))
+      (setq ss_finder_ename_ (ssname ss_finder_ ss_finder_i))
+      (setq ss_finder_obj_ (vlax-ename->vla-object  ss_finder_ename_))
+      (if (= (wcmatch (strcase (LM:effectivename ss_finder_obj_)) (strcase wildcard_val_) ) T)
+        (progn
+          (setq ss_finder_newss_ (ssadd ss_finder_ename_ ss_finder_newss_ ))
+        )
+      )
+      (setq ss_finder_i (+ ss_finder_i 1))
+    )
+  ;
+  (command "pselect"  ss_finder_newss_ "" )
+)
+
+(defun asasdasdsdasdasd ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+
+  (TA:filter_select_ ss_pre_filter_set_xx_ "*sign*")
+)

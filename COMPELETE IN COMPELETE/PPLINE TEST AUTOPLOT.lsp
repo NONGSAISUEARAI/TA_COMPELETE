@@ -4103,7 +4103,7 @@
       ;presetting
       (setq REV_list_         (list 2)
             REV_VAL           "A"
-            REV_DATE_VAL       "09-01-2026" ;(TA:CDATE "/" "DDMMYYYY")
+            REV_DATE_VAL       "16-01-2026" ;(TA:CDATE "/" "DDMMYYYY")
             REV_DESC_VAL      "REVISED ACCORDING TO THE COMMENTS"
             DWG_VAL           "TA"
             CHK_VAL           "KEN" 
