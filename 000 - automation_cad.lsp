@@ -3533,7 +3533,7 @@
         )
       ;
       ;specify_object_for_filter_by_EFname_
-        (setq Filter_target_ename_ (car (entsel "specify Object")))
+        (setq Filter_target_ename_ (car (entsel "specify Object for filter")))
         (setq Filter_target_obj_ (vlax-ename->vla-object Filter_target_ename_))
         (setq Filter_target_obj_EFname_ (LM:effectivename Filter_target_obj_))
         (setq ss_post_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ Filter_target_obj_EFname_))
@@ -3546,7 +3546,7 @@
       ;preloop_and_while
         (setq ss_post_filter_set_xx_i 0)
         (setq ss_newset_ (ssadd))
-        (sslength ss_newset)
+        ; (sslength ss_newset)
         (while (< ss_post_filter_set_xx_i (sslength ss_post_filter_set_xx_))
           (setq ss_post_filter_set_xx_ename_ (ssname ss_post_filter_set_xx_ ss_post_filter_set_xx_i))
             (setq ss_post_filter_set_xx_hon_obj_ (vlax-ename->vla-object ss_post_filter_set_xx_ename_))
@@ -3605,6 +3605,7 @@
         (setvar "osmode" 1279)
       ;
     )
+    
     (defun TA:Assembly_block_ (blk_obj_ )
       ; (setq blk_ename_ (car (entsel "specify Object")))
       ; (setq blk_obj_ (vlax-ename->vla-object blk_ename_))

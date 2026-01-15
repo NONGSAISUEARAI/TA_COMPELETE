@@ -4101,10 +4101,10 @@
   )
   (defun c:Plotter_CKST_CSDframeplot ()
       ;presetting
-      (setq REV_list_         (list 2)
+      (setq REV_list_         (list 1)
             REV_VAL           "A"
-            REV_DATE_VAL       "16-01-2026" ;(TA:CDATE "/" "DDMMYYYY")
-            REV_DESC_VAL      "REVISED ACCORDING TO THE COMMENTS"
+            REV_DATE_VAL       "29-10-2025" ;(TA:CDATE "/" "DDMMYYYY")
+            REV_DESC_VAL      "FIRST ISSUED"
             DWG_VAL           "TA"
             CHK_VAL           "KEN" 
             APP_VAL           "MK"
@@ -4164,18 +4164,19 @@
             )
         )
       ;
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "Title Block_Under Ground_C1 v3" "Title Block_Under Ground_C2 v3") ))
       ;preloop_and_while
         (setq ss_pre_filter_set_xx_i 0)
         (setq External_ref_ename_ ())
         (while (and 
                 (= (type REV_list_) 'list)
                 (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-              )
+              ) 
           (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
           (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
-          
+          (LM:effectivename ss_pre_filter_set_xx_obj_)
+          (TA:PPLINE_CKST_REWORK-REV_ ss_pre_filter_set_xx_obj_ (list 2) "" "" "" "" "" "")
           (TA:PPLINE_CKST_REWORK-REV_ ss_pre_filter_set_xx_obj_ REV_list_ REV_VAL REV_DATE_VAL REV_DESC_VAL DWG_VAL CHK_VAL APP_VAL)
-
           
           (if
             (or
@@ -4454,6 +4455,7 @@
     ; (c:Plotter_CKST_CSDframeplot)
   )
   ; (c:Ploter_CKST_allplot)
+  (c:Plotter_CKST_CSDframeplot)
 ;
 ;PPLINE-CKST
   (defun c:Plotter_CKST_CSDPLOT ()
