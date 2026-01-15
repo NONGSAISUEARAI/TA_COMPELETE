@@ -30,6 +30,9 @@
     (princ)
 )
 (defun c:mREVCOutline ( / d i s ) ;TA EDIT
+    ;presetting
+      (setq arclength 1)
+    ;
     (if (setq s_ (ssget "_:L" '((0 . "LWPOLYLINE") (-4 . "<NOT") (-4 . "<>") (42 . 0.0) (-4 . "NOT>"))))
         (progn
             ; (initget "Yes No")
@@ -47,7 +50,7 @@
                 (vla-put-constantwidth e_obj_ 0)
                 ;new_blk_entlast object
                   (setq new_polyline_ename (entlast)) 
-                  (command "revcloud" "a" 2 2 "O" new_polyline_ename "" )
+                  (command "revcloud" "a" arclength arclength "O" new_polyline_ename "" )
                   (setq new_polyline_ename (entlast))
                   (vlax-ename->vla-object new_polyline_ename)
                   (vla-put-layer (vlax-ename->vla-object new_polyline_ename) "000 - SYMBOL CON_COMMENT_ASBUILT_WALL_MAIN_COLOR_1")
