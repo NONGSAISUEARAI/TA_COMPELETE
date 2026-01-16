@@ -4103,7 +4103,7 @@
       ;presetting
       (setq REV_list_         (list 1)
             REV_VAL           "A"
-            REV_DATE_VAL       "29-10-2025" ;(TA:CDATE "/" "DDMMYYYY")
+            REV_DATE_VAL       "31-10-2025" ;(TA:CDATE "/" "DDMMYYYY")
             REV_DESC_VAL      "FIRST ISSUED"
             DWG_VAL           "TA"
             CHK_VAL           "KEN" 
@@ -4454,8 +4454,8 @@
     ; (command "zoom" "E")5
     ; (c:Plotter_CKST_CSDframeplot)
   )
-  ; (c:Ploter_CKST_allplot)
-  (c:Plotter_CKST_CSDframeplot)
+  (c:Ploter_CKST_allplot)
+  ; (c:Plotter_CKST_CSDframeplot)
 ;
 ;PPLINE-CKST
   (defun c:Plotter_CKST_CSDPLOT ()
