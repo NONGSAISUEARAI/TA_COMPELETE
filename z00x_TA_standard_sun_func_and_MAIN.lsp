@@ -35846,6 +35846,17 @@
         (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/Admin/Documents/GitHub/TA_COMPELETE/000 - FOR_CREATE_LAYER_.lsp") ) ) ) )
       )
     )
+    ((and 
+       (= (getenv "COMPUTERNAME") "DESKTOP-VNKD8FJ")
+       (= (getenv "USERNAME") "tawan.t")
+     )
+      (progn 
+        (setq Er-msg_ (vl-catch-all-apply (function (lambda () (load "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/COMPELETE NEXT 2025/Z73-Tranference_Autocad-Excel_data.lsp") ) ) ) )
+        (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/COMPELETE NEXT 2025/REWORK DIM/z62x_REWORK_DIMENSION_REV02.lsp") ) ) ) )
+        (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/COMPELETE IN COMPELETE/SFB_FINDING_SPECFILY_NAME_BLOCK.lsp") ) ) ) )
+        (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/000 - FOR_CREATE_LAYER_.lsp") ) ) ) )
+      )
+    )
   )
 )
 (defun c:loadline ()
@@ -36722,71 +36733,83 @@
   ;
   
 )
-(defun c:PPLINE-CKST_CSDupdate_ ()
-  ; (TA:get_name_block_in_drawing_to_list)
-  ; (TA:get_name_block_in_drawing_to_list)
-  (setvar "BLOCKREDEFINEMODE" 1)
-  (setq input_station_no_ (cond ( (getint (strcat "\nspecify input_station_no_  \n<" (rtos (setq input_station_no_ (cond (input_station_no_) (1.0) ) ) ) "> : " ) ) ) (input_station_no_) ) )
-  (setq station_fullname_ (strcat "PP" (rtos input_station_no_ 2 0 )))
-  (setq CSD_MERGE_LIST_ ())
-  (setq err_ "S")
-  (while (/= (wcmatch (strcase (vl-princ-to-string err_)) "*ERROR*") T) 
-    (setq err_ (vl-catch-all-apply 
-                 (function 
-                   (lambda () 
-                     (setq CSD_MERGE_LIST_ (cons (LM:effectivename (setq ee (vlax-ename->vla-object (car (entsel "specify Object")) ) ) ) CSD_MERGE_LIST_ ) )
-                   )
-                 )
-               )
-    )
-  )
-  (setq CSD_MERGE_LIST_ (mapcar 'car (TA:Count_item_in_list_ CSD_MERGE_LIST_)))
-  (cond
-    (;_case_1
-       (and 
-         (= (getenv "COMPUTERNAME") "DESKTOP-FSRT7SI")
-        ;  (/= (wcmatch (strcase (vl-princ-to-string err_)) "*ERROR*") T)
-       )
-       (progn
-         (setq pp18_path (strcat "C:/TA WORK/PPLINE CKST/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/" station_fullname_ "/CAD/"))
-         (princ "_case_1")
-       )
-    )
-    (;_case_2
-       (and 
-         (= (getenv "COMPUTERNAME") "NONGSAISUEARAI")
-        ;  (/= (wcmatch (strcase (vl-princ-to-string err_)) "*ERROR*") T)
-       )
-       (progn
-         (setq pp18_path (strcat "C:/TA FAMELINE old data/TA/TA_WORK/MASS TRANSIT/TA_PPLINE CKST/TA_PPLINE CKST_combine_CSD-ceiling-plan/C1-C2_Finishes-Reflected Ceiling Plan/" station_fullname_ "/CAD/"))
-         (princ "_case_2")
-       )
-    )
-  )
-  
-  
-  (setq filePath (getfiled "Select the DWG file" pp18_path "dwg" 4))
-  (textscr)
-  (setq temp_pt (getpoint "specify point" ))
-  ;preloop_and_while
-    (setq CSD_MERGE_LIST_i 0)
-    (setq CER_ 0)
-    (while 
-      (and 
-        (/= CSD_MERGE_LIST_ nil)
-        (< CSD_MERGE_LIST_i (length CSD_MERGE_LIST_))
-        (/= (wcmatch (strcase (vl-princ-to-string CER_)) "NIL"))
+  (defun c:PPLINE-CKST_CSDupdate_ ()
+    ; (TA:get_name_block_in_drawing_to_list)
+    ; (TA:get_name_block_in_drawing_to_list)
+    (setvar "BLOCKREDEFINEMODE" 1)
+    (setq input_station_no_ (cond ( (getint (strcat "\nspecify input_station_no_  \n<" (rtos (setq input_station_no_ (cond (input_station_no_) (1.0) ) ) ) "> : " ) ) ) (input_station_no_) ) )
+    (setq station_fullname_ (strcat "PP" (rtos input_station_no_ 2 0 )))
+    (setq CSD_MERGE_LIST_ ())
+    (setq err_ "S")
+    (while (/= (wcmatch (strcase (vl-princ-to-string err_)) "*ERROR*") T) 
+      (setq err_ (vl-catch-all-apply 
+                  (function 
+                    (lambda () 
+                      (setq CSD_MERGE_LIST_ (cons (LM:effectivename (setq ee (vlax-ename->vla-object (car (entsel "specify Object")) ) ) ) CSD_MERGE_LIST_ ) )
+                    )
+                  )
+                )
       )
-      (setq CSD_MERGE_LIST_efname (nth CSD_MERGE_LIST_i CSD_MERGE_LIST_))
-      (command "-INSERTCONTENT" filePath CSD_MERGE_LIST_efname temp_pt 1 1 0)
-      (vla-delete (vlax-ename->vla-object (entlast)))
-      (setq CSD_MERGE_LIST_i (+ CSD_MERGE_LIST_i 1))
     )
-  ;
-  
-  (setvar "BLOCKREDEFINEMODE" 1)
-  (alert "complete")
-)
+    (setq CSD_MERGE_LIST_ (mapcar 'car (TA:Count_item_in_list_ CSD_MERGE_LIST_)))
+    (cond
+      (;_case_1
+        (and 
+          (= (getenv "COMPUTERNAME") "DESKTOP-FSRT7SI")
+          ;  (/= (wcmatch (strcase (vl-princ-to-string err_)) "*ERROR*") T)
+        )
+        (progn
+          (setq pp18_path (strcat "C:/TA WORK/PPLINE CKST/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/" station_fullname_ "/CAD/"))
+          (princ "_case_1")
+        )
+      )
+      (;_case_2
+        (and 
+          (= (getenv "COMPUTERNAME") "NONGSAISUEARAI")
+          ;  (/= (wcmatch (strcase (vl-princ-to-string err_)) "*ERROR*") T)
+        )
+        (progn
+          (setq pp18_path (strcat "C:/TA FAMELINE old data/TA/TA_WORK/MASS TRANSIT/TA_PPLINE CKST/TA_PPLINE CKST_combine_CSD-ceiling-plan/C1-C2_Finishes-Reflected Ceiling Plan/" station_fullname_ "/CAD/"))
+          (princ "_case_2")
+        )
+      )
+      (;case_3
+        (and 
+          (= (getenv "COMPUTERNAME") "DESKTOP-VNKD8FJ")
+          (= (getenv "USERNAME") "tawan.t")
+        )
+        (progn "C:\Users\tawan.t\Documents\GitHub\TA_COMPELETE"
+          (setq Er-msg_ (vl-catch-all-apply (function (lambda () (load "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/COMPELETE NEXT 2025/Z73-Tranference_Autocad-Excel_data.lsp") ) ) ) )
+          (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/COMPELETE NEXT 2025/REWORK DIM/z62x_REWORK_DIMENSION_REV02.lsp") ) ) ) )
+          (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/COMPELETE IN COMPELETE/SFB_FINDING_SPECFILY_NAME_BLOCK.lsp") ) ) ) )
+          (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/000 - FOR_CREATE_LAYER_.lsp") ) ) ) )
+        )
+    )
+    )
+    
+    
+    (setq filePath (getfiled "Select the DWG file" pp18_path "dwg" 4))
+    (textscr)
+    (setq temp_pt (getpoint "specify point" ))
+    ;preloop_and_while
+      (setq CSD_MERGE_LIST_i 0)
+      (setq CER_ 0)
+      (while 
+        (and 
+          (/= CSD_MERGE_LIST_ nil)
+          (< CSD_MERGE_LIST_i (length CSD_MERGE_LIST_))
+          (/= (wcmatch (strcase (vl-princ-to-string CER_)) "NIL"))
+        )
+        (setq CSD_MERGE_LIST_efname (nth CSD_MERGE_LIST_i CSD_MERGE_LIST_))
+        (command "-INSERTCONTENT" filePath CSD_MERGE_LIST_efname temp_pt 1 1 0)
+        (vla-delete (vlax-ename->vla-object (entlast)))
+        (setq CSD_MERGE_LIST_i (+ CSD_MERGE_LIST_i 1))
+      )
+    ;
+    
+    (setvar "BLOCKREDEFINEMODE" 1)
+    (alert "complete")
+  )
 
 
 
