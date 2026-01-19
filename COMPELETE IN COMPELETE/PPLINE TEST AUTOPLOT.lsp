@@ -4454,7 +4454,7 @@
     ; (command "zoom" "E")5
     ; (c:Plotter_CKST_CSDframeplot)
   )
-  (c:Ploter_CKST_allplot)
+  ; (c:Ploter_CKST_allplot)
   ; (c:Plotter_CKST_CSDframeplot)
 ;
 ;PPLINE-CKST
