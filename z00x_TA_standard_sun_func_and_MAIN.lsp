@@ -26358,6 +26358,39 @@
     )
     )
   )
+  (defun c:c012dim ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    (setq new_ss_cc014 (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01-4_COMBINE_VIEW"))
+    
+    
+  )
 
   (defun c:PPLINE_300HK_CC-01_intersect_HR_CCinHR ()
       ;presetting_
@@ -39046,7 +39079,7 @@
       (=
         (setq ss_pre_filter_set_xx_ (ssget "i"
                                           (list
-                                            (cons 0 "circle,mtext,arc") ;type of object
+                                            (cons 0 "insert,circle,mtext,text,arc,Ellipse") ;type of object
                                             ; (cons 8 "000 - GRID")   ;kind of layer
                                             ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                             ; (cons 62 1)           ;kind of color call sign with color code index
@@ -39058,7 +39091,7 @@
       (progn
         (setq ss_pre_filter_set_xx_ (ssget
                                           (list
-                                            (cons 0 "circle,mtext,arc") ;type of object
+                                            (cons 0 "insert,circle,mtext,text,arc,Ellipse") ;type of object
                                             ; (cons 8 "000 - GRID")   ;kind of layer
                                             ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                             ; (cons 62 1)           ;kind of color call sign with color code index
@@ -39086,6 +39119,7 @@
           ( (or 
               (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbCircle")
               (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbArc")
+              (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbEllipse")
             )
             (progn
               (list
@@ -39094,11 +39128,23 @@
               )
             )
           )
-          ( (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbMText")
+          ( (or 
+              (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbMText")
+              (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbText")
+            )
             (progn
               (setq text_val_
                 (list
-                  (vla-get-textstring ss_pre_filter_set_xx_obj_)
+                  (if (and 
+                        (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbMText")
+                        (/= (vl-string-search ";" (vla-get-textstring ss_pre_filter_set_xx_obj_) 0) nil)
+                      )
+                    (progn
+                      (substr (vla-get-textstring ss_pre_filter_set_xx_obj_) (+ (vl-string-search ";" (vla-get-textstring ss_pre_filter_set_xx_obj_) 0) 2) 22)
+                    )
+                    (vla-get-textstring ss_pre_filter_set_xx_obj_)
+                  )
+                  ; (vl-registry-read (vla-get-textstring ss_pre_filter_set_xx_obj_)) 
                   (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
                 )
               )
@@ -39195,6 +39241,9 @@
 )
 (defun c:temp_inssignage_ ()
   (_StartUndo doc)
+  ;presetting
+    (setvar "osmode" 0)
+  ;
   ;selection_set_for_fillter_blk_name
     (if  ;pre_select_ssget_or_post_select_ssget
       (=
@@ -39247,15 +39296,30 @@
             "000 - CKST_SIGNAGE_SYMBOL"
             ss_pre_filter_set_xx_obj_ins_
             1
-            (if (or 
-                  (= (rtos (rad-to-deg ss_pre_filter_set_xx_obj_ro_) 2 0) "179")
-                  (= (rtos (rad-to-deg ss_pre_filter_set_xx_obj_ro_) 2 0) "180")
-                  (= (rtos (rad-to-deg ss_pre_filter_set_xx_obj_ro_) 2 0) "181")
+            (cond
+              ( (or 
+                    (= (rtos (rad-to-deg ss_pre_filter_set_xx_obj_ro_) 2 0) "179")
+                    (= (rtos (rad-to-deg ss_pre_filter_set_xx_obj_ro_) 2 0) "180")
+                    (= (rtos (rad-to-deg ss_pre_filter_set_xx_obj_ro_) 2 0) "181")
+                  )
+                (progn
+                  0
                 )
-              (progn
-                0
+                
               )
-              ss_pre_filter_set_xx_obj_ro_
+              ( (or 
+                    (= (rtos (rad-to-deg ss_pre_filter_set_xx_obj_ro_) 2 0) "89")
+                    (= (rtos (rad-to-deg ss_pre_filter_set_xx_obj_ro_) 2 0) "90")
+                    (= (rtos (rad-to-deg ss_pre_filter_set_xx_obj_ro_) 2 0) "91")
+                    (= (rtos (rad-to-deg ss_pre_filter_set_xx_obj_ro_) 2 0) "269")
+                    (= (rtos (rad-to-deg ss_pre_filter_set_xx_obj_ro_) 2 0) "270")
+                    (= (rtos (rad-to-deg ss_pre_filter_set_xx_obj_ro_) 2 0) "271")
+                  )
+                (progn
+                  (deg-to-rad 90)
+                )
+                
+              )
             )
           )
           (setq new_S2S4 (ssadd ss_pre_filter_set_xx_ename_ new_S2S4))
@@ -39353,6 +39417,9 @@
       )
       
     )
+  ;
+  ;presetting
+    (setvar "osmode" 1215)
   ;
   (_endundo doc)
 ) 
@@ -41285,3 +41352,45 @@
   (command "pselect"   "" )
 
 )
+
+
+
+(defun c:tt5 ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  
+  
+  (setq 1st_pt_ (getpoint "specify conner"))
+  (setq cen_pt_ (getcorner 1st_pt_ "specify conner"))
+  (TA:midpoint 1st_pt_ cen_pt_)
+  (vla-put-insertionpoint (vlax-ename->vla-object (ssname ss_pre_filter_set_xx_ 0)) (vlax-3d-point (TA:midpoint 1st_pt_ cen_pt_)))
+)
+
+
+

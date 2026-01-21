@@ -16612,6 +16612,125 @@
     (command "erase" ss_pre_filter_set_xx_  "" )
     (command "pselect"  new_ss_dim_ "" )
   )
+  (defun c:C01L ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01-4_COMBINE_VIEW"))
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (setq new_ss_dim_ (ssadd))
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (setq ss_pre_filter_set_xx_obj_ro (vla-get-rotation  ss_pre_filter_set_xx_obj_))
+        (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+        
+        (setq staterblk_obj_dist_array_length (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "array_length"))
+        (setq staterblk_obj_dist_fragment_length (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "fragment_length"))
+        (setq staterblk_obj_dist_fragment_start (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "fragment_start"))
+        (if (= ( LM:getdynpropvalue ss_pre_filter_set_xx_obj_  "view") "7_dynamic_length_view")
+          (progn
+            (setq staterblk_obj_dist_sum_ staterblk_obj_dist_fragment_start)
+          )
+          (setq staterblk_obj_dist_sum_ (+ staterblk_obj_dist_array_length staterblk_obj_dist_fragment_length))
+        )
+        (cond
+          ((= (getvar "worlducs") 1) ;รอแก้
+            (progn
+              (vl-catch-all-apply 
+                (function 
+                  (lambda () 
+                    (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
+                                  (vlax-3d-point ss_pre_filter_set_xx_obj_ins_)
+                                  (vlax-3d-point (polar ss_pre_filter_set_xx_obj_ins_ (deg-to-rad (rad-to-deg ss_pre_filter_set_xx_obj_ro)) staterblk_obj_dist_sum_)) 
+                                  (vlax-3d-point (polar ss_pre_filter_set_xx_obj_ins_ (deg-to-rad 180) 150))
+                                  (deg-to-rad (rad-to-deg ss_pre_filter_set_xx_obj_ro))
+                    )
+                  )
+                )
+              )
+            )
+            
+          )
+          ((= (getvar "worlducs") 0) ;รอแก้
+            (progn
+              (vl-catch-all-apply 
+                (function 
+                  (lambda () 
+                    (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
+                                (vlax-3d-point (trans ss_pre_filter_set_xx_obj_ins_ 1 0))
+                                (vlax-3d-point (trans (polar ss_pre_filter_set_xx_obj_ins_ (deg-to-rad 90) staterblk_obj_dist_sum_) 1 0))
+                                (vlax-3d-point (trans (polar ss_pre_filter_set_xx_obj_ins_ (deg-to-rad 0) 3) 1 0))
+                                (deg-to-rad 90)
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+        ;new_blk_entlast object
+          (setq dim_ename (entlast))
+          (setq dim_obj_ (vlax-ename->vla-object dim_ename))
+          (cond
+            ((= ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 0)
+              (progn
+                ; (vla-put-stylename dim_obj_ "DIM E-C") ;metthod for model for TA
+                (vla-put-stylename dim_obj_ DIM_E-E) ;metthod for layout for Fameline
+              )
+            )
+            ((and (= ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 0) (= ss_pre_filter_set_xx_inslist_sorted_highest_Y_i (- (length ss_pre_filter_set_xx_inslist_sorted_highest_Y_) 2)))
+              (progn
+                ; (vla-put-stylename dim_obj_ "DIM E-C") ;metthod for model for TA
+                (vla-put-stylename dim_obj_ DIM_E-E) ;metthod for layout for Fameline
+              )
+            )
+            ((= ss_pre_filter_set_xx_inslist_sorted_highest_Y_i (- (length ss_pre_filter_set_xx_inslist_sorted_highest_Y_) 2))
+              (progn
+                ; (vla-put-stylename dim_obj_ "DIM C-E") ;metthod for model for TA
+                (vla-put-stylename dim_obj_ DIM_E-E) ;metthod for layout for Fameline
+              )
+            )
+          )
+          (vla-put-ScaleFactor  dim_obj_ 500 )
+          ; (vlax-dump-object  dim_obj_  )
+          (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
+          ; (command "dimreassociate" dim_ename "" ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_cur-ins_ ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_next-ins_)
+          (command "_AIDIMPREC" dimprec dim_ename "" )
+          
+          (setq new_ss_dim_ (ssadd dim_ename  new_ss_dim_))
+        ;
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+    
+  )
   (defun c:starter_dim_stdim ()
     ;presetting
       (setq acadObj (vlax-get-acad-object))
