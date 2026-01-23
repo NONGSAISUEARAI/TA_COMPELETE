@@ -1016,6 +1016,31 @@
       )
     )
   )
+  (defun c:crelayarea ()
+    (TA:generate_filter_list
+      (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+      (setq 2nd_filter_val_main "000_AREA_") ;2nd_filter
+      (setq 3rd_filter_val_main (list ;3rd_filter
+                                  "C02" ;
+                                  "C03" ;
+                                  "C04" ;
+                                  "C05" ;
+                                  "C06" ;
+                                  "C07" ;
+                                  "C08" ;
+                                  "C09" ;
+                                  "C10" ;
+                                  "C11" ;
+                            )
+      )
+      (setq 4th_filter_val_main (list  ;4th_filter
+                                      (list "MAIN_COLOR_1" 255 135 0) ;
+                                      (list "HATCH_" 255 135 0) ;
+
+                                )
+      )
+    )
+  )
   
   (defun c:crelaytemp ()
     (c:crelaylight)

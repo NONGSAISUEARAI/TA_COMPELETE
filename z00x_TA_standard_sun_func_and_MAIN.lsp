@@ -36769,7 +36769,11 @@
   (defun c:PPLINE-CKST_CSDupdate_ ()
     ; (TA:get_name_block_in_drawing_to_list)
     ; (TA:get_name_block_in_drawing_to_list)
-    (setvar "BLOCKREDEFINEMODE" 1)
+    ;presetting
+      (setvar "BLOCKREDEFINEMODE" 1)
+      (setvar "ATTREQ" 0)
+      (setvar "ATTDIA" 0)
+    ;
     (setq input_station_no_ (cond ( (getint (strcat "\nspecify input_station_no_  \n<" (rtos (setq input_station_no_ (cond (input_station_no_) (1.0) ) ) ) "> : " ) ) ) (input_station_no_) ) )
     (setq station_fullname_ (strcat "PP" (rtos input_station_no_ 2 0 )))
     (setq CSD_MERGE_LIST_ ())
@@ -40312,7 +40316,30 @@
   (setq layer_list_ (list 
                       (list "000 - SYMBOL CON_ASBUILT_WALL_MAIN_COLOR_1" (list 255 0 0) )                  
                       (list "000 - SYMBOL CON_ASBUILT_WALL_MAIN_COLOR_2" (list 255 135 0) )                  
-                      (list "000 - SYMBOL CON_ASBUILT_WALL_SUB_COLOR_1" (list 0 255 0) )                  
+                      (list "000 - SYMBOL CON_ASBUILT_WALL_SUB_COLOR_1" (list 0 255 0) )      
+                    
+                      (list "000_AREA_C06_MAIN_COLOR_1" (list 150 250 0) )                  
+                      (list "000_AREA_C06_HATCH_" (list 150 250 0) ) 
+                      (list "000_AREA_C07_MAIN_COLOR_1" (list 150 250 0) )                  
+                      (list "000_AREA_C07_HATCH_" (list 150 250 0) ) 
+                      
+                      (list "000_AREA_C02_MAIN_COLOR_1" (list 5 230 200) )                  
+                      (list "000_AREA_C02_HATCH_" (list 5 230 200) )                  
+                      (list "000_AREA_C03_MAIN_COLOR_1" (list 250 0 150) )                  
+                      (list "000_AREA_C03_HATCH_" (list 250 0 150) )         
+                      
+                      (list "000_AREA_C04_MAIN_COLOR_1" (list 255 135 0) )                  
+                      (list "000_AREA_C04_HATCH_" (list 255 135 0) )         
+                      (list "000_AREA_C05_MAIN_COLOR_1" (list 255 135 0) )                  
+                      (list "000_AREA_C05_HATCH_" (list 255 135 0) )                        
+                      (list "000_AREA_C08_MAIN_COLOR_1" (list 255 135 0) )                  
+                      (list "000_AREA_C08_HATCH_" (list 255 135 0) )         
+                      
+                      (list "000_AREA_C09_MAIN_COLOR_1" (list 170 50 170) )                  
+                      (list "000_AREA_C09_HATCH_" (list 170 50 170) )   
+                      
+                      (list "000_AREA_C09_MAIN_COLOR_1" (list 255 0 0) )                  
+                      (list "000_AREA_C09_HATCH_" (list 255 0 0) )                  
                     )
   )
   ;preloop_and_while
