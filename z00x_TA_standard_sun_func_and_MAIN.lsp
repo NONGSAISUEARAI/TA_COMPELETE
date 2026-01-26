@@ -6358,6 +6358,7 @@
                 ""  
                
       )
+      
       ; (command "erase" kuy_mk "")
       (setvar "osmode" 1215)
     )
@@ -7120,7 +7121,383 @@
         
       )
     )
+    (defun c:ins-mul-hatch_mul04 ()
+      ;preseting_data_
+        (setq hatch_Layer_ "000_AREA_C04_HATCH_")
+        (setq hatch_patt_ "000_C04")
+        (setq hatch_color_ 251)
+        (setq hatch_background_ ".")
+        (setq hatch_ename_getang_ 45 )
+        (setq hatch_ename_getsc_ 250 )
+      ;
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "lwpolyline") ;type of object
+                                                (cons 8 "000_AREA_C04_MAIN_COLOR_1")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "lwpolyline") ;type of object
+                                                (cons 8 "000_AREA_C04_MAIN_COLOR_1")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (command ".-hatch" "s"  ss_pre_filter_set_xx_ename_ 
+                    "" 
+                    "c" hatch_color_ hatch_background_
+                    "p" hatch_patt_ hatch_ename_getsc_ hatch_ename_getang_ 
+                    "L" hatch_Layer_ 
+                    ""  
+                    ""  
+                    ""  
+                    ""  
 
+          )
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+    )
+    (defun c:ins-mul-hatch_mul05 ()
+      ;preseting_data_
+        (setq hatch_Layer_ "000_AREA_C05_HATCH_")
+        (setq hatch_patt_ "000_C05")
+        (setq hatch_color_ 251)
+        (setq hatch_background_ ".")
+        (setq hatch_ename_getang_ 45 )
+        (setq hatch_ename_getsc_ 250 )
+      ;
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "lwpolyline") ;type of object
+                                                (cons 8 "000_AREA_C05_MAIN_COLOR_1")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "lwpolyline") ;type of object
+                                                (cons 8 "000_AREA_C05_MAIN_COLOR_1")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (command ".-hatch" "s"  ss_pre_filter_set_xx_ename_ 
+                    "" 
+                    "c" hatch_color_ hatch_background_
+                    "p" hatch_patt_ hatch_ename_getsc_ hatch_ename_getang_ 
+                    "L" hatch_Layer_ 
+                    ""  
+                    ""  
+                    ""  
+                    ""  
+
+          )
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+    )
+    (defun c:ins-mul-hatch_mul06 ()
+      ;preseting_data_
+        (setq hatch_Layer_ "000_AREA_C06_HATCH_")
+        (setq hatch_patt_ "000_C06")
+        (setq hatch_color_ 251)
+        (setq hatch_background_ ".")
+        (setq hatch_ename_getang_ 45 )
+        (setq hatch_ename_getsc_ 250 )
+      ;
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "lwpolyline") ;type of object
+                                                (cons 8 "000_AREA_C06_MAIN_COLOR_1")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "lwpolyline") ;type of object
+                                                (cons 8 "000_AREA_C06_MAIN_COLOR_1")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (command ".-hatch" "s"  ss_pre_filter_set_xx_ename_ 
+                    "" 
+                    "c" hatch_color_ hatch_background_
+                    "p" hatch_patt_ hatch_ename_getsc_ hatch_ename_getang_ 
+                    "L" hatch_Layer_ 
+                    ""  
+                    ""  
+                    ""  
+                    ""  
+
+          )
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+    )
+    (defun c:ins-mul-hatch_mul08 ()
+      ;preseting_data_
+        (setq hatch_Layer_ "000_AREA_C08_HATCH_")
+        (setq hatch_patt_ "000_C08")
+        (setq hatch_color_ 251)
+        (setq hatch_background_ ".")
+        (setq hatch_ename_getang_ 45 )
+        (setq hatch_ename_getsc_ 250 )
+      ;
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "lwpolyline") ;type of object
+                                                (cons 8 "000_AREA_C08_MAIN_COLOR_1")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "lwpolyline") ;type of object
+                                                (cons 8 "000_AREA_C08_MAIN_COLOR_1")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (command ".-hatch" "s"  ss_pre_filter_set_xx_ename_ 
+                    "" 
+                    "c" hatch_color_ hatch_background_
+                    "p" hatch_patt_ hatch_ename_getsc_ hatch_ename_getang_ 
+                    "L" hatch_Layer_ 
+                    ""  
+                    ""  
+                    ""  
+                    ""  
+
+          )
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+    )
+    (defun c:ins-mul-hatch_mulckst ()
+      (setvar "CMDECHO" 0)
+      ;preseting_data_
+        ; (setq hatch_Layer_ "000_AREA_C08_HATCH_")
+        ; (setq hatch_patt_ "000_C08")
+        (setq hatch_color_ "bylayer")
+        (setq hatch_background_ ".")
+        (setq hatch_ename_getang_ 45 )
+        (setq hatch_ename_getsc_ 250 )
+      ;
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "lwpolyline") ;type of object
+                                                (cons 8 "000_AREA_C02_MAIN_COLOR_1,000_AREA_C03_MAIN_COLOR_1,000_AREA_C04_MAIN_COLOR_1,000_AREA_C05_MAIN_COLOR_1,000_AREA_C06_MAIN_COLOR_1,000_AREA_C07_MAIN_COLOR_1,000_AREA_C08_MAIN_COLOR_1,000_AREA_C09_MAIN_COLOR_1,000_AREA_C10_MAIN_COLOR_1")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "lwpolyline") ;type of object
+                                                (cons 8 "000_AREA_C02_MAIN_COLOR_1,000_AREA_C03_MAIN_COLOR_1,000_AREA_C04_MAIN_COLOR_1,000_AREA_C05_MAIN_COLOR_1,000_AREA_C06_MAIN_COLOR_1,000_AREA_C07_MAIN_COLOR_1,000_AREA_C08_MAIN_COLOR_1,000_AREA_C09_MAIN_COLOR_1,000_AREA_C10_MAIN_COLOR_1")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (setq hatch_patt_ nil)
+          (setq hatch_Layer_ nil)
+          (cond
+            (;_case_1
+               (and
+                  (= (vla-get-layer ss_pre_filter_set_xx_obj_) "000_AREA_C02_MAIN_COLOR_1")
+               )
+               (progn
+                 (setq hatch_patt_ "000_C02")
+                 (setq hatch_Layer_ "000_AREA_C02_HATCH_")
+               )
+            )
+            (;_case_2
+               (and
+                  (= (vla-get-layer ss_pre_filter_set_xx_obj_) "000_AREA_C03_MAIN_COLOR_1")
+               )
+               (progn
+                 (setq hatch_patt_ "000_C03")
+                 (setq hatch_Layer_ "000_AREA_C03_HATCH_")
+               )
+            )
+            (;_case_3
+               (and
+                  (= (vla-get-layer ss_pre_filter_set_xx_obj_) "000_AREA_C04_MAIN_COLOR_1")
+               )
+               (progn
+                 (setq hatch_patt_ "000_C04")
+                 (setq hatch_Layer_ "000_AREA_C04_HATCH_")
+               )
+            )
+            (;_case_4
+               (and
+                  (= (vla-get-layer ss_pre_filter_set_xx_obj_) "000_AREA_C05_MAIN_COLOR_1")
+               )
+               (progn
+                 (setq hatch_patt_ "000_C05")
+                 (setq hatch_Layer_ "000_AREA_C05_HATCH_")
+               )
+            )
+            (;_case_4
+               (and
+                  (= (vla-get-layer ss_pre_filter_set_xx_obj_) "000_AREA_C06_MAIN_COLOR_1")
+               )
+               (progn
+                 (setq hatch_patt_ "000_C06")
+                 (setq hatch_Layer_ "000_AREA_C06_HATCH_")
+               )
+            )
+            (;_case_4
+               (and
+                  (= (vla-get-layer ss_pre_filter_set_xx_obj_) "000_AREA_C07_MAIN_COLOR_1")
+               )
+               (progn
+                 (setq hatch_patt_ "000_C07")
+                 (setq hatch_Layer_ "000_AREA_C07_HATCH_")
+               )
+            )
+            (;_case_4
+               (and
+                  (= (vla-get-layer ss_pre_filter_set_xx_obj_) "000_AREA_C08_MAIN_COLOR_1")
+               )
+               (progn
+                 (setq hatch_patt_ "000_C08")
+                 (setq hatch_Layer_ "000_AREA_C08_HATCH_")
+               )
+            )
+            (;_case_4
+               (and
+                  (= (vla-get-layer ss_pre_filter_set_xx_obj_) "000_AREA_C09_MAIN_COLOR_1")
+               )
+               (progn
+                 (setq hatch_patt_ "000_C09")
+                 (setq hatch_Layer_ "000_AREA_C09_HATCH_")
+               )
+            )
+            (;_case_4
+               (and
+                  (= (vla-get-layer ss_pre_filter_set_xx_obj_) "000_AREA_C10_MAIN_COLOR_1")
+               )
+               (progn
+                 (setq hatch_patt_ "000_C10")
+                 (setq hatch_Layer_ "000_AREA_C10_HATCH_")
+               )
+            )
+          )
+          (if (/= hatch_patt_ nil )
+            (progn
+              (command ".-hatch" "s"  ss_pre_filter_set_xx_ename_ 
+                    "" 
+                    "c" hatch_color_ hatch_background_
+                    "p" hatch_patt_ hatch_ename_getsc_ hatch_ename_getang_ 
+                    "L" hatch_Layer_ 
+                    ""  
+              )
+            )
+          )
+          
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+    )
+    
     
 
   ;
@@ -40339,7 +40716,10 @@
                       (list "000_AREA_C09_HATCH_" (list 170 50 170) )   
                       
                       (list "000_AREA_C09_MAIN_COLOR_1" (list 255 0 0) )                  
-                      (list "000_AREA_C09_HATCH_" (list 255 0 0) )                  
+                      (list "000_AREA_C09_HATCH_" (list 255 0 0) )        
+                      
+                      (list "000_AREA_C10_MAIN_COLOR_1" (list 255 0 0) )                  
+                      (list "000_AREA_C10_HATCH_" (list 255 0 0) )                  
                     )
   )
   ;preloop_and_while

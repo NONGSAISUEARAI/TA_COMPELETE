@@ -9545,6 +9545,11 @@
   )
 ;
 ;core
+  ;Back to layer "0"  
+    (defun c:layer0 ()
+      (command "-layer" "set" "0" "")
+    )
+  ;
   ;Change_color
     (defun c:RED ()
       ;selection_set_for_fillter_blk_name
