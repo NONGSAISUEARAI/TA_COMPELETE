@@ -36302,15 +36302,15 @@
 (defun c:loadlisp () 
   (cond
     ((and 
-          (= (getenv "COMPUTERNAME") "NONGSAISUEARAI")
+          (= (getenv "COMPUTERNAME") "NONGSAISUEARAIH")
           (= (getenv "USERNAME") "popul")
         )
       (progn
-        (setq Er-msg_ (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/COMPELETE NEXT 2025/Z73-Tranference_Autocad-Excel_data.lsp") ) ) ) )
-        (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/COMPELETE NEXT 2025/REWORK DIM/z62x_REWORK_DIMENSION_REV02.lsp") ) ) ) )
-        (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/COMPELETE IN COMPELETE/SFB_FINDING_SPECFILY_NAME_BLOCK.lsp") ) ) ) )
-        (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/000 - automation_cad.lsp") ) ) ) )
-        (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/000 - FOR_CREATE_LAYER_.lsp") ) ) ) )
+        (setq Er-msg_ (vl-catch-all-apply (function (lambda () (load "C:/TA/TA_COMPELETE/COMPELETE NEXT 2025/Z73-Tranference_Autocad-Excel_data.lsp") ) ) ) )
+        (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA/TA_COMPELETE/COMPELETE NEXT 2025/REWORK DIM/z62x_REWORK_DIMENSION_REV02.lsp") ) ) ) )
+        (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA/TA_COMPELETE/COMPELETE IN COMPELETE/SFB_FINDING_SPECFILY_NAME_BLOCK.lsp") ) ) ) )
+        (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA/TA_COMPELETE/000 - automation_cad.lsp") ) ) ) )
+        (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA/TA_COMPELETE/000 - FOR_CREATE_LAYER_.lsp") ) ) ) )
       )
     )
     ((and 
@@ -37238,11 +37238,12 @@
       (;_case_1
         (and 
           ; (/= (type err_ ) 'VL-CATCH-ALL-APPLY-ERROR)
-          (= (getenv "COMPUTERNAME") "DESKTOP-FSRT7SI")
+          (= (getenv "COMPUTERNAME") "NONGSAISUEARAIH")
+          
           ;  (/= (wcmatch (strcase (vl-princ-to-string err_)) "*ERROR*") T)
         )
         (progn
-          (setq pp18_path (strcat "C:/TA WORK/PPLINE CKST/20250701_new_merge_C1-C2_Finishes-Reflected Ceiling Plan/C1-C2_Finishes-Reflected Ceiling Plan/" station_fullname_ "/CAD/"))
+          (setq pp18_path (strcat "C:/TA/PPLINE CKST/C1-C2_Finishes-Reflected Ceiling Plan/" station_fullname_ "/CAD/"))
           (princ "_case_1")
         )
       )
@@ -37250,6 +37251,7 @@
         (and 
           ; (/= (type err_ ) 'VL-CATCH-ALL-APPLY-ERROR)
           (= (getenv "COMPUTERNAME") "NONGSAISUEARAI")
+          (= (getenv "USERNAME") "NONGSAISUEARAI")
           ;  (/= (wcmatch (strcase (vl-princ-to-string err_)) "*ERROR*") T)
         )
         (progn
@@ -41139,7 +41141,7 @@
   (* step (LM:round (/ n step)))
 )
 
-(round-1750 1541)
+
 (defun round-1500 (n / step)
   (setq step 1500.0)
   (* step (LM:round (/ n step)))
@@ -41889,6 +41891,9 @@
   ; (setq hatch_ename_ (car (entsel "specify Object")))
   (command "ucs" "ob"  )
   ; (command "ucs" "z"  270 )
-  (setvar "snapmode" 1)
+  (setvar "snapmode" 1)   
   (setvar "osmode" 1027)
 )
+
+
+
