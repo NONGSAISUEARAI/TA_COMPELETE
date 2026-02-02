@@ -1067,11 +1067,12 @@
   )
   
   (defun c:crelaytemp ()
+    (c:crelayarea)
     (c:crelaylight)
     (c:crelaysymbol)
     (c:crelayfram)
     (c:crelayfas)
-    c:crelayaltray
+    (c:crelayaltray)
   )
   
 
