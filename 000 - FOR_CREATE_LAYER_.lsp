@@ -979,9 +979,10 @@
                                       (list "HATCH_" 251) ;
                                       (list "WIPEOUT_" 250) ;
                                       (list "HIDDEN_" 251) ;
-                                      (list "SYMBOL_" 251) ;
+                                      (list "SYMBOL_" 255 0 0) ;
                                       (list "DEF_SUB" 250) ;
                                       (list "TEXT" 5) ;
+                                      (list "DIMS" 0 0 255) ;
                                 )
       )
     )

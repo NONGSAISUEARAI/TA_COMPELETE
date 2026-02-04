@@ -14934,6 +14934,120 @@
       ;
       
     )
+    (defun c:F80AS ()
+      ;return
+        (command "ucs" "world")
+      ;
+      ;go_to_layout-process
+        (if 
+          (or 
+            (= (getvar "ctab") "model")
+            (/= (getvar "ctab") "layout1")
+          )
+          (progn 
+            (setvar "ctab" "layout1")
+            (if  ;pre_select_ssget_or_post_select_ssget
+              (=
+                (setq ss_pre_filter_set_xx_ (ssget "x"
+                                                  (list
+                                                    ; (cons 0 "INSERT") ;type of object
+                                                    (cons 410 (getvar "CTAB"))
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+                nil
+              )
+              (progn
+                (setq ss_pre_filter_set_xx_ (ssget "X"
+                                                  (list
+                                                    ; (cons 0 "INSERT") ;type of object
+                                                    (cons 410 (getvar "CTAB"))
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+              )
+              (sslength ss_pre_filter_set_xx_)
+            )
+          )
+        )
+        (if (= (getvar "ctab") "Layout1")
+          (progn
+            (command "copybase" (list 0 0 0) ss_pre_filter_set_xx_ "")
+            (command "layout" "n" "ASBUILT_WALL_REV02")
+
+            
+            (setvar "ctab" "ASBUILT_WALL_REV02")
+            (setq delete_ss_ (ssget "X" 
+                                    (list 
+                                      ; (cons 0 "INSERT") ;type of object
+                                      (cons 410 (getvar "CTAB"))
+                                      ; (cons 8 "000 - GRID")   ;kind of layer
+                                      ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                      ; (cons 62 1)           ;kind of color call sign with color code index
+                                    )
+                             )
+            )
+            (command "erase" delete_ss_ "")
+            (command "pasteclip" (list 0 0 0))
+          )
+        )
+        (setq ss_pre_filter_set_xx_set1 (ssget "X"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            (cons 410 (getvar "CTAB"))
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )   
+        ;preloop_and_while
+          (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_set1 "Title Block_Under Ground_C1 v3"))
+          (setq ss_pre_filter_set_xx_i 0)
+          (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+            (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+            (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "Title_2_val" 
+              (LM:StringSubst "REFLECTED CEILING AS-BUILT " "REFLECTED CEILING PLAN" (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "Title_2_val" ))
+            )
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DRAWING_NO_val" 
+              (LM:StringSubst "-01-AS-BUILT" "-01" (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "DRAWING_NO_val" ))
+            )
+            
+            (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+          )
+        ; 
+        (setq ss_pre_filter_set_xx_set2 (ssget "X"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            (cons 410 (getvar "CTAB"))
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )  
+        ;preloop_and_while
+          (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_set2 "000 - CKST_HEADING_VAL"))
+          (setq ss_pre_filter_set_xx_i 0)
+          (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+            (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+            (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "HEADING-NAME" 
+              (LM:StringSubst "HANGING & FRAMING PLAN" "REFLECTED CEILING PLAN" (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "HEADING-NAME" ))
+            )
+            (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+          )
+        ;       
+      ;
+      
+    )
   ;
   ;TIME_FUNC
     (defun TA:CDATE (split-sym time_format)
@@ -38865,7 +38979,8 @@
 )
 (defun c:xline_intersect_block_xl2_ ()
   ;presettting
-    (setq blkname_inter_target_ "000 - CKST_DOWNLIGHT_SYMBOL")
+    ; (setq blkname_inter_target_ "000 - CKST_DOWNLIGHT_SYMBOL")
+    (setq blkname_inter_target_ "000 - STARTER SYMBOL_REV03")
     ; (setq blkname_inter_target_ "ACM_Linear Slot_Supply_Side Connected _1590x200x450_ - 1590x200-21133948-CONCOURSE LEVEL CB CEILING PLAN")
     ; (setq blkname_inter_ename_ (car (entsel "specify Object")))
     ; (setq blkname_inter_obj_ (vlax-ename->vla-object blkname_inter_ename_))

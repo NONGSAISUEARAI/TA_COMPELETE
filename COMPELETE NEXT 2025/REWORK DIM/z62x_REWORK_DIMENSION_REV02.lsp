@@ -17333,6 +17333,11 @@
   (defun c:300Hk_asheaddims ()
     ;presetting
       (setvar "osmode" 0)
+      (command "ucs" "w")
+      (setq layoutactive (vla-get-paperspace (vla-get-ActiveDocument (vlax-get-acad-object))))
+      (setq modelSpace (vla-get-ModelSpace (vla-get-ActiveDocument (vlax-get-acad-object))))
+      (setq sc 1000)
+      (setq new_ss_dim_ (ssadd))
     ;
     (setq 300hk_ename_ (car (entsel "specify Object")))
     (setq 300hk_obj_ (vlax-ename->vla-object 300hk_ename_))
@@ -17414,7 +17419,8 @@
             )
             ; (setq new_gap_point (polar new_pt (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 90)) (LM:getdynpropvalue 300hk_obj_ "panel_width")))
             (setq newnew_pt (polar new_pt (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 90)) (+ (LM:getdynpropvalue 300hk_obj_ "panel_width") input_gap_dist_)))
-            (command "dimcontinue" dim_ename  newnew_pt "" ""   )
+            ; (command "dimcontinue" dim_ename  newnew_pt "" ""   )
+            (command "dimcontinue" dim_ename   )
           )
         )
         
@@ -17427,6 +17433,11 @@
   (defun c:300Hk_asbotdims ()
     ;presetting
       (setvar "osmode" 0)
+      (command "ucs" "w")
+      (setq layoutactive (vla-get-paperspace (vla-get-ActiveDocument (vlax-get-acad-object))))
+      (setq modelSpace (vla-get-ModelSpace (vla-get-ActiveDocument (vlax-get-acad-object))))
+      (setq sc 1000)
+      (setq new_ss_dim_ (ssadd))
     ;
     (setq 300hk_ename_ (car (entsel "specify Object")))
     (setq 300hk_obj_ (vlax-ename->vla-object 300hk_ename_))
