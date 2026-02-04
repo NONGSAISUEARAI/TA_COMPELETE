@@ -7420,12 +7420,15 @@
                                         )
             )
           )
-          (sslength ss_pre_filter_set_xx_)
+          
         )
       ;
       ;preloop_and_while
         (setq ss_pre_filter_set_xx_i 0)
-        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (while (and 
+                 (/= ss_pre_filter_set_xx_ nil)
+                 (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+               )
           (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
           (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
           (setq hatch_patt_ nil)
@@ -7529,7 +7532,138 @@
         )
       ;
     )
-    
+    (defun TA:create-multipleboundaryhatch_mulbohatch (ss_pre_filter_set_xx_ename_ )
+      ;example for ssset
+        ; ;selection_set_for_fillter_blk_name
+        ;   (if  ;pre_select_ssget_or_post_select_ssget
+        ;     (=
+        ;       (setq ss_pre_filter_set_xx_ (ssget "i"
+        ;                                         (list
+        ;                                           (cons 0 "hatch") ;type of object
+        ;                                           ; (cons 8 "000 - GRID")   ;kind of layer
+        ;                                           ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+        ;                                           ; (cons 62 1)           ;kind of color call sign with color code index
+        ;                                         )
+        ;                                   )
+        ;       )
+        ;       nil
+        ;     )
+        ;     (progn
+        ;       (setq ss_pre_filter_set_xx_ (ssget
+        ;                                         (list
+        ;                                           (cons 0 "hatch") ;type of object
+        ;                                           ; (cons 8 "000 - GRID")   ;kind of layer
+        ;                                           ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+        ;                                           ; (cons 62 1)           ;kind of color call sign with color code index
+        ;                                         )
+        ;                                   )
+        ;       )
+        ;     )
+        ;     (sslength ss_pre_filter_set_xx_)
+        ;   )
+        ; ;
+        ; ;preloop_and_while
+        ;   (setq ss_pre_filter_set_xx_i 0)
+        ;   (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        ;     (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        ;     (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        ;     (command "_-hatchedit" ss_pre_filter_set_xx_ename_ "B" "p" "Y")
+        ;     (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        ;   )
+        ; ;
+      ;
+      
+      (if (= (vla-get-objectname (vlax-ename->vla-object ss_pre_filter_set_xx_ename_ )) "AcDbHatch")
+        (progn
+          (command "_-hatchedit" ss_pre_filter_set_xx_ename_ "B" "p" "Y")
+        )
+        (print "not hatch object")
+      )
+    )
+    (defun c:create-multipleboundaryhatch_mulbohatch ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "hatch") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "hatch") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (TA:create-multipleboundaryhatch_mulbohatch ss_pre_filter_set_xx_ename_ )
+          
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+    )
+    (defun c:mulckstboline ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "hatch") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "hatch") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (TA:create-multipleboundaryhatch_mulbohatch ss_pre_filter_set_xx_ename_ )
+          (if (testexpr)
+            (progn
+              (thenexpr)
+            )
+          )
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+    )
     
 
   ;
@@ -39646,7 +39780,53 @@
   ;
   (TA:ss-erase ss_pre_filter_set_xx_)
 )
-    
+(defun c:mkEXCL()
+
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            ; (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            ; (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (if (and 
+              (= 1 1) 
+              ; (= (wcmatch (LM:effectivename ss_pre_filter_set_xx_obj_) "*Alarm*") T)
+            )
+          (progn
+            (TA:editblock_ (LM:effectivename ss_pre_filter_set_xx_obj_) 256 "A-GLAZ-CURT")
+          )
+        )
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    ) 
+  ;
+)    
 
 
 (defun c:q1 ()
