@@ -961,32 +961,6 @@
       )
     )
   )
-  (defun c:crelayAS2 ()
-    (TA:generate_filter_list
-      (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
-      (setq 2nd_filter_val_main "000 - SYMBOL CON_2_") ;2nd_filter
-      (setq 3rd_filter_val_main (list ;3rd_filter
-                                  "ASBUILT_WALL" ;
-                                  "COMMENT_ASBUILT_WALL" ;
-                                )
-      )
-      (setq 4th_filter_val_main (list  ;4th_filter
-                                      (list "MAIN_COLOR_1" 255 0 0) ;
-                                      (list "MAIN_COLOR_2"  255 135 0) ;
-                                      (list "SUB_COLOR_1" 152 5 190) ;
-                                      (list "SUB_COLOR_2" 1) ;
-                                      (list "SUB_COLOR_3" 251) ;
-                                      (list "HATCH_" 251) ;
-                                      (list "WIPEOUT_" 250) ;
-                                      (list "HIDDEN_" 251) ;
-                                      (list "SYMBOL_" 255 0 0) ;
-                                      (list "DEF_SUB" 250) ;
-                                      (list "TEXT" 5) ;
-                                      (list "DIMS" 0 0 255) ;
-                                )
-      )
-    )
-  )
   (defun c:crelayfram ()
     (TA:generate_filter_list 
       (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
@@ -1093,12 +1067,11 @@
   )
   
   (defun c:crelaytemp ()
-    (c:crelayarea)
     (c:crelaylight)
     (c:crelaysymbol)
     (c:crelayfram)
     (c:crelayfas)
-    (c:crelayaltray)
+    c:crelayaltray
   )
   
 
@@ -1164,13 +1137,12 @@
                  "ACLYDICTIONARY"
                )
     )
-
     (progn 
       (setq topLevel (mapcar 'cdr 
                              (vl-remove-if-not '(lambda (x) (= (car x) 350)) dict)
                      )
       )
-
+      
       (foreach ent topLevel 
         (setq ed (entget ent))
         (if (assoc 360 ed) 
@@ -1195,11 +1167,90 @@
     )
   )
   (mapcar '(lambda (x) (cdr (assoc 300 (entget x)))) ents)
-);defun
-
-
+)
 (test)
-(length (:LayerFilterList))
-;
+(setq lay (vla-item 
+            (vla-get-layers 
+              (vla-get-activedocument (vlax-get-acad-object))
+            )
+            "0"
+          )
+)
+(entget (vlax-vla-object->ename lay))
+(entget (tblobjname "LAYER" "0"))
 
 
+
+(setq xdict (cdr (assoc 330 (entget (tblobjname "LAYER" "0")))))
+(vla-getextensiondictionary (vlax-ename->vla-object (cdr (assoc 360 (entget (cdr (assoc 360 (entget (tblobjname "LAYER" "layer1")))))))))
+(vlax-dump-object (vlax-ename->vla-object xdict))
+(setq didct (dictsearch (entget (tblobjname "LAYER" "0")) "AcDbLayerTableRecord" ) )
+(setq didct (dictsearch (entget (tblobjname "LAYER" "layer1")) "AcDbLayerTableRecord" ) )
+
+(setq xdict 
+  (cdr 
+    (assoc 360 
+           (entget (tblobjname "LAYER" "layer1"))
+    )
+  )
+  ; "ACLYDICTIONARY"
+)
+(dictsearch (entget xdict) "ACAD_LAYEROVERRIDE")
+
+(dictsearch
+ (assoc 100
+ (entget
+    (cdr
+      (assoc 360
+        (dictsearch
+          (cdr (assoc 360 (entget (tblobjname "LAYER" "ARW"))))
+          "ADSK_XREC_LAYER_COLOR_OVR"
+        )
+      )
+    )
+  ) 
+)"ADSK_XREC_LAYER_COLOR_OVR")
+
+;; Get viewport layer overrides using entget
+(setq layers (vla-get-Layers activeDoc))
+(setq layerSettings '())
+(vlax-for layer layers
+(setq layerName (vla-get-Name layer))
+(setq vpOverrides (entget (tblobjname "LAYER" layerName))))
+
+(setq vpOverrides (entget (tblobjname "LAYER" "ARW")))
+;; Access VP-specific properties directly with checks
+(setq vpColor (if (numberp (cdr (assoc 62 vpOverrides))) (cdr (assoc 62 vpOverrides)) 0))
+(setq vpLineWeight (if (numberp (cdr (assoc 370 vpOverrides))) (cdr (assoc 370 vpOverrides)) 0))
+(setq vpLineType (if (cdr (assoc 6 vpOverrides)) (cdr (assoc 6 vpOverrides)) "ByLayer"))
+(setq vpPlotStyle (if (cdr (assoc 390 vpOverrides)) (cdr (assoc 390 vpOverrides)) ""))
+(setq vpTransparency (if (numberp (cdr (assoc 440 vpOverrides))) (cdr (assoc 440 vpOverrides)) 0))
+(setq vpVisibility (if (numberp (cdr (assoc 70 vpOverrides))) (cdr (assoc 70 vpOverrides)) 0))
+
+
+;; Iterate through each layer and get the VP properties
+(setq targetVP (vla-get-ActivePViewport activeDoc))
+(setq layers (vla-get-Layers activeDoc))
+(vlax-for layer layers
+(setq lyr (vla-get-Name layer))
+(if (setq ext (cdr (assoc 360 (entget (tblobjname "LAYER" lyr)))))
+(foreach prp '("COLOR" "LINETYPE" "LINEWT" "ALPHA" "PLOTSTYLE")
+(if (setq rec (dictsearch ext (strcat "ADSK_XREC_LAYER_" prp "_OVR")))
+(foreach vpl (mapcar 'cdr (vl-remove-if-not '(lambda (x) (= (car x) 335)) rec))
+(if (and vpl (setq lay (cdr (assoc 410 (entget vpl)))))
+(if (not (member lay lays))
+(setq lays (cons lay lays))
+)
+)))))
+)
+
+
+
+
+
+ 
+
+
+ 
+
+ 

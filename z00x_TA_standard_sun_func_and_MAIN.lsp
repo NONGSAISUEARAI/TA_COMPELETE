@@ -1043,6 +1043,29 @@
       )
       (reverse r)
     )
+    (defun TA:GroupSum_ (lst / result head_ val found)
+      (foreach item lst
+        (setq head_ (car item))
+        (setq val (cadr item))
+
+        (if (setq found (assoc head_ result))
+          ;; ถ้ามี head_ อยู่แล้ว → บวกเพิ่ม
+          (setq result
+            (subst
+              (list head_ (+ val (cadr found)))
+              found
+              result
+            )
+          )
+          ;; ถ้ายังไม่มี → เพิ่มใหม่
+          (setq result
+            (cons (list head_ val) result)
+          )
+        )
+      )
+
+      (reverse result)
+    )
     (defun TA:find-all-indexes (val lst / idx result)
       (setq idx 0)
       (setq result '())
@@ -7664,8 +7687,165 @@
         )
       ;
     )
+    (defun c:ckst_hatch_area ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "hatch") ;type of object
+                                                (cons 8 "000_AREA_C02_HATCH_,000_AREA_C03_HATCH_,000_AREA_C04_HATCH_,000_AREA_C05_HATCH_,000_AREA_C06_HATCH_,000_AREA_C07_HATCH_,000_AREA_C08_HATCH_,000_AREA_C09_HATCH_,000_AREA_C10_HATCH_,000_AREA_C11_HATCH_," )   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "hatch") ;type of object
+                                                (cons 8 "000_AREA_C02_HATCH_,000_AREA_C03_HATCH_,000_AREA_C04_HATCH_,000_AREA_C05_HATCH_,000_AREA_C06_HATCH_,000_AREA_C07_HATCH_,000_AREA_C08_HATCH_,000_AREA_C09_HATCH_,000_AREA_C10_HATCH_,  11_HATCH_," )   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            ) 
+          )
+          (sslength ss_pre_filter_set_xx_) 
+        )
+      ;
+      ;preloop_and_while_founding area error
+        (setq ss_pre_filter_set_xx_i 0)
+        (setq ss_for_error (ssadd))
+        (setq Er-msg_ 0.00)
+        (while 
+              (and
+                ;  (= (type Er-msg_ ) 'real)
+                 (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+               )
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (setq Er-msg_
+            (vl-catch-all-apply 
+              (function 
+                (lambda () 
+                  (vla-get-area ss_pre_filter_set_xx_obj_)
+                )
+              )
+            )
+          )
+          (if (= (type Er-msg_) 'VL-CATCH-ALL-APPLY-ERROR)
+            (progn
+              (setq ss_for_error (ssadd ss_pre_filter_set_xx_ename_ ss_for_error ))
+            )
+          )
+          
     
-
+          
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+      (if (/= (sslength ss_for_error) 0) (progn (command "pselect"  ss_for_error "" ) ) )
+      (if (= (sslength ss_for_error) 0) 
+        (progn  
+          ;preloop_and_while
+            (setq ss_pre_filter_set_xx_i 0)
+            (setq ss_pre_filter_set_xx_obj_layer_list_ ())
+            (while (and 
+                      (= (type Er-msg_ ) 'real)
+                      (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+                  )
+              (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i)) 
+              (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+              (setq temp (list 
+                          (vla-get-layer ss_pre_filter_set_xx_obj_)
+                          (/ (vla-get-area ss_pre_filter_set_xx_obj_) 1000000.0 )
+                        )
+              )
+              (setq ss_pre_filter_set_xx_obj_layer_list_ (cons temp ss_pre_filter_set_xx_obj_layer_list_ )  )
+              
+              
+              (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+            )
+          ;
+          (setq ss_pre_filter_set_xx_obj_layer_list_ (cons (list "000_AREA_C02_HATCH_" 0) ss_pre_filter_set_xx_obj_layer_list_))
+          (setq ss_pre_filter_set_xx_obj_layer_list_ (cons (list "000_AREA_C03_HATCH_" 0) ss_pre_filter_set_xx_obj_layer_list_))
+          (setq ss_pre_filter_set_xx_obj_layer_list_ (cons (list "000_AREA_C04_HATCH_" 0) ss_pre_filter_set_xx_obj_layer_list_))
+          (setq ss_pre_filter_set_xx_obj_layer_list_ (cons (list "000_AREA_C05_HATCH_" 0) ss_pre_filter_set_xx_obj_layer_list_))
+          (setq ss_pre_filter_set_xx_obj_layer_list_ (cons (list "000_AREA_C06_HATCH_" 0) ss_pre_filter_set_xx_obj_layer_list_))
+          (setq ss_pre_filter_set_xx_obj_layer_list_ (cons (list "000_AREA_C07_HATCH_" 0) ss_pre_filter_set_xx_obj_layer_list_))
+          (setq ss_pre_filter_set_xx_obj_layer_list_ (cons (list "000_AREA_C08_HATCH_" 0) ss_pre_filter_set_xx_obj_layer_list_))
+          (setq ss_pre_filter_set_xx_obj_layer_list_ (cons (list "000_AREA_C09_HATCH_" 0) ss_pre_filter_set_xx_obj_layer_list_))
+          (setq ss_pre_filter_set_xx_obj_layer_list_ (cons (list "000_AREA_C10_HATCH_" 0) ss_pre_filter_set_xx_obj_layer_list_))
+          (setq ss_pre_filter_set_xx_obj_layer_list_ (cons (list "000_AREA_C11_HATCH_" 0) ss_pre_filter_set_xx_obj_layer_list_))
+          (setq Collection_hatch_val_ (TA:GroupSum_ ss_pre_filter_set_xx_obj_layer_list_ ))
+          ;TA:stanndard_lambda_sorting
+            (setq Collection_hatch_val_sorted_ (vl-sort Collection_hatch_val_  ;bigest open indent list
+                                                      (function 
+                                                        (lambda (a b) 
+                                                          (< (car a) (car b))
+                                                          ;(("000_AREA_C02_HATCH_" 29827.5) ("000_AREA_C03_HATCH_" 334326.0) ("000_AREA_C04_HATCH_" 1.64657e+06)) ;example format list data
+                                                        )
+                                                      )
+                                  ) ;bigest close indent list
+            )
+          ;
+          ;print_result_
+            (princ (strcat "\n----"(LM:StringSubst "" ".dwg" (getvar "dwgname")) "----") )
+            (princ "\n----Area Hatch Summary Report----")
+            (princ "\n--------------------------------------------------------------------------------------------")
+            (foreach item Collection_hatch_val_sorted_
+              (princ (strcat "\nLayer : " (car item) "  |  Area (sq.m) : " (rtos (cadr item) 2 2) ) )
+            )
+            (princ "\n--------------------------------------------------------------------------------------------")
+          
+            (TA:copytext->clipboard (strcat 
+                                      "----"(LM:StringSubst "" ".dwg" (getvar "dwgname")) "---"
+                                      "\n----Area Hatch Summary Report----\n--------------------------------------------------------------------------------------------\n" 
+                                      (apply 'strcat
+                                        (mapcar 
+                                          (function 
+                                            (lambda (item) 
+                                              (strcat "Layer : " (car item) "  |  Area (sq.m) : " (rtos (cadr item) 2 2) "\n" )
+                                            )
+                                          ) 
+                                          Collection_hatch_val_sorted_
+                                        )
+                                      )
+                                      "--------------------------------------------------------------------------------------------"
+                            )
+            )
+          ;
+        ) 
+      )
+    )
+    (defun c:temptx ()
+      (setvar "osmode" 1215)
+      (command "ucs" "w")
+      (setq getpoint_ref (getpoint "specify point for insert text"))
+      (setvar "osmode" 0)
+      (setq text_ename_ (car (entsel "specify Object")))
+      (setq text_obj_ (vlax-ename->vla-object text_ename_))
+      (vla-put-layer text_obj_ "0")
+      (vla-put-height text_obj_ 1500)
+      (vla-put-stylename text_obj_ "Arial")
+      (vlax-dump-object text_obj_ )
+      (vla-put-LineSpacingDistance  text_obj_ 2500)
+      (vla-put-width  text_obj_ 80000)
+      (setq text_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint text_obj_))))
+      (setvar "osmode" 0)
+      (vla-put-insertionpoint 
+        text_obj_
+        (vlax-3d-point 
+          (- (car getpoint_ref) 70000.000000 )
+          (- (cadr getpoint_ref) 2000.000000 )
+          0
+        )
+      )
+      (setvar "osmode" 1215)
+    )
   ;
   ;symbol_FUNC_
     (defun c:add_breakline_to_rectangle_ADBK ()
