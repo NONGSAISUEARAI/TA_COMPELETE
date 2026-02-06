@@ -17095,7 +17095,16 @@
               (vl-catch-all-apply 
                 (function 
                   (lambda () 
-                    (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
+                    (vla-adddimrotated (if 
+                                         (and 
+                                          ;  (/= (getvar "ctab") "Model")
+                                           (/= (getvar "cvport") 3)
+                                         )
+                                         (progn 
+                                           layoutactive
+                                         )
+                                         modelSpace
+                                       ) 
                                   (vlax-3d-point (setq new_pt (polar staterblk_obj_ins_ (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ 0)) (* 500 0))))
                                   (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ 90)) staterblk_obj_dist_2))
                                   (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ 0)) -500 ))
@@ -17112,7 +17121,16 @@
               (vl-catch-all-apply 
                 (function 
                   (lambda () 
-                    (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
+                    (vla-adddimrotated (if 
+                                         (and 
+                                          ;  (/= (getvar "ctab") "Model")
+                                           (/= (getvar "cvport") 3)
+                                         )
+                                         (progn 
+                                           layoutactive
+                                         )
+                                         modelSpace
+                                       ) 
                                 (vlax-3d-point (trans staterblk_obj_ins_ 1 0))
                                 (vlax-3d-point (trans (polar staterblk_obj_ins_ (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ 90)) 3) 1 0))
                                 (vlax-3d-point (trans (polar staterblk_obj_ins_ (deg-to-rad 180) 3) 1 0))
@@ -17128,6 +17146,9 @@
           (setq dim_ename (entlast))
           (setq new_ss_dim_ (ssadd dim_ename  new_ss_dim_))
           (setq dim_obj_ (vlax-ename->vla-object dim_ename))
+          (vla-put-layer dim_obj_ "000 - SYMBOL CON_2_COMMENT_ASBUILT_WALL_DIMS") 
+          (vla-put-textcolor dim_obj_ 256)
+          
           (command "_AIDIMPREC" dimprec dim_ename "" )
           (vla-put-stylename dim_obj_ "FAMELINE-CKST_C-C")
           (vla-put-ScaleFactor  dim_obj_ (/ sc 1) )
@@ -17146,7 +17167,16 @@
               (vl-catch-all-apply 
                 (function 
                   (lambda () 
-                    (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
+                    (vla-adddimrotated (if 
+                                         (and 
+                                          ;  (/= (getvar "ctab") "Model")
+                                           (/= (getvar "cvport") 3)
+                                         )
+                                         (progn 
+                                           layoutactive
+                                         )
+                                         modelSpace
+                                       ) 
                                   (vlax-3d-point (setq new_pt (polar staterblk_obj_ins_ (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ 0)) (* 500 0))))
                                   (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ 270)) staterblk_obj_dist_4))
                                   (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ 0)) -500)) 
@@ -17164,7 +17194,16 @@
               (vl-catch-all-apply 
                 (function 
                   (lambda () 
-                    (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
+                    (vla-adddimrotated (if 
+                                         (and 
+                                          ;  (/= (getvar "ctab") "Model")
+                                           (/= (getvar "cvport") 3)
+                                         )
+                                         (progn 
+                                           layoutactive
+                                         )
+                                         modelSpace
+                                       ) 
                                 (vlax-3d-point (trans staterblk_obj_ins_ 1 0))
                                 (vlax-3d-point (trans (polar staterblk_obj_ins_ (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ 90)) 3) 1 0))
                                 (vlax-3d-point (trans (polar staterblk_obj_ins_ (deg-to-rad 180) 3) 1 0))
@@ -17180,6 +17219,7 @@
           (setq dim_ename (entlast))
           (setq new_ss_dim_ (ssadd dim_ename  new_ss_dim_))
           (setq dim_obj_ (vlax-ename->vla-object dim_ename))
+          (vla-put-layer dim_obj_ "000 - SYMBOL CON_2_COMMENT_ASBUILT_WALL_DIMS") (vla-put-textcolor dim_obj_ 256)
           (command "_AIDIMPREC" dimprec dim_ename "" )
           (vla-put-stylename dim_obj_ "FAMELINE-CKST_C-C")
           (vla-put-ScaleFactor  dim_obj_ (/ sc 1) )
@@ -17225,7 +17265,16 @@
               (vl-catch-all-apply 
                 (function 
                   (lambda () 
-                    (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
+                    (vla-adddimrotated (if 
+                                         (and 
+                                          ;  (/= (getvar "ctab") "Model")
+                                           (/= (getvar "cvport") 3)
+                                         )
+                                         (progn 
+                                           layoutactive
+                                         )
+                                         modelSpace
+                                       ) 
                                   (vlax-3d-point (setq new_pt (polar staterblk_obj_ins_ (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ 0)) (* 500 0))))
                                   (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ 90)) staterblk_obj_dist_2))
                                   (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ 0)) -500 ))
@@ -17242,7 +17291,16 @@
               (vl-catch-all-apply 
                 (function 
                   (lambda () 
-                    (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
+                    (vla-adddimrotated (if 
+                                         (and 
+                                          ;  (/= (getvar "ctab") "Model")
+                                           (/= (getvar "cvport") 3)
+                                         )
+                                         (progn 
+                                           layoutactive
+                                         )
+                                         modelSpace
+                                       ) 
                                 (vlax-3d-point (trans staterblk_obj_ins_ 1 0))
                                 (vlax-3d-point (trans (polar staterblk_obj_ins_ (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ 90)) 3) 1 0))
                                 (vlax-3d-point (trans (polar staterblk_obj_ins_ (deg-to-rad 180) 3) 1 0))
@@ -17258,6 +17316,7 @@
           (setq dim_ename (entlast))
           (setq new_ss_dim_ (ssadd dim_ename  new_ss_dim_))
           (setq dim_obj_ (vlax-ename->vla-object dim_ename))
+          (vla-put-layer dim_obj_ "000 - SYMBOL CON_2_COMMENT_ASBUILT_WALL_DIMS") (vla-put-textcolor dim_obj_ 256)
           (command "_AIDIMPREC" dimprec dim_ename "" )
           (vla-put-stylename dim_obj_ "FAMELINE-CKST_C-C")
           (vla-put-ScaleFactor  dim_obj_ (/ sc 1) )
@@ -17277,7 +17336,16 @@
                 (function 
                   (lambda () 
                     (setq new_pt (polar staterblk_obj_ins_ (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ 0)) (* 1000 0)))
-                    (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
+                    (vla-adddimrotated (if 
+                                         (and 
+                                          ;  (/= (getvar "ctab") "Model")
+                                           (/= (getvar "cvport") 3)
+                                         )
+                                         (progn 
+                                           layoutactive
+                                         )
+                                         modelSpace
+                                       ) 
                                   (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ 270)) (+ 0 staterblk_obj_dist_4))) 
                                   (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ 90)) (+ 0 staterblk_obj_dist_2)))
                                   (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ 0)) -1000)) 
@@ -17295,7 +17363,16 @@
               (vl-catch-all-apply 
                 (function 
                   (lambda () 
-                    (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
+                    (vla-adddimrotated (if 
+                                         (and 
+                                          ;  (/= (getvar "ctab") "Model")
+                                           (/= (getvar "cvport") 3)
+                                         )
+                                         (progn 
+                                           layoutactive
+                                         )
+                                         modelSpace
+                                       ) 
                                 (vlax-3d-point (trans staterblk_obj_ins_ 1 0))
                                 (vlax-3d-point (trans (polar staterblk_obj_ins_ (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ 90)) 3) 1 0))
                                 (vlax-3d-point (trans (polar staterblk_obj_ins_ (deg-to-rad 180) 3) 1 0))
@@ -17311,6 +17388,7 @@
           (setq dim_ename (entlast))
           (setq new_ss_dim_ (ssadd dim_ename  new_ss_dim_))
           (setq dim_obj_ (vlax-ename->vla-object dim_ename))
+          (vla-put-layer dim_obj_ "000 - SYMBOL CON_2_COMMENT_ASBUILT_WALL_DIMS") (vla-put-textcolor dim_obj_ 256)
           (command "_AIDIMPREC" dimprec dim_ename "" )
           (vla-put-stylename dim_obj_ "FAMELINE-CKST_C-C")
           (vla-put-ScaleFactor  dim_obj_ (/ sc 1) )
@@ -17336,7 +17414,7 @@
       (command "ucs" "w")
       (setq layoutactive (vla-get-paperspace (vla-get-ActiveDocument (vlax-get-acad-object))))
       (setq modelSpace (vla-get-ModelSpace (vla-get-ActiveDocument (vlax-get-acad-object))))
-      (setq sc 1000)
+      (setq sc 1500)
       (setq new_ss_dim_ (ssadd))
     ;
     (setq 300hk_ename_ (car (entsel "specify Object")))
@@ -17346,17 +17424,18 @@
       (progn
         (setq 300hk_obj_ins_head_ (polar 300hk_obj_ins_ (vla-get-rotation 300hk_obj_) (LM:getdynpropvalue 300hk_obj_ "array_length")))
         (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
-                      (vlax-3d-point (setq new_pt (polar 300hk_obj_ins_head_ (vla-get-rotation 300hk_obj_) (* 500 0))))
+                      (vlax-3d-point (setq new_pt (polar 300hk_obj_ins_head_ (vla-get-rotation 300hk_obj_) (* 1000 0))))
                       (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 90)) (LM:getdynpropvalue 300hk_obj_ "panel_width")))
-                      (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 180)) -500 ))
+                      (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 180)) -1000 ))
                       (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) -90))
         )
         ;new_blk_entlast object
           (setq dim_ename (entlast))
           (setq new_ss_dim_ (ssadd dim_ename  new_ss_dim_))
           (setq dim_obj_ (vlax-ename->vla-object dim_ename))
+          (vla-put-layer dim_obj_ "000 - SYMBOL CON_2_COMMENT_ASBUILT_WALL_DIMS") (vla-put-textcolor dim_obj_ 256)
           (command "_AIDIMPREC" dimprec dim_ename "" )
-          (vla-put-stylename dim_obj_ "FAMELINE-CKST_E-E")
+          (vla-put-stylename dim_obj_ "FAMELINE-CKST_E-E ASB")
           (vla-put-ScaleFactor  dim_obj_ (/ sc 1) )
           (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
           (vla-put-PrimaryUnitsPrecision dim_obj_ 0)
@@ -17370,17 +17449,18 @@
       (progn
         (setq 300hk_obj_ins_head_ (polar 300hk_obj_ins_ (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 180)) (LM:getdynpropvalue 300hk_obj_ "array_length")))
         (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
-                      (vlax-3d-point (setq new_pt (polar 300hk_obj_ins_head_ (vla-get-rotation 300hk_obj_) (* 500 0))))
+                      (vlax-3d-point (setq new_pt (polar 300hk_obj_ins_head_ (vla-get-rotation 300hk_obj_) (* 1000 0))))
                       (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 90)) (LM:getdynpropvalue 300hk_obj_ "panel_width")))
-                      (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 180)) +500 ))
+                      (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 180)) +1000 ))
                       (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) -90))
         )
         ;new_blk_entlast object
           (setq dim_ename (entlast))
           (setq new_ss_dim_ (ssadd dim_ename  new_ss_dim_))
           (setq dim_obj_ (vlax-ename->vla-object dim_ename))
+          (vla-put-layer dim_obj_ "000 - SYMBOL CON_2_COMMENT_ASBUILT_WALL_DIMS") (vla-put-textcolor dim_obj_ 256)
           (command "_AIDIMPREC" dimprec dim_ename "" )
-          (vla-put-stylename dim_obj_ "FAMELINE-CKST_E-E")
+          (vla-put-stylename dim_obj_ "FAMELINE-CKST_E-E ASB")
           (vla-put-ScaleFactor  dim_obj_ (/ sc 1) )
           (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
           (vla-put-PrimaryUnitsPrecision dim_obj_ 0)
@@ -17436,7 +17516,7 @@
       (command "ucs" "w")
       (setq layoutactive (vla-get-paperspace (vla-get-ActiveDocument (vlax-get-acad-object))))
       (setq modelSpace (vla-get-ModelSpace (vla-get-ActiveDocument (vlax-get-acad-object))))
-      (setq sc 1000)
+      (setq sc 1500)
       (setq new_ss_dim_ (ssadd))
     ;
     (setq 300hk_ename_ (car (entsel "specify Object")))
@@ -17446,17 +17526,18 @@
       (progn
         (setq 300hk_obj_ins_head_ (polar 300hk_obj_ins_ (vla-get-rotation 300hk_obj_) 0))
         (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
-                      (vlax-3d-point (setq new_pt (polar 300hk_obj_ins_head_ (vla-get-rotation 300hk_obj_) (* 500 0))))
+                      (vlax-3d-point (setq new_pt (polar 300hk_obj_ins_head_ (vla-get-rotation 300hk_obj_) (* 1000 0))))
                       (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 90)) (LM:getdynpropvalue 300hk_obj_ "panel_width")))
-                      (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 180)) +500 ))
+                      (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 180)) +1000 ))
                       (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) -90))
         )
         ;new_blk_entlast object
           (setq dim_ename (entlast))
           (setq new_ss_dim_ (ssadd dim_ename  new_ss_dim_))
           (setq dim_obj_ (vlax-ename->vla-object dim_ename))
+          (vla-put-layer dim_obj_ "000 - SYMBOL CON_2_COMMENT_ASBUILT_WALL_DIMS") (vla-put-textcolor dim_obj_ 256)
           (command "_AIDIMPREC" dimprec dim_ename "" )
-          (vla-put-stylename dim_obj_ "FAMELINE-CKST_E-E")
+          (vla-put-stylename dim_obj_ "FAMELINE-CKST_E-E ASB")
           (vla-put-ScaleFactor  dim_obj_ (/ sc 1) )
           (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
           (vla-put-PrimaryUnitsPrecision dim_obj_ 0)
@@ -17470,17 +17551,18 @@
       (progn
         (setq 300hk_obj_ins_head_ (polar 300hk_obj_ins_ (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 0)) 0))
         (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
-                      (vlax-3d-point (setq new_pt (polar 300hk_obj_ins_head_ (vla-get-rotation 300hk_obj_) (* 500 0))))
+                      (vlax-3d-point (setq new_pt (polar 300hk_obj_ins_head_ (vla-get-rotation 300hk_obj_) (* 1000 0))))
                       (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 90)) (LM:getdynpropvalue 300hk_obj_ "panel_width")))
-                      (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 180)) -500 ))
+                      (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 180)) -1000 ))
                       (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) -90))
         )
         ;new_blk_entlast object
           (setq dim_ename (entlast))
           (setq new_ss_dim_ (ssadd dim_ename  new_ss_dim_))
           (setq dim_obj_ (vlax-ename->vla-object dim_ename))
+          (vla-put-layer dim_obj_ "000 - SYMBOL CON_2_COMMENT_ASBUILT_WALL_DIMS") (vla-put-textcolor dim_obj_ 256)
           (command "_AIDIMPREC" dimprec dim_ename "" )
-          (vla-put-stylename dim_obj_ "FAMELINE-CKST_E-E")
+          (vla-put-stylename dim_obj_ "FAMELINE-CKST_E-E ASB")
           (vla-put-ScaleFactor  dim_obj_ (/ sc 1) )
           (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
           (vla-put-PrimaryUnitsPrecision dim_obj_ 0)
@@ -17534,3 +17616,7 @@
     ;
   )
 ;
+
+
+
+

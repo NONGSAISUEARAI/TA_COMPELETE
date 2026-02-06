@@ -12570,7 +12570,63 @@
                             )
     )
   )
-
+;
+;Lineweight for HATCH
+  (defun c:CKST-HATCH-LW ()
+    (setq layer_list_ (list 
+        (list "000_AREA_C06_MAIN_COLOR_1" 0.15 )                  
+        (list "000_AREA_C06_HATCH_" 0.09 ) 
+          
+        (list "000_AREA_C07_MAIN_COLOR_1" 0.15 )                  
+        (list "000_AREA_C07_HATCH_" 0.09 ) 
+        
+        (list "000_AREA_C02_MAIN_COLOR_1" 0.15 )                  
+        (list "000_AREA_C02_HATCH_" 0.09 )   
+          
+        (list "000_AREA_C03_MAIN_COLOR_1" 0.15 )                  
+        (list "000_AREA_C03_HATCH_" 0.09 )         
+        
+        (list "000_AREA_C04_MAIN_COLOR_1" 0.15 )                  
+        (list "000_AREA_C04_HATCH_" 0.09 )  
+        
+        (list "000_AREA_C05_MAIN_COLOR_1" 0.15 )                  
+        (list "000_AREA_C05_HATCH_" 0.09 )     
+        
+        (list "000_AREA_C08_MAIN_COLOR_1" 0.15 )        
+        (list "000_AREA_C08_HATCH_" 0.09 )         
+        
+        (list "000_AREA_C09_MAIN_COLOR_1" 0.15 )                  
+        (list "000_AREA_C09_HATCH_" 0.09 )   
+        
+        (list "000_AREA_C09_MAIN_COLOR_1" 0.15 )                  
+        (list "000_AREA_C09_HATCH_" 0.09 )        
+        
+        (list "000_AREA_C10_MAIN_COLOR_1" 0.15 )                  
+        (list "000_AREA_C10_HATCH_" 0.09 )    
+        
+        (list "000_AREA_C10_MAIN_COLOR_1" 0.15 )                  
+        (list "000_AREA_C10_HATCH_" 0.09 )                  
+        
+        (list "000_AREA_C11_MAIN_COLOR_1" 0.15 )                  
+        (list "000_AREA_C11_HATCH_" 0.09 )                  
+      )
+    )
+    ;preloop_and_while
+      (setq layer_list_i 0)
+      (while (< layer_list_i (length layer_list_))
+        (setq layer_list_name_val_ (car (nth  layer_list_i layer_list_)))
+        (setq layer_list_lw_val_ (cadr (nth  layer_list_i layer_list_)))
+        (if (= (TA:if_found_layer_ layer_list_name_val_) T)
+          (progn
+            (command "vplayer" "lw" layer_list_lw_val_ layer_list_name_val_ "C" "")
+          )
+        )
+        
+        (TA:textscr_process_V2 "processing Lineweight function" layer_list_i layer_list_ )
+        (setq layer_list_i (+ layer_list_i 1))
+      )
+    ;
+  )
 ;
 
 

@@ -5401,6 +5401,28 @@
       ;
       
     )
+    (defun TA:if_found_block_ (block_str_name_)
+      ;Note By Code_Developer
+      ;The pripicle of codework is desgined for finding block definition in the drawing
+      ;example for useing fucntion : (TA:if_found_block_ "A$C26be2c7e" )
+      ;
+      (if (= 
+            (type 
+              (vl-catch-all-apply 
+                (function 
+                  (lambda () 
+                    (vla-Item (vla-get-Blocks (vla-get-ActiveDocument (vlax-get-acad-object))) block_str_name_ )
+                  )
+                )
+              )
+            )
+            'VLA-OBJECT
+          )
+        (progn
+          T
+        )
+      )
+    )
   ;
   ;dynamic_block_FUNC
     ;dynamic_Alminium_sheet_FUNC
@@ -7408,7 +7430,7 @@
         )
       ;
     )
-    (defun c:ins-mul-hatch_mulckst ()
+    (defun c:ckst_mk_hatch_area ()
       (setvar "CMDECHO" 0)
       ;preseting_data_
         ; (setq hatch_Layer_ "000_AREA_C08_HATCH_")
@@ -7416,7 +7438,7 @@
         (setq hatch_color_ "bylayer")
         (setq hatch_background_ ".")
         (setq hatch_ename_getang_ 45 )
-        (setq hatch_ename_getsc_ 250 )
+        (setq hatch_ename_getsc_ 1000 )
       ;
       ;selection_set_for_fillter_blk_name
         (if  ;pre_select_ssget_or_post_select_ssget
@@ -7424,7 +7446,7 @@
             (setq ss_pre_filter_set_xx_ (ssget "i"
                                               (list
                                                 (cons 0 "lwpolyline") ;type of object
-                                                (cons 8 "000_AREA_C02_MAIN_COLOR_1,000_AREA_C03_MAIN_COLOR_1,000_AREA_C04_MAIN_COLOR_1,000_AREA_C05_MAIN_COLOR_1,000_AREA_C06_MAIN_COLOR_1,000_AREA_C07_MAIN_COLOR_1,000_AREA_C08_MAIN_COLOR_1,000_AREA_C09_MAIN_COLOR_1,000_AREA_C10_MAIN_COLOR_1")   ;kind of layer
+                                                (cons 8 "000_AREA_C02_MAIN_COLOR_1,000_AREA_C03_MAIN_COLOR_1,000_AREA_C04_MAIN_COLOR_1,000_AREA_C05_MAIN_COLOR_1,000_AREA_C06_MAIN_COLOR_1,000_AREA_C07_MAIN_COLOR_1,000_AREA_C08_MAIN_COLOR_1,000_AREA_C09_MAIN_COLOR_1,000_AREA_C10_MAIN_COLOR_1,000_AREA_C11_MAIN_COLOR_1")   ;kind of layer
                                                 ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                                 ; (cons 62 1)           ;kind of color call sign with color code index
                                               )
@@ -7436,7 +7458,7 @@
             (setq ss_pre_filter_set_xx_ (ssget
                                               (list
                                                 (cons 0 "lwpolyline") ;type of object
-                                                (cons 8 "000_AREA_C02_MAIN_COLOR_1,000_AREA_C03_MAIN_COLOR_1,000_AREA_C04_MAIN_COLOR_1,000_AREA_C05_MAIN_COLOR_1,000_AREA_C06_MAIN_COLOR_1,000_AREA_C07_MAIN_COLOR_1,000_AREA_C08_MAIN_COLOR_1,000_AREA_C09_MAIN_COLOR_1,000_AREA_C10_MAIN_COLOR_1")   ;kind of layer
+                                                (cons 8 "000_AREA_C02_MAIN_COLOR_1,000_AREA_C03_MAIN_COLOR_1,000_AREA_C04_MAIN_COLOR_1,000_AREA_C05_MAIN_COLOR_1,000_AREA_C06_MAIN_COLOR_1,000_AREA_C07_MAIN_COLOR_1,000_AREA_C08_MAIN_COLOR_1,000_AREA_C09_MAIN_COLOR_1,000_AREA_C10_MAIN_COLOR_1,000_AREA_C11_MAIN_COLOR_1")   ;kind of layer
                                                 ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                                 ; (cons 62 1)           ;kind of color call sign with color code index
                                               )
@@ -7536,6 +7558,15 @@
                (progn
                  (setq hatch_patt_ "000_C10")
                  (setq hatch_Layer_ "000_AREA_C10_HATCH_")
+               )
+            )
+            (;_case_4
+               (and
+                  (= (vla-get-layer ss_pre_filter_set_xx_obj_) "000_AREA_C11_MAIN_COLOR_1")
+               )
+               (progn
+                 (setq hatch_patt_ "000_C11")
+                 (setq hatch_Layer_ "000_AREA_C11_HATCH_")
                )
             )
           )
@@ -7687,14 +7718,14 @@
         )
       ;
     )
-    (defun c:ckst_hatch_area ()
+    (defun c:ckst_sum_hatch_area ()
       ;selection_set_for_fillter_blk_name
         (if  ;pre_select_ssget_or_post_select_ssget
           (=
             (setq ss_pre_filter_set_xx_ (ssget "i"
                                               (list
                                                 (cons 0 "hatch") ;type of object
-                                                (cons 8 "000_AREA_C02_HATCH_,000_AREA_C03_HATCH_,000_AREA_C04_HATCH_,000_AREA_C05_HATCH_,000_AREA_C06_HATCH_,000_AREA_C07_HATCH_,000_AREA_C08_HATCH_,000_AREA_C09_HATCH_,000_AREA_C10_HATCH_,000_AREA_C11_HATCH_," )   ;kind of layer
+                                                (cons 8 "000_AREA_C02_HATCH_,000_AREA_C03_HATCH_,000_AREA_C04_HATCH_,000_AREA_C05_HATCH_,000_AREA_C06_HATCH_,000_AREA_C07_HATCH_,000_AREA_C08_HATCH_,000_AREA_C09_HATCH_,000_AREA_C10_HATCH_,000_AREA_C11_HATCH_" )   ;kind of layer
                                                 ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                                 ; (cons 62 1)           ;kind of color call sign with color code index
                                               )
@@ -7706,7 +7737,7 @@
             (setq ss_pre_filter_set_xx_ (ssget
                                               (list
                                                 (cons 0 "hatch") ;type of object
-                                                (cons 8 "000_AREA_C02_HATCH_,000_AREA_C03_HATCH_,000_AREA_C04_HATCH_,000_AREA_C05_HATCH_,000_AREA_C06_HATCH_,000_AREA_C07_HATCH_,000_AREA_C08_HATCH_,000_AREA_C09_HATCH_,000_AREA_C10_HATCH_,  11_HATCH_," )   ;kind of layer
+                                                (cons 8 "000_AREA_C02_HATCH_,000_AREA_C03_HATCH_,000_AREA_C04_HATCH_,000_AREA_C05_HATCH_,000_AREA_C06_HATCH_,000_AREA_C07_HATCH_,000_AREA_C08_HATCH_,000_AREA_C09_HATCH_,000_AREA_C10_HATCH_,000_AREA_C11_HATCH_" )   ;kind of layer
                                                 ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                                 ; (cons 62 1)           ;kind of color call sign with color code index
                                               )
@@ -7844,7 +7875,54 @@
           0
         )
       )
+      (if (= (TA:if_found_block_ "A$C26be2c7e") T)
+        (progn
+          (TA:vla-insertblock
+            "A$C26be2c7e"
+            getpoint_ref
+            1
+            0
+          )
+        )
+      )
+      
       (setvar "osmode" 1215)
+    )
+    (defun  c:ckst_ck_hatch_Hlap ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "hatch") ;type of object
+                                                (cons 8 "000_AREA_C02_HATCH_,000_AREA_C03_HATCH_,000_AREA_C04_HATCH_,000_AREA_C05_HATCH_,000_AREA_C06_HATCH_,000_AREA_C07_HATCH_,000_AREA_C08_HATCH_,000_AREA_C09_HATCH_,000_AREA_C10_HATCH_,000_AREA_C11_HATCH_" )   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "hatch") ;type of object
+                                                (cons 8 "000_AREA_C02_HATCH_,000_AREA_C03_HATCH_,000_AREA_C04_HATCH_,000_AREA_C05_HATCH_,000_AREA_C06_HATCH_,000_AREA_C07_HATCH_,000_AREA_C08_HATCH_,000_AREA_C09_HATCH_,000_AREA_C10_HATCH_,000_AREA_C11_HATCH_" )   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            ) 
+          )
+          (sslength ss_pre_filter_set_xx_) 
+        )
+      ;
+      (if (= (LM:intersectionsinset ss_pre_filter_set_xx_) nil)
+        (progn
+          (alert "No Hatch Overlap Found!")
+        )
+        (alert "Hatch Overlap Found!")
+      )
     )
   ;
   ;symbol_FUNC_
@@ -37158,6 +37236,8 @@
         (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/COMPELETE NEXT 2025/REWORK DIM/z62x_REWORK_DIMENSION_REV02.lsp") ) ) ) )
         (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/COMPELETE IN COMPELETE/SFB_FINDING_SPECFILY_NAME_BLOCK.lsp") ) ) ) )
         (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/000 - FOR_CREATE_LAYER_.lsp") ) ) ) )
+        (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/000 - automation_cad.lsp") ) ) ) )
+        (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/COMPELETE IN COMPELETE/PPLINE TEST AUTOPLOT.lsp") ) ) ) )
       )
     )
   )
@@ -41647,18 +41727,23 @@
                       (list "000_AREA_C03_MAIN_COLOR_1" (list 250 0 150) )                  
                       (list "000_AREA_C03_HATCH_" (list 250 0 150) )         
                       
-                      (list "000_AREA_C04_MAIN_COLOR_1" (list 255 135 0) )                  
-                      (list "000_AREA_C04_HATCH_" (list 255 135 0) )         
+                      (list "000_AREA_C04_MAIN_COLOR_1" (list 0 127 0) )                  
+                      (list "000_AREA_C04_HATCH_" (list 0 127 0) )  
+                      
                       (list "000_AREA_C05_MAIN_COLOR_1" (list 255 135 0) )                  
-                      (list "000_AREA_C05_HATCH_" (list 255 135 0) )                        
-                      (list "000_AREA_C08_MAIN_COLOR_1" (list 255 135 0) )                  
-                      (list "000_AREA_C08_HATCH_" (list 255 135 0) )         
+                      (list "000_AREA_C05_HATCH_" (list 255 135 0) )     
+                      
+                      (list "000_AREA_C08_MAIN_COLOR_1" (list 255 0 191) )        
+                      (list "000_AREA_C08_HATCH_" (list 255 0 191) )         
                       
                       (list "000_AREA_C09_MAIN_COLOR_1" (list 170 50 170) )                  
                       (list "000_AREA_C09_HATCH_" (list 170 50 170) )   
                       
-                      (list "000_AREA_C09_MAIN_COLOR_1" (list 255 0 0) )                  
-                      (list "000_AREA_C09_HATCH_" (list 255 0 0) )        
+                      (list "000_AREA_C09_MAIN_COLOR_1" (list 0 255 0) )                  
+                      (list "000_AREA_C09_HATCH_" (list 0 255 0) )        
+                      
+                      (list "000_AREA_C10_MAIN_COLOR_1" (list 127 0 255) )                  
+                      (list "000_AREA_C10_HATCH_" (list 127 0 0) )    
                       
                       (list "000_AREA_C10_MAIN_COLOR_1" (list 255 0 0) )                  
                       (list "000_AREA_C10_HATCH_" (list 255 0 0) )                  
@@ -42771,5 +42856,119 @@
   (setvar "osmode" 1027)
 )
 
+(defun c:point_to_block_pt2blk ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "point") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "point") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      (setq ss_pre_filter_set_xx_obj_center (vlax-safearray->list (vlax-variant-value (vla-get-coordinates ss_pre_filter_set_xx_obj_))))
+      
+      (TA:vla-insertblock
+        "000 - FAMELINE-CKST_AS-BUILT_POINT_REV01"
+        ss_pre_filter_set_xx_obj_center
+        5
+        45
+        
+      )
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
 
+)
 
+(defun c:temo_lowy ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "000 - FAMELINE-CKST_AS-BUILT_POINT_REV01")))
+  (setq low_y (car (car (TA:standard_list_croodinate_sorting ss_pre_filter_set_xx_ "Y"))))
+  (command "pselect"  low_y "" )
+)
+(defun c:temo_highy ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "000 - FAMELINE-CKST_AS-BUILT_POINT_REV01")))
+  (setq high_y (car (reverse (TA:standard_list_croodinate_sorting ss_pre_filter_set_xx_ "Y"))))
+  (command "pselect"  high_y "" )
+  
+)
