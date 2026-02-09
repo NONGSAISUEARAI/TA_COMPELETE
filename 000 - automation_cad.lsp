@@ -12627,6 +12627,74 @@
       )
     ;
   )
+  (defun c:CKST-mAS-BUILT-LW ()
+    (setq layer_list_ (list 
+                               
+        (list "000 - SYMBOL CON_2_ASBUILT_WALL_DIMS" 0.09 )        
+        (list "000 - SYMBOL CON_2_COMMENT_ASBUILT_WALL_DIMS" 0.09 )        
+                        
+        (list "000 - SYMBOL CON_2_ASBUILT_WALL_MAIN_COLOR_1" 0.15 )                  
+        (list "000 - SYMBOL CON_2_ASBUILT_WALL_MAIN_COLOR_2" 0.15 ) 
+                        
+        (list "000 - SYMBOL CON_2_ASBUILT_WALL_SUB_COLOR_1" 0.15 ) 
+                        
+        (list "000 - SYMBOL CON_2_ASBUILT_WALL_SYMBOL_" 0.15 )   
+                        
+        (list "000 - SYMBOL CON_2_COMMENT_ASBUILT_WALL_MAIN_COLOR_2" 0.09 )                  
+        ; (list "" 0.15 )                  
+                    
+      )
+    )
+    ;preloop_and_while
+      (setq layer_list_i 0)
+      (while (< layer_list_i (length layer_list_))
+        (setq layer_list_name_val_ (car (nth  layer_list_i layer_list_)))
+        (setq layer_list_lw_val_ (cadr (nth  layer_list_i layer_list_)))
+        (if (= (TA:if_found_layer_ layer_list_name_val_) T)
+          (progn
+            (command "vplayer" "lw" layer_list_lw_val_ layer_list_name_val_ "C" "")
+          )
+        )
+        
+        (TA:textscr_process_V2 "processing Lineweight function" layer_list_i layer_list_ )
+        (setq layer_list_i (+ layer_list_i 1))
+      )
+    ;
+  )
+  (defun c:CKST-enAS-BUILT-LW ()
+    (setq layer_list_ (list 
+                               
+        (list "000 - SYMBOL CON_2_ASBUILT_WALL_DIMS" 0.25 )        
+        (list "000 - SYMBOL CON_2_COMMENT_ASBUILT_WALL_DIMS" 0.25 )        
+                        
+        (list "000 - SYMBOL CON_2_ASBUILT_WALL_MAIN_COLOR_1" 0.60 )                  
+        (list "000 - SYMBOL CON_2_ASBUILT_WALL_MAIN_COLOR_2" 0.60 ) 
+                        
+        (list "000 - SYMBOL CON_2_ASBUILT_WALL_SUB_COLOR_1" 0.60 ) 
+                        
+        (list "000 - SYMBOL CON_2_ASBUILT_WALL_SYMBOL_" 0.60 )   
+                        
+        (list "000 - SYMBOL CON_2_COMMENT_ASBUILT_WALL_MAIN_COLOR_2" 1.00 )                  
+        ; (list "" 0.40 )                  
+                    
+      )
+    )
+    ;preloop_and_while
+      (setq layer_list_i 0)
+      (while (< layer_list_i (length layer_list_))
+        (setq layer_list_name_val_ (car (nth  layer_list_i layer_list_)))
+        (setq layer_list_lw_val_ (cadr (nth  layer_list_i layer_list_)))
+        (if (= (TA:if_found_layer_ layer_list_name_val_) T)
+          (progn
+            (command "vplayer" "lw" layer_list_lw_val_ layer_list_name_val_ "C" "")
+          )
+        )
+        
+        (TA:textscr_process_V2 "processing Lineweight function" layer_list_i layer_list_ )
+        (setq layer_list_i (+ layer_list_i 1))
+      )
+    ;
+  )
 ;
 
 

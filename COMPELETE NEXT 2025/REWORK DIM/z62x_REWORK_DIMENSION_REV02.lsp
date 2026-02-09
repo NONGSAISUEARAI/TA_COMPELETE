@@ -17615,6 +17615,108 @@
       (setvar "osmode" 1215)
     ;
   )
+  (defun c:300Hk_asmiddims ()
+    ;presetting
+      (setvar "osmode" 0)
+      (command "ucs" "w")
+      (setq layoutactive (vla-get-paperspace (vla-get-ActiveDocument (vlax-get-acad-object))))
+      (setq modelSpace (vla-get-ModelSpace (vla-get-ActiveDocument (vlax-get-acad-object))))
+      (setq sc 1500)
+      (setq new_ss_dim_ (ssadd))
+    ;
+    (setq 300hk_ename_ (car (entsel "specify Object")))
+    (setq 300hk_obj_ (vlax-ename->vla-object 300hk_ename_))
+    (setq 300hk_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 300hk_obj_))))
+    (if (= (LM:getdynpropvalue 300hk_obj_ "Flip state1") 0)
+      (progn
+        (setq 300hk_obj_ins_head_ (polar 300hk_obj_ins_ (vla-get-rotation 300hk_obj_) (/ (LM:getdynpropvalue 300hk_obj_ "array_length") 2)))
+        (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
+                      (vlax-3d-point (setq new_pt (polar 300hk_obj_ins_head_ (vla-get-rotation 300hk_obj_) (* 1000 0))))
+                      (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 90)) (LM:getdynpropvalue 300hk_obj_ "panel_width")))
+                      (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 180)) -1000 ))
+                      (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) -90))
+        )
+        ;new_blk_entlast object
+          (setq dim_ename (entlast))
+          (setq new_ss_dim_ (ssadd dim_ename  new_ss_dim_))
+          (setq dim_obj_ (vlax-ename->vla-object dim_ename))
+          (vla-put-layer dim_obj_ "000 - SYMBOL CON_2_COMMENT_ASBUILT_WALL_DIMS") (vla-put-textcolor dim_obj_ 256)
+          (command "_AIDIMPREC" dimprec dim_ename "" )
+          (vla-put-stylename dim_obj_ "FAMELINE-CKST_E-E ASB")
+          (vla-put-ScaleFactor  dim_obj_ (/ sc 1) )
+          (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
+          (vla-put-PrimaryUnitsPrecision dim_obj_ 0)
+          (vla-put-ExtensionLineOffset dim_obj_ 0.2)
+          ; (command "_AIDIMPREC" dimprec dim_ename "" )
+        ;
+      )
+    )
+    
+    (if (= (LM:getdynpropvalue 300hk_obj_ "Flip state1") 1)
+      (progn
+        (setq 300hk_obj_ins_head_ (polar 300hk_obj_ins_ (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 180)) (/ (LM:getdynpropvalue 300hk_obj_ "array_length") 2)))
+        (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
+                      (vlax-3d-point (setq new_pt (polar 300hk_obj_ins_head_ (vla-get-rotation 300hk_obj_) (* 1000 0))))
+                      (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 90)) (LM:getdynpropvalue 300hk_obj_ "panel_width")))
+                      (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 180)) +1000 ))
+                      (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) -90))
+        )
+        ;new_blk_entlast object
+          (setq dim_ename (entlast))
+          (setq new_ss_dim_ (ssadd dim_ename  new_ss_dim_))
+          (setq dim_obj_ (vlax-ename->vla-object dim_ename))
+          (vla-put-layer dim_obj_ "000 - SYMBOL CON_2_COMMENT_ASBUILT_WALL_DIMS") (vla-put-textcolor dim_obj_ 256)
+          (command "_AIDIMPREC" dimprec dim_ename "" )
+          (vla-put-stylename dim_obj_ "FAMELINE-CKST_E-E ASB")
+          (vla-put-ScaleFactor  dim_obj_ (/ sc 1) )
+          (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
+          (vla-put-PrimaryUnitsPrecision dim_obj_ 0)
+          (vla-put-ExtensionLineOffset dim_obj_ 0.2)
+          ; (command "_AIDIMPREC" dimprec dim_ename "" )
+        ;
+      )
+    )
+    
+    ;while selection process
+      (setq ERR_ nil)
+      (while ;for keep insertion point and dist. fix length one side
+        (and
+          (= (vl-catch-all-error-p ERR_) nil)
+        )
+        (setq ERR_
+          (vl-catch-all-apply
+            (function
+              (lambda ()
+                (setq input_gap_dist_ (cond ( (getint (strcat "\nspecify get input_gap_dist_ \n<" (rtos (setq input_gap_dist_ (cond (input_gap_dist_) (1.0) ) ) ) "> : " ) ) ) (input_gap_dist_) ) )
+              )
+            )
+          )
+        )
+        (if 
+          (and
+            (= (vl-catch-all-error-p ERR_) nil)
+          )
+          (progn
+            (if (and (= newgapdim_obj_obj_name_  "AcDbRotatedDimension")
+                      (/= newgapdim_ename dim_ename)
+                )
+              (progn
+                (command "erase"  newgapdim_ename  "" )
+              )
+            )
+            ; (setq new_gap_point (polar new_pt (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 90)) (LM:getdynpropvalue 300hk_obj_ "panel_width")))
+            (setq newnew_pt (polar new_pt (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 90)) (+ (LM:getdynpropvalue 300hk_obj_ "panel_width") input_gap_dist_)))
+            ; (command "dimcontinue" dim_ename  newnew_pt "" ""   )
+            (command "dimcontinue" dim_ename   )
+          )
+        )
+        
+      )
+    ;
+    ;presetting
+      (setvar "osmode" 1215)
+    ;
+  )
 ;
 
 

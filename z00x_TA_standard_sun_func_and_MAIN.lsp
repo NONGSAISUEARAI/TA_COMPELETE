@@ -15440,6 +15440,256 @@
       ;
       
     )
+    (defun c:F90AS ()
+      ;return
+        (command "ucs" "world")
+      ;
+      ;go_to_layout-process
+        (if 
+          (or 
+            (= (getvar "ctab") "model")
+            (/= (getvar "ctab") "AREA")
+          )
+          (progn 
+            (setvar "ctab" "AREA")
+            (if  ;pre_select_ssget_or_post_select_ssget
+              (=
+                (setq ss_pre_filter_set_xx_ (ssget "x"
+                                                  (list
+                                                    ; (cons 0 "INSERT") ;type of object
+                                                    (cons 410 (getvar "CTAB"))
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+                nil
+              )
+              (progn
+                (setq ss_pre_filter_set_xx_ (ssget "X"
+                                                  (list
+                                                    ; (cons 0 "INSERT") ;type of object
+                                                    (cons 410 (getvar "CTAB"))
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+              )
+              (sslength ss_pre_filter_set_xx_)
+            )
+          )
+        )
+        (if (= (getvar "ctab") "AREA")
+          (progn
+            (command "copybase" (list 0 0 0) ss_pre_filter_set_xx_ "")
+            (command "layout" "n" "ASBUILT_WALL_REV02")
+
+            
+            (setvar "ctab" "ASBUILT_WALL_REV02")
+            (setq delete_ss_ (ssget "X" 
+                                    (list 
+                                      ; (cons 0 "INSERT") ;type of object
+                                      (cons 410 (getvar "CTAB"))
+                                      ; (cons 8 "000 - GRID")   ;kind of layer
+                                      ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                      ; (cons 62 1)           ;kind of color call sign with color code index
+                                    )
+                             )
+            )
+            (command "erase" delete_ss_ "")
+            (command "pasteclip" (list 0 0 0))
+          )
+        )
+        (setq ss_pre_filter_set_xx_set1 (ssget "X"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            (cons 410 (getvar "CTAB"))
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )   
+        ;preloop_and_while
+          (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_set1 "Title Block_Under Ground_C1 v3"))
+          (setq ss_pre_filter_set_xx_i 0)
+          (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+            (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+            (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "Title_2_val" 
+              (LM:StringSubst "REFLECTED CEILING AS-BUILT " "REFLECTED CEILING PLAN" (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "Title_2_val" ))
+            )
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DRAWING_NO_val" 
+              (LM:StringSubst "-01-AS-BUILT" "-01-AREA" (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "DRAWING_NO_val" ))
+            )
+            
+            (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+          )
+        ; 
+        (setq ss_pre_filter_set_xx_set2 (ssget "X"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            (cons 410 (getvar "CTAB"))
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )  
+        ;preloop_and_while
+          (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_set2 "000 - CKST_HEADING_VAL"))
+          (setq ss_pre_filter_set_xx_i 0)
+          (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+            (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+            (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "HEADING-NAME" 
+              (LM:StringSubst "CEILING (AS-BUILT)" "CEILING" (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "HEADING-NAME" ))
+            )
+            (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "distance1" 0 )
+            (setq ss_pre_filter_set_xx_obj_assembly_point_ (TA:assembly_coordinate_coner (cdr (TA:ename+vla-getboundingbox ss_pre_filter_set_xx_obj_))))
+            (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "distance1" 
+              (distance 
+                (nth 0 ss_pre_filter_set_xx_obj_assembly_point_)
+                (nth 1 ss_pre_filter_set_xx_obj_assembly_point_)
+              )
+              ; (/ (* (vla-get-xscalefactor ss_pre_filter_set_xx_obj_) 8.5) 2)
+            )
+            (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+          )
+        ;       
+      ;
+      
+    )
+    (defun c:F100AS ()
+      ;return
+        (command "ucs" "world")
+      ;
+      ;go_to_layout-process
+        (if 
+          (or 
+            (= (getvar "ctab") "model")
+            (/= (getvar "ctab") "Layout1")
+          )
+          (progn 
+            (setvar "ctab" "Layout1")
+            (if  ;pre_select_ssget_or_post_select_ssget
+              (=
+                (setq ss_pre_filter_set_xx_ (ssget "x"
+                                                  (list
+                                                    ; (cons 0 "INSERT") ;type of object
+                                                    (cons 410 (getvar "CTAB"))
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+                nil
+              )
+              (progn
+                (setq ss_pre_filter_set_xx_ (ssget "X"
+                                                  (list
+                                                    ; (cons 0 "INSERT") ;type of object
+                                                    (cons 410 (getvar "CTAB"))
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+              )
+              (sslength ss_pre_filter_set_xx_)
+            )
+          )
+        )
+        (if (= (getvar "ctab") "Layout1")
+          (progn
+            (command "copybase" (list 0 0 0) ss_pre_filter_set_xx_ "")
+            (command "layout" "n" "ASBUILT_WALL_REV02")
+
+            
+            (setvar "ctab" "ASBUILT_WALL_REV02")
+            (setq delete_ss_ (ssget "X" 
+                                    (list 
+                                      ; (cons 0 "INSERT") ;type of object
+                                      (cons 410 (getvar "CTAB"))
+                                      ; (cons 8 "000 - GRID")   ;kind of layer
+                                      ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                      ; (cons 62 1)           ;kind of color call sign with color code index
+                                    )
+                             )
+            )
+            (command "erase" delete_ss_ "")
+            (command "pasteclip" (list 0 0 0))
+          )
+        )
+        (setq ss_pre_filter_set_xx_set1 (ssget "X"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            (cons 410 (getvar "CTAB"))
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )   
+        ;preloop_and_while
+          (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_set1 "Title Block_Under Ground_C1 v3"))
+          (setq ss_pre_filter_set_xx_i 0)
+          (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+            (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+            (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "Title_3_val" 
+              "(AS-BUILT)"
+            )
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DRAWING_NO_val" 
+              (LM:StringSubst "-01-AS-BUILT" "-01" (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "DRAWING_NO_val" ))
+            )
+            
+            (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+          )
+        ; 
+        (setq ss_pre_filter_set_xx_set2 (ssget "X"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            (cons 410 (getvar "CTAB"))
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )  
+        ;preloop_and_while
+          (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_set2 "000 - CKST_HEADING_VAL"))
+          (setq ss_pre_filter_set_xx_i 0)
+          (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+            (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+            (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "HEADING-NAME" 
+              (if (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "HEADING-NAME" ) "*SHEET*") T )
+                (progn
+                  (strcat (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "HEADING-NAME" ) " (AS-BUILT)" )
+                )
+              )
+            )
+            (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "distance1" 0 )
+            (setq ss_pre_filter_set_xx_obj_assembly_point_ (TA:assembly_coordinate_coner (cdr (TA:ename+vla-getboundingbox ss_pre_filter_set_xx_obj_))))
+            (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "distance1" 
+              (distance 
+                (nth 0 ss_pre_filter_set_xx_obj_assembly_point_)
+                (nth 1 ss_pre_filter_set_xx_obj_assembly_point_)
+              )
+              ; (/ (* (vla-get-xscalefactor ss_pre_filter_set_xx_obj_) 8.5) 2)
+            )
+            (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+          )
+        ;       
+      ;
+      
+    )
   ;
   ;TIME_FUNC
     (defun TA:CDATE (split-sym time_format)
@@ -37259,6 +37509,15 @@
      )
       (progn
         (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/Admin/Documents/GitHub/TA_COMPELETE/CC11x_ADD_LINETYPE.lsp") ) ) ) )
+      )
+    )
+    ((and 
+       (= (getenv "COMPUTERNAME") "DESKTOP-VNKD8FJ")
+       (= (getenv "USERNAME") "tawan.t")
+     )
+      (progn 
+        (setq Er-msg_ (vl-catch-all-apply (function (lambda () (load "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/CC11x_ADD_LINETYPE.lsp") ) ) ) )
+
       )
     )
   )
