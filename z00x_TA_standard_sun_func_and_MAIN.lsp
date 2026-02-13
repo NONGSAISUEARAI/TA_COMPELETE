@@ -43231,3 +43231,105 @@
   (command "pselect"  high_y "" )
   
 )
+
+  (defun c:annoyss1 ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (= 
+          (setq ss_pre_filter_set_annoy_ (ssget "i" 
+                                                (list 
+                                                  (cons 0 "INSERT") ;type of object
+                                                  ; (cons 8 "000 - GRID")   ;kind of layer
+                                                  ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                  ; (cons 62 1)           ;kind of color call sign with color code index
+                                                )
+                                         )
+          )
+          nil
+        )
+        (progn 
+          (setq ss_pre_filter_set_annoy_ (ssget 
+                                           (list 
+                                             (cons 0 "INSERT") ;type of object
+                                             ; (cons 8 "000 - GRID")   ;kind of layer
+                                             ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                             ; (cons 62 1)           ;kind of color call sign with color code index
+                                           )
+                                         )
+          )
+          (sslength ss_pre_filter_set_annoy_)
+        )
+      )
+    ;
+    (command "pselect"  ss_pre_filter_set_annoy_ "" )
+    ;preloop_and_while
+      (setq ss_pre_filter_set_annoy_i 0)
+      (setq new_ss_filter_set_for_annoy (ssadd))
+      (while (< ss_pre_filter_set_annoy_i (sslength ss_pre_filter_set_annoy_))
+        (setq ss_pre_filter_set_annoy_ename_ (ssname ss_pre_filter_set_annoy_ ss_pre_filter_set_annoy_i))
+        (setq ss_pre_filter_set_annoy_obj_ (vlax-ename->vla-object  ss_pre_filter_set_annoy_ename_))
+        (if (>= (vl-string-search "*" (LM:effectivename ss_pre_filter_set_annoy_obj_)  0 ) 0)
+          (progn
+            (setq new_ss_filter_set_for_annoy (ssadd ss_pre_filter_set_annoy_ename_ new_ss_filter_set_for_annoy ))
+            (command "pselect"  new_ss_filter_set_for_annoy "" )
+          )
+        )
+        (setq ss_pre_filter_set_annoy_i (+ ss_pre_filter_set_annoy_i 1))
+      )
+    ;
+    ;preloop_and_while
+      (setq  ss_pre_filter_set_annoy_ new_ss_filter_set_for_annoy )
+      (setq ss_pre_filter_set_annoy_i 0)
+      
+      (while (< ss_pre_filter_set_annoy_i (sslength ss_pre_filter_set_annoy_))
+        (setq ss_pre_filter_set_annoy_ename_ (ssname ss_pre_filter_set_annoy_ ss_pre_filter_set_annoy_i))
+        (setq ss_pre_filter_set_annoy_obj_ (vlax-ename->vla-object  ss_pre_filter_set_annoy_ename_))
+        (setq ss_pre_filter_set_annoy_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_annoy_obj_))))
+        (setq ss_pre_filter_set_annoy_obj_ro_ (vla-get-rotation ss_pre_filter_set_annoy_obj_))
+        (if (>= (vl-string-search "*" (LM:effectivename ss_pre_filter_set_annoy_obj_)  0 ) 0)
+          (progn
+            ; (setq new_ss_filter_set_for_annoy (ssadd ss_pre_filter_set_annoy_ename_ new_ss_filter_set_for_annoy ))
+            (setq namefile_ (getvar "dwgname"))
+            (setq nameblk (LM:StringSubst 
+                            ""
+                            ","
+                            (LM:StringSubst 
+                              ""
+                              ".dwg"
+                              (strcat 
+                                namefile_
+                                "_"
+                                ""
+                                (LM:StringSubst "-" "." (rtos (getvar "cdate") 2 6))
+                                ; (rtos (fix (* (car (TA:get_vertex_len_ (ssname sstarget_ 0))) 1000 ) ) 2 0 )
+                                ; "mm."
+                                "_"
+                                (rtos (+ ss_pre_filter_set_annoy_i ss_pre_filter_set_annoy_i) 2 0)
+                              )
+                            )
+                          )
+            )
+            (command "_block" nameblk ss_pre_filter_set_annoy_obj_ins_ ss_pre_filter_set_annoy_ename_ "" ) (command "pselect"  ss_pre_filter_set_annoy_ename_ "" )
+            (TA:vla-insertblock 
+              nameblk 
+              (if (= (getvar "worlducs") 0)(progn (trans ss_pre_filter_set_annoy_obj_ins_ 1 0)) ss_pre_filter_set_annoy_obj_ins_ ) 
+              1 
+              0 
+            )
+            ;editor mode
+              (command "bedit" nameblk )
+              (setq ssall (ssget "x"))
+              (command "explode" ssall "" )
+              (command "bsave" )
+              (command "bclose" )
+            ;
+          )
+        )
+
+        
+        (setq ss_pre_filter_set_annoy_i (+ ss_pre_filter_set_annoy_i 1))
+        (TA:textscr_process_V2 "\nupdate dynamic" ss_pre_filter_set_annoy_i ss_pre_filter_set_annoy_)
+      )
+    ;
+    ; (command "pselect"  new_ss_filter_set_for_annoy "" )
+  )
