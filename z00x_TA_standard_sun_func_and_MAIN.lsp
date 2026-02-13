@@ -43155,7 +43155,7 @@
         "000 - FAMELINE-CKST_AS-BUILT_POINT_REV01"
         ss_pre_filter_set_xx_obj_center
         5
-        45
+        (deg-to-rad 45)
         
       )
       (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))

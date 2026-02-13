@@ -17414,7 +17414,7 @@
       (command "ucs" "w")
       (setq layoutactive (vla-get-paperspace (vla-get-ActiveDocument (vlax-get-acad-object))))
       (setq modelSpace (vla-get-ModelSpace (vla-get-ActiveDocument (vlax-get-acad-object))))
-      (setq sc 1500)
+      (setq sc 1000)
       (setq new_ss_dim_ (ssadd))
     ;
     (setq 300hk_ename_ (car (entsel "specify Object")))
@@ -17423,7 +17423,30 @@
     (if (= (LM:getdynpropvalue 300hk_obj_ "Flip state1") 0)
       (progn
         (setq 300hk_obj_ins_head_ (polar 300hk_obj_ins_ (vla-get-rotation 300hk_obj_) (LM:getdynpropvalue 300hk_obj_ "array_length")))
-        (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
+        (vla-adddimrotated
+                      (cond 
+                        ( 
+                          (and 
+                            (= (getvar "ctab") "Model")
+                            (> (getvar "cvport") 2)
+                          )
+                          (progn modelSpace)
+                        )
+                        ( 
+                          (and 
+                            (/= (getvar "ctab") "Model")
+                            (> (getvar "cvport") 1)
+                          )
+                          (progn modelSpace)
+                        )
+                        ( 
+                          (and 
+                            (/= (getvar "ctab") "Model")
+                            (= (getvar "cvport") 1)
+                          )
+                          (progn layoutactive)
+                        )
+                      ) 
                       (vlax-3d-point (setq new_pt (polar 300hk_obj_ins_head_ (vla-get-rotation 300hk_obj_) (* 1000 0))))
                       (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 90)) (LM:getdynpropvalue 300hk_obj_ "panel_width")))
                       (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 180)) -1000 ))
@@ -17448,7 +17471,30 @@
     (if (= (LM:getdynpropvalue 300hk_obj_ "Flip state1") 1)
       (progn
         (setq 300hk_obj_ins_head_ (polar 300hk_obj_ins_ (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 180)) (LM:getdynpropvalue 300hk_obj_ "array_length")))
-        (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
+        (vla-adddimrotated 
+                      (cond 
+                        ( 
+                          (and 
+                            (= (getvar "ctab") "Model")
+                            (> (getvar "cvport") 2)
+                          )
+                          (progn modelSpace)
+                        )
+                        ( 
+                          (and 
+                            (/= (getvar "ctab") "Model")
+                            (> (getvar "cvport") 1)
+                          )
+                          (progn modelSpace)
+                        )
+                        ( 
+                          (and 
+                            (/= (getvar "ctab") "Model")
+                            (= (getvar "cvport") 1)
+                          )
+                          (progn layoutactive)
+                        )
+                      ) 
                       (vlax-3d-point (setq new_pt (polar 300hk_obj_ins_head_ (vla-get-rotation 300hk_obj_) (* 1000 0))))
                       (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 90)) (LM:getdynpropvalue 300hk_obj_ "panel_width")))
                       (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 180)) +1000 ))
@@ -17516,7 +17562,7 @@
       (command "ucs" "w")
       (setq layoutactive (vla-get-paperspace (vla-get-ActiveDocument (vlax-get-acad-object))))
       (setq modelSpace (vla-get-ModelSpace (vla-get-ActiveDocument (vlax-get-acad-object))))
-      (setq sc 1500)
+      (setq sc 1000)
       (setq new_ss_dim_ (ssadd))
     ;
     (setq 300hk_ename_ (car (entsel "specify Object")))
@@ -17525,7 +17571,30 @@
     (if (= (LM:getdynpropvalue 300hk_obj_ "Flip state1") 0)
       (progn
         (setq 300hk_obj_ins_head_ (polar 300hk_obj_ins_ (vla-get-rotation 300hk_obj_) 0))
-        (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
+        (vla-adddimrotated 
+                      (cond 
+                        ( 
+                          (and 
+                            (= (getvar "ctab") "Model")
+                            (> (getvar "cvport") 2)
+                          )
+                          (progn modelSpace)
+                        )
+                        ( 
+                          (and 
+                            (/= (getvar "ctab") "Model")
+                            (> (getvar "cvport") 1)
+                          )
+                          (progn modelSpace)
+                        )
+                        ( 
+                          (and 
+                            (/= (getvar "ctab") "Model")
+                            (= (getvar "cvport") 1)
+                          )
+                          (progn layoutactive)
+                        )
+                      )          
                       (vlax-3d-point (setq new_pt (polar 300hk_obj_ins_head_ (vla-get-rotation 300hk_obj_) (* 1000 0))))
                       (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 90)) (LM:getdynpropvalue 300hk_obj_ "panel_width")))
                       (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 180)) +1000 ))
@@ -17550,7 +17619,30 @@
     (if (= (LM:getdynpropvalue 300hk_obj_ "Flip state1") 1)
       (progn
         (setq 300hk_obj_ins_head_ (polar 300hk_obj_ins_ (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 0)) 0))
-        (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
+        (vla-adddimrotated 
+                      (cond 
+                        ( 
+                          (and 
+                            (= (getvar "ctab") "Model")
+                            (> (getvar "cvport") 2)
+                          )
+                          (progn modelSpace)
+                        )
+                        ( 
+                          (and 
+                            (/= (getvar "ctab") "Model")
+                            (> (getvar "cvport") 1)
+                          )
+                          (progn modelSpace)
+                        )
+                        ( 
+                          (and 
+                            (/= (getvar "ctab") "Model")
+                            (= (getvar "cvport") 1)
+                          )
+                          (progn layoutactive)
+                        )
+                      ) 
                       (vlax-3d-point (setq new_pt (polar 300hk_obj_ins_head_ (vla-get-rotation 300hk_obj_) (* 1000 0))))
                       (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 90)) (LM:getdynpropvalue 300hk_obj_ "panel_width")))
                       (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 180)) -1000 ))
@@ -17621,7 +17713,7 @@
       (command "ucs" "w")
       (setq layoutactive (vla-get-paperspace (vla-get-ActiveDocument (vlax-get-acad-object))))
       (setq modelSpace (vla-get-ModelSpace (vla-get-ActiveDocument (vlax-get-acad-object))))
-      (setq sc 1500)
+      (setq sc 1000)
       (setq new_ss_dim_ (ssadd))
     ;
     (setq 300hk_ename_ (car (entsel "specify Object")))
@@ -17630,7 +17722,30 @@
     (if (= (LM:getdynpropvalue 300hk_obj_ "Flip state1") 0)
       (progn
         (setq 300hk_obj_ins_head_ (polar 300hk_obj_ins_ (vla-get-rotation 300hk_obj_) (/ (LM:getdynpropvalue 300hk_obj_ "array_length") 2)))
-        (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
+        (vla-adddimrotated 
+                      (cond 
+                        ( 
+                          (and 
+                            (= (getvar "ctab") "Model")
+                            (> (getvar "cvport") 2)
+                          )
+                          (progn modelSpace)
+                        )
+                        ( 
+                          (and 
+                            (/= (getvar "ctab") "Model")
+                            (> (getvar "cvport") 1)
+                          )
+                          (progn modelSpace)
+                        )
+                        ( 
+                          (and 
+                            (/= (getvar "ctab") "Model")
+                            (= (getvar "cvport") 1)
+                          )
+                          (progn layoutactive)
+                        )
+                      ) 
                       (vlax-3d-point (setq new_pt (polar 300hk_obj_ins_head_ (vla-get-rotation 300hk_obj_) (* 1000 0))))
                       (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 90)) (LM:getdynpropvalue 300hk_obj_ "panel_width")))
                       (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 180)) -1000 ))
@@ -17655,7 +17770,30 @@
     (if (= (LM:getdynpropvalue 300hk_obj_ "Flip state1") 1)
       (progn
         (setq 300hk_obj_ins_head_ (polar 300hk_obj_ins_ (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 180)) (/ (LM:getdynpropvalue 300hk_obj_ "array_length") 2)))
-        (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
+        (vla-adddimrotated 
+                      (cond 
+                        ( 
+                          (and 
+                            (= (getvar "ctab") "Model")
+                            (> (getvar "cvport") 2)
+                          )
+                          (progn modelSpace)
+                        )
+                        ( 
+                          (and 
+                            (/= (getvar "ctab") "Model")
+                            (> (getvar "cvport") 1)
+                          )
+                          (progn modelSpace)
+                        )
+                        ( 
+                          (and 
+                            (/= (getvar "ctab") "Model")
+                            (= (getvar "cvport") 1)
+                          )
+                          (progn layoutactive)
+                        )
+                      ) 
                       (vlax-3d-point (setq new_pt (polar 300hk_obj_ins_head_ (vla-get-rotation 300hk_obj_) (* 1000 0))))
                       (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 90)) (LM:getdynpropvalue 300hk_obj_ "panel_width")))
                       (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation 300hk_obj_)) 180)) +1000 ))

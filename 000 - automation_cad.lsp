@@ -12696,6 +12696,60 @@
     ;
   )
 ;
+;Remove Overidelayer
+  (defun c:CKST-removeoveride ()
+    (setq Layer_mode (list 
+                        (list 1 "freeze") 
+                        (list 2 "removeoveride") 
+                     )
+    )
+    (setq layer_list_ (list 
+                        (list "A-ANNO-DIMS" 2 )
+                        (list "S-GRID" 2)
+                        (list "S-GRID-IDEN" 2)
+                        
+                        (list "A-ANNO-DIMS-100" 1)
+                        ; (list "A-ANNO-NOTE" 1)
+                        ; (list "G-ANNO-TEXT" 1)
+                        ; (list "A-DETL-GENF" 1)
+                        ; (list "A-ROOM-IDEN" 1)
+                      )
+    )
+    (_startundo doc )
+    (if (> (getvar "CVPORT") 1)
+      (progn
+        ;preloop_and_while
+          (setq layer_list_i 0)
+          (while (< layer_list_i (length layer_list_))
+            (setq layer_list_name_val_ (car (nth  layer_list_i layer_list_)))
+            (setq layer_list_code_val_ (cadr (nth  layer_list_i layer_list_)))
+            (cond
+              ( (and 
+                    (= (TA:if_found_layer_ layer_list_name_val_) T)
+                    (= (= layer_list_code_val_ 1) T)
+                  )
+                (progn
+                  (command "vplayer" "f" layer_list_name_val_ "c" "")
+                )
+              )
+              ( (and 
+                    (= (TA:if_found_layer_ layer_list_name_val_) T)
+                    (= layer_list_code_val_ 2)
+                  )
+                (progn
+                  (command "vplayer" "M" "A" layer_list_name_val_ "C" "")
+                )
+              )
+            )
+            (TA:textscr_process_V2 "processing Lineweight function" layer_list_i layer_list_ )
+            (setq layer_list_i (+ layer_list_i 1))
+          )
+        ;
+      )
+    )
+    (_endUndo doc )
+  )
+;
 
 
   
