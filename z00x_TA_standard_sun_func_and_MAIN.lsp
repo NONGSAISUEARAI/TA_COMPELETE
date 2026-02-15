@@ -41131,8 +41131,16 @@
       (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
       (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
       (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
-      (if (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbBlockReference")
+      
+      (if (and 
+            (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbBlockReference")
+            (or 
+              (= (LM:effectivename ss_pre_filter_set_xx_obj_) "A$Ce1811ff6")
+              (= (LM:effectivename ss_pre_filter_set_xx_obj_) "xxxxx11324")
+            )
+          )
         (progn
+          (setvar "osmode" 0)
           (TA:vla-insertblock 
             "000 - CKST_DOWNLIGHT_SYMBOL"
             ss_pre_filter_set_xx_obj_ins_
@@ -41148,8 +41156,8 @@
     (TA:ss-erase ss_pre_filter_set_xx_)
   ;
 
-(command "pselect"  new_fu1_ss_ "" )
-
+  (command "pselect"  new_fu1_ss_ "" )
+  (setvar "osmode" 1215)
   (_endUndo doc)
   
 )
