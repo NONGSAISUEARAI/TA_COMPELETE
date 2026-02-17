@@ -1222,6 +1222,7 @@
   (mapcar '(lambda (x) (cdr (assoc 300 (entget x)))) ents)
 )
 (test)
+(:LayerFilterList)
 (setq lay (vla-item 
             (vla-get-layers 
               (vla-get-activedocument (vlax-get-acad-object))
@@ -1230,14 +1231,266 @@
           )
 )
 
+(car (:LayerFilterList))
+
+
+(vl-load-com)
+
+;; https://forums.autodesk.com/t5/visual-lisp-autolisp-and-general/retrieve-layer-names-from-group-layer-filter/m-p/8805768
+(defun :grouplayerfilterswlayernames nil 
+  ((lambda (foo) 
+     (foo (entget (cdr (assoc 330 (entget (tblobjname "layer" "0"))))))
+   ) 
+   (lambda (enx / dic i itm rtn) 
+     (and (setq dic (cdr (assoc 360 (member '(102 . "{ACAD_XDICTIONARY") enx)))) 
+          (setq dic (cdr (assoc -1 (dictsearch dic "aclydictionary"))))
+          (while (setq itm (dictnext dic (not itm))) 
+            (if (= "AcLyLayerGroup" (cdr (assoc 1 itm))) 
+              (setq i   (assoc 300 itm)
+                    rtn (cons 
+                          (list (cdr i) 
+                                (mapcar 
+                                  '(lambda (y) (cdr (assoc 2 (entget (cdr y)))))
+                                  (vl-remove-if '(lambda (x) (/= 330 (car x))) 
+                                                (member i itm)
+                                  )
+                                )
+                          )
+                          rtn
+                        )
+              )
+            )
+          )
+     )
+     (reverse rtn)
+   )
+  )
+)
+
+
+(defun :layergroupon (name / lst)
+  (if (setq lst (cadr (assoc name (:grouplayerfilterswlayernames))))
+    (progn
+      (command "_.layer")
+      (foreach l lst (command "_on" l))
+      (command ""))))
+
+(defun :layergroupoff (name / lst)
+  (if (setq lst (cadr (assoc name (:grouplayerfilterswlayernames))))
+    (progn
+      (command "_.layer")
+      (if (vl-position (getvar 'clayer) lst)  ; if current layer is about to off
+	(command "_t" "0" "_s" "0" "_u" ""))  ; than make 0 current.
+      (foreach l lst (command "_off" l))
+      (command ""))))
+
+(defun c:PaperSpaceOn nil  (:layergroupon  "PAPER SPACE") (princ))
+(defun c:PaperSpaceOff nil (:layergroupoff "PAPER SPACE") (princ))
+
+
+(defun GetFilterTree (dic / itm result)
+  (while (setq itm (dictnext dic (not itm)))
+    (setq result
+      (cons
+        (list
+          (cdr (assoc 300 itm)) ; filter name
+          (if (assoc 360 itm)
+            (GetFilterTree
+              (cdr (assoc -1
+                          (dictsearch
+                            (cdr (assoc 360 itm))
+                            ""
+                          )
+                    )
+              )
+            )
+          )
+        )
+        result
+      )
+    )
+  )
+  (reverse result)
+)
 
 
 
 
 
- 
+(defun dbg-step1 ( / lay0 ed owner )
+  (setq lay0 (tblobjname "layer" "0"))
+  (setq ed   (entget lay0))
+  (setq owner (cdr (assoc 330 ed)))
 
+  (princ "\n--- STEP 1 ---")
+  (princ "\nLayer 0 ename: ") (princ lay0)
+  (princ "\nOwner (LayerTable): ") (princ owner)
+  (princ)
+)
+(defun dbg-step2 ( / lay0 ed owner xdict )
+  (setq lay0 (tblobjname "layer" "0"))
+  (setq ed   (entget lay0))
+  (setq owner (cdr (assoc 330 ed)))
+  (setq ed   (entget owner))
 
- 
+  (setq xdict
+        (cdr
+          (assoc 360
+                 (member '(102 . "{ACAD_XDICTIONARY") ed)
+          )
+        )
+  )
 
- 
+  (princ "\n--- STEP 2 ---")
+  (princ "\nExtension Dictionary: ")
+  (princ xdict)
+  (princ)
+)
+(defun dbg-step3 ( / lay0 ed owner xdict acly )
+  (setq lay0 (tblobjname "layer" "0"))
+  (setq ed   (entget lay0))
+  (setq owner (cdr (assoc 330 ed)))
+  (setq ed   (entget owner))
+
+  (setq xdict
+        (cdr
+          (assoc 360
+                 (member '(102 . "{ACAD_XDICTIONARY") ed)
+          )
+        )
+  )
+
+  (setq acly
+        (cdr
+          (assoc -1
+                 (dictsearch xdict "ACLYDICTIONARY")
+          )
+        )
+  )
+
+  (princ "\n--- STEP 3 ---")
+  (princ "\nACLYDICTIONARY ename: ")
+  (princ acly)
+  (princ)
+)
+(defun dbg-step4 ( / lay0 ed owner xdict acly itm )
+  (setq lay0 (tblobjname "layer" "0"))
+  (setq ed   (entget lay0))
+  (setq owner (cdr (assoc 330 ed)))
+  (setq ed   (entget owner))
+
+  (setq xdict
+        (cdr
+          (assoc 360
+                 (member '(102 . "{ACAD_XDICTIONARY") ed)
+          )
+        )
+  )
+
+  (setq acly
+        (cdr
+          (assoc -1
+                 (dictsearch xdict "ACLYDICTIONARY")
+          )
+        )
+  )
+
+  (princ "\n--- STEP 4 ---")
+
+  (while (setq itm (dictnext acly (not itm)))
+    (princ "\nFilter Class: ")
+    (princ (cdr (assoc 1 itm)))
+    (princ " | Name: ")
+    (princ (cdr (assoc 300 itm)))
+  )
+
+  (princ)
+)
+(defun dbg-step5 ( / lay0 ed owner xdict acly itm )
+
+  (setq lay0 (tblobjname "layer" "0"))
+  (setq ed   (entget lay0))
+  (setq owner (cdr (assoc 330 ed)))
+  (setq ed   (entget owner))
+
+  (setq xdict
+        (cdr
+          (assoc 360
+                 (member '(102 . "{ACAD_XDICTIONARY") ed)
+          )
+        )
+  )
+
+  (setq acly
+        (cdr
+          (assoc -1
+                 (dictsearch xdict "ACLYDICTIONARY")
+          )
+        )
+  )
+
+  (princ "\n--- STEP 5 ---")
+
+  (while (setq itm (dictnext acly (not itm)))
+    (if (= "AcLyLayerGroup" (cdr (assoc 1 itm)))
+      (progn
+        (princ "\n\nGroup Filter: ")
+        (princ (cdr (assoc 300 itm)))
+
+        (foreach x itm
+          (if (= 330 (car x))
+            (progn
+              (princ "\n  Layer: ")
+              (princ
+                (cdr (assoc 2 (entget (cdr x))))
+              )
+            )
+          )
+        )
+      )
+    )
+  )
+
+  (princ)
+)
+(defun dbg-check-nested ( / lay0 ed owner xdict acly itm )
+
+  (setq lay0 (tblobjname "layer" "0"))
+  (setq ed   (entget lay0))
+  (setq owner (cdr (assoc 330 ed)))
+  (setq ed   (entget owner))
+
+  (setq xdict
+        (cdr
+          (assoc 360
+                 (member '(102 . "{ACAD_XDICTIONARY") ed)
+          )
+        )
+  )
+
+  (setq acly
+        (cdr
+          (assoc -1
+                 (dictsearch xdict "ACLYDICTIONARY")
+          )
+        )
+  )
+
+  (while (setq itm (dictnext acly (not itm)))
+    (if (assoc 360 itm)
+      (progn
+        (princ "\nFilter has sub-dictionary: ")
+        (princ (cdr (assoc 300 itm)))
+      )
+    )
+  )
+
+  (princ)
+)
+
+(dbg-step1)
+(dbg-step2)
+(dbg-step3)
+(dbg-step4)
+(dbg-step5)
+(dbg-check-nested)

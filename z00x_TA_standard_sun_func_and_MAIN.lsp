@@ -8803,6 +8803,21 @@
 
 
     )
+    (defun TA:renameblock_ (Old_name New_name)
+      ; (setq Old_name "W-2-PP20-AR-4280-01-A_20260115-120954_ASDADADSDESW24")
+      ; (setq New_name "W-2-PP20-AR-4180-01-A_20260217_092300_NEWLIGHT")
+      (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
+      (if (and 
+            (= (type (vl-catch-all-apply (function (lambda () (vla-Item (vla-get-Blocks doc) Old_name) ) ) ) ) 'VLA-OBJECT)
+            (= (type (vl-catch-all-apply (function (lambda () (vla-Item (vla-get-Blocks doc) New_name) ) ) ) ) 'VL-CATCH-ALL-APPLY-ERROR)
+          )
+        (progn
+          (command "rename" "B" Old_name New_name)
+        )
+        (princ "SOMETHING BAD" )
+      )
+    )
+    ; (TA:renameblock_ "A$Cd7765226" "000 - RECEED_DIM")
     (defun c:rename_block_RENBLKV4_RENB4 ()
       (setq text1_ename_ (car (entsel "specify Old Object")))
       (setq text1_obj_EFNAME (LM:effectivename (vlax-ename->vla-object text1_ename_)))
@@ -38458,6 +38473,92 @@
     (setvar "BLOCKREDEFINEMODE" 1)
     (alert "complete")
   )
+  (defun c:PPLINE-CKST_CSD20_ ()
+    ; (TA:get_name_block_in_drawing_to_list)
+    ; (TA:get_name_block_in_drawing_to_list)
+    ;presetting
+      (setvar "BLOCKREDEFINEMODE" 1)
+      (setvar "ATTREQ" 0)
+      (setvar "ATTDIA" 0)
+    ;
+    (setq input_station_no_ 20 )
+    (setq station_fullname_ (strcat "PP" (rtos input_station_no_ 2 0 )))
+    (setq CSD_MERGE_LIST_ ())
+    (setq err_ "S")
+    ; (while (/= (wcmatch (strcase (vl-princ-to-string err_)) "*ERROR*") T) 
+    ;   (setq err_ (vl-catch-all-apply 
+    ;               (function 
+    ;                 (lambda () 
+    ;                   (setq CSD_MERGE_LIST_ (list "A$C9312df8d") )
+    ;                 )
+    ;               )
+    ;             )
+    ;   )
+    ; )
+    (setq CSD_MERGE_LIST_ (list "W-2-PP20-AR-4150-01-A_20260114-153308_NEW_LIGHT_") )
+    (setq CSD_MERGE_LIST_ (mapcar 'car (TA:Count_item_in_list_ CSD_MERGE_LIST_)))
+    (cond
+      (;_case_1
+        (and 
+          ; (/= (type err_ ) 'VL-CATCH-ALL-APPLY-ERROR)
+          (= (getenv "COMPUTERNAME") "NONGSAISUEARAIH")
+          
+          ;  (/= (wcmatch (strcase (vl-princ-to-string err_)) "*ERROR*") T)
+        )
+        (progn
+          (setq pp18_path (strcat "C:/TA/PPLINE CKST/C1-C2_Finishes-Reflected Ceiling Plan/" station_fullname_ "/CAD/"))
+          (princ "_case_1")
+        )
+      )
+      (;_case_2
+        (and 
+          ; (/= (type err_ ) 'VL-CATCH-ALL-APPLY-ERROR)
+          (= (getenv "COMPUTERNAME") "NONGSAISUEARAI")
+          (= (getenv "USERNAME") "NONGSAISUEARAI")
+          ;  (/= (wcmatch (strcase (vl-princ-to-string err_)) "*ERROR*") T)
+        )
+        (progn
+          (setq pp18_path (strcat "C:/TA FAMELINE old data/TA/TA_WORK/MASS TRANSIT/TA_PPLINE CKST/TA_PPLINE CKST_combine_CSD-ceiling-plan/C1-C2_Finishes-Reflected Ceiling Plan/" station_fullname_ "/CAD/"))
+          (princ "_case_2")
+        )
+      )
+      (;case_3
+        (and
+          ; (/= (type err_ ) 'VL-CATCH-ALL-APPLY-ERROR)
+          (= (getenv "COMPUTERNAME") "DESKTOP-VNKD8FJ")
+          (= (getenv "USERNAME") "tawan.t")
+        )
+        (progn
+          (setq pp18_path (strcat "C:/TA/PPLINE CKST/C1-C2_Finishes-Reflected Ceiling Plan/" station_fullname_ "/CAD/"))
+        )
+      )
+    )
+    
+    
+    ; (setq filePath (getfiled "Select the DWG file" pp18_path "dwg" 4)) ;bypass file path below this line
+    (setq filePath "C:\\TA\\PPLINE CKST\\C1-C2_Finishes-Reflected Ceiling Plan\\PP20\\CAD\\W-2-PP20-AR-4150-01-A.dwg")
+    (textscr)
+    ; (setq temp_pt (getpoint "specify point" )) 
+    (setq temp_pt (list 0.0 0.0 0.0)) 
+    ;preloop_and_while
+      (setq CSD_MERGE_LIST_i 0)
+      (setq CER_ 0)
+      (while 
+        (and 
+          (/= CSD_MERGE_LIST_ nil)
+          (< CSD_MERGE_LIST_i (length CSD_MERGE_LIST_))
+          (/= (wcmatch (strcase (vl-princ-to-string CER_)) "NIL"))
+        )
+        (setq CSD_MERGE_LIST_efname (nth CSD_MERGE_LIST_i CSD_MERGE_LIST_))
+        (command "-INSERTCONTENT" filePath CSD_MERGE_LIST_efname temp_pt 1 1 0)
+        (vla-delete (vlax-ename->vla-object (entlast)))
+        (setq CSD_MERGE_LIST_i (+ CSD_MERGE_LIST_i 1))
+      )
+    ;
+    
+    (setvar "BLOCKREDEFINEMODE" 1)
+    (alert "complete")
+  )
 
 
 
@@ -41096,34 +41197,34 @@
 )
 (defun c:temp_insdl2 ()
   
-  ;selection_set_for_fillter_blk_name
-    (if  ;pre_select_ssget_or_post_select_ssget
-      (=
-        (setq ss_pre_filter_set_xx_ (ssget "i"
-                                          (list
-                                            (cons 0 "insert,mtext,text") ;type of object
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "insert,mtext,text") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
         )
-        nil
-      )
-      (progn
-        (setq ss_pre_filter_set_xx_ (ssget
-                                          (list
-                                            (cons 0 "insert,mtext,text") ;type of object
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "insert,mtext,text") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
         )
+        (sslength ss_pre_filter_set_xx_)
       )
-      (sslength ss_pre_filter_set_xx_)
-    )
-  ;
+    ;
   ;preloop_and_while
     (setq ss_pre_filter_set_xx_i 0)
     (setq new_fu1_ss_ (ssadd))
@@ -41135,8 +41236,8 @@
       (if (and 
             (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbBlockReference")
             (or 
+              (= (LM:effectivename ss_pre_filter_set_xx_obj_) "A$C0176f62a")
               (= (LM:effectivename ss_pre_filter_set_xx_obj_) "A$Ce1811ff6")
-              (= (LM:effectivename ss_pre_filter_set_xx_obj_) "xxxxx11324")
             )
           )
         (progn
@@ -41149,6 +41250,7 @@
           )
           (setq new_fu1_ss_ (ssadd (entlast ) new_fu1_ss_ ))
         )
+        (ssdel ss_pre_filter_set_xx_ename_ ss_pre_filter_set_xx_)
       )
       
       (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
@@ -43341,3 +43443,39 @@
     ;
     ; (command "pselect"  new_ss_filter_set_for_annoy "" )
   )
+
+
+    (defun c:q2 ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set__ (ssget "i"
+                (list
+                  ; (cons 0 "INSERT") ;type of object
+                  (cons 8 "_0_AR mark-up,_0_AR mark-up_1,_0_AR notes,_0_AR COMMENTS,_0_AR COMMENTS_1")   ;kind of layer
+                  ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                  ; (cons 62 1)           ;kind of color call sign with color code index
+                )
+              )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set__ (ssget
+                (list
+                  ; (cons 0 "INSERT") ;type of object
+                  (cons 8 "_0_AR mark-up,_0_AR mark-up_1,_0_AR notes,_0_AR COMMENTS,_0_AR COMMENTS_1")   ;kind of layer
+                  ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                  ; (cons 62 1)           ;kind of color call sign with color code index
+                )
+              )
+            )
+            (sslength ss_pre_filter_set__)
+          )
+        )
+      ;
+      (command "pselect"  ss_pre_filter_set__ "" )
+    )
+
+
+
