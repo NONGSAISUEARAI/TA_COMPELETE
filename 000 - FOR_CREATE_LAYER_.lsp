@@ -1118,6 +1118,123 @@
       )
     )
   )
+  (defun c:crelayASPG ()
+    (TA:generate_filter_list
+      (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+      (setq 2nd_filter_val_main "010 - ASPG_") ;2nd_filter
+      (setq 3rd_filter_val_main (list ;3rd_filter
+                                  "EXTR" ;
+                                  "FRAMING" ;
+                                )
+      )
+      (setq 4th_filter_val_main (list  ;4th_filter
+                                      (list "MAIN_COLOR_1" 3) ;
+                                      (list "MAIN_COLOR_2" 2) ;
+                                      (list "SUB_COLOR_1" 2) ;
+                                      (list "SUB_COLOR_2" 1) ;
+                                      (list "SUB_COLOR_3" 251) ;
+                                      (list "HATCH_" 251) ;
+                                      (list "WIPEOUT_" 250) ;
+                                      (list "HIDDEN_" 251) ;
+                                      (list "SYMBOL_" 251) ;
+                                      (list "DEF_SUB" 250) ;
+                                      (list "TEXT" 3) ;
+                                       ;
+                                )
+      )
+    )
+    (TA:generate_filter_list
+      (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+      (setq 2nd_filter_val_main "010 - ASPG_") ;2nd_filter
+      (setq 3rd_filter_val_main (list ;3rd_filter
+                                  "ACCESSORIES" ;
+                                  "FASTERN" ;
+                                )
+      )
+      (setq 4th_filter_val_main (list  ;4th_filter
+                                      (list "MAIN_COLOR_1" 1) ;
+                                      (list "MAIN_COLOR_2" 1) ;
+                                      (list "SUB_COLOR_1" 1) ;
+                                      (list "SUB_COLOR_2" 251) ;
+                                      (list "SUB_COLOR_3" 251) ;
+                                      (list "HATCH_" 251) ;
+                                      (list "WIPEOUT_" 250) ;
+                                      (list "HIDDEN_" 251) ;
+                                      (list "SYMBOL_" 251) ;
+                                      (list "DEF_SUB" 250) ;
+                                      (list "TEXT" 3) ;
+                                       ;
+                                )
+      )
+    )
+  )
+  (defun c:crelayASPGSTFRAME ()
+    (TA:generate_filter_list
+      (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+      (setq 2nd_filter_val_main "000 - STRUCTURE_STEEL_") ;2nd_filter
+      (setq 3rd_filter_val_main (list ;3rd_filter
+                                  "FRAMING" ;
+                                )
+      )
+      (setq 4th_filter_val_main (list  ;4th_filter
+                                      (list "MAIN_COLOR_1" 3) ;
+                                      (list "MAIN_COLOR_2" 2) ;
+                                      (list "SUB_COLOR_1" 2) ;
+                                      (list "SUB_COLOR_2" 1) ;
+                                      (list "SUB_COLOR_3" 251) ;
+                                      (list "HATCH_" 251) ;
+                                      (list "WIPEOUT_" 250) ;
+                                      (list "HIDDEN_" 251) ;
+                                      (list "SYMBOL_" 251) ;
+                                      (list "DEF_SUB" 250) ;
+                                      (list "TEXT" 3) ;
+                                       ;
+                                )
+      )
+    )
+    (TA:generate_filter_list
+      (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+      (setq 2nd_filter_val_main "000 - STRUCTURE_STEEL_") ;2nd_filter
+      (setq 3rd_filter_val_main (list ;3rd_filter
+                                  "ACCESORIES" ;
+                                  "FASTERN" ;
+                                )
+      )
+      (setq 4th_filter_val_main (list  ;4th_filter
+                                      (list "MAIN_COLOR_1" 2) ;
+                                      (list "MAIN_COLOR_2" 1) ;
+                                      (list "SUB_COLOR_1" 2) ;
+                                      (list "SUB_COLOR_2" 1) ;
+                                      (list "SUB_COLOR_3" 251) ;
+                                      (list "HATCH_" 251) ;
+                                      (list "WIPEOUT_" 250) ;
+                                      (list "HIDDEN_" 251) ;
+                                      (list "SYMBOL_" 251) ;
+                                      (list "DEF_SUB" 250) ;
+                                      (list "TEXT" 3) ;
+                                       ;
+                                )
+      )
+    )
+  )
+  (defun c:crelayHIDEOBJ_ ()
+    (TA:generate_filter_list
+      (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+      (setq 2nd_filter_val_main "000 - 0_HIDE_OBJ_") ;2nd_filter
+      (setq 3rd_filter_val_main (list ;3rd_filter
+                                  "FRAMING" ;
+                                )
+      )
+      (setq 4th_filter_val_main (list  ;4th_filter
+                                      (list "MAIN_COLOR_1" 3) ;
+                                      (list "DEF_SUB" 250) ;
+
+                                       ;
+                                )
+      )
+    )
+    
+  )
   (defun c:crelaytemp ()
     (c:crelayarea)
     (c:crelaylight)
