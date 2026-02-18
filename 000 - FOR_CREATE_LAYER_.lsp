@@ -1228,7 +1228,31 @@
       (setq 4th_filter_val_main (list  ;4th_filter
                                       (list "MAIN_COLOR_1" 3) ;
                                       (list "DEF_SUB" 250) ;
+                                      (list "DEF_SUB_1" 250) ;
 
+                                       ;
+                                )
+      )
+    )
+    
+  )
+  (defun c:crelayFLsymbol_ ()
+    (TA:generate_filter_list
+      (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+      (setq 2nd_filter_val_main "000 - 0_SYM_DWG_") ;2nd_filter
+      (setq 3rd_filter_val_main (list ;3rd_filter
+                                  "GRIDLINE" ;
+                                )
+      )
+      (setq 4th_filter_val_main (list  ;4th_filter
+                                      (list "MAIN_COLOR_251" 251) ;
+                                      (list "MAIN_COLOR_1" 3) ;
+                                      (list "MAIN_COLOR_2" 2) ;
+                                      (list "SUB_COLOR_1" 2) ;
+                                      (list "HIDDEN_" 251) ;
+                                      (list "DEF_SUB" 250) ;
+                                      (list "WIPEOUT_" 250)
+                                      (list "TEXT" 3) ;
                                        ;
                                 )
       )
@@ -1242,6 +1266,13 @@
     (c:crelayfram)
     (c:crelayfas)
     (c:crelayaltray)
+  )
+  (defun c:crelayaspgset ()
+    (c:crelayHIDEOBJ_)
+    (c:crelayASPG)
+    (c:crelayASPGSTFRAME)
+    (c:crelayHIDEOBJ_)
+    (c:crelayFLsymbol_)
   )
   
 
@@ -1338,8 +1369,7 @@
   )
   (mapcar '(lambda (x) (cdr (assoc 300 (entget x)))) ents)
 )
-(test)
-(:LayerFilterList)
+
 (setq lay (vla-item 
             (vla-get-layers 
               (vla-get-activedocument (vlax-get-acad-object))
@@ -1605,9 +1635,3 @@
   (princ)
 )
 
-(dbg-step1)
-(dbg-step2)
-(dbg-step3)
-(dbg-step4)
-(dbg-step5)
-(dbg-check-nested)

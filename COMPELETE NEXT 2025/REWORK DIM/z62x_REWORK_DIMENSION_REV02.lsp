@@ -10216,7 +10216,7 @@
       (setq lv_ 1)
       (setq lv_add (* lv_ 1.25))
       (setq dimprec 0)
-      (setq sss_obj_linearsc_ -100)
+      (setq sss_obj_linearsc_ -40)
       (setq DIM_E-C "FAMELINE-CKST_E-C")
       (setq DIM_C-C "FAMELINE-CKST_C-C")
       (setq DIM_C-E "FAMELINE-CKST_C-E")
