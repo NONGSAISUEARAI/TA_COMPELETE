@@ -40678,7 +40678,7 @@
       (=
         (setq ss_pre_filter_set_xx_ (ssget "i"
                                           (list
-                                            ; (cons 0 "INSERT") ;type of object
+                                            (cons 0 "INSERT") ;type of object
                                             ; (cons 8 "000 - GRID")   ;kind of layer
                                             ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                             ; (cons 62 1)           ;kind of color call sign with color code index
@@ -40690,7 +40690,7 @@
       (progn
         (setq ss_pre_filter_set_xx_ (ssget
                                           (list
-                                            ; (cons 0 "INSERT") ;type of object
+                                            (cons 0 "INSERT") ;type of object
                                             ; (cons 8 "000 - GRID")   ;kind of layer
                                             ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                             ; (cons 62 1)           ;kind of color call sign with color code index
@@ -40713,6 +40713,7 @@
           (progn
             (TA:editblock_ (LM:effectivename ss_pre_filter_set_xx_obj_) 256 "000 - 0_HIDE_OBJ_FRAMING_DEF_SUB")
           )
+          
         )
       (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
     ) 
@@ -40725,7 +40726,7 @@
       (=
         (setq ss_pre_filter_set_xx_ (ssget "i"
                                           (list
-                                            ; (cons 0 "INSERT") ;type of object
+                                            (cons 0 "INSERT") ;type of object
                                             ; (cons 8 "000 - GRID")   ;kind of layer
                                             ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                             ; (cons 62 1)           ;kind of color call sign with color code index
@@ -40737,7 +40738,7 @@
       (progn
         (setq ss_pre_filter_set_xx_ (ssget
                                           (list
-                                            ; (cons 0 "INSERT") ;type of object
+                                            (cons 0 "INSERT") ;type of object
                                             ; (cons 8 "000 - GRID")   ;kind of layer
                                             ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                             ; (cons 62 1)           ;kind of color call sign with color code index
@@ -40772,7 +40773,7 @@
       (=
         (setq ss_pre_filter_set_xx_ (ssget "i"
                                           (list
-                                            ; (cons 0 "INSERT") ;type of object
+                                            (cons 0 "INSERT") ;type of object
                                             ; (cons 8 "000 - GRID")   ;kind of layer
                                             ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                             ; (cons 62 1)           ;kind of color call sign with color code index
@@ -40784,7 +40785,7 @@
       (progn
         (setq ss_pre_filter_set_xx_ (ssget
                                           (list
-                                            ; (cons 0 "INSERT") ;type of object
+                                            (cons 0 "INSERT") ;type of object
                                             ; (cons 8 "000 - GRID")   ;kind of layer
                                             ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                             ; (cons 62 1)           ;kind of color call sign with color code index

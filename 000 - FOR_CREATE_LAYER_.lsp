@@ -1229,6 +1229,8 @@
                                       (list "MAIN_COLOR_1" 3) ;
                                       (list "DEF_SUB" 250) ;
                                       (list "DEF_SUB_1" 250) ;
+                                      (list "DEF_SUB_2" 250) ;
+                                      (list "DEF_DIMS" 250) ;
 
                                        ;
                                 )
@@ -1242,13 +1244,37 @@
       (setq 2nd_filter_val_main "000 - 0_SYM_DWG_") ;2nd_filter
       (setq 3rd_filter_val_main (list ;3rd_filter
                                   "GRIDLINE" ;
+                                  "HIDDENlINE" ;
+                                  "DIMS" ;
                                 )
       )
       (setq 4th_filter_val_main (list  ;4th_filter
                                       (list "MAIN_COLOR_251" 251) ;
                                       (list "MAIN_COLOR_1" 3) ;
                                       (list "MAIN_COLOR_2" 2) ;
-                                      (list "SUB_COLOR_1" 2) ;
+                                      (list "SUB_COLOR_1" 1) ;
+                                      (list "SUB_COLOR_2" 2) ;
+                                      (list "HIDDEN_" 251) ;
+                                      (list "DEF_SUB" 250) ;
+                                      (list "WIPEOUT_" 250)
+                                      (list "TEXT" 3) ;
+                                       ;
+                                )
+      )
+    )
+    (TA:generate_filter_list
+      (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+      (setq 2nd_filter_val_main "000 - 0_SYM_DWG_") ;2nd_filter
+      (setq 3rd_filter_val_main (list ;3rd_filter
+                                  "DIMS" ;
+                                )
+      )
+      (setq 4th_filter_val_main (list  ;4th_filter
+                                      (list "MAIN_COLOR_251" 251) ;
+                                      (list "MAIN_COLOR_1" 3) ;
+                                      (list "MAIN_COLOR_2" 2) ;
+                                      (list "SUB_COLOR_1" 1) ;
+                                      (list "SUB_COLOR_2" 2) ;
                                       (list "HIDDEN_" 251) ;
                                       (list "DEF_SUB" 250) ;
                                       (list "WIPEOUT_" 250)
