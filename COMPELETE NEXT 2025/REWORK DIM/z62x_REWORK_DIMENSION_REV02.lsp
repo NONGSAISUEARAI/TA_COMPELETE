@@ -9932,7 +9932,7 @@
         (setq Fac_sc_ (vlax-get-property  ss_pre_filter_set_xx_obj_  'ScaleFactor  ))
         (setq dim_Precision_ (vla-get-PrimaryUnitsPrecision ss_pre_filter_set_xx_obj_ ))
         
-
+        
         (vla-put-stylename  ss_pre_filter_set_xx_obj_  DD )
         (vlax-put-property  ss_pre_filter_set_xx_obj_  'LinearScaleFactor Li_sc_)
         (vlax-put-property  ss_pre_filter_set_xx_obj_  'ScaleFactor Fac_sc_)
@@ -10370,6 +10370,438 @@
     (defun c:dimlsc ()
       (setq sss_obj_linearsc_ (setvar "dimlfac" (setq lfac (cond ( (getreal (strcat "\nSpecify Level <" (rtos (setq lfac (cond (lfac) (1.0) ) ) ) "> : " ) ) ) (lfac) ) )))
     )
+    (defun TA:preset_FAMELINE-CKST_C-C ()
+      (setq doc (vla-get-ActiveDocument (vlax-get-Acad-Object)))
+      (setq dimstyles (vla-get-DimStyles doc))
+      (if (= (type (vl-catch-all-apply (function (lambda () (setq dimstyle (vla-Item dimstyles "FAMELINE-CKST_C-C")) ) ) ) ) 'VL-CATCH-ALL-APPLY-ERROR) (progn (command "DIMSTYLE" "s" "FAMELINE-CKST_C-C" ) ) )
+      (setq newset__ 
+        (list 
+          (command "dimstyle" "r" "FAMELINE-CKST_C-C")
+          ;; ===== DIMENSION SYSTEM VARIABLES =====
+            ; (setvar "DIMASO" 0)              ; Create dimension objects (Off)
+            (setvar "DIMADEC" 0)             ; Angular decimal places
+            (setvar "DIMALT" 0)              ; Alternate units Off
+            (setvar "DIMALTD" 2)             ; Alternate unit decimal places
+            (setvar "DIMALTF" 25.4)          ; Alternate unit scale factor
+            ; (setvar "DIMALTMZF" 100.0)       ; Alternate sub-zero factor (metric)
+            (setvar "DIMALTRND" 0.0)         ; Alternate units rounding
+            (setvar "DIMALTTD" 2)            ; Alternate tolerance decimal places
+            (setvar "DIMALTTZ" 0)            ; Alternate tolerance zero suppression
+            (setvar "DIMALTU" 2)             ; Alternate units format
+            (setvar "DIMALTZ" 0)             ; Alternate unit zero suppression
+            (setvar "DIMARCSYM" 0)           ; Arc length symbol
+            (setvar "DIMASZ" 0.15)           ; Arrow size
+            (setvar "DIMATFIT" 3)            ; Arrow & text fit
+            (setvar "DIMAUNIT" 0)            ; Angular unit format
+            (setvar "DIMAZIN" 0)             ; Angular zero suppression
+          
+            (setvar "DIMSAH" 1)              ; 0 = 1st and 2nd wil be same
+            ; (setvar "DIMBLK" "Origin")       ; Arrow block
+            (setvar "DIMBLK1" "Origin")             ; First arrow block
+            (setvar "DIMBLK2" "Origin")             ; Second arrow block
+
+            (setvar "DIMCEN" 0.10)           ; Center mark size
+            (setvar "DIMCLRD" 256)             ; Dim line color (0 = BYBLOCK)
+            (setvar "DIMCLRE" 256)             ; Extension line color (BYBLOCK)
+            (setvar "DIMCLRT" 256)             ; Text color (1 = Red)
+
+            (setvar "DIMDEC" 2)              ; Decimal places
+            (setvar "DIMDLE" 0.10)           ; Dimension line extension
+            (setvar "DIMDLI" 0.10)           ; Dimension line spacing
+            (setvar "DIMDSEP" ".")           ; Decimal separator
+            (setvar "DIMEXE" 0.10)           ; Extension above dim line
+            (setvar "DIMEXO" 0.10)           ; Extension origin offset
+            (setvar "DIMFRAC" 0)             ; Fraction format
+
+            (setvar "DIMFXL" 1.0)            ; Fixed extension line length
+            (setvar "DIMFXLON" 0)            ; Fixed extension line Off
+            (setvar "DIMGAP" 0.05)           ; Gap text to dim line
+
+            (setvar "DIMJOGANG" (deg-to-rad 45.0))        ; Jog angle
+            (setvar "DIMJUST" 0)             ; Text justification
+
+            (setvar "DIMLDRBLK" "") ; Leader arrow block
+            (setvar "DIMLFAC" 1.0)           ; Linear scale factor
+            (setvar "DIMLIM" 0)              ; Dimension limits Off
+            (setvar "DIMLTYPE" "bylayer")            ; Dimension linetype BYBLOCK
+            (setvar "DIMLTEX1" "bylayer")
+            (setvar "DIMLTEX2" "bylayer")
+            (setvar "DIMLUNIT" 2)            ; Linear unit format
+
+            (setvar "DIMLWD" -1)             ; Dim line lineweight (BYBLOCK)
+            (setvar "DIMLWE" -1)             ; Extension line lineweight (BYBLOCK)
+
+            ;(setvar "DIMMZF" 100.0)          ; Metric sub-zero factor
+            (setvar "DIMRND" 0.0)            ; Rounding value
+            
+            (setvar "DIMSCALE" 1.0)          ; Overall scale
+
+            (setvar "DIMSD1" 0)              ; Suppress first dim line Off
+            (setvar "DIMSD2" 0)              ; Suppress second dim line Off
+            (setvar "DIMSE1" 0)              ; Suppress first extension Off
+            (setvar "DIMSE2" 0)              ; Suppress second extension Off
+            (setvar "DIMSOXD" 0)             ; Suppress outside dim lines Off
+
+            (setvar "DIMTAD" 1)              ; Text above dim line
+            (setvar "DIMTDEC" 2)             ; Tolerance decimal places
+            (setvar "DIMTFAC" 1.0)           ; Tolerance text height scale
+            (setvar "DIMTFILL" 0)            ; Text background Off
+            (setvar "DIMTIH" 0)              ; Text inside horizontal Off
+            (setvar "DIMTIX" 1)              ; Force text inside
+            (setvar "DIMTM" 0.0)             ; Minus tolerance
+            (setvar "DIMTMOVE" 1)            ; Text movement rule
+            (setvar "DIMTOFL" 1)             ; Force line inside extension
+            (setvar "DIMTOH" 0)              ; Text outside horizontal Off
+            (setvar "DIMTOL" 0)              ; Tolerance Off
+            (setvar "DIMTOLJ" 1)             ; Tolerance vertical justification
+            (setvar "DIMTP" 0.0)             ; Plus tolerance
+            (setvar "DIMTSZ" 0.0)            ; Tick size
+            (setvar "DIMTVP" 0.0)            ; Text vertical position
+
+            (setvar "DIMTXT" 0.30)           ; Text height
+            (setvar "DIMTZIN" 0)             ; Tolerance zero suppression
+            (setvar "DIMUPT" 0)              ; User positioned text Off
+            (setvar "DIMZIN" 0)              ; Zero suppression
+          
+            
+
+          ;;
+        )
+      )
+      (command "DIMSTYLE" "AN" "N" "FAMELINE-CKST_C-C" "Y" "A" "" )
+      (command "DIMSTYLE" "save" "FAMELINE-CKST_C-C" "Y")
+    )
+    (defun TA:preset_FAMELINE-CKST_C-E ()
+      (setq doc (vla-get-ActiveDocument (vlax-get-Acad-Object)))
+      (setq dimstyles (vla-get-DimStyles doc))
+      (if (= (type (vl-catch-all-apply (function (lambda () (setq dimstyle (vla-Item dimstyles "FAMELINE-CKST_C-E")) ) ) ) ) 'VL-CATCH-ALL-APPLY-ERROR) (progn (command "DIMSTYLE" "s" "FAMELINE-CKST_C-E" ) ) )
+      (setq newset__ 
+        (list 
+          ;; ===== DIMENSION SYSTEM VARIABLES =====
+            ; (setvar "DIMASO" 0)              ; Create dimension objects (Off)
+            (setvar "DIMADEC" 0)             ; Angular decimal places
+            (setvar "DIMALT" 0)              ; Alternate units Off
+            (setvar "DIMALTD" 2)             ; Alternate unit decimal places
+            (setvar "DIMALTF" 25.4)          ; Alternate unit scale factor
+            ; (setvar "DIMALTMZF" 100.0)       ; Alternate sub-zero factor (metric)
+            (setvar "DIMALTRND" 0.0)         ; Alternate units rounding
+            (setvar "DIMALTTD" 2)            ; Alternate tolerance decimal places
+            (setvar "DIMALTTZ" 0)            ; Alternate tolerance zero suppression
+            (setvar "DIMALTU" 2)             ; Alternate units format
+            (setvar "DIMALTZ" 0)             ; Alternate unit zero suppression
+            (setvar "DIMARCSYM" 0)           ; Arc length symbol
+            (setvar "DIMASZ" 0.15)           ; Arrow size
+            (setvar "DIMATFIT" 3)            ; Arrow & text fit
+            (setvar "DIMAUNIT" 0)            ; Angular unit format
+            (setvar "DIMAZIN" 0)             ; Angular zero suppression
+
+            (setvar "DIMSAH" 1)              ; 0 = 1st and 2nd wil be same
+            ; (setvar "DIMBLK" "Origin")       ; Arrow block
+            (setvar "DIMBLK1" "Origin")     ; First arrow block
+            (setvar "DIMBLK2" "Oblique")    ; Second arrow block
+          
+            (getvar "DIMBLK" )       ; Arrow block
+            (getvar "DIMBLK1" )     ; First arrow block
+            (getvar "DIMBLK2" )    ; Second arrow block
+
+            (setvar "DIMCEN" 0.10)           ; Center mark size
+            (setvar "DIMCLRD" 256)             ; Dim line color (0 = BYBLOCK)
+            (setvar "DIMCLRE" 256)             ; Extension line color (BYBLOCK)
+            (setvar "DIMCLRT" 256)             ; Text color (1 = Red)
+
+            (setvar "DIMDEC" 2)              ; Decimal places
+            (setvar "DIMDLE" 0.10)           ; Dimension line extension
+            (setvar "DIMDLI" 0.10)           ; Dimension line spacing
+            (setvar "DIMDSEP" ".")           ; Decimal separator
+            (setvar "DIMEXE" 0.10)           ; Extension above dim line
+            (setvar "DIMEXO" 0.10)           ; Extension origin offset
+            (setvar "DIMFRAC" 0)             ; Fraction format
+
+            (setvar "DIMFXL" 1.0)            ; Fixed extension line length
+            (setvar "DIMFXLON" 0)            ; Fixed extension line Off
+            (setvar "DIMGAP" 0.05)           ; Gap text to dim line
+
+            (setvar "DIMJOGANG" (deg-to-rad 45.0))        ; Jog angle
+            (setvar "DIMJUST" 0)             ; Text justification
+
+            (setvar "DIMLDRBLK" "") ; Leader arrow block
+            (setvar "DIMLFAC" 1.0)           ; Linear scale factor
+            (setvar "DIMLIM" 0)              ; Dimension limits Off
+            (setvar "DIMLTYPE" "bylayer")            ; Dimension linetype BYBLOCK
+            (setvar "DIMLTEX1" "bylayer")
+            (setvar "DIMLTEX2" "bylayer")
+            (setvar "DIMLUNIT" 2)            ; Linear unit format
+
+            (setvar "DIMLWD" -1)             ; Dim line lineweight (BYBLOCK)
+            (setvar "DIMLWE" -1)             ; Extension line lineweight (BYBLOCK)
+
+            ;(setvar "DIMMZF" 100.0)          ; Metric sub-zero factor
+            (setvar "DIMRND" 0.0)            ; Rounding value
+            
+            (setvar "DIMSCALE" 1.0)          ; Overall scale
+
+            (setvar "DIMSD1" 0)              ; Suppress first dim line Off
+            (setvar "DIMSD2" 0)              ; Suppress second dim line Off
+            (setvar "DIMSE1" 0)              ; Suppress first extension Off
+            (setvar "DIMSE2" 0)              ; Suppress second extension Off
+            (setvar "DIMSOXD" 0)             ; Suppress outside dim lines Off
+
+            (setvar "DIMTAD" 1)              ; Text above dim line
+            (setvar "DIMTDEC" 2)             ; Tolerance decimal places
+            (setvar "DIMTFAC" 1.0)           ; Tolerance text height scale
+            (setvar "DIMTFILL" 0)            ; Text background Off
+            (setvar "DIMTIH" 0)              ; Text inside horizontal Off
+            (setvar "DIMTIX" 1)              ; Force text inside
+            (setvar "DIMTM" 0.0)             ; Minus tolerance
+            (setvar "DIMTMOVE" 1)            ; Text movement rule
+            (setvar "DIMTOFL" 1)             ; Force line inside extension
+            (setvar "DIMTOH" 0)              ; Text outside horizontal Off
+            (setvar "DIMTOL" 0)              ; Tolerance Off
+            (setvar "DIMTOLJ" 1)             ; Tolerance vertical justification
+            (setvar "DIMTP" 0.0)             ; Plus tolerance
+            (setvar "DIMTSZ" 0.0)            ; Tick size
+            (setvar "DIMTVP" 0.0)            ; Text vertical position
+            (setvar "DIMTXSTY" "FAMELINE_FOR_CKST")    ;Text style
+
+            (setvar "DIMTXT" 0.30)           ; Text height
+            (setvar "DIMTZIN" 0)             ; Tolerance zero suppression
+            (setvar "DIMUPT" 0)              ; User positioned text Off
+            (setvar "DIMZIN" 0)              ; Zero suppression
+          
+            
+
+          ;;
+        )
+      )
+      (command "DIMSTYLE" "AN" "N" "FAMELINE-CKST_C-E" "Y" "A" "" )
+      (command "DIMSTYLE" "save" "FAMELINE-CKST_C-E" "Y")
+    )
+    (defun TA:preset_FAMELINE-CKST_E-C ()
+      (setq doc (vla-get-ActiveDocument (vlax-get-Acad-Object)))
+      (setq dimstyles (vla-get-DimStyles doc))
+      (if (= (type (vl-catch-all-apply (function (lambda () (setq dimstyle (vla-Item dimstyles "FAMELINE-CKST_E-C")) ) ) ) ) 'VL-CATCH-ALL-APPLY-ERROR) (progn (command "DIMSTYLE" "s" "FAMELINE-CKST_E-C" ) ) )
+      (setq newset__ 
+        (list 
+          ;; ===== DIMENSION SYSTEM VARIABLES =====
+            ; (setvar "DIMASO" 0)              ; Create dimension objects (Off)
+            (setvar "DIMADEC" 0)             ; Angular decimal places
+            (setvar "DIMALT" 0)              ; Alternate units Off
+            (setvar "DIMALTD" 2)             ; Alternate unit decimal places
+            (setvar "DIMALTF" 25.4)          ; Alternate unit scale factor
+            ; (setvar "DIMALTMZF" 100.0)       ; Alternate sub-zero factor (metric)
+            (setvar "DIMALTRND" 0.0)         ; Alternate units rounding
+            (setvar "DIMALTTD" 2)            ; Alternate tolerance decimal places
+            (setvar "DIMALTTZ" 0)            ; Alternate tolerance zero suppression
+            (setvar "DIMALTU" 2)             ; Alternate units format
+            (setvar "DIMALTZ" 0)             ; Alternate unit zero suppression
+            (setvar "DIMARCSYM" 0)           ; Arc length symbol
+            (setvar "DIMASZ" 0.15)           ; Arrow size
+            (setvar "DIMATFIT" 3)            ; Arrow & text fit
+            (setvar "DIMAUNIT" 0)            ; Angular unit format
+            (setvar "DIMAZIN" 0)             ; Angular zero suppression
+
+            (setvar "DIMSAH" 1)              ; 0 = 1st and 2nd wil be same
+            ; (setvar "DIMBLK" "Origin")       ; Arrow block
+            (setvar "DIMBLK1" "Oblique")     ; First arrow block
+            (setvar "DIMBLK2" "Origin")    ; Second arrow block
+          
+            (getvar "DIMBLK" )       ; Arrow block
+            (getvar "DIMBLK1" )     ; First arrow block
+            (getvar "DIMBLK2" )    ; Second arrow block
+
+            (setvar "DIMCEN" 0.10)           ; Center mark size
+            (setvar "DIMCLRD" 256)             ; Dim line color (0 = BYBLOCK)
+            (setvar "DIMCLRE" 256)             ; Extension line color (BYBLOCK)
+            (setvar "DIMCLRT" 256)             ; Text color (1 = Red)
+
+            (setvar "DIMDEC" 2)              ; Decimal places
+            (setvar "DIMDLE" 0.10)           ; Dimension line extension
+            (setvar "DIMDLI" 0.10)           ; Dimension line spacing
+            (setvar "DIMDSEP" ".")           ; Decimal separator
+            (setvar "DIMEXE" 0.10)           ; Extension above dim line
+            (setvar "DIMEXO" 0.10)           ; Extension origin offset
+            (setvar "DIMFRAC" 0)             ; Fraction format
+
+            (setvar "DIMFXL" 1.0)            ; Fixed extension line length
+            (setvar "DIMFXLON" 0)            ; Fixed extension line Off
+            (setvar "DIMGAP" 0.05)           ; Gap text to dim line
+
+            (setvar "DIMJOGANG" (deg-to-rad 45.0))        ; Jog angle
+            (setvar "DIMJUST" 0)             ; Text justification
+
+            (setvar "DIMLDRBLK" "") ; Leader arrow block
+            (setvar "DIMLFAC" 1.0)           ; Linear scale factor
+            (setvar "DIMLIM" 0)              ; Dimension limits Off
+            (setvar "DIMLTYPE" "bylayer")            ; Dimension linetype BYBLOCK
+            (setvar "DIMLTEX1" "bylayer")
+            (setvar "DIMLTEX2" "bylayer")
+            (setvar "DIMLUNIT" 2)            ; Linear unit format
+
+            (setvar "DIMLWD" -1)             ; Dim line lineweight (BYBLOCK)
+            (setvar "DIMLWE" -1)             ; Extension line lineweight (BYBLOCK)
+
+            ;(setvar "DIMMZF" 100.0)          ; Metric sub-zero factor
+            (setvar "DIMRND" 0.0)            ; Rounding value
+            
+            (setvar "DIMSCALE" 1.0)          ; Overall scale
+
+            (setvar "DIMSD1" 0)              ; Suppress first dim line Off
+            (setvar "DIMSD2" 0)              ; Suppress second dim line Off
+            (setvar "DIMSE1" 0)              ; Suppress first extension Off
+            (setvar "DIMSE2" 0)              ; Suppress second extension Off
+            (setvar "DIMSOXD" 0)             ; Suppress outside dim lines Off
+
+            (setvar "DIMTAD" 1)              ; Text above dim line
+            (setvar "DIMTDEC" 2)             ; Tolerance decimal places
+            (setvar "DIMTFAC" 1.0)           ; Tolerance text height scale
+            (setvar "DIMTFILL" 0)            ; Text background Off
+            (setvar "DIMTIH" 0)              ; Text inside horizontal Off
+            (setvar "DIMTIX" 1)              ; Force text inside
+            (setvar "DIMTM" 0.0)             ; Minus tolerance
+            (setvar "DIMTMOVE" 1)            ; Text movement rule
+            (setvar "DIMTOFL" 1)             ; Force line inside extension
+            (setvar "DIMTOH" 0)              ; Text outside horizontal Off
+            (setvar "DIMTOL" 0)              ; Tolerance Off
+            (setvar "DIMTOLJ" 1)             ; Tolerance vertical justification
+            (setvar "DIMTP" 0.0)             ; Plus tolerance
+            (setvar "DIMTSZ" 0.0)            ; Tick size
+            (setvar "DIMTVP" 0.0)            ; Text vertical position
+            (setvar "DIMTXSTY" "FAMELINE_FOR_CKST")    ;Text style
+
+            (setvar "DIMTXT" 0.30)           ; Text height
+            (setvar "DIMTZIN" 0)             ; Tolerance zero suppression
+            (setvar "DIMUPT" 0)              ; User positioned text Off
+            (setvar "DIMZIN" 0)              ; Zero suppression
+          
+            
+
+          ;;
+        )
+      )
+      (command "DIMSTYLE" "AN" "N" "FAMELINE-CKST_E-C" "Y" "A" "" )
+      (command "DIMSTYLE" "save" "FAMELINE-CKST_E-C" "Y")
+    )
+    (defun TA:preset_FAMELINE-CKST_E-E ()
+      (setq doc (vla-get-ActiveDocument (vlax-get-Acad-Object)))
+      (setq dimstyles (vla-get-DimStyles doc))
+      (if (= (type (vl-catch-all-apply (function (lambda () (setq dimstyle (vla-Item dimstyles "FAMELINE-CKST_E-E")) ) ) ) ) 'VL-CATCH-ALL-APPLY-ERROR) (progn (command "DIMSTYLE" "s" "FAMELINE-CKST_E-E" ) ) )
+      (setq newset__ 
+        (list 
+          (command "dimstyle" "r" "FAMELINE-CKST_E-E")
+          ;; ===== DIMENSION SYSTEM VARIABLES =====
+            ; (setvar "DIMASO" 0)              ; Create dimension objects (Off)
+            (setvar "DIMADEC" 0)             ; Angular decimal places
+            (setvar "DIMALT" 0)              ; Alternate units Off
+            (setvar "DIMALTD" 2)             ; Alternate unit decimal places
+            (setvar "DIMALTF" 25.4)          ; Alternate unit scale factor
+            ; (setvar "DIMALTMZF" 100.0)       ; Alternate sub-zero factor (metric)
+            (setvar "DIMALTRND" 0.0)         ; Alternate units rounding
+            (setvar "DIMALTTD" 2)            ; Alternate tolerance decimal places
+            (setvar "DIMALTTZ" 0)            ; Alternate tolerance zero suppression
+            (setvar "DIMALTU" 2)             ; Alternate units format
+            (setvar "DIMALTZ" 0)             ; Alternate unit zero suppression
+            (setvar "DIMARCSYM" 0)           ; Arc length symbol
+            (setvar "DIMASZ" 0.15)           ; Arrow size
+            (setvar "DIMATFIT" 3)            ; Arrow & text fit
+            (setvar "DIMAUNIT" 0)            ; Angular unit format
+            (setvar "DIMAZIN" 0)             ; Angular zero suppression
+
+            (setvar "DIMSAH" 1)              ; 0 = 1st and 2nd wil be same
+            ; (setvar "DIMBLK" "Origin")       ; Arrow block
+            (setvar "DIMBLK1" "Oblique")     ; First arrow block
+            (setvar "DIMBLK2" "Oblique")    ; Second arrow block
+          
+            (getvar "DIMBLK" )       ; Arrow block
+            (getvar "DIMBLK1" )     ; First arrow block
+            (getvar "DIMBLK2" )    ; Second arrow block
+
+            (setvar "DIMCEN" 0.10)           ; Center mark size
+            (setvar "DIMCLRD" 256)             ; Dim line color (0 = BYBLOCK)
+            (setvar "DIMCLRE" 256)             ; Extension line color (BYBLOCK)
+            (setvar "DIMCLRT" 256)             ; Text color (1 = Red)
+
+            (setvar "DIMDEC" 2)              ; Decimal places
+            (setvar "DIMDLE" 0.10)           ; Dimension line extension
+            (setvar "DIMDLI" 0.10)           ; Dimension line spacing
+            (setvar "DIMDSEP" ".")           ; Decimal separator
+            (setvar "DIMEXE" 0.10)           ; Extension above dim line
+            (setvar "DIMEXO" 0.10)           ; Extension origin offset
+            (setvar "DIMFRAC" 0)             ; Fraction format
+
+            (setvar "DIMFXL" 1.0)            ; Fixed extension line length
+            (setvar "DIMFXLON" 0)            ; Fixed extension line Off
+            (setvar "DIMGAP" 0.05)           ; Gap text to dim line
+
+            (setvar "DIMJOGANG" (deg-to-rad 45.0))        ; Jog angle
+            (setvar "DIMJUST" 0)             ; Text justification
+
+            (setvar "DIMLDRBLK" "") ; Leader arrow block
+            (setvar "DIMLFAC" 1.0)           ; Linear scale factor
+            (setvar "DIMLIM" 0)              ; Dimension limits Off
+            (setvar "DIMLTYPE" "bylayer")            ; Dimension linetype BYBLOCK
+            (setvar "DIMLTEX1" "bylayer")
+            (setvar "DIMLTEX2" "bylayer")
+            (setvar "DIMLUNIT" 2)            ; Linear unit format
+
+            (setvar "DIMLWD" -1)             ; Dim line lineweight (BYBLOCK)
+            (setvar "DIMLWE" -1)             ; Extension line lineweight (BYBLOCK)
+
+            ;(setvar "DIMMZF" 100.0)          ; Metric sub-zero factor
+            (setvar "DIMRND" 0.0)            ; Rounding value
+            
+            (setvar "DIMSCALE" 1.0)          ; Overall scale
+
+            (setvar "DIMSD1" 0)              ; Suppress first dim line Off
+            (setvar "DIMSD2" 0)              ; Suppress second dim line Off
+            (setvar "DIMSE1" 0)              ; Suppress first extension Off
+            (setvar "DIMSE2" 0)              ; Suppress second extension Off
+            (setvar "DIMSOXD" 0)             ; Suppress outside dim lines Off
+
+            (setvar "DIMTAD" 1)              ; Text above dim line
+            (setvar "DIMTDEC" 2)             ; Tolerance decimal places
+            (setvar "DIMTFAC" 1.0)           ; Tolerance text height scale
+            (setvar "DIMTFILL" 0)            ; Text background Off
+            (setvar "DIMTIH" 0)              ; Text inside horizontal Off
+            (setvar "DIMTIX" 1)              ; Force text inside
+            (setvar "DIMTM" 0.0)             ; Minus tolerance
+            (setvar "DIMTMOVE" 1)            ; Text movement rule
+            (setvar "DIMTOFL" 1)             ; Force line inside extension
+            (setvar "DIMTOH" 0)              ; Text outside horizontal Off
+            (setvar "DIMTOL" 0)              ; Tolerance Off
+            (setvar "DIMTOLJ" 1)             ; Tolerance vertical justification
+            (setvar "DIMTP" 0.0)             ; Plus tolerance
+            (setvar "DIMTSZ" 0.0)            ; Tick size
+            (setvar "DIMTVP" 0.0)            ; Text vertical position
+            (setvar "DIMTXSTY" "FAMELINE_FOR_CKST")    ;Text style
+
+            (setvar "DIMTXT" 0.30)           ; Text height
+            (setvar "DIMTZIN" 0)             ; Tolerance zero suppression
+            (setvar "DIMUPT" 0)              ; User positioned text Off
+            (setvar "DIMZIN" 0)              ; Zero suppression
+          
+            
+
+          ;;
+        )
+      )
+      (setq dim_command_ (list 
+                            (setvar "DIMCLRD" 256) ; Dimension line color
+                            (setvar "DIMCLRE" 256) ; Extension line color
+                            (setvar "DIMCLRT" 256) ; Text color
+                            (setvar "DIMLWD" -1) ; Dimension line lineweight
+                            (setvar "DIMLWE" -1) ; Extension line lineweight
+                            (setvar "DIMSCALE" 1.0) ; Overall scale factor
+                            (setvar "DIMLFAC" 1.0) ; Linear unit scale factor
+                            (setvar "DIMTXSTY" "FAMELINE_FOR_CKST") ; Linear unit scale factor
+                          )
+      )
+      (command "DIMSTYLE" "AN" "N" "FAMELINE-CKST_E-E" "Y" "A" "" )
+      (command "DIMSTYLE" "save" "FAMELINE-CKST_E-E" "Y")
+    )
+    ; (TA:preset_FAMELINE-CKST_C-C)
+    ; (TA:preset_FAMELINE-CKST_C-E)
+    ; (TA:preset_FAMELINE-CKST_E-C)
+    ; (TA:preset_FAMELINE-CKST_E-E)
     (defun c:dimsetting-CKST_DIM_PRESET ()
       ;example of setting dimension variables by setvar
         ; (list 
