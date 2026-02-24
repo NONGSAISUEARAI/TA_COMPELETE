@@ -9453,7 +9453,7 @@
       ;new_blk_entlast object
         (setq ss_ename (entlast))
         (setq ss_obj (vlax-ename->vla-object ss_ename))
-        (vla-put-color ss_obj 08)
+        (vla-put-color ss_obj 256)
       ;
     )
     (defun c:make_selection_set_boudary_line_MULBOL ()
@@ -12326,7 +12326,7 @@
                   (setq 1st_trans (list 
                                     (round-300 (car (trans ss_pre_filter_set_xx_obj_ins_ 0 1) ) )
                                     (round-300 (cadr (trans ss_pre_filter_set_xx_obj_ins_ 0 1) ) )
-                                    (TA:round-05 (caddr (trans ss_pre_filter_set_xx_obj_ins_ 0 1) ) )
+                                    (caddr (trans ss_pre_filter_set_xx_obj_ins_ 0 1) )
                                   )
                   )
                   (vlax-3d-point 
@@ -12339,7 +12339,7 @@
               (vlax-3d-point 
                 (round-300  (car ss_pre_filter_set_xx_obj_ins_))
                 (round-300 (cadr ss_pre_filter_set_xx_obj_ins_))
-                (TA:round-05 (caddr ss_pre_filter_set_xx_obj_ins_))
+                (caddr ss_pre_filter_set_xx_obj_ins_)
               )
             )
             
@@ -15865,6 +15865,133 @@
               (if (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "HEADING-NAME" ) "*SHEET*") T )
                 (progn
                   (strcat (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "HEADING-NAME" ) " (AS-BUILT)" )
+                )
+              )
+            )
+            (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "distance1" 0 )
+            (setq ss_pre_filter_set_xx_obj_assembly_point_ (TA:assembly_coordinate_coner (cdr (TA:ename+vla-getboundingbox ss_pre_filter_set_xx_obj_))))
+            (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "distance1" 
+              (distance 
+                (nth 0 ss_pre_filter_set_xx_obj_assembly_point_)
+                (nth 1 ss_pre_filter_set_xx_obj_assembly_point_)
+              )
+              ; (/ (* (vla-get-xscalefactor ss_pre_filter_set_xx_obj_) 8.5) 2)
+            )
+            (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+          )
+        ;       
+      ;
+      
+    )
+    (defun c:createC06layout ()
+      ;return
+        (command "ucs" "world")
+      ;
+      ;go_to_layout-process
+        (if 
+          (or 
+            (= (getvar "ctab") "model")
+            (/= (getvar "ctab") "Layout1")
+          )
+          (progn 
+            (setvar "ctab" "Layout1")
+            (if  ;pre_select_ssget_or_post_select_ssget
+              (=
+                (setq ss_pre_filter_set_xx_ (ssget "x"
+                                                  (list
+                                                    ; (cons 0 "INSERT") ;type of object
+                                                    (cons 410 (getvar "CTAB"))
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+                nil
+              )
+              (progn
+                (setq ss_pre_filter_set_xx_ (ssget "X"
+                                                  (list
+                                                    ; (cons 0 "INSERT") ;type of object
+                                                    (cons 410 (getvar "CTAB"))
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+              )
+              (sslength ss_pre_filter_set_xx_)
+            )
+          )
+        )
+        (if (= (getvar "ctab") "Layout1")
+          (progn
+            (command "copybase" (list 0 0 0) ss_pre_filter_set_xx_ "")
+            (command "layout" "n" "Layout-C06")
+
+            
+            (setvar "ctab" "Layout-C06")
+            (setq delete_ss_ (ssget "X" 
+                                    (list 
+                                      ; (cons 0 "INSERT") ;type of object
+                                      (cons 410 (getvar "CTAB"))
+                                      ; (cons 8 "000 - GRID")   ;kind of layer
+                                      ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                      ; (cons 62 1)           ;kind of color call sign with color code index
+                                    )
+                             )
+            )
+            (command "erase" delete_ss_ "")
+            (command "pasteclip" (list 0 0 0))
+          )
+        )
+        (setq ss_pre_filter_set_xx_set1 (ssget "X"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            (cons 410 (getvar "CTAB"))
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )   
+        ;preloop_and_while
+          (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_set1 "Title Block_Under Ground_C1 v3"))
+          (setq ss_pre_filter_set_xx_i 0)
+          (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+            (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+            (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "Title_3_val" 
+              "(C06 - BULKHEAD)"
+            )
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DRAWING_NO_val" 
+              (LM:StringSubst "-03" "-01" (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "DRAWING_NO_val" ))
+            )
+            
+            (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+          )
+        ; 
+        (setq ss_pre_filter_set_xx_set2 (ssget "X"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            (cons 410 (getvar "CTAB"))
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )  
+        ;preloop_and_while
+          (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_set2 "000 - CKST_HEADING_VAL"))
+          (setq ss_pre_filter_set_xx_i 0)
+          (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+            (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+            (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "HEADING-NAME" 
+              (if (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "HEADING-NAME" ) "*SHEET*") T )
+                (progn
+                  (strcat (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "HEADING-NAME" ) " (C06)" )
                 )
               )
             )
@@ -36165,7 +36292,7 @@
         (command "vplayer" "f" "000 - DEF GRID" "c" "")
       )
     )
-    (setq TA_layer_ (TA:get_name_layer_in_drawing))
+    (setq TA_layer_ (TA:get_name_layer_in_drawing)) 
     (if (and 
           (/= (TA:wcmatch_list (list "*000_PPLINE_CKST_SMOKE_ACESSORIES*") TA_layer_ T) nil)
           (/= (TA:wcmatch_list (list "*000_PPLINE_CKST_SMOKE_BARRIER*") TA_layer_ T) nil)
@@ -36182,6 +36309,107 @@
         (command "vplayer" "f" "000 - CSD_*" "c" "")
       )
     )
+    (_endUndo doc)
+    
+    
+    ; (command "-layer" "color" 251 "VP" "SMOKE" "")
+  )
+  (defun c:PPLINE_CKST_viewport_layer_CKST-VPC06()
+    ;detect_mode_
+      ;เพิ่มคำสั่งที่ใช้เช็คตัวตนของเลเยอร์อีกครั้ง
+    ;
+    (TA:interface_text_ T)
+    
+    (_StartUndo doc)
+    (if (= (TA:if_found_layer_ "A11_ALU.SOLID SHEET" ) T)
+      (progn
+        (command "vplayer" "c" 251 "A11_ALU.SOLID SHEET" "c" "")
+      )
+    )
+    (if (= (TA:if_found_layer_ "A04_TUBE SERIES" ) T)
+      (progn
+        (command "vplayer" "c" 251 "A04_TUBE SERIES" "c" "")
+      )
+    )
+    (if (= (TA:if_found_layer_ "001 - ASCESSORIES" ) T)
+      (progn
+        (command "vplayer" "f" "001 - ASCESSORIES" "c" "")
+      )
+    )
+    (if (= (TA:if_found_layer_ "001 - ASCESSORIES_HANGING" ) T)
+      (progn
+        (command "vplayer" "f" "001 - ASCESSORIES_HANGING" "c" "")
+      )
+    )
+    (if (= (TA:if_found_layer_ "FRAMING_HANGING_MAIN_COLOR_1" ) T)
+      (progn
+        (command "vplayer" "f" "FRAMING_HANGING_MAIN_COLOR_1" "c" "")
+      )
+    )
+    (if (= (TA:if_found_layer_ "000 - GRID" ) T)
+      (progn
+        (command "vplayer" "f" "000 - GRID" "c" "")
+      )
+    )
+    (if (= (TA:if_found_layer_ "000 - DEF GRID" ) T)
+      (progn
+        (command "vplayer" "f" "000 - DEF GRID" "c" "")
+      )
+    )
+    (setq TA_layer_ (TA:get_name_layer_in_drawing)) 
+    (if (and 
+          (/= (TA:wcmatch_list (list "*000_PPLINE_CKST_SMOKE_ACESSORIES*") TA_layer_ T) nil)
+          (/= (TA:wcmatch_list (list "*000_PPLINE_CKST_SMOKE_BARRIER*") TA_layer_ T) nil)
+        )
+      (progn
+        (command "vplayer" "F" "*000_PPLINE_CKST_SMOKE_ACESSORIES*" "c" "")
+        (command "vplayer" "F" "*000_PPLINE_CKST_SMOKE_BARRIER*" "c" "")
+      )
+    )
+    (if (and 
+          (/= (TA:wcmatch_list (list "*000 - CSD_*") TA_layer_ T) nil)
+        )
+      (progn
+        (command "vplayer" "f" "000 - CSD_*" "c" "")
+      )
+    )
+    ;ckst_layer_list_
+      (setq CKST_layer_list_ (list "WALL-E" "A-COLS-E" "A-DOOR-E" "I-WALL-E" 
+                                  "A-CLNG" "A-FLOR-E" "A-GLAZ-CURT" "A-GENM" "E-LITE-EQPM" 
+                                  "S-COLS-E" "A-DETL-GENF" "A-DETL" "A-WALL-PATT" "A-WALL" 
+                                  "A-COLS" "A-FLOR" "A-WALL-FNSH" "_ _ A-DETL-OPENING" 
+                                  "A-DOOR-OPNG" "A-DOOR" "A-CLNG-PATT" "A-DOOR-HDLN" 
+                                  "A-FLOR-PATT" "A-DOOR-FRAM" "S-COLS" "E-LITE-EQPM-HDLN" 
+                                  "A-DETL-THIN" "S-GRID" "S-GRID-IDEN" "A-ANNO-DIMS" 
+                                  "A-ANNO-DIMS-500" "Defpoints" "A-CLNG-IDEN" "A-ROOM-IDEN" 
+                                  "G-ANNO-TEXT" "A-ANNO-NOTE" "G-ANNO-NPLT" "G-ANNO-TTLB" 
+                                  "G-IMPT" "_ G-ANNO-TTLB-3" "_ G-ANNO-TTLB -1" 
+                                  "_ G-ANNO-TTLB-6" "G-ANNO-VTTL" "G-ANNO-SCHD" 
+                                  "G-ANNO-REVC" "G-ANNO-REVC-IDEN"
+                            )
+      )
+      ;preloop_and_while
+        (setq CKST_layer_list_i 0)
+        (while (and 
+                 (> (getvar "CVPORT") 1)
+                 (< CKST_layer_list_i (length CKST_layer_list_))
+               )
+          (if (and 
+                (= (TA:if_found_layer_ (setq CKST_layer_list_layername_ (nth  CKST_layer_list_i CKST_layer_list_)) ) T)
+                (/= (wcmatch (setq CKST_layer_list_layername_ (nth  CKST_layer_list_i CKST_layer_list_)) "S-GRID,S-GRID-IDEN,A-ANNO-DIMS,S-COLS-E,A-COLS,A-ROOM-IDEN") T)
+                
+              )
+            (progn
+              (command "vplayer" "c" 1 CKST_layer_list_layername_ "c" ""  )
+              (command "vplayer" "tr" 50 CKST_layer_list_layername_ "c" "")
+            )
+          )
+          (TA:textscr_process_V2 "\nupdate dynamic" CKST_layer_list_i CKST_layer_list_)
+          (setq CKST_layer_list_i (+ CKST_layer_list_i 1))
+        )
+      ;
+    ;
+    
     (_endUndo doc)
     
     
@@ -43845,3 +44073,175 @@
 
 
 
+  
+    
+  
+  (defun TA:dynamic_joint_ ()
+    (setq 1st_J_ename_ (car (entsel "specify Object")))
+    (setq 1st_J_obj_   (vlax-ename->vla-object 1st_J_ename_))
+    (setq 1st_J_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 1st_J_obj_))))
+    (setq 1st_J_obj_ro_top (TA:ModifyRotation (rad-to-deg (vla-get-rotation 1st_J_obj_)) +90))
+    (setq 1st_J_obj_ro_bot (TA:ModifyRotation (rad-to-deg (vla-get-rotation 1st_J_obj_)) +270))
+    (setq 1st_J_top_point_ (polar 1st_J_obj_ins_ (deg-to-rad 1st_J_obj_ro_top) 12.5 ))
+    (setq 1st_J_bot_point_ (polar 1st_J_obj_ins_ (deg-to-rad 1st_J_obj_ro_bot) 12.5 ))
+    
+    (setq 2nd_J_ename_ (car (entsel "specify Object")))
+    (setq 2nd_J_obj_   (vlax-ename->vla-object 2nd_J_ename_))
+    (setq 2nd_J_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 2nd_J_obj_))))
+    (setq 2nd_J_obj_ro_top (TA:ModifyRotation (rad-to-deg (vla-get-rotation 2nd_J_obj_)) +90))
+    (setq 2nd_J_obj_ro_bot (TA:ModifyRotation (rad-to-deg (vla-get-rotation 2nd_J_obj_)) +270))
+    (setq 2nd_J_top_point_ (polar 2nd_J_obj_ins_ (deg-to-rad 2nd_J_obj_ro_top) 12.5 ))
+    (setq 2nd_J_top_point_length_ 
+           (polar 2nd_J_top_point_ 
+                  
+                  (deg-to-rad 2nd_J_obj_ro_top) 
+                  12.5 
+           )
+    )
+    (setq 2nd_J_bot_point_ (polar 2nd_J_obj_ins_ (deg-to-rad 2nd_J_obj_ro_bot) 12.5 ))
+
+    
+    ;
+  )
+
+  
+
+  (defun c:dynjoint ()
+    ;
+      (setq 1st_J_ename_ (car (entsel "specify Object")))
+      (setq 1st_J_obj_   (vlax-ename->vla-object 1st_J_ename_))
+      (setq 1st_J_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 1st_J_obj_))))
+      (setq 1st_J_obj_ro_top (TA:ModifyRotation (rad-to-deg (vla-get-rotation 1st_J_obj_)) +90))
+      (setq 1st_J_obj_ro_bot (TA:ModifyRotation (rad-to-deg (vla-get-rotation 1st_J_obj_)) +270))
+      (setq 1st_J_top_point_ (polar 1st_J_obj_ins_ (deg-to-rad 1st_J_obj_ro_top) 12.5 ))
+      (setq 1st_J_bot_point_ (polar 1st_J_obj_ins_ (deg-to-rad 1st_J_obj_ro_bot) 12.5 ))
+      (setq 1st_J_top_point_length (polar 1st_J_top_point_ 
+                                          (if 
+                                            (>= (vla-get-xscalefactor 1st_J_obj_) 1)
+                                            (progn (vla-get-rotation 1st_J_obj_))
+                                            (deg-to-rad (- (rad-to-deg (vla-get-rotation 1st_J_obj_)) 180))
+                                          )
+                                          50000
+                                  )
+      )
+      (setq 1st_J_bot_point_length (polar 1st_J_bot_point_ 
+                                          (if 
+                                            (>= (vla-get-xscalefactor 1st_J_obj_) 1)
+                                            (progn (vla-get-rotation 1st_J_obj_))
+                                            (deg-to-rad (- (rad-to-deg (vla-get-rotation 1st_J_obj_)) 180))
+                                          )
+                                          50000
+                                  )
+      )
+    ;
+    ;
+      (setq 2nd_J_ename_ (car (entsel "specify Object")))
+      (setq 2nd_J_obj_   (vlax-ename->vla-object 2nd_J_ename_))
+      (setq 2nd_J_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 2nd_J_obj_))))
+      (setq 2nd_J_obj_ro_top (TA:ModifyRotation (rad-to-deg (vla-get-rotation 2nd_J_obj_)) +90))
+      (setq 2nd_J_obj_ro_bot (TA:ModifyRotation (rad-to-deg (vla-get-rotation 2nd_J_obj_)) +270))
+      (setq 2nd_J_top_point_ (polar 2nd_J_obj_ins_ (deg-to-rad 2nd_J_obj_ro_top) 12.5 ))
+      (setq 2nd_J_bot_point_ (polar 2nd_J_obj_ins_ (deg-to-rad 2nd_J_obj_ro_bot) 12.5 ))
+      (setq 2nd_J_top_point_length (polar 2nd_J_top_point_ 
+                                          (if 
+                                            (>= (vla-get-xscalefactor 2nd_J_obj_) 1)
+                                            (progn (vla-get-rotation 2nd_J_obj_))
+                                            (deg-to-rad (- (rad-to-deg (vla-get-rotation 2nd_J_obj_)) 180))
+                                          )
+                                          50000
+                                  )
+      )
+      (setq 2nd_J_bot_point_length (polar 2nd_J_bot_point_ 
+                                          (if 
+                                            (>= (vla-get-xscalefactor 2nd_J_obj_) 1)
+                                            (progn (vla-get-rotation 2nd_J_obj_))
+                                            (deg-to-rad (- (rad-to-deg (vla-get-rotation 2nd_J_obj_)) 180))
+                                          )
+                                          50000
+                                  )
+      )
+    ;
+    ;joint left process
+      (LM:setdynpropvalue 
+        1st_J_obj_
+        "distance1"
+        (distance 1st_J_top_point_ 
+                  (inters 1st_J_top_point_ 
+                          1st_J_top_point_length
+                          2nd_J_top_point_
+                          2nd_J_top_point_length
+                  )
+        )
+      )
+      (LM:setdynpropvalue 
+        2nd_J_obj_
+        "distance1"
+        (distance 2nd_J_top_point_ 
+                  (inters 1st_J_top_point_ 
+                          1st_J_top_point_length
+                          2nd_J_top_point_
+                          2nd_J_top_point_length
+                  )
+        )
+      )
+    ;joint left process
+    ;joint right process
+      (LM:setdynpropvalue 
+        1st_J_obj_
+        "distance2"
+        (distance 1st_J_bot_point_ 
+                  (inters 1st_J_bot_point_ 
+                          1st_J_bot_point_length
+                          2nd_J_bot_point_
+                          2nd_J_bot_point_length
+                  )
+        )
+      )
+      (LM:setdynpropvalue 
+        2nd_J_obj_
+        "distance2"
+        (distance 2nd_J_bot_point_ 
+                  (inters 1st_J_bot_point_ 
+                          1st_J_bot_point_length
+                          2nd_J_bot_point_
+                          2nd_J_bot_point_length
+                  )
+        )
+      )
+    ;
+  )
+ 
+    (defun c:mkwdline_ss1 ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_mkwdline_ (ssget "i"
+                (list
+                  (cons 0 "line,lwpolyline") ;type of object
+                  (cons 8 "009 - AHP_06_FRAMING_MAIN_COLOR_2,009 - AHP_06_FRAMING_MAIN_COLOR_1")   ;kind of layer
+                  ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                  ; (cons 62 1)           ;kind of color call sign with color code index
+                )
+              )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_mkwdline_ (ssget
+                (list
+                  (cons 0 "line,lwpolyline") ;type of object
+                  (cons 8 "009 - AHP_06_FRAMING_MAIN_COLOR_2,009 - AHP_06_FRAMING_MAIN_COLOR_1")   ;kind of layer
+                  ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                  ; (cons 62 1)           ;kind of color call sign with color code index
+                )
+              )
+            )
+            (sslength ss_pre_filter_set_mkwdline_)
+          )
+        )
+      ;
+      (setq ss_pre_filter_set_mkwd_line_wd_ (TA:Prop_Filter_ss_set_ ss_pre_filter_set_mkwdline_ 'ObjectName "AcDbLine" ))
+      ; (command "pselect"  ss_pre_filter_set_mkwd_line_wd_ "" )
+      (setq newtron_ss_ (TA:combine_selection_set_ ss_pre_filter_set_mkwd_line_wd_ ss_pre_filter_set_mkwdline_ ))
+      (command "pedit" "m" newtron_ss_ "" "y" "w" 25  )
+    )

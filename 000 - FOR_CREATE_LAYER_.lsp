@@ -1117,6 +1117,20 @@
                                 )
       )
     )
+    (TA:generate_filter_list
+      (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+      (setq 2nd_filter_val_main "009 - AHP_06_") ;2nd_filter
+      (setq 3rd_filter_val_main (list ;3rd_filter
+                                  "DIMS" ;
+                                )
+      )
+      (setq 4th_filter_val_main (list  ;4th_filter
+                                      (list "OVERALL" 1) ;
+                                      (list "NOM" 1) ;
+                                       ;
+                                )
+      )
+    )
   )
   (defun c:crelayASPG ()
     (TA:generate_filter_list

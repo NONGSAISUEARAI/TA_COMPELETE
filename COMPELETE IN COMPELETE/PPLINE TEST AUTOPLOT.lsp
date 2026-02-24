@@ -3459,6 +3459,29 @@
       (vla-put-PaperUnits lyout acMillimeters)
     ;
   )
+  (defun TA:preset_plotter_mode_3-1 ()
+    ;set_var_plot
+      ; (setq ss (car (entsel)))
+      (setq adoc (vla-get-activedocument (vlax-get-acad-object)))
+      (setq lyout (vla-get-activelayout adoc))
+      (setq styleSheet "A3_Standard (MRT-AGATE) - purple line.ctb")
+      (setq cfgName "AutoCAD PDF (High Quality Print).pc3")
+      (vla-RefreshPlotDeviceInfo lyout)
+      (vla-put-ConfigName lyout CfgName)
+      (vla-put-PaperUnits lyout acMillimeters)
+      (vla-put-plotrotation lyout ac0degrees)
+      ; (vla-put-PlotType lyout acWindow)
+      (vla-put-PlotType lyout acExtents)
+      (vla-put-CanonicalMediaName lyout "ISO_full_bleed_A3_(420.00_x_297.00_MM)")
+      (vla-put-PlotWithLineweights lyout :vlax-true)
+      (vla-put-PlotWithPlotStyles lyout :vlax-true)
+      (vla-put-StyleSheet lyout styleSheet)
+      (vla-put-CenterPlot lyout :vlax-true)
+      (vla-put-standardscale lyout acScaleToFit )
+      (vla-put-plotrotation lyout ac90degrees)
+      (vla-put-PaperUnits lyout acMillimeters)
+    ;
+  )
   (defun TA:preset_plotter_mode_4 ()
     ;set_var_plot
       ; (setq ss (car (entsel)))
@@ -4204,62 +4227,36 @@
                 )
               ;
               ;input_type_of_plot_
-                (TA:preset_plotter_mode_3) 
+                (TA:preset_plotter_mode_3-1) 
               ;
-            ;   (command "-plot" 
-            ;         "Yes" ;Detailed Plot Configuration?
-            ;         (getvar "ctab")
-            ;         "DWG To PDF.pc3" ;Printer Name
-            ;         "ISO_full_bleed_A3_(420.00_x_297.00_mm)" ;Paper Size
-            ;         ;paper_size ;Paper Size
-            ;         "m" ;Paper Units Millimeters
-            ;         "Landscape" ;Orientation
-            ;         "No" ;Plot Upside Down
-            ;         ; "extents" ;Plot Area
-            ;         (nth 0 main_bol) ;vla-getboundingbox
-            ;         (nth 2 main_bol) ;vla-getboundingbox
-            ;         ;llpt				;Lower left corner of window
-            ;         ;urpt				;Upper right corner of window
-            ;         "Fit" ;Plot Scale	"Fit"
-            ;         "Center" ;Plot Offset
-            ;         "yes" ;Use Plot Style?
-            ;         "A3_Standard (MRT-AGATE) - purple line.ctb" ;Plot Style Name
-            ;         "Yes" ;Plot Lineweights?
-            ;         "" ;Enter shade plot setting ["As displayed"/"Wireframe"/"Hidden"/"Visual styles"/"Rendered"]
-            ;         "N"
-            ;         "N"
-            ;         filename ; Name file and Location
-            ;         "Y"
-            ;         "Y"
-                
             ; )
               (command "-plot" 
-                    "Yes" ;Detailed Plot Configuration?
-                    (getvar "ctab")
-                    "DWG To PDF.pc3" ;Printer Name
-                    "ISO_full_bleed_A1_(841.00_x_594.00_MM)" ;Paper Size
-                    ;paper_size ;Paper Size
-                    "m" ;Paper Units Millimeters
-                    "Landscape" ;Orientation
-                    "No" ;Plot Upside Down
-                    "window" ;Plot Area
-                    (nth 0 main_bol) ;vla-getboundingbox
-                    (nth 2 main_bol) ;vla-getboundingbox
-                    ;llpt				;Lower left corner of window
-                    ;urpt				;Upper right corner of window
-                    "Fit" ;Plot Scale	"Fit"
-                    "Center" ;Plot Offset
-                    "yes" ;Use Plot Style?
-                    "A3_Standard (MRT-AGATE) - purple line.ctb" ;Plot Style Name
-                    "Yes" ;Plot Lineweights?
-                    "" ;Enter shade plot setting ["As displayed"/"Wireframe"/"Hidden"/"Visual styles"/"Rendered"]
-                    "N"
-                    "N"
-                    filename ; Name file and Location
-                    "Y"
-                    "Y"
-                
-            )
+                       "Yes" ;Detailed Plot Configuration?
+                       (getvar "ctab")
+                       "DWG To PDF.pc3" ;Printer Name
+                       "ISO_full_bleed_A1_(841.00_x_594.00_MM)" ;Paper Size
+                       ;paper_size ;Paper Size
+                       "m" ;Paper Units Millimeters
+                       "Landscape" ;Orientation
+                       "No" ;Plot Upside Down
+                       "window" ;Plot Area
+                       (nth 0 main_bol) ;vla-getboundingbox
+                       (nth 2 main_bol) ;vla-getboundingbox
+                       ;llpt				;Lower left corner of window
+                       ;urpt				;Upper right corner of window
+                       "Fit" ;Plot Scale	"Fit"
+                       "Center" ;Plot Offset
+                       "yes" ;Use Plot Style?
+                       "A3_Standard (MRT-AGATE) - purple line.ctb" ;Plot Style Name
+                       "Yes" ;Plot Lineweights?
+                       "Y" ;scale linewieghts
+                       "N"
+                       "N"
+                       filename ; Name file and Location
+                       "Y"
+                       "Y"
+              )
+              
             )
           )
           (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
@@ -4428,7 +4425,7 @@
                     "yes" ;Use Plot Style?
                     "A3_Standard (MRT-AGATE) - purple line.ctb" ;Plot Style Name
                     "Yes" ;Plot Lineweights?
-                    "" ;Enter shade plot setting ["As displayed"/"Wireframe"/"Hidden"/"Visual styles"/"Rendered"]
+                    "Y" ;scale lineweights
                     "N"
                     "N"
                     filename ; Name file and Location
@@ -4436,6 +4433,9 @@
                     "Y"
                 
             )
+            
+              
+            
             )
           )
           (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))

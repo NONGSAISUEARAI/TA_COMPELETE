@@ -10216,7 +10216,7 @@
       (setq lv_ 1)
       (setq lv_add (* lv_ 1.25))
       (setq dimprec 0)
-      (setq sss_obj_linearsc_ -40)
+      (setq sss_obj_linearsc_ 100)
       (setq DIM_E-C "FAMELINE-CKST_E-C")
       (setq DIM_C-C "FAMELINE-CKST_C-C")
       (setq DIM_C-E "FAMELINE-CKST_C-E")
@@ -10369,6 +10369,127 @@
     )
     (defun c:dimlsc ()
       (setq sss_obj_linearsc_ (setvar "dimlfac" (setq lfac (cond ( (getreal (strcat "\nSpecify Level <" (rtos (setq lfac (cond (lfac) (1.0) ) ) ) "> : " ) ) ) (lfac) ) )))
+    )
+    (defun c:dimsetting-CKST_DIM_PRESET ()
+      ;example of setting dimension variables by setvar
+        ; (list 
+        ;       (setvar "DIMASO" 0)              
+        ;       ; Create dimension objects (Off)
+        ;       ; DIMSTYLE เป็น read-only ข้าม
+        ;       (setvar "DIMADEC" 0)  ; Angular decimal places
+        ;       (setvar "DIMALT" 0) ; Alternate units selected (Off)
+        ;       (setvar "DIMALTD" 3) ; Alternate unit decimal places
+        ;       (setvar "DIMALTF" 0.0394) ; Alternate unit scale factor
+        ;       (setvar "DIMALTMZF" 100.0) ; Alternate sub-zero factor
+        ;       ; DIMALTMZS ไม่มีค่า ข้าม
+        ;       (setvar "DIMALTRND" 0.0) ; Alternate units rounding
+        ;       (setvar "DIMALTTD" 3) ; Alternate tolerance decimal places
+        ;       (setvar "DIMALTTZ" 0) ; Alternate tolerance zero suppression
+        ;       (setvar "DIMALTU" 2) ; Alternate units
+        ;       (setvar "DIMALTZ" 0) ; Alternate unit zero suppression
+        ;       ; DIMAPOST ไม่มีค่า ข้าม
+        ;       (setvar "DIMARCSYM" 0) ; Arc length symbol
+        ;       (setvar "DIMASZ" 2.5) ; Arrow size
+        ;       (setvar "DIMATFIT" 3) ; Arrow and text fit
+        ;       (setvar "DIMAUNIT" 0) ; Angular unit format
+        ;       (setvar "DIMAZIN" 0) ; Angular zero suppression
+        ;       ; DIMBLK / DIMBLK1 / DIMBLK2 เป็นชื่อ block (ใช้ setvar ได้ถ้าต้องการ)
+        ;       (setvar "DIMCEN" 2.5) ; Center mark size
+        ;       ; สี BYBLOCK ไม่ต้อง set ถ้าใช้ค่าเดิม
+        ;       (setvar "DIMDEC" 2) ; Decimal places
+        ;       (setvar "DIMDLE" 0.0) ; Dimension line extension
+        ;       (setvar "DIMDLI" 3.75) ; Dimension line spacing
+        ;       ; DIMDSEP "," ปกติไม่ต้องตั้งถ้าใช้ค่าเดิม
+        ;       (setvar "DIMEXE" 1.25) ; Extension above dimension line
+        ;       (setvar "DIMEXO" 0.625) ; Extension line origin offset
+        ;       (setvar "DIMFRAC" 0) ; Fraction format
+        ;       (setvar "DIMFXL" 1.0) ; Fixed Extension Line
+        ;       (setvar "DIMFXLON" 0) ; Enable Fixed Extension Line
+        ;       (setvar "DIMGAP" 0.625) ; Gap from dimension line to text
+        ;       (setvar "DIMJOGANG" 45) ; Radius dimension jog angle
+        ;       (setvar "DIMJUST" 0) ; Text justification
+        ;       ; DIMLDRBLK = ClosedFilled (ถ้าจะตั้งใช้ setvar "DIMLDRBLK" "ClosedFilled")
+        ;       (setvar "DIMLFAC" 1.0) ; Linear unit scale factor
+        ;       (setvar "DIMLIM" 0) ; Generate dimension limits
+        ;       ; Linetype BYBLOCK ข้ามได้
+        ;       (setvar "DIMLWD" -2) ; Dimension line lineweight
+        ;       (setvar "DIMLWE" -2) ; Extension line lineweight
+        ;       (setvar "DIMMZF" 100.0) ; Sub-zero factor
+        ;       ; DIMMZS ไม่มีค่า
+        ;       ; DIMPOST ไม่มีค่า
+        ;       (setvar "DIMRND" 0.0) ; Rounding value
+        ;       (setvar "DIMSAH" 0) ; Separate arrow blocks
+        ;       (setvar "DIMSCALE" 1.0) ; Overall scale factor
+        ;       (setvar "DIMSD1" 0) ; Suppress first dim line
+        ;       (setvar "DIMSD2" 0) ; Suppress second dim line
+        ;       (setvar "DIMSE1" 0) ; Suppress first ext line
+        ;       (setvar "DIMSE2" 0) ; Suppress second ext line
+        ;       (setvar "DIMSOXD" 0) ; Suppress outside dim lines
+        ;       (setvar "DIMTAD" 1) ; Text above dim line
+        ;       (setvar "DIMTDEC" 2) ; Tolerance decimal places
+        ;       (setvar "DIMTFAC" 1.0) ; Tolerance text scale
+        ;       (setvar "DIMTFILL" 0) ; Text background off
+        ;       ; DIMTFILLCLR BYBLOCK ข้าม
+        ;       (setvar "DIMTIH" 0) ; Text inside horizontal
+        ;       (setvar "DIMTIX" 0) ; Place text inside ext
+        ;       (setvar "DIMTM" 0.0) ; Minus tolerance
+        ;       (setvar "DIMTMOVE" 0) ; Text movement
+        ;       (setvar "DIMTOFL" 1) ; Force line inside ext
+        ;       (setvar "DIMTOH" 0) ; Text outside horizontal
+        ;       (setvar "DIMTOL" 0) ; Tolerance off
+        ;       (setvar "DIMTOLJ" 0) ; Tolerance justification
+        ;       (setvar "DIMTP" 0.0) ; Plus tolerance
+        ;       (setvar "DIMTSZ" 0.0) ; Tick size
+        ;       (setvar "DIMTVP" 0.0) ; Text vertical position
+        ;       ; DIMTXSTY "Standard" ใช้ (setvar "DIMTXSTY" "Standard")
+        ;       (setvar "DIMTXT" 2.5) ; Text height
+        ;       (setvar "DIMTZIN" 8) ; Tolerance zero suppression
+        ;       (setvar "DIMUPT" 0) ; User positioned text
+        ;       (setvar "DIMZIN" 8) ; Zero suppression)
+        ; )
+      ;
+      ;preloop_and_while
+        (setq dim_command_ (list 
+                             (list "DIMCLRD" 256) ; Dimension line color
+                             (list "DIMCLRE" 256) ; Extension line color
+                             (list "DIMCLRT" 256) ; Text color
+                             (list "DIMLWD" -1) ; Dimension line lineweight
+                             (list "DIMLWE" -1) ; Extension line lineweight
+                             (list "DIMSCALE" 1.0) ; Overall scale factor
+                             (list "DIMLFAC" 1.0) ; Linear unit scale factor
+                             (list "DIMTXSTY" "FAMELINE_FOR_CKST") ; Linear unit scale factor
+                           )
+        )
+        (setq doc (vla-get-ActiveDocument (vlax-get-Acad-Object)))
+        (setq dimstyles (vla-get-DimStyles doc))
+        (if (and 
+              (/= (type (vl-catch-all-apply (function (lambda () (setq dimstyle (vla-Item dimstyles "FAMELINE-CKST_E-E")) ) ) ) ) 'VL-CATCH-ALL-APPLY-ERROR)
+              (/= (type (vl-catch-all-apply (function (lambda () (setq dimstyle (vla-Item dimstyles "FAMELINE-CKST_E-C")) ) ) ) ) 'VL-CATCH-ALL-APPLY-ERROR)
+              (/= (type (vl-catch-all-apply (function (lambda () (setq dimstyle (vla-Item dimstyles "FAMELINE-CKST_C-E")) ) ) ) ) 'VL-CATCH-ALL-APPLY-ERROR)
+              (/= (type (vl-catch-all-apply (function (lambda () (setq dimstyle (vla-Item dimstyles "FAMELINE-CKST_C-C")) ) ) ) ) 'VL-CATCH-ALL-APPLY-ERROR)
+            )
+          (progn
+            (setq dim_command_i 0)
+            (while (< dim_command_i (length dim_command_))
+              (setq dim_command_varname_ (car (nth  dim_command_i dim_command_)))
+              (setq dim_command_varval_ (cadr (nth  dim_command_i dim_command_)))
+              (setvar dim_command_varname_ dim_command_varval_ )
+              (setq dim_command_i (+ dim_command_i 1))
+            )
+            (command "DIMSTYLE" "AN" "N" "FAMELINE-CKST_E-E" "Y" "A" "" )
+            (command "DIMSTYLE" "save" "FAMELINE-CKST_E-E" "Y")
+            
+            (command "DIMSTYLE" "AN" "N" "FAMELINE-CKST_E-C" "Y" "A" "" )
+            (command "DIMSTYLE" "save" "FAMELINE-CKST_E-C" "Y")
+            
+            (command "DIMSTYLE" "AN" "N" "FAMELINE-CKST_C-E" "Y" "A" "" )
+            (command "DIMSTYLE" "save" "FAMELINE-CKST_C-E" "Y")
+            
+            (command "DIMSTYLE" "AN" "N" "FAMELINE-CKST_C-C" "Y" "A" "" )
+            (command "DIMSTYLE" "save" "FAMELINE-CKST_C-C" "Y")
+          )
+        )
+      ;
     )
   ;
   ;change dim style
