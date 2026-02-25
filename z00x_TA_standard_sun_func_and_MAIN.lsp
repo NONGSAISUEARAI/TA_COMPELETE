@@ -12351,6 +12351,7 @@
       (command "pselect"  new_ss_pre_filter_set_xx_ "" )
     )
     (defun c:insx400 ()
+      
       ;selection_set_for_fillter_blk_name
         (if  ;pre_select_ssget_or_post_select_ssget
           (=
@@ -12379,6 +12380,7 @@
           (sslength ss_pre_filter_set_xx_)
         )
       ;
+      
       ;preloop_and_while
         (setq ss_pre_filter_set_xx_i 0)
         (setq new_ss_pre_filter_set_xx_ (ssadd))
@@ -12407,6 +12409,76 @@
               (vlax-3d-point 
                 (TA:round-number (car ss_pre_filter_set_xx_obj_ins_) 400 )
                 (TA:round-number (cadr ss_pre_filter_set_xx_obj_ins_) 400 )
+                (TA:round-05 (caddr ss_pre_filter_set_xx_obj_ins_))
+              )
+            )
+            
+          )
+          
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+      (command "pselect"  ss_pre_filter_set_xx_ "" )
+    )
+    (defun c:insxxx ()
+
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          ) 
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      (setq x_increment_ (cond ( (getint (strcat "\nspecify get move to point\n<" (rtos (setq x_increment_ (cond (x_increment_) (0) ) ) ) "> : " ) ) ) (x_increment_) ) )
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (setq new_ss_pre_filter_set_xx_ (ssadd))
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+          
+          (vla-put-insertionpoint 
+            ss_pre_filter_set_xx_obj_
+            (if (= (getvar "worlducs") 0)
+              (progn
+                  (setq 1st_trans (list 
+                                    (TA:round-number (car (trans ss_pre_filter_set_xx_obj_ins_ 0 1) ) x_increment_ )
+                                    (cadr (trans ss_pre_filter_set_xx_obj_ins_ 0 1) )
+                                    (TA:round-05 (caddr (trans ss_pre_filter_set_xx_obj_ins_ 0 1) ) )
+                                  )
+                  )
+                  (vlax-3d-point 
+                    (car (trans 1st_trans 1 0))
+                    (cadr (trans 1st_trans 1 0))
+                    0
+                  )
+                
+              )
+              (vlax-3d-point 
+                (TA:round-number (car ss_pre_filter_set_xx_obj_ins_) 400 )
+                (cadr ss_pre_filter_set_xx_obj_ins_)
                 (TA:round-05 (caddr ss_pre_filter_set_xx_obj_ins_))
               )
             )
@@ -36356,6 +36428,11 @@
         (command "vplayer" "f" "000 - DEF GRID" "c" "")
       )
     )
+    (if (= (TA:if_found_layer_ "S-GRID" ) T)
+      (progn
+        (command "vplayer" "c" "1" "S-GRID" "c" "")
+      )
+    )
     (setq TA_layer_ (TA:get_name_layer_in_drawing)) 
     (if (and 
           (/= (TA:wcmatch_list (list "*000_PPLINE_CKST_SMOKE_ACESSORIES*") TA_layer_ T) nil)
@@ -36385,7 +36462,7 @@
                                   "G-ANNO-TEXT" "A-ANNO-NOTE" "G-ANNO-NPLT" "G-ANNO-TTLB" 
                                   "G-IMPT" "_ G-ANNO-TTLB-3" "_ G-ANNO-TTLB -1" 
                                   "_ G-ANNO-TTLB-6" "G-ANNO-VTTL" "G-ANNO-SCHD" 
-                                  "G-ANNO-REVC" "G-ANNO-REVC-IDEN"
+                                  "G-ANNO-REVC" "G-ANNO-REVC-IDEN" "A-ROOM-LINE"
                             )
       )
       ;preloop_and_while
@@ -36396,7 +36473,7 @@
                )
           (if (and 
                 (= (TA:if_found_layer_ (setq CKST_layer_list_layername_ (nth  CKST_layer_list_i CKST_layer_list_)) ) T)
-                (/= (wcmatch (setq CKST_layer_list_layername_ (nth  CKST_layer_list_i CKST_layer_list_)) "S-GRID,S-GRID-IDEN,A-ANNO-DIMS,S-COLS-E,A-COLS,A-ROOM-IDEN") T)
+                (/= (wcmatch (setq CKST_layer_list_layername_ (nth  CKST_layer_list_i CKST_layer_list_)) "S-GRID,S-GRID-IDEN,A-ANNO-DIMS,S-COLS-E,A-COLS,A-ANNO-MATC,G-ANNO-SYMB") T)
                 
               )
             (progn

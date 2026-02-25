@@ -10449,7 +10449,7 @@
             (setvar "DIMTIH" 0)              ; Text inside horizontal Off
             (setvar "DIMTIX" 1)              ; Force text inside
             (setvar "DIMTM" 0.0)             ; Minus tolerance
-            (setvar "DIMTMOVE" 1)            ; Text movement rule
+            (setvar "DIMTMOVE" 2)            ; Text movement rule
             (setvar "DIMTOFL" 1)             ; Force line inside extension
             (setvar "DIMTOH" 0)              ; Text outside horizontal Off
             (setvar "DIMTOL" 0)              ; Tolerance Off
@@ -10553,7 +10553,7 @@
             (setvar "DIMTIH" 0)              ; Text inside horizontal Off
             (setvar "DIMTIX" 1)              ; Force text inside
             (setvar "DIMTM" 0.0)             ; Minus tolerance
-            (setvar "DIMTMOVE" 1)            ; Text movement rule
+            (setvar "DIMTMOVE" 2)            ; Text movement rule
             (setvar "DIMTOFL" 1)             ; Force line inside extension
             (setvar "DIMTOH" 0)              ; Text outside horizontal Off
             (setvar "DIMTOL" 0)              ; Tolerance Off
@@ -10658,7 +10658,7 @@
             (setvar "DIMTIH" 0)              ; Text inside horizontal Off
             (setvar "DIMTIX" 1)              ; Force text inside
             (setvar "DIMTM" 0.0)             ; Minus tolerance
-            (setvar "DIMTMOVE" 1)            ; Text movement rule
+            (setvar "DIMTMOVE" 2)            ; Text movement rule
             (setvar "DIMTOFL" 1)             ; Force line inside extension
             (setvar "DIMTOH" 0)              ; Text outside horizontal Off
             (setvar "DIMTOL" 0)              ; Tolerance Off
@@ -10764,7 +10764,7 @@
             (setvar "DIMTIH" 0)              ; Text inside horizontal Off
             (setvar "DIMTIX" 1)              ; Force text inside
             (setvar "DIMTM" 0.0)             ; Minus tolerance
-            (setvar "DIMTMOVE" 1)            ; Text movement rule
+            (setvar "DIMTMOVE" 2)            ; Text movement rule
             (setvar "DIMTOFL" 1)             ; Force line inside extension
             (setvar "DIMTOH" 0)              ; Text outside horizontal Off
             (setvar "DIMTOL" 0)              ; Tolerance Off
@@ -10798,10 +10798,13 @@
       (command "DIMSTYLE" "AN" "N" "FAMELINE-CKST_E-E" "Y" "A" "" )
       (command "DIMSTYLE" "save" "FAMELINE-CKST_E-E" "Y")
     )
-    ; (TA:preset_FAMELINE-CKST_C-C)
-    ; (TA:preset_FAMELINE-CKST_C-E)
-    ; (TA:preset_FAMELINE-CKST_E-C)
-    ; (TA:preset_FAMELINE-CKST_E-E)
+    (defun c:CSKT_dimpreset ()
+      (TA:preset_FAMELINE-CKST_C-C)
+      (TA:preset_FAMELINE-CKST_C-E)
+      (TA:preset_FAMELINE-CKST_E-C)
+      (TA:preset_FAMELINE-CKST_E-E)
+    )
+    
     (defun c:dimsetting-CKST_DIM_PRESET ()
       ;example of setting dimension variables by setvar
         ; (list 
