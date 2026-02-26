@@ -36451,19 +36451,66 @@
       )
     )
     ;ckst_layer_list_
-      (setq CKST_layer_list_ (list "WALL-E" "A-COLS-E" "A-DOOR-E" "I-WALL-E" 
-                                  "A-CLNG" "A-FLOR-E" "A-GLAZ-CURT" "A-GENM" "E-LITE-EQPM" 
-                                  "S-COLS-E" "A-DETL-GENF" "A-DETL" "A-WALL-PATT" "A-WALL" 
-                                  "A-COLS" "A-FLOR" "A-WALL-FNSH" "_ _ A-DETL-OPENING" 
-                                  "A-DOOR-OPNG" "A-DOOR" "A-CLNG-PATT" "A-DOOR-HDLN" 
-                                  "A-FLOR-PATT" "A-DOOR-FRAM" "S-COLS" "E-LITE-EQPM-HDLN" 
-                                  "A-DETL-THIN" "S-GRID" "S-GRID-IDEN" "A-ANNO-DIMS" 
-                                  "A-ANNO-DIMS-500" "Defpoints" "A-CLNG-IDEN" "A-ROOM-IDEN" 
-                                  "G-ANNO-TEXT" "A-ANNO-NOTE" "G-ANNO-NPLT" "G-ANNO-TTLB" 
-                                  "G-IMPT" "_ G-ANNO-TTLB-3" "_ G-ANNO-TTLB -1" 
-                                  "_ G-ANNO-TTLB-6" "G-ANNO-VTTL" "G-ANNO-SCHD" 
-                                  "G-ANNO-REVC" "G-ANNO-REVC-IDEN" "A-ROOM-LINE"
-                            )
+      (setq CKST_layer_list_ (list
+                                "_ G-ANNO-TTLB -1"
+                                "_ G-ANNO-TTLB-3"
+                                "_ G-ANNO-TTLB-6"
+                                "A-ANNO-DIMS"
+                                "A-ANNO-DIMS-500"
+                                "A-ANNO-NOTE"
+                                "A-CLNG"
+                                "A-CLNG-IDEN"
+                                "A-CLNG-PATT"
+                                "A-COLS"
+                                "A-COLS-E"
+                                "A-DETL"
+                                "A-DETL-GENF"
+                                "A-DETL-OPENING"
+                                "A-DETL-THIN"
+                                "A-DOOR"
+                                "A-DOOR-E"
+                                "A-DOOR-FRAM"
+                                "A-DOOR-HDLN"
+                                "A-DOOR-OPNG"
+                                "A-FLOR"
+                                "A-FLOR-E"
+                                "A-FLOR-PATT"
+                                "A-GENM"
+                                "A-GLAZ-CURT"
+                                "A-ROOM-IDEN"
+                                "A-ROOM-LINE"
+                                "A-WALL"
+                                "A-WALL-E"
+                                "A-WALL-FNSH"
+                                "A-WALL-PATT"
+                                "CEILING"
+                                "COLM"
+                                "COLM"
+                                "Defpoints"
+                                "E-LITE-EQPM"
+                                "E-LITE-EQPM-HDLN"
+                                "G-ANNO-NPLT"
+                                "G-ANNO-REVC"
+                                "G-ANNO-REVC-IDEN"
+                                "G-ANNO-SCHD"
+                                "G-ANNO-TEXT"
+                                "G-ANNO-TTLB"
+                                "G-ANNO-VTTL"
+                                "G-IMPT"
+                                "HOOK"
+                                "HOOK"
+                                "I-WALL-E"
+                                "Q-SPCQ"
+                                "Q-SPCQ-HDLN"
+                                "S-BEAM"
+                                "S-BEAM"
+                                "S-COLS"
+                                "S-COLS-E"
+                                "S-GRID"
+                                "S-GRID-IDEN"
+                                "WALL-E"
+                                "ceiling"
+                              )
       )
       ;preloop_and_while
         (setq CKST_layer_list_i 0)
@@ -41071,7 +41118,7 @@
     ) 
   ;
 )    
-(defun c:mkhideDEF2 ()
+(defun c:mkLac10s2 ()
 
   ;selection_set_for_fillter_blk_name
     (if  ;pre_select_ssget_or_post_select_ssget
@@ -41111,7 +41158,101 @@
               ; (= (wcmatch (LM:effectivename ss_pre_filter_set_xx_obj_) "*Alarm*") T)
             )
           (progn
-            (TA:editblock_ (LM:effectivename ss_pre_filter_set_xx_obj_) 256 "000 - 0_HIDE_OBJ_FRAMING_DEF_SUB_2")
+            (TA:editblock_ (LM:effectivename ss_pre_filter_set_xx_obj_) 256 "010 - SOLID_10_PANEL_SUB_COLOR_2")
+          )
+        )
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    ) 
+  ;
+)    
+(defun c:mkLac10s3 ()
+
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (if (and 
+              (= 1 1) 
+              ; (= (wcmatch (LM:effectivename ss_pre_filter_set_xx_obj_) "*Alarm*") T)
+            )
+          (progn
+            (TA:editblock_ (LM:effectivename ss_pre_filter_set_xx_obj_) 256 "010 - SOLID_10_PANEL_SUB_COLOR_3")
+          )
+        )
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    ) 
+  ;
+)    
+(defun c:mktemp10 ()
+
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (if (and 
+              (= 1 1) 
+              ; (= (wcmatch (LM:effectivename ss_pre_filter_set_xx_obj_) "*Alarm*") T)
+            )
+          (progn
+            (TA:editblock_ (LM:effectivename ss_pre_filter_set_xx_obj_) 256 "010 - SOLID_10_FASTERN_SUB_COLOR_3")
           )
         )
       (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))

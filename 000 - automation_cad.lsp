@@ -12695,6 +12695,39 @@
       )
     ;
   )
+  (defun c:CKST_C06Dimlayer ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "dimension") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "dimension") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+      
+    ;
+    (command "chprop" ss_pre_filter_set_xx_ "" "la" "009 - AHP_06_DIMS_NOM" "")
+    
+  )
 ;
 ;Remove Overidelayer
   (defun c:CKST-removeoveride ()
@@ -12823,6 +12856,34 @@
     (_endUndo doc )
   )
 
+;
+;Make tranparency
+  (defun c:foo ()
+    
+    (_startundo doc )
+    (if (> (getvar "CVPORT") 1)
+      (progn
+        (vl-catch-all-apply
+          (function
+            (lambda ()
+              (setq mktran_ename_ (car (nentsel "specify Object")))
+              (setq mktran_obj_ (vlax-ename->vla-object mktran_ename_))
+              (setq mktran_obj_layer_ (vla-get-layer mktran_obj_))
+              (command "vplayer" 
+                       "C" 
+                       1 
+                       (vla-get-layer mktran_obj_layer_) 
+
+              )
+            )
+          )
+        )
+      )
+    )
+    
+    
+    (_endUndo doc )
+  )
 ;
 
 

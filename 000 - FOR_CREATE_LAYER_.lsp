@@ -1132,6 +1132,47 @@
       )
     )
   )
+  (defun c:crelayC10 ()
+    (TA:generate_filter_list
+      (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+      (setq 2nd_filter_val_main "010 - SOLID_10_") ;2nd_filter
+      (setq 3rd_filter_val_main (list ;3rd_filter
+                                  "PANEL" ;
+                                  "FRAMING" ;
+                                  "FASTERN" ;
+                                )
+      )
+      (setq 4th_filter_val_main (list  ;4th_filter
+                                      (list "MAIN_COLOR_1" 3) ;
+                                      (list "MAIN_COLOR_2" 2) ;
+                                      (list "SUB_COLOR_1" 2) ;
+                                      (list "SUB_COLOR_2" 1) ;
+                                      (list "SUB_COLOR_3" 251) ;
+                                      (list "HATCH_" 251) ;
+                                      (list "WIPEOUT_" 250) ;
+                                      (list "HIDDEN_" 251) ;
+                                      (list "SYMBOL_" 251) ;
+                                      (list "DEF_SUB" 250) ;
+                                      (list "TEXT" 3) ;
+                                       ;
+                                )
+      )
+    )
+    (TA:generate_filter_list
+      (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+      (setq 2nd_filter_val_main "009 - AHP_06_") ;2nd_filter
+      (setq 3rd_filter_val_main (list ;3rd_filter
+                                  "DIMS" ;
+                                )
+      )
+      (setq 4th_filter_val_main (list  ;4th_filter
+                                      (list "OVERALL" 1) ;
+                                      (list "NOM" 1) ;
+                                       ;
+                                )
+      )
+    )
+  )
   (defun c:crelayASPG ()
     (TA:generate_filter_list
       (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
