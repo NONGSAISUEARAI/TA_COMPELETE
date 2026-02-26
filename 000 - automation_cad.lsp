@@ -12858,7 +12858,7 @@
 
 ;
 ;Make tranparency
-  (defun c:foo ()
+  (defun c:vptran ()
     
     (_startundo doc )
     (if (> (getvar "CVPORT") 1)
