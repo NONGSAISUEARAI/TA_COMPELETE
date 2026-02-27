@@ -12725,8 +12725,16 @@
       )
       
     ;
-    (command "chprop" ss_pre_filter_set_xx_ "" "la" "009 - AHP_06_DIMS_NOM" "")
+    ; (command "chprop" ss_pre_filter_set_xx_ "" "la" "009 - AHP_06_DIMS_NOM" "")
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (vla-put-layer (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_)) "009 - AHP_06_DIMS_NOM")
     
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
   )
 ;
 ;Remove Overidelayer
@@ -12872,8 +12880,16 @@
               (command "vplayer" 
                        "C" 
                        1 
-                       (vla-get-layer mktran_obj_layer_) 
-
+                       mktran_obj_layer_ 
+                      "c"
+                       ""
+              )
+              (command "vplayer" 
+                       "TR" 
+                       50 
+                       mktran_obj_layer_ 
+                      "c"
+                       ""
               )
             )
           )

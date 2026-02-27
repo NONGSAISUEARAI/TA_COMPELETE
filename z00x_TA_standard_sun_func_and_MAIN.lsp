@@ -40715,7 +40715,7 @@
               ; (= (wcmatch (LM:effectivename ss_pre_filter_set_xx_obj_) "*Alarm*") T)
             )
           (progn
-            (TA:editblock_ (LM:effectivename ss_pre_filter_set_xx_obj_) 256 "008 - LIGHT_FLUORESCENT_MAIN_COLOR_1")
+            (TA:editblock_ (vlax-get-property   ss_pre_filter_set_xx_obj_ 'EffectiveName) 256 "008 - LIGHT_FLUORESCENT_MAIN_COLOR_1")
           )
         )
       (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
