@@ -5316,6 +5316,133 @@
       ;   (command "_copybase" pttarget_ sss_ename ""    )
       ; ;
     )
+    (defun c:MKPartBLK_MKPC06 () 
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq sstarget_ (ssget "i"
+                                              (list
+                                                ; (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq sstarget_ (ssget
+                                              (list
+                                                ; (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength sstarget_)
+        )
+      (setvar "osmode" 1215)
+      (setq all_blk (TA:get_name_block_in_drawing_to_list))
+      (setq all_c06_panel_ (length(TA:wcmatch_list (list "*TA_AHP_PANEL_*") all_blk T)))
+      (setq pttarget_ (getpoint "specify point for basepoint"))
+      (setq pttarget_torr (list 
+                        (+ (car pttarget_) 0)
+                        (+ (cadr pttarget_) 0)
+                        
+                      )
+      )
+      (setvar "osmode" 1215)
+      ; (setq namefile_ (getvar "dwgname"))
+      (setq namepanel_ "NAME_PANEL") ;ไม่ต้องมี "_"
+      (setq name_ename_ (car (entsel "specify EF name")))
+      (setq name_obj_ (vlax-ename->vla-object name_ename_))
+      (setq nameblk (LM:StringSubst 
+                      ""
+                      ","
+                      (LM:StringSubst 
+                        ""
+                        ".dwg"
+                        (strcat 
+                          namepanel_
+                          "_"
+                          ""
+                          (LM:StringSubst "-" "/" (vla-get-textstring name_obj_))
+                          "_TA_AHP_PANEL_"
+                          (cond
+                            (;_case_1
+                               (and
+                                  (> (fix all_c06_panel_ ) 0)
+                                  (< (fix all_c06_panel_ ) 9)
+                               )
+                               (progn
+                                 (strcat "00" (rtos (+ (fix all_c06_panel_ ) 1) 2 0 ))
+                                 
+                               )
+                            )
+                            (;_case_2
+                               (and
+                                  (>= (fix all_c06_panel_ ) 10)
+                                  (<= (fix all_c06_panel_ ) 99)
+                               )
+                               (progn
+                                 (strcat "0" (rtos (+ (fix all_c06_panel_ ) 1) 2 0 ))
+                                 
+                               )
+                            )
+                            
+                          )
+                          ; "mm."
+                        )
+                      )
+                    )
+      )
+      (if 
+        (or 
+          (wcmatch
+            (vl-princ-to-string
+              (vl-catch-all-apply 
+                (function 
+                  (lambda () 
+                    (vla-Item (vla-get-Blocks doc) nameblk)
+                  )
+                )
+              )
+            )
+            "*error*,*IAcadBlock*"
+          )
+        )
+        (progn
+          (if 
+            (and
+              (wcmatch
+                (vl-princ-to-string
+                  (vl-catch-all-apply 
+                    (function 
+                      (lambda () 
+                        (vla-delete (vla-Item (vla-get-Blocks doc) nameblk) )
+                      )
+                    )
+                  )
+                )
+                "*error*,*IAcadBlock*"
+              )
+            )
+            (progn
+              (command "_block" nameblk pttarget_torr sstarget_ "" )
+              (TA:vla-insertblock nameblk pttarget_torr 1 0 )
+            )
+          )
+        )
+      )
+      ; ;new_blk_entlast object
+      ;   (setq sss_ename (entlast))
+      ;   (setq sss_obj (vlax-ename->vla-object sss_ename))
+      ;   (command "_copybase" pttarget_ sss_ename ""    )
+      ; ;
+    )
     (if (= 1 2) ;vvvvvv
       (progn
         (setq ss_ename_ (car (entsel "specify Object")))
@@ -44074,7 +44201,7 @@
       (setq ss_pre_filter_set_xx_obj_center (vlax-safearray->list (vlax-variant-value (vla-get-coordinates ss_pre_filter_set_xx_obj_))))
       
       (TA:vla-insertblock
-        "000 - FAMELINE-CKST_AS-BUILT_POINT_REV01"
+        "000 - FAMELINE-CKST_AS-BUILT_POINT_REV03"
         ss_pre_filter_set_xx_obj_center
         5
         (deg-to-rad 45)
@@ -44154,140 +44281,10 @@
   
 )
 
-  (defun c:annoyss1 ()
-    ;selection_set_for_fillter_blk_name
-      (if  ;pre_select_ssget_or_post_select_ssget
-        (= 
-          (setq ss_pre_filter_set_annoy_ (ssget "i" 
-                                                (list 
-                                                  (cons 0 "INSERT") ;type of object
-                                                  ; (cons 8 "000 - GRID")   ;kind of layer
-                                                  ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                                  ; (cons 62 1)           ;kind of color call sign with color code index
-                                                )
-                                         )
-          )
-          nil
-        )
-        (progn 
-          (setq ss_pre_filter_set_annoy_ (ssget 
-                                           (list 
-                                             (cons 0 "INSERT") ;type of object
-                                             ; (cons 8 "000 - GRID")   ;kind of layer
-                                             ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                             ; (cons 62 1)           ;kind of color call sign with color code index
-                                           )
-                                         )
-          )
-          (sslength ss_pre_filter_set_annoy_)
-        )
-      )
-    ;
-    (command "pselect"  ss_pre_filter_set_annoy_ "" )
-    ;preloop_and_while
-      (setq ss_pre_filter_set_annoy_i 0)
-      (setq new_ss_filter_set_for_annoy (ssadd))
-      (while (< ss_pre_filter_set_annoy_i (sslength ss_pre_filter_set_annoy_))
-        (setq ss_pre_filter_set_annoy_ename_ (ssname ss_pre_filter_set_annoy_ ss_pre_filter_set_annoy_i))
-        (setq ss_pre_filter_set_annoy_obj_ (vlax-ename->vla-object  ss_pre_filter_set_annoy_ename_))
-        (if (>= (vl-string-search "*" (LM:effectivename ss_pre_filter_set_annoy_obj_)  0 ) 0)
-          (progn
-            (setq new_ss_filter_set_for_annoy (ssadd ss_pre_filter_set_annoy_ename_ new_ss_filter_set_for_annoy ))
-            (command "pselect"  new_ss_filter_set_for_annoy "" )
-          )
-        )
-        (setq ss_pre_filter_set_annoy_i (+ ss_pre_filter_set_annoy_i 1))
-      )
-    ;
-    ;preloop_and_while
-      (setq  ss_pre_filter_set_annoy_ new_ss_filter_set_for_annoy )
-      (setq ss_pre_filter_set_annoy_i 0)
-      
-      (while (< ss_pre_filter_set_annoy_i (sslength ss_pre_filter_set_annoy_))
-        (setq ss_pre_filter_set_annoy_ename_ (ssname ss_pre_filter_set_annoy_ ss_pre_filter_set_annoy_i))
-        (setq ss_pre_filter_set_annoy_obj_ (vlax-ename->vla-object  ss_pre_filter_set_annoy_ename_))
-        (setq ss_pre_filter_set_annoy_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_annoy_obj_))))
-        (setq ss_pre_filter_set_annoy_obj_ro_ (vla-get-rotation ss_pre_filter_set_annoy_obj_))
-        (if (>= (vl-string-search "*" (LM:effectivename ss_pre_filter_set_annoy_obj_)  0 ) 0)
-          (progn
-            ; (setq new_ss_filter_set_for_annoy (ssadd ss_pre_filter_set_annoy_ename_ new_ss_filter_set_for_annoy ))
-            (setq namefile_ (getvar "dwgname"))
-            (setq nameblk (LM:StringSubst 
-                            ""
-                            ","
-                            (LM:StringSubst 
-                              ""
-                              ".dwg"
-                              (strcat 
-                                namefile_
-                                "_"
-                                ""
-                                (LM:StringSubst "-" "." (rtos (getvar "cdate") 2 6))
-                                ; (rtos (fix (* (car (TA:get_vertex_len_ (ssname sstarget_ 0))) 1000 ) ) 2 0 )
-                                ; "mm."
-                                "_"
-                                (rtos (+ ss_pre_filter_set_annoy_i ss_pre_filter_set_annoy_i) 2 0)
-                              )
-                            )
-                          )
-            )
-            (command "_block" nameblk ss_pre_filter_set_annoy_obj_ins_ ss_pre_filter_set_annoy_ename_ "" ) (command "pselect"  ss_pre_filter_set_annoy_ename_ "" )
-            (TA:vla-insertblock 
-              nameblk 
-              (if (= (getvar "worlducs") 0)(progn (trans ss_pre_filter_set_annoy_obj_ins_ 1 0)) ss_pre_filter_set_annoy_obj_ins_ ) 
-              1 
-              0 
-            )
-            ;editor mode
-              (command "bedit" nameblk )
-              (setq ssall (ssget "x"))
-              (command "explode" ssall "" )
-              (command "bsave" )
-              (command "bclose" )
-            ;
-          )
-        )
-
-        
-        (setq ss_pre_filter_set_annoy_i (+ ss_pre_filter_set_annoy_i 1))
-        (TA:textscr_process_V2 "\nupdate dynamic" ss_pre_filter_set_annoy_i ss_pre_filter_set_annoy_)
-      )
-    ;
-    ; (command "pselect"  new_ss_filter_set_for_annoy "" )
-  )
 
 
-    (defun c:q2 ()
-      ;selection_set_for_fillter_blk_name
-        (if  ;pre_select_ssget_or_post_select_ssget
-          (=
-            (setq ss_pre_filter_set__ (ssget "i"
-                (list
-                  ; (cons 0 "INSERT") ;type of object
-                  (cons 8 "_0_AR mark-up,_0_AR mark-up_1,_0_AR notes,_0_AR COMMENTS,_0_AR COMMENTS_1")   ;kind of layer
-                  ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                  ; (cons 62 1)           ;kind of color call sign with color code index
-                )
-              )
-            )
-            nil
-          )
-          (progn
-            (setq ss_pre_filter_set__ (ssget
-                (list
-                  ; (cons 0 "INSERT") ;type of object
-                  (cons 8 "_0_AR mark-up,_0_AR mark-up_1,_0_AR notes,_0_AR COMMENTS,_0_AR COMMENTS_1")   ;kind of layer
-                  ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                  ; (cons 62 1)           ;kind of color call sign with color code index
-                )
-              )
-            )
-            (sslength ss_pre_filter_set__)
-          )
-        )
-      ;
-      (command "pselect"  ss_pre_filter_set__ "" )
-    )
+
+    
 
 
 
@@ -44429,37 +44426,70 @@
     ;
   )
  
-    (defun c:mkwdline_ss1 ()
-      ;selection_set_for_fillter_blk_name
-        (if  ;pre_select_ssget_or_post_select_ssget
-          (=
-            (setq ss_pre_filter_set_mkwdline_ (ssget "i"
-                (list
-                  (cons 0 "line,lwpolyline") ;type of object
-                  (cons 8 "009 - AHP_06_FRAMING_MAIN_COLOR_2,009 - AHP_06_FRAMING_MAIN_COLOR_1")   ;kind of layer
-                  ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                  ; (cons 62 1)           ;kind of color call sign with color code index
-                )
+  (defun c:mkwdline_ss1 ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_mkwdline_ (ssget "i"
+              (list
+                (cons 0 "line,lwpolyline") ;type of object
+                (cons 8 "009 - AHP_06_FRAMING_MAIN_COLOR_2,009 - AHP_06_FRAMING_MAIN_COLOR_1")   ;kind of layer
+                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                ; (cons 62 1)           ;kind of color call sign with color code index
               )
             )
-            nil
           )
-          (progn
-            (setq ss_pre_filter_set_mkwdline_ (ssget
-                (list
-                  (cons 0 "line,lwpolyline") ;type of object
-                  (cons 8 "009 - AHP_06_FRAMING_MAIN_COLOR_2,009 - AHP_06_FRAMING_MAIN_COLOR_1")   ;kind of layer
-                  ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                  ; (cons 62 1)           ;kind of color call sign with color code index
-                )
-              )
-            )
-            (sslength ss_pre_filter_set_mkwdline_)
-          )
+          nil
         )
-      ;
-      (setq ss_pre_filter_set_mkwd_line_wd_ (TA:Prop_Filter_ss_set_ ss_pre_filter_set_mkwdline_ 'ObjectName "AcDbLine" ))
-      ; (command "pselect"  ss_pre_filter_set_mkwd_line_wd_ "" )
-      (setq newtron_ss_ (TA:combine_selection_set_ ss_pre_filter_set_mkwd_line_wd_ ss_pre_filter_set_mkwdline_ ))
-      (command "pedit" "m" newtron_ss_ "" "y" "w" 25  )
+        (progn
+          (setq ss_pre_filter_set_mkwdline_ (ssget
+              (list
+                (cons 0 "line,lwpolyline") ;type of object
+                (cons 8 "009 - AHP_06_FRAMING_MAIN_COLOR_2,009 - AHP_06_FRAMING_MAIN_COLOR_1")   ;kind of layer
+                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                ; (cons 62 1)           ;kind of color call sign with color code index
+              )
+            )
+          )
+          (sslength ss_pre_filter_set_mkwdline_)
+        )
+      )
+    ;
+    (setq ss_pre_filter_set_mkwd_line_wd_ (TA:Prop_Filter_ss_set_ ss_pre_filter_set_mkwdline_ 'ObjectName "AcDbLine" ))
+    ; (command "pselect"  ss_pre_filter_set_mkwd_line_wd_ "" )
+    (setq newtron_ss_ (TA:combine_selection_set_ ss_pre_filter_set_mkwd_line_wd_ ss_pre_filter_set_mkwdline_ ))
+    (command "pedit" "m" newtron_ss_ "" "y" "w" 25  )
+  )
+
+  (defun c:tempcall ()
+    (c:createC06layout)
+    (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/000 - FOR_CREATE_LAYER_.lsp") ) ) ) )
+    (c:crelayAHP06)
+    (c:crelayHIDEOBJ_)
+    
+    (command "-LAYER" "filter" "new" "group"  
+                         "PPLINE-FAMELINE"
+                         "*001 - ASCESSORIES*" ;(add layer name to filter, Can use wildcard for adding)
+                         "PPLINE-FAMELINE_ASCESSORIES_" 
+                         "" 
     )
+    (command "-LAYER" "filter" "new" "group"  
+                         "PPLINE-FAMELINE"
+                         "" ;(add layer name to filter, Can use wildcard for adding)
+                         "PPLINE-FAMELINE_PANEL" 
+                         "" 
+    )
+    (command "-layer"
+            "filter"
+            "edit"
+            "PPLINE-FAMELINE_PANEL" ; (Filter name must be sensitibe case)
+            "add"
+            "A04_TUBE SERIES" ;(add layer name to filter, Can use wildcard for adding)
+             "add"
+            "A11_ALU.SOLID SHEET"  ;(add layer name to filter, Can use wildcard for adding)
+            "x" ""
+    )
+    (command "mspace")
+    (c:PPLINE_CKST_viewport_layer_CKST-VPC06)
+  )
+

@@ -444,8 +444,6 @@
       (c:add_layer_main_and_sub_filter_addLFilter_ADD_LF4 2nd_filter_val_main 3rd_filter_val_main 4th_filter_val_main)
     ;
   )
-  
-
   (defun c:create_main_and_sub_filter_creF4 (main_filter_name_)
     ;presettting
       ; example
@@ -662,6 +660,62 @@
     ;
   )
 
+
+
+  ;ASBUILT_FUNC
+    (defun c:crelayAS2 ()
+      (TA:generate_filter_list
+        (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+        (setq 2nd_filter_val_main "000 - SYMBOL CON_2_") ;2nd_filter
+        (setq 3rd_filter_val_main (list ;3rd_filter
+                                    "ASBUILT_WALL" ;
+                                    "COMMENT_ASBUILT_WALL" ;
+                                  )
+        )
+        (setq 4th_filter_val_main (list  ;4th_filter
+                                        (list "MAIN_COLOR_1" 255 0 0) ;
+                                        (list "MAIN_COLOR_2"  255 135 0) ;
+                                        (list "SUB_COLOR_1" 152 5 190) ;
+                                        (list "SUB_COLOR_2" 1) ;
+                                        (list "SUB_COLOR_3" 251) ;
+                                        (list "HATCH_" 251) ;
+                                        (list "WIPEOUT_" 250) ;
+                                        (list "HIDDEN_" 251) ;
+                                        (list "SYMBOL_" 255 0 0) ;
+                                        (list "DEF_SUB" 250) ;
+                                        (list "TEXT" 5) ;
+                                        (list "DIMS" 0 0 255) ;
+                                  )
+        )
+      )
+    )
+    (defun c:crelayAS3 ()
+      (TA:generate_filter_list
+        (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+        (setq 2nd_filter_val_main "000 - SYMBOL CON_3_") ;2nd_filter
+        (setq 3rd_filter_val_main (list ;3rd_filter
+                                    "ASBUILT_WALL" ;
+                                    "COMMENT_ASBUILT_WALL" ;
+                                  )
+        )
+        (setq 4th_filter_val_main (list  ;4th_filter
+                                        (list "MAIN_COLOR_1" 255 0 0) ;
+                                        (list "MAIN_COLOR_2"  255 135 0) ;
+                                        (list "SUB_COLOR_1" 152 5 190) ;
+                                        (list "SUB_COLOR_2" 1) ;
+                                        (list "SUB_COLOR_3" 251) ;
+                                        (list "HATCH_" 251) ;
+                                        (list "WIPEOUT_" 250) ;
+                                        (list "HIDDEN_" 251) ;
+                                        (list "SYMBOL_" 255 0 0) ;
+                                        (list "DEF_SUB" 250) ;
+                                        (list "TEXT" 5) ;
+                                        (list "DIMS" 0 0 255) ;
+                                  )
+        )
+      )
+    )
+  ;
   (defun c:runset1 ()
     (defun TA:choice_ (i)
       (setq main_filter_name_ovl_
@@ -1065,32 +1119,7 @@
       )
     )
   )
-  (defun c:crelayAS2 ()
-    (TA:generate_filter_list
-      (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
-      (setq 2nd_filter_val_main "000 - SYMBOL CON_2_") ;2nd_filter
-      (setq 3rd_filter_val_main (list ;3rd_filter
-                                  "ASBUILT_WALL" ;
-                                  "COMMENT_ASBUILT_WALL" ;
-                                )
-      )
-      (setq 4th_filter_val_main (list  ;4th_filter
-                                      (list "MAIN_COLOR_1" 255 0 0) ;
-                                      (list "MAIN_COLOR_2"  255 135 0) ;
-                                      (list "SUB_COLOR_1" 152 5 190) ;
-                                      (list "SUB_COLOR_2" 1) ;
-                                      (list "SUB_COLOR_3" 251) ;
-                                      (list "HATCH_" 251) ;
-                                      (list "WIPEOUT_" 250) ;
-                                      (list "HIDDEN_" 251) ;
-                                      (list "SYMBOL_" 255 0 0) ;
-                                      (list "DEF_SUB" 250) ;
-                                      (list "TEXT" 5) ;
-                                      (list "DIMS" 0 0 255) ;
-                                )
-      )
-    )
-  )
+  
   (defun c:crelayAHP06 ()
     (TA:generate_filter_list
       (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
