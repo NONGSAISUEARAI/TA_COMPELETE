@@ -5844,15 +5844,27 @@
         (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
           (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i)) 
           (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+          (setq ss_pre_filter_set_xx_obj_efname_ (LM:effectivename ss_pre_filter_set_xx_obj_))
+          (setq ss_pre_filter_set_xx_obj_ro_ (vla-get-rotation ss_pre_filter_set_xx_obj_))
           (setq ss_pre_filter_set_xx_obj_proplist_ (LM:getdynprops ss_pre_filter_set_xx_obj_ ))
-          (command "resetblock" ss_pre_filter_set_xx_ename_ "")
+          (TA:vla-insertblock 
+            ss_pre_filter_set_xx_obj_efname_
+            ss_pre_filter_set_xx_obj_ins_
+            1
+            ss_pre_filter_set_xx_obj_ro_
+          )
           ;preloop_and_while
             (setq ss_pre_filter_set_xx_obj_proplist_i 0)
             (while (< ss_pre_filter_set_xx_obj_proplist_i (length ss_pre_filter_set_xx_obj_proplist_))
+              ;new_blk_entlast object
+                (setq newnewblk_ename (entlast))
+                (setq newnewblk_obj (vlax-ename->vla-object newnewblk_ename))
+              ;
               (if (/= (setq ss_pre_filter_set_xx_obj_proplist_tag_ (car (nth  ss_pre_filter_set_xx_obj_proplist_i ss_pre_filter_set_xx_obj_proplist_))) "Origin")
                 (progn
                   (LM:setdynpropvalue 
-                    ss_pre_filter_set_xx_obj_ 
+                    newnewblk_obj 
                     (setq ss_pre_filter_set_xx_obj_proplist_tag_ (car (nth  ss_pre_filter_set_xx_obj_proplist_i ss_pre_filter_set_xx_obj_proplist_)))
                     (setq ss_pre_filter_set_xx_obj_proplist_val_ (cdr (nth  ss_pre_filter_set_xx_obj_proplist_i ss_pre_filter_set_xx_obj_proplist_)))
                   )
@@ -5863,6 +5875,7 @@
             )
           ;
           (TA:textscr_process_V2 "\nupdate block" ss_pre_filter_set_xx_i ss_pre_filter_set_xx_)
+          (vla-delete ss_pre_filter_set_xx_obj_)
           (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
         )
       ;
@@ -41386,6 +41399,54 @@
     ) 
   ;
 )    
+(defun c:mkc06 ()
+
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (if (and 
+              (= 1 1) 
+              ; (= (wcmatch (LM:effectivename ss_pre_filter_set_xx_obj_) "*Alarm*") T)
+            )
+          (progn
+            (TA:editblock_ (LM:effectivename ss_pre_filter_set_xx_obj_) 256 "009 - AHP_06_PANEL_MAIN_COLOR_1")
+              
+          )
+        )
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    ) 
+  ;
+)    
 
 
 (defun c:q1 ()
@@ -44491,5 +44552,65 @@
     )
     (command "mspace")
     (c:PPLINE_CKST_viewport_layer_CKST-VPC06)
+  )
+
+
+  (defun c:STAHP ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    
+    (setq target_obj_ (vlax-ename->vla-object (ssname ss_pre_filter_set_xx_ 0)))
+    (if (= (getvar "worlducs") 0)
+      (progn
+        (setq target_obj_ins_ (trans (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint target_obj_))) 0 1))
+        (setq target_obj_ins_nextpt (getpoint target_obj_ins_ ) )
+        (setq target_obj_ins_dist_ (distance target_obj_ins_ target_obj_ins_nextpt ) )
+      )
+    )
+    (if (= (getvar "worlducs") 1)
+      (progn
+        (setq target_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint target_obj_))))
+        (setq target_obj_ins_nextpt (getpoint target_obj_ins_ ) )
+        (setq target_obj_ins_dist_ (distance target_obj_ins_ target_obj_ins_nextpt )   )
+      )
+    )
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "AHP_length" (- (LM:round  target_obj_ins_dist_) 20))
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+    
+    
+    
   )
 

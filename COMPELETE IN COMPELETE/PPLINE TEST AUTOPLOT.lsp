@@ -4127,7 +4127,7 @@
       (setvar "PLOTTRANSPARENCYOVERRIDE" 1)
       (setq REV_list_         (list 1)
             REV_VAL           "A"
-            REV_DATE_VAL       "21-01-2026" ;(TA:CDATE "/" "DDMMYYYY")
+            REV_DATE_VAL       "29-10-2025" ;(TA:CDATE "/" "DDMMYYYY")
             REV_DESC_VAL      "FIRST ISSUED"
             DWG_VAL           "TA"
             CHK_VAL           "KEN" 
