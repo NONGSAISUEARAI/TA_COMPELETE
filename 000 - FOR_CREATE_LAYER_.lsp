@@ -46,6 +46,7 @@
     (command "-LAYER" "filter" "new" "group"  MAIN-filter_1 "*000_PPLINE_CKST_SMOKE_BARRIER*" MAIN-filter_1-2 "" ) 
     (command "-LAYER" "filter" "new" "group"  MAIN-filter_1 "*000_PPLINE_CKST_SMOKE_ACESSORIES*" MAIN-filter_1-3 "" ) 
   )
+  
 ;STR_FUNC
   (defun TA:rightstr (str_value_ right_value_)
     ; (setq str_value_ "abcdefg")
