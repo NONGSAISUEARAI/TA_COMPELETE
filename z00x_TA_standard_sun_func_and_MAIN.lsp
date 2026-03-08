@@ -16169,7 +16169,7 @@
                                     )
         )   
         ;preloop_and_while
-          (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_set1 "Title Block_Under Ground_C1 v3"))
+          (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_v2_ ss_pre_filter_set_xx_set1 (list "Title Block_Under Ground_C1 v3" "Title Block_Under Ground_C2 v3" )))
           (setq ss_pre_filter_set_xx_i 0)
           (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
             (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
@@ -36558,11 +36558,11 @@
         (command "vplayer" "f" "FRAMING_HANGING_MAIN_COLOR_1" "c" "")
       )
     )
-    (if (= (TA:if_found_layer_ "000 - GRID" ) T)
-      (progn
-        (command "vplayer" "f" "000 - GRID" "c" "")
-      )
-    )
+    ; (if (= (TA:if_found_layer_ "000 - GRID" ) T)
+    ;   (progn
+    ;     (command "vplayer" "f" "000 - GRID" "c" "")
+    ;   )
+    ; )
     (if (= (TA:if_found_layer_ "000 - DEF GRID" ) T)
       (progn
         (command "vplayer" "f" "000 - DEF GRID" "c" "")
@@ -39088,7 +39088,6 @@
         (and 
           ; (/= (type err_ ) 'VL-CATCH-ALL-APPLY-ERROR)
           (= (getenv "COMPUTERNAME") "NONGSAISUEARAIH")
-          
           ;  (/= (wcmatch (strcase (vl-princ-to-string err_)) "*ERROR*") T)
         )
         (progn
@@ -39143,7 +39142,7 @@
     (setvar "BLOCKREDEFINEMODE" 1)
     (alert "complete")
   )
-  (defun c:PPLINE-CKST_CSD20_ ()
+  (defun c:PPLINE-CKST_CSDaboveupdate_ ()
     ; (TA:get_name_block_in_drawing_to_list)
     ; (TA:get_name_block_in_drawing_to_list)
     ;presetting
@@ -39151,32 +39150,30 @@
       (setvar "ATTREQ" 0)
       (setvar "ATTDIA" 0)
     ;
-    (setq input_station_no_ 20 )
+    (setq input_station_no_ (cond ( (getint (strcat "\nspecify input_station_no_  \n<" (rtos (setq input_station_no_ (cond (input_station_no_) (1.0) ) ) ) "> : " ) ) ) (input_station_no_) ) )
     (setq station_fullname_ (strcat "PP" (rtos input_station_no_ 2 0 )))
     (setq CSD_MERGE_LIST_ ())
     (setq err_ "S")
-    ; (while (/= (wcmatch (strcase (vl-princ-to-string err_)) "*ERROR*") T) 
-    ;   (setq err_ (vl-catch-all-apply 
-    ;               (function 
-    ;                 (lambda () 
-    ;                   (setq CSD_MERGE_LIST_ (list "A$C9312df8d") )
-    ;                 )
-    ;               )
-    ;             )
-    ;   )
-    ; )
-    (setq CSD_MERGE_LIST_ (list "W-2-PP20-AR-4150-01-A_20260114-153308_NEW_LIGHT_") )
+    (while (/= (wcmatch (strcase (vl-princ-to-string err_)) "*ERROR*") T) 
+      (setq err_ (vl-catch-all-apply 
+                  (function 
+                    (lambda () 
+                      (setq CSD_MERGE_LIST_ (cons (LM:effectivename (setq ee (vlax-ename->vla-object (car (entsel "specify Object")) ) ) ) CSD_MERGE_LIST_ ) )
+                    )
+                  )
+                )
+      )
+    )
     (setq CSD_MERGE_LIST_ (mapcar 'car (TA:Count_item_in_list_ CSD_MERGE_LIST_)))
     (cond
       (;_case_1
         (and 
           ; (/= (type err_ ) 'VL-CATCH-ALL-APPLY-ERROR)
           (= (getenv "COMPUTERNAME") "NONGSAISUEARAIH")
-          
           ;  (/= (wcmatch (strcase (vl-princ-to-string err_)) "*ERROR*") T)
         )
         (progn
-          (setq pp18_path (strcat "C:/TA/PPLINE CKST/C1-C2_Finishes-Reflected Ceiling Plan/" station_fullname_ "/CAD/"))
+          (setq pp18_path (strcat "C:/TA/PPLINE CKST/CKST_PPLINE_ABOVE/ABOVE/C1&C2_0121-1 Update (29.01.26)/" station_fullname_ "/"))
           (princ "_case_1")
         )
       )
@@ -39205,8 +39202,59 @@
     )
     
     
+    (setq filePath (getfiled "Select the DWG file" pp18_path "dwg" 4))
+    (textscr)
+    (setq temp_pt (getpoint "specify point" ))
+    ;preloop_and_while
+      (setq CSD_MERGE_LIST_i 0)
+      (setq CER_ 0)
+      (while 
+        (and 
+          (/= CSD_MERGE_LIST_ nil)
+          (< CSD_MERGE_LIST_i (length CSD_MERGE_LIST_))
+          (/= (wcmatch (strcase (vl-princ-to-string CER_)) "NIL"))
+        )
+        (setq CSD_MERGE_LIST_efname (nth CSD_MERGE_LIST_i CSD_MERGE_LIST_))
+        (command "-INSERTCONTENT" filePath CSD_MERGE_LIST_efname temp_pt 1 1 0)
+        (vla-delete (vlax-ename->vla-object (entlast)))
+        (setq CSD_MERGE_LIST_i (+ CSD_MERGE_LIST_i 1))
+      )
+    ;
+    
+    (setvar "BLOCKREDEFINEMODE" 1)
+    (alert "complete")
+  )
+  
+  (defun TA:PPLINE-CKST_CSDautoupdate_ (input_station_no_ CSD_MERGE_LIST__ filePath)
+    ; (TA:get_name_block_in_drawing_to_list)
+    ; (TA:get_name_block_in_drawing_to_list)
+    ;presetting
+      (setvar "BLOCKREDEFINEMODE" 1)
+      (setvar "ATTREQ" 0)
+      (setvar "ATTDIA" 0)
+    ;
+    ; (setq input_station_no_ 17 )
+    (setq station_fullname_ (strcat "PP" (rtos input_station_no_ 2 0 )))
+    (setq CSD_MERGE_LIST_ ())
+    (setq err_ "S")
+    ; (while (/= (wcmatch (strcase (vl-princ-to-string err_)) "*ERROR*") T) 
+    ;   (setq err_ (vl-catch-all-apply 
+    ;               (function 
+    ;                 (lambda () 
+    ;                   (setq CSD_MERGE_LIST_ (list "A$C9312df8d") )
+    ;                 )
+    ;               )
+    ;             )
+    ;   )
+    ; )
+    ; (setq CSD_MERGE_LIST_ (list "W-1-PP17-AR-4150-01-A_20260302-141613_AHP_C06_OVL") )
+    (setq CSD_MERGE_LIST_ (mapcar 'car (TA:Count_item_in_list_ CSD_MERGE_LIST__)))
+    
+    
+    
     ; (setq filePath (getfiled "Select the DWG file" pp18_path "dwg" 4)) ;bypass file path below this line
-    (setq filePath "C:\\TA\\PPLINE CKST\\C1-C2_Finishes-Reflected Ceiling Plan\\PP20\\CAD\\W-2-PP20-AR-4150-01-A.dwg")
+    
+    ; (setq filePath "C:\\TA\\PPLINE CKST\\C1-C2_Finishes-Reflected Ceiling Plan\\PP17\\CAD\\W-1-PP17-AR-4150-01-A.dwg")
     (textscr)
     ; (setq temp_pt (getpoint "specify point" )) 
     (setq temp_pt (list 0.0 0.0 0.0)) 
@@ -39229,7 +39277,22 @@
     (setvar "BLOCKREDEFINEMODE" 1)
     (alert "complete")
   )
+  (defun c:csdautoupdate ()
+    ; (setq input_station_no_ 17 )
+    ; (setq station_fullname_ (strcat "PP" (rtos input_station_no_ 2 0 )))
+    ; (setq CSD_MERGE_LIST__ (list "W-1-PP17-AR-4150-01-A_20260302-141613_AHP_C06_OVL") )
+    ; (setq filePath "C:\\TA\\PPLINE CKST\\C1-C2_Finishes-Reflected Ceiling Plan\\PP17\\CAD\\W-1-PP17-AR-4150-01-A.dwg")
+    ; (TA:PPLINE-CKST_CSDautoupdate_ input_station_no_ 
+    ;                                 CSD_MERGE_LIST__
+    ;                               filePath
 
+    ; )
+    (TA:PPLINE-CKST_CSDautoupdate_ 20 
+                                    (list "W-2-PP20-AR-4150-01-A_20260308-191423_AHP_C06_OVL")
+                                  "C:\\TA\\PPLINE CKST\\C1-C2_Finishes-Reflected Ceiling Plan\\PP20\\CAD\\W-2-PP20-AR-4150-01-A.dwg"
+
+    )
+  )
 
 
 
@@ -40404,7 +40467,8 @@
 (defun c:xline_intersect_block_xl2_ ()
   ;presettting
     ; (setq blkname_inter_target_ "000 - CKST_DOWNLIGHT_SYMBOL")
-    (setq blkname_inter_target_ "000 - STARTER SYMBOL_REV03")
+    ; (setq blkname_inter_target_ "000 - STARTER SYMBOL_REV03")
+    (setq blkname_inter_target_ "000_ASPG_TYP_FILES__STRUCTURE_STEEL_SET_TOP_VIEW")
     ; (setq blkname_inter_target_ "ACM_Linear Slot_Supply_Side Connected _1590x200x450_ - 1590x200-21133948-CONCOURSE LEVEL CB CEILING PLAN")
     ; (setq blkname_inter_ename_ (car (entsel "specify Object")))
     ; (setq blkname_inter_obj_ (vlax-ename->vla-object blkname_inter_ename_))
@@ -40454,7 +40518,7 @@
         blkname_inter_target_
         inters_ss_new_trans_val_
         1
-        0
+        (deg-to-rad 90)
       )
       ;new_blk_entlast object
         (setq new_dn_ename (entlast))
@@ -40909,8 +40973,100 @@
     ) 
   ;
 )
-(defun c:mkair()
-
+(defun c:mkair1()
+  (defun TAS:editair_ (blockname line_color layer_name)
+    ; (setq blockname "PZG35")
+    ; (setq line_color 256)
+    ; (setq layer_name "008 - E&M_ACESSORIES_MAIN_COLOR_1")
+    (setq target_ '())
+    (setq blkdef (tblobjname "BLOCK" blockname))
+    (setq ent (entnext blkdef))
+    (while ent
+      (setq ed (entget ent))
+      (if (= (cdr (assoc 0 ed)) "HATCH")
+        (progn
+          (setq target_ (cons ent target_))
+          ;main idea of code keep or delete don't affect with core code
+            (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+            (vla-put-color target_obj_  line_color)
+            (vla-put-layer target_obj_  layer_name)
+            ; (vla-put-EntityTransparency target_obj_ 80 )
+          ;
+        )
+      )
+      (if (= (cdr (assoc 0 ed)) "ARC")
+        (progn
+          ; (setq target_ (cons ent target_))
+          ;main idea of code keep or delete don't affect with core code
+            (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+            (vla-put-color target_obj_  line_color)
+            (vla-put-layer target_obj_  layer_name)
+            
+          ;
+        )
+      )
+      (if (= (cdr (assoc 0 ed)) "LINE")
+        (progn
+          ; (setq target_ (cons ent target_))
+          ;main idea of code keep or delete don't affect with core code
+            (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+            (if (/= (vla-get-layer target_obj_ ) "A-ANNO-SYMB")
+              (progn
+                (vla-put-color target_obj_  line_color)
+                (vla-put-layer target_obj_  "008 - AIR_MASK_SUB_COLOR_3")
+              )
+            )
+          ;
+        )
+      )
+      (if (= (cdr (assoc 0 ed)) "LWPOLYLINE")
+        (progn
+          ; (setq target_ (cons ent target_))
+          ;main idea of code keep or delete don't affect with core code
+            (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+            (vla-put-color target_obj_  line_color)
+            (vla-put-layer target_obj_  layer_name)
+            
+          ;
+        )
+      )
+      (if (= (cdr (assoc 0 ed)) "SPLINE")
+        (progn
+          ; (setq target_ (cons ent target_))
+          ;main idea of code keep or delete don't affect with core code
+            (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+            (vla-put-color target_obj_  line_color)
+            (vla-put-layer target_obj_  layer_name)
+            
+          ;
+        )
+      )
+      (if (= (cdr (assoc 0 ed)) "ELLIPSE")
+        (progn
+          ; (setq target_ (cons ent target_))
+          ;main idea of code keep or delete don't affect with core code
+            (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+            (vla-put-color target_obj_  line_color)
+            (vla-put-layer target_obj_  layer_name)
+            
+          ;
+        )
+      )
+      (if (= (cdr (assoc 0 ed)) "CIRCLE")
+        (progn
+          ; (setq target_ (cons ent target_))
+          ;main idea of code keep or delete don't affect with core code
+            (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+            (vla-put-color target_obj_  line_color)
+            (vla-put-layer target_obj_  layer_name)
+            
+          ;
+        )
+      )
+      (setq ent (entnext ent))
+    )
+    (reverse target)
+  )
   ;selection_set_for_fillter_blk_name
     (if  ;pre_select_ssget_or_post_select_ssget
       (=
@@ -40949,7 +41105,7 @@
               ; (= (wcmatch (LM:effectivename ss_pre_filter_set_xx_obj_) "*Alarm*") T)
             )
           (progn
-            (TA:editblock_ (LM:effectivename ss_pre_filter_set_xx_obj_) 256 "008 - AIR_MASK_MAIN_COLOR_1")
+            (TAS:editair_ (LM:effectivename ss_pre_filter_set_xx_obj_) 256 "008 - AIR_MASK_MAIN_COLOR_1")
           )
         )
       (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
@@ -41542,7 +41698,55 @@
       (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
     ) 
   ;
-)    
+)  
+(defun c:mkdefpoints ()
+
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (if (and 
+              (= 1 1) 
+              ; (= (wcmatch (LM:effectivename ss_pre_filter_set_xx_obj_) "*Alarm*") T)
+            )
+          (progn
+            (TA:editblock_ (LM:effectivename ss_pre_filter_set_xx_obj_) 256 "Defpoints")
+              
+          )
+        )
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    ) 
+  ;
+)
 
 
 (defun c:q1 ()
