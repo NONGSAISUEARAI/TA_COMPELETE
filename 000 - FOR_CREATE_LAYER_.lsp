@@ -1149,7 +1149,7 @@
     )
     (TA:generate_filter_list
       (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
-      (setq 2nd_filter_val_main "009 - AHP_07_") ;2nd_filter
+      (setq 2nd_filter_val_main "009 - AHP_06_") ;2nd_filter
       (setq 3rd_filter_val_main (list ;3rd_filter
                                   "DIMS" ;
                                 )
