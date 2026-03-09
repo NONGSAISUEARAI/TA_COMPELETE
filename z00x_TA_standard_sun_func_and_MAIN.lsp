@@ -40468,7 +40468,7 @@
   ;presettting
     ; (setq blkname_inter_target_ "000 - CKST_DOWNLIGHT_SYMBOL")
     ; (setq blkname_inter_target_ "000 - STARTER SYMBOL_REV03")
-    (setq blkname_inter_target_ "000_ASPG_TYP_FILES__STRUCTURE_STEEL_SET_TOP_VIEW")
+    (setq blkname_inter_target_ "LGF_DL_SAA_LowPower_DL1a - LGF_DL_SAA_LowPower_DL1a-15164315-4180-01 - PLATFORM LEVEL PLAN - REFLECTED CEILING PLAN")
     ; (setq blkname_inter_target_ "ACM_Linear Slot_Supply_Side Connected _1590x200x450_ - 1590x200-21133948-CONCOURSE LEVEL CB CEILING PLAN")
     ; (setq blkname_inter_ename_ (car (entsel "specify Object")))
     ; (setq blkname_inter_obj_ (vlax-ename->vla-object blkname_inter_ename_))
