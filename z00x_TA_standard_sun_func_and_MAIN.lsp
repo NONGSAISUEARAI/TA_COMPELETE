@@ -39287,9 +39287,9 @@
     ;                               filePath
 
     ; )
-    (TA:PPLINE-CKST_CSDautoupdate_ 20 
-                                    (list "W-2-PP20-AR-4150-01-A_20260308-191423_AHP_C06_OVL")
-                                  "C:\\TA\\PPLINE CKST\\C1-C2_Finishes-Reflected Ceiling Plan\\PP20\\CAD\\W-2-PP20-AR-4150-01-A.dwg"
+    (TA:PPLINE-CKST_CSDautoupdate_ 17
+                                    (list "W-1-PP17-AR-4180-01-A_20260303-141224_AHP_C06_OVL")
+                                  "C:\\TA\\PPLINE CKST\\C1-C2_Finishes-Reflected Ceiling Plan\\PP17\\CAD\\W-1-PP17-AR-4180-01-A.dwg"
 
     )
   )

@@ -3480,6 +3480,7 @@
       (vla-put-standardscale lyout acScaleToFit )
       (vla-put-plotrotation lyout ac90degrees)
       (vla-put-PaperUnits lyout acMillimeters)
+      (setvar "PLOTTRANSPARENCYOVERRIDE" 2)
     ;
   )
   (defun TA:preset_plotter_mode_4 ()
@@ -4123,11 +4124,51 @@
     )
   )
   (defun c:Plotter_CKST_CSDframeplot ()
+      (defun TAS:CKST_plotter_date_cond ()
+        (cond
+          (;date_condd_case_1
+             (and
+                (wcmatch (getvar "dwgname") "*PP17*")
+             )
+             (progn
+               "29-10-2025"
+               
+             )
+          )
+          (;date_condd_case_2
+             (and
+                (wcmatch (getvar "dwgname") "*PP18*")
+             )
+             (progn
+               "12-11-2025"
+               
+             )
+          )
+          (;date_condd_case_3
+             (and
+                (wcmatch (getvar "dwgname") "*PP19*")
+             )
+             (progn
+               "09-01-2026"
+               
+             )
+          )
+          (;date_condd_case_4
+             (and
+                (wcmatch (getvar "dwgname") "*PP20*")
+             )
+             (progn
+               "31-10-2025"
+               
+             )
+          )
+        )
+      )
       ;presetting
       (setvar "PLOTTRANSPARENCYOVERRIDE" 1)
       (setq REV_list_         (list 1)
             REV_VAL           "A"
-            REV_DATE_VAL       "29-10-2025" ;(TA:CDATE "/" "DDMMYYYY")
+            REV_DATE_VAL       (TAS:CKST_plotter_date_cond);"31-10-2025" ;(TA:CDATE "/" "DDMMYYYY")
             REV_DESC_VAL      "FIRST ISSUED"
             DWG_VAL           "TA"
             CHK_VAL           "KEN" 
