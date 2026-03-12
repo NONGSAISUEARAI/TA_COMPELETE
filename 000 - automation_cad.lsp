@@ -12901,6 +12901,24 @@
     (_endUndo doc )
   )
 ;
+;Hatch_variable_setting
+  (defun TA:setvarHatch (HPNAME HPCOLOR HPLAYER HPANG HPSCALE HPASSOC )
+    (= (wcmatch (vl-princ-to-string (vl-catch-all-apply (function (lambda () (setvar "HPNAME" HPNAME) ) ) ) ) "*error*" ) nil)
+    (= (wcmatch (vl-princ-to-string (vl-catch-all-apply (function (lambda () (setvar "HPCOLOR" HPCOLOR) ) ) ) ) "*error*" ) nil)
+    
+    (= (wcmatch (vl-princ-to-string (vl-catch-all-apply (function (lambda () (setvar "HPLAYER" HPLAYER) ) ) ) ) "*error*" ) nil)
+    
+    (= (wcmatch (vl-princ-to-string (vl-catch-all-apply (function (lambda () (setvar "HPANG" HPANG) ) ) ) ) "*error*" ) nil)
+    (= (wcmatch (vl-princ-to-string (vl-catch-all-apply (function (lambda () (setvar "HPSCALE" HPSCALE) ) ) ) ) "*error*" ) nil)
+    
+    (= (wcmatch (vl-princ-to-string (vl-catch-all-apply (function (lambda () (setvar "HPASSOC" HPASSOC) ) ) ) ) "*error*" ) nil)
+  )
+  (defun c:CKST_C06Hatchvariable ()
+    (TA:setvarHatch "ANSI35" "bylayer"  "009 - AHP_06_PANEL_HATCH_" 0 25 1)
+  )
+  
+  
+;
 
 
   

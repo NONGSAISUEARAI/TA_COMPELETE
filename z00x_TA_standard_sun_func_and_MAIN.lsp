@@ -23405,7 +23405,7 @@
   (defun c:xc+ ()
     ;for moving support frame Fameline celing SK300 (0.025 / 1 enter)
     ;set paremeter for moving
-      (setq move_length_ 1200)
+      (setq move_length_ 12)
     ;
     ;user_input_
       (initget "Yes No")
