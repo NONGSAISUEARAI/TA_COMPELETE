@@ -15473,7 +15473,32 @@
       (getp)
       
     )
-    
+    (defun c:midline_vxl ()
+      (setq pt1 (getpoint))
+      (setq pt2 ( getpoint pt1))
+      (setq pt2 (list 
+                  (car pt2)
+                  (cadr pt1)
+                  (caddr pt2)
+                )
+      )
+      (setq getdistt_ (distance pt1 pt2))
+      (setq getanglee_  (angle pt1 pt2))
+      (command "xline" "V" (polar pt1 0 (/ getdistt_ 2) ) "")
+    )
+    (defun c:midline_hxl ()
+      (setq pt1 (getpoint))
+      (setq pt2 ( getpoint pt1))
+      (setq pt2 (list 
+                  (car pt1)
+                  (cadr pt2)
+                  (caddr pt2)
+                )
+      )
+      (setq getdistt_ (distance pt1 pt2))
+      (setq getanglee_  (angle pt1 pt2))
+      (command "xline" "H" (polar pt1 getanglee_ (/ getdistt_ 2) ) "")
+    )
   ;
   ;INSERT_FUNC
     (defun c:insert_butween_two_object_insbtwobj ()
@@ -39196,7 +39221,7 @@
           (= (getenv "USERNAME") "tawan.t")
         )
         (progn
-          (setq pp18_path (strcat "C:/TA/PPLINE CKST/C1-C2_Finishes-Reflected Ceiling Plan/" station_fullname_ "/CAD/"))
+          (setq pp18_path (strcat "C:/TA/PPLINE CKST/C1-C2_ABOVE/ABOVE/C1_C2_0121-1 Update (29.01.26)/C1&C2_0121-1 Update (29.01.26)/"))
         )
       )
     )
@@ -40468,7 +40493,7 @@
   ;presettting
     ; (setq blkname_inter_target_ "000 - CKST_DOWNLIGHT_SYMBOL")
     ; (setq blkname_inter_target_ "000 - STARTER SYMBOL_REV03")
-    (setq blkname_inter_target_ "LGF_DL_SAA_LowPower_DL1a - LGF_DL_SAA_LowPower_DL1a-15164315-4180-01 - PLATFORM LEVEL PLAN - REFLECTED CEILING PLAN")
+    (setq blkname_inter_target_ "000_ASPG_TYP_FILES__STRUCTURE_STEEL_U-PROFILE_TOP_VIEW")
     ; (setq blkname_inter_target_ "ACM_Linear Slot_Supply_Side Connected _1590x200x450_ - 1590x200-21133948-CONCOURSE LEVEL CB CEILING PLAN")
     ; (setq blkname_inter_ename_ (car (entsel "specify Object")))
     ; (setq blkname_inter_obj_ (vlax-ename->vla-object blkname_inter_ename_))
@@ -40563,6 +40588,7 @@
     )
   ;
   ; (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ (LM:effectivename (vlax-ename->vla-object (car (entsel "filter name block")))) ))
+  (setq xxxxx (cond ( (getint (strcat "\nspecify get color \n<" (rtos (setq xxxxx (cond (xxxxx) (1.0) ) ) ) "> : " ) ) ) (xxxxx) ) )
   (setq ss_pre_filter_set_xx_ ss_pre_filter_set_xx_)
   ;preloop_and_while
     (setq ss_pre_filter_set_xx_i 0)
@@ -40578,7 +40604,7 @@
       )
       (vla-addxline space 
         (vlax-3d-point ss_pre_filter_set_xx_obj_ins_)
-        (vlax-3d-point (polar ss_pre_filter_set_xx_obj_ins_ (deg-to-rad 90) 80))          
+        (vlax-3d-point (polar ss_pre_filter_set_xx_obj_ins_ (deg-to-rad xxxxx) 80))          
 
       )
       (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
@@ -44919,3 +44945,102 @@
     (command "-layer" "off" (vla-get-layer layeroff_obj_) "")
   )
 
+  (defun c:multi_viewportclip_mulvpc ()
+    (setq vpc_ename_ (car (entsel "specify Object")))
+    (setq vpc_obj_ (vlax-ename->vla-object vpc_ename_))
+    (setq vpc_ss_ (ssadd))
+    (setq vpc_ss_ (ssadd vpc_ename_ vpc_ss_))
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "LWPOLYLINE") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "LWPOLYLINE") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+    ;preloop_and_while
+      (setq ss_i 0)
+      (while (< ss_i (- (sslength ss_pre_filter_set_xx_) 1))
+        ;new_blk_entlast object
+          (vla-copy vpc_obj_)
+          (setq ss_ename (entlast))
+          (setq ss_obj (vlax-ename->vla-object ss_ename))
+          (setq vpc_ss_ (ssadd ss_ename vpc_ss_))
+        ;
+    
+        (setq ss_i (+ ss_i 1))
+      )
+    ;
+    (vla-copy vpc_obj_)
+    
+
+    ;selection_set_for_fillter_blk_name
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq vpc_ss_ename (ssname  vpc_ss_ ss_pre_filter_set_xx_i))
+          (command "vpclip" vpc_ss_ename ss_pre_filter_set_xx_ename_)
+      
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+  )
+  (defun c:c:multi_viewportclipdelete_vcdel ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "LWPOLYLINE") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "LWPOLYLINE") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (command "vpclip" ss_pre_filter_set_xx_ename_ "d"  )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+
+  )
