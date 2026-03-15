@@ -1291,6 +1291,20 @@
                                 )
       )
     )
+    (TA:generate_filter_list
+      (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+      (setq 2nd_filter_val_main "010 - ASPG_") ;2nd_filter
+      (setq 3rd_filter_val_main (list ;3rd_filter
+                                  "DIMS" ;
+                                )
+      )
+      (setq 4th_filter_val_main (list  ;4th_filter
+                                      (list "OVERALL" 1) ;
+                                      (list "NOM" 1) ;
+                                       ;
+                                )
+      )
+    )
   )
   (defun c:crelayASPGSTFRAME ()
     (TA:generate_filter_list
@@ -1340,6 +1354,29 @@
                                 )
       )
     )
+    (TA:generate_filter_list
+      (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+      (setq 2nd_filter_val_main "000 - CONCRETE_") ;2nd_filter
+      (setq 3rd_filter_val_main (list ;3rd_filter
+                                  "COL" ;
+                                )
+      )
+      (setq 4th_filter_val_main (list  ;4th_filter
+                                      (list "MAIN_COLOR_1" 5) ;
+                                      (list "MAIN_COLOR_2" 1) ;
+                                      (list "SUB_COLOR_1" 2) ;
+                                      (list "SUB_COLOR_2" 1) ;
+                                      (list "SUB_COLOR_3" 251) ;
+                                      (list "HATCH_" 251) ;
+                                      (list "WIPEOUT_" 250) ;
+                                      (list "HIDDEN_" 251) ;
+                                      (list "SYMBOL_" 251) ;
+                                      (list "DEF_SUB" 250) ;
+                                      (list "TEXT" 3) ;
+                                       ;
+                                )
+      )
+    )
   )
   (defun c:crelayHIDEOBJ_ ()
     (TA:generate_filter_list
@@ -1370,6 +1407,7 @@
                                   "GRIDLINE" ;
                                   "HIDDENlINE" ;
                                   "DIMS" ;
+                                  "LEVEL" ;
                                 )
       )
       (setq 4th_filter_val_main (list  ;4th_filter
