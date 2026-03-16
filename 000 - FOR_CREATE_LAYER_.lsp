@@ -1408,6 +1408,7 @@
                                   "HIDDENlINE" ;
                                   "DIMS" ;
                                   "LEVEL" ;
+                                  "INDICATOR" ;
                                 )
       )
       (setq 4th_filter_val_main (list  ;4th_filter
@@ -1420,6 +1421,7 @@
                                       (list "DEF_SUB" 250) ;
                                       (list "WIPEOUT_" 250)
                                       (list "TEXT" 3) ;
+                                      (list "HATCH" 251) ;
                                        ;
                                 )
       )

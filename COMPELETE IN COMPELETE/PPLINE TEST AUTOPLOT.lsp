@@ -4129,6 +4129,7 @@
           (;date_condd_case_1
              (and
                 (wcmatch (getvar "dwgname") "*PP17*")
+                (wcmatch (getvar "dwgname") "*AR-4*")
              )
              (progn
                "29-10-2025"
@@ -4138,6 +4139,7 @@
           (;date_condd_case_2
              (and
                 (wcmatch (getvar "dwgname") "*PP18*")
+                (wcmatch (getvar "dwgname") "*AR-4*")
              )
              (progn
                "12-11-2025"
@@ -4147,6 +4149,7 @@
           (;date_condd_case_3
              (and
                 (wcmatch (getvar "dwgname") "*PP19*")
+                (wcmatch (getvar "dwgname") "*AR-4*")
              )
              (progn
                "09-01-2026"
@@ -4156,9 +4159,31 @@
           (;date_condd_case_4
              (and
                 (wcmatch (getvar "dwgname") "*PP20*")
+                (wcmatch (getvar "dwgname") "*AR-4*")
              )
              (progn
                "31-10-2025"
+               
+             )
+          )
+          
+          (;date_condd_case_5 ABOVE
+             (and
+                (wcmatch (getvar "dwgname") "*PP17*")
+                (wcmatch (getvar "dwgname") "*AR-2*")
+             )
+             (progn
+               (TA:CDATE "-" "DDMMYYYY")
+               
+             )
+          )
+          (;date_condd_case_5 ABOVE
+             (and
+                (wcmatch (getvar "dwgname") "*PP18*")
+                (wcmatch (getvar "dwgname") "*AR-2*")
+             )
+             (progn
+               (TA:CDATE "-" "DDMMYYYY")
                
              )
           )
