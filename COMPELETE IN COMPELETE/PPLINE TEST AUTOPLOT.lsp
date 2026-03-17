@@ -4265,7 +4265,215 @@
           (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
           (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
           (LM:effectivename ss_pre_filter_set_xx_obj_)
-          (TA:PPLINE_CKST_REWORK-REV_ ss_pre_filter_set_xx_obj_ (list 2) "" "" "" "" "" "")
+          (TA:PPLINE_CKST_REWORK-REV_ ss_pre_filter_set_xx_obj_ (list 3) "" "" "" "" "" "")
+          (TA:PPLINE_CKST_REWORK-REV_ ss_pre_filter_set_xx_obj_ REV_list_ REV_VAL REV_DATE_VAL REV_DESC_VAL DWG_VAL CHK_VAL APP_VAL)
+          
+          (if
+            (or
+              ; (= (sslength ss_pre_filter_set_xx_) 1)
+              (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_ )) (strcat "*" (strcase "Title Block_Under Ground_C1 v3") "*"))  T)
+              (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_ )) (strcat "*" (strcase "Title Block_Under Ground_C2 v3") "*"))  T)
+              
+            )
+            (progn
+              (setq main_bol (LM:boundingbox ss_pre_filter_set_xx_obj_))
+              (setq pre-name_ (strcat 
+                                (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "STATUS_VAL")
+                                "-"
+                                (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "DRAWING_NO_val")
+                                "-"
+                                (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "rev_no_val")
+                              )
+              )
+              ; (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "REV_DATE_01" "27-10-2025")
+              (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DESIGNED_BY_DATE_val" DESIGNED_BY_DATE_val )
+              ;plot process
+                (if 
+                  (findfile (setq filename (strcat "" (getvar 'DWGPREFIX)  pre-name_ ".pdf")))
+                  (vl-file-delete filename)
+                )
+              ;
+              ;input_type_of_plot_
+                (TA:preset_plotter_mode_3-1) 
+              ;
+            ; )
+              (command "-plot" 
+                       "Yes" ;Detailed Plot Configuration?
+                       (getvar "ctab")
+                       "DWG To PDF.pc3" ;Printer Name
+                       "ISO_full_bleed_A1_(841.00_x_594.00_MM)" ;Paper Size
+                       ;paper_size ;Paper Size
+                       "m" ;Paper Units Millimeters
+                       "Landscape" ;Orientation
+                       "No" ;Plot Upside Down
+                       "window" ;Plot Area
+                       (nth 0 main_bol) ;vla-getboundingbox
+                       (nth 2 main_bol) ;vla-getboundingbox
+                       ;llpt				;Lower left corner of window
+                       ;urpt				;Upper right corner of window
+                       "Fit" ;Plot Scale	"Fit"
+                       "Center" ;Plot Offset
+                       "yes" ;Use Plot Style?
+                       "A3_Standard (MRT-AGATE) - purple line.ctb" ;Plot Style Name
+                       "Yes" ;Plot Lineweights?
+                       "Y" ;scale linewieghts
+                       "N"
+                       "N"
+                       filename ; Name file and Location
+                       "Y"
+                       "Y"
+              )
+              
+            )
+          )
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+    ;
+  )
+  (defun c:Plotter_CKST_CSDASPGplot ()
+      (defun TAS:CKST_plotter_date_cond ()
+        (cond
+          (;date_condd_case_1
+             (and
+                (wcmatch (getvar "dwgname") "*PP17*")
+                (wcmatch (getvar "dwgname") "*AR-4*")
+             )
+             (progn
+               "29-10-2025"
+               
+             )
+          )
+          (;date_condd_case_2
+             (and
+                (wcmatch (getvar "dwgname") "*PP18*")
+                (wcmatch (getvar "dwgname") "*AR-4*")
+             )
+             (progn
+               "12-11-2025"
+               
+             )
+          )
+          (;date_condd_case_3
+             (and
+                (wcmatch (getvar "dwgname") "*PP19*")
+                (wcmatch (getvar "dwgname") "*AR-4*")
+             )
+             (progn
+               "09-01-2026"
+               
+             )
+          )
+          (;date_condd_case_4
+             (and
+                (wcmatch (getvar "dwgname") "*PP20*")
+                (wcmatch (getvar "dwgname") "*AR-4*")
+             )
+             (progn
+               "31-10-2025"
+               
+             )
+          )
+          
+          (;date_condd_case_5 ABOVE
+             (and
+                (wcmatch (getvar "dwgname") "*PP17*")
+                (wcmatch (getvar "dwgname") "*AR-2*")
+             )
+             (progn
+               (TA:CDATE "-" "DDMMYYYY")
+               
+             )
+          )
+          (;date_condd_case_5 ABOVE
+             (and
+                (wcmatch (getvar "dwgname") "*PP18*")
+                (wcmatch (getvar "dwgname") "*AR-2*")
+             )
+             (progn
+               (TA:CDATE "-" "DDMMYYYY")
+               
+             )
+          )
+        )
+      )
+      ;presetting
+      (setvar "PLOTTRANSPARENCYOVERRIDE" 1)
+      (setq REV_list_         (list 1)
+            REV_VAL           "A"
+            REV_DATE_VAL       (TAS:CKST_plotter_date_cond);"31-10-2025" ;(TA:CDATE "/" "DDMMYYYY")
+            REV_DESC_VAL      "FIRST ISSUED"
+            DWG_VAL           "TA"
+            CHK_VAL           "KEN" 
+            APP_VAL           "MK"
+      )
+      (setq DESIGNED_BY_DATE_val REV_DATE_VAL)
+        ; (c:PPLINE_CKST_REWORK-TTB24_)
+        ; (c:PPLINE_CKST_REWORK-TTB25_)
+      ;
+      ;return
+        (command "ucs" "world")
+      ;
+      ;go_to_layout-process
+        ; (if 
+        ;   (or 
+        ;     (= (getvar "ctab") "model")
+        ;     (/= (getvar "ctab") "FAMING")
+        ;   )
+        ;   (progn 
+        ;     (setvar "ctab" "FAMING")
+            
+        ;   )
+        ;   (setvar "ctab" "FAMING")
+        ; )
+      ;
+      ;selection_set_for_fillter_blk_name
+        (if (= x_checker_ nil)
+          (progn
+            (setq x_checker_ "x")
+          )
+        )
+        (if 
+          (=
+            x_checker_
+            "x"
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget x_checker_
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                (cons 410 (getvar "CTAB"))
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (setq ss_pre_filter_set_xx_ (ssget 
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                (cons 410 (getvar "CTAB"))
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+        )
+      ;
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "Title Block_Under Ground_C1 v3" "Title Block_Under Ground_C2 v3") ))
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (setq External_ref_ename_ ())
+        (while (and 
+                (= (type REV_list_) 'list)
+                (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+              ) 
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+          (LM:effectivename ss_pre_filter_set_xx_obj_)
+          (TA:PPLINE_CKST_REWORK-REV_ ss_pre_filter_set_xx_obj_ (list 1 2 3) "" "" "" "" "" "")
           (TA:PPLINE_CKST_REWORK-REV_ ss_pre_filter_set_xx_obj_ REV_list_ REV_VAL REV_DATE_VAL REV_DESC_VAL DWG_VAL CHK_VAL APP_VAL)
           
           (if

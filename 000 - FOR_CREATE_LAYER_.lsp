@@ -1252,6 +1252,10 @@
                                 )
       )
       (setq 4th_filter_val_main (list  ;4th_filter
+                                      (list "CUT_COLOR_1" 1) ;
+                                      (list "CUT_COLOR_2" 2) ;
+                                      (list "CUT_COLOR_3" 3) ;
+                                      (list "CUT_COLOR_4" 4) ;
                                       (list "MAIN_COLOR_1" 3) ;
                                       (list "MAIN_COLOR_2" 2) ;
                                       (list "SUB_COLOR_1" 2) ;
@@ -1276,6 +1280,10 @@
                                 )
       )
       (setq 4th_filter_val_main (list  ;4th_filter
+                                      (list "CUT_COLOR_1" 1) ;
+                                      (list "CUT_COLOR_2" 2) ;
+                                      (list "CUT_COLOR_3" 3) ;
+                                      (list "CUT_COLOR_4" 4) ;
                                       (list "MAIN_COLOR_1" 1) ;
                                       (list "MAIN_COLOR_2" 1) ;
                                       (list "SUB_COLOR_1" 1) ;
@@ -1315,6 +1323,11 @@
                                 )
       )
       (setq 4th_filter_val_main (list  ;4th_filter
+                                      (list "CUT_COLOR_1" 1) ;
+                                      (list "CUT_COLOR_2" 2) ;
+                                      (list "CUT_COLOR_3" 3) ;
+                                      (list "CUT_COLOR_4" 4) ;
+                                      (list "MAIN_COLOR_1" 3) ;
                                       (list "MAIN_COLOR_1" 3) ;
                                       (list "MAIN_COLOR_2" 2) ;
                                       (list "SUB_COLOR_1" 2) ;
@@ -1339,6 +1352,11 @@
                                 )
       )
       (setq 4th_filter_val_main (list  ;4th_filter
+                                      (list "CUT_COLOR_1" 1) ;
+                                      (list "CUT_COLOR_2" 2) ;
+                                      (list "CUT_COLOR_3" 3) ;
+                                      (list "CUT_COLOR_4" 4) ;
+                                      (list "MAIN_COLOR_1" 3) ;
                                       (list "MAIN_COLOR_1" 2) ;
                                       (list "MAIN_COLOR_2" 1) ;
                                       (list "SUB_COLOR_1" 2) ;
