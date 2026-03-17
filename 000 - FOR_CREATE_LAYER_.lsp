@@ -1276,6 +1276,7 @@
       (setq 2nd_filter_val_main "010 - ASPG_") ;2nd_filter
       (setq 3rd_filter_val_main (list ;3rd_filter
                                   "ACCESSORIES" ;
+                                  "FLASING" ;
                                   "FASTERN" ;
                                 )
       )
