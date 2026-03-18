@@ -504,7 +504,18 @@
               (while (< main_filter_name_val_i (length main_filter_name_val_))
                 (setq main_filter_name_val_sval_ (nth  main_filter_name_val_i main_filter_name_val_))
                 ; (command "-layer" "filter" "new" "group" "" wildcard_layer_name_ main_filter_name_val_sval_ ""  )    
-                (if (= main_filter_name_val_i 1)
+                (if (and 
+                      (= main_filter_name_val_i 1)
+                      (/= (wcmatch main_filter_name_val_sval_ "*_2") T)
+                      (/= (wcmatch main_filter_name_val_sval_ "*_3") T)
+                      (/= (wcmatch main_filter_name_val_sval_ "*_4") T)
+                      (/= (wcmatch main_filter_name_val_sval_ "*_5") T)
+                      (/= (wcmatch main_filter_name_val_sval_ "*_6") T)
+                      (/= (wcmatch main_filter_name_val_sval_ "*_7") T)
+                      (/= (wcmatch main_filter_name_val_sval_ "*_8") T)
+                      (/= (wcmatch main_filter_name_val_sval_ "*_9") T)
+                      (/= (wcmatch main_filter_name_val_sval_ "*_251") T)
+                    )
                   (progn
                     (command "-LAYER" "filter" "new" "group"  
                          (car main_filter_name_val_)
@@ -513,12 +524,32 @@
                          "" 
                     )
                   )
-                    (command "-LAYER" "filter" "new" "group"  
-                         (car main_filter_name_val_)
-                         "" ;(add layer name to filter, Can use wildcard for adding)
-                         main_filter_name_val_sval_ 
-                         "" 
+                  (if (and 
+                        (/= (wcmatch main_filter_name_val_sval_ "*_2") T)
+                        (/= (wcmatch main_filter_name_val_sval_ "*_3") T)
+                        (/= (wcmatch main_filter_name_val_sval_ "*_4") T)
+                        (/= (wcmatch main_filter_name_val_sval_ "*_5") T)
+                        (/= (wcmatch main_filter_name_val_sval_ "*_6") T)
+                        (/= (wcmatch main_filter_name_val_sval_ "*_7") T)
+                        (/= (wcmatch main_filter_name_val_sval_ "*_8") T)
+                        (/= (wcmatch main_filter_name_val_sval_ "*_9") T)
+                        (/= (wcmatch main_filter_name_val_sval_ "*_251") T)
+                      )
+                    (progn
+                      (command "-LAYER" "filter" "new" "group"  
+                          (car main_filter_name_val_)
+                          "" ;(add layer name to filter, Can use wildcard for adding)
+                          main_filter_name_val_sval_ 
+                          "" 
+                      )
                     )
+                  )
+                  ; (command "-LAYER" "filter" "new" "group"  
+                  ;       (car main_filter_name_val_)
+                  ;       "" ;(add layer name to filter, Can use wildcard for adding)
+                  ;       main_filter_name_val_sval_ 
+                  ;       "" 
+                  ; )
                 )
                 (setq main_filter_name_val_i (+ main_filter_name_val_i 1))
               )
@@ -1483,7 +1514,44 @@
     (c:crelayHIDEOBJ_)
     (c:crelayFLsymbol_)
   )
-  
+  (defun c:crelay300HK ()
+    (TA:generate_filter_list
+      (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+      (setq 2nd_filter_val_main "C0x_300HK_") ;2nd_filter
+      (setq 3rd_filter_val_main (list ;3rd_filter
+                                  "PANEL" ;
+                                  "CODE" ;
+                                )
+      )
+      (setq 4th_filter_val_main (list  ;4th_filter
+                                      (list "CUT_COLOR_1" 1) ;
+                                      (list "CUT_COLOR_2" 2) ;
+                                      (list "CUT_COLOR_3" 3) ;
+                                      (list "CUT_COLOR_4" 4) ;
+                                      (list "MAIN_COLOR_1" 1) ;
+                                      (list "MAIN_COLOR_2" 2) ;
+                                      (list "MAIN_COLOR_3" 3) ;
+                                      (list "MAIN_COLOR_4" 4) ;
+                                      (list "MAIN_COLOR_5" 5) ;
+                                      (list "SUB_COLOR_1" 1) ;
+                                      (list "SUB_COLOR_2" 2) ;
+                                      (list "SUB_COLOR_3" 3) ;
+                                      (list "SUB_COLOR_4" 4) ;
+                                      (list "SUB_COLOR_5" 5) ;
+                                      (list "SUB_COLOR_6" 6) ;
+                                      (list "SUB_COLOR_8" 8) ;
+                                      (list "SUB_COLOR_251" 251) ;
+                                      (list "HATCH_" 251) ;
+                                      (list "WIPEOUT_" 250) ;
+                                      (list "HIDDEN_" 251) ;
+                                      (list "SYMBOL_" 251) ;
+                                      (list "DEF_SUB" 250) ;
+                                      (list "TEXT" 3) ;
+                                       ;
+                                )
+      )
+    )
+  )
 
 
       
