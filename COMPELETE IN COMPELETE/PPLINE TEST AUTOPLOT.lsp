@@ -4684,7 +4684,7 @@
   )
   (defun c:Plotter_CKST_CSDgen ()
       ;presetting
-      (setq CONTRACT_num_val_ 2)
+      (setq CONTRACT_num_val_ 1)
       (setq REV_list_         (list 1)
             REV_VAL           "A"
             REV_DATE_VAL       "23-12-2025" ;(TA:CDATE "/" "DDMMYYYY")
@@ -4778,8 +4778,6 @@
               )
               (setq pre-name_ (strcat 
                                 (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "STATUS_VAL")
-                                "-"
-                                (rtos CONTRACT_num_val_ 2 0)
                                 "-"
                                 (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "DRAWING_NO_val")
                                 "-"
