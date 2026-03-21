@@ -7858,7 +7858,194 @@
     ;
 
   )
-  
+  (defun c:PPLINE_CKST_ASPG_MTTL ()
+    (setq ttl_ename_ (car (entsel "specify Object")))
+    (setq ttl_obj_ (vlax-ename->vla-object ttl_ename_))
+    (setq entrance_ ;Get-string by keep previous value
+        (if
+          (or
+            (/= (setq entrance_val (getstring (strcat "\nSpecify entrance no  <" (if entrance_ entrance_ "") ">: ") ) ) "" )
+          )
+            (progn
+              (setq entrance_ entrance_val)
+              (setq entrance_keep_val_ entrance_val)
+            )
+          (setq entrance_val entrance_keep_val_)
+        )
+    )
+    (setq name_lV_ ;Get-string by keep previous value
+        (if
+          (or
+            (/= (setq name_lV_val (getstring (strcat "\nSpecify\n 1 = lower\n 2 = upper\n 3 = elevation\n 4 = section<" (if name_lV_ name_lV_ "") ">: ") ) ) "" )
+          )
+            (progn
+              (setq name_lV_ name_lV_val)
+              (setq name_lV_keep_val_ name_lV_val)
+            )
+          (setq name_lV_val name_lV_keep_val_)
+        )
+    )
+    
+    (cond
+      ( ;TTL_case_1
+       (and
+         (= level_name "1")
+       )
+       (progn 
+         (LM:vl-setattributevalue ttl_obj_ "TITLE_2_val" (strcat "ENTRANCE " entrance_ " - LOWER ROOF PERFORMANCE LOUVER"))
+         
+       )
+      )
+      ( ;TTL_case_3
+       (and
+         (= level_name "2") 
+       )
+       (progn 
+         (LM:vl-setattributevalue ttl_obj_ "TITLE_2_val" (strcat "ENTRANCE " entrance_ " - UPPER ROOF PERFORMANCE LOUVER"))
+         
+       )
+      )
+      ( ;TTL_case_3
+       (and
+         (= level_name "3")
+       )
+       (progn 
+         (LM:vl-setattributevalue ttl_obj_ "TITLE_2_val" (strcat "ENTRANCE " entrance_ " - ELEVATION " (getstring "prefix Elevation") " PERFORMANCE LOUVER"))
+         
+       )
+      )
+    )
+  )
+  (defun c:PPLINE_CKST_ASPG_ENTTL ()
+    (setq ttl_ename_ (car (entsel "specify Object")))
+    (setq ttl_obj_ (vlax-ename->vla-object ttl_ename_))
+    (setq entrance_ ;Get-string by keep previous value
+        (if
+          (or
+            (/= (setq entrance_val (getstring (strcat "\nSpecify entrance no  <" (if entrance_ entrance_ "") ">: ") ) ) "" )
+          )
+            (progn
+              (setq entrance_ entrance_val)
+              (setq entrance_keep_val_ entrance_val)
+            )
+          (setq entrance_val entrance_keep_val_)
+        )
+    )
+    (setq level_name ;Get-string by keep previous value
+        (if
+          (or
+            (/= (setq level_nameval (getstring (strcat "\nSpecify\n 1 = lower\n 2 = upper <" (if level_name level_name "") ">: ") ) ) "" )
+          )
+            (progn
+              (setq level_name level_nameval)
+              (setq level_namekeep_val_ level_nameval)
+            )
+          (setq level_nameval level_namekeep_val_)
+        )
+    )
+    (cond
+      ( ;TTL_case_1
+       (and
+         (= level_name "1")
+       )
+       (progn 
+         (LM:vl-setattributevalue ttl_obj_ "TITLE_2_val" (strcat "ENTRANCE " entrance_ " - ENLARGE LOWER ROOF LEVEL PERFORMANCE LOUVER"))
+         
+       )
+      )
+      ( ;TTL_case_1
+       (and
+         (= level_name "2")
+       )
+       (progn 
+         (LM:vl-setattributevalue ttl_obj_ "TITLE_2_val" (strcat "ENTRANCE " entrance_ " - ENLARGE UPPER ROOF LEVEL PERFORMANCE LOUVER"))
+         
+       )
+      )
+    )
+    
+  )
+  (defun c:PPLINE_CKST_ASPG_ENsort ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+      (setq ss_pre_filter_set_xx_ (TA:estandard_list_croodinate_sorting ss_pre_filter_set_xx_ "X"))
+    ;
+    (setq ss_pre_filter_set_xx_ (reverse ss_pre_filter_set_xx_))
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (length ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (car (nth  ss_pre_filter_set_xx_i ss_pre_filter_set_xx_)))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "TITLE_3_val" (strcat "PLAN SHEET " (rtos (+ ss_pre_filter_set_xx_i 1) 2 0) ))
+    
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+  )
+  (defun c:PPLINE_CKST_ASPGheadname ()
+    (setq headname_ename_ (car (entsel "specify Object")))
+    (setq headname_obj_ (vlax-ename->vla-object headname_ename_))
+    (if (and 
+          (= (LM:effectivename headname_obj_) "000 - CKST_HEADING_VAL")
+          (= (wcmatch (LM:vl-getattributevalue headname_obj_ "HEADING-NAME" ) "*PERFORMANCE LOUVER*") nil )
+        )
+      (progn
+        (LM:vl-setattributevalue headname_obj_ "HEADING-NAME" (strcat (LM:vl-getattributevalue headname_obj_ "HEADING-NAME" ) " (PERFORMANCE LOUVER)") )
+      )
+    )
+    (LM:setdynpropvalue headname_obj_ "distance1" 12 )
+    (setq headname_obj_getboundingbox (vla-getboundingbox headname_obj_ 'min_ 'max_)) 
+    (setq headname_min_ (vlax-safearray->list min_)) 
+    (setq headname_max_ (vlax-safearray->list max_)) 
+    (setq assem_bol_ (TA:assembly_coordinate_coner (list headname_min_ headname_max_)))
+    (LM:setdynpropvalue headname_obj_ "distance1" (nth 5 assem_bol_) )
+  )
+  (defun c:PPLINE_CKST_TTL2heading ()
+    (setq TTL_ename_ (car (entsel "specify Object")))
+    (setq TTL_obj_ (vlax-ename->vla-object TTL_ename_))
+    (if (wcmatch (LM:vl-getattributevalue TTL_obj_ "TITLE_3_val") "*PLAN SHEET*" )
+      (progn
+        (setq sumname (strcat (LM:vl-getattributevalue TTL_obj_ "TITLE_2_val") " " (LM:vl-getattributevalue TTL_obj_ "TITLE_3_val")))
+      )
+    )
+    
+    
+    (setq headname_ename_ (car (entsel "specify Object")))
+    (setq headname_obj_ (vlax-ename->vla-object headname_ename_))
+    (LM:vl-setattributevalue headname_obj_ "HEADING-NAME" sumname )
+    
+    (LM:setdynpropvalue headname_obj_ "distance1" 12 )
+    (setq headname_obj_getboundingbox (vla-getboundingbox headname_obj_ 'min_ 'max_)) 
+    (setq headname_min_ (vlax-safearray->list min_)) 
+    (setq headname_max_ (vlax-safearray->list max_)) 
+    (setq assem_bol_ (TA:assembly_coordinate_coner (list headname_min_ headname_max_)))
+    (LM:setdynpropvalue headname_obj_ "distance1" (nth 5 assem_bol_) )
+  )
   ; (c:loadlisp)
   ; (c:update_up1auto_)
 ;

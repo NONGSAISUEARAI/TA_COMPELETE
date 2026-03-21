@@ -12960,6 +12960,33 @@
   
   
 ;
+;MATCHING_FUNC
+  (defun c:matchline_paper_mapaper()
+    (setq matchline_ename_ (car (entsel "specify Object")))
+    (setq matchline_obj_ (vlax-ename->vla-object matchline_ename_))
+    
+    (setq TTL_ename_ (car (entsel "specify Object")))
+    (setq TTL_obj_ (vlax-ename->vla-object TTL_ename_))
+    (setq TTL_obj_dwgno_ (substr (LM:vl-getattributevalue TTL_obj_ "DRAWING_NO_val" ) 11 11))
+    
+    (setq part_ ;Get-string by keep previous value
+        (if
+          (or
+            (/= (setq part_val (getstring (strcat "\nSpecify Pattern name <" (if part_ part_ "") ">: ") ) ) "" )
+          )
+            (progn
+              (setq part_ part_val)
+              (setq part_keep_val_ part_val)
+            )
+          (setq part_val part_keep_val_)
+        )
+    )
+    
+    (LM:vl-setattributevalue matchline_obj_ "MATCH_REFER_DWG_1" (strcat "REFER TO : " part_ " " TTL_obj_dwgno_ ) )
+    (LM:vl-setattributevalue matchline_obj_ "MATCH_REFER_DWG_3" (strcat "REFER TO : " part_ " " TTL_obj_dwgno_ ) )
+    
+  )
+;
 
 
   
