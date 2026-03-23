@@ -3488,7 +3488,10 @@
     (defun TA:vla-insertblock (blockName insertion_point scale rotation)
       (setq acadApp (vlax-get-acad-object))  ; เข้าถึง AutoCAD application
       (setq doc (vla-get-ActiveDocument acadApp))
-      (if (= (getvar "ctab" ) "Model")
+      (if (and 
+            ; (= (getvar "ctab" ) "Model")
+            (= (getvar "cvport") 2)
+          )
         (progn
           (setq ms (vla-get-ModelSpace doc))
         )
@@ -12876,7 +12879,7 @@
             (setq ss_pre_filter_set_xx_ (ssget "i"
                                               (list
                                                 (cons 0 "INSERT") ;type of object
-                                                (cons 8 "008 - LIGHT_FLUORESCENT*,008 - AIR_MASK*")   ;kind of layer
+                                                (cons 8 "008 - LIGHT_FLUORESCENT*,008 - AIR_MASK*,FRAMING_CC-01*")   ;kind of layer
                                                 ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                                 ; (cons 62 1)           ;kind of color call sign with color code index
                                               )
@@ -12888,7 +12891,7 @@
             (setq ss_pre_filter_set_xx_ (ssget
                                               (list
                                                 (cons 0 "INSERT") ;type of object
-                                                (cons 8 "008 - LIGHT_FLUORESCENT*,008 - AIR_MASK*")   ;kind of layer
+                                                (cons 8 "008 - LIGHT_FLUORESCENT*,008 - AIR_MASK*,FRAMING_CC-01*")   ;kind of layer
                                                 ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                                 ; (cons 62 1)           ;kind of color call sign with color code index
                                               )
@@ -14710,6 +14713,7 @@
                 (setq ss_pre_filter_set_xx_i 0)
                 (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
                   (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+                  (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
                   (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
                   (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
                   (vla-put-insertionpoint ss_pre_filter_set_xx_obj_ 
@@ -15351,6 +15355,32 @@
         )
       ;
       
+    )
+    (defun c:UOB ()
+        
+        (setq Er-msg_ 
+          (vl-catch-all-apply 
+            (function 
+              (lambda () 
+                (setvar "SELECTIONPREVIEW" 3)
+                (setq ucs_ename_ (car (entsel "specify Object")))
+                (setq ucs_obj_ (vlax-ename->vla-object ucs_ename_))
+                (setvar "SELECTIONPREVIEW" 0)
+              )
+            )
+          )
+        )
+        (if (= (vl-catch-all-error-p Er-msg_) T)
+          (progn
+            (getvar "SELECTIONPREVIEW" )
+            (setvar "SELECTIONPREVIEW" 0)
+          )
+          (setvar "SELECTIONPREVIEW" 0)
+        )
+        
+      
+      
+      (command "ucs" "ob" ucs_ename_)
     )
   ;
   ;Fastern Func
@@ -28263,7 +28293,12 @@
         )
         (sslength c011_)
       )
-      (setq c011_ (TA:EF_Filter_ss_set_ c011_ "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_COMBINE_VIEW"))
+      (setq c011_ (TA:EF_Filter_ss_set_V2_  c011_ (list 
+                                                    "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01_COMBINE_VIEW" 
+                                                    "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_GALV.BRACKET_FITTING_U-PROFILE_CC-01-4_COMBINE_VIEW"
+                                                  )
+                  )
+      )
     ;
     (setq ERR_ nil)
     (while ;for keep insertion point and dist. fix length one side
@@ -45242,7 +45277,7 @@
         (setq ss_pre_filter_set_xx_ (ssget "i"
                                           (list
                                             (cons 0 "circle,line") ;type of object
-                                            (cons 8 "EE")   ;kind of layer
+                                            (cons 8 "FRAMING_HANGING_MAIN_COLOR_1*")   ;kind of layer
                                             ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                             ; (cons 62 1)           ;kind of color call sign with color code index
                                           )
@@ -45254,7 +45289,7 @@
         (setq ss_pre_filter_set_xx_ (ssget
                                           (list
                                             (cons 0 "circle,line") ;type of object
-                                            (cons 8 "EE")   ;kind of layer
+                                            (cons 8 "FRAMING_HANGING_MAIN_COLOR_1*")   ;kind of layer
                                             ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                             ; (cons 62 1)           ;kind of color call sign with color code index
                                           )
@@ -45279,7 +45314,7 @@
           (setvar "osmode" 0)
           ()
           (TA:vla-insertblock 
-            "000 - CKST_DOWNLIGHT_SYMBOL"
+            "tt1t"
             (vlax-safearray->list (vlax-variant-value (vla-get-center ss_pre_filter_set_xx_obj_)))
             1
             0
