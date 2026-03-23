@@ -46109,9 +46109,11 @@
   
   (setq target_ename_ (car (nentselp "specify Object")))
   (setq target_obj_ (vlax-ename->vla-object target_ename_))
+  (vl-princ-to-string (vlax-dump-object target_obj_) )
   (print (vla-get-objectname target_obj_))
   (print (vla-get-layer target_obj_))
   (print (vla-get-color target_obj_))
+  (setq Er-msg_ (vl-catch-all-apply (function (lambda () (print (vla-get-TagString  target_obj_)) ) ) ) )
   
 )
 
