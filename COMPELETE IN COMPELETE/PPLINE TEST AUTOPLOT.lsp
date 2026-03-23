@@ -4395,6 +4395,19 @@
                
              )
           )
+          (;date_condd_case_5 ABOVE
+             (and
+                (wcmatch (getvar "dwgname") "*PP19*")
+                (or 
+                  (wcmatch (getvar "dwgname") "*AR-2*")
+                  (wcmatch (getvar "dwgname") "*19-SE-6*")
+                )
+             )
+             (progn
+               (TA:CDATE "-" "DDMMYYYY")
+               
+             )
+          )
         )
       )
       ;presetting
@@ -4430,13 +4443,13 @@
       ;selection_set_for_fillter_blk_name
         (if (= x_checker_ nil)
           (progn
-            (setq x_checker_ "x")
+            (setq x_checker_ "i")
           )
         )
         (if 
           (=
             x_checker_
-            "x"
+            "i"
           )
           (progn
             (setq ss_pre_filter_set_xx_ (ssget x_checker_
