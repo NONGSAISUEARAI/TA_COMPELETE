@@ -22586,6 +22586,7 @@
 
   )
   (defun c:mox ()
+    (_startundo doc)
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget
         (=
@@ -22675,8 +22676,10 @@
         )
       ;
     )
+    (_endundo doc)
   )
   (defun c:pox ()
+    (_startundo doc)
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget
         (=
@@ -22766,8 +22769,10 @@
         )
       ;
     )
+    (_endundo doc)
   )
   (defun c:poY ()
+    (_startundo doc)
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget
         (=
@@ -22857,6 +22862,7 @@
         )
       ;
     )
+    (_endundo doc)
   )
   (defun c:move_line_lix_ ()
     ;selection_set_for_fillter_blk_name
@@ -32326,6 +32332,7 @@
       )
     ;
     (setq newattset_ss_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "000_CKST-FAMELINE_CEILING_CODE_PANEL")))
+    
     ;preloop_and_while
       (setq newattset_ss_i 0)
       (while (< newattset_ss_i (sslength newattset_ss_))
@@ -32391,10 +32398,64 @@
         )
         (LM:vl-setattributevalue newattset_ss_obj_ "panel_code_name" ss)
         
-        (setq add_number_zone_ (+ add_number_zone_ 1))
         (setq newattset_ss_i (+ newattset_ss_i 1))
       )
     ;
+  )
+  (defun c:PPLINE_CKST_regenerate_303sort ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              (cons 8 "C0x_300HK_CODE_*")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              (cons 8 "C0x_300HK_CODE_*")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "000_CKST-FAMELINE_CEILING_CODE_PANEL")))
+      (setq ss_pre_filter_set_xx_list_ (TA:standard_list_croodinate_sorting ss_pre_filter_set_xx_ "X"))
+    ;
+      (setq sorted_
+        (vl-sort ss_pre_filter_set_xx_list_
+          '(lambda (a b)
+            (if (/= (cadr (cadr a)) (cadr (cadr b)))
+              (> (cadr (cadr a)) (cadr (cadr b))) ; compare Y
+              (< (car  (cadr a)) (car  (cadr b))) ; compare X
+            )
+          )
+        )
+      )
+    ;
+    (setq add_number_zone_ (cond ( (getint (strcat "\nSpecify increment_number_   <" (rtos (setq add_number_zone_ (cond (add_number_zone_) (1.0) ) ) ) "> : " ) ) ) (add_number_zone_) ) )
+    ;preloop_and_while
+      (setq sorted_i 0)
+      (while (< sorted_i (length sorted_))
+        (setq sorted_ename_ (car (nth  sorted_i sorted_)))  
+        (setq sorted_obj_ (vlax-ename->vla-object  sorted_ename_))
+        (LM:vl-setattributevalue sorted_obj_ "panel_no" (TA:prefix_value add_number_zone_))
+        (setq add_number_zone_ (+ add_number_zone_ 1))
+        (setq sorted_i (+ sorted_i 1))
+      )
+    ;
+    (command "pselect"  sorted_ename_ "" )
   )
 ;
 ;PURPLE_LINE_CSKT_TTB
@@ -45333,6 +45394,70 @@
   (_endUndo doc)
   
 )
+(defun c:temp_insdl5 ()
+  
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "arc,circle,line") ;type of object
+                                            (cons 8 "FRAMING_HANGING_MAIN_COLOR_1*")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "arc,circle,line") ;type of object
+                                            (cons 8 "FRAMING_HANGING_MAIN_COLOR_1*")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (setq new_fu1_ss_ (ssadd))
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      
+      
+      (if (and 
+            (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbCircle")
+          )
+        (progn
+          (setvar "osmode" 0)
+          ()
+          (TA:vla-insertblock 
+            "tt1t"
+            (vlax-safearray->list (vlax-variant-value (vla-get-center ss_pre_filter_set_xx_obj_)))
+            1
+            0
+          )
+          (setq new_fu1_ss_ (ssadd (entlast ) new_fu1_ss_ ))
+        )
+      )
+      
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+    (TA:ss-erase ss_pre_filter_set_xx_)
+  ;
+
+  (command "pselect"  new_fu1_ss_ "" )
+  (setvar "osmode" 1215)
+  (_endUndo doc)
+  
+)
 
 (defun c:temp_insdl1 ()
   
@@ -45904,24 +46029,7 @@
   
 )
     
-(defun c:tt1 ()
-  (setq ptptpt (getpoint))
-  (setq list_blk_ (TA:get_name_block_in_drawing_to_list_v2 ))
-  ;preloop_and_while
-    (setq list_blk_i 0)
-    (while (< list_blk_i (length list_blk_))
-      (setq list_blk_Efname_ (car (nth  list_blk_i list_blk_)))
-      (TA:vla-insertblock 
-        list_blk_Efname_
-        ptptpt
-        1
-        0
-      )
-      
-      (setq list_blk_i (+ list_blk_i 1))
-    )
-  ;
-)
+
 (defun c:as1 ()
   ;selection_set_for_fillter_blk_name
     (if  ;pre_select_ssget_or_post_select_ssget
@@ -48050,6 +48158,37 @@
   )
       
 
+  
+  
+)
+(defun c:tt1 ()
+  (if  ;pre_select_ssget_or_post_select_ssget
+    (=
+      (setq ss_pre_filter_set_xx_ (ssget "i"
+                                        (list
+                                          (cons 0 "INSERT") ;type of object
+                                          (cons 8 "008 - LIGHT_FLUORESCENT*,008 - AIR_MASK*,FRAMING_CC-01*")   ;kind of layer
+                                          ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                          ; (cons 62 1)           ;kind of color call sign with color code index
+                                        )
+                                  )
+      )
+      nil
+    ) 
+    (progn
+      (setq ss_pre_filter_set_xx_ (ssget
+                                        (list
+                                          (cons 0 "INSERT") ;type of object
+                                          (cons 8 "008 - LIGHT_FLUORESCENT*,008 - AIR_MASK*,FRAMING_CC-01*")   ;kind of layer
+                                          ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                          ; (cons 62 1)           ;kind of color call sign with color code index
+                                        )
+                                  )
+      )
+    )
+    (sslength ss_pre_filter_set_xx_)
+  )
+  (command "pselect"  ss_pre_filter_set_xx_ "" )
   
   
 )

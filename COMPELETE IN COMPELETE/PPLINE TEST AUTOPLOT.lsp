@@ -8142,3 +8142,78 @@
     )
   )
       
+
+(defun c:foo ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "spline") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "spline") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    (command "pselect"  ss_pre_filter_set_xx_ "" )
+)
+
+
+
+(defun c:p1 ()
+  (defun TA:Get_Pline_vertext_ins_point_ (ename_) ;must be (car (entsel))
+    (setq Get_Pline_ (entget ename_))
+    (setq Get_Pline_vtx_pt (vl-remove-if-not '(lambda (x) (= 10 (car x))) Get_Pline_))
+    (setq Get_Pline_vtx_pt_ (mapcar 'cdr Get_Pline_vtx_pt))
+    (setq ename+Get_Pline_vtx_pt_ (list
+                                    ename_
+                                    Get_Pline_vtx_pt_
+                                  )
+    
+    )
+  )
+  (setq pline_ename_ (car (entsel "specify Object")))
+  (setq pline_obj_ (vlax-ename->vla-object pline_ename_))
+  (setq pline_obj_vxpt_ (nth 1 (TA:Get_Pline_vertext_ins_point_ pline_ename_)))
+  (command "line" (car pline_obj_vxpt_) (car  (reverse pline_obj_vxpt_)) "" )
+  
+  (vla-delete pline_obj_) 
+  
+  
+  
+)
+(defun c:p2 ()
+  (setq pline_ename_ (car (entsel "specify Object")))
+  (setq pline_obj_ (vlax-ename->vla-object pline_ename_))
+  (setq pline_obj_length (vla-get-length pline_obj_))
+  (setq st (vlax-curve-getpointatdist pline_obj_  0))
+  (setq mt (vlax-curve-getpointatdist pline_obj_  (/ pline_obj_length 2)))
+  (setq et (vlax-curve-getpointatdist pline_obj_  pline_obj_length))
+  (command "arc" st mt et )
+  ; ;new_blk_entlast object
+  ;   (setq rline_ename (entlast))
+  ;   (setq rline_obj (vlax-ename->vla-object rline_ename))
+  ;   (vla-get-radius rline_obj)
+  ; ;
+  
+  
+  (vla-delete pline_obj_ )
+  
+)

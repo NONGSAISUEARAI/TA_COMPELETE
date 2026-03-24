@@ -11390,14 +11390,21 @@
       ;
       ;preloop_and_while
         (setq ss_pre_filter_set_xx_i 0)
+        (setq new_SS_S_SS_ (ssadd))
         (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
           (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
           (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
           (command "pselect"  "" "" )
           (TA:Make_wipeout_mkw ss_pre_filter_set_xx_ename_ "n")
+          ;new_blk_entlast object
+            (setq newwipeout_ename (entlast))
+            (setq newwipeout_obj (vlax-ename->vla-object newwipeout_ename))
+            (setq new_SS_S_SS_ (ssadd newwipeout_ename new_SS_S_SS_ ))
+          ; 
           (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
         )
       ;
+      (command "pselect"  new_SS_S_SS_ "" )
     )
   ;
   ;breakline

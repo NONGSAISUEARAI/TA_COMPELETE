@@ -1157,12 +1157,17 @@
       (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
       (setq 2nd_filter_val_main "009 - AHP_06_") ;2nd_filter
       (setq 3rd_filter_val_main (list ;3rd_filter
+                                  "BK"
                                   "PANEL" ;
                                   "FRAMING" ;
                                   "FASTERN" ;
                                 )
       )
       (setq 4th_filter_val_main (list  ;4th_filter
+                                      (list "CUT_COLOR_1" 1) ;
+                                      (list "CUT_COLOR_2" 2) ;
+                                      (list "CUT_COLOR_3" 3) ;
+                                      (list "CUT_COLOR_4" 4) ;
                                       (list "MAIN_COLOR_1" 3) ;
                                       (list "MAIN_COLOR_2" 2) ;
                                       (list "SUB_COLOR_1" 2) ;
@@ -1345,6 +1350,40 @@
                                 )
       )
     )
+  )
+  (defun c:crelaynewsmoke ()
+    (TA:generate_filter_list
+      (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+      (setq 2nd_filter_val_main "020 - SMOKE") ;2nd_filter
+      (setq 3rd_filter_val_main (list ;3rd_filter
+                                  "FRAMING" ;
+                                  "ACCESORIES" ;
+                                  "GLASS_FIN" ;
+                                )
+      )
+      (setq 4th_filter_val_main (list  ;4th_filter
+                                      (list "CUT_COLOR_1" 1) ;
+                                      (list "CUT_COLOR_2" 2) ;
+                                      (list "CUT_COLOR_3" 3) ;
+                                      (list "CUT_COLOR_4" 4) ;
+                                      (list "MAIN_COLOR_1" 3) ;
+                                      (list "MAIN_COLOR_1" 3) ;
+                                      (list "MAIN_COLOR_2" 2) ;
+                                      (list "SUB_COLOR_1" 2) ;
+                                      (list "SUB_COLOR_2" 1) ;
+                                      (list "SUB_COLOR_3" 251) ;
+                                      (list "HATCH_" 251) ;
+                                      (list "WIPEOUT_" 250) ;
+                                      (list "HIDDEN_" 251) ;
+                                      (list "SYMBOL_" 251) ;
+                                      (list "DEF_SUB" 250) ;
+                                      (list "TEXT" 3) ;
+                                       ;
+                                )
+      )
+    )
+    
+    
   )
   (defun c:crelayASPGSTFRAME ()
     (TA:generate_filter_list
