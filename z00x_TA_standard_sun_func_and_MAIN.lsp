@@ -48076,6 +48076,75 @@
       ;
     ;
   )
+  (defun c:copTx ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "TEXT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "TEXT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    ;get_data_process_for_fillter_blk_name
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (setq new_list_for_sorting_ ())
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+          (setq ss_pre_filter_set_xx_obj_textstr_ (vla-get-textstring ss_pre_filter_set_xx_obj_))
+          (setq sum_ (list 
+                       ss_pre_filter_set_xx_obj_ins_
+                       ss_pre_filter_set_xx_obj_textstr_
+                     )
+          )
+          (setq new_list_for_sorting_ (cons sum_ new_list_for_sorting_ ))
+          
+          
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+      ;TA:stanndard_lambda_sorting
+        (setq new_list_for_sorting_sorted_ (vl-sort new_list_for_sorting_  ;bigest open indent list
+                                                  (function 
+                                                    (lambda (a b) 
+                                                      (< (nth 0 (car a)) (nth 0 (car b)))
+                                                    )
+                                                  )
+                              ) ;bigest close indent list
+        )
+      ;
+      ;input_att_process
+        (setq level_str_ename_ (car (entsel "specify Object")))
+        (setq level_str_obj_ (vlax-ename->vla-object level_str_ename_))
+        (LM:vl-setattributevalue level_str_obj_ "NUMBER" (cadr (nth 0 new_list_for_sorting_sorted_)))
+        (LM:vl-setattributevalue level_str_obj_ "INDICATOR_NAME_1" (cadr (nth 1 new_list_for_sorting_sorted_)))
+        
+        ; (LM:vl-setattributevalue level_str_obj_ "DRAWING_NO_val" (cadr (nth 2 new_list_for_sorting_sorted_)))
+      ;
+    ;
+  )
 ;
 
 
