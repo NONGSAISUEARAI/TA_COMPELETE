@@ -12940,7 +12940,7 @@
       ;
       (command "pselect"  ss_pre_filter_set_xx_ "" )
     )
-    (defun c:insx3000 ()
+    (defun c:insx ()
       ;selection_set_for_fillter_blk_name
         (if  ;pre_select_ssget_or_post_select_ssget
           (=
@@ -30978,7 +30978,7 @@
           (cond
             (;_case_1
               (and
-                  (= (wcmatch (getvar "dwgname"  ) "*PP17*") )
+                  (= (wcmatch (getvar "dwgname"  ) "*PP17*") T)
               )
               (progn
                 "PP17"
@@ -30987,7 +30987,7 @@
             )
             (;_case_2
               (and
-                  (= (wcmatch (getvar "dwgname"  ) "*PP18*") )
+                  (= (wcmatch (getvar "dwgname"  ) "*PP18*") T)
               )
               (progn
                 "PP18"
@@ -30996,7 +30996,7 @@
             )
             (;_case_3
               (and
-                  (= (wcmatch (getvar "dwgname"  ) "*PP19*") )
+                  (= (wcmatch (getvar "dwgname"  ) "*PP19*") T)
               )
               (progn
                 "PP19"
@@ -31005,7 +31005,7 @@
             )
             (;_case_4
               (and 
-                (= (wcmatch (getvar "dwgname"  ) "*PP20*") )
+                (= (wcmatch (getvar "dwgname"  ) "*PP20*") T )
               )
               (progn
                 "PP20"
@@ -31018,8 +31018,8 @@
           (cond
             (;_case_2
               (and
-                  (= (wcmatch (getvar "dwgname"  ) "*PP17*") )
-                  (= (wcmatch (getvar "dwgname"  ) "AR-4150*") )
+                  (= (wcmatch (getvar "dwgname"  ) "*PP17*") T)
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4150*") T)
               )
               (progn
                 "concourse_level"
@@ -31027,8 +31027,8 @@
             )
             (;_case_3
               (and
-                  (= (wcmatch (getvar "dwgname"  ) "*PP17*") )
-                  (= (wcmatch (getvar "dwgname"  ) "AR-4180*") )
+                  (= (wcmatch (getvar "dwgname"  ) "*PP17*") T)
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4180*") T)
               )
               (progn
                 "platform_level"
@@ -31036,8 +31036,8 @@
             )
             (;_case_1
               (and
-                  (= (wcmatch (getvar "dwgname"  ) "*PP18*") )
-                  (= (wcmatch (getvar "dwgname"  ) "AR-4130*") )
+                  (= (wcmatch (getvar "dwgname"  ) "*PP18*") T)
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4130*") T)
               )
               (progn
                 "multi_purpose_level"
@@ -31045,8 +31045,8 @@
             )
             (;_case_2
               (and
-                  (= (wcmatch (getvar "dwgname"  ) "*PP18*") )
-                  (= (wcmatch (getvar "dwgname"  ) "AR-4150*") )
+                  (= (wcmatch (getvar "dwgname"  ) "*PP18*") T)
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4150*") T)
               )
               (progn
                 "concourse_level"
@@ -31054,8 +31054,8 @@
             )
             (;_case_2
               (and
-                  (= (wcmatch (getvar "dwgname"  ) "*PP18*") )
-                  (= (wcmatch (getvar "dwgname"  ) "AR-4160*") )
+                  (= (wcmatch (getvar "dwgname"  ) "*PP18*") T)
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4160*") T)
               )
               (progn
                 "upper_platform_level"
@@ -31063,8 +31063,8 @@
             )
             (;_case_2
               (and
-                  (= (wcmatch (getvar "dwgname"  ) "*PP18*") )
-                  (= (wcmatch (getvar "dwgname"  ) "AR-4180*") )
+                  (= (wcmatch (getvar "dwgname"  ) "*PP18*") T )
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4180*") T )
               )
               (progn
                 "lower_platform_level"
@@ -31072,8 +31072,8 @@
             )
             (;_case_1
               (and
-                  (= (wcmatch (getvar "dwgname"  ) "*PP19*") )
-                  (= (wcmatch (getvar "dwgname"  ) "AR-4130*") )
+                  (= (wcmatch (getvar "dwgname"  ) "*PP19*") T)
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4130*") T)
               )
               (progn
                 "multi_purpose_level"
@@ -31081,8 +31081,8 @@
             )
             (;_case_2
               (and
-                  (= (wcmatch (getvar "dwgname"  ) "*PP19*") )
-                  (= (wcmatch (getvar "dwgname"  ) "AR-4150*") )
+                  (= (wcmatch (getvar "dwgname"  ) "*PP19*") T)
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4150*") T)
               )
               (progn
                 "concourse_level"
@@ -31090,8 +31090,8 @@
             )
             (;_case_2
               (and
-                  (= (wcmatch (getvar "dwgname"  ) "*PP19*") )
-                  (= (wcmatch (getvar "dwgname"  ) "AR-4160*") )
+                  (= (wcmatch (getvar "dwgname"  ) "*PP19*") T)
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4160*") T)
               )
               (progn
                 "upper_platform_level"
@@ -31099,8 +31099,8 @@
             )
             (;_case_2
               (and
-                  (= (wcmatch (getvar "dwgname"  ) "*PP19*") )
-                  (= (wcmatch (getvar "dwgname"  ) "AR-4180*") )
+                  (= (wcmatch (getvar "dwgname"  ) "*PP19*") T)
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4180*") T)
               )
               (progn
                 "lower_platform_level"
@@ -31108,8 +31108,8 @@
             )
             (;_case_1
               (and
-                  (= (wcmatch (getvar "dwgname"  ) "*PP20*") )
-                  (= (wcmatch (getvar "dwgname"  ) "AR-4130*") )
+                  (= (wcmatch (getvar "dwgname"  ) "*PP20*") T)
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4130*") T)
               )
               (progn
                 "multi_purpose_level"
@@ -31117,8 +31117,8 @@
             )
             (;_case_2
               (and
-                  (= (wcmatch (getvar "dwgname"  ) "*PP20*") )
-                  (= (wcmatch (getvar "dwgname"  ) "AR-4150*") )
+                  (= (wcmatch (getvar "dwgname"  ) "*PP20*") T )
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4150*")  T)
               )
               (progn
                 "concourse_level"
@@ -31126,8 +31126,8 @@
             )
             (;_case_2
               (and
-                  (= (wcmatch (getvar "dwgname"  ) "*PP20*") )
-                  (= (wcmatch (getvar "dwgname"  ) "AR-4180*") )
+                  (= (wcmatch (getvar "dwgname"  ) "*PP20*") T)
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4180*") T)
               )
               (progn
                 "platform_level"
@@ -31344,16 +31344,15 @@
           (cond
             (;_case_1
               (and
-                  (= (wcmatch (getvar "dwgname"  ) "*PP17*") )
+                  (= (wcmatch (getvar "dwgname"  ) "*PP17*") T)
               )
               (progn
                 "PP17"
-                
               )
             )
             (;_case_2
               (and
-                  (= (wcmatch (getvar "dwgname"  ) "*PP18*") )
+                  (= (wcmatch (getvar "dwgname"  ) "*PP18*") T )
               )
               (progn
                 "PP18"
@@ -31362,7 +31361,7 @@
             )
             (;_case_3
               (and
-                  (= (wcmatch (getvar "dwgname"  ) "*PP19*") )
+                  (= (wcmatch (getvar "dwgname"  ) "*PP19*") T)
               )
               (progn
                 "PP19"
@@ -31371,7 +31370,7 @@
             )
             (;_case_4
               (and 
-                (= (wcmatch (getvar "dwgname"  ) "*PP20*") )
+                (= (wcmatch (getvar "dwgname"  ) "*PP20*") T )
               )
               (progn
                 "PP20"
@@ -31384,8 +31383,8 @@
           (cond
             (;_case_2
               (and
-                  (= (wcmatch (getvar "dwgname"  ) "*PP17*") )
-                  (= (wcmatch (getvar "dwgname"  ) "AR-4150*") )
+                  (= (wcmatch (getvar "dwgname"  ) "*PP17*") T)
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4150*") T)
               )
               (progn
                 "concourse_level"
@@ -31393,8 +31392,8 @@
             )
             (;_case_3
               (and
-                  (= (wcmatch (getvar "dwgname"  ) "*PP17*") )
-                  (= (wcmatch (getvar "dwgname"  ) "AR-4180*") )
+                  (= (wcmatch (getvar "dwgname"  ) "*PP17*") T)
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4180*") T)
               )
               (progn
                 "platform_level"
@@ -31402,8 +31401,8 @@
             )
             (;_case_1
               (and
-                  (= (wcmatch (getvar "dwgname"  ) "*PP18*") )
-                  (= (wcmatch (getvar "dwgname"  ) "AR-4130*") )
+                  (= (wcmatch (getvar "dwgname"  ) "*PP18*") T)
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4130*") T)
               )
               (progn
                 "multi_purpose_level"
@@ -31411,8 +31410,8 @@
             )
             (;_case_2
               (and
-                  (= (wcmatch (getvar "dwgname"  ) "*PP18*") )
-                  (= (wcmatch (getvar "dwgname"  ) "AR-4150*") )
+                  (= (wcmatch (getvar "dwgname"  ) "*PP18*") T)
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4150*") T)
               )
               (progn
                 "concourse_level"
@@ -31420,8 +31419,8 @@
             )
             (;_case_2
               (and
-                  (= (wcmatch (getvar "dwgname"  ) "*PP18*") )
-                  (= (wcmatch (getvar "dwgname"  ) "AR-4160*") )
+                  (= (wcmatch (getvar "dwgname"  ) "*PP18*") T)
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4160*") T)
               )
               (progn
                 "upper_platform_level"
@@ -31429,8 +31428,8 @@
             )
             (;_case_2
               (and
-                  (= (wcmatch (getvar "dwgname"  ) "*PP18*") )
-                  (= (wcmatch (getvar "dwgname"  ) "AR-4180*") )
+                  (= (wcmatch (getvar "dwgname"  ) "*PP18*") T )
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4180*")  )
               )
               (progn
                 "lower_platform_level"
@@ -31438,8 +31437,8 @@
             )
             (;_case_1
               (and
-                  (= (wcmatch (getvar "dwgname"  ) "*PP19*") )
-                  (= (wcmatch (getvar "dwgname"  ) "AR-4130*") )
+                  (= (wcmatch (getvar "dwgname"  ) "*PP19*") T)
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4130*") T)
               )
               (progn
                 "multi_purpose_level"
@@ -31447,8 +31446,8 @@
             )
             (;_case_2
               (and
-                  (= (wcmatch (getvar "dwgname"  ) "*PP19*") )
-                  (= (wcmatch (getvar "dwgname"  ) "AR-4150*") )
+                  (= (wcmatch (getvar "dwgname"  ) "*PP19*") T)
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4150*") T)
               )
               (progn
                 "concourse_level"
@@ -31456,8 +31455,8 @@
             )
             (;_case_2
               (and
-                  (= (wcmatch (getvar "dwgname"  ) "*PP19*") )
-                  (= (wcmatch (getvar "dwgname"  ) "AR-4160*") )
+                  (= (wcmatch (getvar "dwgname"  ) "*PP19*") T)
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4160*") T)
               )
               (progn
                 "upper_platform_level"
@@ -31465,8 +31464,8 @@
             )
             (;_case_2
               (and
-                  (= (wcmatch (getvar "dwgname"  ) "*PP19*") )
-                  (= (wcmatch (getvar "dwgname"  ) "AR-4180*") )
+                  (= (wcmatch (getvar "dwgname"  ) "*PP19*") T)
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4180*") T)
               )
               (progn
                 "lower_platform_level"
@@ -31474,8 +31473,8 @@
             )
             (;_case_1
               (and
-                  (= (wcmatch (getvar "dwgname"  ) "*PP20*") )
-                  (= (wcmatch (getvar "dwgname"  ) "AR-4130*") )
+                  (= (wcmatch (getvar "dwgname"  ) "*PP20*") T)
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4130*") T)
               )
               (progn
                 "multi_purpose_level"
@@ -31483,8 +31482,8 @@
             )
             (;_case_2
               (and
-                  (= (wcmatch (getvar "dwgname"  ) "*PP20*") )
-                  (= (wcmatch (getvar "dwgname"  ) "AR-4150*") )
+                  (= (wcmatch (getvar "dwgname"  ) "*PP20*") T )
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4150*")  T)
               )
               (progn
                 "concourse_level"
@@ -31492,8 +31491,8 @@
             )
             (;_case_2
               (and
-                  (= (wcmatch (getvar "dwgname"  ) "*PP20*") )
-                  (= (wcmatch (getvar "dwgname"  ) "AR-4180*") )
+                  (= (wcmatch (getvar "dwgname"  ) "*PP20*") T)
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4180*") T)
               )
               (progn
                 "platform_level"
@@ -32129,46 +32128,6 @@
     
   )
   (defun c:PPLINE_CKST_ADD_CODE_TO_PANEL_300sort ()
-    (defun TA:prefix_value (n) 
-      (cond  
-        ( ;_case_1 
-         (and 
-           (> n 0)
-           (< n 10)
-         )
-         (progn 
-           (strcat "000" (rtos n 2 0))
-         )
-        )
-        ( ;_case_1
-         (and 
-           (>= n 10)
-           (< n 100)
-         )
-         (progn 
-           (strcat "00" (rtos n 2 0))
-         )
-        )
-        ( ;_case_1
-         (and 
-           (>= n 100)
-           (< n 1000)
-         )
-         (progn 
-           (strcat "0" (rtos n 2 0))
-         )
-        )
-        ( ;_case_1
-         (and 
-           (>= n 1000)
-           (< n 10000)
-         )
-         (progn 
-           (strcat  (rtos n 2 0))
-         )
-        )
-      )
-    )
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget
         (=
@@ -32269,7 +32228,8 @@
     ;
     (setq result (- (- add_number_zone_ 1 ) start_i ))
     (alert (strcat (rtos  start_i 2 0) "-" (rtos (- add_number_zone_ 1 ) 2 0) "=" (rtos result 2 0)))
-    (command "pselect"  (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "000_CKST-FAMELINE_CEILING_CODE_PANEL"))) "" )
+    ; (command "pselect"  (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "000_CKST-FAMELINE_CEILING_CODE_PANEL"))) "" )
+    (command "pselect"  ss_pre_filter_set_xx_sort_ename_ "" )
   )
   (defun c:PPLINE_CKST_regenerate_reCODE ()
     (defun TA:prefix_value (n) 
@@ -32433,16 +32393,53 @@
       (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "000_CKST-FAMELINE_CEILING_CODE_PANEL")))
       (setq ss_pre_filter_set_xx_list_ (TA:standard_list_croodinate_sorting ss_pre_filter_set_xx_ "X"))
     ;
-      (setq sorted_
-        (vl-sort ss_pre_filter_set_xx_list_
-          '(lambda (a b)
-            (if (/= (cadr (cadr a)) (cadr (cadr b)))
-              (> (cadr (cadr a)) (cadr (cadr b))) ; compare Y
-              (< (car  (cadr a)) (car  (cadr b))) ; compare X
+     
+
+      
+      (setq tol 5.0) ; ระยะที่ถือว่าเป็นแถวเดียวกัน (mm)
+      (if (= (getvar "worlducs" ) 0 )
+        (progn
+          (setq ss_pre_filter_set_xx_list_ (TA:convert-list-ucs ss_pre_filter_set_xx_list_))
+          (setq sorted_
+            (vl-sort ss_pre_filter_set_xx_list_
+              '(lambda (a b)
+
+                (setq ya (cadr (cadr a)))
+                (setq yb (cadr (cadr b)))
+
+                (setq xa (car (cadr a)))
+                (setq xb (car (cadr b)))
+
+                (if (> (abs (- ya yb)) tol)
+                  (> ya yb) ; แถวบน -> ล่าง
+                  (< xa xb) ; ซ้าย -> ขวา
+                )
+
+              )
             )
           )
         )
+        (setq sorted_
+          (vl-sort ss_pre_filter_set_xx_list_
+            '(lambda (a b)
+
+              (setq ya (cadr (cadr a)))
+              (setq yb (cadr (cadr b)))
+
+              (setq xa (car (cadr a)))
+              (setq xb (car (cadr b)))
+
+              (if (> (abs (- ya yb)) tol)
+                (> ya yb) ; แถวบน -> ล่าง
+                (< xa xb) ; ซ้าย -> ขวา
+              )
+
+            )
+          )
+        )
+        
       )
+      
     ;
     (setq add_number_zone_ (cond ( (getint (strcat "\nSpecify increment_number_   <" (rtos (setq add_number_zone_ (cond (add_number_zone_) (1.0) ) ) ) "> : " ) ) ) (add_number_zone_) ) )
     ;preloop_and_while
@@ -32456,6 +32453,53 @@
       )
     ;
     (command "pselect"  sorted_ename_ "" )
+  )
+  (defun c:c:PPLINE_CKST_ADD_CODE_TO_PANEL_find_blankno ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "000_CKST-FAMELINE_CEILING_CODE_PANEL")))
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (setq new_sel_ss_ (ssadd))
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+
+        (if (= (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_no" ) "")
+          (progn
+            (setq new_sel_ss_ (ssadd ss_pre_filter_set_xx_ename_ new_sel_ss_)) 
+          )
+        )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+    (command "pselect"  new_sel_ss_ "" )
   )
 ;
 ;PURPLE_LINE_CSKT_TTB
@@ -42674,7 +42718,7 @@
   ;presettting
     ; (setq blkname_inter_target_ "000 - CKST_DOWNLIGHT_SYMBOL")
     ; (setq blkname_inter_target_ "000 - STARTER SYMBOL_REV03")
-    (setq blkname_inter_target_ "000_ASPG_TYP_FILES_LOUVER_SET_FRONT_VIEW_REV01")
+    (setq blkname_inter_target_ "A$Ce6835291")
     ; (setq blkname_inter_target_ "ACM_Linear Slot_Supply_Side Connected _1590x200x450_ - 1590x200-21133948-CONCOURSE LEVEL CB CEILING PLAN")
     ; (setq blkname_inter_ename_ (car (entsel "specify Object")))
     ; (setq blkname_inter_obj_ (vlax-ename->vla-object blkname_inter_ename_))
