@@ -2617,6 +2617,46 @@
       )
       
     )
+    (defun TA:prefix_value (n) 
+      (cond  
+        ( ;_case_1 
+         (and 
+           (> n 0)
+           (< n 10)
+         )
+         (progn 
+           (strcat "000" (rtos n 2 0))
+         )
+        )
+        ( ;_case_1
+         (and 
+           (>= n 10)
+           (< n 100)
+         )
+         (progn 
+           (strcat "00" (rtos n 2 0))
+         )
+        )
+        ( ;_case_1
+         (and 
+           (>= n 100)
+           (< n 1000)
+         )
+         (progn 
+           (strcat "0" (rtos n 2 0))
+         )
+        )
+        ( ;_case_1
+         (and 
+           (>= n 1000)
+           (< n 10000)
+         )
+         (progn 
+           (strcat  (rtos n 2 0))
+         )
+        )
+      )
+    )
   ;
   ;format_FUNC
     (defun format-all-workbook-list (data)
@@ -3490,7 +3530,7 @@
       (setq doc (vla-get-ActiveDocument acadApp))
       (if (and 
             ; (= (getvar "ctab" ) "Model")
-            (= (getvar "cvport") 2)
+            (>= (getvar "cvport") 2)
           )
         (progn
           (setq ms (vla-get-ModelSpace doc))
@@ -30982,7 +31022,6 @@
               )
               (progn
                 "PP17"
-                
               )
             )
             (;_case_2
@@ -32417,6 +32456,7 @@
 
               )
             )
+
           )
         )
         (setq sorted_
