@@ -2666,7 +2666,10 @@
     (defun TA:vla-insertblock (blockName insertion_point scale rotation)
       (setq acadApp (vlax-get-acad-object))  ; เข้าถึง AutoCAD application
       (setq doc (vla-get-ActiveDocument acadApp))
-      (if (= (getvar "ctab" ) "Model")
+      (if (and 
+            ; (= (getvar "ctab" ) "Model")
+            (>= (getvar "cvport") 2)
+          )
         (progn
           (setq ms (vla-get-ModelSpace doc))
         )

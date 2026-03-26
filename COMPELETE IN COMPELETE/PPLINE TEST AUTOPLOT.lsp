@@ -1601,7 +1601,10 @@
   (defun TA:vla-insertblock (blockName insertion_point scale rotation)
     (setq acadApp (vlax-get-acad-object))  ; เข้าถึง AutoCAD application
     (setq doc (vla-get-ActiveDocument acadApp))
-    (if (= (getvar "ctab" ) "Model")
+    (if (and 
+          ; (= (getvar "ctab" ) "Model")
+          (>= (getvar "cvport") 2)
+        )
       (progn
         (setq ms (vla-get-ModelSpace doc))
       )
@@ -4000,11 +4003,11 @@
   (defun TA:CDATE (split-sym time_format)
     (cond
       (;_case_1
-         (and
+        (and
             (= (type split-sym) 'str)
             (and (= (type time_format) 'str) (= time_format "MMDDYYY"))    
-         )
-         (progn
+        )
+        (progn
               (setq now_val_ (strcat 
                         (setq month_val_ (substr (rtos (getvar "cdate") 2 0) 5 2))
                         split-sym
@@ -4013,15 +4016,15 @@
                         (setq year_val_ (substr (rtos (getvar "cdate") 2 0) 1 4))
                       )
               )
-           
-         )
+          
+        )
       )
       (;_case_2
-         (and
+        (and
             (= (type split-sym) 'str)
             (and (= (type time_format) 'str) (= time_format "DDMMYYYY"))    
-         )
-         (progn
+        )
+        (progn
               (setq now_val_ (strcat 
                         (setq today_val_ (substr (rtos (getvar "cdate") 2 0) 7 2))
                         split-sym
@@ -4030,8 +4033,25 @@
                         (setq year_val_ (substr (rtos (getvar "cdate") 2 0) 1 4))
                       )
               )
-           
-         )
+          
+        )
+      )
+      (;_case_2
+        (and
+            (= (type split-sym) 'str)
+            (and (= (type time_format) 'str) (= time_format "YYYYMMDD"))    
+        )
+        (progn
+              (setq now_val_ (strcat 
+                        (setq year_val_ (substr (rtos (getvar "cdate") 2 0) 1 4))    
+                        split-sym  
+                        (setq month_val_ (substr (rtos (getvar "cdate") 2 0) 5 2))                                 
+                        split-sym                                 
+                        (setq today_val_ (substr (rtos (getvar "cdate") 2 0) 7 2))
+                      )
+              )
+          
+        )
       )
       
     )
@@ -4171,6 +4191,16 @@
              (and
                 (wcmatch (getvar "dwgname") "*PP17*")
                 (wcmatch (getvar "dwgname") "*AR-2*")
+             )
+             (progn
+               (TA:CDATE "-" "DDMMYYYY")
+               
+             )
+          )
+          (;date_condd_case_5 ABOVE
+             (and
+                (wcmatch (getvar "dwgname") "*PP00*")
+                
              )
              (progn
                (TA:CDATE "-" "DDMMYYYY")

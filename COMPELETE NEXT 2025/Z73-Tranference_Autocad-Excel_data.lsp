@@ -2175,8 +2175,19 @@
 ;block_editor_FUNC
   (defun TA:vla-insertblock (blockName insertion_point scale rotation)
     (setq acadApp (vlax-get-acad-object))  ; เข้าถึง AutoCAD application
-    (setq doc (vla-get-ActiveDocument acadApp))  ; เข้าถึง Active Document
-    (setq ms (vla-get-ModelSpace doc))  ; เข้าถึง ModelSpace
+    (setq doc (vla-get-ActiveDocument acadApp))
+    (if (and 
+          ; (= (getvar "ctab" ) "Model")
+          (>= (getvar "cvport") 2)
+        )
+      (progn
+        (setq ms (vla-get-ModelSpace doc))
+      )
+      (setq ms (vla-get-paperspace doc))
+    )
+      ; เข้าถึง Active Document
+    
+      ; เข้าถึง ModelSpace
     
     (setq block (vla-InsertBlock 
                   ms 
