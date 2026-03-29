@@ -707,9 +707,10 @@
         (setq 4th_filter_val_main (list  ;4th_filter
                                         (list "MAIN_COLOR_1" 255 0 0) ;
                                         (list "MAIN_COLOR_2"  255 135 0) ;
-                                        (list "SUB_COLOR_1" 152 5 190) ;
-                                        (list "SUB_COLOR_2" 1) ;
-                                        (list "SUB_COLOR_3" 251) ;
+                                        (list "SUB_COLOR_1" 0 255 0) ;
+                                        (list "SUB_COLOR_2" 255 0 255) ;
+                                        (list "SUB_COLOR_3" 0 255 255) ;
+                                        (list "SUB_COLOR_4" 0 127 255) ;
                                         (list "HATCH_" 251) ;
                                         (list "WIPEOUT_" 250) ;
                                         (list "HIDDEN_" 251) ;
@@ -1563,10 +1564,11 @@
                                 )
       )
       (setq 4th_filter_val_main (list  ;4th_filter
-                                      (list "CUT_COLOR_1" 1) ;
-                                      (list "CUT_COLOR_2" 2) ;
-                                      (list "CUT_COLOR_3" 3) ;
-                                      (list "CUT_COLOR_4" 4) ;
+                                      (list "C04" 1) ;
+                                      (list "C05" 1) ;
+                                      (list "C08" 3) ;
+                                      (list "C09" 5) ;
+                                      (list "C10" 1) ;
                                       (list "MAIN_COLOR_1" 1) ;
                                       (list "MAIN_COLOR_2" 2) ;
                                       (list "MAIN_COLOR_3" 3) ;

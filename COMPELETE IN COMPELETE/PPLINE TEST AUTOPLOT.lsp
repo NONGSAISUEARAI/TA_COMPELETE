@@ -8036,7 +8036,7 @@
         )
         (sslength ss_pre_filter_set_xx_)
       )
-      (setq ss_pre_filter_set_xx_ (TA:estandard_list_croodinate_sorting ss_pre_filter_set_xx_ "X"))
+      (setq ss_pre_filter_set_xx_ (reverse (TA:standard_list_croodinate_sorting ss_pre_filter_set_xx_ "X")))
     ;
     (setq ss_pre_filter_set_xx_ (reverse ss_pre_filter_set_xx_))
     ;preloop_and_while
