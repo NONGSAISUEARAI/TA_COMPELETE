@@ -32107,6 +32107,447 @@
     (command "pselect"  ss_box_ss_ "" )
     
   )
+  (defun c:PPLINE_CKST_insert_code_panel_ins400va ()
+    (setq panel_matt_type1_ ;Get-string by keep previous value
+        (if
+          (or
+            (/= (setq panel_matt_type1_val (getstring (strcat "\nSpecify MATT CODE <" (if panel_matt_type1_ panel_matt_type1_ "") ">: ") ) ) "" )
+          )
+            (progn
+              (setq panel_matt_type1_ panel_matt_type1_val)
+              (setq panel_matt_type1_keep_val_ panel_matt_type1_val)
+            )
+          (setq panel_matt_type1_val panel_matt_type1_keep_val_)
+        )
+    )
+    (setq color_code_ ;Get-string by keep previous value
+        (if
+          (or
+            (/= (setq color_code_val (getstring (strcat "\nSpecify color code <" (if color_code_ color_code_ "") ">: ") ) ) "" )
+          )
+            (progn
+              (setq color_code_ color_code_val)
+              (setq color_code_keep_val_ color_code_val)
+            )
+          (setq color_code_val color_code_keep_val_)
+        )
+    )
+    (setq date_create_ ;Get-string by keep previous value
+        (if
+          (or
+            (/= (setq date_create_val (getstring (strcat "\nSpecify date_create_  <" (if date_create_ date_create_ "") ">: ") ) ) "" )
+          )
+            (progn
+              (setq date_create_ date_create_val)
+              (setq date_create_keep_val_ date_create_val)
+            )
+          (setq date_create_val date_create_keep_val_)
+        )
+    )
+    
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_) 
+      )
+    ;
+    (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_  
+                                  ss_pre_filter_set_xx_
+                                  (list 
+                                    "000 - FAMELINE-CKST_AL.CELING_PANEL_300HK_@400mm_BOTTOM_VIEW_FOR_AS-02(L-varies_LOT)"
+                                  )
+                                )
+    )
+    ;preloop_and_while
+      (setq ss_box_ss_ (ssadd ))
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+        (setq ss_pre_filter_set_xx_obj_ro_ (rad-to-deg (vla-get-rotation ss_pre_filter_set_xx_obj_) ))
+        
+        (setq panel_name "300HK" )
+        (setq panel_length (if 
+                             (or 
+                               (= (LM:effectivename ss_pre_filter_set_xx_obj_) "000 - FAMELINE-CKST_AL.CELING_PANEL_300HK_@400mm_BOTTOM_VIEW_FOR_AS-02(L-varies_LOT)" )
+                               
+                               
+                             )
+                             (LM:round (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "panel_length" ))
+                           )
+        )
+        (setq panel_width (fix (LM:roundup (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "panel_width") 5)) )
+        ; (setq panel_color "XXXXXXX")
+        (setq panel_shape 
+               (cond
+                ( 
+                  (or 
+                    (= (LM:effectivename ss_pre_filter_set_xx_obj_) "000 - FAMELINE-CKST_AL.CELING_PANEL_300HK_@400mm_BOTTOM_VIEW_FOR_AS-02(L-varies_LOT)" )
+                    
+                  )
+                  (progn "standard_varies_shape")
+                )
+                
+               )
+        )
+        ; (setq panel_add-on "XXXXXXX" )
+        ; (setq panel_date-create (TA:cdate "-" "YYYYMMDD") )
+        (setq panel_date-create date_create_ )
+        
+        (setq panel_station 
+          (cond
+            (;_case_1
+              (and
+                  (= (wcmatch (getvar "dwgname"  ) "*PP17*") T)
+              )
+              (progn
+                "PP17"
+              )
+            )
+            (;_case_2
+              (and
+                  (= (wcmatch (getvar "dwgname"  ) "*PP18*") T)
+              )
+              (progn
+                "PP18"
+                
+              )
+            )
+            (;_case_3
+              (and
+                  (= (wcmatch (getvar "dwgname"  ) "*PP19*") T)
+              )
+              (progn
+                "PP19"
+                
+              )
+            )
+            (;_case_4
+              (and 
+                (= (wcmatch (getvar "dwgname"  ) "*PP20*") T )
+              )
+              (progn
+                "PP20"
+                
+              )
+            )
+          )
+        )
+        (setq panel_level 
+          (cond
+            (;_case_2
+              (and
+                  (= (wcmatch (getvar "dwgname"  ) "*PP17*") T)
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4150*") T)
+              )
+              (progn
+                "concourse_level"
+              )
+            )
+            (;_case_3
+              (and
+                  (= (wcmatch (getvar "dwgname"  ) "*PP17*") T)
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4180*") T)
+              )
+              (progn
+                "platform_level"
+              )
+            )
+            (;_case_1
+              (and
+                  (= (wcmatch (getvar "dwgname"  ) "*PP18*") T)
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4130*") T)
+              )
+              (progn
+                "multi_purpose_level"
+              )
+            )
+            (;_case_2
+              (and
+                  (= (wcmatch (getvar "dwgname"  ) "*PP18*") T)
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4150*") T)
+              )
+              (progn
+                "concourse_level"
+              )
+            )
+            (;_case_2
+              (and
+                  (= (wcmatch (getvar "dwgname"  ) "*PP18*") T)
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4160*") T)
+              )
+              (progn
+                "upper_platform_level"
+              )
+            )
+            (;_case_2
+              (and
+                  (= (wcmatch (getvar "dwgname"  ) "*PP18*") T )
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4180*") T )
+              )
+              (progn
+                "lower_platform_level"
+              )
+            )
+            (;_case_1
+              (and
+                  (= (wcmatch (getvar "dwgname"  ) "*PP19*") T)
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4130*") T)
+              )
+              (progn
+                "multi_purpose_level"
+              )
+            )
+            (;_case_2
+              (and
+                  (= (wcmatch (getvar "dwgname"  ) "*PP19*") T)
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4150*") T)
+              )
+              (progn
+                "concourse_level"
+              )
+            )
+            (;_case_2
+              (and
+                  (= (wcmatch (getvar "dwgname"  ) "*PP19*") T)
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4160*") T)
+              )
+              (progn
+                "upper_platform_level"
+              )
+            )
+            (;_case_2
+              (and
+                  (= (wcmatch (getvar "dwgname"  ) "*PP19*") T)
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4180*") T)
+              )
+              (progn
+                "lower_platform_level"
+              )
+            )
+            (;_case_1
+              (and
+                  (= (wcmatch (getvar "dwgname"  ) "*PP20*") T)
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4130*") T)
+              )
+              (progn
+                "multi_purpose_level"
+              )
+            )
+            (;_case_2
+              (and
+                  (= (wcmatch (getvar "dwgname"  ) "*PP20*") T )
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4150*")  T)
+              )
+              (progn
+                "concourse_level"
+              )
+            )
+            (;_case_2
+              (and
+                  (= (wcmatch (getvar "dwgname"  ) "*PP20*") T)
+                  (= (wcmatch (getvar "dwgname"  ) "*AR-4180*") T)
+              )
+              (progn
+                "platform_level"
+              )
+            )
+            
+          )
+        )
+        (if (or 
+              (= (LM:effectivename ss_pre_filter_set_xx_obj_) 
+                 "000 - FAMELINE-CKST_AL.CELING_PANEL_300HK_@400mm_BOTTOM_VIEW_FOR_AS-02(L-varies_LOT)"
+              )
+            )
+          (progn
+            (TA:vla-insertblock 
+              "000_CKST-FAMELINE_CEILING_CODE_PANEL"
+              ss_pre_filter_set_xx_obj_ins_
+              1
+              (cond
+                ( (and 
+                      (= ss_pre_filter_set_xx_obj_ro_ 0)
+                      (= (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "flip state1") 1)
+                    )
+                  (progn
+                    0
+                  )
+                )
+                ( (and 
+                      (= ss_pre_filter_set_xx_obj_ro_ 180)
+                      (= (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "flip state1") 0)
+                    )
+                  (progn
+                    0
+                  )
+                )
+                ( (and 
+                      (= ss_pre_filter_set_xx_obj_ro_ 90)
+                      (= (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "flip state1") 0)
+                    )
+                  (progn
+                    (deg-to-rad 270)
+                  )
+                )
+                ( (and 
+                      (= ss_pre_filter_set_xx_obj_ro_ 270)
+                      (= (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "flip state1") 1)
+                    )
+                  (progn
+                    (deg-to-rad 270)
+                  )
+                )
+                ( (and 
+                      (/= ss_pre_filter_set_xx_obj_ro_ 0)
+                      (/= ss_pre_filter_set_xx_obj_ro_ 90)
+                      (/= ss_pre_filter_set_xx_obj_ro_ 180)
+                      (/= ss_pre_filter_set_xx_obj_ro_ 180)
+                      (= (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "flip state1") 0)
+                    )
+                  (progn
+                    (deg-to-rad (TA:ModifyRotation ss_pre_filter_set_xx_obj_ro_ 180))
+                  )
+                )
+                ( (and 
+                      (/= ss_pre_filter_set_xx_obj_ro_ 0)
+                      (/= ss_pre_filter_set_xx_obj_ro_ 90)
+                      (/= ss_pre_filter_set_xx_obj_ro_ 180)
+                      (/= ss_pre_filter_set_xx_obj_ro_ 180)
+                      (= (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "flip state1") 1)
+                    )
+                  (progn
+                    (deg-to-rad (TA:ModifyRotation ss_pre_filter_set_xx_obj_ro_ 0))
+                  )
+                )
+              )
+            )
+            ;new_blk_entlast object
+              (setq new_box_ename (entlast))
+              (setq new_box_obj (vlax-ename->vla-object new_box_ename))
+              (vla-put-layer new_box_obj "C0x_300HK_CODE_TEXT")
+              (vla-put-color new_box_obj 256)
+              (LM:setdynpropvalue new_box_obj "distance1" 300)
+              (TA:move_polar_insertionpoint new_box_obj "Y" panel_length)
+              (if (and 
+                    (= ss_pre_filter_set_xx_obj_ro_ 180)
+                    (= (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "flip state1") 0 )
+                  )
+                (progn
+                  (TA:move_polar_insertionpoint new_box_obj "x" (* (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "panel_width") -1))
+                )
+              )
+              (if (and 
+                    (= ss_pre_filter_set_xx_obj_ro_ 90)
+                    (= (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "flip state1") 0 )
+                  )
+                (progn
+                  (TA:move_polar_insertionpoint new_box_obj "x" (* (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "panel_width") -1))
+                )
+              )
+              (if (and 
+                      (/= ss_pre_filter_set_xx_obj_ro_ 0)
+                      (/= ss_pre_filter_set_xx_obj_ro_ 90)
+                      (/= ss_pre_filter_set_xx_obj_ro_ 180)
+                      (/= ss_pre_filter_set_xx_obj_ro_ 180)
+                      (= (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "flip state1") 0)
+                    )
+                (progn
+                  (TA:move_polar_insertionpoint new_box_obj "x" (* (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "panel_width") -1))
+                )
+              )
+              (setq ss_box_ss_ (ssadd  new_box_ename ss_box_ss_))
+            ;
+            (setq ASB_textbox_ename_obj_ (vlax-ename->vla-object new_box_ename)) 
+            ;input_first_pc
+              (setq panel_code_name1(LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_code_name" ""))
+              (LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_matt_type" panel_matt_type1_)
+              (setq panel_name1 (LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_name" panel_name))
+              (setq panel_no1 (LM:vl-getattributevalue ASB_textbox_ename_obj_ "panel_no1" ))
+              (setq panel_length1 (LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_length" panel_length))
+              (setq panel_width1 (LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_width" panel_width))
+              (setq panel_color1 (LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_color" color_code_))
+              (setq panel_shape1 (LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_shape" panel_shape))
+              (setq panel_add-on1 (LM:vl-getattributevalue ASB_textbox_ename_obj_ "panel_add-on" ))
+              (setq panel_date-create1(LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_date-create" panel_date-create))
+              (setq panel_station1(LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_station" panel_station))
+              (setq panel_level (LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_level" panel_level ))
+              (setq panel_zone1 (LM:vl-getattributevalue ASB_textbox_ename_obj_ "panel_zone" ))
+            ;
+            ;generate_code_name
+              (setq sumsum_ (strcat panel_station "-" (strcase (substr panel_level 1 4 )) "-"
+                                    panel_matt_type1_ "-" panel_name "-" "\n" 
+                                    (rtos panel_length1 2 0) "x" (rtos panel_width1 2 0) "mm." "-"
+                                    panel_color1 "-" "\n"
+                                    ""
+                                    (cond
+                                      ( (= (wcmatch panel_shape "*standard*") T)
+                                        (progn
+                                          "STD-SHAPE"
+                                        )
+                                      )
+                                      ( (= (wcmatch panel_shape "*trapezoids*") T)
+                                        (progn
+                                          "TPZ-SHAPE"
+                                        )
+                                      )
+                                      ( (= (wcmatch panel_shape "varies") T)
+                                        (progn
+                                          "VA"
+                                        )
+                                      )
+                                    )
+                                    "-" panel_add-on1
+                            ) 
+              )
+              (LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_code_name" sumsum_)
+            ;
+            (setq new_i 0)
+            ; (while (and 
+            ;         (= (LM:effectivename ASB_textbox_ename_obj_) "000_CKST-FAMELINE_CEILING_CODE_PANEL")
+            ;         (/= new_i (fix (- ss_pre_filter_set_xx_obj_total_panel_i 1)))
+            ;       )
+            ;   (vla-copy ASB_textbox_ename_obj_)
+            ;   ;new_blk_entlast object
+            ;     (setq new_box_ename_ (entlast)) 
+            ;     (setq new_box_ename_obj (vlax-ename->vla-object new_box_ename_))
+            ;     (setq ss_box_ss_ (ssadd  new_box_ename_ ss_box_ss_))
+            ;   ;
+            ;   (TA:move_polar_insertionpoint new_box_ename_obj "Y" (* 400 (+ new_i 1)))
+            ;   (setq new_i (+ new_i 1))
+            ; )
+          )
+        )
+        
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+    (command "pselect"  ss_box_ss_ "" )
+    
+  )
   
   (defun c:PPLINE_CKST_insert_code_panel_ins360adc ()
     (setq panel_matt_type1_ ;Get-string by keep previous value
@@ -33159,7 +33600,7 @@
                     )
                     ( (wcmatch (strcase (cdr (nth 7 newattset_ss_obj_att_list_))) "*VARIES*")
                       (progn
-                        "TRPZ-SHAPE"
+                        "VA-SHAPE"
                       )          
                     )
                    )
@@ -33215,7 +33656,7 @@
      
 
       
-      (setq tol 5.0) ; ระยะที่ถือว่าเป็นแถวเดียวกัน (mm)
+      (setq tol 100.00) ; ระยะที่ถือว่าเป็นแถวเดียวกัน (mm)
       (if (= (getvar "worlducs" ) 0 )
         (progn
           (setq ss_pre_filter_set_xx_list_ (TA:convert-list-ucs ss_pre_filter_set_xx_list_))
@@ -33679,7 +34120,8 @@
     ;
     (if (= (vl-catch-all-error-p ERR_) T)
       (progn
-        (command "pselect"   "" )
+        (setq blank_ss (ssadd))
+        (command "pselect" blank_ss   "")
       )
     )
   )
@@ -33712,12 +34154,19 @@
         (sslength ss_pre_filter_set_xx_)
       )
     ;
-    (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "000 - FAMELINE-CKST_AL.CELING_PANEL_300HK_@400mm_BOTTOM_VIEW_FOR_AS-02(L-varies_LOT)")))
+    (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list 
+                                                                                 "000 - FAMELINE-CKST_AL.CELING_PANEL_300HK_@400mm_BOTTOM_VIEW_FOR_AS-02(L-varies_LOT)"
+                                                                                 "000 - FAMELINE-CKST_AL.CELING_PANEL_300HK_@400mm_BOTTOM_VIEW_FOR_AS-02(varies_LOT)"
+                                                                                 
+                                                                               )
+                                )
+    )
     ;preloop_and_while
       (setq ERR_ nil)
       (setq ss_pre_filter_set_xx_i 0)
       (while (and 
                 (= (vl-catch-all-error-p ERR_) nil)
+                (/= (sslength ss_pre_filter_set_xx_) 0)
                 (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
               )
         (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
@@ -33742,6 +34191,32 @@
               (progn
                 (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "flip state1" 1)
                 (vla-put-rotation  ss_pre_filter_set_xx_obj_ (deg-to-rad 0))
+              )
+          )
+          (;ss_pre_filter_set_xx_obj_case_1
+              (and
+                
+                (/= ss_pre_filter_set_xx_obj_ro 0)
+                (/= ss_pre_filter_set_xx_obj_ro 90)
+                (/= ss_pre_filter_set_xx_obj_ro 180)
+                (/= ss_pre_filter_set_xx_obj_ro 270)
+                (= (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "flip state1" ) 1)
+              )
+              (progn
+                (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "flip state1" 0)
+              )
+          )
+          (;ss_pre_filter_set_xx_obj_case_1
+              (and
+                
+                (/= ss_pre_filter_set_xx_obj_ro 0)
+                (/= ss_pre_filter_set_xx_obj_ro 90)
+                (/= ss_pre_filter_set_xx_obj_ro 180)
+                (/= ss_pre_filter_set_xx_obj_ro 270)
+                (= (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "flip state1" ) 0 )
+              )
+              (progn
+                (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "flip state1" 1)
               )
           )
           
@@ -33774,6 +34249,7 @@
           (setq ss_pre_filter_set_xx_i 0)
           (while (and 
                    (= (vl-catch-all-error-p ERR_) nil)
+                   (/= (sslength ss_pre_filter_set_xx_) 0)
                    (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
                  )
             (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
@@ -33800,24 +34276,44 @@
                     (vla-put-rotation  ss_pre_filter_set_xx_obj_ (deg-to-rad 0))
                   )
               )
-              
-              
-              
-              
-              
-            
+              (;ss_pre_filter_set_xx_obj_case_1
+                  (and
+                    
+                    (/= ss_pre_filter_set_xx_obj_ro 0)
+                    (/= ss_pre_filter_set_xx_obj_ro 90)
+                    (/= ss_pre_filter_set_xx_obj_ro 180)
+                    (/= ss_pre_filter_set_xx_obj_ro 270)
+                    (= (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "flip state1" ) 1)
+                  )
+                  (progn
+                    (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "flip state1" 0)
+                  )
+              )
+              (;ss_pre_filter_set_xx_obj_case_1
+                  (and
+                    
+                    (/= ss_pre_filter_set_xx_obj_ro 0)
+                    (/= ss_pre_filter_set_xx_obj_ro 90)
+                    (/= ss_pre_filter_set_xx_obj_ro 180)
+                    (/= ss_pre_filter_set_xx_obj_ro 270)
+                    (= (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "flip state1" ) 0 )
+                  )
+                  (progn
+                    (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "flip state1" 1)
+                  )
+              )
             )
-            
             (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
           )
         ;
       )
     ;
-    (if (= (vl-catch-all-error-p ERR_) T)
-      (progn
-        (command "pselect"   "" )
-      )
-    )
+    ; (if (= (vl-catch-all-error-p ERR_) T)
+    ;   (progn
+    ;     (setq blank_ss (ssadd))
+    ;     (command "pselect"  blank_ss  "" )
+    ;   )
+    ; )
   )
   (defun c:tempswblk ()
     (setq old_block_ename_ (car (entsel "specify Object")))
@@ -33836,7 +34332,17 @@
         )
         ( (= old_block_obj_ro_ 90)
           (progn
-            (deg-to-rad (TA:ModifyRotation old_block_obj_ro_ 0))
+            (deg-to-rad (TA:ModifyRotation old_block_obj_ro_ -90))
+          )
+        )
+        ( (and 
+            (/= old_block_obj_ro_ 0)
+            (/= old_block_obj_ro_ 90)
+            (/= old_block_obj_ro_ 180)
+            (/= old_block_obj_ro_ 270)
+          )
+          (progn
+            (deg-to-rad (TA:ModifyRotation old_block_obj_ro_ -90))
           )
         )
       )
@@ -33846,6 +34352,7 @@
     ;new_blk_entlast object
       (setq newinsert_ename (entlast))
       (setq newinsert_obj_ (vlax-ename->vla-object newinsert_ename))
+      
       (cond
         ( (= old_block_obj_ro_ 0)
           (progn
@@ -33853,6 +34360,16 @@
           )
         )
         ( (= old_block_obj_ro_ 90)
+          (progn
+            (LM:setdynpropvalue newinsert_obj_ "flip state1" 1)
+          )
+        )
+        ( (and 
+              (/= old_block_obj_ro_ 0)
+              (/= old_block_obj_ro_ 90)
+              (/= old_block_obj_ro_ 180)
+              (/= old_block_obj_ro_ 270)
+            )
           (progn
             (LM:setdynpropvalue newinsert_obj_ "flip state1" 1)
           )
@@ -34058,6 +34575,7 @@
           (setq ss_pre_filter_set_xx_ (ssget "i"
                                             (list
                                               (cons 0 "lwpolyline") ;type of object
+                                              (cons 70 1) ;close assoc for lwpolyline
                                               ; (cons 8 "000 - GRID")   ;kind of layer
                                               ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                               ; (cons 62 1)           ;kind of color call sign with color code index
@@ -34070,7 +34588,7 @@
           (setq ss_pre_filter_set_xx_ (ssget
                                             (list
                                               (cons 0 "lwpolyline") ;type of object
-                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              (cons 70 1) ;close assoc for lwpolyline   ;kind of layer
                                               ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                               ; (cons 62 1)           ;kind of color call sign with color code index
                                             )
@@ -34082,9 +34600,9 @@
     ;
     ;preloop_and_while
       (setq ss_pre_filter_set_xx_i 0)
-      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
-        ; (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))  
+        (setq ss_pre_filter_set_xx_ename_ (ssname  ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
         (TAS:polygon2dyn ss_pre_filter_set_xx_ename_)
         (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
       )
@@ -49934,3 +50452,342 @@
   
 )
   
+(defun c:tt3 ()
+  
+  (setq ss_bol_ (TA:ss_vla-getboundingbox (setq sstemp_ (ssget "i"))))
+  (setq ss_bol_ (TA:assembly_coordinate_coner ss_bol_))
+  (setq ss_bol_second-pt_ (nth 1 ss_bol_))
+  (setq ss_bol_mid_ (nth 4 ss_bol_))
+  (setq ss_bol_width_ (nth 5 ss_bol_))
+  (setq ss_bol_height_ (nth 6 ss_bol_))
+  (TA:vla-insertblock 
+    "000 - FAMELINE-CKST_AL.CELING_PANEL_300HK_@400mm_BOTTOM_VIEW_FOR_AS-02(L-varies_LOT)"
+    ss_bol_second-pt_
+    1
+    0
+  )
+  ;new_blk_entlast object
+    (setq new-insert-col_ename (entlast))
+    (setq new-insert-col_obj (vlax-ename->vla-object new-insert-col_ename))
+    (LM:setdynpropvalue new-insert-col_obj "flip state1" 1)
+    (LM:setdynpropvalue new-insert-col_obj "ref_line" 0)
+    (LM:setdynpropvalue new-insert-col_obj "panel_width" ss_bol_height_)
+    (LM:setdynpropvalue new-insert-col_obj "panel_length" ss_bol_width_ )
+  ;
+  ;preloop_and_while
+    (setq sstemp_i 0)
+    (while (< sstemp_i (sslength sstemp_))
+      (setq sstemp_ename_ (ssname sstemp_ sstemp_i))
+      (setq sstemp_obj_ (vlax-ename->vla-object  sstemp_ename_))
+      (vla-delete sstemp_obj_ )
+      (setq sstemp_i (+ sstemp_i 1))
+    )
+  ;
+  (command "pselect"   "" )
+  
+)
+(defun c:tt4 ()
+  
+  (setq ss_bol_ (TA:ss_vla-getboundingbox (setq sstemp_ (ssget "i"))))
+  (setq ss_bol_ (TA:assembly_coordinate_coner ss_bol_))
+  (setq ss_bol_second-pt_ (nth 1 ss_bol_))
+  (setq ss_bol_third-pt_ (nth 2 ss_bol_))
+  (setq ss_bol_mid_ (nth 4 ss_bol_))
+  (setq ss_bol_width_ (nth 5 ss_bol_))
+  (setq ss_bol_height_ (nth 6 ss_bol_))
+  (TA:vla-insertblock 
+    "000 - FAMELINE-CKST_AL.CELING_PANEL_300HK_@400mm_BOTTOM_VIEW_FOR_AS-02(L-varies_LOT)"
+    ss_bol_third-pt_
+    1
+    (deg-to-rad 180)
+  )
+  ;new_blk_entlast object
+    (setq new-insert-col_ename (entlast))
+    (setq new-insert-col_obj (vlax-ename->vla-object new-insert-col_ename))
+    (LM:setdynpropvalue new-insert-col_obj "flip state1" 0)
+    (LM:setdynpropvalue new-insert-col_obj "ref_line" 0)
+    (LM:setdynpropvalue new-insert-col_obj "panel_width" ss_bol_height_)
+    (LM:setdynpropvalue new-insert-col_obj "panel_length" ss_bol_width_ )
+  ;
+  ;preloop_and_while
+    (setq sstemp_i 0)
+    (while (< sstemp_i (sslength sstemp_))
+      (setq sstemp_ename_ (ssname sstemp_ sstemp_i))
+      (setq sstemp_obj_ (vlax-ename->vla-object  sstemp_ename_))
+      (vla-delete sstemp_obj_ )
+      (setq sstemp_i (+ sstemp_i 1))
+    )
+  ;
+  (command "pselect"   "" )
+  
+)
+
+(defun c:400pol ()
+  (setq panel_matt_type1_ ;Get-string by keep previous value
+      (if
+        (or
+          (/= (setq panel_matt_type1_val (getstring (strcat "\nSpecify MATT CODE <" (if panel_matt_type1_ panel_matt_type1_ "") ">: ") ) ) "" )
+        )
+          (progn
+            (setq panel_matt_type1_ panel_matt_type1_val)
+            (setq panel_matt_type1_keep_val_ panel_matt_type1_val)
+          )
+        (setq panel_matt_type1_val panel_matt_type1_keep_val_)
+      )
+  )
+  (setq color_code_ ;Get-string by keep previous value
+      (if
+        (or
+          (/= (setq color_code_val (getstring (strcat "\nSpecify color code <" (if color_code_ color_code_ "") ">: ") ) ) "" )
+        )
+          (progn
+            (setq color_code_ color_code_val)
+            (setq color_code_keep_val_ color_code_val)
+          )
+        (setq color_code_val color_code_keep_val_)
+      )
+  )
+  (setq date_create_ ;Get-string by keep previous value
+      (if
+        (or
+          (/= (setq date_create_val (getstring (strcat "\nSpecify date_create_  <" (if date_create_ date_create_ "") ">: ") ) ) "" )
+        )
+          (progn
+            (setq date_create_ date_create_val)
+            (setq date_create_keep_val_ date_create_val)
+          )
+        (setq date_create_val date_create_keep_val_)
+      )
+  )
+  (setq panel_date-create date_create_ )
+        
+  (setq panel_station 
+    (cond
+      (;_case_1
+        (and
+            (= (wcmatch (getvar "dwgname"  ) "*PP17*") T)
+        )
+        (progn
+          "PP17"
+        )
+      )
+      (;_case_2
+        (and
+            (= (wcmatch (getvar "dwgname"  ) "*PP18*") T)
+        )
+        (progn
+          "PP18"
+          
+        )
+      )
+      (;_case_3
+        (and
+            (= (wcmatch (getvar "dwgname"  ) "*PP19*") T)
+        )
+        (progn
+          "PP19"
+          
+        )
+      )
+      (;_case_4
+        (and 
+          (= (wcmatch (getvar "dwgname"  ) "*PP20*") T )
+        )
+        (progn
+          "PP20"
+          
+        )
+      )
+    )
+  )
+  (setq panel_level 
+    (cond
+      (;_case_2
+        (and
+            (= (wcmatch (getvar "dwgname"  ) "*PP17*") T)
+            (= (wcmatch (getvar "dwgname"  ) "*AR-4150*") T)
+        )
+        (progn
+          "concourse_level"
+        )
+      )
+      (;_case_3
+        (and
+            (= (wcmatch (getvar "dwgname"  ) "*PP17*") T)
+            (= (wcmatch (getvar "dwgname"  ) "*AR-4180*") T)
+        )
+        (progn
+          "platform_level"
+        )
+      )
+      (;_case_1
+        (and
+            (= (wcmatch (getvar "dwgname"  ) "*PP18*") T)
+            (= (wcmatch (getvar "dwgname"  ) "*AR-4130*") T)
+        )
+        (progn
+          "multi_purpose_level"
+        )
+      )
+      (;_case_2
+        (and
+            (= (wcmatch (getvar "dwgname"  ) "*PP18*") T)
+            (= (wcmatch (getvar "dwgname"  ) "*AR-4150*") T)
+        )
+        (progn
+          "concourse_level"
+        )
+      )
+      (;_case_2
+        (and
+            (= (wcmatch (getvar "dwgname"  ) "*PP18*") T)
+            (= (wcmatch (getvar "dwgname"  ) "*AR-4160*") T)
+        )
+        (progn
+          "upper_platform_level"
+        )
+      )
+      (;_case_2
+        (and
+            (= (wcmatch (getvar "dwgname"  ) "*PP18*") T )
+            (= (wcmatch (getvar "dwgname"  ) "*AR-4180*") T )
+        )
+        (progn
+          "lower_platform_level"
+        )
+      )
+      (;_case_1
+        (and
+            (= (wcmatch (getvar "dwgname"  ) "*PP19*") T)
+            (= (wcmatch (getvar "dwgname"  ) "*AR-4130*") T)
+        )
+        (progn
+          "multi_purpose_level"
+        )
+      )
+      (;_case_2
+        (and
+            (= (wcmatch (getvar "dwgname"  ) "*PP19*") T)
+            (= (wcmatch (getvar "dwgname"  ) "*AR-4150*") T)
+        )
+        (progn
+          "concourse_level"
+        )
+      )
+      (;_case_2
+        (and
+            (= (wcmatch (getvar "dwgname"  ) "*PP19*") T)
+            (= (wcmatch (getvar "dwgname"  ) "*AR-4160*") T)
+        )
+        (progn
+          "upper_platform_level"
+        )
+      )
+      (;_case_2
+        (and
+            (= (wcmatch (getvar "dwgname"  ) "*PP19*") T)
+            (= (wcmatch (getvar "dwgname"  ) "*AR-4180*") T)
+        )
+        (progn
+          "lower_platform_level"
+        )
+      )
+      (;_case_1
+        (and
+            (= (wcmatch (getvar "dwgname"  ) "*PP20*") T)
+            (= (wcmatch (getvar "dwgname"  ) "*AR-4130*") T)
+        )
+        (progn
+          "multi_purpose_level"
+        )
+      )
+      (;_case_2
+        (and
+            (= (wcmatch (getvar "dwgname"  ) "*PP20*") T )
+            (= (wcmatch (getvar "dwgname"  ) "*AR-4150*")  T)
+        )
+        (progn
+          "concourse_level"
+        )
+      )
+      (;_case_2
+        (and
+            (= (wcmatch (getvar "dwgname"  ) "*PP20*") T)
+            (= (wcmatch (getvar "dwgname"  ) "*AR-4180*") T)
+        )
+        (progn
+          "platform_level"
+        )
+      )
+      
+    )
+  )
+  (setq panel_name "300HK")
+  (setq panel_shape (cond ((or (= 1 1) ) (progn "trapezoids") ) ) )
+  (setq ss_bol_ (TA:ss_vla-getboundingbox (setq sstemp_ (ssget "i"))))
+  (setq ss_bol_ (TA:assembly_coordinate_coner ss_bol_))
+  (setq ss_bol_frist-pt_ (nth 0 ss_bol_))
+  (setq ss_bol_second-pt_ (nth 1 ss_bol_))
+  (setq ss_bol_third-pt_ (nth 2 ss_bol_))
+  (setq ss_bol_mid_ (nth 4 ss_bol_))
+  (setq ss_bol_width_ (nth 5 ss_bol_))
+  (setq ss_bol_height_ (LM:round (nth 6 ss_bol_)))
+  (TA:vla-insertblock 
+    "000_CKST-FAMELINE_CEILING_CODE_PANEL"
+    ss_bol_frist-pt_
+    1
+    0
+  )
+  ;new_blk_entlast object
+    (setq new_box_ename (entlast))
+    (setq new_box_obj (vlax-ename->vla-object new_box_ename))
+    (vla-put-layer new_box_obj "C0x_300HK_CODE_TEXT")
+    (vla-put-color new_box_obj 256)
+    (LM:setdynpropvalue new_box_obj "distance1" 300)
+    ; (TA:move_polar_insertionpoint new_box_obj "Y" panel_length)
+    ;input_first_pc
+      (setq ASB_textbox_ename_obj_ (vlax-ename->vla-object new_box_ename))
+      (setq panel_code_name1(LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_code_name" ""))
+      (LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_matt_type" panel_matt_type1_)
+      (setq panel_name1 (LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_name" panel_name))
+      (setq panel_no1 (LM:vl-getattributevalue ASB_textbox_ename_obj_ "panel_no1" ))
+      (setq panel_length1 (LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_length" ss_bol_width_))
+      (setq panel_width1 (LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_width" ss_bol_height_))
+      (setq panel_color1 (LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_color" color_code_))
+      (setq panel_shape1 (LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_shape" panel_shape))
+      (setq panel_add-on1 (LM:vl-getattributevalue ASB_textbox_ename_obj_ "panel_add-on" ))
+      (setq panel_date-create1(LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_date-create" panel_date-create))
+      (setq panel_station1(LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_station" panel_station))
+      (setq panel_level (LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_level" panel_level ))
+      (setq panel_zone1 (LM:vl-getattributevalue ASB_textbox_ename_obj_ "panel_zone" ))
+    ;
+    ;generate_code_name
+      (setq sumsum_ (strcat panel_station "-" (strcase (substr panel_level 1 4 )) "-"
+                            panel_matt_type1_ "-" panel_name "-" "\n" 
+                            (rtos panel_length1 2 0) "x" (rtos panel_width1 2 0) "mm." "-"
+                            panel_color1 "-" "\n"
+                            ""
+                            (cond
+                              ( (= (wcmatch panel_shape "*standard*") T)
+                                (progn
+                                  "STD-SHAPE"
+                                )
+                              )
+                              ( (= (wcmatch panel_shape "*trapezoids*") T)
+                                (progn
+                                  "TPZ-SHAPE"
+                                )
+                              )
+                              ( (= (wcmatch panel_shape "varies") T)
+                                (progn
+                                  "VA"
+                                )
+                              )
+                            )
+                            "-" panel_add-on1
+                    ) 
+      )
+      (LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_code_name" sumsum_)
+    ;
+
+)
