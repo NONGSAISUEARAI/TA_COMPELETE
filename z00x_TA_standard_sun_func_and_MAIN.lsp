@@ -33557,6 +33557,8 @@
       (while (< newattset_ss_i (sslength newattset_ss_))
         (setq newattset_ss_ename_ (ssname newattset_ss_ newattset_ss_i)) 
         (setq newattset_ss_obj_ (vlax-ename->vla-object  newattset_ss_ename_))
+        
+        (LM:vl-setattributevalue newattset_ss_obj_ "panel_length" (itoa (LM:round (atof (LM:vl-getattributevalue newattset_ss_obj_ "panel_length" )))))
         (setq newattset_ss_obj_att_list_ (LM:vl-getattributevalues newattset_ss_obj_))
         (setq ss (strcat 
                    (cdr (nth 10 newattset_ss_obj_att_list_))
@@ -33588,7 +33590,10 @@
                    (cdr (nth 6 newattset_ss_obj_att_list_))
                    "-" 
                    (cond
-                    ( (wcmatch (strcase (cdr (nth 7 newattset_ss_obj_att_list_))) "*STANDARD*")
+                    ( (and 
+                        (= (wcmatch (strcase (cdr (nth 7 newattset_ss_obj_att_list_))) "*STANDARD*") T)
+                        (= (wcmatch (strcase (cdr (nth 7 newattset_ss_obj_att_list_))) "*VARIES*") nil)
+                      )
                       (progn
                         "STD-SHAPE"
                       )
@@ -33598,7 +33603,10 @@
                         "TRPZ-SHAPE"
                       )          
                     )
-                    ( (wcmatch (strcase (cdr (nth 7 newattset_ss_obj_att_list_))) "*VARIES*")
+                    ( (and 
+                        (= (wcmatch (strcase (cdr (nth 7 newattset_ss_obj_att_list_))) "*STANDARD*") T)
+                        (= (wcmatch (strcase (cdr (nth 7 newattset_ss_obj_att_list_))) "*VARIES*") T)
+                      )
                       (progn
                         "VA-SHAPE"
                       )          
@@ -33616,6 +33624,8 @@
                  )
         )
         (LM:vl-setattributevalue newattset_ss_obj_ "panel_code_name" ss)
+        
+        
         
         (setq newattset_ss_i (+ newattset_ss_i 1))
       )
@@ -33657,6 +33667,7 @@
 
       
       (setq tol 100.00) ; ระยะที่ถือว่าเป็นแถวเดียวกัน (mm)
+      (setq tol (cond ( (getint (strcat "\nSpecify tol   <" (rtos (setq tol (cond (tol) (1.0) ) ) ) "> : " ) ) ) (tol) ) )
       (if (= (getvar "worlducs" ) 0 )
         (progn
           (setq ss_pre_filter_set_xx_list_ (TA:convert-list-ucs ss_pre_filter_set_xx_list_))
@@ -33749,7 +33760,8 @@
      
 
       
-      (setq tol 5.0) ; ระยะที่ถือว่าเป็นแถวเดียวกัน (mm)
+      (setq tol 5) ; ระยะที่ถือว่าเป็นแถวเดียวกัน (mm)
+      (setq tol (cond ( (getint (strcat "\nSpecify tol   <" (rtos (setq tol (cond (tol) (1.0) ) ) ) "> : " ) ) ) (tol) ) )
       (if (= (getvar "worlducs" ) 0 )
         (progn
           (setq ss_pre_filter_set_xx_list_ (TA:convert-list-ucs ss_pre_filter_set_xx_list_))
@@ -34583,7 +34595,7 @@
                                       )
           )
           nil
-        )
+        ) 
         (progn
           (setq ss_pre_filter_set_xx_ (ssget
                                             (list
@@ -50523,6 +50535,35 @@
 )
 
 (defun c:400pol ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000 - FAMELINE-CKST_AL.CELING_PANEL_300HK_@400mm_BOTTOM_VIEW_FOR_AS-02(MULTI-varies_LOT)" ))
   (setq panel_matt_type1_ ;Get-string by keep previous value
       (if
         (or
@@ -50722,72 +50763,146 @@
       
     )
   )
-  (setq panel_name "300HK")
-  (setq panel_shape (cond ((or (= 1 1) ) (progn "trapezoids") ) ) )
-  (setq ss_bol_ (TA:ss_vla-getboundingbox (setq sstemp_ (ssget "i"))))
-  (setq ss_bol_ (TA:assembly_coordinate_coner ss_bol_))
-  (setq ss_bol_frist-pt_ (nth 0 ss_bol_))
-  (setq ss_bol_second-pt_ (nth 1 ss_bol_))
-  (setq ss_bol_third-pt_ (nth 2 ss_bol_))
-  (setq ss_bol_mid_ (nth 4 ss_bol_))
-  (setq ss_bol_width_ (nth 5 ss_bol_))
-  (setq ss_bol_height_ (LM:round (nth 6 ss_bol_)))
-  (TA:vla-insertblock 
-    "000_CKST-FAMELINE_CEILING_CODE_PANEL"
-    ss_bol_frist-pt_
-    1
-    0
-  )
-  ;new_blk_entlast object
-    (setq new_box_ename (entlast))
-    (setq new_box_obj (vlax-ename->vla-object new_box_ename))
-    (vla-put-layer new_box_obj "C0x_300HK_CODE_TEXT")
-    (vla-put-color new_box_obj 256)
-    (LM:setdynpropvalue new_box_obj "distance1" 300)
-    ; (TA:move_polar_insertionpoint new_box_obj "Y" panel_length)
-    ;input_first_pc
-      (setq ASB_textbox_ename_obj_ (vlax-ename->vla-object new_box_ename))
-      (setq panel_code_name1(LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_code_name" ""))
-      (LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_matt_type" panel_matt_type1_)
-      (setq panel_name1 (LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_name" panel_name))
-      (setq panel_no1 (LM:vl-getattributevalue ASB_textbox_ename_obj_ "panel_no1" ))
-      (setq panel_length1 (LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_length" ss_bol_width_))
-      (setq panel_width1 (LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_width" ss_bol_height_))
-      (setq panel_color1 (LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_color" color_code_))
-      (setq panel_shape1 (LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_shape" panel_shape))
-      (setq panel_add-on1 (LM:vl-getattributevalue ASB_textbox_ename_obj_ "panel_add-on" ))
-      (setq panel_date-create1(LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_date-create" panel_date-create))
-      (setq panel_station1(LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_station" panel_station))
-      (setq panel_level (LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_level" panel_level ))
-      (setq panel_zone1 (LM:vl-getattributevalue ASB_textbox_ename_obj_ "panel_zone" ))
-    ;
-    ;generate_code_name
-      (setq sumsum_ (strcat panel_station "-" (strcase (substr panel_level 1 4 )) "-"
-                            panel_matt_type1_ "-" panel_name "-" "\n" 
-                            (rtos panel_length1 2 0) "x" (rtos panel_width1 2 0) "mm." "-"
-                            panel_color1 "-" "\n"
-                            ""
-                            (cond
-                              ( (= (wcmatch panel_shape "*standard*") T)
-                                (progn
-                                  "STD-SHAPE"
-                                )
-                              )
-                              ( (= (wcmatch panel_shape "*trapezoids*") T)
-                                (progn
-                                  "TPZ-SHAPE"
-                                )
-                              )
-                              ( (= (wcmatch panel_shape "varies") T)
-                                (progn
-                                  "VA"
-                                )
-                              )
-                            )
-                            "-" panel_add-on1
-                    ) 
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      (setq temp_ss_ (ssadd ))
+      (setq temp_ss_ (ssadd ss_pre_filter_set_xx_ename_ temp_ss_))
+      (setq panel_name "300HK")
+      (setq panel_shape (cond ((or (= 1 1) ) (progn "trapezoids") ) ) )
+      (setq ss_bol_ (TA:ss_vla-getboundingbox temp_ss_))
+      (setq ss_bol_ (TA:assembly_coordinate_coner ss_bol_))
+      (setq ss_bol_frist-pt_ (nth 0 ss_bol_))
+      (setq ss_bol_second-pt_ (nth 1 ss_bol_))
+      (setq ss_bol_third-pt_ (nth 2 ss_bol_))
+      (setq ss_bol_mid_ (nth 4 ss_bol_))
+      (setq ss_bol_width_ (nth 5 ss_bol_))
+      (setq ss_bol_height_ (LM:round (nth 6 ss_bol_)))
+      (TA:vla-insertblock 
+        "000_CKST-FAMELINE_CEILING_CODE_PANEL"
+        ss_bol_frist-pt_
+        1
+        0
       )
-      (LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_code_name" sumsum_)
+      ;new_blk_entlast object
+        (setq new_box_ename (entlast))
+        (setq new_box_obj (vlax-ename->vla-object new_box_ename))
+        (vla-put-layer new_box_obj "C0x_300HK_CODE_TEXT")
+        (vla-put-color new_box_obj 256)
+        (LM:setdynpropvalue new_box_obj "distance1" 300)
+        ; (TA:move_polar_insertionpoint new_box_obj "Y" panel_length)
+        ;input_first_pc
+          (setq ASB_textbox_ename_obj_ (vlax-ename->vla-object new_box_ename))
+          (setq panel_code_name1(LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_code_name" ""))
+          (LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_matt_type" panel_matt_type1_)
+          (setq panel_name1 (LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_name" panel_name))
+          (setq panel_no1 (LM:vl-getattributevalue ASB_textbox_ename_obj_ "panel_no1" ))
+          (setq panel_length1 (LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_length" ss_bol_width_))
+          (setq panel_width1 (LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_width" ss_bol_height_))
+          (setq panel_color1 (LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_color" color_code_))
+          (setq panel_shape1 (LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_shape" panel_shape))
+          (setq panel_add-on1 (LM:vl-getattributevalue ASB_textbox_ename_obj_ "panel_add-on" ))
+          (setq panel_date-create1(LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_date-create" panel_date-create))
+          (setq panel_station1(LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_station" panel_station))
+          (setq panel_level (LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_level" panel_level ))
+          (setq panel_zone1 (LM:vl-getattributevalue ASB_textbox_ename_obj_ "panel_zone" ))
+        ;
+        ;generate_code_name
+          (setq sumsum_ (strcat panel_station "-" (strcase (substr panel_level 1 4 )) "-"
+                                panel_matt_type1_ "-" panel_name "-" "\n" 
+                                (rtos panel_length1 2 0) "x" (rtos panel_width1 2 0) "mm." "-"
+                                panel_color1 "-" "\n"
+                                ""
+                                (cond
+                                  ( (= (wcmatch panel_shape "*standard*") T)
+                                    (progn
+                                      "STD-SHAPE"
+                                    )
+                                  )
+                                  ( (= (wcmatch panel_shape "*trapezoids*") T)
+                                    (progn
+                                      "TPZ-SHAPE"
+                                    )
+                                  )
+                                  ( (= (wcmatch panel_shape "varies") T)
+                                    (progn
+                                      "VA"
+                                    )
+                                  )
+                                )
+                                "-" panel_add-on1
+                        ) 
+          )
+          (LM:vl-setattributevalue ASB_textbox_ename_obj_ "panel_code_name" sumsum_)
+        ;
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+  
+
+)
+
+
+
+
+
+
+
+
+
+
+
+
+(defun c:sssssw ()
+  (setq ang
+    (cond
+      (
+        (getangle
+          (strcat
+            "\nSpecify angle <"
+            (angtos (cond (ang) (0.0)) 0 2)
+            "> : "
+          )
+        )
+      )
+      (ang)
+    )
+  )
+  (defun c:test (/ pt1 pt2 ang deg)
+    
+    (setq pt1 (getpoint "\nStart point: "))
+    (setq pt2 (getpoint pt1 "\nSpecify direction: "))
+    (setq ang (angle pt1 pt2))
+    (setq deg (TA:ModifyRotation (rad-to-deg ang)  (rad-to-deg (angle '(0 0 0) (getvar "UCSXDIR")))))
+    (princ (strcat "\nAngle = " (rtos deg 2 2) "°"))
+    (princ)
+    (command "line" pt1 pt2  )
+    ;while selection process
+      (setq ERR_ nil)
+      (while ;for keep insertion point and dist. fix length one side
+        (and
+          (= (vl-catch-all-error-p ERR_) nil)
+        )
+        (setq ERR_
+          (vl-catch-all-apply
+            (function
+              (lambda ()
+                (setq pt3 (getpoint pt2 "\nSpecify direction: "))
+              )
+            )
+          )
+        )
+        (command "line" pt2 pt3 )
+        (setq pt2 pt3 )
+        
+        
+      )
     ;
 
+    
+  )
+  
+  
 )
