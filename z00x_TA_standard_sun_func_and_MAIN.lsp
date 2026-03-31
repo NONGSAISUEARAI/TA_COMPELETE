@@ -33633,6 +33633,17 @@
     (command "pselect"  newattset_ss_ "" )
   )
   (defun c:PPLINE_CKST_regenerate_303xsort ()
+    (defun TA:convert-list-ucs (lst /)
+      (mapcar
+        '(lambda (a)
+          (list
+            (car a)
+            (trans (cadr a) 0 1)
+          )
+        )
+        lst
+      )
+    )
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget
         (=
@@ -33727,6 +33738,7 @@
     (command "pselect"  sorted_ename_ "" )
   )
   (defun c:PPLINE_CKST_regenerate_303ysort ()
+    
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget
         (=
@@ -33758,10 +33770,25 @@
       (setq ss_pre_filter_set_xx_list_ (TA:standard_list_croodinate_sorting ss_pre_filter_set_xx_ "X"))
     ;
      
+<<<<<<< Updated upstream
 
       
       (setq tol 5) ; ระยะที่ถือว่าเป็นแถวเดียวกัน (mm)
       (setq tol (cond ( (getint (strcat "\nSpecify tol   <" (rtos (setq tol (cond (tol) (1.0) ) ) ) "> : " ) ) ) (tol) ) )
+=======
+      (defun TA:convert-list-ucs (lst /)
+        (mapcar
+          '(lambda (a)
+            (list
+              (car a)
+              (trans (cadr a) 0 1)
+            )
+          )
+          lst
+        )
+      )
+      (setq tol 5.0) ; ระยะที่ถือว่าเป็นแถวเดียวกัน (mm)
+>>>>>>> Stashed changes
       (if (= (getvar "worlducs" ) 0 )
         (progn
           (setq ss_pre_filter_set_xx_list_ (TA:convert-list-ucs ss_pre_filter_set_xx_list_))
@@ -33802,8 +33829,7 @@
                           )
                         )
                     )
-      )
-        
+        )
       )
       
     ;

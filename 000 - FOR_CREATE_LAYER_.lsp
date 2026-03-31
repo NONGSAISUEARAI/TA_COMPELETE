@@ -1392,6 +1392,7 @@
       (setq 2nd_filter_val_main "000 - STRUCTURE_STEEL_") ;2nd_filter
       (setq 3rd_filter_val_main (list ;3rd_filter
                                   "FRAMING" ;
+                                  "ROOF" ;
                                 )
       )
       (setq 4th_filter_val_main (list  ;4th_filter

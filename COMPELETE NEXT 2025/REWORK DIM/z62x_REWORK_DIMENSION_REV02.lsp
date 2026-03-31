@@ -10406,7 +10406,7 @@
             (setvar "DIMCEN" 0.10)           ; Center mark size
             (setvar "DIMCLRD" 256)             ; Dim line color (0 = BYBLOCK)
             (setvar "DIMCLRE" 256)             ; Extension line color (BYBLOCK)
-            (setvar "DIMCLRT" 256)             ; Text color (1 = Red)
+            (setvar "DIMCLRT" 3)             ; Text color (1 = Red)
 
             (setvar "DIMDEC" 2)              ; Decimal places
             (setvar "DIMDLE" 0.10)           ; Dimension line extension
@@ -10510,7 +10510,7 @@
             (setvar "DIMCEN" 0.10)           ; Center mark size
             (setvar "DIMCLRD" 256)             ; Dim line color (0 = BYBLOCK)
             (setvar "DIMCLRE" 256)             ; Extension line color (BYBLOCK)
-            (setvar "DIMCLRT" 256)             ; Text color (1 = Red)
+            (setvar "DIMCLRT" 3)             ; Text color (1 = Red)
 
             (setvar "DIMDEC" 2)              ; Decimal places
             (setvar "DIMDLE" 0.10)           ; Dimension line extension
@@ -10615,7 +10615,7 @@
             (setvar "DIMCEN" 0.10)           ; Center mark size
             (setvar "DIMCLRD" 256)             ; Dim line color (0 = BYBLOCK)
             (setvar "DIMCLRE" 256)             ; Extension line color (BYBLOCK)
-            (setvar "DIMCLRT" 256)             ; Text color (1 = Red)
+            (setvar "DIMCLRT" 3)             ; Text color (1 = Red)
 
             (setvar "DIMDEC" 2)              ; Decimal places
             (setvar "DIMDLE" 0.10)           ; Dimension line extension
@@ -10721,7 +10721,7 @@
             (setvar "DIMCEN" 0.10)           ; Center mark size
             (setvar "DIMCLRD" 256)             ; Dim line color (0 = BYBLOCK)
             (setvar "DIMCLRE" 256)             ; Extension line color (BYBLOCK)
-            (setvar "DIMCLRT" 256)             ; Text color (1 = Red)
+            (setvar "DIMCLRT" 3)             ; Text color (1 = Red)
 
             (setvar "DIMDEC" 2)              ; Decimal places
             (setvar "DIMDLE" 0.10)           ; Dimension line extension
@@ -10790,7 +10790,7 @@
       (setq dim_command_ (list 
                             (setvar "DIMCLRD" 256) ; Dimension line color
                             (setvar "DIMCLRE" 256) ; Extension line color
-                            (setvar "DIMCLRT" 256) ; Text color
+                            (setvar "DIMCLRT" 3) ; Text color
                             (setvar "DIMLWD" -1) ; Dimension line lineweight
                             (setvar "DIMLWE" -1) ; Extension line lineweight
                             (setvar "DIMSCALE" 1.0) ; Overall scale factor

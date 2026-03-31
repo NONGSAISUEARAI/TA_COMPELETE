@@ -7656,6 +7656,150 @@
     
     (LM:setdynpropvalue target_obj_ "distance1" (fix (+ (- (car ss_pre_filter_set_xx_max_) (car ss_pre_filter_set_xx_min_) ) 1)))
   )
+  (defun c:PPLINE_CKST_headingsort_ ()
+    (defun TA:LRsort_ (LRsort_ tol)
+      (defun TA:convert-list-ucs (lst /)
+        (mapcar
+          '(lambda (a)
+            (list
+              (car a)
+              (trans (cadr a) 0 1)
+            )
+          )
+          lst
+        )
+      )
+      (setq tol 5.0) ; ระยะที่ถือว่าเป็นแถวเดียวกัน (mm)
+      (if (= (getvar "worlducs" ) 0 )
+        (progn
+          (setq LRsort_ (TA:convert-list-ucs LRsort_))
+          (setq sorted_
+            (vl-sort LRsort_
+              '(lambda (a b)
+
+                (setq ya (cadr (cadr a)))
+                (setq yb (cadr (cadr b)))
+
+                (setq xa (car (cadr a)))
+                (setq xb (car (cadr b)))
+
+                (if (> (abs (- ya yb)) tol)
+                  (> ya yb) ; แถวบน -> ล่าง
+                  (< xa xb) ; ซ้าย -> ขวา
+                )
+
+              )
+            )
+
+          )
+        )
+        (setq sorted_
+          (vl-sort LRsort_
+            '(lambda (a b)
+
+              (setq ya (cadr (cadr a)))
+              (setq yb (cadr (cadr b)))
+
+              (setq xa (car (cadr a)))
+              (setq xb (car (cadr b)))
+
+              (if (> (abs (- ya yb)) tol)
+                (> ya yb) ; แถวบน -> ล่าง
+                (< xa xb) ; ซ้าย -> ขวา
+              )
+
+            )
+          )
+        )
+        
+      )
+    ) 
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000 - CKST_HEADING_VAL"))
+      (setq ss_pre_filter_set_xx_sorted_x_ (TA:standard_list_croodinate_sorting ss_pre_filter_set_xx_ "X"))
+    ;
+    (setq prefix_txt_ ;Get-string by keep previous value
+        (if
+          (or
+            (/= (setq prefix_txt_val (getstring (strcat "\nSpecify Pattern name <" (if prefix_txt_ prefix_txt_ "") ">: ") ) ) "" )
+          )
+            (progn
+              (setq prefix_txt_ prefix_txt_val)
+              (setq prefix_txt_keep_val_ prefix_txt_val)
+            )
+          (setq prefix_txt_val prefix_txt_keep_val_)
+        )
+    )
+    (setq midfix_ ;Get-string by keep previous value
+        (if
+          (or
+            (/= (setq midfix_val (getstring (strcat "\nSpecify Pattern name <" (if midfix_ midfix_ "") ">: ") ) ) "" )
+          )
+            (progn
+              (setq midfix_ midfix_val)
+              (setq midfix_keep_val_ midfix_val)
+            )
+          (setq midfix_val midfix_keep_val_)
+        )
+    )
+    (setq ckst_increment_ (cond ( (getint (strcat "\nspecify get rotation\n<" (rtos (setq ckst_increment_ (cond (ckst_increment_) (1.0) ) ) ) "> : " ) ) ) (ckst_increment_) ) )
+    
+    
+    ;preloop_and_while
+      (setq new_sort_list_ (TA:LRsort_ ss_pre_filter_set_xx_sorted_x_ 5))
+      (setq new_sort_list_i 0)
+      (while (< new_sort_list_i (length new_sort_list_))
+        (setq new_sort_list_ename_ (car (nth  new_sort_list_i new_sort_list_)))
+        (setq new_sort_list_obj_ (vlax-ename->vla-object  new_sort_list_ename_))
+        (setq pre-mid-increment (LM:StringSubst " " "_" (strcat prefix_txt_ " - " midfix_ " " (rtos ckst_increment_ 2 0) )) )
+        (LM:vl-setattributevalue new_sort_list_obj_ "heading-name" pre-mid-increment )
+        (LM:vl-setattributevalue new_sort_list_obj_ "BUBBLE_NO_VAL" ckst_increment_ )
+        (LM:setdynpropvalue new_sort_list_obj_ "distance1" 2 )
+        (setq new_sort_list_obj_getboundingbox ( vla-getboundingbox new_sort_list_obj_ 'min_ 'max_ ) )
+        (setq new_sort_list_obj_getboundingbox_list_ (list 
+                                                 (setq new_sort_list_min_ (vlax-safearray->list 
+                                                                                                min_
+                                                                          )
+                                                 )
+                                                 (setq new_sort_list_max_ (vlax-safearray->list 
+                                                                                                max_
+                                                                          )
+                                                 )
+                                               )
+        )
+        (LM:setdynpropvalue new_sort_list_obj_ "distance1" (nth 5 (TA:assembly_coordinate_coner new_sort_list_obj_getboundingbox_list_)) )
+        (setq ckst_increment_ (+ ckst_increment_ 1))
+        (setq new_sort_list_i (+ new_sort_list_i 1))
+      )
+      ;
+    ;
+  )
   (defun c:PPLINE_CKST_MAT1 ()
     
     ;selection_set_for_fillter_blk_name
