@@ -2549,7 +2549,7 @@
       (sslength ss_pre_filter_set_xx_)
     )
   ;
-  (setq wildcard_string_ (TA:GetClipboardText))
+  (setq wildcard_string_ (strcat "*" (TA:GetClipboardText) "*"))
   (setq wildcard_string_ ;Get-string by keep previous value ; old method
         (if
           (or
@@ -2559,7 +2559,7 @@
               (setq wildcard_string_ wildcard_string_val)
               (setq wildcard_string_keep_val_ wildcard_string_val)
             )
-          (setq wildcard_string_val (TA:GetClipboardText))
+          (setq wildcard_string_val (strcat "*" (TA:GetClipboardText) "*"))
         )
   )
   ; (setq wildcard_string_ename_ (car (entsel "specify Object")))

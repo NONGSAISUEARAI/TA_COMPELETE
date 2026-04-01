@@ -8260,6 +8260,24 @@
         (alert "Hatch Overlap Found!")
       )
     )
+    (defun c:ckst_hatch_origin_point_hori_ ()
+      (if (= (ssget "i" (list (cons 0 "hatch") ) ) nil)
+        (progn
+          (setq e (car (entsel "\nSelect Hatch: ")))
+        )
+        (setq e (ssname (ssget (list (cons 0 "hatch") ) ) 0))
+      )
+      (if (/= e nil)
+        (progn
+          (setq d (entget e))
+          (setq origin_x (cdr (assoc 43 d)))
+          (setq origin_y (cdr (assoc 44 d)))
+          (command "ucs"  "w")
+          (command "ucs" (list origin_x  origin_y ) "")
+        )
+      )
+      
+    )
   ;
   ;symbol_FUNC_
     (defun c:add_breakline_to_rectangle_ADBK ()
@@ -45732,6 +45750,7 @@
             )
           (progn
             (TAS:editair_ (LM:effectivename ss_pre_filter_set_xx_obj_) 256 "008 - AIR_MASK_MAIN_COLOR_1")
+            (TA:editblock_ (LM:effectivename ss_pre_filter_set_xx_obj_) 256 "008 - AIR_MASK_MAIN_COLOR_1")
           )
         )
       (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
@@ -50474,6 +50493,28 @@
       0
     )
   )
+)
+(defun c:ll1 ()
+  
+  (setq ss_bol_ (TA:ss_vla-getboundingbox (ssget "i")))
+  (setq ss_bol_ (TA:assembly_coordinate_coner ss_bol_))
+  (setq ss_bol_mid_ (nth 4 ss_bol_))
+  (setq ss_bol_width_ (nth 5 ss_bol_))
+  (setq ss_bol_height_ (nth 6 ss_bol_))
+  (TA:vla-insertblock 
+    "000_CSKT_FAMELINE_THAISHINRYO_LIGHTING__20260324-084403_LIGHT_EM-4"
+    ss_bol_mid_
+    1
+    (deg-to-rad 0)
+  )
+  ;new_blk_entlast object
+    (setq new-insert-col_ename (entlast))
+    (setq new-insert-col_obj (vlax-ename->vla-object new-insert-col_ename))
+    (LM:setdynpropvalue new-insert-col_obj "distance1" ss_bol_width_)
+    (LM:setdynpropvalue new-insert-col_obj "distance2" ss_bol_height_)
+  ;
+  (command "pselect"   "" )
+  
 )
 (defun c:tt1 ()
   
