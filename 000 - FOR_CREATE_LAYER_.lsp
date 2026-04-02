@@ -1496,6 +1496,7 @@
       (setq 2nd_filter_val_main "000 - 0_SYM_DWG_") ;2nd_filter
       (setq 3rd_filter_val_main (list ;3rd_filter
                                   "GRIDLINE" ;
+                                  "GRID-BUBBLE" ;
                                   "HIDDENlINE" ;
                                   "DIMS" ;
                                   "LEVEL" ;

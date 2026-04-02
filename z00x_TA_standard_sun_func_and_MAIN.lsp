@@ -12478,7 +12478,6 @@
           (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
           (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
           (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
-          
           (vla-put-insertionpoint 
             ss_pre_filter_set_xx_obj_
             (if (= (getvar "worlducs") 0)
@@ -16840,6 +16839,66 @@
       ; (setq right_value_ 2)
       (setq str_value_length (strlen str_value_))
       (substr str_value_ (- (+ str_value_length 1) right_value_ ) 100)
+    )
+  ;
+  ;UCS_FUNC
+    (defun TA:saveucs () 
+      (if (= (getvar "worlducs") 0)
+        (progn
+          (setq save-ucs (getvar "UCSORG"))
+          (setq save-ucs-ang (atof (angtos (angle '(0 0 0) (getvar "UCSXDIR")) 0 2)))
+        )
+      )
+      (setq save-ucs-data (list save-ucs save-ucs-ang))
+    )
+    (defun c:saveucs ()
+      (if (= (getvar "worlducs") 0)
+        (progn
+          (setq save-ucs (getvar "UCSORG"))
+          (setq save-ucs-ang (atof (angtos (angle '(0 0 0) (getvar "UCSXDIR")) 0 2)))
+          
+        )
+      )
+      
+    )
+    (defun c:loaducs ()
+      (if (= (getvar "worlducs") 0)
+        (progn
+          (setq curent-ucs-ang (atof (angtos (angle '(0 0 0) (getvar "UCSXDIR")) 0 2)))
+          (setq curent-new_ucs-ang (+ (- curent-ucs-ang 360 ) (* -1 save-ucs-ang )) )
+          (command "ucs" (trans save-ucs 0 1) "" )
+          (command "ucs" "z" (- 360 curent-ucs-ang  ) )
+          (command "ucs" "z" save-ucs-ang )
+          
+        )
+      )
+      
+    )
+    (defun TA:loaducs (save-ucs save-ucs-ang)
+      (if (= (getvar "worlducs") 0)
+        (progn
+          (setq curent-ucs-ang (atof (angtos (angle '(0 0 0) (getvar "UCSXDIR")) 0 2)))
+          (setq curent-new_ucs-ang (+ (- curent-ucs-ang 360 ) (* -1 save-ucs-ang )) )
+          (command "ucs" (trans save-ucs 0 1) "" )
+          (command "ucs" "z" (- 360 curent-ucs-ang  ) )
+          (command "ucs" "z" save-ucs-ang )
+          
+        )
+      )
+      
+    )
+  ;
+  ;VIEWPORT_FUNC
+    (defun c:vp10asdasdas ()
+        (setq vp_ss_ (ssget "i" (list (cons 0 "VIEWPORT") (cons 410 (getvar "CTAB")))))
+        (setq vp_ss_ename (ssname vp_ss_ 0))
+        (setq vp1_obj_ (vlax-ename->vla-object vp_ss_ename))
+        (setq vp1_obj_cenpt (vlax-safearray->list (vlax-variant-value (vla-get-center vp1_obj_))))
+        (setq vp1_obj_cussc (/ 1 (vla-get-customscale vp1_obj_ )))
+        (command "scale"  vp_ss_ename     )
+      (vla-put-customscale vp1_obj_ (/ (float 1) (float 10)))
+      (vlax-dump-object vp1_obj_)
+      (vla-put-DisplayLocked vp1_obj_ :vlax-true)
     )
   ;
 ;
@@ -43547,42 +43606,57 @@
       )
     )
     (setq CSD_MERGE_LIST_ (mapcar 'car (TA:Count_item_in_list_ CSD_MERGE_LIST_)))
-    (cond
-      (;_case_1
-        (and 
-          ; (/= (type err_ ) 'VL-CATCH-ALL-APPLY-ERROR)
-          (= (getenv "COMPUTERNAME") "NONGSAISUEARAIH")
-          ;  (/= (wcmatch (strcase (vl-princ-to-string err_)) "*ERROR*") T)
-        )
-        (progn
-          (setq pp18_path (strcat "C:/TA/PPLINE CKST/C1-C2_Finishes-Reflected Ceiling Plan/" station_fullname_ "/CAD/"))
-          (princ "_case_1")
-        )
-      )
-      (;_case_2
-        (and 
-          ; (/= (type err_ ) 'VL-CATCH-ALL-APPLY-ERROR)
-          (= (getenv "COMPUTERNAME") "NONGSAISUEARAI")
-          (= (getenv "USERNAME") "NONGSAISUEARAI")
-          ;  (/= (wcmatch (strcase (vl-princ-to-string err_)) "*ERROR*") T)
-        )
-        (progn
-          (setq pp18_path (strcat "C:/TA FAMELINE old data/TA/TA_WORK/MASS TRANSIT/TA_PPLINE CKST/TA_PPLINE CKST_combine_CSD-ceiling-plan/C1-C2_Finishes-Reflected Ceiling Plan/" station_fullname_ "/CAD/"))
-          (princ "_case_2")
-        )
-      )
-      (;case_3
-        (and
-          ; (/= (type err_ ) 'VL-CATCH-ALL-APPLY-ERROR)
-          (= (getenv "COMPUTERNAME") "DESKTOP-VNKD8FJ")
-          (= (getenv "USERNAME") "tawan.t")
-        )
-        (progn
-          (setq pp18_path (strcat "C:/TA/PPLINE CKST/C1-C2_Finishes-Reflected Ceiling Plan/" station_fullname_ "/CAD/"))
+    (setq Er-msg_finder nil)
+    (setq Er-msg_finder
+      (vl-catch-all-apply 
+        (function 
+          (lambda () 
+            (cond
+              (;_case_1
+                (and 
+                  ; (/= (type err_ ) 'VL-CATCH-ALL-APPLY-ERROR)
+                  (= (getenv "COMPUTERNAME") "NONGSAISUEARAIH")
+                  ;  (/= (wcmatch (strcase (vl-princ-to-string err_)) "*ERROR*") T)
+                )
+                (progn
+                  (setq pp18_path (strcat "C:/TA/PPLINE CKST/C1-C2_Finishes-Reflected Ceiling Plan/" station_fullname_ "/CAD/"))
+                  (princ "_case_1")
+                )
+              )
+              (;_case_2
+                (and 
+                  ; (/= (type err_ ) 'VL-CATCH-ALL-APPLY-ERROR)
+                  (= (getenv "COMPUTERNAME") "NONGSAISUEARAI")
+                  (= (getenv "USERNAME") "NONGSAISUEARAI")
+                  ;  (/= (wcmatch (strcase (vl-princ-to-string err_)) "*ERROR*") T)
+                )
+                (progn
+                  (setq pp18_path (strcat "C:/TA FAMELINE old data/TA/TA_WORK/MASS TRANSIT/TA_PPLINE CKST/TA_PPLINE CKST_combine_CSD-ceiling-plan/C1-C2_Finishes-Reflected Ceiling Plan/" station_fullname_ "/CAD/"))
+                  (princ "_case_2")
+                )
+              )
+              (;case_3
+                (and
+                  ; (/= (type err_ ) 'VL-CATCH-ALL-APPLY-ERROR)
+                  (= (getenv "COMPUTERNAME") "DESKTOP-VNKD8FJ")
+                  (= (getenv "USERNAME") "tawan.t")
+                )
+                (progn
+                  (setq pp18_path (strcat "C:/TA/PPLINE CKST/C1-C2_Finishes-Reflected Ceiling Plan/" station_fullname_ "/CAD/"))
+                )
+              )
+            )
+          )
         )
       )
     )
+    (if (= input_station_no_ 1)
+      (progn
+        (setq pp18_path (getvar "DWGPREFIX"))
+      )
+    )
     
+    ;
     
     (setq filePath (getfiled "Select the DWG file" pp18_path "dwg" 4))
     (textscr)
@@ -44757,7 +44831,156 @@
   )
   (command "pselect"  inters_ss_ "" )
 ) 
-
+(defun c:XL00 ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq xliness_ (ssget "i"
+                                          (list
+                                            (cons 0 "xline") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq xliness_ (ssget
+                                          (list
+                                            (cons 0 "xline") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength xliness_)
+    )
+    
+  ;
+  ;preloop_and_while
+    (setq xliness_i 0)
+    (while (< xliness_i (sslength xliness_))
+      (setq xliness_ename_ (ssname xliness_ xliness_i))
+      (setq xliness_obj_ (vlax-ename->vla-object  xliness_ename_))
+      (setq xline_obj_ xliness_obj_ )
+      (TA:xline00 xliness_obj_)
+      (TA:yline00 xliness_obj_)
+      (setq xliness_i (+ xliness_i 1))
+    )
+  ;
+)
+(defun TA:xline00 (xline_obj_)
+  
+  (setq xline_obj_basept (vlax-safearray->list (vlax-variant-value (vla-get-basepoint xline_obj_))))
+  (vla-put-basepoint
+    xline_obj_
+    (if (= (getvar "worlducs") 0)
+      (progn
+          (setq 1st_trans (list 
+                            (LM:round (car (trans xline_obj_basept 0 1) ) )
+                            (cadr (trans xline_obj_basept 0 1))
+                            (LM:round (caddr (trans xline_obj_basept 0 1) ) )
+                          )
+          )
+          (vlax-3d-point 
+            (car (trans 1st_trans 1 0))
+            (cadr (trans 1st_trans 1 0))
+            0
+          )
+        
+      )
+      (vlax-3d-point 
+        (LM:round  (car xline_obj_basept))
+        (cadr xline_obj_basept)
+        (TA:round-05 (caddr xline_obj_basept))
+      )
+    )
+    
+  )
+  (vla-put-basepoint
+    xline_obj_
+    (if (= (getvar "worlducs") 0)
+      (progn
+          (setq 1st_trans (list 
+                            (LM:round (car (trans xline_obj_basept 0 1) ) )
+                            (cadr (trans xline_obj_basept 0 1))
+                            (LM:round (caddr (trans xline_obj_basept 0 1) ) )
+                          )
+          )
+          (vlax-3d-point 
+            (car (trans 1st_trans 1 0))
+            (cadr (trans 1st_trans 1 0))
+            0
+          )
+        
+      )
+      (vlax-3d-point 
+        (LM:round  (car xline_obj_basept))
+        (cadr xline_obj_basept)
+        (TA:round-05 (caddr xline_obj_basept))
+      )
+    )
+    
+  )
+)
+(defun TA:yline00 (xline_obj_)
+  
+  (setq xline_obj_basept (vlax-safearray->list (vlax-variant-value (vla-get-basepoint xline_obj_))))
+  (vla-put-basepoint
+    xline_obj_
+    (if (= (getvar "worlducs") 0)
+      (progn
+          (setq 1st_trans (list 
+                            (car (trans xline_obj_basept 0 1) )
+                            (LM:round (cadr (trans xline_obj_basept 0 1)))
+                            (LM:round (caddr (trans xline_obj_basept 0 1) ) )
+                          )
+          )
+          (vlax-3d-point 
+            (car (trans 1st_trans 1 0))
+            (cadr (trans 1st_trans 1 0))
+            0
+          )
+        
+      )
+      (vlax-3d-point 
+        (car xline_obj_basept)
+        (LM:round(cadr xline_obj_basept))
+        (TA:round-05 (caddr xline_obj_basept))
+      )
+    )
+    
+  )
+  (vla-put-basepoint
+    xline_obj_
+    (if (= (getvar "worlducs") 0)
+      (progn
+          (setq 1st_trans (list 
+                            (car (trans xline_obj_basept 0 1) )
+                            (LM:round (cadr (trans xline_obj_basept 0 1)))
+                            (LM:round (caddr (trans xline_obj_basept 0 1) ) )
+                          )
+          )
+          (vlax-3d-point 
+            (car (trans 1st_trans 1 0))
+            (cadr (trans 1st_trans 1 0))
+            0
+          )
+        
+      )
+      (vlax-3d-point 
+        (car xline_obj_basept)
+        (LM:round(cadr xline_obj_basept))
+        (TA:round-05 (caddr xline_obj_basept))
+      )
+    )
+    
+  )
+)
 
 (defun c:input_subfix_name_block ()
   (setq file_block_list_ (TA:get_name_block_in_drawing_to_list))
@@ -45004,6 +45227,99 @@
     )
   ;
   (command "pselect"  inters_ss_ "" )
+)
+(defun c:xline_intersect_block_xl3_ ()
+  ;presettting
+    ; (setq blkname_inter_target_ "000 - CKST_DOWNLIGHT_SYMBOL")
+    ; (setq blkname_inter_target_ "000 - STARTER SYMBOL_REV03")
+    ; (setq blkname_inter_target_ "A$Ce6835291")
+    ; (setq blkname_inter_target_ "ACM_Linear Slot_Supply_Side Connected _1590x200x450_ - 1590x200-21133948-CONCOURSE LEVEL CB CEILING PLAN")
+    ; (setq blkname_inter_ename_ (car (entsel "specify Object")))
+    ; (setq blkname_inter_obj_ (vlax-ename->vla-object blkname_inter_ename_))
+    ; (setq blkname_inter_obj_ro (vla-get-rotation blkname_inter_obj_ ))
+    ; (setq blkname_inter_target_ (LM:effectivename blkname_inter_obj_ ))
+  ;
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "insert") ;type of object
+                                            ; (cons 8 "Defpoints")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 6)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "insert") ;type of object
+                                            ; (cons 8 "Defpoints")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 6)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ; (setq ss_pre_filter_set_xx_ename (ssname ss_pre_filter_set_xx_ 0 ))
+  ; (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename))
+  ; (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-basepoint ss_pre_filter_set_xx_obj_))))
+  ; (setq ss_pre_filter_set_xx_obj_2ndins_ (vlax-safearray->list (vlax-variant-value (vla-get-SecondPoint  ss_pre_filter_set_xx_obj_))))
+    (setq Er-msg_ 
+      (vl-catch-all-apply 
+        (function 
+          (lambda () 
+            (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ (LM:effectivename (vlax-ename->vla-object (car (entsel "filter name block")))) ))
+          )
+        )
+      )
+    )
+  (if (and
+        (= (vl-catch-all-error-p ERR_) T)
+      )
+    (progn
+      (setq inters_list_ (LM:intersectionsinset  ss_pre_filter_set_xx_))
+      (setq inters_ss_ (ssadd))
+      (setq target_blk_ename_ (car (entsel "specify Object")))
+      (setq target_blk_obj_ (vlax-ename->vla-object target_blk_ename_))
+      (if (= (vla-get-objectname target_blk_obj_) "AcDbBlockReference")
+        (progn
+          (setq blkname_inter_target_ (LM:effectivename target_blk_obj_ ))
+        )
+      )
+      
+      ;preloop_and_while
+        (setq inters_ss_new_trans_i 0)
+        (setq inters_ss_new_trans_ ())
+        (while (< inters_ss_new_trans_i (length inters_list_))
+          (setq inters_ss_new_trans_val_ (if (= (getvar "worlducs") 0)(progn (trans (nth  inters_ss_new_trans_i inters_list_) 1 1)) (nth  inters_ss_new_trans_i inters_list_) ))
+          (TA:vla-insertblock
+            blkname_inter_target_
+            inters_ss_new_trans_val_
+            1
+            (deg-to-rad 90)
+          )
+          ;new_blk_entlast object
+            (setq new_dn_ename (entlast))
+            (setq new_dn_obj (vlax-ename->vla-object new_dn_ename))
+            ; (vla-put-layer new_dn_obj "E-LITE-EQPM")
+            (vla-put-color new_dn_obj 256)
+            (setq inters_ss_ (ssadd new_dn_ename inters_ss_))
+          ;
+          ; (setq inters_ss_new_trans_ (cons inters_ss_new_trans_val_ inters_ss_new_trans_ ))
+          (setq inters_ss_new_trans_i (+ inters_ss_new_trans_i 1))
+        )
+      ;
+      (command "pselect"  inters_ss_ "" )
+    )
+  )
+
 )
 (defun c:xl_to_block_xlblk ()
   ;selection_set_for_fillter_blk_name

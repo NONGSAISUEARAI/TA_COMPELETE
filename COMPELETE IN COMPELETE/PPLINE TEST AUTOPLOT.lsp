@@ -8215,7 +8215,7 @@
   (defun c:PPLINE_CKST_TTL2heading ()
     (setq TTL_ename_ (car (entsel "specify Object")))
     (setq TTL_obj_ (vlax-ename->vla-object TTL_ename_))
-    (if (wcmatch (LM:vl-getattributevalue TTL_obj_ "TITLE_3_val") "*PLAN SHEET*" )
+    (if (wcmatch (LM:vl-getattributevalue TTL_obj_ "TITLE_3_val") "**" )
       (progn
         (setq sumname (strcat (LM:vl-getattributevalue TTL_obj_ "TITLE_2_val") " " (LM:vl-getattributevalue TTL_obj_ "TITLE_3_val")))
       )

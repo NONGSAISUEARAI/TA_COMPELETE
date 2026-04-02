@@ -2549,7 +2549,15 @@
       (sslength ss_pre_filter_set_xx_)
     )
   ;
-  (setq wildcard_string_ (strcat "*" (TA:GetClipboardText) "*"))
+  (setq Er-msg_ 
+    (vl-catch-all-apply 
+      (function 
+        (lambda () 
+          (setq wildcard_string_ (strcat "*" (TA:GetClipboardText) "*"))
+        )
+      )
+    )
+  )
   (setq wildcard_string_ ;Get-string by keep previous value ; old method
         (if
           (or
