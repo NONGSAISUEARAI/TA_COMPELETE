@@ -27571,6 +27571,10 @@
           )
         ;
         ;preloop_and_while
+        ;switch window
+              (textscr)
+              (vla-put-WindowState (vlax-get-acad-object) acmin)
+            ; 
           (setq ss_pre_filter_set_xx_i 0)
           (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
             (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
@@ -27591,6 +27595,7 @@
                 )
               )
             )
+            (TA:textscr_process "insertion process " ss_pre_filter_set_xx_i ss_pre_filter_set_xx_)
             (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
           )
         ;
@@ -41936,6 +41941,7 @@
       (setq wildcard_string_slot_5 (strcase (strcat "*" "Square" "*")) )
       (setq wildcard_string_slot_6 (strcase (strcat "*" "lowp" "*")) )
       (setq wildcard_string_slot_7 (strcase (strcat "*" "rec" "*")) )
+      (setq wildcard_string_slot_8 (strcase (strcat "*" "extr" "*")) )
       (setq wildcard_string_slot_num_ (cond 
                                         ((getint 
                                           (strcat "\nspecify get wildcard_string_slot_ \n" 
@@ -41946,6 +41952,7 @@
                                                     "5 = "wildcard_string_slot_5 "\n"
                                                     "6 = "wildcard_string_slot_6 "\n"
                                                     "7 = "wildcard_string_slot_7 "\n"
+                                                    "8 = "wildcard_string_slot_8 "\n"
                                                   "<"
                                                   (rtos 
                                                     (setq wildcard_string_slot_num_ (cond 
@@ -42031,6 +42038,16 @@
             (princ "wildcard_string_slot_num__case_7")
           )
         )
+        (;wildcard_string_slot_num__case_7
+          (and
+              (= wildcard_string_slot_num_ 8)
+              
+          )
+          (progn
+            (setq wildcard_string_ wildcard_string_slot_8)
+            (princ "wildcard_string_slot_num__case_8")
+          )
+        )
 
       )
     ;
@@ -42038,7 +42055,7 @@
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget
         (=
-          (setq ss_pre_filter_set_xx_ (ssget "x"
+          (setq ss_pre_filter_set_xx_ (ssget "i"
                                             (list
                                               (cons 0 "INSERT") ;type of object
                                               ; (cons 8 "000 - GRID")   ;kind of layer
@@ -51337,3 +51354,116 @@
   
   
 )
+
+(defun c:foo ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+    (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_v2_ 
+                                  ss_pre_filter_set_xx_
+                                  (list 
+                                    "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._C-PROFILE_50x100mm._non-code_COMBINE_VIEW"
+                                    "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_COMBINE_VIEW"
+                                  )
+                                )
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (setq sum_ 0)
+    (setq sum_length_ 0)
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      (setq sum_ (atoi (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "EXTR.OVL-LENGTH_")))
+      
+      (setq sum_length_ (+ sum_length_ sum_))
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+  (setq sum_length_m (/ (float sum_length_) 1000))
+  (princ (strcat "\nTotal length = " (rtos sum_length_m 2 2) "m."))
+  (TA:copytext->clipboard (strcat "\nTotal length = " (rtos sum_length_m 2 2) "m."))
+
+)
+(defun c:foo1 ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+    (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_v2_ 
+                                  ss_pre_filter_set_xx_
+                                  (list 
+                                    "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._C-PROFILE_50x100mm._non-code_COMBINE_VIEW"
+                                    "000 - DYNAMIC_COMBINE+VIEW_ASSCESSORIES_FAMELINE_AL.EXTR._REC-PROFILE_50x100mm._non-code_COMBINE_VIEW"
+                                  )
+                                )
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (setq new__SSS (ssadd))
+
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      (if (= (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "EXTR.OVL-LENGTH_") "")
+        (progn
+          (setq new__SSS (ssadd ss_pre_filter_set_xx_ename_ new__SSS))
+        )
+      )
+      
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+  (command "pselect"  new__SSS "" )
+
+)
+
