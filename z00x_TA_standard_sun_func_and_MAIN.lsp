@@ -50817,7 +50817,7 @@
       (LM:setdynpropvalue ss_obj "distance1" (distance s1 s2))
     ;
   )
-  (defun c:coplevelName ()
+  (defun c:coplevelName_COPLV ()
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget
         (=
@@ -50879,8 +50879,59 @@
       ;input_att_process
         (setq level_str_ename_ (car (entsel "specify Object")))
         (setq level_str_obj_ (vlax-ename->vla-object level_str_ename_))
-        (LM:vl-setattributevalue level_str_obj_ "LV_NAME_1" (cadr (nth 0 new_list_for_sorting_sorted_)))
-        (LM:vl-setattributevalue level_str_obj_ "LV_NAME_2" (cadr (nth 1 new_list_for_sorting_sorted_)))
+        (LM:vl-setattributevalue level_str_obj_ "LV_NAME_1" "" )
+        (LM:vl-setattributevalue level_str_obj_ "LV_NAME_2" "" )
+        (LM:vl-setattributevalue level_str_obj_ "LV_NAME_3" "" )
+        
+        
+        (cond
+          (;_case_1
+             (and
+                (= (length new_list_for_sorting_sorted_ ) 2)
+             )
+             (progn 
+               (LM:vl-setattributevalue 
+                 level_str_obj_
+                 "LV_NAME_2"
+                 (cadr (nth 0 new_list_for_sorting_sorted_))
+               )
+               (LM:vl-setattributevalue 
+                 level_str_obj_
+                 "LV_NAME_3"
+                 (cadr (nth 1 new_list_for_sorting_sorted_))
+               )
+               (princ "_case_1")
+             )
+          )
+          (;_case_1
+             (and
+                (= (length new_list_for_sorting_sorted_ ) 3)
+             )
+             (progn 
+               (LM:vl-setattributevalue 
+                 level_str_obj_
+                 "LV_NAME_1"
+                 (cadr (nth 0 new_list_for_sorting_sorted_))
+               )
+               (LM:vl-setattributevalue 
+                 level_str_obj_
+                 "LV_NAME_2"
+                 (cadr (nth 1 new_list_for_sorting_sorted_))
+               )
+               (LM:vl-setattributevalue 
+                 level_str_obj_
+                 "LV_NAME_3"
+                 (cadr (nth 2 new_list_for_sorting_sorted_))
+               )
+               (princ "_case_1")
+             )
+          )
+          
+          
+          
+        )
+        
+
       ;
     ;
   )
@@ -51130,20 +51181,23 @@
   
   (setq ss_bol_ (TA:ss_vla-getboundingbox (ssget "i")))
   (setq ss_bol_ (TA:assembly_coordinate_coner ss_bol_))
+  (setq ss_bol_Lbot_ (nth 0 ss_bol_))
+  (setq ss_bol_Rbot_ (nth 1 ss_bol_))
   (setq ss_bol_mid_ (nth 4 ss_bol_))
   (setq ss_bol_width_ (nth 5 ss_bol_))
   (setq ss_bol_height_ (nth 6 ss_bol_))
+  (setq ss_bol_angle_ (angle ss_bol_Lbot_ ss_bol_Rbot_ ))
   (TA:vla-insertblock 
-    "000_CKST_FAMELINE_RC-COLUMN_TOP_VIEW"
-    ss_bol_mid_
+    "000_CKST_FAMELINE_STEEL_STRUCTURE-U-PROFILE_TOP_VIEW"
+    ss_bol_Lbot_
     1
-    0
+    ss_bol_angle_
   )
   ;new_blk_entlast object
     (setq new-insert-col_ename (entlast))
     (setq new-insert-col_obj (vlax-ename->vla-object new-insert-col_ename))
+    ; (LM:setdynpropvalue new-insert-col_obj "distance1" ss_bol_width_)
     (LM:setdynpropvalue new-insert-col_obj "distance1" ss_bol_width_)
-    (LM:setdynpropvalue new-insert-col_obj "distance2" ss_bol_height_)
   ;
   (command "pselect"   "" )
   
