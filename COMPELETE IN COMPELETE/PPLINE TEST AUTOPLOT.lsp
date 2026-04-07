@@ -3028,7 +3028,7 @@
         )
       ;
       (setvar "osmode" 1215)
-      (setq pttarget_torr (getpoint "specify point for basepoint"))
+      (setq pttarget_torr u(getpoint "specify point for basepoint"))
       
       ; (setq ssssasas (TA:ss_vla-getboundingbox sstarget_))
       ; (setq pttarget_ (car ssssasas))

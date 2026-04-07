@@ -8833,6 +8833,8 @@
       ;rescale_
         (setq basescale_ (vlax-3d-point dynamic_scale_ dynamic_scale_ dynamic_scale_))
         (vla-put-xscalefactor (vlax-ename->vla-object get_dynblock_ename_) dynamic_scale_ )
+        (vla-put-yscalefactor (vlax-ename->vla-object get_dynblock_ename_) dynamic_scale_ )
+        (vla-put-zscalefactor (vlax-ename->vla-object get_dynblock_ename_) dynamic_scale_ )
       ;
       ;preloop_and_while
         (setq REF_get_att_list_i 0)
@@ -15671,48 +15673,49 @@
         )
         (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i ) )
         (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
-          (cond 
-              ( ;ss_pre_filter_set_xx_obj_case_1
-              (and 
-                (= (vla-get-xscalefactor ss_pre_filter_set_xx_obj_) 1)
-                (= (vla-get-yscalefactor ss_pre_filter_set_xx_obj_) 1)
-              )
-              (progn 
-                (vla-put-xscalefactor ss_pre_filter_set_xx_obj_ -1)
-                (vla-put-yscalefactor ss_pre_filter_set_xx_obj_ 1)
-              )
-              )
-              ( ;ss_pre_filter_set_xx_obj_case_1
-              (and 
-                (= (vla-get-xscalefactor ss_pre_filter_set_xx_obj_) -1)
-                (= (vla-get-yscalefactor ss_pre_filter_set_xx_obj_) 1)
-              )
-              (progn 
-                (vla-put-xscalefactor ss_pre_filter_set_xx_obj_ -1)
-                (vla-put-yscalefactor ss_pre_filter_set_xx_obj_ -1)
-              )
-              )
-              ( ;ss_pre_filter_set_xx_obj_case_1
-              (and 
-                (= (vla-get-xscalefactor ss_pre_filter_set_xx_obj_) -1)
-                (= (vla-get-yscalefactor ss_pre_filter_set_xx_obj_) -1)
-              )
-              (progn 
-                (vla-put-xscalefactor ss_pre_filter_set_xx_obj_ 1)
-                (vla-put-yscalefactor ss_pre_filter_set_xx_obj_ -1)
-              )
-              )
-              ( ;ss_pre_filter_set_xx_obj_case_1
-              (and 
-                (= (vla-get-xscalefactor ss_pre_filter_set_xx_obj_) 1)
-                (= (vla-get-yscalefactor ss_pre_filter_set_xx_obj_) -1)
-              )
-              (progn 
-                (vla-put-xscalefactor ss_pre_filter_set_xx_obj_ 1)
-                (vla-put-yscalefactor ss_pre_filter_set_xx_obj_ 1)
-              )
-              )
+        (setq ss_pre_filter_set_xx_obj_xyz_scalelist_ (list (vla-get-xscalefactor ss_pre_filter_set_xx_obj_) 
+                                                       (vla-get-yscalefactor ss_pre_filter_set_xx_obj_)
+                                                       (vla-get-zscalefactor ss_pre_filter_set_xx_obj_)
+                                                 )
+        )
+        (cond 
+          ( ;ss_pre_filter_set_xx_obj_case_1
+            (and 
+              (> (car ss_pre_filter_set_xx_obj_xyz_scalelist_) 0)
+              (> (cadr ss_pre_filter_set_xx_obj_xyz_scalelist_) 0)
+            )
+            (progn 
+              (vla-put-xscalefactor ss_pre_filter_set_xx_obj_ (* (car ss_pre_filter_set_xx_obj_xyz_scalelist_) -1 ) )
+            )
           )
+          ( ;ss_pre_filter_set_xx_obj_case_1
+            (and 
+              (< (car ss_pre_filter_set_xx_obj_xyz_scalelist_) 0)
+              (> (cadr ss_pre_filter_set_xx_obj_xyz_scalelist_) 0)
+            )
+            (progn 
+              (vla-put-yscalefactor ss_pre_filter_set_xx_obj_ (* (cadr ss_pre_filter_set_xx_obj_xyz_scalelist_) -1 ) )
+            )
+          )
+          ( ;ss_pre_filter_set_xx_obj_case_1
+            (and 
+              (< (car ss_pre_filter_set_xx_obj_xyz_scalelist_) 0)
+              (< (cadr ss_pre_filter_set_xx_obj_xyz_scalelist_) 0)
+            )
+            (progn 
+              (vla-put-xscalefactor ss_pre_filter_set_xx_obj_ (* (car ss_pre_filter_set_xx_obj_xyz_scalelist_) -1 ) )
+            )
+          )
+          ( ;ss_pre_filter_set_xx_obj_case_1
+            (and 
+              (> (car ss_pre_filter_set_xx_obj_xyz_scalelist_) 0)
+              (< (cadr ss_pre_filter_set_xx_obj_xyz_scalelist_) 0)
+            )
+            (progn 
+              (vla-put-yscalefactor ss_pre_filter_set_xx_obj_ (* (cadr ss_pre_filter_set_xx_obj_xyz_scalelist_) -1 ) )
+            )
+          )
+        )
 
         (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
       )
@@ -15743,47 +15746,48 @@
           )
           (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i ) )
           (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+          (setq ss_pre_filter_set_xx_obj_xyz_scalelist_ (list (vla-get-xscalefactor ss_pre_filter_set_xx_obj_) 
+                                                       (vla-get-yscalefactor ss_pre_filter_set_xx_obj_)
+                                                       (vla-get-zscalefactor ss_pre_filter_set_xx_obj_)
+                                                 )
+          )
           (cond 
-              ( ;ss_pre_filter_set_xx_obj_case_1
+            ( ;ss_pre_filter_set_xx_obj_case_1
               (and 
-                (= (vla-get-xscalefactor ss_pre_filter_set_xx_obj_) 1)
-                (= (vla-get-yscalefactor ss_pre_filter_set_xx_obj_) 1)
+                (> (car ss_pre_filter_set_xx_obj_xyz_scalelist_) 0)
+                (> (cadr ss_pre_filter_set_xx_obj_xyz_scalelist_) 0)
               )
               (progn 
-                (vla-put-xscalefactor ss_pre_filter_set_xx_obj_ -1)
-                (vla-put-yscalefactor ss_pre_filter_set_xx_obj_ 1)
+                (vla-put-xscalefactor ss_pre_filter_set_xx_obj_ (* (car ss_pre_filter_set_xx_obj_xyz_scalelist_) -1 ) )
               )
-              )
-              ( ;ss_pre_filter_set_xx_obj_case_1
+            )
+            ( ;ss_pre_filter_set_xx_obj_case_1
               (and 
-                (= (vla-get-xscalefactor ss_pre_filter_set_xx_obj_) -1)
-                (= (vla-get-yscalefactor ss_pre_filter_set_xx_obj_) 1)
+                (< (car ss_pre_filter_set_xx_obj_xyz_scalelist_) 0)
+                (> (cadr ss_pre_filter_set_xx_obj_xyz_scalelist_) 0)
               )
               (progn 
-                (vla-put-xscalefactor ss_pre_filter_set_xx_obj_ -1)
-                (vla-put-yscalefactor ss_pre_filter_set_xx_obj_ -1)
+                (vla-put-yscalefactor ss_pre_filter_set_xx_obj_ (* (cadr ss_pre_filter_set_xx_obj_xyz_scalelist_) -1 ) )
               )
-              )
-              ( ;ss_pre_filter_set_xx_obj_case_1
+            )
+            ( ;ss_pre_filter_set_xx_obj_case_1
               (and 
-                (= (vla-get-xscalefactor ss_pre_filter_set_xx_obj_) -1)
-                (= (vla-get-yscalefactor ss_pre_filter_set_xx_obj_) -1)
+                (< (car ss_pre_filter_set_xx_obj_xyz_scalelist_) 0)
+                (< (cadr ss_pre_filter_set_xx_obj_xyz_scalelist_) 0)
               )
               (progn 
-                (vla-put-xscalefactor ss_pre_filter_set_xx_obj_ 1)
-                (vla-put-yscalefactor ss_pre_filter_set_xx_obj_ -1)
+                (vla-put-xscalefactor ss_pre_filter_set_xx_obj_ (* (car ss_pre_filter_set_xx_obj_xyz_scalelist_) -1 ) )
               )
-              )
-              ( ;ss_pre_filter_set_xx_obj_case_1
+            )
+            ( ;ss_pre_filter_set_xx_obj_case_1
               (and 
-                (= (vla-get-xscalefactor ss_pre_filter_set_xx_obj_) 1)
-                (= (vla-get-yscalefactor ss_pre_filter_set_xx_obj_) -1)
+                (> (car ss_pre_filter_set_xx_obj_xyz_scalelist_) 0)
+                (< (cadr ss_pre_filter_set_xx_obj_xyz_scalelist_) 0)
               )
               (progn 
-                (vla-put-xscalefactor ss_pre_filter_set_xx_obj_ 1)
-                (vla-put-yscalefactor ss_pre_filter_set_xx_obj_ 1)
+                (vla-put-yscalefactor ss_pre_filter_set_xx_obj_ (* (cadr ss_pre_filter_set_xx_obj_xyz_scalelist_) -1 ) )
               )
-              )
+            )
           )
 
           (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
@@ -42199,6 +42203,8 @@
       (setq wildcard_string_slot_6 (strcase (strcat "*" "lowp" "*")) )
       (setq wildcard_string_slot_7 (strcase (strcat "*" "rec" "*")) )
       (setq wildcard_string_slot_8 (strcase (strcat "*" "extr" "*")) )
+      (setq wildcard_string_slot_9 (strcase (strcat "*" "DPA_CP_Entrance Louver Grill Vertical Z" "*")) )
+      (setq wildcard_string_slot_10 (strcase (strcat "*" "GM_Louver Grill Vertical Z" "*")) )
       (setq wildcard_string_slot_num_ (cond 
                                         ((getint 
                                           (strcat "\nspecify get wildcard_string_slot_ \n" 
@@ -42210,6 +42216,8 @@
                                                     "6 = "wildcard_string_slot_6 "\n"
                                                     "7 = "wildcard_string_slot_7 "\n"
                                                     "8 = "wildcard_string_slot_8 "\n"
+                                                    "9 = "wildcard_string_slot_9 "\n"
+                                                    "10 = "wildcard_string_slot_10 "\n"
                                                   "<"
                                                   (rtos 
                                                     (setq wildcard_string_slot_num_ (cond 
@@ -42303,6 +42311,26 @@
           (progn
             (setq wildcard_string_ wildcard_string_slot_8)
             (princ "wildcard_string_slot_num__case_8")
+          )
+        )
+        (;wildcard_string_slot_num__case_9
+          (and
+              (= wildcard_string_slot_num_ 9)
+              
+          )
+          (progn
+            (setq wildcard_string_ wildcard_string_slot_9)
+            (princ "wildcard_string_slot_num__case_9")
+          )
+        )
+        (;wildcard_string_slot_num__case_10
+          (and
+              (= wildcard_string_slot_num_ 10)
+              
+          )
+          (progn
+            (setq wildcard_string_ wildcard_string_slot_10)
+            (princ "wildcard_string_slot_num__case_10")
           )
         )
 

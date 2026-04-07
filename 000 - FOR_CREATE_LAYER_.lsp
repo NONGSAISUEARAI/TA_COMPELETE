@@ -1534,6 +1534,7 @@
                                   "DIMS" ;
                                   "LEVEL" ;
                                   "INDICATOR" ;
+                                  "BREAKER" ;
                                 )
       )
       (setq 4th_filter_val_main (list  ;4th_filter
