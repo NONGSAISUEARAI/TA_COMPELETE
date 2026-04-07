@@ -34040,7 +34040,17 @@
     (command "pselect"  sorted_ename_ "" )
   )
   (defun c:PPLINE_CKST_regenerate_303ysort ()
-    
+      (defun TA:convert-list-ucs (lst /)
+        (mapcar
+          '(lambda (a)
+            (list
+              (car a)
+              (trans (cadr a) 0 1)
+            )
+          )
+          lst
+        )
+      )
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget
         (=
@@ -34076,17 +34086,7 @@
       
       (setq tol 5) ; ระยะที่ถือว่าเป็นแถวเดียวกัน (mm)
       (setq tol (cond ( (getint (strcat "\nSpecify tol   <" (rtos (setq tol (cond (tol) (1.0) ) ) ) "> : " ) ) ) (tol) ) )
-      (defun TA:convert-list-ucs (lst /)
-        (mapcar
-          '(lambda (a)
-            (list
-              (car a)
-              (trans (cadr a) 0 1)
-            )
-          )
-          lst
-        )
-      )
+
       (setq tol 5.0) ; ระยะที่ถือว่าเป็นแถวเดียวกัน (mm)
       (if (= (getvar "worlducs" ) 0 )
         (progn
