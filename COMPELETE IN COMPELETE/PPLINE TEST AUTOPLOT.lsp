@@ -8233,6 +8233,228 @@
     (setq assem_bol_ (TA:assembly_coordinate_coner (list headname_min_ headname_max_)))
     (LM:setdynpropvalue headname_obj_ "distance1" (nth 5 assem_bol_) )
   )
+  (defun c:PPLINE_CKST_MATCHING_BUBBLE_MABB ()
+    (setq target_ename_ (car (entsel "specify target Object")))
+    (setq target_obj_ (vlax-ename->vla-object target_ename_))
+    (setq target_obj_att-list_ (LM:vl-getattributevalues target_obj_ ))
+    
+    (setq Er-msg_ 
+      (vl-catch-all-apply 
+        (function 
+          (lambda () 
+            (setq ref_ename_ (ssname (ssget) 0))
+            (setq ref_obj_ (vlax-ename->vla-object ref_ename_))
+            (setq ref_obj_att-list_ (LM:vl-getattributevalues ref_obj_ ))
+            
+            ;preloop_and_while
+              (setq ref_obj_att-list_i 0)
+              (while (and 
+                      (/= ref_ename_ target_ename_)
+                      (= (LM:EffectiveName target_obj_) (LM:EffectiveName ref_obj_))
+                      (< ref_obj_att-list_i (length ref_obj_att-list_))
+                    )
+                (setq ref_obj_att-list_tag_ (car (nth  ref_obj_att-list_i ref_obj_att-list_)))
+                (setq ref_obj_att-list_val_ (cdr (nth  ref_obj_att-list_i ref_obj_att-list_)))
+                (LM:vl-setattributevalue target_obj_ ref_obj_att-list_tag_ ref_obj_att-list_val_ )
+                (setq ref_obj_att-list_i (+ ref_obj_att-list_i 1))
+              )
+            ;
+          )
+        )
+      )
+    )
+
+    
+    
+  )
+  (defun c:PPLINE_CKST_DATA_BUBBLE_SWDATABB ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000_FAMELINE_SYMBOL_INDICATOR_NAME_"))
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (setq ss_pre_filter_set_xx_obj_name_list_ "")
+      (setq sum_list ())
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (setq ss_pre_filter_set_xx_obj_number_list_ (list 
+                                                      (atoi (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "NUMBER"))
+                                                      (strcat 
+                                                        (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "NUMBER") " - "
+                                                        (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "INDICATOR_NAME_1")
+                                                        (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "INDICATOR_NAME_2")
+                                                        (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "INDICATOR_NAME_3")
+                                                        (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "INDICATOR_NAME_4")
+                                                      )
+                                                    )
+        )
+        (setq sum_list (cons ss_pre_filter_set_xx_obj_number_list_ sum_list))
+        
+        
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+      ;TA:stanndard_lambda_sorting
+        (setq sum_list_sorted_ (vl-sort sum_list  ;bigest open indent list 
+                                                  (function 
+                                                    (lambda (a b) 
+                                                      (< (car a) (car b))
+                                                    )
+                                                  )
+                              ) ;bigest close indent list
+        )
+      ;
+      ;preloop_and_while
+        (setq sum_list_sorted_i 0)
+        (setq ss_pre_filter_set_xx_obj_name_list_ "")
+        (while (< sum_list_sorted_i (length sum_list_sorted_))
+          (setq sum_list_sorted_str_ (cadr (nth  sum_list_sorted_i sum_list_sorted_)))
+          (setq ss_pre_filter_set_xx_obj_name_list_ (strcat ss_pre_filter_set_xx_obj_name_list_ sum_list_sorted_str_ "\n"))
+          (setq sum_list_sorted_i (+ sum_list_sorted_i 1))
+        )
+      ;
+      
+      ;while selection process
+        (setq ERR_ nil)
+        (while ;for keep insertion point and dist. fix length one side
+          (and
+            (= (vl-catch-all-error-p ERR_) nil)
+          )
+          (setq ERR_
+            (vl-catch-all-apply
+              (function
+                (lambda ()
+                  (setq text_i (cond ((getint (strcat ss_pre_filter_set_xx_obj_name_list_ "\n" "<" (rtos (setq visibility_modtext_ie_value_ (cond (text_i) (1.0) ) ) ) "> : " ) ) ) (text_i) ) ) ;input_cond entsel ssget
+                )
+              )
+            )
+          )
+        )
+
+      ;
+    ;
+  )
+  (defun c:PPLINE_CKST_DATA_BUBBLE_SWBB ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000_FAMELINE_SYMBOL_INDICATOR_NAME_"))
+    ;
+    ;while selection process
+      (setq ERR_ nil)
+      (while ;for keep insertion point and dist. fix length one side
+        (and
+          (= (vl-catch-all-error-p ERR_) nil)
+        )
+        (setq ERR_
+          (vl-catch-all-apply
+            (function
+              (lambda ()
+                (setq text_i (cond ((getint (strcat ss_pre_filter_set_xx_obj_name_list_ "\n" "<" (rtos (setq visibility_modtext_ie_value_ (cond (text_i) (1.0) ) ) ) "> : " ) ) ) (text_i) ) ) ;input_cond entsel ssget
+              )
+            )
+          )
+        )
+        ;preloop_and_while
+          (setq ss_pre_filter_set_xx_i 0)
+          (while (and 
+                   (/= (length sum_list_sorted_) 0)
+                   (= (vl-catch-all-error-p ERR_) nil)
+                   (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+                 )
+            (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+            (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+            (cond
+              (;_case_1
+                 (and
+                    (= (type (atoi (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "NUMBER"))  ) 'INT)
+                    (< (atoi (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "NUMBER")) (length sum_list_sorted_))
+                 )
+                 (progn
+                   (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "NUMBER" (+ (atoi (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "NUMBER")) 1) )
+                   
+                 )
+              )
+              (;_case_1
+                 (and
+                    (= (type (atoi (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "NUMBER"))  ) 'INT)
+                    (>= (atoi (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "NUMBER")) (length sum_list_sorted_))
+                 )
+                 (progn
+                   (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "NUMBER" 1 )
+                   
+                 )
+              )
+              (;_case_1
+                 (and
+                    (/= (type (atoi (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "NUMBER"))  ) 'INT)
+                    
+                 )
+                 (progn
+                   (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "NUMBER" 1 )
+                   
+                 )
+              )
+            )
+            
+            (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+          )
+        ;
+      )
+
+    ;
+    ;
+  )
   ; (c:loadlisp)
   ; (c:update_up1auto_)
 ;
