@@ -8414,6 +8414,11 @@
                  )
             (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
             (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+            (if (/= text_i (atoi (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "NUMBER")))
+              (progn
+                (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "NUMBER" (- text_i 1) )
+              )
+            )
             (cond
               (;_case_1
                  (and
@@ -8423,6 +8428,7 @@
                  (progn
                    (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "NUMBER" (+ (atoi (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "NUMBER")) 1) )
                    
+                   (setq text_i (atoi (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "NUMBER")))
                  )
               )
               (;_case_1
@@ -8432,7 +8438,7 @@
                  )
                  (progn
                    (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "NUMBER" 1 )
-                   
+                   (setq text_i (atoi (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "NUMBER")))
                  )
               )
               (;_case_1
@@ -8442,7 +8448,7 @@
                  )
                  (progn
                    (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "NUMBER" 1 )
-                   
+                   (setq text_i (atoi (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "NUMBER")))
                  )
               )
             )
@@ -8453,6 +8459,86 @@
       )
 
     ;
+    ;
+  )
+  (defun c:PPLINE_CKST_BUBBLE_CUSTOM_SORT_ ()
+    ;sorting by user selection and input
+      (setq CKST_customsort_ ())
+      (setq err_ "S")
+      (while (/= (wcmatch (strcase (vl-princ-to-string err_)) "*ERROR*") T) 
+        (setq err_ (vl-catch-all-apply 
+                    (function 
+                      (lambda () 
+                        (setvar "SELECTIONPREVIEW" 3)
+                        (setq CKST_customsort_ (cons (setq ee (vlax-ename->vla-object (car (entsel "specify Object")) ) ) CKST_customsort_ ) )
+                        
+                      )
+                    )
+                  )
+        )
+      )
+      
+      ; (setq CKST_customsort_ (mapcar 'car (TA:Count_item_in_list_ CKST_customsort_)))
+      (setq ERR_deep-tag_bypass_
+        (vl-catch-all-apply
+          (function
+            (lambda ()
+              (setq CKST_deep-tag_ (car (nentsel "specify deep tag for sorting")))
+            )
+          )
+        )
+      )
+    ;
+    ;
+      (if (/= (wcmatch (strcase (vl-princ-to-string ERR_deep-tag_bypass_)) "*ERROR*") T)
+        (progn
+          (setq CKST_customsort_ (reverse CKST_customsort_))
+          (setq CKST_deep-tag_name_ (vla-get-tagstring (vlax-ename->vla-object CKST_deep-tag_) ))
+          
+        )
+      )
+    ;
+    (setvar "SELECTIONPREVIEW" 0)
+    ;insert string val process
+      (setq prefix_txt_ ;Get-string by keep previous value
+          (if
+            (or
+              (/= (setq prefix_txt_val (getstring (strcat "\nSpecify Pattern name <" (if prefix_txt_ prefix_txt_ "") ">: ") ) ) "" )
+            )
+              (progn
+                (setq prefix_txt_ prefix_txt_val)
+                (setq prefix_txt_keep_val_ prefix_txt_val)
+              )
+            (setq prefix_txt_val prefix_txt_keep_val_)
+          )
+      )
+      (setq midfix_ ;Get-string by keep previous value
+          (if
+            (or
+              (/= (setq midfix_val (getstring (strcat "\nSpecify Pattern name <" (if midfix_ midfix_ "") ">: ") ) ) "" )
+            )
+              (progn
+                (setq midfix_ midfix_val)
+                (setq midfix_keep_val_ midfix_val)
+              )
+            (setq midfix_val midfix_keep_val_)
+          )
+      )
+      (setq ckst_increment_ (cond ( (getint (strcat "\nspecify get rotation\n<" (rtos (setq ckst_increment_ (cond (ckst_increment_) (1.0) ) ) ) "> : " ) ) ) (ckst_increment_) ) )
+    ;
+    ;preloop_and_while
+      (setq CKST_customsort_i 0)
+      (while (< CKST_customsort_i (length CKST_customsort_))
+        (setq CKST_customsort_obj_ (nth  CKST_customsort_i CKST_customsort_))
+        (if (= prefix_txt_ nil) (progn (setq prefix_txt_ "") ) )
+        (if (= midfix_ nil) (progn (setq midfix_ "") ) )
+        (setq pre-mid-increment (LM:StringSubst "" "  " (LM:StringSubst " " "_" (strcat prefix_txt_ " " midfix_ " " (rtos ckst_increment_ 2 0) ))) )
+        
+        (LM:vl-setattributevalue CKST_customsort_obj_ CKST_deep-tag_name_ pre-mid-increment )
+    
+        (setq ckst_increment_ (+ ckst_increment_ 1))
+        (setq CKST_customsort_i (+ CKST_customsort_i 1))
+      )
     ;
   )
   ; (c:loadlisp)
