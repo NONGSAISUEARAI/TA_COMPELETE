@@ -51279,8 +51279,48 @@
   (setq ss_bol_width_ (nth 5 ss_bol_))
   (setq ss_bol_height_ (nth 6 ss_bol_))
   (setq ss_bol_angle_ (angle ss_bol_Lbot_ ss_bol_Rbot_ ))
+  (setq blocktype (cond 
+                    ((getint 
+                       (strcat "\nspecify get block name\n1 = 000_CKST_FAMELINE_RC-PRECAST_TOP_VIEW\n2 = 000_CKST_FAMELINE_GENERAL-WALL_TOP_VIEW\n3 = 000_CKST_FAMELINE_RC-COLUMN_TOP_VIEW \n<" 
+                               (rtos (setq blocktype (cond (blocktype) (1.0))))
+                               "> : "
+                       )
+                     )
+                    )
+                    (blocktype)
+                  )
+  )
+  (cond
+    (;_case_1
+       (and
+          (= blocktype 1)
+       )
+       (progn
+         (setq insblk_  "000_CKST_FAMELINE_RC-PRECAST_TOP_VIEW")
+         (princ "_case_1")
+       )
+    )
+    (;_case_2
+       (and
+          (= blocktype 2)
+       )
+       (progn
+         (setq insblk_    "000_CKST_FAMELINE_GENERAL-WALL_TOP_VIEW")
+         (princ "_case_2")
+       )
+    )
+    (;_case_3
+       (and
+          (= blocktype 3)
+       )
+       (progn
+         (setq insblk_ "000_CKST_FAMELINE_RC-COLUMN_TOP_VIEW")
+         (princ "_case_3")
+       )
+    )
+  )
   (TA:vla-insertblock 
-    "000_CKST_FAMELINE_RC-COLUMN_TOP_VIEW"
+    insblk_
     ss_bol_mid_
     1
     ss_bol_angle_
