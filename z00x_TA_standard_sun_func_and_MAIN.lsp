@@ -51958,3 +51958,15 @@
 
 
 
+(defun c:suma1 ()
+  (setq kkk_ename_ (car (entsel "specify Object")))
+  (setq kkk_obj_ (vlax-ename->vla-object kkk_ename_))
+  (+
+  (LM:getdynpropvalue kkk_obj_ "FLASHING_1-1" )
+  (LM:getdynpropvalue kkk_obj_ "FLASHING_1-2" )
+  (LM:getdynpropvalue kkk_obj_ "FLASHING_2-1" )
+  (LM:getdynpropvalue kkk_obj_ "FLASHING_2-2" )
+  (LM:getdynpropvalue kkk_obj_ "FLASHING_2-3" )
+  (LM:getdynpropvalue kkk_obj_ "FLASHING_2-4" )
+  )
+)
