@@ -664,6 +664,13 @@
                                           (= (wcmatch sub_filter_nameset_val_ "*_2") T )
                                           (= (wcmatch sub_filter_nameset_val_ "*_3") T )
                                           (= (wcmatch sub_filter_nameset_val_ "*_4") T )
+                                          (= (wcmatch sub_filter_nameset_val_ "*_5") T )
+                                          (= (wcmatch sub_filter_nameset_val_ "*_6") T )
+                                          (= (wcmatch sub_filter_nameset_val_ "*_7") T )
+                                          (= (wcmatch sub_filter_nameset_val_ "*_8") T )
+                                          (= (wcmatch sub_filter_nameset_val_ "*_10") T )
+                                          (= (wcmatch sub_filter_nameset_val_ "*_251") T )
+
                                         )
                                         (progn 
                                           (TA:rightstr sub_filter_nameset_val_ 2)
@@ -1479,18 +1486,31 @@
     )
     (TA:generate_filter_list
       (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
-      (setq 2nd_filter_val_main "000 - C  ONCRETE_") ;2nd_filter
+      (setq 2nd_filter_val_main "000 - CONCRETE_") ;2nd_filter
       (setq 3rd_filter_val_main (list ;3rd_filter
                                   "COL" ;
                                   "WALL" ;
+                                  "PRECAST" ;
                                 )
       )
       (setq 4th_filter_val_main (list  ;4th_filter
-                                      (list "MAIN_COLOR_1" 5) ;
-                                      (list "MAIN_COLOR_2" 1) ;
+                                      (list "CUT_COLOR_1" 1) ;
+                                      (list "CUT_COLOR_2" 2) ;
+                                      (list "CUT_COLOR_3" 3) ;
+                                      (list "CUT_COLOR_4" 4) ;
+                                      (list "CUT_COLOR_5" 5) ;
+                                      (list "MAIN_COLOR_1" 1) ;
+                                      (list "MAIN_COLOR_2" 2) ;
+                                      (list "MAIN_COLOR_3" 3) ;
+                                      (list "MAIN_COLOR_4" 4) ;
+                                      (list "MAIN_COLOR_5" 5) ;
                                       (list "SUB_COLOR_1" 2) ;
-                                      (list "SUB_COLOR_2" 1) ;
-                                      (list "SUB_COLOR_3" 251) ;
+                                      (list "SUB_COLOR_2" 2) ;
+                                      (list "SUB_COLOR_3" 3) ;
+                                      (list "SUB_COLOR_4" 4) ;
+                                      (list "SUB_COLOR_5" 5) ;
+                                      (list "SUB_COLOR_8" 8) ;
+                                      (list "SUB_COLOR_251" 251) ;
                                       (list "HATCH_" 251) ;
                                       (list "WIPEOUT_" 250) ;
                                       (list "HIDDEN_" 251) ;
@@ -1535,6 +1555,7 @@
                                   "LEVEL" ;
                                   "INDICATOR" ;
                                   "BREAKER" ;
+                                  "GROUND" ;
                                 )
       )
       (setq 4th_filter_val_main (list  ;4th_filter

@@ -4217,6 +4217,16 @@
                
              )
           )
+          (;date_condd_case_5 ABOVE
+             (and
+                
+                (wcmatch (getvar "dwgname") "*ENT*")
+             )
+             (progn
+               (TA:CDATE "-" "DDMMYYYY")
+               
+             )
+          )
         )
       )
       ;presetting
@@ -4252,24 +4262,40 @@
       ;selection_set_for_fillter_blk_name
         (if (= x_checker_ nil)
           (progn
-            (setq x_checker_ "x")
+            (setq x_checker_ "i")
           )
         )
         (if 
           (=
             x_checker_
-            "x"
+            "i"
           )
           (progn
-            (setq ss_pre_filter_set_xx_ (ssget x_checker_
-                                              (list
-                                                (cons 0 "INSERT") ;type of object
-                                                (cons 410 (getvar "CTAB"))
-                                                ; (cons 8 "000 - GRID")   ;kind of layer
-                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                                ; (cons 62 1)           ;kind of color call sign with color code index
-                                              )
-                                        )
+            (if  ;pre_select_ssget_or_post_select_ssget
+              (=
+                (setq ss_pre_filter_set_xx_ (ssget "i"
+                                                  (list
+                                                    (cons 0 "INSERT") ;type of object
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+                nil
+              )
+              (progn
+                (setq ss_pre_filter_set_xx_ (ssget
+                                                  (list
+                                                    (cons 0 "INSERT") ;type of object
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+              )
+              (sslength ss_pre_filter_set_xx_)
             )
           )
           (setq ss_pre_filter_set_xx_ (ssget 
@@ -4950,7 +4976,7 @@
             nil
           )
           (progn
-            (setq ss_pre_filter_set_xx_ (ssget "X"
+            (setq ss_pre_filter_set_xx_ (ssget ""
                                               (list
                                                 (cons 0 "INSERT") ;type of object
                                                 (cons 410 (getvar "CTAB"))
@@ -8503,7 +8529,7 @@
       (setq prefix_txt_ ;Get-string by keep previous value
           (if
             (or
-              (/= (setq prefix_txt_val (getstring (strcat "\nSpecify Pattern name <" (if prefix_txt_ prefix_txt_ "") ">: ") ) ) "" )
+              (/= (setq prefix_txt_val (getstring (strcat "\nSpecify prefix_txt_ name <" (if prefix_txt_ prefix_txt_ "") ">: ") ) ) "" )
             )
               (progn
                 (setq prefix_txt_ prefix_txt_val)
@@ -8515,7 +8541,7 @@
       (setq midfix_ ;Get-string by keep previous value
           (if
             (or
-              (/= (setq midfix_val (getstring (strcat "\nSpecify Pattern name <" (if midfix_ midfix_ "") ">: ") ) ) "" )
+              (/= (setq midfix_val (getstring (strcat "\nSpecify midfix_txt name <" (if midfix_ midfix_ "") ">: ") ) ) "" )
             )
               (progn
                 (setq midfix_ midfix_val)
@@ -8524,7 +8550,7 @@
             (setq midfix_val midfix_keep_val_)
           )
       )
-      (setq ckst_increment_ (cond ( (getint (strcat "\nspecify get rotation\n<" (rtos (setq ckst_increment_ (cond (ckst_increment_) (1.0) ) ) ) "> : " ) ) ) (ckst_increment_) ) )
+      (setq ckst_increment_ (cond ( (getint (strcat "\nspecify ckst_increment_\n<" (rtos (setq ckst_increment_ (cond (ckst_increment_) (1.0) ) ) ) "> : " ) ) ) (ckst_increment_) ) )
     ;
     ;preloop_and_while
       (setq CKST_customsort_i 0)
@@ -8532,7 +8558,16 @@
         (setq CKST_customsort_obj_ (nth  CKST_customsort_i CKST_customsort_))
         (if (= prefix_txt_ nil) (progn (setq prefix_txt_ "") ) )
         (if (= midfix_ nil) (progn (setq midfix_ "") ) )
-        (setq pre-mid-increment (LM:StringSubst "" "  " (LM:StringSubst " " "_" (strcat prefix_txt_ " " midfix_ " " (rtos ckst_increment_ 2 0) ))) )
+        (if (and 
+              (= prefix_txt_ "_")
+              (= midfix_ "_")
+            )
+          (progn
+            (setq pre-mid-increment (LM:StringSubst "" "_" (strcat prefix_txt_ "" midfix_ "" (rtos ckst_increment_ 2 0) )) )
+          )
+          (setq pre-mid-increment (LM:StringSubst " " "_" (strcat prefix_txt_ "" midfix_ "" (rtos ckst_increment_ 2 0) )) )
+        )
+        
         
         (LM:vl-setattributevalue CKST_customsort_obj_ CKST_deep-tag_name_ pre-mid-increment )
     
