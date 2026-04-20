@@ -4119,6 +4119,132 @@
     ;
     (list 1_ 2_ 3_ 4_ 5_ 6_)
   )
+  (defun c:PPLINE_TITLE_BLOCK_ATT_MATCHING_TTBAT ()
+    (_StartUndo doc)
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget ":S"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (car (entsel "specify ref Object")))
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    ;;get data pickset to ename
+    (if (and ;get data pickset to ename 
+          (/= ss_pre_filter_set_xx_ nil)
+          (or 
+            (= (type ss_pre_filter_set_xx_ ) 'pickset)
+            (= (type ss_pre_filter_set_xx_ ) 'ENAME)
+          )
+        )
+      (progn
+        (if (= (type ss_pre_filter_set_xx_ ) 'pickset)
+          (progn
+            (setq REF-blk_ename_ (ssname ss_pre_filter_set_xx_ 0))
+          )
+          (setq REF-blk_ename_ ss_pre_filter_set_xx_)
+        )
+        (setq REF-blk_obj_ (vlax-ename->vla-object REF-blk_ename_))
+        (setq REF-blk_obj_efname_ (LM:effectivename REF-blk_obj_))
+        (setq REF-blk_obj_attlist_ (LM:vl-getattributevalues REF-blk_obj_ ))
+      )
+    )
+    ;
+    ;preloop
+      (setq ERR_ nil)
+      
+      (while
+        (= (vl-catch-all-error-p ERR_) nil)
+        (setq ERR_ (vl-catch-all-apply 
+                    (function 
+                      (lambda () 
+                        (setq ss_pre_filter_set_xx_target_ (ssget 
+                                                              (list 
+                                                                (cons 0 "INSERT") ;type of object
+                                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                                              )
+                                                            )
+                        )
+                      )
+                    )
+                  )
+        )
+        (if (and 
+              (/= ss_pre_filter_set_xx_target_ nil)
+              (= (vl-catch-all-error-p ERR_) nil)
+            )
+          (progn
+            ;preloop_and_while
+              (TA:interface_text_ T)
+              (setq ss_pre_filter_set_xx_target_i 0)
+              (while (< ss_pre_filter_set_xx_target_i (sslength ss_pre_filter_set_xx_target_))
+                (setq ss_pre_filter_set_xx_target_ename_ (ssname ss_pre_filter_set_xx_target_ ss_pre_filter_set_xx_target_i)) 
+                (setq ss_pre_filter_set_xx_target_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_target_ename_))
+                (setq ss_pre_filter_set_xx_target_obj_efname (LM:effectivename  ss_pre_filter_set_xx_target_obj_))
+                ;preloop_and_while
+                  (setq REF-blk_obj_attlist_i 0)
+                  (while (< REF-blk_obj_attlist_i (length REF-blk_obj_attlist_))
+                    (setq REF-blk_obj_attlist_name_ (nth  REF-blk_obj_attlist_i REF-blk_obj_attlist_))
+                    
+                      (if (and 
+                            (or 
+                              (= REF-blk_obj_efname_ "Title Block_Under Ground_C1 v3" )
+                              (= REF-blk_obj_efname_ "Title Block_Under Ground_C2 v3" )
+                            )
+                            (/= (car REF-blk_obj_attlist_name_ ) "Origin")
+                            (/= (car REF-blk_obj_attlist_name_ ) "CONTACT_WORKING_VAL")
+                            (/= (car REF-blk_obj_attlist_name_ ) "DESIGNED_BY_val")
+                            (/= (car REF-blk_obj_attlist_name_ ) "CHECKED_BY_val")
+                            (/= (car REF-blk_obj_attlist_name_ ) "APRVD_BY_val")
+                          )
+                        (progn
+                          (LM:vl-setattributevalue  
+                            ss_pre_filter_set_xx_target_obj_
+                            (car REF-blk_obj_attlist_name_)
+                            (cdr REF-blk_obj_attlist_name_)
+                          )
+                        )
+                      )
+                
+                    (setq REF-blk_obj_attlist_i (+ REF-blk_obj_attlist_i 1))
+                  )
+                  (if (= ss_pre_filter_set_xx_target_obj_efname "Title Block_Under Ground_C1 v3")
+                    (progn
+                      (LM:vl-setattributevalue ss_pre_filter_set_xx_target_obj_ "DRAWING_NO_val" (strcat "1"(substr (getvar "dwgname") 4 16)))
+                      (LM:vl-setattributevalue ss_pre_filter_set_xx_target_obj_ "CONTACT_WORKING_VAL" "CONTRACT 1 : UNDERGROUND CIVIL WORKS")
+                    )
+                    (list 
+                    (LM:vl-setattributevalue ss_pre_filter_set_xx_target_obj_ "DRAWING_NO_val" (strcat "2" (substr (getvar "dwgname") 4 16)))
+                    (LM:vl-setattributevalue ss_pre_filter_set_xx_target_obj_ "CONTACT_WORKING_VAL" "CONTRACT 2 : UNDERGROUND CIVIL WORKS")
+                    )
+                  )
+                  
+                ;
+                (TA:textscr_process_V2 "matching object" ss_pre_filter_set_xx_target_i ss_pre_filter_set_xx_target_)
+                (setq ss_pre_filter_set_xx_target_i (+ ss_pre_filter_set_xx_target_i 1))
+              )
+            ;
+          )
+        )
+      )
+      (TA:interface_text_ nil)
+    ;
+    (_EndUndo doc)
+  )
 ;
 ;PPLINE-CKST-RCL-F&H-PLOT
   (defun c:plotsetup ()

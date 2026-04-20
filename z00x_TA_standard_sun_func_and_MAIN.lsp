@@ -35082,7 +35082,7 @@
       (TA:vla-insertblock 
           nameblockname
           (car (car vxpt_))
-          1
+          5
           0
       )
       ;new_blk_entlast object
@@ -35429,7 +35429,7 @@
             (function
               (lambda ()
                 (setq time_tt (cond ( (getint (strcat "\nspecify get time \n<" (rtos (setq time_tt (cond (time_tt) (1.0) ) ) ) "> : " ) ) ) (time_tt) ) )
-                (repeat time_tt 
+                (repeat (fix time_tt) 
                   (TA:vertex_right_ ppline_ename_)
                   (setq ppline_ename_ (entlast))
                 )
@@ -35474,7 +35474,39 @@
       )
     ;
     ;user_input_
-      (setq choose_block_di (cond ( (getint (strcat "\nSpecify block\n1 = who_s_create_that_block-SOID\n2 = who_s_create_that_block-RC\n3 = who_s_create_that_block-deg45\n<" (rtos (setq choose_block_di (cond (choose_block_di) (1.0) ) ) ) "> : " ) ) ) (choose_block_di) ) )
+      (setq namelist (list 
+                      (setq block_0 "blank")
+                      (setq block_1 "who_s_create_that_block-SOID")
+                      (setq block_2 "who_s_create_that_block-RC")
+                      (setq block_3 "who_s_create_that_block-deg45")
+                      (setq block_4 "who_s_create_that_block-hatch-x-patt")
+                      (setq block_5 "who_s_create_that_block-sand")
+                      (setq block_6 "who_s_create_that_block-metal")
+                      (setq block_7 "")
+                      (setq block_8 "")
+                      (setq block_9 "")
+                     )
+      )
+      (setq choose_block_di (cond ( (getint (strcat "\nSpecify block"
+                                                    "\n1 = " block_1 
+                                                    "\n2 = " block_2
+                                                    "\n3 = " block_3
+                                                    "\n4 = " block_4
+                                                    "\n5 = " block_5 
+                                                    "\n6 = " block_6 
+                                                    "\n7 = " block_7 
+                                                    "\n8 = " block_8 
+                                                    "\n9 = " block_9 
+                                                    "\n<" 
+                                                    (rtos 
+                                                      (setq choose_block_di (cond 
+                                                                              (choose_block_di)
+                                                                              (1.0)
+                                                                            )
+                                                      )
+                                                    )
+                                                    "> : "
+                                            ) ) ) (choose_block_di) ) )
     ;
     ;preloop_and_while
       (setq ss_pre_filter_set_xx_i 0)
@@ -35483,32 +35515,57 @@
         (setq ss_pre_filter_set_xx_ename_ (ssname  ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
         (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
         
-        (cond
-          (;_case_1
-             (and
-                (= choose_block_di 1)
-             )
-             (progn
-               (setq new_set_ (TAS:polygon2dyn ss_pre_filter_set_xx_ename_ "who_s_create_that_block-SOID"))
-             )
-          )
-          (;_case_1
-             (and
-                (= choose_block_di 2)
-             )
-             (progn
-               (setq new_set_ (TAS:polygon2dyn ss_pre_filter_set_xx_ename_ "who_s_create_that_block-RC"))
-             )
-          )
-          (;_case_1
-             (and
-                (= choose_block_di 3)
-             )
-             (progn
-               (setq new_set_ (TAS:polygon2dyn ss_pre_filter_set_xx_ename_ "who_s_create_that_block-deg45"))
-             )
-          )
-        )
+        ; (cond
+        ;   (;_case_1
+        ;      (and
+        ;         (= choose_block_di 1)
+        ;      )
+        ;      (progn
+        ;        (setq new_set_ (TAS:polygon2dyn ss_pre_filter_set_xx_ename_ "who_s_create_that_block-SOID"))
+        ;      )
+        ;   )
+        ;   (;_case_1
+        ;      (and
+        ;         (= choose_block_di 2)
+        ;      )
+        ;      (progn
+        ;        (setq new_set_ (TAS:polygon2dyn ss_pre_filter_set_xx_ename_ "who_s_create_that_block-RC"))
+        ;      )
+        ;   )
+        ;   (;_case_1
+        ;      (and
+        ;         (= choose_block_di 3)
+        ;      )
+        ;      (progn
+        ;        (setq new_set_ (TAS:polygon2dyn ss_pre_filter_set_xx_ename_ "who_s_create_that_block-deg45"))
+        ;      )
+        ;   )
+        ;   (;_case_1
+        ;      (and
+        ;         (= choose_block_di 4)
+        ;      )
+        ;      (progn
+        ;        (setq new_set_ (TAS:polygon2dyn ss_pre_filter_set_xx_ename_ "who_s_create_that_block-hatch-x-patt"))
+        ;      )
+        ;   )
+        ;   (;_case_1
+        ;      (and
+        ;         (= choose_block_di 5)
+        ;      )
+        ;      (progn
+        ;        (setq new_set_ (TAS:polygon2dyn ss_pre_filter_set_xx_ename_ "who_s_create_that_block-sand"))
+        ;      )
+        ;   )
+        ;   (;_case_1
+        ;      (and
+        ;         (= choose_block_di 5)
+        ;      )
+        ;      (progn
+        ;        (setq new_set_ (TAS:polygon2dyn ss_pre_filter_set_xx_ename_ "who_s_create_that_block-sand"))
+        ;      )
+        ;   )
+        ; )
+        (setq new_set_ (TAS:polygon2dyn ss_pre_filter_set_xx_ename_ (nth (fix choose_block_di) namelist)))
         (setq ss_new_sec (ssadd new_set_ ss_new_sec))
         
         (LM:setdynpropvalue (vlax-ename->vla-object (entlast)) "visibility1" "1_fix")
