@@ -34977,7 +34977,7 @@
     ;
     (vla-delete old_block_obj_)
   )
-  (defun TAS:polygon2dyn (sss_ename_ nameblockname)
+  (defun TAS:polygon2dyn (sss_ename_ nameblockname distance_block-scaling_)
     (defun TAS:convert-list-ucs (lst /)
       (mapcar
         '(lambda (pt)
@@ -35082,7 +35082,7 @@
       (TA:vla-insertblock 
           nameblockname
           (car (car vxpt_))
-          5
+          distance_block-scaling_
           0
       )
       ;new_blk_entlast object
@@ -35408,6 +35408,65 @@
       ;
       
     )
+    (defun TA:vertex_right_V2_ (sss_ename_ )
+      ;reporcess vertex pt
+        ; (setq sss_ename_ (car (nentsel "specify Object"))) 
+        ;2nd process recrete vertex point
+          (setq sss_ename_entget_ (entget sss_ename_))
+          (setq sss_obj_ (vlax-ename->vla-object sss_ename_))
+          (setq i 0)
+          (setq sss_ename_vertex_ (vl-remove-if-not '(lambda (x) (= 10 (car x))) sss_ename_entget_))
+          (setq sss_ename_vertex_ (mapcar 'cdr sss_ename_vertex_))
+          (setq sss_ename_vertex_list_ (mapcar 
+                                        '(lambda (x) 
+                                            (car (cons x (setq i (+ i 1))))
+                                          )
+                                        sss_ename_vertex_
+                                      )
+          )
+          (setvar "osmode" 0)
+          (if (= (getvar "worlducs") 0)(progn (setq xest_all-2 (TAS:convert-list-ucs sss_ename_vertex_list_))) (setq xest_all-2 sss_ename_vertex_list_) )
+          (setvar "osmode" 1215)
+          (setq xest_all-2 (TA:list_rotate_left xest_all-2))
+        ;
+        ;while selection process
+          (setq ERR_vertex_process_ nil)
+          (while ;for keep insertion point and dist. fix length one side
+            (and
+              (= (vl-catch-all-error-p ERR_vertex_process_) nil)
+            )
+            (setq ERR_vertex_process_
+              (vl-catch-all-apply
+                (function
+                  (lambda ()
+                    (getstring "\nHit \nHit \nHit [ENTER] to continue...")
+                    ;3rd
+                      (setq h (/ (getvar "VIEWSIZE") 10))
+                      (command "redraw")
+                      (car (setq xest_all-2 (TA:list_rotate_left xest_all-2)))
+                      (grdraw (polar (car xest_all-2)  (deg-to-rad 45) h ) (polar (car xest_all-2)  (deg-to-rad 225) h ) 30)
+                      (grdraw (polar (car xest_all-2)  (deg-to-rad 135) h ) (polar (car xest_all-2)  (deg-to-rad 315) h ) 30)
+                    ;
+                  )
+                )
+              )
+            )
+          )
+        ;
+        ;final_result_
+          (setq result_vertex_ xest_all-2)
+        ;
+      ;
+
+      ; ;rebuild_pline_process
+        (create-plines result_vertex_ "close" )  
+        (command "erase" sss_ename_ "")
+        (setq sss_ename_ (entlast))
+      ;
+      ;
+      
+    )
+    
     (setq Er-msg_pline 
       (vl-catch-all-apply 
         (function 
@@ -35430,10 +35489,10 @@
               (lambda ()
                 (setq time_tt (cond ( (getint (strcat "\nspecify get time \n<" (rtos (setq time_tt (cond (time_tt) (1.0) ) ) ) "> : " ) ) ) (time_tt) ) )
                 (repeat (fix time_tt) 
-                  (TA:vertex_right_ ppline_ename_)
+                  (setq pline_vertex_new-data_ (TA:vertex_right_V2_ ppline_ename_))
                   (setq ppline_ename_ (entlast))
                 )
-                
+
               )
             )
           )
@@ -35482,7 +35541,7 @@
                       (setq block_4 "who_s_create_that_block-hatch-x-patt")
                       (setq block_5 "who_s_create_that_block-sand")
                       (setq block_6 "who_s_create_that_block-metal")
-                      (setq block_7 "")
+                      (setq block_7 "who_s_create_that_block-ANSI35")
                       (setq block_8 "")
                       (setq block_9 "")
                      )
@@ -35508,6 +35567,7 @@
                                                     "> : "
                                             ) ) ) (choose_block_di) ) )
     ;
+    (setq distance_block-scaling_ (cond ( (getreal (strcat "\nspecify distance_block-scaling_ <" (rtos (setq distance_block-scaling_ (cond (distance_block-scaling_) (1) ) ) ) "> : " ) ) ) (distance_block-scaling_) ) )
     ;preloop_and_while
       (setq ss_pre_filter_set_xx_i 0)
       (setq ss_new_sec (ssadd))
@@ -35565,7 +35625,7 @@
         ;      )
         ;   )
         ; )
-        (setq new_set_ (TAS:polygon2dyn ss_pre_filter_set_xx_ename_ (nth (fix choose_block_di) namelist)))
+        (setq new_set_ (TAS:polygon2dyn ss_pre_filter_set_xx_ename_ (nth (fix choose_block_di) namelist) distance_block-scaling_))
         (setq ss_new_sec (ssadd new_set_ ss_new_sec))
         
         (LM:setdynpropvalue (vlax-ename->vla-object (entlast)) "visibility1" "1_fix")
@@ -35684,6 +35744,7 @@
             
       )
     ;
+    
     ;preloop_and_while
       (setq ss_pre_filter_set_xx_i 0)
       (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
@@ -48532,69 +48593,69 @@
       (setq layer_list_i (+ layer_list_i 1))
     )
 )
-(defun C:yellight  ()
-  (setq color_val_ 2)
-  (setq layer_list_ (TA:get_name_layer_in_drawing))
-  (TA:interface_text_ T)
-  ;preloop_and_while
-    (setq layer_list_i 0)
-    (while (< layer_list_i (length layer_list_))
-      (setq layer_list_ename_ (nth  layer_list_i layer_list_))
-      (cond
-        (;_case_1
-          (and
-              (= 1 1)
-              (= (wcmatch layer_list_ename_ "008 - E&M*") t)
-          )
-          (progn
-            (command "vplayer" 
-                      "c" 
-                      color_val_
-                      layer_list_ename_
-                      "c"
-                      ""
-            )
-            (princ "_case_1")
-          )
-        )
-        (;_case_2
-          (and
-              (= 1 1)
-              (= (wcmatch layer_list_ename_ "008 - LIGHT_*") t)
-          )
-          (progn
-            (command "vplayer" 
-                      "c" 
-                      color_val_
-                      layer_list_ename_
-                      "c"
-                      ""
-            )
-            (princ "_case_2")
-          )
-        )
-        (;_case_3
-          (and
-              (= 1 1)
-              (= (wcmatch layer_list_ename_ "008 - AIR_MASK*") t)
-          )
-          (progn
-            (command "vplayer" 
-                      "c" 
-                      color_val_
-                      layer_list_ename_
-                      "c"
-                      ""
-            )
-            (princ "_case_3")
-          )
-        )
+; (defun C:yellight  ()
+;   (setq color_val_ 2)
+;   (setq layer_list_ (TA:get_name_layer_in_drawing))
+;   (TA:interface_text_ T)
+;   ;preloop_and_while
+;     (setq layer_list_i 0)
+;     (while (< layer_list_i (length layer_list_))
+;       (setq layer_list_ename_ (nth  layer_list_i layer_list_))
+;       (cond
+;         (;_case_1
+;           (and
+;               (= 1 1)
+;               (= (wcmatch layer_list_ename_ "008 - E&M*") t)
+;           )
+;           (progn
+;             (command "vplayer" 
+;                       "c" 
+;                       color_val_
+;                       layer_list_ename_
+;                       "c"
+;                       ""
+;             )
+;             (princ "_case_1")
+;           )
+;         )
+;         (;_case_2
+;           (and
+;               (= 1 1)
+;               (= (wcmatch layer_list_ename_ "008 - LIGHT_*") t)
+;           )
+;           (progn
+;             (command "vplayer" 
+;                       "c" 
+;                       color_val_
+;                       layer_list_ename_
+;                       "c"
+;                       ""
+;             )
+;             (princ "_case_2")
+;           )
+;         )
+;         (;_case_3
+;           (and
+;               (= 1 1)
+;               (= (wcmatch layer_list_ename_ "008 - AIR_MASK*") t)
+;           )
+;           (progn
+;             (command "vplayer" 
+;                       "c" 
+;                       color_val_
+;                       layer_list_ename_
+;                       "c"
+;                       ""
+;             )
+;             (princ "_case_3")
+;           )
+;         )
         
-      )
-      (TA:textscr_process_V2 "sorting" layer_list_i layer_list_ )
-      (setq layer_list_i (+ layer_list_i 1))
-    )
-)
+;       )
+;       (TA:textscr_process_V2 "sorting" layer_list_i layer_list_ )
+;       (setq layer_list_i (+ layer_list_i 1))
+;     )
+; )
 (defun C:droplight  ()
   (setq color_val_ 251)
   (setq layer_list_ (TA:get_name_layer_in_drawing))
