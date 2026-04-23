@@ -3,7 +3,7 @@
   (progn
     (setvar 'luprec 8)
     (setvar 'auprec  8)
-    (alert "ภายในสามนาทีหลังจากนี้\nถ้ายังไม่ปิดคอมเครื่องนี้ ก็ไม่เป็นไม่ต้องปิด แค่นั้นแหละ")
+    ; (alert "ภายในสามนาทีหลังจากนี้\nถ้ายังไม่ปิดคอมเครื่องนี้ ก็ไม่เป็นไม่ต้องปิด แค่นั้นแหละ")
     ; (alert "คงจะอยากรู้สินะว่าจะต้องกด อีกกี่ที ผมถึงจะปล่อยให้คุณได้ทำงานสักที ")
     ; (alert "5")
     ; (alert "4")
@@ -42255,6 +42255,31 @@
         (command "vplayer" "f" "000 - CSD_*" "c" "")
       )
     )
+    (if (and 
+          (/= (TA:wcmatch_list (list "000 - SYMBOL CON_*") TA_layer_ T) nil)
+        )
+      (progn
+        (command "vplayer" "f" "000 - SYMBOL CON_*" "c" "")
+      )
+    )
+    (if (and 
+          (/= (TA:wcmatch_list (list "FRAMING_*") TA_layer_ T) nil)
+        )
+      (progn
+        (command "vplayer" "f" "FRAMING_*" "c" "")
+      )
+    )
+    (if (and 
+          (/= (TA:wcmatch_list (list "008 - AIR_*") TA_layer_ T) nil)
+          (/= (TA:wcmatch_list (list "008 - E&M_*") TA_layer_ T) nil)
+          (/= (TA:wcmatch_list (list "008 - LIGHT_*") TA_layer_ T) nil)
+        )
+      (progn
+        (command "vplayer" "c" 1 "008 - AIR_*" "c" "")
+        (command "vplayer" "c" 1 "008 - E&M_*" "c" "")
+        (command "vplayer" "c" 1 "008 - LIGHT_*" "c" "")
+      )
+    )
     (_endUndo doc)
     
     
@@ -46250,6 +46275,114 @@
     
   )
 )
+(defun TA:xline00 (xline_obj_)
+  
+  (setq xline_obj_basept (vlax-safearray->list (vlax-variant-value (vla-get-basepoint xline_obj_))))
+  (vla-put-basepoint
+    xline_obj_
+    (if (= (getvar "worlducs") 0)
+      (progn
+          (setq 1st_trans (list 
+                            (LM:round (car (trans xline_obj_basept 0 1) ) )
+                            (cadr (trans xline_obj_basept 0 1))
+                            (LM:round (caddr (trans xline_obj_basept 0 1) ) )
+                          )
+          )
+          (vlax-3d-point 
+            (car (trans 1st_trans 1 0))
+            (cadr (trans 1st_trans 1 0))
+            0
+          )
+        
+      )
+      (vlax-3d-point 
+        (LM:round  (car xline_obj_basept))
+        (cadr xline_obj_basept)
+        (TA:round-05 (caddr xline_obj_basept))
+      )
+    )
+    
+  )
+  (vla-put-basepoint
+    xline_obj_
+    (if (= (getvar "worlducs") 0)
+      (progn
+          (setq 1st_trans (list 
+                            (LM:round (car (trans xline_obj_basept 0 1) ) )
+                            (cadr (trans xline_obj_basept 0 1))
+                            (LM:round (caddr (trans xline_obj_basept 0 1) ) )
+                          )
+          )
+          (vlax-3d-point 
+            (car (trans 1st_trans 1 0))
+            (cadr (trans 1st_trans 1 0))
+            0
+          )
+        
+      )
+      (vlax-3d-point 
+        (LM:round  (car xline_obj_basept))
+        (cadr xline_obj_basept)
+        (TA:round-05 (caddr xline_obj_basept))
+      )
+    )
+    
+  )
+)
+(defun TA:yline00 (xline_obj_)
+  
+  (setq xline_obj_basept (vlax-safearray->list (vlax-variant-value (vla-get-basepoint xline_obj_))))
+  (vla-put-basepoint
+    xline_obj_
+    (if (= (getvar "worlducs") 0)
+      (progn
+          (setq 1st_trans (list 
+                            (car (trans xline_obj_basept 0 1) )
+                            (LM:round (cadr (trans xline_obj_basept 0 1)))
+                            (LM:round (caddr (trans xline_obj_basept 0 1) ) )
+                          )
+          )
+          (vlax-3d-point 
+            (car (trans 1st_trans 1 0))
+            (cadr (trans 1st_trans 1 0))
+            0
+          )
+        
+      )
+      (vlax-3d-point 
+        (car xline_obj_basept)
+        (LM:round(cadr xline_obj_basept))
+        (TA:round-05 (caddr xline_obj_basept))
+      )
+    )
+    
+  )
+  (vla-put-basepoint
+    xline_obj_
+    (if (= (getvar "worlducs") 0)
+      (progn
+          (setq 1st_trans (list 
+                            (car (trans xline_obj_basept 0 1) )
+                            (LM:round (cadr (trans xline_obj_basept 0 1)))
+                            (LM:round (caddr (trans xline_obj_basept 0 1) ) )
+                          )
+          )
+          (vlax-3d-point 
+            (car (trans 1st_trans 1 0))
+            (cadr (trans 1st_trans 1 0))
+            0
+          )
+        
+      )
+      (vlax-3d-point 
+        (car xline_obj_basept)
+        (LM:round(cadr xline_obj_basept))
+        (TA:round-05 (caddr xline_obj_basept))
+      )
+    )
+    
+  )
+)
 
 (defun c:input_subfix_name_block ()
   (setq file_block_list_ (TA:get_name_block_in_drawing_to_list))
@@ -46419,6 +46552,118 @@
   ;
 
   
+)
+(defun c:xline_inter_block_blk2x_ ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "xline,line") ;type of object
+                                            ; (cons 8 "Defpoints")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 6)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "xline,line") ;type of object
+                                            ; (cons 8 "Defpoints")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 6)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  (setq inters_list_ (LM:intersectionsinset  ss_pre_filter_set_xx_))
+  ;TA:stanndard_lambda_sorting
+    (setq inters_list_sorted_ (vl-sort inters_list_  ;bigest open indent list
+                                              (function 
+                                                (lambda (a b) 
+                                                  (< (car a) (car b))
+                                                )
+                                              )
+                          ) ;bigest close indent list
+    )
+  ;
+  (setq inters_ss_ (ssadd))
+  ;while selection process
+    (setq ERR_ nil)
+    (setq inters_list_time_i_ 0)
+    (setq exit-pass 0)
+    (setq target_blk_obj_ nil)
+    (setvar "osmode" 0)
+    (while ;for keep insertion point and dist. fix length one side
+      (and
+        (= (vl-catch-all-error-p ERR_) nil)
+        (< inters_list_time_i_ (length inters_list_))
+        (/= (getvar "osmode") 1215)
+      )
+      (setq ERR_
+        (vl-catch-all-apply
+          (function
+            (lambda ()
+                (setvar "osmode" 0)
+                (setvar "selectionpreview" 3)
+                (command "redraw")
+                (setq inters_list_sorted_val_ (if (= (getvar "worlducs") 0)(progn (trans (nth inters_list_time_i_ inters_list_sorted_) 1 1)) (nth  inters_list_time_i_ inters_list_sorted_) ))
+                (setq h (/ (getvar "VIEWSIZE") 10))
+                (grdraw (polar inters_list_sorted_val_  (deg-to-rad 45) h ) (polar inters_list_sorted_val_  (deg-to-rad 225) h ) 30)
+                (grdraw (polar inters_list_sorted_val_  (deg-to-rad 135) h ) (polar inters_list_sorted_val_  (deg-to-rad 315) h ) 30)
+                ;while selection process
+                  (setq ERR_r1 nil)
+                  (setq err-pass_ 0)
+                  (while ;for keep insertion point and dist. fix length one side
+                    (and
+                      (= (vl-catch-all-error-p ERR_r1) nil)
+                      (or 
+                        (= err-pass_ 0)
+                      )
+                    )
+                    (setq ERR_r1
+                      (vl-catch-all-apply
+                        (function
+                          (lambda ()
+                            (setq target_blk_ename_ (car (entsel "specify Object or select Xline for exit")))
+                            (setq target_blk_obj_ (vlax-ename->vla-object target_blk_ename_))
+                            (if (= (vla-get-objectname target_blk_obj_ ) "AcDbBlockReference")
+                              (progn
+                                (setq err-pass_ 1)
+                                (vla-put-insertionpoint 
+                                  (setq target_blk_obj_ (vlax-ename->vla-object target_blk_ename_))
+                                  (vlax-3d-point inters_list_sorted_val_)
+                                )
+                              )
+                            )
+                            (if (= (vla-get-objectname target_blk_obj_ ) "AcDbXline")
+                              (progn
+                                (setq err-pass_ 1)
+                                (setvar  "osmode" 1215)
+                              )
+                            )
+                          )
+                        )
+                      )
+                    )
+                  )
+                ;
+
+                (setq inters_list_time_i_ (+ inters_list_time_i_ 1))
+                (setvar "selectionpreview" 0)
+            )
+          )
+        )
+      )
+    )
+    (setvar "osmode" 1215)
+  ;
 )
 (defun c:xline_intersect_block_xl2_ ()
   ;presettting
@@ -52562,19 +52807,11 @@
   (setq ss_bol_width_ (nth 5 ss_bol_))
   (setq ss_bol_height_ (nth 6 ss_bol_))
   (TA:vla-insertblock 
-    "000 - FAMELINE-CKST_AL.CELING_PANEL_300HK_@400mm_BOTTOM_VIEW_FOR_AS-02(L-varies_LOT)"
-    ss_bol_third-pt_
+    "ACM_Linear Slot_Supply _1600x175x450_ - 1600x175_300Ø_-15127328-06 MULTIPURPOSE LEVEL CB CEILING PLAN"
+    ss_bol_mid_
     1
     (deg-to-rad 180)
   )
-  ;new_blk_entlast object
-    (setq new-insert-col_ename (entlast))
-    (setq new-insert-col_obj (vlax-ename->vla-object new-insert-col_ename))
-    (LM:setdynpropvalue new-insert-col_obj "flip state1" 0)
-    (LM:setdynpropvalue new-insert-col_obj "ref_line" 0)
-    (LM:setdynpropvalue new-insert-col_obj "panel_width" ss_bol_height_)
-    (LM:setdynpropvalue new-insert-col_obj "panel_length" ss_bol_width_ )
-  ;
   ;preloop_and_while
     (setq sstemp_i 0)
     (while (< sstemp_i (sslength sstemp_))
