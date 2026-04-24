@@ -35027,6 +35027,8 @@
         ; (setq sss_ename_ (car (nentsel "specify Object"))) 
         (setq sss_ename_entget_ (entget sss_ename_))
         (setq sss_obj_ (vlax-ename->vla-object sss_ename_))
+        (setq sss_obj_layer (vla-get-layer (vlax-ename->vla-object sss_ename_)))
+        (setq sss_obj_color (vla-get-color (vlax-ename->vla-object sss_ename_)))
         (setq i 0)
         (setq sss_ename_vertex_ (vl-remove-if-not '(lambda (x) (= 10 (car x))) sss_ename_entget_))
         (setq sss_ename_vertex_ (mapcar 'cdr sss_ename_vertex_))
@@ -35085,6 +35087,8 @@
       ;new_blk_entlast object
         (command "erase" sss_ename_ "")
         (setq pline_ename (entlast))
+        (vla-put-layer (vlax-ename->vla-object pline_ename) sss_obj_layer)
+        (vla-put-color (vlax-ename->vla-object pline_ename) sss_obj_color)
         ; (if (= (setq check_val_ (check-clockwise xest_all-1)) "Counter-clockwise")
         ;   (progn
         ;     (command "reverse" pline_ename "" )
