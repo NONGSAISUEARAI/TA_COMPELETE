@@ -16368,7 +16368,11 @@
       (setq blk2_obj_ (vlax-ename->vla-object blk2_ename_))
       (setq blk2_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint blk2_obj_))))
       (setq insmid_ (TA:midpoint blk1_obj_ins_ blk2_obj_ins_))
-      (vla-copy blk1_obj_)
+      
+      (setq target-move_ename_ (car (entsel "specify Object")))
+      (setq target-move_obj_ (vlax-ename->vla-object target-move_ename_))
+      
+      (vla-copy target-move_obj_)
       ;new_blk_entlast object
         (setq newblk_ename (entlast))
         (setq newblk_obj (vlax-ename->vla-object newblk_ename))
@@ -52684,7 +52688,7 @@
           (function 
             (lambda () 
               (setvar "selectionpreview" 3)
-              (setq get_height_ename_ (car (entsel "specify Object")))
+              (setq get_height_ename_ (car (entsel "specify reference panel Object")))
               (setq get_height_obj_ (vlax-ename->vla-object get_height_ename_))
               (setq input_height (LM:getdynpropvalue get_height_obj_ "distance2"  ))
               (setvar "selectionpreview" 0)
