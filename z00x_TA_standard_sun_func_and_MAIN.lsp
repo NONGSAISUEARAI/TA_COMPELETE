@@ -16739,7 +16739,7 @@
       ;
     )
     (defun c:insert_by_centroid_blk2ct ()
-      (getvar "selectionpreview" 3)
+      (setvar "selectionpreview" 3)
       (setq pline_ename_ (car (entsel "specify Object")))
       (setq pline_ename_obj_ (vlax-ename->vla-object pline_ename_))
       (setq pline-intesert_obj_vertex_insxy (if (= (getvar "worlducs") 0)(progn (trans (LM:PolyCentroid pline_ename_) 1 1)) (LM:PolyCentroid pline_ename_) ))
@@ -16755,7 +16755,7 @@
           (setvar  "osmode" 1215)
         )
       )
-      (getvar "selectionpreview" 0)
+      (setvar "selectionpreview" 0)
     )
     (defun c:insert_by_centroid_blk2cen ()
       (setvar "selectionpreview" 3)
@@ -54047,4 +54047,36 @@
     )
     (create-text-vla (vlax-3d-point (getpoint "specify text for value")) (strcat "ความยาวทั้งหมด " (rtos (- sumtext_val (/ (* total_air_ 1600) 1000) ) 2 0 ) " มม. หักลบจำนวนความกว้างแอร์")  1500 0)
   ;/
+)
+
+
+
+(defun c:temp_drop_color_set ()
+  (setq layer_list_for_drop_set (list 
+                                  "008 - AIR_MASK_MAIN_COLOR_1"
+                                  "008 - AIR_MASK_MAIN_COLOR_2"
+                                  "008 - E&M_ACESSORIES_MAIN_COLOR_1"
+                                  "008 - E&M_ACESSORIES_MAIN_COLOR_2"
+                                  "008 - LIGHT_DN_MAIN_COLOR_1"
+                                  "008 - LIGHT_DN_MAIN_COLOR_1"
+                                  "008 - LIGHT_FLUORESCENT_MAIN_COLOR_1"
+                                  "008 - LIGHT_FLUORESCENT_MAIN_COLOR_2"
+                                  "009 - AHP_06_PANEL_MAIN_COLOR_1"
+                                )
+  )
+  (foreach i layer_list_for_drop_set 
+    (setq ERR_ (vl-catch-all-apply 
+                 (function 
+                   (lambda () 
+                      (if (= (TA:if_found_layer_ i) T) 
+                        (progn 
+                          (command "vplayer" "c" 1 i "c" "")
+                        )
+                      )
+                   )
+                 )
+               )
+    )
+  )
+  
 )
