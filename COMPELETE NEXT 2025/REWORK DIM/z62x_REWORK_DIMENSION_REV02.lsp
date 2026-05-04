@@ -14868,7 +14868,7 @@
               )
               (sslength ss_pre_filter_set_xx_)
             )
-            (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000-GRID_LINE_DYN_V2"))
+            (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_v2_ ss_pre_filter_set_xx_ (list "000-GRID_LINE_DYN_V2" "000-GRID_LINE_DYN_V3")))
           ;
           ;preloop_and_while ins Current UCS
             (setq ss_pre_filter_set_xx_i 0)
