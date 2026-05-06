@@ -13970,7 +13970,7 @@
             (vl-catch-all-apply 
               (function 
                 (lambda () 
-                  (setvar "osmode" 15)
+                  (setvar "osmode" 1215)
                   (setq PT_ref_ (getpoint "specify reference point"))
                 )
               )
@@ -14022,7 +14022,7 @@
             (vl-catch-all-apply 
               (function 
                 (lambda () 
-                  (setvar "osmode" 15)
+                  (setvar "osmode" 1215)
                   (setq PT_ref_ (getpoint "specify reference point"))
                 )
               )
@@ -16331,6 +16331,28 @@
     )
   ;
   ;INSERT_FUNC
+    (defun c:qblk ()
+      (setq kword_result_ (TA:getkword "Keep block name for insert block ?"  "Yes" "No"  "yes" "false"))
+      (if (and 
+            (/= kword_blk_efname_ nil)
+            (= kword_result_ "yes")
+          )
+        (progn
+          (setq kword_blk_efname_ kword_blk_efname_)
+        )
+        (setq ERR_
+          (vl-catch-all-apply
+            (function
+              (lambda ()
+                (setq kword_blk_efname_ (LM:effectivename (vlax-ename->vla-object (car (entsel "specify block reference to get block name : ")))))
+                (setq err_i 0)
+              )
+            )
+          )
+        )
+      )
+      
+    )
     (defun c:insert_butween_two_object_insbtwobj ()
       ;selection_set_for_fillter_blk_name
         (if  ;pre_select_ssget_or_post_select_ssget
@@ -17059,96 +17081,95 @@
                                                     "> : "
                                             ) ) ) (choose_indent-block_di) ) )
       
-    ;
     
-    ;preloop_and_while
+    
       ;preloop_and_while
-        (setq ss_pre_filter_set_xx_i 0)
-        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
-          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
-          (TA:insert_indentblk_ 
-            ss_pre_filter_set_xx_obj_
-            (nth (fix choose_indent-block_di) indentnamelist)
-            1750
-            0
-            0
+        ;preloop_and_while
+          (setq ss_pre_filter_set_xx_i 0)
+          (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+            (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+            (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+            (TA:insert_indentblk_ 
+              ss_pre_filter_set_xx_obj_
+              (nth (fix choose_indent-block_di) indentnamelist)
+              1750
+              0
+              0
+            )
+            (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
           )
-          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
-        )
+        ;
       ;
     )
     (defun c:insert_by_indent_denyb_blk ()
       ;selection_set_for_fillter_blk_name
-        (if  ;pre_select_ssget_or_post_select_ssget
-          (=
-            (setq ss_pre_filter_set_xx_ (ssget "i"
-                                              (list
-                                                (cons 0 "INSERT") ;type of object
-                                                ; (cons 8 "000 - GRID")   ;kind of layer
-                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                                ; (cons 62 1)           ;kind of color call sign with color code index
-                                              )
-                                        )
+          (if  ;pre_select_ssget_or_post_select_ssget
+            (=
+              (setq ss_pre_filter_set_xx_ (ssget "i"
+                                                (list
+                                                  (cons 0 "INSERT") ;type of object
+                                                  ; (cons 8 "000 - GRID")   ;kind of layer
+                                                  ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                  ; (cons 62 1)           ;kind of color call sign with color code index
+                                                )
+                                          )
+              )
+              nil
             )
-            nil
-          )
-          (progn
-            (setq ss_pre_filter_set_xx_ (ssget
-                                              (list
-                                                (cons 0 "INSERT") ;type of object
-                                                ; (cons 8 "000 - GRID")   ;kind of layer
-                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                                ; (cons 62 1)           ;kind of color call sign with color code index
-                                              )
-                                        )
+            (progn
+              (setq ss_pre_filter_set_xx_ (ssget
+                                                (list
+                                                  (cons 0 "INSERT") ;type of object
+                                                  ; (cons 8 "000 - GRID")   ;kind of layer
+                                                  ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                  ; (cons 62 1)           ;kind of color call sign with color code index
+                                                )
+                                          )
+              )
             )
+            (sslength ss_pre_filter_set_xx_)
           )
-          (sslength ss_pre_filter_set_xx_)
+        ;
+        ; (setq target_block_for_indent-insert_ename_ (car (entsel "specify target_block_for_indent-insert_ename_ Object")))
+        ; (setq target_block_for_indent-insert_obj_ (vlax-ename->vla-object target_block_for_indent-insert_ename_))
+        ; (setq target_block_for_indent-insert_obj_EFname_ (LM:effectivename target_block_for_indent-insert_obj_ ))
+        ; (setq target_block_for_indent-insert_obj_EFname_ "010 - ALU_TRAY_PANEL_FOR_AIR_GRILLE_STANDARD-SHAPE_BOTTOM-VIEW")
+        ; (setq target_block_for_indent-insert_obj_EFname_ "010 - ALU_TRAY_PANEL_FOR_BLANK-RECESSED-LIGHT_STANDARD-SHAPE_BOTTOM-VIEW")
+        (setq indentnamelist (list 
+                        (setq indent-block_0 "blank")
+                        (setq indent-block_1 "010 - ALU_TRAY_PANEL_FOR_AIR_GRILLE_STANDARD-SHAPE_BOTTOM-VIEW")
+                        (setq indent-block_2 "010 - ALU_TRAY_PANEL_FOR_BLANK-RECESSED-LIGHT_STANDARD-SHAPE_BOTTOM-VIEW")
+                        (setq indent-block_3 "")
+                        (setq indent-block_4 "")
+                        (setq indent-block_5 "")
+                        (setq indent-block_6 "")
+                        (setq indent-block_7 "")
+                        (setq indent-block_8 "")
+                        (setq indent-block_9 "")
+                      )
         )
-      ;
-      ; (setq target_block_for_indent-insert_ename_ (car (entsel "specify target_block_for_indent-insert_ename_ Object")))
-      ; (setq target_block_for_indent-insert_obj_ (vlax-ename->vla-object target_block_for_indent-insert_ename_))
-      ; (setq target_block_for_indent-insert_obj_EFname_ (LM:effectivename target_block_for_indent-insert_obj_ ))
-      ; (setq target_block_for_indent-insert_obj_EFname_ "010 - ALU_TRAY_PANEL_FOR_AIR_GRILLE_STANDARD-SHAPE_BOTTOM-VIEW")
-      ; (setq target_block_for_indent-insert_obj_EFname_ "010 - ALU_TRAY_PANEL_FOR_BLANK-RECESSED-LIGHT_STANDARD-SHAPE_BOTTOM-VIEW")
-      (setq indentnamelist (list 
-                      (setq indent-block_0 "blank")
-                      (setq indent-block_1 "010 - ALU_TRAY_PANEL_FOR_AIR_GRILLE_STANDARD-SHAPE_BOTTOM-VIEW")
-                      (setq indent-block_2 "010 - ALU_TRAY_PANEL_FOR_BLANK-RECESSED-LIGHT_STANDARD-SHAPE_BOTTOM-VIEW")
-                      (setq indent-block_3 "")
-                      (setq indent-block_4 "")
-                      (setq indent-block_5 "")
-                      (setq indent-block_6 "")
-                      (setq indent-block_7 "")
-                      (setq indent-block_8 "")
-                      (setq indent-block_9 "")
-                     )
-      )
-      (setq choose_indent-block_di (cond ( (getint (strcat "\nSpecify indent-block"
-                                                    "\n1 = " indent-block_1 
-                                                    "\n2 = " indent-block_2
-                                                    "\n3 = " indent-block_3
-                                                    "\n4 = " indent-block_4
-                                                    "\n5 = " indent-block_5 
-                                                    "\n6 = " indent-block_6 
-                                                    "\n7 = " indent-block_7 
-                                                    "\n8 = " indent-block_8 
-                                                    "\n9 = " indent-block_9 
-                                                    "\n<" 
-                                                    (rtos 
-                                                      (setq choose_indent-block_di (cond 
-                                                                              (choose_indent-block_di)
-                                                                              (1.0)
-                                                                            )
+        (setq choose_indent-block_di (cond ( (getint (strcat "\nSpecify indent-block"
+                                                      "\n1 = " indent-block_1 
+                                                      "\n2 = " indent-block_2
+                                                      "\n3 = " indent-block_3
+                                                      "\n4 = " indent-block_4
+                                                      "\n5 = " indent-block_5 
+                                                      "\n6 = " indent-block_6 
+                                                      "\n7 = " indent-block_7 
+                                                      "\n8 = " indent-block_8 
+                                                      "\n9 = " indent-block_9 
+                                                      "\n<" 
+                                                      (rtos 
+                                                        (setq choose_indent-block_di (cond 
+                                                                                (choose_indent-block_di)
+                                                                                (1.0)
+                                                                              )
+                                                        )
                                                       )
-                                                    )
-                                                    "> : "
-                                            ) ) ) (choose_indent-block_di) ) )
-      
-    ;
-    
-    ;preloop_and_while
+                                                      "> : "
+                                              ) ) ) (choose_indent-block_di) ) )
+        
+      ;
       ;preloop_and_while
         (setq ss_pre_filter_set_xx_i 0)
         (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
@@ -54121,4 +54142,9 @@
       (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
     )
   ;
+)
+
+
+(defun c:foo ()
+  (command "_-find" "ALUMINIUM VERTICAL FRAME 2.5 mm. thk." )
 )

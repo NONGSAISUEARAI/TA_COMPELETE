@@ -231,3 +231,67 @@
 )
 
 (princ)
+
+(defun C:Make_polyline_MKPLoutline ( / )
+    (_startundo doc)
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "LWPOLYLINE") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "LWPOLYLINE") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    (setq distance_depth (cond ( (getreal (strcat "\nspecify distance_depth <" (rtos (setq distance_depth (cond (distance_depth) (10) ) ) ) "> : " ) ) ) (distance_depth) ) )
+    (initget "Yes No")
+    (setq d (/= "No" (getkword "\nDelete Original? [Yes/No] <Yes>: ")))
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (setq ss_pre_filter_set_xx_obj_layer_ (vla-get-layer  ss_pre_filter_set_xx_obj_))
+        (if ( = (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbPolyline" )
+          (progn
+            (vla-put-constantwidth ss_pre_filter_set_xx_obj_ distance_depth)
+            (LM:PolyOutline ss_pre_filter_set_xx_ename_)
+            ;new_blk_entlast object
+              (setq new_PL_ename (entlast))
+              (setq new_PL_obj (vlax-ename->vla-object new_PL_ename))
+              (vla-put-layer new_PL_obj ss_pre_filter_set_xx_obj_layer_)
+              (vla-put-color new_PL_obj 256)
+            ;
+            
+            (if (= d T)
+              (progn
+                (entdel ss_pre_filter_set_xx_ename_)
+              )
+              (vla-put-constantwidth ss_pre_filter_set_xx_obj_ 0)
+            )
+          )
+        )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+    (_endUndo doc)
+)
