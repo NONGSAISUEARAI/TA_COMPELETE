@@ -17084,21 +17084,19 @@
     
     
       ;preloop_and_while
-        ;preloop_and_while
-          (setq ss_pre_filter_set_xx_i 0)
-          (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-            (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
-            (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
-            (TA:insert_indentblk_ 
-              ss_pre_filter_set_xx_obj_
-              (nth (fix choose_indent-block_di) indentnamelist)
-              1750
-              0
-              0
-            )
-            (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        (setq ss_pre_filter_set_xx_i 0)
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (TA:insert_indentblk_ 
+            ss_pre_filter_set_xx_obj_
+            (nth (fix choose_indent-block_di) indentnamelist)
+            1750
+            0
+            0
           )
-        ;
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
       ;
     )
     (defun c:insert_by_indent_denyb_blk ()
@@ -17188,6 +17186,38 @@
             (setq new_obj (vla-put-rotation new_obj (deg-to-rad 90)))
           ;
           (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+    )
+    (defun c:Rotate_by_basepoint_RBP ()
+      (setvar "selectionpreview" 3)
+      (setq target_ename_ (car (entsel "specify basepoint block Object")))
+      (setq target_obj_ (vlax-ename->vla-object target_ename_))
+      (setq target_obj_rotation_ (vla-get-rotation target_obj_))
+      (setq target_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint target_obj_))))
+      (if (= (getvar "worlducs") 0)(progn (setq target_obj_ins_ (trans target_obj_ins_ 1 1))) target_obj_ins_ )
+      
+      (setq rotater_ename_ (car (entsel "specify block Object for rotate")))
+      (setq rotater_obj_ (vlax-ename->vla-object rotater_ename_))
+      (vla-rotate rotater_obj_ (vlax-3d-point target_obj_ins_) (deg-to-rad ( - (rad-to-deg target_obj_rotation_) 90  ))  )
+      (vla-put-rotation rotater_obj_ target_obj_rotation_)
+      ;while selection process
+        (setq ERR_ nil)
+        (while ;for keep insertion point and dist. fix length one side
+          (and
+            (= (vl-catch-all-error-p ERR_) nil)
+          )
+          (setq ERR_
+            (vl-catch-all-apply
+              (function
+                (lambda ()
+                  (getstring "\nHit \nHit \nHit [ENTER] to continue...")
+                  (vla-rotate rotater_obj_ (vlax-3d-point target_obj_ins_) (deg-to-rad 90) )
+                  (setvar "selectionpreview" 0)
+                )
+              )
+            )
+          )
         )
       ;
     )
@@ -43997,16 +44027,21 @@
   )
   (defun C:sfbz ()
     ;presetting_
-      (setq wildcard_string_slot_1 (strcase (strcat "*" "Vertical Panel with Gap" "*")) )
-      (setq wildcard_string_slot_2 (strcase (strcat "*" "Air Supply" "*")) )
-      (setq wildcard_string_slot_3 (strcase (strcat "*" "Luminaire" "*")) )
-      (setq wildcard_string_slot_4 (strcase (strcat "*" "Horizontal with Gap" "*")) )
-      (setq wildcard_string_slot_5 (strcase (strcat "*" "Square" "*")) )
-      (setq wildcard_string_slot_6 (strcase (strcat "*" "lowp" "*")) )
-      (setq wildcard_string_slot_7 (strcase (strcat "*" "rec" "*")) )
-      (setq wildcard_string_slot_8 (strcase (strcat "*" "extr" "*")) )
-      (setq wildcard_string_slot_9 (strcase (strcat "*" "DPA_CP_Entrance" "*")) )
-      (setq wildcard_string_slot_10 (strcase (strcat "*" "GM_Louver" "*")) )
+      (setq wildcard_string_total_list_ 
+        (strcat 
+          (setq wildcard_string_slot_1 (strcase (strcat "*" "Vertical Panel with Gap" "*")) )
+          (setq wildcard_string_slot_2 (strcase (strcat "*" "Air Supply" "*")) )
+          (setq wildcard_string_slot_3 (strcase (strcat "*" "Luminaire" "*")) )
+          (setq wildcard_string_slot_4 (strcase (strcat "*" "Horizontal with Gap" "*")) )
+          (setq wildcard_string_slot_5 (strcase (strcat "*" "Square" "*")) )
+          (setq wildcard_string_slot_6 (strcase (strcat "*" "lowp" "*")) )
+          (setq wildcard_string_slot_7 (strcase (strcat "*" "ACM" "*")) )
+          (setq wildcard_string_slot_8 (strcase (strcat "*" "extr" "*")) )
+          (setq wildcard_string_slot_9 (strcase (strcat "*" "DPA_CP_Entrance" "*")) )
+          (setq wildcard_string_slot_10 (strcase (strcat "*" "GM_Louver" "*")) )
+          (setq wildcard_string_slot_11 (strcase (strcat "*" "L1-2" "*")) )
+        )
+      )
       (setq wildcard_string_slot_num_ (cond 
                                         ((getint 
                                           (strcat "\nspecify get wildcard_string_slot_ \n" 
@@ -44020,6 +44055,7 @@
                                                     "8 = "wildcard_string_slot_8 "\n"
                                                     "9 = "wildcard_string_slot_9 "\n"
                                                     "10 = "wildcard_string_slot_10 "\n"
+                                                    "11 = "wildcard_string_slot_11 "\n"
                                                   "<"
                                                   (rtos 
                                                     (setq wildcard_string_slot_num_ (cond 
@@ -44133,6 +44169,16 @@
           (progn
             (setq wildcard_string_ wildcard_string_slot_10)
             (princ "wildcard_string_slot_num__case_10")
+          )
+        )
+        (;wildcard_string_slot_num__case_10
+          (and
+              (= wildcard_string_slot_num_ 11)
+              
+          )
+          (progn
+            (setq wildcard_string_ wildcard_string_slot_11)
+            (princ "wildcard_string_slot_num__case_11")
           )
         )
 
@@ -53225,6 +53271,8 @@
 (defun c:insert_alu-tray_tr1 ()
   (setq pt-1_ (getpoint "specify point 1"))
   (setq pt-2_ (getpoint pt-1_  "specify point 2"))
+  (setq pt-1_ANG_ pt-1_)
+  (setq pt-2_ANG_ pt-2_)
   (setq pt-length_ (LM:round (distance (list (car pt-1_) (cadr pt-1_) (caddr pt-1_)) (list (car pt-2_) (cadr pt-1_) (caddr pt-2_)) ) ) )
   (if (= (getvar "worlducs") 0)(progn (setq pt-1_ (trans pt-1_ 1 0))) pt-1_ )
   (TA:vla-insertblock 
@@ -53237,11 +53285,18 @@
     (setq entlast_ename (entlast))
     (setq entlast_obj (vlax-ename->vla-object entlast_ename))
     (LM:setdynpropvalue entlast_obj "sub_length" pt-length_)
+    (if (< (rad-to-deg (angle pt-1_ANG_ pt-2_ANG_) ) 90)
+      (progn
+        (LM:setdynpropvalue entlast_obj "flip state1" 1)
+      )
+    )
   ;
 )
 (defun c:insert_alu-tray_tr22 ()
   (setq pt-1_ (getpoint "specify point 1"))
   (setq pt-2_ (getpoint pt-1_  "specify point 2"))
+  (setq pt-1_ANG_ pt-1_)
+  (setq pt-2_ANG_ pt-2_)
   (setq pt-length_ (LM:round (distance (list (car pt-1_) (cadr pt-1_) (caddr pt-1_)) (list (car pt-1_) (cadr pt-2_) (caddr pt-2_)) ) ) )
   (if (= (getvar "worlducs") 0)(progn (setq pt-1_ (trans pt-1_ 1 0))) pt-1_ )
   (TA:vla-insertblock 
@@ -53254,6 +53309,14 @@
     (setq entlast_ename (entlast))
     (setq entlast_obj (vlax-ename->vla-object entlast_ename))
     (LM:setdynpropvalue entlast_obj "sub_length" pt-length_)
+    (if (and 
+          (>= (rad-to-deg (angle pt-1_ANG_ pt-2_ANG_) ) 90)
+          (<= (rad-to-deg (angle pt-1_ANG_ pt-2_ANG_) ) 180)
+        )
+      (progn
+        (LM:setdynpropvalue entlast_obj "flip state1" 1)
+      )
+    )
   ;
 )
 (defun c:ttpre ()
@@ -54146,5 +54209,15 @@
 
 
 (defun c:foo ()
-  (command "_-find" "ALUMINIUM VERTICAL FRAME 2.5 mm. thk." )
+  (setq ssss_ename_ (car (entsel "specify Object")))
+  (setq ssss_obj_ (vlax-ename->vla-object ssss_ename_))
+  
+  (command "measure" ssss_ename_ "B" "a1" "Y" 5 )
 )
+(defun c:f2()
+  (setq ssss_ename_ (car (entsel "specify Object")))
+  (setq ssss_obj_ (vlax-ename->vla-object ssss_ename_))
+  
+  (command "measure" ssss_ename_ "B" "AAW" "Y" 20 )
+)
+
