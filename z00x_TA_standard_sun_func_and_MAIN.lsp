@@ -16861,7 +16861,7 @@
           (TA:vla-insertblock
             blkname_inter_target_
             inters_ss_new_trans_val_
-            1
+            1000
             (vla-get-rotation target_blk_obj_)
           )
           ;new_blk_entlast object
