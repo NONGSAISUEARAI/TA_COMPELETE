@@ -44171,171 +44171,13 @@
     (command "bvshow" ss_pre_filter_set_xx_ "" "C")
   )
   (defun C:sfbz ()
-    ;presetting_
-      (setq wildcard_string_total_list_ 
-        (strcat 
-          (setq wildcard_string_slot_1 (strcase (strcat "*" "Vertical Panel with Gap" "*")) )
-          (setq wildcard_string_slot_2 (strcase (strcat "*" "Air Supply" "*")) )
-          (setq wildcard_string_slot_3 (strcase (strcat "*" "Luminaire" "*")) )
-          (setq wildcard_string_slot_4 (strcase (strcat "*" "Horizontal with Gap" "*")) )
-          (setq wildcard_string_slot_5 (strcase (strcat "*" "Square" "*")) )
-          (setq wildcard_string_slot_6 (strcase (strcat "*" "lowp" "*")) )
-          (setq wildcard_string_slot_7 (strcase (strcat "*" "ACM" "*")) )
-          (setq wildcard_string_slot_8 (strcase (strcat "*" "extr" "*")) )
-          (setq wildcard_string_slot_9 (strcase (strcat "*" "DPA_CP_Entrance" "*")) )
-          (setq wildcard_string_slot_10 (strcase (strcat "*" "GM_Louver" "*")) )
-          (setq wildcard_string_slot_11 (strcase (strcat "*" "L1-2" "*")) )
-        )
-      )
-      (setq wildcard_string_slot_num_ (cond 
-                                        ((getint 
-                                          (strcat "\nspecify get wildcard_string_slot_ \n" 
-                                                    "1 = " wildcard_string_slot_1 "\n"
-                                                    "2 = "wildcard_string_slot_2 "\n"
-                                                    "3 = "wildcard_string_slot_3 "\n"
-                                                    "4 = "wildcard_string_slot_4 "\n"
-                                                    "5 = "wildcard_string_slot_5 "\n"
-                                                    "6 = "wildcard_string_slot_6 "\n"
-                                                    "7 = "wildcard_string_slot_7 "\n"
-                                                    "8 = "wildcard_string_slot_8 "\n"
-                                                    "9 = "wildcard_string_slot_9 "\n"
-                                                    "10 = "wildcard_string_slot_10 "\n"
-                                                    "11 = "wildcard_string_slot_11 "\n"
-                                                  "<"
-                                                  (rtos 
-                                                    (setq wildcard_string_slot_num_ (cond 
-                                                                                      (wildcard_string_slot_num_)
-                                                                                      (1.0)
-                                                                                    )
-                                                    )
-                                                  )
-                                                  "> : "
-                                          )
-                                        )
-                                        )
-                                        (wildcard_string_slot_num_)
-                                      )
-      )
-      (cond
-        (;wildcard_string_slot_num__case_1
-          (and
-              (= wildcard_string_slot_num_ 1)
-          )
-          (progn
-            (setq wildcard_string_ wildcard_string_slot_1)
-            (princ "wildcard_string_slot_num__case_1")
-          )
-        )
-        (;wildcard_string_slot_num__case_2
-          (and
-              (= wildcard_string_slot_num_ 2)
-              
-          )
-          (progn
-            (setq wildcard_string_ wildcard_string_slot_2)
-            (princ "wildcard_string_slot_num__case_2")
-          )
-        )
-        (;wildcard_string_slot_num__case_3
-          (and
-              (= wildcard_string_slot_num_ 3)
-              
-          )
-          (progn
-            (setq wildcard_string_ wildcard_string_slot_3)
-            (princ "wildcard_string_slot_num__case_3")
-          )
-        )
-        (;wildcard_string_slot_num__case_4
-          (and
-              (= wildcard_string_slot_num_ 4)
-              
-          )
-          (progn
-            (setq wildcard_string_ wildcard_string_slot_4)
-            (princ "wildcard_string_slot_num__case_3")
-          )
-        )
-        (;wildcard_string_slot_num__case_5
-          (and
-              (= wildcard_string_slot_num_ 5)
-              
-          )
-          (progn
-            (setq wildcard_string_ wildcard_string_slot_5)
-            (princ "wildcard_string_slot_num__case_3")
-          )
-        )
-        (;wildcard_string_slot_num__case_6
-          (and
-              (= wildcard_string_slot_num_ 6)
-              
-          )
-          (progn
-            (setq wildcard_string_ wildcard_string_slot_6)
-            (princ "wildcard_string_slot_num__case_6")
-          )
-        )
-        (;wildcard_string_slot_num__case_7
-          (and
-              (= wildcard_string_slot_num_ 7)
-              
-          )
-          (progn
-            (setq wildcard_string_ wildcard_string_slot_7)
-            (princ "wildcard_string_slot_num__case_7")
-          )
-        )
-        (;wildcard_string_slot_num__case_7
-          (and
-              (= wildcard_string_slot_num_ 8)
-              
-          )
-          (progn
-            (setq wildcard_string_ wildcard_string_slot_8)
-            (princ "wildcard_string_slot_num__case_8")
-          )
-        )
-        (;wildcard_string_slot_num__case_9
-          (and
-              (= wildcard_string_slot_num_ 9)
-              
-          )
-          (progn
-            (setq wildcard_string_ wildcard_string_slot_9)
-            (princ "wildcard_string_slot_num__case_9")
-          )
-        )
-        (;wildcard_string_slot_num__case_10
-          (and
-              (= wildcard_string_slot_num_ 10)
-              
-          )
-          (progn
-            (setq wildcard_string_ wildcard_string_slot_10)
-            (princ "wildcard_string_slot_num__case_10")
-          )
-        )
-        (;wildcard_string_slot_num__case_10
-          (and
-              (= wildcard_string_slot_num_ 11)
-              
-          )
-          (progn
-            (setq wildcard_string_ wildcard_string_slot_11)
-            (princ "wildcard_string_slot_num__case_11")
-          )
-        )
-
-      )
-    ;
-    
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget
         (=
           (setq ss_pre_filter_set_xx_ (ssget "i"
                                             (list
-                                              (cons 0 "INSERT") ;type of object
+                                              (cons 0 "insert") ;type of object
+                                              ; (cons 70 1) ;close assoc for lwpolyline
                                               ; (cons 8 "000 - GRID")   ;kind of layer
                                               ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                               ; (cons 62 1)           ;kind of color call sign with color code index
@@ -44343,12 +44185,12 @@
                                       )
           )
           nil
-        )
+        ) 
         (progn
           (setq ss_pre_filter_set_xx_ (ssget
                                             (list
-                                              (cons 0 "INSERT") ;type of object
-                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              (cons 0 "insert") ;type of object
+                                              ; (cons 70 1) ;close assoc for lwpolyline   ;kind of layer
                                               ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                               ; (cons 62 1)           ;kind of color call sign with color code index
                                             )
@@ -44358,37 +44200,81 @@
         (sslength ss_pre_filter_set_xx_)
       )
     ;
-    ; (setq wildcard_string_ ;Get-string by keep previous value ; old method
-      ;     (if
-      ;       (or
-      ;         (/= (setq wildcard_string_val (getstring (strcat "\nSpecify Pattern name <" (if wildcard_string_ wildcard_string_ "") ">: ") ) ) "" )
-      ;       )
-      ;         (progn
-      ;           (setq wildcard_string_ wildcard_string_val)
-      ;           (setq wildcard_string_keep_val_ wildcard_string_val)
-      ;         )
-      ;       (setq wildcard_string_val wildcard_string_keep_val_)
-      ;     )
-    ; )
-    
+    ;user_input_
+      (setq namelist (list 
+                      (setq block_0 (strcase (strcat "*" "" "*")) )
+                      (setq block_1 (strcase (strcat "*" "Vertical Panel with Gap" "*")) )
+                      (setq block_2 (strcase (strcat "*" "Air Supply" "*")) )
+                      (setq block_3 (strcase (strcat "*" "heat,smoke" "*")) )
+                      (setq block_4 (strcase (strcat "*" "Luminaire" "*")) )
+                      (setq block_5 (strcase (strcat "*" "Square" "*")) )
+                      (setq block_6 (strcase (strcat "*" "lowp" "*")) )
+                      (setq block_7 (strcase (strcat "*" "ACM" "*")) )
+                      (setq block_8 (strcase (strcat "*" "extr" "*")) )
+                      (setq block_9 (strcase (strcat "*" "DPA_CP_Entrance" "*")) )
+                      (setq block_10 (strcase (strcat "*" "GM_Louver" "*")) )
+                      (setq block_11 (strcase (strcat "*" "L1-2" "*")) )
+                     )
+      )
+      (setq choose_block_di (cond 
+                              ((getint 
+                                 (strcat "\nSpecify block" 
+                                         "\n1 = "
+                                         block_1
+                                         "\n2 = "
+                                         block_2
+                                         "\n3 = "
+                                         block_3
+                                         "\n4 = "
+                                         block_4
+                                         "\n5 = "
+                                         block_5
+                                         "\n6 = "
+                                         block_6
+                                         "\n7 = "
+                                         block_7
+                                         "\n8 = "
+                                         block_8
+                                         "\n9 = "
+                                         block_9
+                                         "\n10 = "
+                                         block_10
+                                         "\n11 = "
+                                         block_11
+                                         "\n<"
+                                         (rtos 
+                                           (setq choose_block_di (cond 
+                                                                   (choose_block_di)
+                                                                   (1.0)
+                                                                 )
+                                           )
+                                         )
+                                         "> : "
+                                 )
+                               )
+                              )
+                              (choose_block_di)
+                            )
+      )
+    ;
     
     ;preloop_and_while
       (setq ss_pre_filter_set_xx_i 0)
-      (setq new_pre_filter_set_xx_ (ssadd))
-      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_new_sec (ssadd))
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))  
+        (setq ss_pre_filter_set_xx_ename_ (ssname  ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
         (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
-
-        (if (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_)) wildcard_string_)
+        (if (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_)) (nth choose_block_di namelist))
           (progn
-            (setq new_pre_filter_set_xx_  (ssadd ss_pre_filter_set_xx_ename_ new_pre_filter_set_xx_))
+            (setq ss_new_sec (ssadd ss_pre_filter_set_xx_ename_ ss_new_sec))
           )
         )
         (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
       )
     ;
-    (command "pselect"  new_pre_filter_set_xx_ "" )
+    (command "pselect"  ss_new_sec "" )
   )
+  
   (defun C:sfbvis () ;s
     ;presetting_
       (setq wildcard_string_slot_1 (strcase (strcat "*" "Vertical Panel with Gap" "*")) )
