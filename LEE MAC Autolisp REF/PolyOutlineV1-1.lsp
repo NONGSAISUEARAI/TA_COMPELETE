@@ -232,7 +232,7 @@
 
 (princ)
 
-(defun C:Make_polyline_MKPLoutline ( / )
+(defun C:Make_polyline_MKPLoutline_PLDEP ( / )
     (_startundo doc)
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget
