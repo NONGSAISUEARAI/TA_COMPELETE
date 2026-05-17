@@ -8370,6 +8370,244 @@
       )
       
     )
+    (defun TA:add_hatch_scale (sss_ename_ )
+      (setq hatch_scale_list_ (list 
+                               "1:1"
+                               "1:2"
+                               "1:5"
+                               "1:10"
+                               "1:20"
+                               "1:25"
+                               "1:50"
+                               "1:75"
+                               "1:100"
+                               "1:500"
+                             )
+      )
+      ; (setq sss_ename_ (car (entsel "specify Object")))
+      ; (setq sss_obj_ (vlax-ename->vla-object sss_ename_))
+      ; (vlax-dump-object sss_obj_)
+      ;preloop_and_while
+        (setq hatch_scale_list_i 0)
+        (while (< hatch_scale_list_i (length hatch_scale_list_))
+          (setq hatch_scale_list_val_ (nth  hatch_scale_list_i hatch_scale_list_))
+            (setq Er-msg_ 
+              (vl-catch-all-apply 
+                (function 
+                  (lambda () 
+                    (command "objectscale" sss_ename_ "" "add" hatch_scale_list_val_ "" )
+                  )
+                )
+              )
+            )
+          
+          
+          
+      
+          (setq hatch_scale_list_i (+ hatch_scale_list_i 1))
+        )
+      ;
+    )
+    (defun c:create_wall_hatch_WALLBLOCKHATCH ()
+      ;user_input_
+      (setq obj_name_ (vla-get-objectname (vlax-ename->vla-object (setq hatch_ename_ (car (entsel "specify Object"))))))
+      
+      (cond
+        ( ;first process
+          (or
+            
+            (= obj_name_ "AcDbPolyline")
+          )
+          (progn
+            (= (vla-get-closed (setq hatch_ename_obj_ (vlax-ename->vla-object hatch_ename_))) :vlax-true)
+            (setq 1st_process "AcDbPolyline")
+          )
+        )
+        (;first process
+          (or
+            (= obj_name_ "AcDbBlockReference")
+          )
+          (progn
+            (setq 1st_process "AcDbBlockReference")
+            
+          )
+        )
+      )
+      
+      
+      (if 
+        (and 
+          (= hatch_ename_getang_ nil)
+          (= hatch_ename_getsc_ nil)
+        )
+        (progn
+          (setq  hatch_ename_getang_ 0)
+          (setq  hatch_ename_getsc_ 1)
+          
+        )
+      )
+      ;preseting_data_
+        (setvar "hpannotative" 1)
+        (setq hatch_Layer_ "000 - CONCRETE_WALL_HATCH_")
+        (setq hatch_patt_ "ANSI37")
+        (setq hatch_color_ "bylayer")
+        (setq hatch_background_ ".")
+        (setq hatch_ename_getang_ 0 )
+        (setq hatch_ename_getsc_ 0.1 )
+      ;
+      (setq hatch_obj_ (vlax-ename->vla-object hatch_ename_))
+
+      
+      (command ".-hatch" "s"  hatch_ename_  
+                "" 
+                "c" hatch_color_ hatch_background_
+                "p" hatch_patt_ hatch_ename_getsc_ hatch_ename_getang_ 
+                "L" hatch_Layer_ 
+                ""  
+               
+      )
+      ;new_blk_entlast object
+        (setq newhatch_ename (entlast))
+        (setq newhatch_obj (vlax-ename->vla-object newhatch_ename))
+        
+      ;
+      (TA:add_hatch_scale newhatch_ename)
+      
+      
+    )
+    (defun c:create_sand_hatch_SANDHATCH ()
+      ;user_input_
+      (setq obj_name_ (vla-get-objectname (vlax-ename->vla-object (setq hatch_ename_ (car (entsel "specify Object"))))))
+      
+      (cond
+        ( ;first process
+          (or
+            
+            (= obj_name_ "AcDbPolyline")
+          )
+          (progn
+            (= (vla-get-closed (setq hatch_ename_obj_ (vlax-ename->vla-object hatch_ename_))) :vlax-true)
+            (setq 1st_process "AcDbPolyline")
+          )
+        )
+        (;first process
+          (or
+            (= obj_name_ "AcDbBlockReference")
+          )
+          (progn
+            (setq 1st_process "AcDbBlockReference")
+            
+          )
+        )
+      )
+      
+      
+      (if 
+        (and 
+          (= hatch_ename_getang_ nil)
+          (= hatch_ename_getsc_ nil)
+        )
+        (progn
+          (setq  hatch_ename_getang_ 0)
+          (setq  hatch_ename_getsc_ 1)
+          
+        )
+      )
+      ;preseting_data_
+        (setvar "hpannotative" 1)
+        (setq hatch_Layer_ "000 - CONCRETE_WALL_HATCH_")
+        (setq hatch_patt_ "AR-SAND")
+        (setq hatch_color_ "bylayer")
+        (setq hatch_background_ ".")
+        (setq hatch_ename_getang_ 0 )
+        (setq hatch_ename_getsc_ 0.01 )
+      ;
+      (setq hatch_obj_ (vlax-ename->vla-object hatch_ename_))
+
+      
+      (command ".-hatch" "s"  hatch_ename_  
+                "" 
+                "c" hatch_color_ hatch_background_
+                "p" hatch_patt_ hatch_ename_getsc_ hatch_ename_getang_ 
+                "L" hatch_Layer_ 
+                ""  
+               
+      )
+      ;new_blk_entlast object
+        (setq newhatch_ename (entlast))
+        (setq newhatch_obj (vlax-ename->vla-object newhatch_ename))
+      ;
+      (TA:add_hatch_scale newhatch_ename)
+      
+      
+    )
+    (defun c:create_concrete_hatch_CONCRETEHATCH ()
+      ;user_input_
+      (setq obj_name_ (vla-get-objectname (vlax-ename->vla-object (setq hatch_ename_ (car (entsel "specify Object"))))))
+      
+      (cond
+        ( ;first process
+          (or
+            
+            (= obj_name_ "AcDbPolyline")
+          )
+          (progn
+            (= (vla-get-closed (setq hatch_ename_obj_ (vlax-ename->vla-object hatch_ename_))) :vlax-true)
+            (setq 1st_process "AcDbPolyline")
+          )
+        )
+        (;first process
+          (or
+            (= obj_name_ "AcDbBlockReference")
+          )
+          (progn
+            (setq 1st_process "AcDbBlockReference")
+            
+          )
+        )
+      )
+      
+      
+      (if 
+        (and 
+          (= hatch_ename_getang_ nil)
+          (= hatch_ename_getsc_ nil)
+        )
+        (progn
+          (setq  hatch_ename_getang_ 0)
+          (setq  hatch_ename_getsc_ 1)
+          
+        )
+      )
+      ;preseting_data_
+        (setvar "hpannotative" 1)
+        (setq hatch_Layer_ "000 - CONCRETE_COL_HATCH_")
+        (setq hatch_patt_ "AR-CONC")
+        (setq hatch_color_ "bylayer")
+        (setq hatch_background_ ".")
+        (setq hatch_ename_getang_ 0 )
+        (setq hatch_ename_getsc_ 0.5 )
+      ;
+      (setq hatch_obj_ (vlax-ename->vla-object hatch_ename_))
+
+      
+      (command ".-hatch" "s"  hatch_ename_  
+                "" 
+                "c" hatch_color_ hatch_background_
+                "p" hatch_patt_ hatch_ename_getsc_ hatch_ename_getang_ 
+                "L" hatch_Layer_ 
+                ""  
+               
+      )
+      ;new_blk_entlast object
+        (setq newhatch_ename (entlast))
+        (setq newhatch_obj (vlax-ename->vla-object newhatch_ename))
+      ;
+      (TA:add_hatch_scale newhatch_ename)
+      
+      
+    )
+    
   ;
   ;symbol_FUNC_
     (defun c:add_breakline_to_rectangle_ADBK ()
@@ -16082,7 +16320,7 @@
           (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
 
           
-          (setq ssss (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "SQL_NO" ss_pre_filter_set_xx_i))
+          (setq ssss (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "D" ss_pre_filter_set_xx_i))
 
           (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
         )
@@ -54289,20 +54527,73 @@
   (setvar "osmode" 1215)
 )
 
-(defun c:styfn (/ Oldtstyle Sttxt Userfont error)
-    (defun error (s)
-      (setvar "textstyle" oldtstyle)
-    )
-    (setq oldtstyle (getvar "textstyle"))
-    (setq userfont "arial.ttf") ;"arial.ttf" <<<<change this for your textfont
-    (setvar "textstyle" (cdr (assoc 2 (tblnext "style" t))))
-    (command "._Style" "" userfont 2 1 0 "N" "N")
-    (while
-      (setq sttxt (cdr (assoc 2 (tblnext "style"))))
-      (setvar "textstyle" sttxt)
-      (command "._Style" "" userfont 2 1 0 "N" "N")
-    )
-    (setvar "textstyle" oldtstyle)
-    (princ)
-  )
 
+
+(defun c:PL2STEEL ()
+  (_startundo DOC)
+  (defun TA:pl2steel (line_obj_)
+    ; (setq line_ename_ (car (entsel "specify Object")))
+    ; (setq line_obj_ (vlax-ename->vla-object line_ename_))
+    (setq line_obj_start_end_pt_ (list
+                                    (setq line_obj_startpt_ (vlax-safearray->list
+                                                              (vlax-variant-value ( vla-get-startpoint line_obj_ ))
+                                                            )
+                                    )
+                                    (setq line_obj_endpt_ (vlax-safearray->list
+                                                              (vlax-variant-value ( vla-get-endpoint line_obj_ ))
+                                                          )
+                                    )
+                                  )
+    )
+    (TA:vla-insertblock 
+      "009 - AHP_06_FRAMING_TOP-VIEW" 
+      (if (= (getvar "worlducs") 0)(progn (trans line_obj_startpt_ 1 1)) line_obj_startpt_ ) 
+      1 
+      (angle line_obj_startpt_ line_obj_endpt_) 
+    )
+    ;new_blk_entlast object
+      (setq newsteel_ename (entlast))
+      (setq newsteel_obj (vlax-ename->vla-object newsteel_ename))
+      (LM:setdynpropvalue newsteel_obj "distance1" (fix (distance line_obj_startpt_ line_obj_endpt_)))
+    ;
+  )
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "LINE") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "LINE") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      (TA:pl2steel ss_pre_filter_set_xx_obj_)
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+  (_endundo DOC)
+  (command "pselect" ss_pre_filter_set_xx_ "")
+)

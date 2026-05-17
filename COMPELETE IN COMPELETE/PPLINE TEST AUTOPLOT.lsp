@@ -8595,7 +8595,7 @@
         )
         (sslength ss_pre_filter_set_xx_)
       )
-      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000_FAMELINE_SYMBOL_INDICATOR_NAME_"))
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_v2_ ss_pre_filter_set_xx_ (list "000_FAMELINE_SYMBOL_INDICATOR_NAME_" "000_FAMELINE_SYMBOL_INDICATOR_NAME_REV03")))
     ;
     ;while selection process
       (setq ERR_ nil)

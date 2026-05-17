@@ -35,7 +35,7 @@
     (command "-layer" "c" 251 "000_PPLINE_CKST_SMOKE_ACESSORIES_HATCH" "" ) 
     (command "-layer" "c" 250 "000_PPLINE_CKST_SMOKE_GLASS_FIN_WIPEOUT" "" ) 
 
-    ;(command "-layer" "filter" "n" "G" "" "*000 - CSD_PL_*" "CSD" ""  )
+    ; (command "-layer" "filter" "n" "G" "" "*000 - CSD_PL_*" "CSD" ""  )
     (setq MAIN-filter_1 "SMOKE")
     (setq MAIN-filter_1-1 "PPLINE_CKST_SMOKE_GLASS_FIN")
     (setq MAIN-filter_1-2 "PPLINE_CKST_SMOKE_BARRIER")
@@ -1560,6 +1560,45 @@
                                 )
       )
     )
+  )
+  (defun c:crelaywall ()
+   (TA:generate_filter_list
+      (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+      (setq 2nd_filter_val_main "000 - CONCRETE_") ;2nd_filter
+      (setq 3rd_filter_val_main (list ;3rd_filter
+                                  "COL" ;
+                                  "WALL" ;
+                                  "PRECAST" ;
+                                )
+      )
+      (setq 4th_filter_val_main (list  ;4th_filter
+                                      (list "CUT_COLOR_1" 1) ;
+                                      (list "CUT_COLOR_2" 2) ;
+                                      (list "CUT_COLOR_3" 3) ;
+                                      (list "CUT_COLOR_4" 4) ;
+                                      (list "CUT_COLOR_5" 5) ;
+                                      (list "MAIN_COLOR_1" 1) ;
+                                      (list "MAIN_COLOR_2" 2) ;
+                                      (list "MAIN_COLOR_3" 3) ;
+                                      (list "MAIN_COLOR_4" 4) ;
+                                      (list "MAIN_COLOR_5" 5) ;
+                                      (list "SUB_COLOR_1" 2) ;
+                                      (list "SUB_COLOR_2" 2) ;
+                                      (list "SUB_COLOR_3" 3) ;
+                                      (list "SUB_COLOR_4" 4) ;
+                                      (list "SUB_COLOR_5" 5) ;
+                                      (list "SUB_COLOR_8" 8) ;
+                                      (list "SUB_COLOR_251" 251) ;
+                                      (list "HATCH_" 251) ;
+                                      (list "WIPEOUT_" 250) ;
+                                      (list "HIDDEN_" 251) ;
+                                      (list "SYMBOL_" 251) ;
+                                      (list "DEF_SUB" 250) ;
+                                      (list "TEXT" 3) ;
+                                       ;
+                                )
+      )
+    ) 
   )
   (defun c:crelayHIDEOBJ_ ()
     (TA:generate_filter_list

@@ -11111,7 +11111,7 @@
               )
               (sslength ss_pre_filter_set_xx_)
             )
-            (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000-GRID_LINE_DYN_V2"))
+            (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_v2_ ss_pre_filter_set_xx_(list "000-GRID_LINE_DYN_V2" "000-GRID_LINE_DYN_V3")))
           ;
           ;preloop_and_while ins Current UCS
             (setq ss_pre_filter_set_xx_i 0)
@@ -16088,7 +16088,7 @@
       )
     )
   ;
-  ;select gird
+  ;select & modify grid
     (defun c:select_grid_sssg ()
       ;selection_set_for_fillter_blk_name
         (if  ;pre_select_ssget_or_post_select_ssget
@@ -16144,6 +16144,81 @@
           )
         )
       )
+    )
+
+    (defun c:grid-line_trim_GLTRIM ()
+      (_startundo doc)
+      (defun TAS:grid-line_trim (gridline_obj_ line_obj_)
+        ; (setq gridline_ename_ (car (entsel "specify Object")))
+        ; (setq gridline_obj_ (vlax-ename->vla-object gridline_ename_))
+        ; (setq line_ename_ (car (entsel "specify Object")))
+        ; (setq line_obj_ (vlax-ename->vla-object line_ename_))
+        (setq gridline_obj_rotation (rad-to-deg (vla-get-rotation gridline_obj_)))
+        (setq gridline_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint gridline_obj_))))
+        (setq gridline_obj_ins_start (if (= (getvar "worlducs") 0)(progn (trans gridline_obj_ins_ 0 1)) gridline_obj_ins_ ))
+        (setq gridline_obj_ins_end (polar gridline_obj_ins_start (deg-to-rad (TA:ModifyRotation gridline_obj_rotation 180)) (+ (LM:getdynpropvalue gridline_obj_ "H") (LM:getdynpropvalue gridline_obj_ "OFFSET")) ) )
+
+        (setq line_obj_start_end_pt_ (list 
+                                      (setq line_obj_startpt_ (if 
+                                                                (= (getvar "worlducs") 0 )
+                                                                (progn (trans (vlax-safearray->list (vlax-variant-value ( vla-get-startpoint line_obj_ ) ) ) 0 1 ) )
+                                                                (vlax-safearray->list (vlax-variant-value (vla-get-startpoint line_obj_ ) ) )
+                                                              )
+                                      )
+                                      (setq line_obj_endpt_ (if 
+                                                              (= (getvar "worlducs") 0 )
+                                                              (progn 
+                                                                (trans (vlax-safearray->list (vlax-variant-value ( vla-get-endpoint line_obj_ ) ) ) 0 1 )
+                                                              )
+                                                              (vlax-safearray->list (vlax-variant-value (vla-get-endpoint line_obj_) ) )
+                                                            )
+                                      )
+                                    )
+        )
+        (LM:setdynpropvalue gridline_obj_ "H" (distance gridline_obj_ins_start (inters gridline_obj_ins_start gridline_obj_ins_end (car line_obj_start_end_pt_) (cadr line_obj_start_end_pt_)) ) )
+      )
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                (cons 8 "*GRID*")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                (cons 8 "*GRID*")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+        (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_v2_ ss_pre_filter_set_xx_ (list "000-GRID_LINE_DYN_V2" "000-GRID_LINE_DYN_V3" "000-GRID_LINE_DYN_V2-FOR-CC012")))
+      ;
+      (setq line_ename_ (car (entsel "specify LINE Object")))
+      (setq line_obj_ (vlax-ename->vla-object line_ename_))
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setvar "osmode" 0)
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i)) 
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (TAS:grid-line_trim ss_pre_filter_set_xx_obj_ line_obj_)
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+      (setvar "osmode" 1215)
     )
   ;
   (defun c:G+ ()
