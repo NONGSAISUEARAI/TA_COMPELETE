@@ -8541,7 +8541,7 @@
       
       
     )
-    (defun c:create_concrete_hatch_CONCRETEHATCH ()
+    (defun c:create_concrete_hatch_CONHATCH ()
       ;user_input_
       (setq obj_name_ (vla-get-objectname (vlax-ename->vla-object (setq hatch_ename_ (car (entsel "specify Object"))))))
       
@@ -43972,6 +43972,7 @@
     ;
     (_endUndo doc)
   )
+  
 ;
 ;PPLINE CKST - SMOKE BARRIER Layer Func
   (defun c:PPLINE_CKST_SMOKE_create ()

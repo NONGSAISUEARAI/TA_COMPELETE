@@ -11012,6 +11012,33 @@
       ; (command "_SelectSimilar" target_layer_ "")
       (command "vplayer" "f" (vla-get-layer (vlax-ename->vla-object target_layer_ )) "C" "")
     )
+    (defun c:PPLINE-CKST-freezelist ()
+      (setq freeze_LIST_ (list 
+                          "A-WALL"
+                          "WALL-E"
+                          "A-WALL-FNSH"
+                          "A-WALL-PATT"
+                          "G-ANNO-TEXT"
+                          "I-WALL-E"
+                          "S-BEAM"
+                          "A-FLOR-E"
+                        )
+      )
+      ;preloop_and_while
+        (setq freeze_LIST_i 0)
+        (while (< freeze_LIST_i (length freeze_LIST_))
+          (setq freeze_LIST_val_ (nth  freeze_LIST_i freeze_LIST_))
+          (if (= (TA:if_found_layer_ freeze_LIST_val_) T) 
+            (progn 
+              (command "vplayer" "f" freeze_LIST_val_ "C" "")
+            )
+          )
+          
+      
+          (setq freeze_LIST_i (+ freeze_LIST_i 1))
+        )
+      ;
+    )
   ; 
   ;copy func
     (defun c:copynameblocktoclipboard_blkN2cl ()

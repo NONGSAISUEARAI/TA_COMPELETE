@@ -1621,7 +1621,7 @@
     )
     
   )
-  (defun c:crelayFLsymbol_ ()
+  (defun c:crelayFLsymbol_1 ()
     (TA:generate_filter_list
       (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
       (setq 2nd_filter_val_main "000 - 0_SYM_DWG_") ;2nd_filter
@@ -1638,10 +1638,12 @@
       )
       (setq 4th_filter_val_main (list  ;4th_filter
                                       (list "MAIN_COLOR_251" 251) ;
-                                      (list "MAIN_COLOR_1" 3) ;
+                                      (list "MAIN_COLOR_1" 1) ;
                                       (list "MAIN_COLOR_2" 2) ;
+                                      (list "MAIN_COLOR_2" 3) ;
                                       (list "SUB_COLOR_1" 1) ;
                                       (list "SUB_COLOR_2" 2) ;
+                                      (list "SUB_COLOR_2" 3) ;
                                       (list "HIDDEN_" 251) ;
                                       (list "DEF_SUB" 250) ;
                                       (list "WIPEOUT_" 250)
@@ -1660,10 +1662,12 @@
       )
       (setq 4th_filter_val_main (list  ;4th_filter
                                       (list "MAIN_COLOR_251" 251) ;
-                                      (list "MAIN_COLOR_1" 3) ;
+                                      (list "MAIN_COLOR_1" 1) ;
                                       (list "MAIN_COLOR_2" 2) ;
+                                      (list "MAIN_COLOR_3" 3) ;
                                       (list "SUB_COLOR_1" 1) ;
                                       (list "SUB_COLOR_2" 2) ;
+                                      (list "SUB_COLOR_3" 3) ;
                                       (list "HIDDEN_" 251) ;
                                       (list "DEF_SUB" 250) ;
                                       (list "WIPEOUT_" 250)
@@ -1674,7 +1678,7 @@
     )
     
   )
-  (defun c:crelayFLsymbol_ ()
+  (defun c:crelayFLsymbol_2 ()
     (TA:generate_filter_list
       (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
       (setq 2nd_filter_val_main "000 - 0_SYM_DWG_") ;2nd_filter

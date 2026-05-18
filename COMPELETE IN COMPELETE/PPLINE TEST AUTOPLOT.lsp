@@ -7980,7 +7980,7 @@
         )
         (sslength ss_pre_filter_set_xx_)
       )
-      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000 - CKST_HEADING_VAL"))
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_v2_ ss_pre_filter_set_xx_ (List "000 - CKST_HEADING_VAL" "000 - CKST_MINI-HEADING_VAL_" )))
     ;
     ;preloop_and_while
       (setq ss_pre_filter_set_xx_i 0)
