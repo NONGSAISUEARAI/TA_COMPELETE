@@ -14420,6 +14420,7 @@
         (alert "please go to C:Dimsettin /nand set DIM EE EC CC CE")
       )
       (command "pselect"  new_ss_dim_ "" )
+      (c:move_dim_level_mvdim)
       (_EndUndo doc)
     )
     (defun c:Bex ()
@@ -18636,3 +18637,8 @@
 
 
 
+  (defun c:t1deep ()
+    (setq ssss_ename_ (car (nentsel "specify Object")))
+    (setq ssss_obj_ (vlax-ename->vla-object ssss_ename_))
+    (vla-put-layer ssss_obj_ "defpoints") 
+  )

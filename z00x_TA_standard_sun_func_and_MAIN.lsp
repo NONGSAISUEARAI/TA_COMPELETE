@@ -17197,7 +17197,7 @@
           (=
             (setq ss_pre_filter_set_xx_ (ssget "i"
                                               (list
-                                                (cons 0 "xline,line") ;type of object
+                                                (cons 0 "xline") ;type of object
                                                 ; (cons 8 "Defpoints")   ;kind of layer
                                                 ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                                 ; (cons 62 6)           ;kind of color call sign with color code index
@@ -17209,7 +17209,7 @@
           (progn
             (setq ss_pre_filter_set_xx_ (ssget
                                               (list
-                                                (cons 0 "xline,line") ;type of object
+                                                (cons 0 "xline") ;type of object
                                                 ; (cons 8 "Defpoints")   ;kind of layer
                                                 ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                                 ; (cons 62 6)           ;kind of color call sign with color code index
@@ -18455,6 +18455,31 @@
       (vla-put-customscale vp1_obj_ (/ (float 1) (float 10)))
       (vlax-dump-object vp1_obj_)
       (vla-put-DisplayLocked vp1_obj_ :vlax-true)
+    )
+    (defun c:viewport_bubble_ ()
+      (setq VPBB_ename_ (car (entsel "specify Object")))
+      (setq VPBB_obj_ (vlax-ename->vla-object VPBB_ename_))
+      (setq y (LM:getdynpropvalue VPBB_obj_ "distance1"))
+      (setq x (LM:getdynpropvalue VPBB_obj_ "distance2"))
+      (setq VPBB_obj_getboundingbox (vla-getboundingbox VPBB_obj_ 'min_ 'max_)) 
+      
+      (setq VPBB_min_ (vlax-safearray->list min_)) 
+      (setq VPBB_max_ (vlax-safearray->list max_)) 
+      (if (= (getvar "worlducs") 0)(progn (setq VPBB_min_ (trans VPBB_min_ 0 1))) VPBB_min_ )
+      (if (= (getvar "worlducs") 0)(progn (setq VPBB_max_ (trans VPBB_max_ 0 1))) VPBB_max_ )
+      (setq sc_val (getreal "specify scale factor for viewport bubble : " ))
+      (vla-put-xscalefactor VPBB_obj_ sc_val ) 
+      (vla-put-yscalefactor VPBB_obj_ sc_val ) 
+      (vla-put-zscalefactor VPBB_obj_ sc_val ) 
+      
+      (setq new_obj_getboundingbox (vla-getboundingbox VPBB_obj_ 'min_ 'max_)) 
+      (setq new_min_ (vlax-safearray->list min_)) 
+      (setq new_max_ (vlax-safearray->list max_)) 
+      (if (= (getvar "worlducs") 0)(progn (setq new_min_ (trans new_min_ 0 1))) new_min_ )
+      (if (= (getvar "worlducs") 0)(progn (setq new_max_ (trans new_max_ 0 1))) new_max_ )
+      (vla-move VPBB_obj_ (vlax-3d-point new_min_) (vlax-3d-point VPBB_min_))
+      (LM:setdynpropvalue VPBB_obj_ "distance1" y)
+      (LM:setdynpropvalue VPBB_obj_ "distance2" x)
     )
   ;
 
@@ -43054,7 +43079,7 @@
 
 (defun c:mkall ()
   (setq line_color 256)
-  (setq layer_name "000 - 0_HIDE_OBJ_FRAMING_DEF_SUB_1")
+  (setq layer_name "SMOKE_FASTERN_MAIN_COLOR_1")
   (defun TA:all-editblock_ (blockname line_color layer_name)
     ; (setq blockname "PZG35")
     ; (setq line_color 256)
