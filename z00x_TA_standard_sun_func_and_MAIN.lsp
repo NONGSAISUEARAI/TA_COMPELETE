@@ -45107,9 +45107,9 @@
 (defun c:loadlisp () 
   (cond
     ((and 
-          (= (getenv "COMPUTERNAME") "NONGSAISUEARAIH")
-          (= (getenv "USERNAME") "popul")
-        )
+       (= (getenv "COMPUTERNAME") "NONGSAISUEARAIH")
+       (= (getenv "USERNAME") "popul")
+     )
       (progn
         (setq Er-msg_ (vl-catch-all-apply (function (lambda () (load "C:/TA/TA_COMPELETE/COMPELETE NEXT 2025/Z73-Tranference_Autocad-Excel_data.lsp") ) ) ) )
         (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA/TA_COMPELETE/COMPELETE NEXT 2025/REWORK DIM/z62x_REWORK_DIMENSION_REV02.lsp") ) ) ) )
@@ -45140,6 +45140,7 @@
         (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/000 - FOR_CREATE_LAYER_.lsp") ) ) ) )
         (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/000 - automation_cad.lsp") ) ) ) )
         (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/COMPELETE IN COMPELETE/PPLINE TEST AUTOPLOT.lsp") ) ) ) )
+        (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/z00x_TA_standard_sun_func_and_MAIN.lsp") ) ) ) )
       )
     )
     ((and 
@@ -52819,7 +52820,7 @@
       (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
         (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
         (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
-        (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "AHP_length" (- (LM:round  target_obj_ins_dist_) 20))
+        (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "AHP_length" (- (LM:round  target_obj_ins_dist_) 50))
         (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
       )
     ;
@@ -54622,4 +54623,73 @@
   ;
   (_endundo DOC)
   (command "pselect" ss_pre_filter_set_xx_ "")
+)
+
+(defun c:special_explode_sexx ()
+  (defun TA:point-to-BBOX (pt r / minpt maxpt)
+    (setq minpt (list (- (car pt) r) (- (cadr pt) r) 0.0))
+    (setq maxpt (list (+ (car pt) r) (+ (cadr pt) r) 0.0))
+    (list minpt maxpt)
+  )
+  (_startundo DOC)
+  (setq target_ename_ (car (entsel "specify Object")))
+  (setq target_obj_ (vlax-ename->vla-object target_ename_))
+  (setq target_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint target_obj_))))
+  (setq target_obj_getboundingbox (vla-getboundingbox target_obj_ 'min_ 'max_)) 
+  (setq target_min_ (vlax-safearray->list min_)) 
+  (setq target_max_ (vlax-safearray->list max_)) 
+  
+  (setq target_obj_ins_reucs (if (= (getvar "worlducs") 0)(progn (trans target_obj_ins_ 0 1)) target_obj_ins_ ))
+  (setq target_obj_ins_reucsmin (if (= (getvar "worlducs") 0)(progn (trans target_min_ 0 1)) target_min_ ))
+  (setq target_obj_ins_reucsmax (if (= (getvar "worlducs") 0)(progn (trans target_max_ 0 1)) target_max_ ))
+  (setq temp___ (ssget "_C" target_obj_ins_reucsmin target_obj_ins_reucsmax))
+  
+  ;get-dynamic data process
+    (setq target_obj_dyn_data_ (list
+                                  (LM:getdynpropvalue target_obj_ "distance1")
+                                  (LM:getdynpropvalue target_obj_ "distance2")
+                                )
+    )
+  ;
+  
+  (vla-explode target_obj_ )
+  (vla-delete target_obj_ )
+  ;while selection process
+    (setq ERR_ nil)
+    (setq sss nil)
+    (while ;for keep insertion point and dist. fix length one side
+      (and
+        (= (vl-catch-all-error-p ERR_) nil)
+        (= sss nil)
+      )
+      (setq ERR_
+        (vl-catch-all-apply
+          (function
+            (lambda ()
+              (setq ggg (getstring "sds"))
+              (setq temp___ (ssget "_C" target_obj_ins_reucsmin target_obj_ins_reucsmax))
+              (command "pselect" temp___  "" )
+            )
+          )
+        )
+      )
+    )
+  ;
+  ;preloop_and_while
+    (setq temp___i 0)
+    (while (< temp___i (sslength temp___))
+      (setq assembly_blk_list_ename_ (ssname  temp___ temp___i)) 
+      (setq assembly_blk_list_obj_ (vlax-ename->vla-object assembly_blk_list_ename_)) 
+      (if (and 
+            (= (LM:effectivename assembly_blk_list_obj_) "009 - AHP_06_FRAMING_TOP-VIEW" )
+            (= (vla-get-layer assembly_blk_list_obj_) "009 - AHP_06_FRAMING_MAIN_COLOR_1" )
+          )
+        (progn
+          (LM:setdynpropvalue assembly_blk_list_obj_ "distance1" (nth 0 target_obj_dyn_data_))
+        )
+      )
+  
+      (setq temp___i (+ temp___i 1))
+    )
+  ;
 )
