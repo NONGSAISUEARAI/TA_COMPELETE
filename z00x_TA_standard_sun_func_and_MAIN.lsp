@@ -18474,14 +18474,16 @@
       (vla-put-yscalefactor VPBB_obj_ sc_val ) 
       (vla-put-zscalefactor VPBB_obj_ sc_val ) 
       
-      (setq new_obj_getboundingbox (vla-getboundingbox VPBB_obj_ 'min_ 'max_)) 
-      (setq new_min_ (vlax-safearray->list min_)) 
-      (setq new_max_ (vlax-safearray->list max_)) 
-      (if (= (getvar "worlducs") 0)(progn (setq new_min_ (trans new_min_ 0 1))) new_min_ )
-      (if (= (getvar "worlducs") 0)(progn (setq new_max_ (trans new_max_ 0 1))) new_max_ )
-      (vla-move VPBB_obj_ (vlax-3d-point new_min_) (vlax-3d-point VPBB_min_))
+      ; (setq new_obj_getboundingbox (vla-getboundingbox VPBB_obj_ 'min_ 'max_)) 
+      ; (setq new_min_ (vlax-safearray->list min_)) 
+      ; (setq new_max_ (vlax-safearray->list max_)) 
+      ; (if (= (getvar "worlducs") 0)(progn (setq new_min_ (trans new_min_ 0 1))) new_min_ )
+      ; (if (= (getvar "worlducs") 0)(progn (setq new_max_ (trans new_max_ 0 1))) new_max_ )
+      ; (vla-move VPBB_obj_ (vlax-3d-point new_min_) (vlax-3d-point VPBB_min_))
       (LM:setdynpropvalue VPBB_obj_ "distance1" y)
       (LM:setdynpropvalue VPBB_obj_ "distance2" x)
+      (LM:setdynpropvalue VPBB_obj_ "position2 x" px1)
+      (LM:setdynpropvalue VPBB_obj_ "position2 y" py1)
     )
   ;
 
