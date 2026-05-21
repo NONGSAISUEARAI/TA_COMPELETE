@@ -4686,7 +4686,10 @@
         (setq External_ref_ename_ ())
         (while (and 
                 (= (type REV_list_) 'list)
-                (= (wcmatch (getvar "dwgname") "W-1-PP19-AR-42*") T)
+                (or 
+                  (= (wcmatch (getvar "dwgname") "W-1-PP19-AR-42*") T)
+                  (= (wcmatch (getvar "dwgname") "W-1-PP19-AR-41*") T)
+                )
                 (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
               ) 
           (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))

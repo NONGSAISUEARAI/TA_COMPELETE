@@ -18456,11 +18456,13 @@
       (vlax-dump-object vp1_obj_)
       (vla-put-DisplayLocked vp1_obj_ :vlax-true)
     )
-    (defun c:viewport_bubble_ ()
+    (defun c:viewport_vpbubble_ ()
       (setq VPBB_ename_ (car (entsel "specify Object")))
       (setq VPBB_obj_ (vlax-ename->vla-object VPBB_ename_))
       (setq y (LM:getdynpropvalue VPBB_obj_ "distance1"))
       (setq x (LM:getdynpropvalue VPBB_obj_ "distance2"))
+      (setq px1 (LM:getdynpropvalue VPBB_obj_ "position2 x"))
+      (setq py1 (LM:getdynpropvalue VPBB_obj_ "position2 y"))
       (setq VPBB_obj_getboundingbox (vla-getboundingbox VPBB_obj_ 'min_ 'max_)) 
       
       (setq VPBB_min_ (vlax-safearray->list min_)) 
@@ -46142,6 +46144,15 @@
     
     (setvar "BLOCKREDEFINEMODE" 1)
     (alert "complete")
+  )
+  (defun c:csdtemp ()
+        (command "-INSERTCONTENT" 
+                 "C:\\TA\\PPLINE CKST\\C1-C2_Finishes-Reflected Ceiling Plan\\PP19\\CAD\\W-1-PP19-AR-4251-01-A.dwg" 
+                 "Title Block_Under Ground_C1 v3" 
+                 (list 500 500 0) 
+                 1 1 0
+        )
+        (vla-delete (vlax-ename->vla-object (entlast)))
   )
   (defun c:PPLINE-CKST_CSDaboveupdate_ ()
     ; (TA:get_name_block_in_drawing_to_list)
