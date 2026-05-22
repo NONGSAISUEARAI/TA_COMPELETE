@@ -4362,8 +4362,8 @@
             REV_DATE_VAL       (TAS:CKST_plotter_date_cond);"31-10-2025" ;(TA:CDATE "/" "DDMMYYYY")
             REV_DESC_VAL      "FIRST ISSUED"
             DWG_VAL           "TA"
-            CHK_VAL           "KEN" 
-            APP_VAL           "MK"
+            CHK_VAL           "WM" 
+            APP_VAL           "SP"
       )
       (setq DESIGNED_BY_DATE_val REV_DATE_VAL)
         ; (c:PPLINE_CKST_REWORK-TTB24_)

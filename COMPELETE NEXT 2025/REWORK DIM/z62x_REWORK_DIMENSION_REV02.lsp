@@ -17882,6 +17882,7 @@
     (c:move_dim_level_mvdim)
     (command "ucs" "W")
   )
+  
   (defun c:starter_dim_stdimss3 ()
     (command "ucs" "W")
     ;presetting
@@ -18209,6 +18210,142 @@
           (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
           (vla-put-PrimaryUnitsPrecision dim_obj_ 0)
           (vla-put-ExtensionLineOffset dim_obj_ 0.2)
+          ; (command "_AIDIMPREC" dimprec dim_ename "" )
+        ;
+      )
+    )
+    ;
+    ;
+    ;
+    (command "pselect"  new_ss_dim_ "" )
+    (c:move_dim_level_mvdim)
+    (command "ucs" "W")
+  )
+  (defun c:starter_dim_stdimss5 ()
+    (command "ucs" "W")
+    ;presetting
+      (setq acadObj (vlax-get-acad-object))
+      (setq doc (vla-get-ActiveDocument acadObj))
+      (setq modelSpace (vla-get-ModelSpace doc))
+      (setq layoutactive (vla-get-paperspace doc))
+      (setq sc 10)
+    ;
+      (setq new_ss_dim_ (ssadd   ))
+      (setq staterblk_ename_ (car (entsel "specify Object")))
+      (setq staterblk_obj_ (vlax-ename->vla-object staterblk_ename_))
+      (setq staterblk_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint staterblk_obj_))))
+      (setq staterblk_obj_rotation_ (rad-to-deg (vla-get-rotation staterblk_obj_)))
+      ; (setq staterblk_obj_dist_1 (LM:getdynpropvalue staterblk_obj_ "distance1"))
+      (setq staterblk_obj_dist_2 (LM:getdynpropvalue staterblk_obj_ "distance2"))
+      ; (setq staterblk_obj_dist_3 (LM:getdynpropvalue staterblk_obj_ "distance3"))
+      (setq staterblk_obj_dist_4 (LM:getdynpropvalue staterblk_obj_ "distance4"))
+      (setq dim-lfcs_value (LM:vl-getattributevalue staterblk_obj_ "dim-lfsc"))
+    ;
+    (if (> staterblk_obj_dist_2 3)
+      (progn
+        (cond
+          ((and (= (getvar "worlducs") 1) (> staterblk_obj_dist_2 3)) ;รอแก้
+            (progn
+              (vl-catch-all-apply 
+                (function 
+                  (lambda () 
+                    (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
+                                  (vlax-3d-point (setq new_pt (polar staterblk_obj_ins_ (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ 0)) (* 5.625 0))))
+                                  (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ 90)) staterblk_obj_dist_2))
+                                  (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ 0)) -5.625 ))
+                                  (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ -90))
+                    )
+                  )
+                )
+              )
+            )
+            
+          )
+          ((= (getvar "worlducs") 0) ;รอแก้
+            (progn
+              (vl-catch-all-apply 
+                (function 
+                  (lambda () 
+                    (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
+                                (vlax-3d-point (trans staterblk_obj_ins_ 1 0))
+                                (vlax-3d-point (trans (polar staterblk_obj_ins_ (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ 90)) 3) 1 0))
+                                (vlax-3d-point (trans (polar staterblk_obj_ins_ (deg-to-rad 180) 3) 1 0))
+                                (deg-to-rad 90)
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+        ;new_blk_entlast object
+          (setq dim_ename (entlast))
+          (setq new_ss_dim_ (ssadd dim_ename  new_ss_dim_))
+          (setq dim_obj_ (vlax-ename->vla-object dim_ename))
+          (vla-put-layer dim_obj_ "009 - AHP_06_DIMS_NOM")
+          (command "_AIDIMPREC" dimprec dim_ename "" )
+          (vla-put-stylename dim_obj_ "FAMELINE-CKST_C-E")
+          (vla-put-ScaleFactor  dim_obj_ (/ sc 1) )
+          (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
+          (vla-put-PrimaryUnitsPrecision dim_obj_ 0)
+          (vla-put-ExtensionLineOffset dim_obj_ 0.2)
+          (vla-put-textoverride dim_obj_ "FROM GL = <>")
+          (vlax-put-property dim_obj_ "LinearScaleFactor" (atof dim-lfcs_value ))
+          ; (command "_AIDIMPREC" dimprec dim_ename "" )
+        ;
+      )
+    )
+    (if (> staterblk_obj_dist_4 3)
+      (progn
+        (cond
+          ((and (= (getvar "worlducs") 1) (> staterblk_obj_dist_4 3)) ;รอแก้
+            (progn
+              (vl-catch-all-apply 
+                (function 
+                  (lambda () 
+                    (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
+                                  (vlax-3d-point (setq new_pt (polar staterblk_obj_ins_ (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ 0)) (* 5.625 0))))
+                                  (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ 270)) staterblk_obj_dist_4))
+                                  (vlax-3d-point (polar new_pt (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ 0)) -5.625)) 
+                                     
+                                  (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ -90))
+                    )
+                  )
+                )
+              )
+            )
+            
+          )
+          ((= (getvar "worlducs") 0) ;รอแก้
+            (progn
+              (vl-catch-all-apply 
+                (function 
+                  (lambda () 
+                    (vla-adddimrotated (if (/= (getvar "ctab") "Model") (progn layoutactive) modelSpace) 
+                                (vlax-3d-point (trans staterblk_obj_ins_ 1 0))
+                                (vlax-3d-point (trans (polar staterblk_obj_ins_ (deg-to-rad (TA:ModifyRotation staterblk_obj_rotation_ 90)) 3) 1 0))
+                                (vlax-3d-point (trans (polar staterblk_obj_ins_ (deg-to-rad 180) 3) 1 0))
+                                (deg-to-rad 90)
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+        ;new_blk_entlast object
+          (setq dim_ename (entlast))
+          (setq new_ss_dim_ (ssadd dim_ename  new_ss_dim_))
+          (setq dim_obj_ (vlax-ename->vla-object dim_ename))
+          (vla-put-layer dim_obj_ "009 - AHP_06_DIMS_NOM")
+          (command "_AIDIMPREC" dimprec dim_ename "" )
+          (vla-put-stylename dim_obj_ "FAMELINE-CKST_C-E")
+          (vla-put-ScaleFactor  dim_obj_ (/ sc 1) )
+          (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
+          (vla-put-PrimaryUnitsPrecision dim_obj_ 0)
+          (vla-put-ExtensionLineOffset dim_obj_ 0.2)
+          (vla-put-textoverride dim_obj_ "FROM GL = <>")
+          (vlax-put-property dim_obj_ "LinearScaleFactor" (atof dim-lfcs_value ))
           ; (command "_AIDIMPREC" dimprec dim_ename "" )
         ;
       )
