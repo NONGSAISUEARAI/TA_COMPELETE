@@ -12801,6 +12801,12 @@
     (LM:vl-setattributevalue matchline_obj_ "MATCH_REFER_DWG_3" (strcat "REFER TO : " part_ " " TTL_obj_dwgno_ ) )
     
   )
+  (defun c:matching_deep_layer ()
+    (setq layer_name_target_ "Defpoints")
+    (setq entity_ename_ (car (entsel "specify Object")))
+    (setq entity_obj_ (vlax-ename->vla-object entity_ename_))
+    (vla-put-layer entity_obj_ layer_name_target_ )
+  )
 ;
 
 
