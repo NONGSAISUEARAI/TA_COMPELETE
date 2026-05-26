@@ -14615,10 +14615,6 @@
           (setq ss_list_i (+ ss_list_i 1))
         )
       ;
-      
-      
-      
-
       (setq visibility_mode_value_ (cond ((getint (strcat a"\n"b"\n"c"\n"d"\n" e"\n" f"\n" g"\n" h"\n" i"\n" j"\n" "<" (rtos (setq visibility_mode_value_ (cond (visibility_mode_value_) (1.0) ) ) ) "> : " ) ) ) (visibility_mode_value_) ) )
       (cond 
         ;; _case_1
@@ -54749,3 +54745,5 @@
   ;
   
 )
+
+

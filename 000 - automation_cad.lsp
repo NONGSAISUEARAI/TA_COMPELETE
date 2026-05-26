@@ -12808,7 +12808,162 @@
     (vla-put-layer entity_obj_ layer_name_target_ )
   )
 ;
+;selection deselection FUNC
+  (defun c:Deselect-filter_block_DFB ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    (setq Er-msg_ 
+      (vl-catch-all-apply 
+        (function 
+          (lambda () 
+            (setq wildcard_string_ (strcat "*" (TA:GetClipboardText) "*"))
+          )
+        )
+      )
+    )
+    (setq wildcard_string_ ;Get-string by keep previous value ; old method
+      (if
+        (or
+          (/= (setq wildcard_string_val (getstring (strcat "\nSpecify Pattern name <" (if wildcard_string_ wildcard_string_ "") ">: ") ) ) "" )
+        )
+          (progn
+            (setq wildcard_string_ wildcard_string_val)
+            (setq wildcard_string_keep_val_ wildcard_string_val)
+          )
+        (setq wildcard_string_val (strcat "*" (TA:GetClipboardText) "*"))
+      )
+    )
 
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (setq new_pre_filter_set_xx_ (ssadd))
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+
+        (if (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_)) (strcase wildcard_string_)) nil)
+          (progn
+            (setq new_pre_filter_set_xx_  (ssadd ss_pre_filter_set_xx_ename_ new_pre_filter_set_xx_))
+          )
+        )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+    (command "pselect"  new_pre_filter_set_xx_ "" )
+  )
+;
+
+(defun c:temp_command_wait_for_Dev ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "lwpolyline") ;type of object
+                                            (cons 70 1) ;close assoc for lwpolyline
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      ) 
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "lwpolyline") ;type of object
+                                            (cons 70 1) ;close assoc for lwpolyline   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;user_input_
+    (setq namelist (list 
+                    (setq block_0 "blank")
+                    (setq block_1 "who_s_create_that_block-SOID")
+                    (setq block_2 "who_s_create_that_block-RC")
+                    (setq block_3 "who_s_create_that_block-deg45")
+                    (setq block_4 "who_s_create_that_block-hatch-x-patt")
+                    (setq block_5 "who_s_create_that_block-sand") 
+                    (setq block_6 "who_s_create_that_block-metal")
+                    (setq block_7 "who_s_create_that_block-ANSI35")
+                    (setq block_8 "")
+                    (setq block_9 "")
+                    )
+    )
+    (setq choose_block_di (cond ( (getint (strcat "\nSpecify block"
+                                                  "\n1 = " block_1 
+                                                  "\n2 = " block_2
+                                                  "\n3 = " block_3
+                                                  "\n4 = " block_4
+                                                  "\n5 = " block_5 
+                                                  "\n6 = " block_6 
+                                                  "\n7 = " block_7 
+                                                  "\n8 = " block_8 
+                                                  "\n9 = " block_9 
+                                                  "\n<" 
+                                                  (rtos 
+                                                    (setq choose_block_di (cond 
+                                                                            (choose_block_di)
+                                                                            (1.0)
+                                                                          )
+                                                    )
+                                                  )
+                                                  "> : "
+                                          ) ) ) (choose_block_di) ) )
+  ;
+  (setq distance_block-scaling_ (cond ( (getreal (strcat "\nspecify distance_block-scaling_ <" (rtos (setq distance_block-scaling_ (cond (distance_block-scaling_) (1) ) ) ) "> : " ) ) ) (distance_block-scaling_) ) )
+  (setq angle-block (cond ( (getreal (strcat "\nspecify distance_block-scaling_ <" (rtos (setq angle-block (cond (angle-block) (0) ) ) ) "> : " ) ) ) (angle-block) ) )
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (setq ss_new_sec (ssadd))
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))  
+      (setq ss_pre_filter_set_xx_ename_ (ssname  ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      
+      
+      (setq new_set_ (TAS:polygon2dyn ss_pre_filter_set_xx_ename_ (nth (fix choose_block_di) namelist) distance_block-scaling_ angle-block))
+      (setq ss_new_sec (ssadd new_set_ ss_new_sec))
+      
+      (LM:setdynpropvalue (vlax-ename->vla-object (entlast)) "visibility1" "1_fix")
+      
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+    (command "pselect"  ss_new_sec "" )
+)
 
   
 
