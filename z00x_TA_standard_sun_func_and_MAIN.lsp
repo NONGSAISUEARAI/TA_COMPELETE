@@ -18917,7 +18917,14 @@
     )
     (defun c:Dyeing_layer_object_dyeLIST ()
       (setq line_color 256)
-      (setq layer_list_ (list "000 - CONCRETE_PRECAST_MAIN_COLOR_1" "000 - CONCRETE_WALL_MAIN_COLOR_1" ))
+      (setq layer_list_ (list "000 - 0_HIDE_OBJ_FRAMING_DEF_SUB" 
+                              "000 - 0_HIDE_OBJ_FRAMING_DEF_SUB_1"
+                              "000 - CONCRETE_PRECAST_MAIN_COLOR_1" 
+                              "000 - CONCRETE_WALL_MAIN_COLOR_1"  
+                              "000 - CONCRETE_EX_BUILDING_MAIN_COLOR_1"  
+                              "000 - CONCRETE_EX_BUILDING_SUB_COLOR_251"  
+                        )
+      )
       (defun TA:all-editblock_ (blockname line_color layer_name)
         ; (setq blockname "PZG35")
         ; (setq line_color 256)
@@ -19128,11 +19135,11 @@
   ;
   ;USER-INPUT_FUNC
     (defun TA:choose_list_ (choose_data-list_)
-      (setq choose_data-list_ (list 
-                                "000 - CONCRETE_PRECAST_MAIN_COLOR_1"
-                                "000 - CONCRETE_WALL_MAIN_COLOR_1"
-                              )
-      )
+      ; (setq choose_data-list_ (list 
+      ;                           "000 - CONCRETE_PRECAST_MAIN_COLOR_1"
+      ;                           "000 - CONCRETE_WALL_MAIN_COLOR_1"
+      ;                         )
+      ; )
       (if (= ( type choose_data-list_ ) 'LIST)
         (progn
           (setq choose_data-list_sima (TA:list-to-Text choose_data-list_))
