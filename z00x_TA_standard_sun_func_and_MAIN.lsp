@@ -535,59 +535,7 @@
         )
       ;
     )
-    (defun TA:standard_list_croodinate+ename (ss_post_filter_set_  ) ;เรียง object ตามแนวแกน ใน selection set  
-      ; ;selection_set
-        ;   (if  ;pre_select_ssget_or_post_select_ssget
-        ;     (= 
-        ;       (setq ss_pre_filter_set_xx (ssget "I" 
-        ;                                         (list 
-        ;                                           (cons 0 "INSERT") ;type of object
-        ;                                           ; (cons 8 "000 - GRID")   ;kind of layer
-        ;                                           ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-        ;                                           ; (cons 62 1)           ;kind of color call sign with color code index
-        ;                                         )
-        ;                                   )
-        ;       )
-        ;       nil
-        ;     )
-        ;     (progn 
-        ;       (setq ss_pre_filter_set_xx (ssget 
-        ;                                     (list 
-        ;                                       (cons 0 "INSERT") ;type of object
-        ;                                       ; (cons 8 "000 - GRID")   ;kind of layer
-        ;                                       ; (cons 2 "000-GRIDLINE_DYN")       ;kind of nameblock
-        ;                                       ; (cons 62 1)           ;kind of color call sign with color code index
-        ;                                     )
-        ;                                   )
-        ;       )
-        ;     )
-        ;     (sslength ss_pre_filter_set_xx)
-        ;   )
-      ; ;
-      ; ;user_input
-        ;   (setq effectivename_val (LM:effectivename (vlax-ename->vla-object (car (entsel )))))
-      ; ;
-      ; ;filter_via_sub_func
-        ;   (setq ss_post_filter_set_ (TA:Filter_ss_set_ ss_pre_filter_set_xx  effectivename_val))
-      ; ;
-      ;preloop_and_while get_ename_and_add_ins_pt
-        (setq sum_data_ ())
-        (setq ss_post_filter_set_i 0)
-        (while  (< ss_post_filter_set_i (sslength ss_post_filter_set_))
-          ;get_data
-            (setq ss_post_filter_set_ename (ssname ss_post_filter_set_ ss_post_filter_set_i))
-            (setq ss_post_filter_set_obj (vlax-ename->vla-object ss_post_filter_set_ename))
-          ;
-          ;sum_data_via_data
-            (setq sum_data (TA:vla-get-insertionpoint+ename ss_post_filter_set_obj))
-            (setq sum_data_ (cons sum_data sum_data_))
-          ;
-          (setq ss_post_filter_set_i (+ ss_post_filter_set_i 1))
-        )
-        (setq sum_data_ sum_data_)
-        ;
-      ;
-    )
+    
     (defun TA:corrd_sorting_group (all_vlains_ Toerrance_num_value)
       ;Note By Code_Developer
       ;principle of codework is designed for finding coordinate in list and create main row 
@@ -2720,6 +2668,37 @@
          )
         )
         
+      )
+    )
+    (defun TA:prefix_value_000 (n)  
+      (cond  
+        ( ;_case_1 
+         (and 
+           (> n 0)
+           (< n 10)
+         )
+         (progn 
+           (strcat "00" (rtos n 2 0))
+         )
+        )
+        ( ;_case_1
+         (and 
+           (>= n 10)
+           (< n 100) 
+         )
+         (progn 
+           (strcat "0" (rtos n 2 0))
+         )
+        )
+        ( ;_case_1
+         (and 
+           (>= n 100) 
+           (< n 1000)
+         )
+         (progn 
+           (strcat  (rtos n 2 0))
+         )
+        )
       )
     )
     (defun TA:list_rotate_left (lst)
@@ -5298,9 +5277,9 @@
                   (vl-catch-all-apply 
                     (function 
                       (lambda () 
-                        (vla-delete (vla-Item (vla-get-Blocks doc) nameblk) )
-        )
-      )
+                        (vla-delete (vla-Item (vla-get-Blocks doc) nameblk))
+                      )
+                    )
                   )
                 )
                 "*error*,*IAcadBlock*"
@@ -12182,6 +12161,55 @@
             )
           ;
           (setq sorted_list_i (+ sorted_list_i 1))
+        )
+      ;
+    )
+    (defun c:typical_sorting ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      (setq  ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "300HK ORDER FROM CHINA REV.2-LOT 2_20260529-185614FLxx")))
+      (setq ss_pre_filter_set_xx_ (TA:standard_list_croodinate_sorting ss_pre_filter_set_xx_ "X"))
+      ;user-input process
+        ; (setq prefix_txt (getstring "specify prefix text"))
+        (setq prefix_txt "PJ25-031-P")
+        (setq start_number (cond ( (getint (strcat "\nspecify get move to point\n<" (rtos (setq start_number (cond (start_number) (0) ) ) ) "> : " ) ) ) (start_number) ) )
+      ;
+      ;preloop_and_while TA:prefix_value
+        (setq ss_pre_filter_set_xx_i 0)
+        (while (< ss_pre_filter_set_xx_i (length ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (car (nth  ss_pre_filter_set_xx_i ss_pre_filter_set_xx_)))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DWG_NO" (strcat prefix_txt (TA:prefix_value_000 start_number)))
+          (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "SHEET_NO" (strcat (rtos start_number 2 0) "/" (rtos (length ss_pre_filter_set_xx_) 2 0) ))
+          (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "TOTAL_NO" (length ss_pre_filter_set_xx_))
+          (setq start_number (+ start_number 1))
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
         )
       ;
     )
@@ -55247,137 +55275,18 @@
 
 
 
-(defun c:sort_text_srt ()
-  ;selection_set_for_fillter_blk_name
-    (if  ;pre_select_ssget_or_post_select_ssget
-      (=
-        (setq ss_pre_filter_set_xx_ (ssget "i"
-                                          (list
-                                            (cons 0 "text") ;type of object
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-        nil
-      )
-      (progn
-        (setq ss_pre_filter_set_xx_ (ssget
-                                          (list
-                                            (cons 0 "text") ;type of object
-                                            ; (cons 8 "000 - GRID")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-      )
-      (sslength ss_pre_filter_set_xx_)
-    )
-  ;
-  (setq ss_pre_filter_set_xx_list_ ())
-  ;preloop_and_while
-    (setq ss_pre_filter_set_xx_i 0)
-    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
-      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
-      (setq SUMx (list 
-                  ss_pre_filter_set_xx_ename_
-                  (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_)))
-                )
-      )
-      (setq ss_pre_filter_set_xx_list_ (cons sumx ss_pre_filter_set_xx_list_ ))
-      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
-    )
-  ;
-  ; (setq tol 100.00) ; ระยะที่ถือว่าเป็นแถวเดียวกัน (mm)
-  (setq tol (cond ( (getint (strcat "\nSpecify tol   <" (rtos (setq tol (cond (tol) (1.0) ) ) ) "> : " ) ) ) (tol) ) )
-  (if (= (getvar "worlducs" ) 0 )
-    (progn
-      (setq ss_pre_filter_set_xx_list_ (TA:convert-list-ucs ss_pre_filter_set_xx_list_))
-      (setq sorted_
-        (vl-sort ss_pre_filter_set_xx_list_
-          '(lambda (a b)
 
-            (setq ya (cadr (cadr a)))
-            (setq yb (cadr (cadr b)))
-
-            (setq xa (car (cadr a)))
-            (setq xb (car (cadr b)))
-
-            (if (> (abs (- ya yb)) tol)
-              (> ya yb) ; แถวบน -> ล่าง
-              (< xa xb) ; ซ้าย -> ขวา
-            )
-
-          )
-        )
-
-      )
-    )
-    (setq sorted_
-      (vl-sort ss_pre_filter_set_xx_list_
-        '(lambda (a b)
-
-          (setq ya (cadr (cadr a)))
-          (setq yb (cadr (cadr b)))
-
-          (setq xa (car (cadr a)))
-          (setq xb (car (cadr b)))
-
-          (if (> (abs (- ya yb)) tol)
-            (> ya yb) ; แถวบน -> ล่าง
-            (< xa xb) ; ซ้าย -> ขวา
-          )
-
-        )
-      )
-    )
-    
-  )
-  (setq prefix (getstring "input prefix"))
-  ;preloop_and_while
-    (setq sorted_i 0)
-    (while (< sorted_i (length sorted_))
-      (setq sorted_ename_ (car (nth sorted_i sorted_)))
-      (setq sorted_obj_ (vlax-ename->vla-object  sorted_ename_))
-      (vla-put-textstring sorted_obj_ (strcat prefix (rtos (+ sorted_i 1) 2 0)))
-      (setq sorted_i (+ sorted_i 1))
-    )
-  ;
-
-)
-
-(defun c:iheerken ()
-  ;selection_set_for_fillter_blk_name
-    (if  ;pre_select_ssget_or_post_select_ssget
-      (=
-        (setq ss_pre_filter_set_xx_ (ssget "i"
-                                          (list
-                                            ; (cons 0 "INSERT") ;type of object
-                                            (cons 8 "Xref-LOUVER-E1-E4$0$_PRECAST")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-        nil
-      )
-      (progn
-        (setq ss_pre_filter_set_xx_ (ssget
-                                          (list
-                                            ; (cons 0 "INSERT") ;type of object
-                                            (cons 8 "Xref-LOUVER-E1-E4$0$_PRECAST")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-      )
-      (sslength ss_pre_filter_set_xx_)
-    )
-    ; (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "xxxxxxxxxxxxxxxxxxxxxxxxxxxx"))
-  ;
-  (command "pselect"  ss_pre_filter_set_xx_ "" )
+(defun c:mas ()
+  (setvar "selectionpreview" 3)
+  (setq oldtxt_ename_ (car (entsel "specify old Object")))
+  (setq oldtxt_obj_ (vlax-ename->vla-object oldtxt_ename_))
+  
+  (setq oldtxt_obj_ttxt (vla-get-textstring oldtxt_obj_))
+  (setq oldtxt_obj_ttxt-rework_ (strcat "PART CODE :" (substr oldtxt_obj_ttxt (+ (vl-string-search "LOT 2_" oldtxt_obj_ttxt 1) 7)))  )
+  (setq newtext_ename_ (car (entsel "specify new Object")))
+  (setq newtext_obj_ (vlax-ename->vla-object newtext_ename_))
+  (vla-put-textstring newtext_obj_ oldtxt_obj_ttxt-rework_)
+  (vla-put-color oldtxt_obj_ 3)
+  (vla-put-color newtext_obj_ 3)
+  (setvar "selectionpreview" 0)
 )
