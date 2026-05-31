@@ -5278,8 +5278,8 @@
                     (function 
                       (lambda () 
                         (vla-delete (vla-Item (vla-get-Blocks doc) nameblk))
-                      )
-                    )
+        )
+      )
                   )
                 )
                 "*error*,*IAcadBlock*"
@@ -18647,6 +18647,28 @@
               ;
             )
           )
+          (if (= (cdr (assoc 0 ed)) "MTEXT")
+            (progn
+              ; (setq target_ (cons ent target_))
+              ;main idea of code keep or delete don't affect with core code
+                (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+                (vla-put-color target_obj_  line_color)
+                (vla-put-layer target_obj_  layer_name)
+                
+              ;
+            )
+          )
+          (if (= (cdr (assoc 0 ed)) "ATTDEF")
+            (progn
+              ; (setq target_ (cons ent target_))
+              ;main idea of code keep or delete don't affect with core code
+                (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+                (vla-put-color target_obj_  line_color)
+                (vla-put-layer target_obj_  layer_name)
+                
+              ;
+            )
+          )
           (setq ent (entnext ent))
         )
         (reverse target)
@@ -18838,6 +18860,28 @@
               ;
             )
           )
+          (if (= (cdr (assoc 0 ed)) "MTEXT")
+            (progn
+              ; (setq target_ (cons ent target_))
+              ;main idea of code keep or delete don't affect with core code
+                (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+                (vla-put-color target_obj_  line_color)
+                (vla-put-layer target_obj_  layer_name)
+                
+              ;
+            )
+          )
+          (if (= (cdr (assoc 0 ed)) "ATTDEF")
+            (progn
+              ; (setq target_ (cons ent target_))
+              ;main idea of code keep or delete don't affect with core code
+                (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+                (vla-put-color target_obj_  line_color)
+                (vla-put-layer target_obj_  layer_name)
+                
+              ;
+            )
+          )
           (setq ent (entnext ent))
         )
         (reverse target)
@@ -18950,8 +18994,11 @@
                               "000 - CONCRETE_PRECAST_MAIN_COLOR_1" 
                               "000 - CONCRETE_WALL_MAIN_COLOR_1"  
                               "000 - CONCRETE_EX_BUILDING_MAIN_COLOR_1"  
+                              "000 - CONCRETE_EX_BUILDING_MAIN_COLOR_3"  
                               "000 - CONCRETE_EX_BUILDING_SUB_COLOR_251"  
                               "000 - CONCRETE_EX_BUILDING_DEF_SUB"  
+                              "000 - CONCRETE_PRECAST_DEF_SUB"  
+                              "000 - CONCRETE_EX_BUILDING_CUT_COLOR_1"  
                         )
       )
       (defun TA:all-editblock_ (blockname line_color layer_name)
@@ -19044,6 +19091,28 @@
             )
           )
           (if (= (cdr (assoc 0 ed)) "TEXT")
+            (progn
+              ; (setq target_ (cons ent target_))
+              ;main idea of code keep or delete don't affect with core code
+                (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+                (vla-put-color target_obj_  line_color)
+                (vla-put-layer target_obj_  layer_name)
+                
+              ;
+            )
+          )
+          (if (= (cdr (assoc 0 ed)) "MTEXT")
+            (progn
+              ; (setq target_ (cons ent target_))
+              ;main idea of code keep or delete don't affect with core code
+                (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+                (vla-put-color target_obj_  line_color)
+                (vla-put-layer target_obj_  layer_name)
+                
+              ;
+            )
+          )
+          (if (= (cdr (assoc 0 ed)) "ATTDEF")
             (progn
               ; (setq target_ (cons ent target_))
               ;main idea of code keep or delete don't affect with core code
@@ -19470,7 +19539,9 @@
 
 
 
-
+(setq _ename_ (car (entsel "specify Object")))
+(setq _obj_ (vlax-ename->vla-object _ename_))
+(entget _ename_ )
 
 
 
@@ -55276,17 +55347,10 @@
 
 
 
-(defun c:mas ()
-  (setvar "selectionpreview" 3)
-  (setq oldtxt_ename_ (car (entsel "specify old Object")))
-  (setq oldtxt_obj_ (vlax-ename->vla-object oldtxt_ename_))
-  
-  (setq oldtxt_obj_ttxt (vla-get-textstring oldtxt_obj_))
-  (setq oldtxt_obj_ttxt-rework_ (strcat "PART CODE :" (substr oldtxt_obj_ttxt (+ (vl-string-search "LOT 2_" oldtxt_obj_ttxt 1) 7)))  )
-  (setq newtext_ename_ (car (entsel "specify new Object")))
-  (setq newtext_obj_ (vlax-ename->vla-object newtext_ename_))
-  (vla-put-textstring newtext_obj_ oldtxt_obj_ttxt-rework_)
-  (vla-put-color oldtxt_obj_ 3)
-  (vla-put-color newtext_obj_ 3)
-  (setvar "selectionpreview" 0)
+(defun c:lvline_updateH_ ()
+  (setq ssss_ename_ (car (entsel "specify Object")))
+  (setq ssss_obj_ (vlax-ename->vla-object ssss_ename_))
+  (setq ssss_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ssss_obj_))))
+  (setq ssss_obj_ins_ucs (if (= (getvar "worlducs") 0)(progn (trans ssss_obj_ins_ 0 1)) ssss_obj_ins_ ))
+  (LM:vl-setattributevalue ssss_obj_ "LV_NAME_3" (strcat "FFL +" (rtos (/ (cadr ssss_obj_ins_ucs) 1000) 2 3 ) " m."))
 )
