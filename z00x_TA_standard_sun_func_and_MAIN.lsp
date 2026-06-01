@@ -10271,8 +10271,105 @@
       ;
       (command "pselect"  ss_pre_filter_set_xx_ "" )
     )
+    (defun c:select_inside_selinside ()
+      ;back of code
+        ;choosen list
+          (setq selection_object_list_ (list 
+                                          "circle"
+                                          "insert"
+                                          "line,lwpolyline"
+                                       )
+          )
+        ;
+      ;
+      
+      (setq pl_ename_ (car (entsel "specify Object")))
+      (setq pl_obj_ (vlax-ename->vla-object pl_ename_))
+      (setq pl_entget_ (entget pl_ename_))
+      (setq pl_entget_list_vtx_pt_  (mapcar 'cdr (vl-remove-if-not '(lambda (x) (= 10 (car x))) pl_entget_)))
+      
+      (setq ERR_
+        (vl-catch-all-apply
+          (function
+            (lambda ()
+              (setq selection_object_list_value_ (TA:choose_list_ selection_object_list_))
+            )
+          )
+        )
+      )
+      (if (= (vl-catch-all-error-p err) nil)
+        (progn
+          (setvar "osmode" 0)
+          ;selection_set_for_fillter_blk_name
+            (if  ;pre_select_ssget_or_post_select_ssget
+              (=
+                (setq ss_pre_filter_set_xx_ (ssget "i"
+                                                  (list
+                                                    (cons 0 "INSERT") ;type of object
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+                nil
+              )
+              (progn
+                (setq ss_pre_filter_set_xx_ (ssget "CP" pl_entget_list_vtx_pt_
+                                                  (list
+                                                    (cons 0 "circle") ;type of object
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+              )
+              (sslength ss_pre_filter_set_xx_)
+            )
+          ;
+          (setvar "osmode" 1215)
+          (command "pselect" ss_pre_filter_set_xx_  "" )
+        )
+      )
 
+
+      
+    )
   ;
+  ;DESELECTION_FUNC
+    (defun c:desel ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      
+    )
+  ; 
   ;test_command
     (defun TA:dump_obj_ (dump_ename_ )
       ; (setq dump_ename_ (car (entsel "specify Object")))
@@ -19538,10 +19635,6 @@
 )
 
 
-
-(setq _ename_ (car (entsel "specify Object")))
-(setq _obj_ (vlax-ename->vla-object _ename_))
-(entget _ename_ )
 
 
 
@@ -54042,6 +54135,85 @@
       ;
     ;
     (command "erase" ss_pre_filter_set_xx_ename_ "")
+  )
+  (defun c:ASPG_Estimate_panel_estpanel ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+    (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000_ASPG_TYP_FILES_LOUVER_WITH_C-C_FRAME_DYN_VIEW"))
+
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (setq total_frame_set 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (if (= (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "view") "7_dynamic_length_view")
+          (progn
+            (setq ss_pre_filter_set_xx_obj_width_ (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "frame_width"))
+            (setq ss_pre_filter_set_xx_obj_height_ (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "frame_height"))
+            (setq ss_pre_filter_set_xx_obj_panel_H_ (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "panel_height" (/ ss_pre_filter_set_xx_obj_height_ 2)))
+            (setq total_frame_set (+ total_frame_set 1))
+          )
+        )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+      (setq ss_pre_filter_set_xx_bol_ (TA:ss_vla-getboundingbox ss_pre_filter_set_xx_ ) )
+      (setq ss_pre_filter_set_xx_bol_assembly_list (TA:assembly_coordinate_coner ss_pre_filter_set_xx_bol_))
+    ;
+    ;insert-process
+      (TA:vla-insertblock 
+        "A$Cd3cf6656"
+        (nth 4 ss_pre_filter_set_xx_bol_assembly_list )
+        1
+        (deg-to-rad 90)
+      )
+      ;new_blk_entlast object
+        (setq newent_ename (entlast))
+        (setq newent_obj_ (vlax-ename->vla-object newent_ename))
+        (setq lv-type_ (TA:choose_list_ (list "SINGLE BLANK" "DOUBLE BLANK" ) ))
+        (if (= lv-type_ "DOUBLE BLANK") 
+          (progn 
+            (setq double_blank_set (getint "Enter DOUBLE BLANK set value: "))
+            (setq double_blank_height-per-set_ (* (- ss_pre_filter_set_xx_obj_height_ 50) double_blank_set))
+          )
+        )
+        
+        
+        (LM:vl-setattributevalue newent_obj_ "LV_TYPE_VAL" lv-type_)
+        (LM:vl-setattributevalue newent_obj_ "LV_SIN-H_VAL" (strcat (rtos (* ss_pre_filter_set_xx_obj_height_ total_frame_set) 2 0) " mm. " ))
+        (LM:vl-setattributevalue newent_obj_ "LV_DOU-H_VAL" (if (= lv-type_ "DOUBLE BLANK") (progn (strcat (rtos double_blank_height-per-set_ 2 0) " mm. " ) ) "-")  )
+        (LM:vl-setattributevalue newent_obj_ "V-TRIM_VAL" (strcat (rtos (* ss_pre_filter_set_xx_obj_height_ total_frame_set) 2 0) " mm."))
+        (LM:vl-setattributevalue newent_obj_ "FRAME_VAL" (strcat (rtos ss_pre_filter_set_xx_obj_width_ 2 2) "mm. x " (rtos ss_pre_filter_set_xx_obj_height_ 2 2) "mm." ) )
+        (LM:vl-setattributevalue newent_obj_ "FRAME_SET" (strcat (rtos total_frame_set 2 0) " set") )
+      ;
+    ;
+    (command "pselect"   "" )
   )
 ;
 

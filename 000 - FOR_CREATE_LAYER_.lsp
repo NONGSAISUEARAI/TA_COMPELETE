@@ -901,17 +901,34 @@
                                       )
             )
             (setq 4th_filter_val_main (list  ;4th_filter
-                                            (list "MAIN_COLOR_1" 3) ;
+                                            (list "CUT_COLOR_1" 1) ;
+                                            (list "CUT_COLOR_2" 2) ;
+                                            (list "CUT_COLOR_3" 3) ;
+                                            (list "CUT_COLOR_4" 4) ;
+                                            (list "CUT_COLOR_5" 5) ;
+                                            (list "CUT_COLOR_6" 6) ;
+                                            (list "MAIN_COLOR_1" 1) ;
                                             (list "MAIN_COLOR_2" 2) ;
-                                            (list "SUB_COLOR_1" 1) ;
-                                            (list "SUB_COLOR_2" 1) ;
-                                            (list "SUB_COLOR_3" 251) ;
+                                            (list "MAIN_COLOR_3" 3) ;
+                                            (list "MAIN_COLOR_4" 4) ;
+                                            (list "MAIN_COLOR_5" 5) ;
+                                            (list "MAIN_COLOR_6" 6) ;
+                                            (list "MAIN_COLOR_251" 251) ;
+                                            (list "SUB_COLOR_1" 2) ;
+                                            (list "SUB_COLOR_2" 2) ;
+                                            (list "SUB_COLOR_3" 3) ;
+                                            (list "SUB_COLOR_4" 4) ;
+                                            (list "SUB_COLOR_5" 5) ;
+                                            (list "SUB_COLOR_6" 6) ;
+                                            (list "SUB_COLOR_8" 8) ;
+                                            (list "SUB_COLOR_251" 251) ;
                                             (list "HATCH_" 251) ;
                                             (list "WIPEOUT_" 250) ;
                                             (list "HIDDEN_" 251) ;
                                             (list "SYMBOL_" 251) ;
                                             (list "DEF_SUB" 250) ;
-                                            (list "TEXT" 3) ;
+                                            (list "TEXT_COLOR_1" 1) ;
+                                            ;
                                       )
             )
           )
@@ -923,16 +940,34 @@
                                       )
             )
             (setq 4th_filter_val_main (list  ;4th_filter
-                                            (list "MAIN_COLOR_1" 3) ;
+                                            (list "CUT_COLOR_1" 1) ;
+                                            (list "CUT_COLOR_2" 2) ;
+                                            (list "CUT_COLOR_3" 3) ;
+                                            (list "CUT_COLOR_4" 4) ;
+                                            (list "CUT_COLOR_5" 5) ;
+                                            (list "CUT_COLOR_6" 6) ;
+                                            (list "MAIN_COLOR_1" 1) ;
                                             (list "MAIN_COLOR_2" 2) ;
-                                            (list "SUB_COLOR_1" 1) ;
-                                            (list "SUB_COLOR_2" 1) ;
-                                            (list "SUB_COLOR_3" 251) ;
+                                            (list "MAIN_COLOR_3" 3) ;
+                                            (list "MAIN_COLOR_4" 4) ;
+                                            (list "MAIN_COLOR_5" 5) ;
+                                            (list "MAIN_COLOR_6" 6) ;
+                                            (list "MAIN_COLOR_251" 251) ;
+                                            (list "SUB_COLOR_1" 2) ;
+                                            (list "SUB_COLOR_2" 2) ;
+                                            (list "SUB_COLOR_3" 3) ;
+                                            (list "SUB_COLOR_4" 4) ;
+                                            (list "SUB_COLOR_5" 5) ;
+                                            (list "SUB_COLOR_6" 6) ;
+                                            (list "SUB_COLOR_8" 8) ;
+                                            (list "SUB_COLOR_251" 251) ;
                                             (list "HATCH_" 251) ;
                                             (list "WIPEOUT_" 250) ;
                                             (list "HIDDEN_" 251) ;
                                             (list "SYMBOL_" 251) ;
                                             (list "DEF_SUB" 250) ;
+                                            (list "TEXT_COLOR_1" 1) ;
+                                            ;
                                       )
             )
           )
@@ -945,17 +980,34 @@
                                       )
             )
             (setq 4th_filter_val_main (list  ;4th_filter
-                                            (list "MAIN_COLOR_1" 3) ;
+                                            (list "CUT_COLOR_1" 1) ;
+                                            (list "CUT_COLOR_2" 2) ;
+                                            (list "CUT_COLOR_3" 3) ;
+                                            (list "CUT_COLOR_4" 4) ;
+                                            (list "CUT_COLOR_5" 5) ;
+                                            (list "CUT_COLOR_6" 6) ;
+                                            (list "MAIN_COLOR_1" 1) ;
                                             (list "MAIN_COLOR_2" 2) ;
-                                            (list "SUB_COLOR_1" 1) ;
-                                            (list "SUB_COLOR_2" 1) ;
-                                            (list "SUB_COLOR_3" 251) ;
+                                            (list "MAIN_COLOR_3" 3) ;
+                                            (list "MAIN_COLOR_4" 4) ;
+                                            (list "MAIN_COLOR_5" 5) ;
+                                            (list "MAIN_COLOR_6" 6) ;
+                                            (list "MAIN_COLOR_251" 251) ;
+                                            (list "SUB_COLOR_1" 2) ;
+                                            (list "SUB_COLOR_2" 2) ;
+                                            (list "SUB_COLOR_3" 3) ;
+                                            (list "SUB_COLOR_4" 4) ;
+                                            (list "SUB_COLOR_5" 5) ;
+                                            (list "SUB_COLOR_6" 6) ;
+                                            (list "SUB_COLOR_8" 8) ;
+                                            (list "SUB_COLOR_251" 251) ;
                                             (list "HATCH_" 251) ;
                                             (list "WIPEOUT_" 250) ;
                                             (list "HIDDEN_" 251) ;
                                             (list "SYMBOL_" 251) ;
                                             (list "DEF_SUB" 250) ;
-                                            (list "TEXT" 3) ;
+                                            (list "TEXT_COLOR_1" 1) ;
+                                            ;
                                       )
             )
           )
@@ -1083,6 +1135,53 @@
                                       (list "SYMBOL_" 251) ;
                                       (list "DEF_SUB" 250) ;
                                       (list "TEXT" 5) ;
+                                )
+      )
+    )
+  )
+  (defun c:creestimate ()
+    (TA:generate_filter_list
+      (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+      (setq 2nd_filter_val_main "000 - ESTIMATE_") ;2nd_filter
+      (setq 3rd_filter_val_main (list ;3rd_filter
+                                  "ASPG" ;
+                                )
+      )
+      (setq 4th_filter_val_main (list  ;4th_filter
+
+                                      ;; MAIN
+                                      (list "MAIN_COLOR_1" 255 0 0) ; Red
+                                      (list "MAIN_COLOR_2" 255 255 0) ; Yellow
+                                      (list "MAIN_COLOR_3" 0 255 0) ; Green
+                                      (list "MAIN_COLOR_4" 0 255 255) ; Cyan
+                                      (list "MAIN_COLOR_5" 0 0 255) ; Blue
+                                      (list "MAIN_COLOR_6" 255 0 255) ; Magenta
+                                      (list "MAIN_COLOR_7" 0 0 0) ; Black
+
+                                      ;; SUB
+                                      (list "SUB_COLOR_1" 255 0 0) ; red
+                                      (list "SUB_COLOR_2" 255 255 0) ; Yellow
+                                      (list "SUB_COLOR_3" 0 255 0) ; Green
+                                      (list "SUB_COLOR_4" 0 255 255) ; Cyan
+                                      (list "SUB_COLOR_5" 0 0 255) ; Blue
+                                      (list "SUB_COLOR_6" 255 0 255) ; Magenta
+                                      (list "SUB_COLOR_7" 0 0 0) ; Black
+
+                                      ;; OTHER
+                                      (list "HATCH_" 251)
+                                      (list "WIPEOUT_" 250)
+                                      (list "HIDDEN_" 251)
+                                      (list "SYMBOL_" 251)
+                                      (list "DEF_SUB" 250)
+
+                                      ;; TEXT
+                                      (list "TEXT_COLOR_1" 255 0 0) ; Red
+                                      (list "TEXT_COLOR_2" 255 255 0) ; Yellow
+                                      (list "TEXT_COLOR_3" 0 255 0) ; Green
+                                      (list "TEXT_COLOR_4" 0 255 255) ; Cyan
+                                      (list "TEXT_COLOR_5" 0 0 255) ; Blue
+                                      (list "TEXT_COLOR_6" 255 0 255) ; Magenta
+                                      (list "TEXT_COLOR_7" 0 0 0) ; Black
                                 )
       )
     )
@@ -1408,6 +1507,7 @@
                                   "ACCESSORIES" ;
                                   "FLASHING" ;
                                   "FASTERN" ;
+                                  "ESTIMATE" ;
                                 )
       )
       (setq 4th_filter_val_main (list  ;4th_filter
