@@ -11918,17 +11918,10 @@
       nil
       )
     )
-<<<<<<< Updated upstream
-    (defun c:FIND_ATTRIBUTEVALUE_ ()
-      ;selection_set_for_fillter_blk_name
-        (if  ;pre_select_ssget_or_post_select_ssget
-          (=  
-=======
     (defun c:finding_attribute_findattval ()
       ;selection_set_for_fillter_blk_name
         (if  ;pre_select_ssget_or_post_select_ssget
           (=
->>>>>>> Stashed changes
             (setq ss_pre_filter_set_xx_ (ssget "i"
                                               (list
                                                 (cons 0 "INSERT") ;type of object
@@ -11954,7 +11947,6 @@
           (sslength ss_pre_filter_set_xx_)
         )
       ;
-<<<<<<< Updated upstream
       (setq att-finder_mode (TA:choose_list_v2 (list "match_value" "*wildcard_value*" "numbering") "specify fiiltering mode"))
       (setq att-value_list_ (list "wall" "tes") )
       (cond
@@ -12013,72 +12005,12 @@
               (setq tester_save (list "asd245"  "2dsg398598ifasa" "Sdasf" "900 mm.") )
               
               (vl-list->string tester_save )
-=======
-      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "A$Cf4583102")))
-      ;user input process
-      (setq choosen_mode 0)
-      (setq user-input_data_ 
-        (vl-catch-all-apply 
-          (function 
-            (lambda () 
-              (setq att_val_ename_ (car (nentsel "specify Object")))
-              (setq att_val_obj_ (vlax-ename->vla-object att_val_ename_))
-              (setq att_val_obj_tagstrval_ (vla-get-tagstring att_val_obj_))
-              (setq att_val_obj_txtstrval_ (vla-get-textstring att_val_obj_))
-            )
-          )
-        )
-      )
-      (if (= (vl-catch-all-error-p user-input_data_  ) T)
-        (progn
-          (setq  att_val_obj_txtstrval_ ;Get-string by keep previous value
-              (if
-                (or
-                  (/= (setq att_val_obj_txtstrval_val (getstring (strcat "\nSpecify Pattern name <" (if  att_val_obj_txtstrval_  att_val_obj_txtstrval_ "") ">: ") ) ) "" )
-                )
-                  (progn
-                    (setq  att_val_obj_txtstrval_  att_val_obj_txtstrval_val)
-                    (setq  att_val_obj_txtstrval_keep_val_  att_val_obj_txtstrval_val)
-                  )
-                (setq  att_val_obj_txtstrval_val  att_val_obj_txtstrval_keep_val_)
-              )
-          )
-          (setq choosen_mode 1)
-        )
-      )
-      ;
-      ;preloop_and_while
-        (setq ss_pre_filter_set_xx_i 0)
-        (setq new-set_ (ssadd))
-        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
-          
-          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
-          (if (and 
-                (= choosen_mode 0)
-                (= (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ att_val_obj_tagstrval_ ) att_val_obj_txtstrval_ )
-              )
-            (progn
-              (setq new-set_ (ssadd ss_pre_filter_set_xx_ename_ new-set_ ))
-            )
-          )
-          (if (and 
-                (= choosen_mode 1)
-                (= (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_obj_  ) att_val_obj_txtstrval_ )
-              )
-            (progn
-              (setq new-set_ (ssadd ss_pre_filter_set_xx_ename_ new-set_ ))
->>>>>>> Stashed changes
             )
           )
           (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
         )
       ;
-<<<<<<< Updated upstream
       (command "pselect"  ss_pre_filter_set_xx_new-ss_ "" )
-=======
-      (command "pselect"  new-set_ "" )
->>>>>>> Stashed changes
     )
 
 
@@ -55881,7 +55813,6 @@
 
 
 
-<<<<<<< Updated upstream
 (defun c:lvline_updateH_ ()
   (setq ssss_ename_ (car (entsel "specify Object")))
   (setq ssss_obj_ (vlax-ename->vla-object ssss_ename_))
@@ -55889,56 +55820,3 @@
   (setq ssss_obj_ins_ucs (if (= (getvar "worlducs") 0)(progn (trans ssss_obj_ins_ 0 1)) ssss_obj_ins_ ))
   (LM:vl-setattributevalue ssss_obj_ "LV_NAME_3" (strcat "FFL +" (rtos (/ (cadr ssss_obj_ins_ucs) 1000) 2 3 ) " m."))
 )
-=======
-              (setq ya (cadr (cadr a)))
-              (setq yb (cadr (cadr b)))
-
-              (setq xa (car (cadr a)))
-              (setq xb (car (cadr b)))
-
-              (if (> (abs (- ya yb)) tol)
-                (> ya yb) ; แถวบน -> ล่าง
-                (< xa xb) ; ซ้าย -> ขวา
-              )
-
-            )
-          )
-
-        )
-      )
-      (setq sorted_
-        (vl-sort ss_pre_filter_set_xx_list_
-          '(lambda (a b)
-
-            (setq ya (cadr (cadr a)))
-            (setq yb (cadr (cadr b)))
-
-            (setq xa (car (cadr a)))
-            (setq xb (car (cadr b)))
-
-            (if (> (abs (- ya yb)) tol)
-              (> ya yb) ; แถวบน -> ล่าง
-              (< xa xb) ; ซ้าย -> ขวา
-            )
-
-          )
-        )
-      )
-      
-    )
-    (setq prefix (getstring "input prefix"))
-    ;preloop_and_while
-      (setq sorted_i 0)
-      (while (< sorted_i (length sorted_))
-        (setq sorted_ename_ (car (nth sorted_i sorted_)))
-        (setq sorted_obj_ (vlax-ename->vla-object  sorted_ename_))
-        (vla-put-textstring sorted_obj_ (strcat prefix (rtos (+ sorted_i 1) 2 0)))
-        (setq sorted_i (+ sorted_i 1))
-      )
-    ;
-
-  )
-
-
-  
->>>>>>> Stashed changes
