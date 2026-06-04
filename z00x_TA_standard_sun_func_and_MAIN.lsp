@@ -2362,7 +2362,7 @@
       (setq result (list pt1 pt2 pt3 pt4 pt_mid len_1 Len_2 Len_3 Len_4))
     )
   ;
-  ;convert_value_
+  ;convert_value_FUNC
     (defun deg-to-rad (angle)
       (* angle (/ pi 180.0))
     )
@@ -2668,6 +2668,36 @@
          )
         )
         
+      )
+    )
+    (defun TA:prefix_value_00 (n)  
+      (cond  
+        ( ;_case_1 
+         (and 
+           (> n 0)
+           (< n 10)
+         )
+         (progn 
+           (strcat "0" (rtos n 2 0))
+         )
+        )
+        ( ;_case_1
+         (and 
+           (>= n 10)
+           (< n 100) 
+         )
+         (progn 
+           (strcat  (rtos n 2 0))
+         )
+        )
+        ( ;_case_1
+         (and 
+           (>= n 100) 
+         )
+         (progn 
+           (strcat  (rtos n 2 0))
+         )
+        )
       )
     )
     (defun TA:prefix_value_000 (n)  
@@ -54423,10 +54453,16 @@
             (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "LV_TYPE_VAL" "DOUBLE BLANK" )
           )
         ) 
-        (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "LV_TYPE_VAL" (strcat (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "LV_TYPE_VAL") " " subfix_text_ "_PL_" (rtos (+ start_number ) 2 0) ) ) 
+        (if (= ss_pre_filter_set_xx_i 0)
+          (progn
+            (setq start_number (- start_number 1))
+          )
+        )
+        (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "LV_TYPE_VAL" (strcat  subfix_text_ "_PL_" (TA:prefix_value_00 (+ start_number 1  ) ) "_" (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "LV_TYPE_VAL") ) ) 
         (setq start_number (+ start_number 1))
         (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
       )
+      (setq start_number (+ start_number 1))
     ;
     (_endUndo DOC)
   )
