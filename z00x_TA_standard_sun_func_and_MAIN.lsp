@@ -11918,6 +11918,100 @@
       nil
       )
     )
+    (defun c:FIND_ATTRIBUTEVALUE_ ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=  
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      (setq att-finder_mode (TA:choose_list_v2 (list "match_value" "*wildcard_value*" "numbering") "specify fiiltering mode"))
+      (setq att-value_list_ (list "wall" "tes") )
+      (cond
+        ( (= att-finder_mode "match_value")
+          (progn 
+            (setq att-value_list_val (TA:choose_list_v2 att-value_list_ "Specify Macth Case Attribute Value") )
+          )
+          
+        )
+        ( (= att-finder_mode "*wildcard_value*")
+          (progn
+            (setq att-value_list_val (strcat "*" (TA:choose_list_v2 att-value_list_ "Specify Wildcard Case *Attribute Value*") "*") )
+          )
+          
+        )
+        ( (= att-finder_mode "numbering")
+          (progn
+            (setq filter_min_range_ (cond ( (getreal (strcat "\nspecify get filter_min_range_ \n<" (rtos (setq filter_min_range_ (cond (filter_min_range_) (1.0) ) ) ) "> : " ) ) ) (filter_min_range_) ) )
+            (setq filter_max_range_ (cond ( (getreal (strcat "\nspecify get filter_max_range_ \n<" (rtos (setq filter_max_range_ (cond (filter_max_range_) (1.0) ) ) ) "> : " ) ) ) (filter_max_range_) ) )
+          )
+        )
+      )
+      
+      
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (setq ss_pre_filter_set_xx_new-ss_ (ssadd))
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (if (and 
+                (= (vla-get-hasattributes ss_pre_filter_set_xx_obj_) :vlax-true)
+                (/= (setq ss_pre_filter_set_xx_obj_val-list_ (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_obj_)) nil)
+                (or 
+                  (= att-finder_mode "match_value")
+                  (= att-finder_mode "*wildcard_value*")
+                )
+              )
+            (progn
+              (if (/= (setq ss_pre_filter_set_xx_obj_match-val_ (TA:wcmatch_list  (list att-value_list_val) ss_pre_filter_set_xx_obj_val-list_ nil)) nil)
+                (progn
+                  (setq ss_pre_filter_set_xx_new-ss_ (ssadd ss_pre_filter_set_xx_ename_ ss_pre_filter_set_xx_new-ss_ ))
+                )
+              )
+              
+            )
+          )
+          (if (and 
+                (= (vla-get-hasattributes ss_pre_filter_set_xx_obj_) :vlax-true)
+                (/= (setq ss_pre_filter_set_xx_obj_val-list_ (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_obj_)) nil)
+                (or 
+                  (= att-finder_mode "numbering")
+                )
+              )
+            (progn
+              (setq tester_save (list "asd245"  "2dsg398598ifasa" "Sdasf" "900 mm.") )
+              
+              (vl-list->string tester_save )
+            )
+          )
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+      (command "pselect"  ss_pre_filter_set_xx_new-ss_ "" )
+    )
 
 
   ;
@@ -19354,6 +19448,50 @@
                               ((getint 
                                 (strcat 
                                   "\nSpecify block"
+                                  (apply 'strcat (mapcar '(lambda (x) (strcat "\n" (itoa (setq n (1+ n))) " = " x ) ) choose_data-list_sima ) )
+                                  "\n<"
+                                  (itoa 
+                                    (setq choose_block_di (cond 
+                                                            (choose_block_di)
+                                                            (1)
+                                                          )
+                                    )
+                                  )
+                                  "> : "
+                                )
+                              )
+                              )
+                              (choose_block_di)
+                            )
+      )
+      (setq keepVAL_choose_block_di choose_block_di)
+      (nth (- choose_block_di 1)  choose_data-list_)
+    )
+    (defun TA:choose_list_v2 (choose_data-list_ txt_promt_ )
+      ; (setq choose_data-list_ (list 
+      ;                           "000 - CONCRETE_PRECAST_MAIN_COLOR_1"
+      ;                           "000 - CONCRETE_WALL_MAIN_COLOR_1"
+      ;                         )
+      ; )
+      (if (= ( type choose_data-list_ ) 'LIST)
+        (progn
+          (setq choose_data-list_sima (TA:list-to-Text choose_data-list_))
+        )
+      )
+      (setq n 0)
+        
+        
+        
+      (if (= choose_block_di nil)
+        (progn
+          (setq choose_block_di 1)
+        )
+        (setq choose_block_di keepVAL_choose_block_di)
+      )
+      (setq choose_block_di (cond 
+                              ((getint 
+                                (strcat 
+                                  "\n" txt_promt_
                                   (apply 'strcat (mapcar '(lambda (x) (strcat "\n" (itoa (setq n (1+ n))) " = " x ) ) choose_data-list_sima ) )
                                   "\n<"
                                   (itoa 
