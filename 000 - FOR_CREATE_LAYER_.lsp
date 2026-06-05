@@ -1659,6 +1659,7 @@
                                   "WALL" ;
                                   "PRECAST" ;
                                   "EX_BUILDING" ;
+                                  "EX_LOUVERS" ;
                                 )
       )
       (setq 4th_filter_val_main (list  ;4th_filter

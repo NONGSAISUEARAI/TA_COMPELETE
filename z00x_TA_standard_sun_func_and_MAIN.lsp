@@ -19220,6 +19220,8 @@
                               "000 - CONCRETE_EX_BUILDING_DEF_SUB"  
                               "000 - CONCRETE_PRECAST_DEF_SUB"  
                               "000 - CONCRETE_EX_BUILDING_CUT_COLOR_1"  
+                              "000 - CONCRETE_EX_LOUVERS_DEF_SUB"  
+                              "000 - CONCRETE_COL_CUT_COLOR_5"  
                         )
       )
       (defun TA:all-editblock_ (blockname line_color layer_name)
@@ -54057,7 +54059,7 @@
                     )
                     (sslength ss_pre_filter_set_xx_)
                   )
-                  (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "000_ASPG_TYP_FILES_LOUVER_WITH_C-C_FRAME_DYN_VIEW")))
+                  (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "000_ASPG_TYP_FILES_LOUVER_WITH_C-C_FRAME_DYN_VIEW" "000_ASPG_TYP_FILES_LOUVER_WITH_C-C_FRAME_DYN_VIEW_SUB")))
                 ;
                 ;preloop_and_while
                   (setq ss_pre_filter_set_xx_i 0)
@@ -54537,7 +54539,7 @@
         
         (LM:vl-setattributevalue newent_obj_ "LV_TYPE_VAL" lv-type_)
         (LM:vl-setattributevalue newent_obj_ "LV_SIN-H_VAL" (strcat (rtos (* ss_pre_filter_set_xx_obj_height_ total_frame_set) 2 0) " mm. " ))
-        (LM:vl-setattributevalue newent_obj_ "LV_DOU-H_VAL" (if (= lv-type_ "DOUBLE BLANK") (progn (strcat (rtos double_blank_height-per-set_ 2 0) " mm. " ) ) "-")  )
+        (LM:vl-setattributevalue newent_obj_ "LV_DOU-H_VAL" (if (= lv-type_ "DOUBLE BLANK") (progn (strcat (rtos double_blank_height-per-set_ 2 0) " mm. " "(" (rtos double_blank_set 2 0) " set)" ) ) "-")  )
         (LM:vl-setattributevalue newent_obj_ "V-TRIM_VAL" (strcat (rtos (* ss_pre_filter_set_xx_obj_height_ total_frame_set) 2 0) " mm."))
         (LM:vl-setattributevalue newent_obj_ "FRAME_VAL" (strcat (rtos ss_pre_filter_set_xx_obj_width_ 2 2) "mm. x " (rtos ss_pre_filter_set_xx_obj_height_ 2 2) "mm." ) )
         (LM:vl-setattributevalue newent_obj_ "FRAME_SET" (strcat (rtos total_frame_set 2 0) " set") )
