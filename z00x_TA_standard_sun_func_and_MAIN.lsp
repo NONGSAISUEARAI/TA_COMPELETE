@@ -55858,3 +55858,4 @@
   (setq ssss_obj_ins_ucs (if (= (getvar "worlducs") 0)(progn (trans ssss_obj_ins_ 0 1)) ssss_obj_ins_ ))
   (LM:vl-setattributevalue ssss_obj_ "LV_NAME_3" (strcat "FFL +" (rtos (/ (cadr ssss_obj_ins_ucs) 1000) 2 3 ) " m."))
 )
+

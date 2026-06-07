@@ -1760,6 +1760,7 @@
       (setq 3rd_filter_val_main (list ;3rd_filter
                                   "GRIDLINE" ;
                                   "GRID-BUBBLE" ;
+                                  "BUBBLE" ;
                                   "HIDDENlINE" ;
                                   "DIMS" ;
                                   "LEVEL" ;
@@ -1775,6 +1776,7 @@
                                       (list "MAIN_COLOR_4" 4) ;
                                       (list "MAIN_COLOR_5" 5) ;
                                       (list "MAIN_COLOR_6" 6) ;
+                                      (list "MAIN_COLOR_8" 8) ;
                                       (list "MAIN_COLOR_251" 251) ;
                                       (list "SUB_COLOR_1" 2) ;
                                       (list "SUB_COLOR_2" 2) ;
