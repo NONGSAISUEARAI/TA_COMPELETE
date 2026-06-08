@@ -11978,7 +11978,7 @@
         )
       ;
       (setq att-finder_mode (TA:choose_list_v2 (list "match_value" "*wildcard_value*" "numbering") "specify fiiltering mode"))
-      (setq att-value_list_ (list "wall" "tes") )
+      (setq att-value_list_ (list "wall" "tes" "double" "PL_06") )
       (cond
         ( (= att-finder_mode "match_value")
           (progn 
@@ -11988,7 +11988,7 @@
         )
         ( (= att-finder_mode "*wildcard_value*")
           (progn
-            (setq att-value_list_val (strcat "*" (TA:choose_list_v2 att-value_list_ "Specify Wildcard Case *Attribute Value*") "*") )
+            (setq att-value_list_val (strcat "*" (TA:choose_list_v2 att-value_list_ "Specify Wildcard Case List *Attribute Value*" ) "*") )
           )
           
         )
@@ -38073,7 +38073,15 @@
         (setq ss_new_sec (ssadd new_set_ ss_new_sec))
         
         (LM:setdynpropvalue (vlax-ename->vla-object (entlast)) "visibility1" "1_fix")
-        
+        (setq ERR_
+          (vl-catch-all-apply
+            (function
+              (lambda ()
+                (vla-put-layer (vlax-ename->vla-object (entlast)) "000 - CONCRETE_COL_CUT_COLOR_5")
+              )
+            )
+          )
+        )
         (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
       )
     ;
