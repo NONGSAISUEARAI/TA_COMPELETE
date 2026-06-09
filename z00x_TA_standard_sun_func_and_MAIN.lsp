@@ -17882,6 +17882,97 @@
         )
       ;
     )
+    (defun c:intert_by_boundary-area_blk2bol ()
+      (setq vertext_seq_ 4)
+      (setq blocklist_ (list 
+                         "A$Cac010039"
+                         "000 - EXISTING_COLUMN"
+                         "000 - EXISTING_PRECAST"
+                       )
+      )
+      (setq ERR_
+        (vl-catch-all-apply
+          (function
+            (lambda ()
+              (setq blocklist_name_ (TA:choose_list_v3 blocklist_ "select block" (setq blocklist_name_exval (+ (vl-position blocklist_name_ blocklist_ ) 1)) ))
+            )
+          )
+        )
+      )
+      ;while selection process
+        (setq ERR_ nil)
+        (while ;for keep insertion point and dist. fix length one side
+          (and
+            (= (vl-catch-all-error-p ERR_) nil)
+          )
+          (setq ERR_
+            (vl-catch-all-apply
+              (function
+                (lambda ()
+                  ;selection_set_for_fillter_blk_name
+                    (if  ;pre_select_ssget_or_post_select_ssget
+                      (=
+                        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                                          (list
+                                                            (cons 0 "INSERT") ;type of object
+                                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                                          )
+                                                    )
+                        )
+                        nil
+                      )
+                      (progn
+                        (setq ss_pre_filter_set_xx_ (ssget
+                                                          (list
+                                                            (cons 0 "INSERT") ;type of object
+                                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                                          )
+                                                    )
+                        )
+                      )
+                      (sslength ss_pre_filter_set_xx_)
+                    )
+                  ;
+                  (setq ssbol_vertex_list_ (nth vertext_seq_ (TA:assembly_coordinate_coner (TA:ss_vla-getboundingbox ss_pre_filter_set_xx_))))
+                  (TA:vla-insertblock 
+                    blocklist_name_
+                    ssbol_vertex_list_
+                    1
+                    0
+                  )
+                  
+                  ;
+                    ;new_blk_entlast object
+                      (setq vx_list (TA:assembly_coordinate_coner (TA:ss_vla-getboundingbox ss_pre_filter_set_xx_)))
+                      (setq vx_H ( distance (nth 0 vx_list) (nth 3 vx_list) ) )
+                      (setq vx_W ( distance (nth 0 vx_list) (nth 1 vx_list) ) )
+                      (setq newinsert_ename (entlast))
+                      (setq newinsert_obj (vlax-ename->vla-object newinsert_ename))
+                      (LM:setdynpropvalue newinsert_obj "distance2" vx_H)
+                      (LM:setdynpropvalue newinsert_obj "distance1" vx_W)
+                    ;
+
+
+                  ;
+                  
+                  (repeat (setq i (sslength ss_pre_filter_set_xx_)) 
+                    (vla-delete 
+                      (vlax-ename->vla-object 
+                        (ssname ss_pre_filter_set_xx_ (setq i (1- i)))
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      ;
+    )
   ; 
   ;LAYOUT_FUNC
     (defun c:F78 ()
@@ -19432,16 +19523,23 @@
       (setq layer_list_ (list "000 - 0_HIDE_OBJ_FRAMING_DEF_SUB" 
                               "000 - 0_HIDE_OBJ_FRAMING_DEF_SUB_1"
                               "000 - CONCRETE_PRECAST_MAIN_COLOR_1" 
-                              "000 - CONCRETE_WALL_MAIN_COLOR_1"  
-                              "000 - CONCRETE_EX_BUILDING_MAIN_COLOR_1"  
-                              "000 - CONCRETE_EX_BUILDING_MAIN_COLOR_3"  
-                              "000 - CONCRETE_EX_BUILDING_SUB_COLOR_251"  
-                              "000 - CONCRETE_EX_BUILDING_DEF_SUB"  
-                              "000 - CONCRETE_PRECAST_DEF_SUB"  
-                              "000 - CONCRETE_EX_BUILDING_CUT_COLOR_1"  
-                              "000 - CONCRETE_EX_LOUVERS_DEF_SUB"  
-                              "000 - CONCRETE_EX_CANOPY_MAIN_COLOR_251"  
-                              "000 - CONCRETE_COL_CUT_COLOR_5"  
+
+                              "000 - EXISTING_BUILDING_MAIN_COLOR_1"
+                              "000 - EXISTING_BUILDING_MAIN_COLOR_251"
+                              "000 - EXISTING_COLUMN_MAIN_COLOR_1"
+                              "000 - EXISTING_CONCRETE_MAIN_COLOR_1"
+                              "000 - EXISTING_DIM_MAIN_COLOR_251"
+                              "000 - EXISTING_STEEL-STRUCTURE_MAIN_COLOR_1"
+                              "000 - EXISTING_STEEL-STRUCTURE_MAIN_COLOR_2"
+                              "000 - EXISTING_STEEL-STRUCTURE_MAIN_COLOR_251"
+                              ""
+                              "000 - EXISTING_PRECAST_MAIN_COLOR_1"
+                              "000 - EXISTING_PRECAST_MAIN_COLOR_2"
+                              ""
+                              "000 - EXISTING_BUILDING_MAIN_COLOR_251"
+                              ""
+                              "000 - EXISTING_DIM_MAIN_COLOR_251"
+                              "000 - EXISTING_STEEL-STRUCTURE_DEF_SUB"
                         )
       )
       (defun TA:all-editblock_ (blockname line_color layer_name)
@@ -19739,6 +19837,51 @@
           (setq choose_block_di 1)
         )
         (setq choose_block_di keepVAL_choose_block_di)
+      )
+      (setq choose_block_di (cond 
+                              ((getint 
+                                (strcat 
+                                  "\n" txt_promt_
+                                  (apply 'strcat (mapcar '(lambda (x) (strcat "\n" (itoa (setq n (1+ n))) " = " x ) ) choose_data-list_sima ) )
+                                  "\n<"
+                                  (itoa 
+                                    (setq choose_block_di (cond 
+                                                            (choose_block_di)
+                                                            (1)
+                                                          )
+                                    )
+                                  )
+                                  "> : "
+                                )
+                              )
+                              )
+                              (choose_block_di)
+                            )
+      )
+      (setq keepVAL_choose_block_di choose_block_di)
+      (nth (- choose_block_di 1)  choose_data-list_)
+    )
+    (defun TA:choose_list_v3 (choose_data-list_ txt_promt_ existing_choose_block_di_ )
+      ; (setq choose_data-list_val (TA:choose_list_v3 choose_data-list_ "Specify block" (setq choose_data-list_exval (+ (vl-position choose_data-list_val choose_data-list_ ) 1)) )) ;example of call func with existing value
+      ; (setq choose_data-list_ (list 
+      ;                           "000 - CONCRETE_PRECAST_MAIN_COLOR_1"
+      ;                           "000 - CONCRETE_WALL_MAIN_COLOR_1"
+      ;                         )
+      ; )
+      (if (= ( type choose_data-list_ ) 'LIST)
+        (progn
+          (setq choose_data-list_sima (TA:list-to-Text choose_data-list_))
+        )
+      )
+      (setq n 0)
+        
+        
+        
+      (if (= choose_block_di nil)
+        (progn
+          (setq choose_block_di 1)
+        )
+        (setq choose_block_di existing_choose_block_di_)
       )
       (setq choose_block_di (cond 
                               ((getint 
@@ -56088,41 +56231,3 @@
 )
 
 
-;selection_set_for_fillter_blk_name
-  (if  ;pre_select_ssget_or_post_select_ssget
-    (=
-      (setq ss_pre_filter_set_xx_ (ssget "i"
-                                        (list
-                                          (cons 0 "INSERT") ;type of object
-                                          ; (cons 8 "000 - GRID")   ;kind of layer
-                                          ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                          ; (cons 62 1)           ;kind of color call sign with color code index
-                                        )
-                                  )
-      )
-      nil
-    )
-    (progn
-      (setq ss_pre_filter_set_xx_ (ssget
-                                        (list
-                                          (cons 0 "INSERT") ;type of object
-                                          ; (cons 8 "000 - GRID")   ;kind of layer
-                                          ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                          ; (cons 62 1)           ;kind of color call sign with color code index
-                                        )
-                                  )
-      )
-    )
-    (sslength ss_pre_filter_set_xx_)
-  )
-;
-
-;preloop_and_while
-  (setq ss_pre_filter_set_xx_i 0)
-  (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-    (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
-    (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
-    (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "BUB_NO" (+ 9 (atoi (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "BUB_NO"))))
-    (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
-  )
-;

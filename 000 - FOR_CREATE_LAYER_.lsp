@@ -1658,9 +1658,6 @@
                                   "COL" ;
                                   "WALL" ;
                                   "PRECAST" ;
-                                  "EX_BUILDING" ;
-                                  "EX_LOUVERS" ;
-                                  "EX_FRAME_LOUVERS" ;
                                 )
       )
       (setq 4th_filter_val_main (list  ;4th_filter
@@ -1699,16 +1696,22 @@
       (setq 2nd_filter_val_main "000 - EXISTING_") ;2nd_filter
       (setq 3rd_filter_val_main (list ;3rd_filter
                                   "BUILDING" ;
+                                  "COLUMN" ;
                                   "LOUVERS"
                                   "CANOPY"
+                                  "DIM"
+                                  "PRECAST"
+                                  "CONCRETE" ;
+                                  "STEEL-STRUCTURE" ;
                                 )
       )
-      (list  ;4th_filter
+      (setq 4th_filter_val_main (list  ;4th_filter
                                       (list "CUT_COLOR_1" 1) ;
                                       (list "CUT_COLOR_2" 2) ;
                                       (list "CUT_COLOR_3" 3) ;
                                       (list "CUT_COLOR_4" 4) ;
                                       (list "CUT_COLOR_5" 5) ;
+                                      (list "CUT_COLOR_6" 6) ;
                                       (list "MAIN_COLOR_1" 1) ;
                                       (list "MAIN_COLOR_2" 2) ;
                                       (list "MAIN_COLOR_3" 3) ;
@@ -1729,8 +1732,9 @@
                                       (list "SYMBOL_" 251) ;
                                       (list "DEF_SUB" 250) ;
                                       (list "TEXT" 3) ;
-                                       ;
+                                      ;
                                 )
+      )
     ) 
   )
   (defun c:crelaywall ()
@@ -1743,7 +1747,7 @@
                                   "PRECAST" ;
                                 )
       )
-      (list  ;4th_filter
+      (setq 4th_filter_val_main (list  ;4th_filter
                                       (list "CUT_COLOR_1" 1) ;
                                       (list "CUT_COLOR_2" 2) ;
                                       (list "CUT_COLOR_3" 3) ;
@@ -1754,7 +1758,7 @@
                                       (list "MAIN_COLOR_3" 3) ;
                                       (list "MAIN_COLOR_4" 4) ;
                                       (list "MAIN_COLOR_5" 5) ;
-                                      (list "MAIN_COLOR_6" 5) ;
+                                      (list "MAIN_COLOR_6" 6) ;
                                       (list "MAIN_COLOR_251" 251) ;
                                       (list "SUB_COLOR_1" 2) ;
                                       (list "SUB_COLOR_2" 2) ;
@@ -1771,7 +1775,9 @@
                                       (list "TEXT" 3) ;
                                        ;
                                 )
+      )
     ) 
+    
   )
   (defun c:crelayHIDEOBJ_ ()
     (TA:generate_filter_list
