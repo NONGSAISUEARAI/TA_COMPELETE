@@ -8150,7 +8150,7 @@
     (setq prefix_txt_ ;Get-string by keep previous value
         (if
           (or
-            (/= (setq prefix_txt_val (getstring (strcat "\nSpecify Pattern name <" (if prefix_txt_ prefix_txt_ "") ">: ") ) ) "" )
+            (/= (setq prefix_txt_val (getstring (strcat "\nSpecify Prefix name <" (if prefix_txt_ prefix_txt_ "") ">: ") ) ) "" )
           )
             (progn
               (setq prefix_txt_ prefix_txt_val)
@@ -8162,7 +8162,7 @@
     (setq midfix_ ;Get-string by keep previous value
         (if
           (or
-            (/= (setq midfix_val (getstring (strcat "\nSpecify Pattern name <" (if midfix_ midfix_ "") ">: ") ) ) "" )
+            (/= (setq midfix_val (getstring (strcat "\nSpecify Midfix name <" (if midfix_ midfix_ "") ">: ") ) ) "" )
           )
             (progn
               (setq midfix_ midfix_val)
@@ -8171,7 +8171,7 @@
           (setq midfix_val midfix_keep_val_)
         )
     )
-    (setq ckst_increment_ (cond ( (getint (strcat "\nspecify get rotation\n<" (rtos (setq ckst_increment_ (cond (ckst_increment_) (1.0) ) ) ) "> : " ) ) ) (ckst_increment_) ) )
+    (setq ckst_increment_ (cond ( (getint (strcat "\nspecify start number\n<" (rtos (setq ckst_increment_ (cond (ckst_increment_) (1.0) ) ) ) "> : " ) ) ) (ckst_increment_) ) )
     
     
     ;preloop_and_while

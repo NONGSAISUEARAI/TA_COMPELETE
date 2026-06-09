@@ -18763,6 +18763,225 @@
       (LM:setdynpropvalue VPBB_obj_ "position2 x" px1)
       (LM:setdynpropvalue VPBB_obj_ "position2 y" py1)
     )
+    
+    (defun c:viewport_vpmultimove ()
+      (defun TAS:convert-list-ucs (lst /)
+        (mapcar
+          '(lambda (a)
+            (list
+              (car a)
+              (trans (cadr a) 0 1)
+            )
+          )
+          lst
+        )
+      )
+      (_startundo doc)
+      ;block for selection and sorting
+        ;selection_set_for_fillter_blk_name
+          (if  ;pre_select_ssget_or_post_select_ssget
+            (=
+              (setq ss_pre_filter_set_xx_ (ssget "i"
+                                                (list
+                                                  (cons 0 "INSERT") ;type of object
+                                                  ; (cons 8 "C0x_300HK_CODE_*")   ;kind of layer
+                                                  ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                  ; (cons 62 1)           ;kind of color call sign with color code index
+                                                )
+                                          )
+              )
+              nil
+            )
+            (progn
+              (setq ss_pre_filter_set_xx_ (ssget
+                                                (list
+                                                  (cons 0 "INSERT") ;type of object
+                                                  ; (cons 8 "C0x_300HK_CODE_*")   ;kind of layer
+                                                  ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                  ; (cons 62 1)           ;kind of color call sign with color code index
+                                                )
+                                          )
+              )
+            )
+            (sslength ss_pre_filter_set_xx_)
+          )
+          (setq ss_pre_filter_set_xx_list_ (TA:standard_list_croodinate_sorting ss_pre_filter_set_xx_ "X"))
+        ;
+        (setq tol 0.01)
+        (if (= (getvar "worlducs" ) 0 )
+          (progn
+            (setq ss_pre_filter_set_xx_list_ (TAS:convert-list-ucs ss_pre_filter_set_xx_list_))
+            (setq sorted_
+              (vl-sort ss_pre_filter_set_xx_list_
+                '(lambda (a b)
+
+                  (setq ya (cadr (cadr a)))
+                  (setq yb (cadr (cadr b)))
+
+                  (setq xa (car (cadr a)))
+                  (setq xb (car (cadr b)))
+
+                  (if (> (abs (- ya yb)) tol)
+                    (> ya yb) ; แถวบน -> ล่าง
+                    (< xa xb) ; ซ้าย -> ขวา
+                  )
+
+                )
+              )
+
+            )
+          )
+          (setq sorted_
+            (vl-sort ss_pre_filter_set_xx_list_
+              '(lambda (a b)
+
+                (setq ya (cadr (cadr a)))
+                (setq yb (cadr (cadr b)))
+
+                (setq xa (car (cadr a)))
+                (setq xb (car (cadr b)))
+
+                (if (> (abs (- ya yb)) tol)
+                  (> ya yb) ; แถวบน -> ล่าง
+                  (< xa xb) ; ซ้าย -> ขวา
+                )
+
+              )
+            )
+          )
+          
+        ) 
+      ;
+      ;lwpolyine for viewport 
+        ;selection_set_for_fillter_blk_name
+          (if  ;pre_select_ssget_or_post_select_ssget 
+            (=
+              (setq ss_pre_filter_set_xx_ (ssget "i"
+                                                (list
+                                                  (cons 0 "lwpolyline") ;type of object
+                                                  ; (cons 8 "000 - GRID")   ;kind of layer
+                                                  ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                  ; (cons 62 1)           ;kind of color call sign with color code index
+                                                )
+                                          )
+              )
+              nil
+            )
+            (progn
+              (setq ss_pre_filter_set_xx_ (ssget
+                                                (list
+                                                  (cons 0 "lwpolyline") ;type of object
+                                                  ; (cons 8 "000 - GRID")   ;kind of layer
+                                                  ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                  ; (cons 62 1)           ;kind of color call sign with color code index
+                                                )
+                                          )
+              )
+            )
+            (sslength ss_pre_filter_set_xx_)
+          )
+        ;
+        ;preloop_and_while
+          (setq ss_pre_filter_set_xx_i 0)
+          (setq for-moving_list_ ())
+          (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+            (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i)) 
+            (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+            (setq ss_pre_filter_set_xx_obj_getboundingbox (vla-getboundingbox ss_pre_filter_set_xx_obj_ 'min_ 'max_ ) )
+            (setq assembly_xy_ (nth 4 (TA:assembly_coordinate_coner (list (vlax-safearray->list min_ ) (vlax-safearray->list max_ ) ) )) )
+            (setq vp-list_ (list ss_pre_filter_set_xx_ename_ (list (car assembly_xy_) (cadr assembly_xy_) 0)))
+            (setq for-moving_list_ (cons vp-list_ for-moving_list_))
+            (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+          )
+        ;
+        (setq tol 0.01)
+        (if (= (getvar "worlducs" ) 0 )
+          (progn
+            (setq for-moving_list_ (TAS:convert-list-ucs for-moving_list_))
+            (setq for-moving_list_sorted_
+              (vl-sort for-moving_list_
+                '(lambda (a b)
+
+                  (setq ya (cadr (cadr a)))
+                  (setq yb (cadr (cadr b)))
+
+                  (setq xa (car (cadr a)))
+                  (setq xb (car (cadr b)))
+
+                  (if (> (abs (- ya yb)) tol)
+                    (> ya yb) ; แถวบน -> ล่าง
+                    (< xa xb) ; ซ้าย -> ขวา
+                  )
+
+                )
+              )
+
+            )
+          )
+          (setq for-moving_list_sorted_
+            (vl-sort for-moving_list_
+              '(lambda (a b)
+
+                (setq ya (cadr (cadr a)))
+                (setq yb (cadr (cadr b)))
+
+                (setq xa (car (cadr a)))
+                (setq xb (car (cadr b)))
+
+                (if (> (abs (- ya yb)) tol)
+                  (> ya yb) ; แถวบน -> ล่าง
+                  (< xa xb) ; ซ้าย -> ขวา
+                )
+
+              )
+            )
+          )
+        )
+      ;
+      ;preloop_and_while
+        (setq for-moving_list_sorted_i 0)
+        (setq ERR_bypass-1 nil)
+        (setq ERR_bypass-2 nil)
+        (while (and 
+                 (= (vl-catch-all-error-p ERR_bypass-1) nil)
+                 (= (vl-catch-all-error-p ERR_bypass-2) nil)
+                 (< for-moving_list_sorted_i (length for-moving_list_sorted_))
+                 (< for-moving_list_sorted_i (length sorted_))
+               )
+          (setq ERR_bypass-1
+            (vl-catch-all-apply
+              (function
+                (lambda () 
+                  (setq for-moving_list_sorted_ename_ (car (nth  for-moving_list_sorted_i for-moving_list_sorted_)))   
+                  (setq for-moving_list_sorted_obj_ (vlax-ename->vla-object  for-moving_list_sorted_ename_))
+                  (setq for-moving_list_sorted_ins_ (cadr (nth  for-moving_list_sorted_i for-moving_list_sorted_)))
+                )
+              )
+            )
+          )
+          (if (and
+                (= (vl-catch-all-error-p ERR_bypass-1) nil)
+              )
+            (progn
+              (setq ERR_bypass-2
+                (vl-catch-all-apply
+                  (function
+                    (lambda ()
+                      (setq sorted_ins_ (cadr (nth for-moving_list_sorted_i sorted_)))
+                      (vla-move for-moving_list_sorted_obj_ (vlax-3d-point for-moving_list_sorted_ins_) (vlax-3d-point sorted_ins_))
+                      
+                    )
+                  )
+                )
+              )
+            )
+          )
+          (setq for-moving_list_sorted_i (+ for-moving_list_sorted_i 1))
+        )
+      ;
+      (_endUndo doc)
+    )
+    
   ;
   ;Dyeing Layer 
     (defun c:Dyeing_layer_Dyebyname ()
@@ -19221,6 +19440,7 @@
                               "000 - CONCRETE_PRECAST_DEF_SUB"  
                               "000 - CONCRETE_EX_BUILDING_CUT_COLOR_1"  
                               "000 - CONCRETE_EX_LOUVERS_DEF_SUB"  
+                              "000 - CONCRETE_EX_CANOPY_MAIN_COLOR_251"  
                               "000 - CONCRETE_COL_CUT_COLOR_5"  
                         )
       )
@@ -55867,3 +56087,42 @@
   (LM:vl-setattributevalue ssss_obj_ "LV_NAME_3" (strcat "FFL +" (rtos (/ (cadr ssss_obj_ins_ucs) 1000) 2 3 ) " m."))
 )
 
+
+;selection_set_for_fillter_blk_name
+  (if  ;pre_select_ssget_or_post_select_ssget
+    (=
+      (setq ss_pre_filter_set_xx_ (ssget "i"
+                                        (list
+                                          (cons 0 "INSERT") ;type of object
+                                          ; (cons 8 "000 - GRID")   ;kind of layer
+                                          ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                          ; (cons 62 1)           ;kind of color call sign with color code index
+                                        )
+                                  )
+      )
+      nil
+    )
+    (progn
+      (setq ss_pre_filter_set_xx_ (ssget
+                                        (list
+                                          (cons 0 "INSERT") ;type of object
+                                          ; (cons 8 "000 - GRID")   ;kind of layer
+                                          ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                          ; (cons 62 1)           ;kind of color call sign with color code index
+                                        )
+                                  )
+      )
+    )
+    (sslength ss_pre_filter_set_xx_)
+  )
+;
+
+;preloop_and_while
+  (setq ss_pre_filter_set_xx_i 0)
+  (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+    (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+    (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+    (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "BUB_NO" (+ 9 (atoi (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "BUB_NO"))))
+    (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+  )
+;
