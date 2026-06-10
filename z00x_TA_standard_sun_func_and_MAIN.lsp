@@ -17883,18 +17883,34 @@
       ;
     )
     (defun c:intert_by_boundary-area_blk2bol ()
-      (setq vertext_seq_ 4)
+      (setq vertext_seq_ 0)
       (setq blocklist_ (list 
                          "A$Cac010039"
                          "000 - EXISTING_COLUMN"
-                         "000 - EXISTING_PRECAST"
+                         "000 - EXISTING_COLUMN"
+                         "000 - CONCRETE_PRECAST"
                        )
       )
+      (setq ERR_ nil)
       (setq ERR_
-        (vl-catch-all-apply
+        (vl-catch-all-apply 
           (function
             (lambda ()
-              (setq blocklist_name_ (TA:choose_list_v3 blocklist_ "select block" (setq blocklist_name_exval (+ (vl-position blocklist_name_ blocklist_ ) 1)) ))
+              (setq blocklist_name_ (TA:choose_list_v3 
+                                      blocklist_
+                                      "select block"
+                                      (if (= blocklist_name_exval nil) 
+                                        (progn (setq blocklist_name_exval 1))
+                                        (setq blocklist_name_exval (+ 
+                                                                     (vl-position blocklist_name_ 
+                                                                                  blocklist_
+                                                                     )
+                                                                     1
+                                                                   )
+                                        )
+                                      )
+                                    )
+              )   
             )
           )
         )
@@ -17914,7 +17930,7 @@
                       (=
                         (setq ss_pre_filter_set_xx_ (ssget "i"
                                                           (list
-                                                            (cons 0 "INSERT") ;type of object
+                                                            ; (cons 0 "INSERT") ;type of object
                                                             ; (cons 8 "000 - GRID")   ;kind of layer
                                                             ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                                             ; (cons 62 1)           ;kind of color call sign with color code index
@@ -17926,7 +17942,7 @@
                       (progn
                         (setq ss_pre_filter_set_xx_ (ssget
                                                           (list
-                                                            (cons 0 "INSERT") ;type of object
+                                                            ; (cons 0 "INSERT") ;type of object
                                                             ; (cons 8 "000 - GRID")   ;kind of layer
                                                             ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                                             ; (cons 62 1)           ;kind of color call sign with color code index
@@ -17959,13 +17975,13 @@
 
                   ;
                   
-                  (repeat (setq i (sslength ss_pre_filter_set_xx_)) 
-                    (vla-delete 
-                      (vlax-ename->vla-object 
-                        (ssname ss_pre_filter_set_xx_ (setq i (1- i)))
-                      )
-                    )
-                  )
+                  ; (repeat (setq i (sslength ss_pre_filter_set_xx_)) 
+                  ;   (vla-delete 
+                  ;     (vlax-ename->vla-object 
+                  ;       (ssname ss_pre_filter_set_xx_ (setq i (1- i)))
+                  ;     )
+                  ;   )
+                  ; )
                 )
               )
             )
@@ -19532,14 +19548,22 @@
                               "000 - EXISTING_STEEL-STRUCTURE_MAIN_COLOR_1"
                               "000 - EXISTING_STEEL-STRUCTURE_MAIN_COLOR_2"
                               "000 - EXISTING_STEEL-STRUCTURE_MAIN_COLOR_251"
+                              "000 - EXISTING_STEEL-STRUCTURE_DEF_SUB"
                               ""
                               "000 - EXISTING_PRECAST_MAIN_COLOR_1"
                               "000 - EXISTING_PRECAST_MAIN_COLOR_2"
+                              "000 - EXISTING_PRECAST_MAIN_COLOR_3"
                               ""
+                              "000 - EXISTING_BUILDING_MAIN_COLOR_1"
+                              "000 - EXISTING_BUILDING_MAIN_COLOR_2"
+                              "000 - EXISTING_BUILDING_MAIN_COLOR_3"
                               "000 - EXISTING_BUILDING_MAIN_COLOR_251"
                               ""
                               "000 - EXISTING_DIM_MAIN_COLOR_251"
                               "000 - EXISTING_STEEL-STRUCTURE_DEF_SUB"
+                              ""
+                              "000 - EXISTING_CANOPY_MAIN_COLOR_2"
+                              "000 - EXISTING_CANOPY_MAIN_COLOR_3"
                         )
       )
       (defun TA:all-editblock_ (blockname line_color layer_name)
@@ -19876,7 +19900,12 @@
       (setq n 0)
         
         
-        
+      
+      (if (= existing_choose_block_di_ nil)
+        (progn
+          (setq existing_choose_block_di_ 1)
+        )
+      )
       (if (= choose_block_di nil)
         (progn
           (setq choose_block_di 1)
@@ -56231,3 +56260,24 @@
 )
 
 
+
+(defun c:prefix-subfix_all-block_ ()
+  (setq block_all-list_ (TA:get_name_block_in_drawing_to_list_v2))
+  (setq prefix "")
+  (setq subfix "for_PP19_stair_only" )
+  ;preloop_and_while
+    (setq block_all-list_i 0)
+    (while (< block_all-list_i (length block_all-list_))
+      (setq block_all-list_name_ (car (nth  block_all-list_i block_all-list_)))
+      (if (and 
+            ; (/= (cadr (nth  block_all-list_i block_all-list_)) 0 )
+            (= 1 1)            
+          )
+        (progn
+          (command "rename" "b" block_all-list_name_ (strcat prefix block_all-list_name_ subfix))
+        )
+      )
+      (setq block_all-list_i (+ block_all-list_i 1))
+    )
+  ;
+)

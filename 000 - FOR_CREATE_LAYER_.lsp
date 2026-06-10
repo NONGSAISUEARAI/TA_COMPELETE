@@ -1475,7 +1475,8 @@
                                       (list "CUT_COLOR_3" 3) ;
                                       (list "CUT_COLOR_4" 4) ;
                                       (list "CUT_COLOR_5" 5) ;
-                                      (list "CUT_COLOR_251" 251) ;
+                                      (list "CUT_COLOR_6" 6) ;
+                                  
                                       (list "MAIN_COLOR_1" 1) ;
                                       (list "MAIN_COLOR_2" 2) ;
                                       (list "MAIN_COLOR_3" 3) ;
@@ -1483,13 +1484,16 @@
                                       (list "MAIN_COLOR_5" 5) ;
                                       (list "MAIN_COLOR_6" 6) ;
                                       (list "MAIN_COLOR_251" 251) ;
-                                      (list "SUB_COLOR_1" 2) ;
+                                  
+                                      (list "SUB_COLOR_1" 1) ;
                                       (list "SUB_COLOR_2" 2) ;
                                       (list "SUB_COLOR_3" 3) ;
                                       (list "SUB_COLOR_4" 4) ;
                                       (list "SUB_COLOR_5" 5) ;
+                                      (list "SUB_COLOR_6" 6) ;
                                       (list "SUB_COLOR_8" 8) ;
                                       (list "SUB_COLOR_251" 251) ;
+                                  
                                       (list "HATCH_" 251) ;
                                       (list "WIPEOUT_" 250) ;
                                       (list "HIDDEN_" 251) ;
@@ -1507,7 +1511,6 @@
                                   "ACCESSORIES" ;
                                   "FLASHING" ;
                                   "FASTERN" ;
-                                  "ESTIMATE" ;
                                 )
       )
       (setq 4th_filter_val_main (list  ;4th_filter
@@ -1516,13 +1519,11 @@
                                       (list "CUT_COLOR_3" 3) ;
                                       (list "CUT_COLOR_4" 4) ;
                                       (list "CUT_COLOR_5" 5) ;
-                                      (list "CUT_COLOR_251" 251) ;
                                       (list "MAIN_COLOR_1" 1) ;
                                       (list "MAIN_COLOR_2" 2) ;
                                       (list "MAIN_COLOR_3" 3) ;
                                       (list "MAIN_COLOR_4" 4) ;
                                       (list "MAIN_COLOR_5" 5) ;
-                                      (list "MAIN_COLOR_6" 6) ;
                                       (list "MAIN_COLOR_251" 251) ;
                                       (list "SUB_COLOR_1" 2) ;
                                       (list "SUB_COLOR_2" 2) ;
