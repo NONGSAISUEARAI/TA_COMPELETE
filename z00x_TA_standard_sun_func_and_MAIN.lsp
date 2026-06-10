@@ -17960,6 +17960,7 @@
                     1
                     0
                   )
+                  (command "pselect"   "" )
                   
                   ;
                     ;new_blk_entlast object
@@ -19562,8 +19563,10 @@
                               "000 - EXISTING_DIM_MAIN_COLOR_251"
                               "000 - EXISTING_STEEL-STRUCTURE_DEF_SUB"
                               ""
+                              "000 - EXISTING_CANOPY_MAIN_COLOR_1"
                               "000 - EXISTING_CANOPY_MAIN_COLOR_2"
                               "000 - EXISTING_CANOPY_MAIN_COLOR_3"
+                              "000 - EXISTING_CANOPY_MAIN_COLOR_251"
                         )
       )
       (defun TA:all-editblock_ (blockname line_color layer_name)
