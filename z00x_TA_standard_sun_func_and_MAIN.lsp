@@ -17887,10 +17887,17 @@
       (setq blocklist_ (list 
                          "A$Cac010039"
                          "000 - EXISTING_COLUMN"
-                         "000 - EXISTING_COLUMN"
+                         "000 - CONCRETE_WALL"
                          "000 - CONCRETE_PRECAST"
                        )
       )
+      (setq blocklayer_ (list 
+                          ""
+                          "000 - EXISTING_CONCRETE_CUT_COLOR_1"
+                          "000 - EXISTING_CONCRETE_CUT_COLOR_5"
+                        )
+      )
+      (setq blocklayer_number (nth 2  blocklayer_))
       (setq ERR_ nil)
       (setq ERR_
         (vl-catch-all-apply 
@@ -17969,6 +17976,8 @@
                       (setq vx_W ( distance (nth 0 vx_list) (nth 1 vx_list) ) )
                       (setq newinsert_ename (entlast))
                       (setq newinsert_obj (vlax-ename->vla-object newinsert_ename))
+                      (vla-put-layer newinsert_obj blocklayer_number)
+                      (vla-put-color newinsert_obj 256)
                       (LM:setdynpropvalue newinsert_obj "distance2" vx_H)
                       (LM:setdynpropvalue newinsert_obj "distance1" vx_W)
                     ;
@@ -17976,13 +17985,13 @@
 
                   ;
                   
-                  ; (repeat (setq i (sslength ss_pre_filter_set_xx_)) 
-                  ;   (vla-delete 
-                  ;     (vlax-ename->vla-object 
-                  ;       (ssname ss_pre_filter_set_xx_ (setq i (1- i)))
-                  ;     )
-                  ;   )
-                  ; )
+                  (repeat (setq i (sslength ss_pre_filter_set_xx_)) 
+                    (vla-delete 
+                      (vlax-ename->vla-object 
+                        (ssname ss_pre_filter_set_xx_ (setq i (1- i)))
+                      )
+                    )
+                  )
                 )
               )
             )
@@ -19551,6 +19560,8 @@
                               "000 - EXISTING_STEEL-STRUCTURE_MAIN_COLOR_251"
                               "000 - EXISTING_STEEL-STRUCTURE_DEF_SUB"
                               ""
+                              "000 - EXISTING_LOUVERS_DEF_SUB"
+                              ""
                               "000 - EXISTING_PRECAST_MAIN_COLOR_1"
                               "000 - EXISTING_PRECAST_MAIN_COLOR_2"
                               "000 - EXISTING_PRECAST_MAIN_COLOR_3"
@@ -19567,6 +19578,7 @@
                               "000 - EXISTING_CANOPY_MAIN_COLOR_2"
                               "000 - EXISTING_CANOPY_MAIN_COLOR_3"
                               "000 - EXISTING_CANOPY_MAIN_COLOR_251"
+                              "000 - EXISTING_CANOPY_DEF_SUB"
                         )
       )
       (defun TA:all-editblock_ (blockname line_color layer_name)
