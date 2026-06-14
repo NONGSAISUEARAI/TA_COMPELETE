@@ -54497,7 +54497,7 @@
     ; (setq trim-area_obj_ (vlax-ename->vla-object trim-area_ename_))
     (setq trim-area_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint trim-area_obj_))))
     
-    (if (= (getvar "worlducs") 0)(progn (setq trim-area_obj_ins_ (trans trim-area_obj_ins_ 1 0))) trim-area_obj_ins_ )
+    (if (= (getvar "worlducs") 0)(progn (setq trim-area_obj_ins_ (trans trim-area_obj_ins_ 1 1))) trim-area_obj_ins_ )
     (TA:vla-insertblock 
       "000_AREA_ASPG_AREA-BOX"
       trim-area_obj_ins_
@@ -54511,6 +54511,9 @@
       (if (or 
             (= (LM:effectivename trim-area_obj_ )"000_ASPG_TYP_FILES_LOUVER_WITH_C-C_TRIM_FRONT_VIEW")
             (= (LM:effectivename trim-area_obj_) "000_ASPG_TYP_FILES_LOUVER_WITH_C-E_TRIM_FRONT_VIEW" )
+            (= (LM:effectivename trim-area_obj_) "000_ASPG_TYP_FILES_FRAMING_EXTR_BREAKLINE_FRONT_VIEW"  )
+            (= (LM:effectivename trim-area_obj_) "000_ASPG_TYP_FILES_LOUVER_WITH_C-E_TRIM_FRONT_VIEW_SUB"  )
+            (= (LM:effectivename trim-area_obj_) "000_ASPG_TYP_FILES_LOUVER_WITH_C-C_TRIM_FRONT_VIEW_SUB"  )
           )
         (progn
           
@@ -54566,6 +54569,8 @@
                                                                                      "000_ASPG_TYP_FILES_FRAMING_EXTR_BREAKLINE_FRONT_VIEW"
                                                                                      "000_ASPG_TYP_FILES_LOUVER_WITH_C-E_TRIM_FRONT_VIEW"
                                                                                      "000_ASPG_TYP_FILES_LOUVER_WITH_C-E_TRIM_FRONT_VIEW"
+                                                                                     "000_ASPG_TYP_FILES_LOUVER_WITH_C-E_TRIM_FRONT_VIEW_SUB"
+                                                                                     "000_ASPG_TYP_FILES_LOUVER_WITH_C-C_TRIM_FRONT_VIEW_SUB" 
                                                                                )))
     ;preloop_and_while
       (setq ss_pre_filter_set_xx_i 0)
@@ -56384,3 +56389,56 @@
     )
   ;
 )
+
+
+
+(defun c:tempsc ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT,mtext") ;type of object
+                                            (cons 8 "A-ANNO-IDEN")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT,mtext") ;type of object
+                                            (cons 8 "A-ANNO-IDEN")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      (if (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbBlockReference")
+        
+        (progn
+          (setq ssbol_vertex_list_ (TA:assembly_coordinate_coner (TA:ss_vla-getboundingbox ss_pre_filter_set_xx_)))
+          (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+          ; (if (= (getvar "worlducs") 0)(progn (trans pttarget_torr 1 0)) pttarget_torr )
+        )
+      )
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+    
+  ;
+  (command "pselect"   "" )
+  (command "scale" ss_pre_filter_set_xx_ "" (nth 4 ssbol_vertex_list_) 0.5 )
+)
+  
