@@ -54492,6 +54492,94 @@
       )
     ;
   )
+  (defun TA:insert-trim_ASPGTRarea (trim-area_obj_)
+    ; (setq trim-area_ename_ (car (entsel "specify Object")))
+    ; (setq trim-area_obj_ (vlax-ename->vla-object trim-area_ename_))
+    (setq trim-area_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint trim-area_obj_))))
+    
+    (if (= (getvar "worlducs") 0)(progn (setq trim-area_obj_ins_ (trans trim-area_obj_ins_ 1 0))) trim-area_obj_ins_ )
+    (TA:vla-insertblock 
+      "000_AREA_ASPG_AREA-BOX"
+      trim-area_obj_ins_
+      1
+      (vla-get-rotation trim-area_obj_)
+    )
+    ;new_blk_entlast object
+      (setq new-insert_ename (entlast))
+      (setq new-insert_obj (vlax-ename->vla-object new-insert_ename))
+      
+      (if (or 
+            (= (LM:effectivename trim-area_obj_ )"000_ASPG_TYP_FILES_LOUVER_WITH_C-C_TRIM_FRONT_VIEW")
+            (= (LM:effectivename trim-area_obj_) "000_ASPG_TYP_FILES_LOUVER_WITH_C-E_TRIM_FRONT_VIEW" )
+          )
+        (progn
+          
+          (LM:setdynpropvalue new-insert_obj "trim-length" (LM:getdynpropvalue trim-area_obj_ "distance2"  ))
+          (LM:setdynpropvalue new-insert_obj "trim-width" 120)
+        )
+      )
+      (if (or 
+            (= (LM:effectivename trim-area_obj_ ) "000_ASPG_TYP_FILES_FRAMING_EXTR_BREAKLINE_FRONT_VIEW")
+          )
+        (progn
+          (vla-put-rotation new-insert_obj (deg-to-rad (TA:ModifyRotation (rad-to-deg (vla-get-rotation new-insert_obj) ) -90 )))
+          (LM:setdynpropvalue new-insert_obj "trim-length" (+
+                                                             (LM:getdynpropvalue trim-area_obj_ "distance1"  )
+                                                             (LM:getdynpropvalue trim-area_obj_ "distance2"  )
+                                                           )
+          )
+          (LM:setdynpropvalue new-insert_obj "trim-width" 120)
+        )
+      )
+    ;
+  )
+  (defun c:sstrimarea ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "000_ASPG_TYP_FILES_LOUVER_WITH_C-C_TRIM_FRONT_VIEW" 
+                                                                                     "000_ASPG_TYP_FILES_FRAMING_EXTR_BREAKLINE_FRONT_VIEW"
+                                                                                     "000_ASPG_TYP_FILES_LOUVER_WITH_C-E_TRIM_FRONT_VIEW"
+                                                                                     "000_ASPG_TYP_FILES_LOUVER_WITH_C-E_TRIM_FRONT_VIEW"
+                                                                               )))
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (setq ss-insert-new (ssadd))
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (TA:insert-trim_ASPGTRarea ss_pre_filter_set_xx_obj_)
+        (setq ss-insert-new (ssadd (entlast) ss-insert-new ))
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+      (command "pselect"  ss-insert-new "" )
+    ;
+  )
   (defun c:ASPG_OFFSET_FRAME ()
     (_StartUndo DOC)
     ;selection_set_for_fillter_blk_name

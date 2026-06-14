@@ -1279,7 +1279,8 @@
                                   "C08" ;
                                   "C09" ;
                                   "C10" ;
-                                  "C11" ;
+                                  "C11"
+                                  "ASPG_AREA" ;
                             )
       )
       (setq 4th_filter_val_main (list  ;4th_filter
