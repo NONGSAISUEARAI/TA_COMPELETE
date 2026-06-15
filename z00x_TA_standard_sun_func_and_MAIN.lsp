@@ -19579,6 +19579,9 @@
                               "000 - EXISTING_CANOPY_MAIN_COLOR_3"
                               "000 - EXISTING_CANOPY_MAIN_COLOR_251"
                               "000 - EXISTING_CANOPY_DEF_SUB"
+                              ""
+                              "010 - ASPG_FASTERN_MAIN_COLOR_1"
+                          
                         )
       )
       (defun TA:all-editblock_ (blockname line_color layer_name)
