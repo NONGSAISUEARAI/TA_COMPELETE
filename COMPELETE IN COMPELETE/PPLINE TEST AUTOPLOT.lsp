@@ -4765,7 +4765,7 @@
     ;
   )
   (defun c:Plotter_CKST_CSDASPGplot ()
-      (defun TAS:CKST_plotter_date_cond ()
+      (defun TAS:CKST_plotter_date_cond-for-ASPG_ ()
         (cond
           (;date_condd_case_1
              (and
@@ -4841,13 +4841,27 @@
                
              )
           )
+          (;date_condd_case_5 ABOVE
+             (and
+                (wcmatch (getvar "dwgname") "*IV01*")
+                (or 
+                  (wcmatch (getvar "dwgname") "*AR-2*")
+                  (wcmatch (getvar "dwgname") "*IV01*")
+                  
+                )
+             )
+             (progn
+               (TA:CDATE "-" "DDMMYYYY")
+               
+             )
+          )
         )
       )
       ;presetting
       (setvar "PLOTTRANSPARENCYOVERRIDE" 1)
       (setq REV_list_         (list 1)
             REV_VAL           "A"
-            REV_DATE_VAL       (TAS:CKST_plotter_date_cond);"31-10-2025" ;(TA:CDATE "/" "DDMMYYYY")
+            REV_DATE_VAL       (TAS:CKST_plotter_date_cond-for-ASPG_);"31-10-2025" ;(TA:CDATE "/" "DDMMYYYY")
             REV_DESC_VAL      "FIRST ISSUED"
             DWG_VAL           "TA"
             CHK_VAL           "KEN" 
@@ -4885,15 +4899,31 @@
             "i"
           )
           (progn
-            (setq ss_pre_filter_set_xx_ (ssget x_checker_
-                                              (list
-                                                (cons 0 "INSERT") ;type of object
-                                                (cons 410 (getvar "CTAB"))
-                                                ; (cons 8 "000 - GRID")   ;kind of layer
-                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                                ; (cons 62 1)           ;kind of color call sign with color code index
-                                              )
-                                        )
+            (if  ;pre_select_ssget_or_post_select_ssget
+              (=
+                (setq ss_pre_filter_set_xx_ (ssget "i"
+                                                  (list
+                                                    (cons 0 "INSERT") ;type of object
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+                nil
+              )
+              (progn
+                (setq ss_pre_filter_set_xx_ (ssget
+                                                  (list
+                                                    (cons 0 "INSERT") ;type of object
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+              )
+              (sslength ss_pre_filter_set_xx_)
             )
           )
           (setq ss_pre_filter_set_xx_ (ssget 
