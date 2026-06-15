@@ -9882,10 +9882,12 @@
   ;
   ;Joint_FUNC
     (defun c:joint_line_JOL ()
+      
       ;Note By Code_Developer
       ;This command is designed to work exclusively with a LWPOLYLINE espectespecially object from offset line
       ;The principle of this code is to read the insertion points (vertices) of the polyline at the head and tail,then create polylines at both insertion points and join them together.
       ;
+      (_startundo doc)
       ;joint_pline
         ;selection_set
           (if  ;pre_select_ssget_or_post_select_ssget
@@ -9940,7 +9942,7 @@
                           (setq ss_pre_filter_set_xx_i_obj_vertex_len_headline_ (nth 0 ss_pre_filter_set_xx_i_obj_vertex_len_))
                           (setq ss_pre_filter_set_xx_i_obj_vertex_len_botline_ (nth (- (length ss_pre_filter_set_xx_i_obj_vertex_len_) 1) ss_pre_filter_set_xx_i_obj_vertex_len_))
                     ;copy_pline_object
-                      (vla-copy ss_pre_filter_set_xx_i_obj_)
+                      ; (vla-copy ss_pre_filter_set_xx_i_obj_)
                     ;
                   ;
                   ;second_pline_process
@@ -9962,11 +9964,15 @@
                           (setq ss_pre_filter_set_xx_ii_obj_vertex_len_headline_ (nth 0 ss_pre_filter_set_xx_ii_obj_vertex_len_))
                           (setq ss_pre_filter_set_xx_ii_obj_vertex_len_botline_ (nth (- (length ss_pre_filter_set_xx_ii_obj_vertex_len_) 1) ss_pre_filter_set_xx_ii_obj_vertex_len_))
                     ;copy_pline_object
-                      (vla-copy ss_pre_filter_set_xx_ii_obj_)
+                      ; (vla-copy ss_pre_filter_set_xx_ii_obj_)
                     ;
                   ;
                   ;making_pline_process_
                     (setvar "osmode" 0)
+                    (if (= (getvar "worlducs") 0)(progn (setq ss_pre_filter_set_xx_ii_obj_vertex_len_headline_ (trans ss_pre_filter_set_xx_ii_obj_vertex_len_headline_ 0 1))) ss_pre_filter_set_xx_ii_obj_vertex_len_headline_ )
+                    (if (= (getvar "worlducs") 0)(progn (setq ss_pre_filter_set_xx_ii_obj_vertex_len_botline_ (trans ss_pre_filter_set_xx_ii_obj_vertex_len_botline_ 0 1))) ss_pre_filter_set_xx_ii_obj_vertex_len_botline_ )
+                    (if (= (getvar "worlducs") 0)(progn (setq ss_pre_filter_set_xx_i_obj_vertex_len_headline_ (trans ss_pre_filter_set_xx_i_obj_vertex_len_headline_ 0 1))) ss_pre_filter_set_xx_i_obj_vertex_len_headline_ )
+                    (if (= (getvar "worlducs") 0)(progn (setq ss_pre_filter_set_xx_i_obj_vertex_len_botline_ (trans ss_pre_filter_set_xx_i_obj_vertex_len_botline_ 0 1))) ss_pre_filter_set_xx_i_obj_vertex_len_botline_ )
                     (create-pline (list ss_pre_filter_set_xx_i_obj_vertex_len_headline_ ss_pre_filter_set_xx_ii_obj_vertex_len_headline_)) ;head_of_line
                       (setq new_joint_headline_ (entlast))
                     (create-pline (list ss_pre_filter_set_xx_i_obj_vertex_len_botline_ ss_pre_filter_set_xx_ii_obj_vertex_len_botline_)) ;bot_of_line
@@ -9985,6 +9991,25 @@
           )
         ;
       ;
+      ;ASPG event code
+        ;new_blk_entlast object
+          (setq newpline_ename (entlast))
+          (setq newpline_obj (vlax-ename->vla-object newpline_ename))
+          (vla-put-layer newpline_obj "010 - ASPG_FLASHING_MAIN_COLOR_3")
+          (vla-put-color newpline_obj 256)
+          (command "pselect"  newpline_ename "" )
+          (c:Selectionset_wipeout_sswe)
+          ;new_blk_entlast object
+            (setq wipepline_ename (entlast))
+            (setq wipepline_obj (vlax-ename->vla-object wipepline_ename))
+            (vla-put-layer wipepline_obj "010 - ASPG_FLASHING_WIPEOUT_")
+            (vla-put-color wipepline_obj 256)
+          ;
+          (command "pselect"   "" )
+          (command "draworder" newpline_ename "" "F")
+        ;
+      ;
+      (_EndUndo doc)
     )
   ;
   ;Selection_FUNC
