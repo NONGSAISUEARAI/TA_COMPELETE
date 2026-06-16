@@ -10422,7 +10422,21 @@
           (sslength ss_pre_filter_set_xx_)
         )
       ;
-      
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (setq ss-new-new (ssadd))
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (if (/= (LM:effectivename ss_pre_filter_set_xx_obj_) "010 - ASPG_FLASING")
+            (progn
+              (setq ss-new-new (ssadd ss_pre_filter_set_xx_ename_ ss-new-new))
+            )
+          )
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+      (command "pselect"  ss-new-new "" )
     )
   ; 
   ;test_command
@@ -12455,6 +12469,55 @@
           (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "SHEET_NO" (strcat (rtos start_number 2 0) "/" (rtos (length ss_pre_filter_set_xx_) 2 0) ))
           (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "TOTAL_NO" (length ss_pre_filter_set_xx_))
           (setq start_number (+ start_number 1))
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+    )
+    (defun c:masterattso ()
+      (setq prefix-name "1-VS01-AR-")
+      (setq midfix "2564-")
+      (setq starting_increment-number (cond ( (getint (strcat "\nspecify get move to point\n<" (rtos (setq starting_increment-number (cond (starting_increment-number) (0) ) ) ) "> : " ) ) ) (starting_increment-number) ) )
+      
+      
+      (setq att-tag-name "DRAWING_NO_val")
+      
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+        (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "Title Block_Under Ground_C1 v3" )))
+        (setq ss_pre_filter_set_xx_ (TA:standard_list_croodinate_sorting ss_pre_filter_set_xx_ "X"))
+      ;
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (while (< ss_pre_filter_set_xx_i (length ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (car (nth  ss_pre_filter_set_xx_i ss_pre_filter_set_xx_)))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (setq ss_pre_filter_set_xx_obj_att (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ att-tag-name (strcat prefix-name  midfix (TA:prefix_value_00 starting_increment-number) )))
+          (setq starting_increment-number (+ starting_increment-number 1))
           (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
         )
       ;
@@ -19979,6 +20042,7 @@
       (nth (- choose_block_di 1)  choose_data-list_)
     )
   ;
+  
 
 ;                                   
   (defun c:expl-p () 
@@ -55082,6 +55146,121 @@
       ;
     ;
     (command "pselect"   "" )
+  )
+  (defun c:ASPG_Create_flashing_length_ASPG_FSAR1 ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    ;user-input
+      (setq length-increment (cond ( (getreal (strcat "\nspecify louver_width_<" (rtos (setq length-increment (cond (length-increment) (10) ) ) ) "> : " ) ) ) (length-increment) ) )
+      (setq length-increment- (- length-increment) )
+      (setq length-increment+ length-increment )
+      (setq length-increment++ 0 )
+      (setq length-increment-- 0 )
+    ;
+    ;while selection process
+      (setq ERR_ nil)
+      (setq ss_pre_filter_set_xx_i 0)
+      (setq increment-time 1)
+      (while ;for keep insertion point and dist. fix length one side
+        (and
+          (= (vl-catch-all-error-p ERR_) nil)
+        )
+        (setq ERR_
+          (vl-catch-all-apply
+            (function
+              (lambda ()
+                (setq symbol-input ;Get-string by keep previous value
+                    (if
+                      (or
+                        (/= (setq symbol-inputval (getstring (strcat "\nSpecify + / - name <" (if symbol-input symbol-input "") ">: ") ) ) "" )
+                      )
+                        (progn
+                          (setq symbol-input symbol-inputval)
+                          (setq symbol-inputkeep_val_ symbol-inputval)
+                        )
+                      (setq symbol-inputval symbol-inputkeep_val_)
+                    )
+                )
+                (setq ss_pre_filter_set_xx_obj (vlax-ename->vla-object (ssname  ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i )))
+                ;new_blk_entlast object
+                  (vla-copy ss_pre_filter_set_xx_obj)
+                  (setq new-copy_ename (entlast))
+                  (setq new-copy_obj (vlax-ename->vla-object new-copy_ename))
+                ;)
+                (if (= symbol-input "+")
+                  (progn
+                    (TA:move_polar_insertionpoint new-copy_obj "Y" (setq length-increment++ (+ length-increment++ length-increment+)))
+                  )
+                  (TA:move_polar_insertionpoint new-copy_obj "Y" (setq length-increment-- (+ length-increment-- length-increment-)))
+                )
+                
+                (setq increment-time (+ 1 increment-time ))
+              )
+            )
+          )
+        )
+      )
+    ;
+  )
+  (defun c:ASPG_SWFLASHING ()
+    (setq flasing_ename_ (car (entsel "specify Object")))
+    (setq flasing_obj_ (vlax-ename->vla-object flasing_ename_))
+    (setq flasing_obj_dist-1_ (LM:getdynpropvalue flasing_obj_ "distance1"))
+    (setq flasing_obj_dist-2_ (LM:getdynpropvalue flasing_obj_ "distance2"))
+    (setq flasing_obj_dist-3_ (LM:getdynpropvalue flasing_obj_ "distance3"))
+    
+    ;while selection process
+      (setq ERR_ nil)
+      (while ;for keep insertion point and dist. fix length one side
+        (and
+          (= (vl-catch-all-error-p ERR_) nil)
+        )
+        (setq ERR_
+          (vl-catch-all-apply
+            (function
+              (lambda ()
+                (getstring "\nHit \nHit \nHit [ENTER] to switch flasing shape...")
+                (LM:Setdynpropvalue flasing_obj_ "distance2" (- flasing_obj_dist-1_ 150) ) 
+                (LM:Setdynpropvalue flasing_obj_ "distance3" (- flasing_obj_dist-1_ 350) ) 
+                (getstring "\nHit \nHit \nHit [ENTER] to switch flasing shape...")
+                (LM:Setdynpropvalue flasing_obj_ "distance2" flasing_obj_dist-1_ ) 
+                (LM:Setdynpropvalue flasing_obj_ "distance3" flasing_obj_dist-1_ ) 
+                (getstring "\nHit \nHit \nHit [ENTER] to switch flasing shape...")
+                (LM:Setdynpropvalue flasing_obj_ "distance2" (+ flasing_obj_dist-1_ 150) ) 
+                (LM:Setdynpropvalue flasing_obj_ "distance3" (+ flasing_obj_dist-1_ 350) ) 
+              )
+            )
+          )
+        )
+      )
+    ;
+
   )
 ;
 

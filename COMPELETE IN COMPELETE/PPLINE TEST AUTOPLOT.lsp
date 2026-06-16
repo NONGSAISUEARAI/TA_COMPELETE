@@ -4855,6 +4855,20 @@
                
              )
           )
+          (;date_condd_case_5 ABOVE
+             (and
+                (wcmatch (getvar "dwgname") "*VS01*")
+                (or 
+                  (wcmatch (getvar "dwgname") "*AR-2*")
+                  (wcmatch (getvar "dwgname") "*VS01*")
+                  
+                )
+             )
+             (progn
+               (TA:CDATE "-" "DDMMYYYY")
+               
+             )
+          )
         )
       )
       ;presetting
