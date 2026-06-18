@@ -4811,7 +4811,7 @@
           (;date_condd_case_5 ABOVE
              (and
                 (wcmatch (getvar "dwgname") "*PP17*")
-                (wcmatch (getvar "dwgname") "*AR-2*")
+                (wcmatch (getvar "dwgname") "*ENT*")
              )
              (progn
                (TA:CDATE "-" "DDMMYYYY")
@@ -4821,7 +4821,7 @@
           (;date_condd_case_5 ABOVE
              (and
                 (wcmatch (getvar "dwgname") "*PP18*")
-                (wcmatch (getvar "dwgname") "*AR-2*")
+                (wcmatch (getvar "dwgname") "*ENT*")
              )
              (progn
                (TA:CDATE "-" "DDMMYYYY")
@@ -4833,7 +4833,7 @@
                 (wcmatch (getvar "dwgname") "*PP19*")
                 (or 
                   (wcmatch (getvar "dwgname") "*AR-2*")
-                  (wcmatch (getvar "dwgname") "*19-SE-6*")
+                  (wcmatch (getvar "dwgname") "*PP19*")
                 )
              )
              (progn
@@ -8203,19 +8203,19 @@
           (setq prefix_txt_val prefix_txt_keep_val_)
         )
     )
-    (setq midfix_ ;Get-string by keep previous value
-        (if
-          (or
-            (/= (setq midfix_val (getstring (strcat "\nSpecify Midfix name <" (if midfix_ midfix_ "") ">: ") ) ) "" )
-          )
-            (progn
-              (setq midfix_ midfix_val)
-              (setq midfix_keep_val_ midfix_val)
+      (setq midfix_ ;Get-string by keep previous value
+          (if
+            (or
+              (/= (setq midfix_val (getstring (strcat "\nSpecify Midfix name\n" (LM:StringSubst " " "_" prefix_txt_) " - <" (if midfix_ midfix_ "") ">: ") ) ) "" )
             )
-          (setq midfix_val midfix_keep_val_)
-        )
-    )
-    (setq ckst_increment_ (cond ( (getint (strcat "\nspecify start number\n<" (rtos (setq ckst_increment_ (cond (ckst_increment_) (1.0) ) ) ) "> : " ) ) ) (ckst_increment_) ) )
+              (progn
+                (setq midfix_ midfix_val)
+                (setq midfix_keep_val_ midfix_val)
+              )
+            (setq midfix_val midfix_keep_val_)
+          )
+      )
+    (setq ckst_increment_ (cond ( (getint (strcat "\nspecify start number\n" (LM:StringSubst " " "_" prefix_txt_) " - " (LM:StringSubst " " "_" midfix_val) " - <" (rtos (setq ckst_increment_ (cond (ckst_increment_) (1.0) ) ) ) "> : " ) ) ) (ckst_increment_) ) )
     
     
     ;preloop_and_while
@@ -8893,6 +8893,15 @@
       (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_v2_ ss_pre_filter_set_xx_ (list "000_FAMELINE_SYMBOL_INDICATOR_NAME_" "000_FAMELINE_SYMBOL_INDICATOR_NAME_REV03")))
     ;
     ;while selection process
+        
+      (if 
+        (and
+          (/= (vl-catch-all-error-p (setq text_i (atoi (LM:vl-getattributevalue (vlax-ename->vla-object (ssname ss_pre_filter_set_xx_ 0) ) "NUMBER" ) ) ) ) nil)
+        )
+        (progn
+          (setq text_i 1)
+        )
+      )
       (setq ERR_ nil)
       (while ;for keep insertion point and dist. fix length one side
         (and
@@ -9053,6 +9062,7 @@
     ;
   )
   (defun c:temp-no+_ ()
+    (_startundo doc)
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget
         (=
@@ -9137,6 +9147,7 @@
         (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
       )
     ;
+    (_endundo doc)
   )
   ; (c:loadlisp)
   ; (c:update_up1auto_)

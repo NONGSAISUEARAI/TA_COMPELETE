@@ -1526,7 +1526,7 @@
                                       (list "MAIN_COLOR_4" 4) ;
                                       (list "MAIN_COLOR_5" 5) ;
                                       (list "MAIN_COLOR_251" 251) ;
-                                      (list "SUB_COLOR_1" 2) ;
+                                      (list "SUB_COLOR_1" 1) ;
                                       (list "SUB_COLOR_2" 2) ;
                                       (list "SUB_COLOR_3" 3) ;
                                       (list "SUB_COLOR_4" 4) ;
