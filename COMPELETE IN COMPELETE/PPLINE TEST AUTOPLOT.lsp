@@ -4811,7 +4811,7 @@
           (;date_condd_case_5 ABOVE
              (and
                 (wcmatch (getvar "dwgname") "*PP17*")
-                (wcmatch (getvar "dwgname") "*AR-2*")
+                (wcmatch (getvar "dwgname") "*ENT*")
              )
              (progn
                (TA:CDATE "-" "DDMMYYYY")
@@ -4821,7 +4821,7 @@
           (;date_condd_case_5 ABOVE
              (and
                 (wcmatch (getvar "dwgname") "*PP18*")
-                (wcmatch (getvar "dwgname") "*AR-2*")
+                (wcmatch (getvar "dwgname") "*ENT*")
              )
              (progn
                (TA:CDATE "-" "DDMMYYYY")
@@ -4834,6 +4834,7 @@
                 (or 
                   (wcmatch (getvar "dwgname") "*AR-2*")
                   (wcmatch (getvar "dwgname") "*19-SE-6*")
+                  (wcmatch (getvar "dwgname") "*ENT*")
                 )
              )
              (progn

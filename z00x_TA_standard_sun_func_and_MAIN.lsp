@@ -17997,9 +17997,10 @@
                           ""
                           "000 - EXISTING_CONCRETE_CUT_COLOR_1"
                           "000 - EXISTING_CONCRETE_CUT_COLOR_5"
+                          "000 - CONCRETE_PRECAST_CUT_COLOR_4"
                         )
       )
-      (setq blocklayer_number (nth 2  blocklayer_))
+      (setq blocklayer_number (nth 3  blocklayer_))
       (setq ERR_ nil)
       (setq ERR_
         (vl-catch-all-apply 
@@ -18087,13 +18088,13 @@
 
                   ;
                   
-                  (repeat (setq i (sslength ss_pre_filter_set_xx_)) 
-                    (vla-delete 
-                      (vlax-ename->vla-object 
-                        (ssname ss_pre_filter_set_xx_ (setq i (1- i)))
-                      )
-                    )
-                  )
+                  ; (repeat (setq i (sslength ss_pre_filter_set_xx_)) 
+                  ;   (vla-delete 
+                  ;     (vlax-ename->vla-object 
+                  ;       (ssname ss_pre_filter_set_xx_ (setq i (1- i)))
+                  ;     )
+                  ;   )
+                  ; )
                 )
               )
             )
@@ -18982,7 +18983,6 @@
       (LM:setdynpropvalue VPBB_obj_ "position2 x" px1)
       (LM:setdynpropvalue VPBB_obj_ "position2 y" py1)
     )
-    
     (defun c:viewport_vpmultimove ()
       (defun TAS:convert-list-ucs (lst /)
         (mapcar
@@ -19915,6 +19915,67 @@
         )
       )
     )
+    (defun c:Dyeing_layer_object_dyevpLIST ()
+      (setq layer_list_ (list 
+                          (list 
+                            (list "000 - 0_HIDE_OBJ_FRAMING_DEF_SUB" 251)
+                            (list "000 - 0_HIDE_OBJ_FRAMING_DEF_SUB" 251)
+                            (list "000 - 0_HIDE_OBJ_FRAMING_DEF_SUB" 251)
+                          )
+                          (list 
+                            (list "010 - ASPG_ACCESSORIES_MAIN_COLOR_1" 251)
+                            (list "010 - ASPG_EXTR_MAIN_COLOR_2" 251)
+                            (list "010 - ASPG_FRAMING_HATCH_" 251)
+                          )
+                        )
+      )
+      (setq ERR_
+        (vl-catch-all-apply
+          (function
+            (lambda ()
+              (setq layer_list_val (cond ( (getint (strcat "\nspecify layer_list_\n<" (rtos (setq layer_list_val (cond (layer_list_val) (1.0) ) ) ) "> : " ) ) ) (layer_list_val) ) )
+              (setq layer_list_target_ (nth (- layer_list_val 1) layer_list_) )
+              ;preloop_and_while
+                (setq layer_list_target_i 0)
+                (setq finder_true_val_ T)
+                (while (and 
+                         (< layer_list_target_i (length layer_list_target_))
+                         (= finder_true_val_ T)
+                       )
+                  (setq layer_list_target_ename_ (nth  layer_list_target_i layer_list_target_))
+                  (setq finder_true_val_ (TA:if_found_layer_ (car layer_list_target_ename_) ))
+                  (setq layer_list_target_i (+ layer_list_target_i 1))
+                )
+              ;
+            )
+          )
+        )
+      )
+      (if (and 
+            (/= (vl-catch-all-error-p ERR_) T)
+            (= finder_true_val_ T)
+            (> (getvar "CVPORT") 1)
+          ) 
+        (progn 
+            (TA:interface_text_ T)
+            (textscr)
+            (getstring "\nHit [ENTER] to continue...")
+            ;preloop_and_while
+              
+              (setq layer_list_i 0)
+              (while (< layer_list_i (length layer_list_))
+                (setq layer_list_target_name (car (nth  layer_list_i layer_list_target)))
+                (setq layer_list_target_color (cadr (nth  layer_list_i layer_list_target)))
+                
+                (command "vplayer" "c" layer_list_target_color layer_list_target_name "c" "")
+            
+                (setq layer_list_i (+ layer_list_i 1))
+              )
+            ;
+        )
+      )
+    )
+
   ;
   ;USER-INPUT_FUNC
     (defun TA:choose_list_ (choose_data-list_)
