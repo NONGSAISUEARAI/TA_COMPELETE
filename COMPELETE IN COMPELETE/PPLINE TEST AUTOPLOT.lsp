@@ -3444,7 +3444,7 @@
       ; (setq ss (car (entsel)))
       (setq adoc (vla-get-activedocument (vlax-get-acad-object)))
       (setq lyout (vla-get-activelayout adoc))
-      (setq styleSheet "A3_Standard (MRT-AGATE) - purple line.ctb")
+      (setq styleSheet "A3_Standard (MRT-AGATE) - purple line - GEN.ctb")
       (setq cfgName "AutoCAD PDF (High Quality Print).pc3")
       (vla-RefreshPlotDeviceInfo lyout)
       (vla-put-ConfigName lyout CfgName)
@@ -5207,13 +5207,13 @@
       ;selection_set_for_fillter_blk_name
         (if (= x_checker_ nil)
           (progn
-            (setq x_checker_ "x")
+            (setq x_checker_ "i")
           )
         )
         (if 
           (=
             x_checker_
-            "x"
+            "i"
           )
           (progn
             (setq ss_pre_filter_set_xx_ (ssget x_checker_
@@ -5330,7 +5330,7 @@
                     "Fit" ;Plot Scale	"Fit"
                     "Center" ;Plot Offset
                     "yes" ;Use Plot Style?
-                    "A3_Standard (MRT-AGATE) - purple line.ctb" ;Plot Style Name
+                    "A3_Standard (MRT-AGATE) - purple line - GEN.ctb" ;Plot Style Name
                     "Yes" ;Plot Lineweights?
                     "Y" ;scale lineweights
                     "N"
