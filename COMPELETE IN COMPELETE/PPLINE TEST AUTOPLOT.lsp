@@ -8895,6 +8895,12 @@
     ;
     ;while selection process
       (setq ERR_ nil)
+      (setq text_i (atoi (LM:vl-getattributevalue 
+                           (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  (ssname ss_pre_filter_set_xx_ 0))) 
+                           "NUMBER"
+                         )
+                   )
+      )
       (while ;for keep insertion point and dist. fix length one side
         (and
           (= (vl-catch-all-error-p ERR_) nil)

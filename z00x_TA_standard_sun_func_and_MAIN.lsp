@@ -46926,7 +46926,7 @@
   ;selection_set_for_fillter_blk_name
     (if  ;pre_select_ssget_or_post_select_ssget
       (=
-        (setq ss_pre_filter_set_xx_ (ssget "x"
+        (setq ss_pre_filter_set_xx_ (ssget "i"
                                           (list
                                             (cons 0 "DIMENSION") ;type of object
                                             (cons 410 (getvar "CTAB"))
@@ -46939,7 +46939,7 @@
         nil
       )
       (progn
-        (setq ss_pre_filter_set_xx_ (ssget "X"
+        (setq ss_pre_filter_set_xx_ (ssget 
                                           (list
                                             (cons 0 "DIMENSION") ;type of object
                                             (cons 410 (getvar "CTAB"))
