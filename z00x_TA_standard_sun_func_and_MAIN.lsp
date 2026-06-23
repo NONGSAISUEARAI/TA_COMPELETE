@@ -39079,8 +39079,8 @@
                       (setq block_5 "who_s_create_that_block-sand") 
                       (setq block_6 "who_s_create_that_block-metal")
                       (setq block_7 "who_s_create_that_block-ANSI35")
-                      (setq block_8 "")
-                      (setq block_9 "")
+                      (setq block_8 "who_s_create_that_block-RC-PRECAST-1")
+                      (setq block_9 "tedt")
                      )
       )
       (setq choose_block_di (cond ( (getint (strcat "\nSpecify block"
@@ -39167,15 +39167,44 @@
         (setq ss_new_sec (ssadd new_set_ ss_new_sec))
         
         (LM:setdynpropvalue (vlax-ename->vla-object (entlast)) "visibility1" "1_fix")
-        (setq ERR_
-          (vl-catch-all-apply
-            (function
-              (lambda ()
-                (vla-put-layer (vlax-ename->vla-object (entlast)) "000 - CONCRETE_COL_CUT_COLOR_5")
-              )
-            )
+        (cond
+          (;_case_1
+             (and
+                (= (wcmatch (nth choose_block_di namelist) "*RC*") T)
+                (/= (wcmatch (nth choose_block_di namelist) "*PRECAST*") T)
+             )
+             (progn
+               (vl-catch-all-apply 
+                 (function 
+                   (lambda () 
+                     (vla-put-layer (vlax-ename->vla-object (entlast)) 
+                                    "000 - CONCRETE_COL_CUT_COLOR_5"
+                     )
+                   )
+                 )
+               )
+               (princ "_case_1")
+             )
+          )
+          (;_case_4
+             (and
+                (wcmatch (nth choose_block_di namelist) "*PRECAST*")
+             )
+             (progn
+               (vl-catch-all-apply 
+                 (function 
+                   (lambda () 
+                     (vla-put-layer (vlax-ename->vla-object (entlast)) 
+                                    "000 - EXISTING_PRECAST_CUT_COLOR_4"
+                     )
+                   )
+                 )
+               )
+               (princ "_case_4")
+             )
           )
         )
+        
         (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
       )
     ;

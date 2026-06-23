@@ -15844,7 +15844,16 @@
                               (setq newgrid_ename (entlast))
                               (setq newgrid_obj (vlax-ename->vla-object newgrid_ename))
                               (setq new-ssgrid- (ssadd newgrid_ename new-ssgrid-))
-                              (TA:move_polar_insertionpoint newgrid_obj "X" (* grid_segment i))
+                              (if (and 
+                                    (> (vla-get-rotation (vlax-ename->vla-object ss_pre_filter_set_xx_ename1_)  179) )
+                                    (< (vla-get-rotation (vlax-ename->vla-object ss_pre_filter_set_xx_ename1_) 181))
+                                  )
+                                (progn
+                                  (TA:move_polar_insertionpoint newgrid_obj "X" (* grid_segment i))
+                                )
+                                (TA:move_polar_insertionpoint newgrid_obj "X" (* (- grid_segment) i))
+                              )
+                              
                               (setq i (+ i 1))
                             ;
                           )
