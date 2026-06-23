@@ -15744,6 +15744,130 @@
         (vla-put-color newgird_obj_ 4 )
       ;
     )
+    (defun c:create_grid_line_array_GLBTWGL ()
+      (_startundo doc)
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+        (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "000-GRID_LINE_DYN_V2")))
+        (setq ss_pre_filter_set_xx_ (reverse (TA:standard_list_croodinate_sorting ss_pre_filter_set_xx_ "Y")))
+      ;
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (setq ERRs_ nil)  
+        (setq new-ssgrid- (ssadd  ))  
+        (while (and 
+                 (< ss_pre_filter_set_xx_i (length ss_pre_filter_set_xx_))
+                 (= (vl-catch-all-error-p ERRs_) nil)
+               )
+          (setq ss_pre_filter_set_xx_ename1_ (car (nth  ss_pre_filter_set_xx_i ss_pre_filter_set_xx_)))
+          (setq ss_pre_filter_set_xx_ins1_ (cdr (nth  ss_pre_filter_set_xx_i ss_pre_filter_set_xx_)))
+          
+          (setq ss_pre_filter_set_xx_ename2_ (car (nth  (+ ss_pre_filter_set_xx_i 1) ss_pre_filter_set_xx_)))
+          (setq ss_pre_filter_set_xx_ins2_ (cdr (nth  (+ ss_pre_filter_set_xx_i 1) ss_pre_filter_set_xx_)))
+          
+          
+          (setq temptempx2-ss (ssadd  ))
+          (setq temptempx2-ss (ssadd ss_pre_filter_set_xx_ename1_ temptempx2-ss))
+          (setq temptempx2-ss (ssadd ss_pre_filter_set_xx_ename2_ temptempx2-ss))
+          (command "pselect"  temptempx2-ss "" )
+          ;while selection process
+            (setq ERRs_ nil)
+            (while ;for keep insertion point and dist. fix length one side
+              (and
+                (= (vl-catch-all-error-p ERRs_) nil)
+              )
+              (setq ERR_
+                (vl-catch-all-apply
+                  (function
+                    (lambda ()
+                      ; (command "pselect"  temptempx2-ss "" )
+                      (command "pselect"  new-ssgrid- "" )
+                      (setq ERRs_
+                        (vl-catch-all-apply
+                          (function
+                            (lambda ()
+                              (setq input_spaceing_ (cond ( (getint (strcat "\nspecify get rotation\n<" (rtos (setq input_spaceing_ (cond (input_spaceing_) (1.0) ) ) ) "> : " ) ) ) (input_spaceing_) ) )
+                            )
+                          )
+                        )
+                      )
+                      (setq grid_dist-btw_ (distance (car ss_pre_filter_set_xx_ins1_) (car ss_pre_filter_set_xx_ins2_)))
+                      (setq ERR_lv2 (vl-catch-all-apply (function (lambda () (setq grid_segment (/ grid_dist-btw_ (- input_spaceing_ 1) )) ) ) ) )
+                      (if (and 
+                            (= (vl-catch-all-error-p ERR_) nil)
+                            (= (vl-catch-all-error-p ERRs_) nil)
+                            (= (vl-catch-all-error-p ERR_lv2) nil)
+                          )
+                        (progn
+                          (command "erase" new-ssgrid- "" )
+                          (setq new-ssgrid- (ssadd  ))
+                        )
+                      )
+                      ; (command "pselect"  new-ssgrid- "" )
+                      
+                      (setq i 1)
+                      (if 
+                        (and 
+                          (= (vl-catch-all-error-p ERR_) nil)
+                          (= (vl-catch-all-error-p ERRs_) nil)
+                          (= (vl-catch-all-error-p ERR_lv2) nil)
+                        )
+                        (progn
+                          (repeat (- input_spaceing_ 2) i 
+                            (vla-copy (vlax-ename->vla-object ss_pre_filter_set_xx_ename1_) )
+                            ;new_blk_entlast object
+                              (setq newgrid_ename (entlast))
+                              (setq newgrid_obj (vlax-ename->vla-object newgrid_ename))
+                              (setq new-ssgrid- (ssadd newgrid_ename new-ssgrid-))
+                              (TA:move_polar_insertionpoint newgrid_obj "X" (* grid_segment i))
+                              (setq i (+ i 1))
+                            ;
+                          )
+                        )
+                      )
+                      (setq input_spaceing_ ( + input_spaceing_ 1)) ;especially event command 
+                      ;input_cond entsel ssget
+                    )
+                  )
+                )
+              )
+            )
+          ;         
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+      (setq new-ss-val (ssadd ))
+      (setq new-vla-ss (TA:combine_selection_set_  new-ssgrid- temptempx2-ss   ))
+      (command "pselect"  new-ssgrid- "" )
+      (command "pselect"  new-vla-ss "" )
+      (_EndUndo doc)
+      
+    )
   ;
   ;change dim level
     (defun c:change_dim_lvdim ()

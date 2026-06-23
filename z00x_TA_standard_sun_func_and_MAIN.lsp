@@ -14226,10 +14226,13 @@
       ;create_start_line_process
         (setq startline_
               (list
-                  (nth 0 (cadr vertex_list_ ))
-                  (nth 0 (cadr new_line_vertex_list_ ))
+                  ; (nth 0 (cadr vertex_list_ ))
+                  ; (nth 0 (cadr new_line_vertex_list_ ))
+                  (if (= (getvar "worlducs") 0)(progn (trans (nth 0 (cadr vertex_list_ )) 0 1)) (nth 0 (cadr vertex_list_ )) )
+                  (if (= (getvar "worlducs") 0)(progn (trans (nth 0 (cadr new_line_vertex_list_ )) 0 1)) (nth 0 (cadr new_line_vertex_list_ )) )
               )
         )
+        (if (= (getvar "worlducs") 0)(progn (trans ss_pre_filter_set_xx_obj_ins_ 0 1)) ss_pre_filter_set_xx_obj_ins_ )
         (create-pline startline_ )
         (setq new_line_ (entlast))
         (setq new_ssget_ (ssadd  new_line_ new_ssget_))
@@ -14238,8 +14241,10 @@
         (setq vertex_list_i (- (length (cadr vertex_list_ ) ) 1))
         (setq endline_
               (list
-                  (nth vertex_list_i (cadr vertex_list_ ))
-                  (nth vertex_list_i (cadr new_line_vertex_list_ ))
+                  ; (nth vertex_list_i (cadr vertex_list_ ))                  
+                  ; (nth vertex_list_i (cadr new_line_vertex_list_ ))
+                  (if (= (getvar "worlducs") 0)(progn (trans (nth vertex_list_i (cadr vertex_list_ )) 0 1)) (nth vertex_list_i (cadr vertex_list_ )) )
+                  (if (= (getvar "worlducs") 0)(progn (trans (nth vertex_list_i (cadr new_line_vertex_list_ )) 0 1)) (nth vertex_list_i (cadr new_line_vertex_list_ )) )
               )
         )
 
@@ -15506,6 +15511,7 @@
       (setq p1_obj_ (vlax-ename->vla-object p1_ename_))
       (setq p1_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint p1_obj_))))
       (setq p1_obj_efname (LM:effectivename p1_obj_))
+      (command "pselect"   "" )
       ;
       ;preloop_and_while_for_return_selection-set_process
         (setq ERR_ nil)

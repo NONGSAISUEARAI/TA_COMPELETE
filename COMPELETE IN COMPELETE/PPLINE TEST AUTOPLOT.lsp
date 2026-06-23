@@ -5216,7 +5216,7 @@
             "i"
           )
           (progn
-            (setq ss_pre_filter_set_xx_ (ssget x_checker_
+            (setq ss_pre_filter_set_xx_ (ssget 
                                               (list
                                                 (cons 0 "INSERT") ;type of object
                                                 (cons 410 (getvar "CTAB"))
@@ -5227,16 +5227,7 @@
                                         )
             )
           )
-          (setq ss_pre_filter_set_xx_ (ssget 
-                                              (list
-                                                (cons 0 "INSERT") ;type of object
-                                                (cons 410 (getvar "CTAB"))
-                                                ; (cons 8 "000 - GRID")   ;kind of layer
-                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                                ; (cons 62 1)           ;kind of color call sign with color code index
-                                              )
-                                        )
-            )
+          
         )
       ;
       ;preloop_and_while
@@ -8205,18 +8196,32 @@
         )
     )
     (setq midfix_ ;Get-string by keep previous value
-        (if
-          (or
-            (/= (setq midfix_val (getstring (strcat "\nSpecify Midfix name <" (if midfix_ midfix_ "") ">: ") ) ) "" )
-          )
-            (progn
+          (if 
+            (or 
+              (/= 
+                (setq midfix_val (getstring (strcat "\nSpecify Midfix name\n" (LM:StringSubst " " "_" prefix_txt_) " - <" (if midfix_ midfix_ "") ">: " ) ) )
+                ""
+              )
+            )
+            (progn 
               (setq midfix_ midfix_val)
               (setq midfix_keep_val_ midfix_val)
             )
-          (setq midfix_val midfix_keep_val_)
-        )
+            (setq midfix_val midfix_keep_val_)
+          )
     )
-    (setq ckst_increment_ (cond ( (getint (strcat "\nspecify start number\n<" (rtos (setq ckst_increment_ (cond (ckst_increment_) (1.0) ) ) ) "> : " ) ) ) (ckst_increment_) ) )
+    (setq ckst_increment_ (cond 
+                            ((getint 
+                               (strcat "\nspecify start number\n" 
+                                       (LM:StringSubst " " "_" prefix_txt_) " - " 
+                                       (LM:StringSubst " " "_" midfix_val) 
+                                       " - <" (rtos (setq ckst_increment_ (cond (ckst_increment_) (1.0) ) ) ) "> : " 
+                               )
+                             )
+                            )
+                            (ckst_increment_)
+                          )
+    )
     
     
     ;preloop_and_while
@@ -9009,31 +9014,45 @@
     ;
     (setvar "SELECTIONPREVIEW" 0)
     ;insert string val process
-      (setq prefix_txt_ ;Get-string by keep previous value
-          (if
-            (or
-              (/= (setq prefix_txt_val (getstring (strcat "\nSpecify prefix_txt_ name <" (if prefix_txt_ prefix_txt_ "") ">: ") ) ) "" )
-            )
-              (progn
-                (setq prefix_txt_ prefix_txt_val)
-                (setq prefix_txt_keep_val_ prefix_txt_val)
-              )
-            (setq prefix_txt_val prefix_txt_keep_val_)
+    (setq prefix_txt_ ;Get-string by keep previous value
+      (if
+        (or
+          (/= (setq prefix_txt_val (getstring (strcat "\nSpecify Prefix name <" (if prefix_txt_ prefix_txt_ "") ">: ") ) ) "" )
+        )
+          (progn
+            (setq prefix_txt_ prefix_txt_val)
+            (setq prefix_txt_keep_val_ prefix_txt_val)
           )
+        (setq prefix_txt_val prefix_txt_keep_val_)
       )
-      (setq midfix_ ;Get-string by keep previous value
-          (if
-            (or
-              (/= (setq midfix_val (getstring (strcat "\nSpecify midfix_txt name <" (if midfix_ midfix_ "") ">: ") ) ) "" )
-            )
-              (progn
-                (setq midfix_ midfix_val)
-                (setq midfix_keep_val_ midfix_val)
+    )
+    (setq midfix_ ;Get-string by keep previous value
+          (if 
+            (or 
+              (/= 
+                (setq midfix_val (getstring (strcat "\nSpecify Midfix name\n" (LM:StringSubst " " "_" prefix_txt_) " - <" (if midfix_ midfix_ "") ">: " ) ) )
+                ""
               )
+            )
+            (progn 
+              (setq midfix_ midfix_val)
+              (setq midfix_keep_val_ midfix_val)
+            )
             (setq midfix_val midfix_keep_val_)
           )
-      )
-      (setq ckst_increment_ (cond ( (getint (strcat "\nspecify ckst_increment_\n<" (rtos (setq ckst_increment_ (cond (ckst_increment_) (1.0) ) ) ) "> : " ) ) ) (ckst_increment_) ) )
+    )
+    (setq ckst_increment_ (cond 
+                            ((getint 
+                               (strcat "\nspecify start number\n" 
+                                       (LM:StringSubst " " "_" prefix_txt_) " - " 
+                                       (LM:StringSubst " " "_" midfix_val) 
+                                       " - <" (rtos (setq ckst_increment_ (cond (ckst_increment_) (1.0) ) ) ) "> : " 
+                               )
+                             )
+                            )
+                            (ckst_increment_)
+                          )
+    )
     ;
     ;preloop_and_while
       (setq CKST_customsort_i 0)
