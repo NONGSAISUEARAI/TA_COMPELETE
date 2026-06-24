@@ -15749,7 +15749,7 @@
       ;selection_set_for_fillter_blk_name
         (if  ;pre_select_ssget_or_post_select_ssget
           (=
-            (setq ss_pre_filter_set_xx_ (ssget "i"
+            (setq ss_pre_filter_set_xx_test (ssget "i"
                                               (list
                                                 (cons 0 "INSERT") ;type of object
                                                 ; (cons 8 "000 - GRID")   ;kind of layer
@@ -15761,7 +15761,7 @@
             nil
           )
           (progn
-            (setq ss_pre_filter_set_xx_ (ssget
+            (setq ss_pre_filter_set_xx_test (ssget
                                               (list
                                                 (cons 0 "INSERT") ;type of object
                                                 ; (cons 8 "000 - GRID")   ;kind of layer
@@ -15771,10 +15771,10 @@
                                         )
             )
           )
-          (sslength ss_pre_filter_set_xx_)
+          (sslength ss_pre_filter_set_xx_test)
         )
-        (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "000-GRID_LINE_DYN_V2")))
-        (setq ss_pre_filter_set_xx_ (reverse (TA:standard_list_croodinate_sorting ss_pre_filter_set_xx_ "Y")))
+        (setq ss_pre_filter_set_xx_test (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_test (list "000-GRID_LINE_DYN_V2")))
+        (setq ss_pre_filter_set_xx_ (reverse (TA:standard_list_croodinate_sorting ss_pre_filter_set_xx_test "Y")))
       ;
       ;preloop_and_while
         (setq ss_pre_filter_set_xx_i 0)
@@ -15787,14 +15787,24 @@
           (setq ss_pre_filter_set_xx_ename1_ (car (nth  ss_pre_filter_set_xx_i ss_pre_filter_set_xx_)))
           (setq ss_pre_filter_set_xx_ins1_ (cdr (nth  ss_pre_filter_set_xx_i ss_pre_filter_set_xx_)))
           
-          (setq ss_pre_filter_set_xx_ename2_ (car (nth  (+ ss_pre_filter_set_xx_i 1) ss_pre_filter_set_xx_)))
-          (setq ss_pre_filter_set_xx_ins2_ (cdr (nth  (+ ss_pre_filter_set_xx_i 1) ss_pre_filter_set_xx_)))
+          (setq ss_pre_filter_set_xx_ename2_ (car (nth  ss_pre_filter_set_xx_i (reverse ss_pre_filter_set_xx_))))
+          (setq ss_pre_filter_set_xx_ins2_ (cdr (nth  ss_pre_filter_set_xx_i (reverse ss_pre_filter_set_xx_))))
+          
+          (if (> (length ss_pre_filter_set_xx_) 2)
+            (progn 
+              (ssdel ss_pre_filter_set_xx_ename1_ ss_pre_filter_set_xx_test)
+              (ssdel ss_pre_filter_set_xx_ename2_ ss_pre_filter_set_xx_test)
+              (command "erase" ss_pre_filter_set_xx_test "" )
+            )
+          )
           
           
           (setq temptempx2-ss (ssadd  ))
           (setq temptempx2-ss (ssadd ss_pre_filter_set_xx_ename1_ temptempx2-ss))
           (setq temptempx2-ss (ssadd ss_pre_filter_set_xx_ename2_ temptempx2-ss))
           (command "pselect"  temptempx2-ss "" )
+          
+          
           ;while selection process
             (setq ERRs_ nil)
             (while ;for keep insertion point and dist. fix length one side
@@ -15811,7 +15821,7 @@
                         (vl-catch-all-apply
                           (function
                             (lambda ()
-                              (setq input_spaceing_ (cond ( (getint (strcat "\nspecify get rotation\n<" (rtos (setq input_spaceing_ (cond (input_spaceing_) (1.0) ) ) ) "> : " ) ) ) (input_spaceing_) ) )
+                              (setq input_spaceing_ (cond ( (getint (strcat "\nspecify get input_spaceing_ \n<" (rtos (setq input_spaceing_ (cond (input_spaceing_) (1.0) ) ) ) "> : " ) ) ) (input_spaceing_) ) )
                             )
                           )
                         )
@@ -15838,15 +15848,15 @@
                           (= (vl-catch-all-error-p ERR_lv2) nil)
                         )
                         (progn
-                          (repeat (- input_spaceing_ 2) i 
+                          (repeat (- (fix input_spaceing_) 2) i 
                             (vla-copy (vlax-ename->vla-object ss_pre_filter_set_xx_ename1_) )
                             ;new_blk_entlast object
                               (setq newgrid_ename (entlast))
                               (setq newgrid_obj (vlax-ename->vla-object newgrid_ename))
                               (setq new-ssgrid- (ssadd newgrid_ename new-ssgrid-))
                               (if (and 
-                                    (> (vla-get-rotation (vlax-ename->vla-object ss_pre_filter_set_xx_ename1_)  179) )
-                                    (< (vla-get-rotation (vlax-ename->vla-object ss_pre_filter_set_xx_ename1_) 181))
+                                    (> (rad-to-deg (vla-get-rotation (vlax-ename->vla-object ss_pre_filter_set_xx_ename1_)  )) 179)
+                                    (< (rad-to-deg (vla-get-rotation (vlax-ename->vla-object ss_pre_filter_set_xx_ename1_) )) 181)
                                   )
                                 (progn
                                   (TA:move_polar_insertionpoint newgrid_obj "X" (* grid_segment i))
@@ -18951,3 +18961,7 @@
     (setq ssss_obj_ (vlax-ename->vla-object ssss_ename_))
     (vla-put-layer ssss_obj_ "defpoints") 
   )
+
+
+
+    
