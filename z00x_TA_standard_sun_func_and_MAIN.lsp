@@ -14522,7 +14522,10 @@
       ;
       ;preloop_and_while
         (setq ss_pre_filter_set_xx_i 0)
-        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (while (and
+                 (= (vl-catch-all-error-p ss_) nil)
+                 (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+               )
           (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
           (setq ss_pre_filter_set_xx_hon_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
           (setq ss_pre_filter_set_xx_hon_obj_ro_ (rad-to-deg (vla-get-rotation ss_pre_filter_set_xx_hon_obj_)))
@@ -17181,7 +17184,7 @@
         (vlax-3d-point insmid_)
       )
     )
-    (defun c:insert_by_line_blk2pline ()
+    (defun c:insert_by_polyline_blk2pline ()
       (_startundo doc)
       (setq pline-intesert_ename_ (car (entsel "specify Object")))
       (setq pline-intesert_obj_ (vlax-ename->vla-object pline-intesert_ename_))
@@ -17325,7 +17328,7 @@
       (setvar  "osmode" 1215)
       (_endundo doc)
     )
-    (defun c:insert_by_polyline_blk2pline ()
+    (defun c:insert_by_line_blk2pline ()
       (_startundo doc)
       (setq line_ename_ (car (entsel "specify LINE Object")))
       (setq line_obj_ (vlax-ename->vla-object line_ename_))
@@ -19949,7 +19952,7 @@
           (function
             (lambda ()
               (setq layer_list_val (cond ( (getint (strcat "\nspecify layer_list_\n<" (rtos (setq layer_list_val (cond (layer_list_val) (1.0) ) ) ) "> : " ) ) ) (layer_list_val) ) )
-              (setq layer_list_target_ (nth (- layer_list_val 1) layer_list_) )
+              (setq layer_list_target_ (nth (fix (- layer_list_val 1)) layer_list_) )
               ;preloop_and_while
                 (setq layer_list_target_i 0)
                 (setq finder_true_val_ T)
@@ -19979,8 +19982,8 @@
               
               (setq layer_list_i 0)
               (while (< layer_list_i (length layer_list_))
-                (setq layer_list_target_name (car (nth  layer_list_i layer_list_target)))
-                (setq layer_list_target_color (cadr (nth  layer_list_i layer_list_target)))
+                (setq layer_list_target_name (car (nth  layer_list_i layer_list_target_)))
+                (setq layer_list_target_color (cadr (nth  layer_list_i layer_list_target_)))
                 
                 (command "vplayer" "c" layer_list_target_color layer_list_target_name "c" "")
             
@@ -55867,7 +55870,7 @@
     (setq flasing_obj_ (vlax-ename->vla-object flasing_ename_))
     (setq flasing_obj_dist-1_ (LM:getdynpropvalue flasing_obj_ "distance1"))
     (setq flasing_obj_dist-2_ (LM:getdynpropvalue flasing_obj_ "distance2"))
-    (setq flasing_obj_dist-3_ (LM:getdynpropvalue flasing_obj_ "distance3"))
+    (setq flasing_obj_dist-3_ (LM:getdynpropvalue flasing_obj_ "distance4"))
     
     ;while selection process
       (setq ERR_ nil)
@@ -55880,14 +55883,22 @@
             (function
               (lambda ()
                 (getstring "\nHit \nHit \nHit [ENTER] to switch flasing shape...")
-                (LM:Setdynpropvalue flasing_obj_ "distance2" (- flasing_obj_dist-1_ 150) ) 
-                (LM:Setdynpropvalue flasing_obj_ "distance3" (- flasing_obj_dist-1_ 350) ) 
+                (LM:Setdynpropvalue flasing_obj_ "mid-point x" (- flasing_obj_dist-1_ flasing_obj_dist-2_) ) 
+                (LM:Setdynpropvalue flasing_obj_ "edge-point x" (- 
+                                                                  (- (- flasing_obj_dist-1_ flasing_obj_dist-2_) (- flasing_obj_dist-3_ 4)  )
+                                                                  0
+                                                                ) 
+                ) 
                 (getstring "\nHit \nHit \nHit [ENTER] to switch flasing shape...")
-                (LM:Setdynpropvalue flasing_obj_ "distance2" flasing_obj_dist-1_ ) 
-                (LM:Setdynpropvalue flasing_obj_ "distance3" flasing_obj_dist-1_ ) 
+                (LM:Setdynpropvalue flasing_obj_ "mid-point x" flasing_obj_dist-1_ ) 
+                (LM:Setdynpropvalue flasing_obj_ "edge-point x" flasing_obj_dist-1_ ) 
                 (getstring "\nHit \nHit \nHit [ENTER] to switch flasing shape...")
-                (LM:Setdynpropvalue flasing_obj_ "distance2" (+ flasing_obj_dist-1_ 150) ) 
-                (LM:Setdynpropvalue flasing_obj_ "distance3" (+ flasing_obj_dist-1_ 350) ) 
+                (LM:Setdynpropvalue flasing_obj_ "mid-point x" (+ flasing_obj_dist-1_ flasing_obj_dist-2_) ) 
+                (LM:Setdynpropvalue flasing_obj_ "edge-point x" (+ 
+                                                                  (+ (+ flasing_obj_dist-1_ flasing_obj_dist-2_) (- flasing_obj_dist-3_ 4)  )
+                                                                  0
+                                                                ) 
+                ) 
               )
             )
           )
