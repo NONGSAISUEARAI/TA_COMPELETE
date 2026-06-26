@@ -15803,7 +15803,7 @@
           (setq temptempx2-ss (ssadd ss_pre_filter_set_xx_ename1_ temptempx2-ss))
           (setq temptempx2-ss (ssadd ss_pre_filter_set_xx_ename2_ temptempx2-ss))
           (command "pselect"  temptempx2-ss "" )
-          
+          (setq grid_segment 0)
           
           ;while selection process
             (setq ERRs_ nil)
@@ -15821,7 +15821,7 @@
                         (vl-catch-all-apply
                           (function
                             (lambda ()
-                              (setq input_spaceing_ (cond ( (getint (strcat "\nspecify get input_spaceing_ \n<" (rtos (setq input_spaceing_ (cond (input_spaceing_) (1.0) ) ) ) "> : " ) ) ) (input_spaceing_) ) )
+                              (setq input_spaceing_ (cond ( (getint (strcat "\nspecify get input_spaceing_\n" "\nprevious dist = " (rtos grid_segment 2 2) "mm." "\n<" (rtos (setq input_spaceing_ (cond (input_spaceing_) (1.0) ) ) ) "> : " ) ) ) (input_spaceing_) ) )
                             )
                           )
                         )
