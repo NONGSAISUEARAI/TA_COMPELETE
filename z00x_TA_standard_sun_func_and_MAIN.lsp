@@ -12040,7 +12040,7 @@
         )
       ;
       (setq att-finder_mode (TA:choose_list_v2 (list "match_value" "*wildcard_value*" "numbering") "specify fiiltering mode"))
-      (setq att-value_list_ (list "C04" "C05" "C08" "edge") )
+      (setq att-value_list_ (list "C04" "C05" "corner" "edge") )
       (cond
         ( (= att-finder_mode "match_value")
           (progn 
@@ -16818,6 +16818,77 @@
         ;
       (_endundo doc)
     )
+    (defun c:Attribute_subfix0 ()
+      (_startundo doc)
+        ;selection_set_for_fillter_blk_name
+          (if  ;pre_select_ssget_or_post_select_ssget
+            (=
+              (setq ss_pre_filter_set_xx_ (ssget "i"
+                                                (list
+                                                  (cons 0 "INSERT") ;type of object
+                                                  ; (cons 8 "000 - GRID")   ;kind of layer
+                                                  ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                  ; (cons 62 1)           ;kind of color call sign with color code index
+                                                )
+                                          )
+              )
+              nil
+            )
+            (progn
+              (setq ss_pre_filter_set_xx_ (ssget
+                                                (list
+                                                  (cons 0 "INSERT") ;type of object
+                                                  ; (cons 8 "000 - GRID")   ;kind of layer
+                                                  ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                  ; (cons 62 1)           ;kind of color call sign with color code index
+                                                )
+                                          )
+              )
+            )
+            (sslength ss_pre_filter_set_xx_)
+          )
+        ;
+        (setq att-tag_obj-tagname "LV_TYPE_VAL"  )
+        
+        
+        ;preloop_and_while
+          (setq ss_pre_filter_set_xx_i 0)
+          (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+            (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+            (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+            
+            (if (and 
+                  (=  (vla-get-hasattributes ss_pre_filter_set_xx_obj_  ) :vlax-true)
+                  (/= (TA:wcmatch_list (list "LV_TYPE_VAL" ) (LM:vl-getattributevalue-tag-TA-Modifies ss_pre_filter_set_xx_obj_  ) T) nil)
+                )
+              (progn
+                (LM:vl-setattributevalue 
+                  ss_pre_filter_set_xx_obj_ 
+                  att-tag_obj-tagname 
+                  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;special event;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                  (if (or
+                        (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ att-tag_obj-tagname) "*(edge-panel)*") T)
+                        (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ att-tag_obj-tagname) "*(corner-panel)*") T)
+                      )
+                    (progn
+                      (LM:StringSubst
+                        ""
+                        "(edge-panel)"
+                       (LM:StringSubst "" "(corner-panel)" (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ att-tag_obj-tagname) )
+                       )
+                    )
+                    (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ att-tag_obj-tagname)
+                  )
+                  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;special event;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                )
+              )
+            )
+            
+            (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+          )
+        ;
+      (_endundo doc)
+    )
     (defun c:Attribute_subfix2 ()
       (_startundo doc)
         ;selection_set_for_fillter_blk_name
@@ -16866,9 +16937,79 @@
                   ss_pre_filter_set_xx_obj_ 
                   att-tag_obj-tagname 
                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;special event;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                  (if (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ att-tag_obj-tagname) "*(edge-panel)*") nil)
+                  (if (or
+                        (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ att-tag_obj-tagname) "*(edge-panel)*") nil)
+                        (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ att-tag_obj-tagname) "*(corner-panel)*") nil)
+                      )
                     (progn
                       (strcat (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ att-tag_obj-tagname) " " "(edge-panel)")
+                    )
+                    (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ att-tag_obj-tagname)
+                  )
+                  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;special event;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                )
+              )
+            )
+            
+            (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+          )
+        ;
+      (_endundo doc)
+    )
+    (defun c:Attribute_subfix3 ()
+      (_startundo doc)
+        ;selection_set_for_fillter_blk_name
+          (if  ;pre_select_ssget_or_post_select_ssget
+            (=
+              (setq ss_pre_filter_set_xx_ (ssget "i"
+                                                (list
+                                                  (cons 0 "INSERT") ;type of object
+                                                  ; (cons 8 "000 - GRID")   ;kind of layer
+                                                  ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                  ; (cons 62 1)           ;kind of color call sign with color code index
+                                                )
+                                          )
+              )
+              nil
+            )
+            (progn
+              (setq ss_pre_filter_set_xx_ (ssget
+                                                (list
+                                                  (cons 0 "INSERT") ;type of object
+                                                  ; (cons 8 "000 - GRID")   ;kind of layer
+                                                  ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                  ; (cons 62 1)           ;kind of color call sign with color code index
+                                                )
+                                          )
+              )
+            )
+            (sslength ss_pre_filter_set_xx_)
+          )
+        ;
+        (setq att-tag_obj-tagname "LV_TYPE_VAL"  )
+        
+        
+        ;preloop_and_while
+          (setq ss_pre_filter_set_xx_i 0)
+          (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+            (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+            (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+            
+            (if (and 
+                  (=  (vla-get-hasattributes ss_pre_filter_set_xx_obj_  ) :vlax-true)
+                  (/= (TA:wcmatch_list (list "LV_TYPE_VAL" ) (LM:vl-getattributevalue-tag-TA-Modifies ss_pre_filter_set_xx_obj_  ) T) nil)
+                )
+              (progn
+                (LM:vl-setattributevalue 
+                  ss_pre_filter_set_xx_obj_ 
+                  att-tag_obj-tagname 
+                  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;special event;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                  (if (or
+                        (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ att-tag_obj-tagname) "*(edge-panel)*") nil)
+                        (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ att-tag_obj-tagname) "*(corner-panel)*") nil)
+                      )
+                    (progn
+                      (strcat (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ att-tag_obj-tagname) " " "(corner-panel)")
                     )
                     (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ att-tag_obj-tagname)
                   )
