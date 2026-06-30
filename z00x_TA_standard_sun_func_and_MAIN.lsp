@@ -12039,8 +12039,24 @@
           (sslength ss_pre_filter_set_xx_)
         )
       ;
-      (setq att-finder_mode (TA:choose_list_v2 (list "match_value" "*wildcard_value*" "numbering") "specify fiiltering mode"))
-      (setq att-value_list_ (list "C04" "C05" "corner" "edge") )
+      (setq att-finder_mode (TA:choose_list_v3 
+                              (setq attlist_ (list "match_value" "*wildcard_value*" "numbering"))
+                              "select block"
+                              (if (= att-finder_modeexval nil) 
+                                (progn 
+                                  (setq att-finder_modeexval 1)
+                                )
+                                (setq att-finder_modeexval (+ 
+                                                             (vl-position att-finder_mode 
+                                                                          attlist_
+                                                             )
+                                                             1
+                                                           )
+                                )
+                              )
+                            )
+      )
+      (setq att-value_list_ (list "C04" "C05" "corner" "edge" "E2_PL_01_") )
       (cond
         ( (= att-finder_mode "match_value")
           (progn 
@@ -12050,7 +12066,56 @@
         )
         ( (= att-finder_mode "*wildcard_value*")
           (progn
-            (setq att-value_list_val (strcat "*" (TA:choose_list_v2 att-value_list_ "Specify Wildcard Case List *Attribute Value*" ) "*") )
+            (if (= 
+                  (vl-catch-all-error-p 
+                    (vl-catch-all-apply 
+                      (function 
+                        (lambda () 
+                          (setq att-value_list_val (strcat "*" (TA:choose_list_v2 att-value_list_ "Specify Wildcard Case List *Attribute Value*" ) "*" ) )
+                          (setq att-value_list_val (TA:choose_list_v3 
+                                                  att-value_list_
+                                                  "select block"
+                                                  (if (= att-value_list_val_exval nil) 
+                                                    (progn (setq att-value_list_val_exval 1))
+                                                    (setq att-value_list_val_exval (+ 
+                                                                                 (vl-position 
+                                                                                              att-value_list_val
+                                                                                              att-value_list_
+                                                                                 )
+                                                                                 1
+                                                                               )
+                                                    )
+                                                  )
+                                                )
+                          )
+                        )
+                      )
+                    )
+                  )
+                  nil
+                )
+              (progn
+                att-value_list_val
+              )
+              (setq att-value_list_val ;Get-string by keep previous value
+                  (strcat "*" 
+                          (if 
+                            (or 
+                              (/= 
+                                (setq att-value_list_val_val (getstring (strcat "\nSpecify Pattern name <" (if att-value_list_val_ att-value_list_val_ "" ) ">: " ) ) )
+                                ""
+                              )
+                            )
+                            (progn 
+                              (setq att-value_list_val_ att-value_list_val_val)
+                              (setq att-value_list_val_keep_val_ att-value_list_val_val)
+                            )
+                            (setq att-value_list_val_val att-value_list_val_keep_val_)
+                          )
+                          "*"
+                  )
+              )
+            )
           )
           
         )
@@ -12061,7 +12126,6 @@
           )
         )
       )
-      
       
       ;preloop_and_while
         (setq ss_pre_filter_set_xx_i 0)
@@ -18332,7 +18396,7 @@
       )
       (setq blocklayer_number (nth 3  blocklayer_))
       (setq ERR_ nil)
-      (setq ERR_
+            (setq ERR_
         (vl-catch-all-apply 
           (function
             (lambda ()
@@ -20353,6 +20417,7 @@
       (nth (- choose_block_di 1)  choose_data-list_)
     )
     (defun TA:choose_list_v2 (choose_data-list_ txt_promt_ )
+      ; (setq txt_promt_ "sadasdadasdasd")
       ; (setq choose_data-list_ (list 
       ;                           "000 - CONCRETE_PRECAST_MAIN_COLOR_1"
       ;                           "000 - CONCRETE_WALL_MAIN_COLOR_1"
@@ -20374,7 +20439,7 @@
         (setq choose_block_di keepVAL_choose_block_di)
       )
       (setq choose_block_di (cond 
-                              ((getint 
+                              ((getstring 
                                 (strcat 
                                   "\n" txt_promt_
                                   (apply 'strcat (mapcar '(lambda (x) (strcat "\n" (itoa (setq n (1+ n))) " = " x ) ) choose_data-list_sima ) )
@@ -20446,6 +20511,7 @@
       (setq keepVAL_choose_block_di choose_block_di)
       (nth (- choose_block_di 1)  choose_data-list_)
     )
+    
   ;
   ;CUTING-LENGTH_FUNC
     (defun c:EXTR-from-Pline () 
