@@ -653,7 +653,7 @@
                   (command "-layer" 
                            "filter"
                            "edit"
-                            (strcat Prefix_filter_name_ 
+                            (strcat Prefix_filter_name_  
                                     (substr main_filter_name_next_val_ 1 20)
                                     "_"
                                     (LM:StringSubst 
@@ -698,7 +698,81 @@
       )
     ;
   )
-
+  (defun c:xref_filter ()
+    (setq all-layer_ (TA:get_name_layer_in_drawing))
+    ;ละเอียดนะ อินพุดที่โค้ดเถอะ
+    ;preloop_and_while filter xref
+      (setq prefix_filter_namefile_ "W-1-PP17-AR-4150-01-A -test")
+      (setq prefix_filter_main-name_ "009 - AHP_06_")
+      (setq all-layer_i 0)
+      (setq xref-filter ())
+      (while (< all-layer_i (length all-layer_))
+        (setq all-layer_name_ (nth  all-layer_i all-layer_))
+        (if (and 
+              (= (wcmatch all-layer_name_ (strcat "" prefix_filter_namefile_ "*")) T)
+              (= (wcmatch all-layer_name_ (strcat "*|" prefix_filter_main-name_ "*")) T)
+            )
+          (progn
+            (setq xref-filter (cons all-layer_name_ xref-filter))
+            (setq xref-filter_length (length xref-filter))
+          )
+        )
+    
+        (setq all-layer_i (+ all-layer_i 1))
+      )
+    ;
+    (TA:generate_filter_list
+      (setq 1st_filter_ (strcat "xref" "_" prefix_filter_namefile_)) ;1s_filter
+      (setq 2nd_filter_val_main (strcat prefix_filter_main-name_  )) ;2nd_filter
+      (setq 3rd_filter_val_main (list ;3rd_filter
+                                      "PANEL" ;
+                                      "BK" 
+                                      "FRAMING" ;
+                                      "FASTERN" ;
+                                )
+      )
+      (setq 4th_filter_val_main (list  ;4th_filter
+                                      (list "MAIN" 0 100 100) ;
+                                      (list "SUB" 0 100 100) ;
+                                )
+      )
+    )
+    
+    ;preloop_and_while ;add xref prefix to filter floder
+      ;lv1
+      (setq 3rd_filter_val_main_i 0)
+      (while (< 3rd_filter_val_main_i (length 3rd_filter_val_main))
+        (setq 3rd_filter_val_main_ (nth  3rd_filter_val_main_i 3rd_filter_val_main))
+        (command "-LAYER" "FILTER" "rename" 
+                 (strcat prefix_filter_main-name_ 3rd_filter_val_main_ )
+                 (strcat "xref" "_" prefix_filter_main-name_ 3rd_filter_val_main_ )
+                 "exit"
+                 ""
+        )
+        ;preloop_and_while
+          (setq 4th_filter_val_main_i 0)
+          (while (< 4th_filter_val_main_i (length 4th_filter_val_main))
+            (setq 4th_filter_val_main_ename_ (car (nth  4th_filter_val_main_i 4th_filter_val_main)))
+            (command "-LAYER" "FILTER" "rename" 
+                 (strcat prefix_filter_main-name_ 3rd_filter_val_main_ "_" 4th_filter_val_main_ename_)
+                 (strcat "xref" "_"prefix_filter_main-name_ 3rd_filter_val_main_ "_" 4th_filter_val_main_ename_ )
+                 "exit"
+                 ""
+            )
+            (setq 4th_filter_val_main_i (+ 4th_filter_val_main_i 1))
+          )
+        ;   
+    
+        (setq 3rd_filter_val_main_i (+ 3rd_filter_val_main_i 1))
+      )
+      (command "-LAYER" "FILTER" "rename" 
+                 (strcat prefix_filter_main-name_  )
+                 (strcat "xref" "_" prefix_filter_main-name_  )
+                 "exit"
+                 ""
+      )
+    ;
+  )
 
   ;COMMENT_FUNC
     (defun c:crelaycomment ()
@@ -1739,7 +1813,7 @@
       )
     ) 
   )
-  (defun c:crelaywall ()
+  (defun c:crelay ()
     (TA:generate_filter_list
       (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
       (setq 2nd_filter_val_main "000 - CONCRETE_") ;2nd_filter
@@ -2292,6 +2366,7 @@
             "0"
           )
 )
+
 
 (car (:LayerFilterList))
 

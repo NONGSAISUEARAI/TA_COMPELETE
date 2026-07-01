@@ -2858,16 +2858,20 @@
     )
   ;
   ;text_convert_
-    (defun LM:StringSubst ( new old str / inc len )
-      (setq len (strlen new)
-            inc 0
-      )
-      (while (setq inc (vl-string-search old str inc))
-          (setq str (vl-string-subst new old str inc)
-                inc (+ inc len)
+    (defun LM:StringSubst ( new old str / inc len )  
+      (if (= (wcmatch  str (strcat "*" old "*") ) T) 
+        (progn 
+          (setq len (strlen new)
+                inc 0
           )
+          (while (setq inc (vl-string-search old str inc)) 
+            (setq str (vl-string-subst new old str inc)
+                  inc (+ inc len)
+            )
+            str
+          )
+        )
       )
-      str
     )
     (defun TA:Attribute_to_text_ATT2TXT ()
       ;selection_set_for_fillter_blk_name
@@ -8515,6 +8519,76 @@
         (setvar "hpannotative" 1)
         (setq hatch_Layer_ "000 - CONCRETE_WALL_HATCH_")
         (setq hatch_patt_ "ANSI37")
+        (setq hatch_color_ "bylayer")
+        (setq hatch_background_ ".")
+        (setq hatch_ename_getang_ 0 )
+        (setq hatch_ename_getsc_ 0.1 )
+      ;
+      (setq hatch_obj_ (vlax-ename->vla-object hatch_ename_))
+
+      
+      (command ".-hatch" "s"  hatch_ename_  
+                "" 
+                "c" hatch_color_ hatch_background_
+                "p" hatch_patt_ hatch_ename_getsc_ hatch_ename_getang_ 
+                "L" hatch_Layer_ 
+                ""  
+               
+      )
+      ;new_blk_entlast object
+        (setq newhatch_ename (entlast))
+        (setq newhatch_obj (vlax-ename->vla-object newhatch_ename))
+        
+      ;
+      (TA:add_hatch_scale newhatch_ename)
+      
+      
+    )
+    (defun c:create_wall_hatch_METALHATCH ()
+      ;presetting layer
+        ; (setq TA:if_found_layer_(TA:if_found_layer_ ""))
+      ;
+      ;user_input_
+      (setq obj_name_ (vla-get-objectname (vlax-ename->vla-object (setq hatch_ename_ (car (entsel "specify Object"))))))
+      
+      (cond
+        ( ;first process
+          (or
+            
+            (= obj_name_ "AcDbPolyline")
+          )
+          (progn
+            (= (vla-get-closed (setq hatch_ename_obj_ (vlax-ename->vla-object hatch_ename_))) :vlax-true)
+            (setq 1st_process "AcDbPolyline")
+          )
+        )
+        (;first process
+          (or
+            (= obj_name_ "AcDbBlockReference")
+          )
+          (progn
+            (setq 1st_process "AcDbBlockReference")
+            
+          )
+        )
+      )
+      
+      
+      (if 
+        (and 
+          (= hatch_ename_getang_ nil)
+          (= hatch_ename_getsc_ nil)
+        )
+        (progn
+          (setq  hatch_ename_getang_ 0)
+          (setq  hatch_ename_getsc_ 1)
+          
+        )
+      )
+      ;preseting_data_
+        (setvar "hpannotative" 1)
+        (setq hatch_Layer_ "0")
+        (setq hatch_patt_ "ANSI32")
         (setq hatch_color_ "bylayer")
         (setq hatch_background_ ".")
         (setq hatch_ename_getang_ 0 )
@@ -20237,7 +20311,22 @@
         (vl-catch-all-apply
           (function
             (lambda ()
-              (setq layer_obj_name_ (TA:choose_list_ layer_list_ )
+              (setq layer_obj_name_ (TA:choose_list_v3 
+                                      layer_list_
+                                      "select block"
+                                      (if (= layer_obj_name_exval nil) 
+                                        (progn 
+                                          (setq layer_obj_name_exval 1)
+                                        )
+                                        (setq layer_obj_name_exval (+ 
+                                                                     (vl-position layer_obj_name_ 
+                                                                                  layer_list_
+                                                                     )
+                                                                     1
+                                                                   )
+                                        )
+                                      )
+                                    )
               )
             )
           )

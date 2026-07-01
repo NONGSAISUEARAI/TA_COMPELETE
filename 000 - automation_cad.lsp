@@ -1944,16 +1944,20 @@
     )
   ;
   ;text_convert_
-    (defun LM:StringSubst ( new old str / inc len )
-      (setq len (strlen new)
-            inc 0
-      )
-      (while (setq inc (vl-string-search old str inc))
-          (setq str (vl-string-subst new old str inc)
-                inc (+ inc len)
+    (defun LM:StringSubst ( new old str / inc len )  
+      (if (= (wcmatch  str (strcat "*" old "*") ) T) 
+        (progn 
+          (setq len (strlen new)
+                inc 0
           )
+          (while (setq inc (vl-string-search old str inc)) 
+            (setq str (vl-string-subst new old str inc)
+                  inc (+ inc len)
+            )
+            str
+          )
+        )
       )
-      str
     )
   ;
   ;CLEANER_FUNC Ta Trai
