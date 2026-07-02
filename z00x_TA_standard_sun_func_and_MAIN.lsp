@@ -2312,31 +2312,7 @@
         )
       )
     )
-    (defun TA:getkword ( getkword_text_ initget_text1_ initget_text2_ value-true1 value-false1 ) ; for if true-false by keyword
-      ; (setq getkword_text_ "keep input offset value ?")
-      ; (setq initget_text1_ "Yes")
-      ; (setq initget_text2_ "No")
-      ; (setq value-true1 22)
-      ; (setq value-false1 23)
-      (setq initget_text_ovl_ (strcat initget_text1_ " " initget_text2_))
-      (initget 2)
-      (initget initget_text_ovl_)
-      (setq condition_object_case_detect_ ;Detect the variable's result in case of a function error
-        (vl-catch-all-apply 
-          (function 
-            (lambda () 
-              (setq condition_object_case_val_type1_ (not (eq "No" (getkword (strcat getkword_text_ " [" (LM:StringSubst "/" " " initget_text_ovl_ ) "] " "<Y>:" ) ) ) ) ) 
-            )
-          )
-        )
-      )
-      (if (= condition_object_case_val_type1_ T)
-        (progn
-          value-true1
-        )
-        value-false1
-      )
-    )
+    
     (defun TA:assembly_coordinate_coner (main_border_)
       ;get-data_
         (setq pt_mid (list 
@@ -12085,34 +12061,42 @@
       )
     )
     (defun c:finding_attribute_findattval ()
-      ;selection_set_for_fillter_blk_name
-        (if  ;pre_select_ssget_or_post_select_ssget
-          (=
-            (setq ss_pre_filter_set_xx_ (ssget "i"
-                                              (list
-                                                (cons 0 "INSERT") ;type of object
-                                                ; (cons 8 "000 - GRID")   ;kind of layer
-                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                                ; (cons 62 1)           ;kind of color call sign with color code index
-                                              )
-                                        )
-            )
-            nil
+      (if (and 
+            (= att-pre_filter_set_xx_ nil)
+            (TA:getkword "keep input offset value ?"  "Yes" "No"  att-pre_filter_set_xx_ "false")
           )
-          (progn
-            (setq ss_pre_filter_set_xx_ (ssget
-                                              (list
-                                                (cons 0 "INSERT") ;type of object
-                                                ; (cons 8 "000 - GRID")   ;kind of layer
-                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                                ; (cons 62 1)           ;kind of color call sign with color code index
-                                              )
-                                        )
+        (progn
+          ;selection_set_for_fillter_blk_name
+            (if  ;pre_select_ssget_or_post_select_ssget
+              (=
+                (setq att-pre_filter_set_xx_ (ssget "i"
+                                                  (list
+                                                    (cons 0 "INSERT") ;type of object
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+                nil
+              )
+              (progn
+                (setq att-pre_filter_set_xx_ (ssget
+                                                  (list
+                                                    (cons 0 "INSERT") ;type of object
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+              )
+              (sslength att-pre_filter_set_xx_)
             )
-          )
-          (sslength ss_pre_filter_set_xx_)
+          ;
         )
-      ;
+      )
+
       (setq att-finder_mode (TA:choose_list_v3 
                               (setq attlist_ (list "match_value" "*wildcard_value*" "numbering"))
                               "select block"
@@ -12130,68 +12114,81 @@
                               )
                             )
       )
-      (setq att-value_list_ (list "C04" "C05" "corner" "edge" "E2_PL_01_") )
+      (setq att-value_list_ (list "user input" "C04" "C05" "corner" "edge" "E2_PL_01_") )
       (cond
         ( (= att-finder_mode "match_value")
           (progn 
-            (setq att-value_list_val (TA:choose_list_v2 att-value_list_ "Specify Macth Case Attribute Value") )
+            (setq att-match_value_ (TA:choose_list_v3
+                               att-value_list_
+                               "Specify Macth Case Attribute Value"
+                               (if (and
+                                        (= att-match_value_exval nil)
+                                        (= att-match_value_ nil)
+                                   )
+                                 (progn
+                                   (setq att-match_value_exval 1)
+                                 )
+                                 (setq att-match_value_exval
+                                       (+ (vl-position
+                                            att-match_value_
+                                            att-value_list_
+                                          )
+                                          1
+                                       )
+                                 )
+                               )
+                     )
+            )
+            (setq att-value_list_val att-match_value_)
           )
           
         )
         ( (= att-finder_mode "*wildcard_value*")
           (progn
-            (if (= 
-                  (vl-catch-all-error-p 
-                    (vl-catch-all-apply 
-                      (function 
-                        (lambda () 
-                          (setq att-value_list_val (strcat "*" (TA:choose_list_v2 att-value_list_ "Specify Wildcard Case List *Attribute Value*" ) "*" ) )
-                          (setq att-value_list_val (TA:choose_list_v3 
-                                                  att-value_list_
-                                                  "select block"
-                                                  (if (= att-value_list_val_exval nil) 
-                                                    (progn (setq att-value_list_val_exval 1))
-                                                    (setq att-value_list_val_exval (+ 
-                                                                                 (vl-position 
-                                                                                              att-value_list_val
-                                                                                              att-value_list_
-                                                                                 )
-                                                                                 1
-                                                                               )
-                                                    )
-                                                  )
-                                                )
+            (if (and 
+                  (= 
+                    (vl-catch-all-error-p 
+                      (vl-catch-all-apply 
+                        (function 
+                          (lambda () 
+                            (setq wildcard_value 
+                                  (TA:choose_list_v3 
+                                    att-value_list_
+                                    "select block"
+                                    (if (or (= wildcard_value_exval nil) (= wildcard_value nil) )
+                                      (progn 
+                                        (setq wildcard_value_exval 1)
+                                      )
+                                      (setq wildcard_value_exval (+ (vl-position wildcard_value att-value_list_ ) 1 ) )
+                                    )
+                                  )
+                            )
                           )
                         )
                       )
                     )
+                    nil
                   )
-                  nil
+                  (/= wildcard_value "user input")
                 )
               (progn
-                att-value_list_val
+                wildcard_value
               )
-              (setq att-value_list_val ;Get-string by keep previous value
-                  (strcat "*" 
-                          (if 
-                            (or 
-                              (/= 
-                                (setq att-value_list_val_val (getstring (strcat "\nSpecify Pattern name <" (if att-value_list_val_ att-value_list_val_ "" ) ">: " ) ) )
-                                ""
-                              )
-                            )
-                            (progn 
-                              (setq att-value_list_val_ att-value_list_val_val)
-                              (setq att-value_list_val_keep_val_ att-value_list_val_val)
-                            )
-                            (setq att-value_list_val_val att-value_list_val_keep_val_)
-                          )
-                          "*"
+              (setq wildcard_value_str-val_ ;Get-string by keep previous value
+                  (if
+                    (or
+                      (/= (setq wildcard_value_str-val_val (getstring (strcat "\nSpecify Pattern name <" (if wildcard_value_str-val_ wildcard_value_str-val_ "") ">: ") ) ) "" )
+                    )
+                      (progn
+                        (setq wildcard_value_str-val_ wildcard_value_str-val_val)
+                        (setq wildcard_value_str-val_keep_val_ wildcard_value_str-val_val)
+                      )
+                    (setq wildcard_value_str-val_val wildcard_value_str-val_keep_val_)
                   )
               )
             )
+            (setq att-value_list_val wildcard_value_str-val_)
           )
-          
         )
         ( (= att-finder_mode "numbering")
           (progn
@@ -12202,31 +12199,34 @@
       )
       
       ;preloop_and_while
-        (setq ss_pre_filter_set_xx_i 0)
-        (setq ss_pre_filter_set_xx_new-ss_ (ssadd))
-        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
-          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (setq att-pre_filter_set_xx_i 0)
+        (setq att-pre_filter_set_xx_new-ss_ (ssadd))
+        (while (and 
+                 (= (type att-pre_filter_set_xx_) 'PICKSET)
+                 (< att-pre_filter_set_xx_i (sslength att-pre_filter_set_xx_))
+               )
+          (setq att-pre_filter_set_xx_ename_ (ssname att-pre_filter_set_xx_ att-pre_filter_set_xx_i))
+          (setq att-pre_filter_set_xx_obj_ (vlax-ename->vla-object  att-pre_filter_set_xx_ename_))
           (if (and 
-                (= (vla-get-hasattributes ss_pre_filter_set_xx_obj_) :vlax-true)
-                (/= (setq ss_pre_filter_set_xx_obj_val-list_ (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_obj_)) nil)
+                (= (vla-get-hasattributes att-pre_filter_set_xx_obj_) :vlax-true)
+                (/= (setq att-pre_filter_set_xx_obj_val-list_ (LM:vl-getattributevalue-val-TA-Modifies att-pre_filter_set_xx_obj_)) nil)
                 (or 
                   (= att-finder_mode "match_value")
                   (= att-finder_mode "*wildcard_value*")
                 )
               )
             (progn
-              (if (/= (setq ss_pre_filter_set_xx_obj_match-val_ (TA:wcmatch_list  (list att-value_list_val) ss_pre_filter_set_xx_obj_val-list_ nil)) nil)
+              (if (/= (setq att-pre_filter_set_xx_obj_match-val_ (TA:wcmatch_list  (list att-value_list_val) att-pre_filter_set_xx_obj_val-list_ nil)) nil)
                 (progn
-                  (setq ss_pre_filter_set_xx_new-ss_ (ssadd ss_pre_filter_set_xx_ename_ ss_pre_filter_set_xx_new-ss_ ))
+                  (setq att-pre_filter_set_xx_new-ss_ (ssadd att-pre_filter_set_xx_ename_ att-pre_filter_set_xx_new-ss_ ))
                 )
               )
               
             )
           )
           (if (and 
-                (= (vla-get-hasattributes ss_pre_filter_set_xx_obj_) :vlax-true)
-                (/= (setq ss_pre_filter_set_xx_obj_val-list_ (LM:vl-getattributevalue-val-TA-Modifies ss_pre_filter_set_xx_obj_)) nil)
+                (= (vla-get-hasattributes att-pre_filter_set_xx_obj_) :vlax-true)
+                (/= (setq att-pre_filter_set_xx_obj_val-list_ (LM:vl-getattributevalue-val-TA-Modifies att-pre_filter_set_xx_obj_)) nil)
                 (or 
                   (= att-finder_mode "numbering")
                 )
@@ -12237,13 +12237,11 @@
               (vl-list->string tester_save )
             )
           )
-          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+          (setq att-pre_filter_set_xx_i (+ att-pre_filter_set_xx_i 1))
         )
       ;
-      (command "pselect"  ss_pre_filter_set_xx_new-ss_ "" )
+      (command "pselect"  att-pre_filter_set_xx_new-ss_ "" )
     )
-
-
   ;
   ;TITLE DRAWING FUNC
     (defun c:sort_heading_number_sorH ()
@@ -20600,7 +20598,31 @@
       (setq keepVAL_choose_block_di choose_block_di)
       (nth (- choose_block_di 1)  choose_data-list_)
     )
-    
+    (defun TA:getkword ( getkword_text_ initget_text1_ initget_text2_ value-true1 value-false1 ) ; for if true-false by keyword
+      ; (setq getkword_text_ "keep input offset value ?")
+      ; (setq initget_text1_ "Yes")
+      ; (setq initget_text2_ "No")
+      ; (setq value-true1 22)
+      ; (setq value-false1 23)
+      (setq initget_text_ovl_ (strcat initget_text1_ " " initget_text2_))
+      (initget 2)
+      (initget initget_text_ovl_)
+      (setq condition_object_case_detect_ ;Detect the variable's result in case of a function error
+        (vl-catch-all-apply 
+          (function 
+            (lambda () 
+              (setq condition_object_case_val_type1_ (not (eq "No" (getkword (strcat getkword_text_ " [" (LM:StringSubst "/" " " initget_text_ovl_ ) "] " "<Y>:" ) ) ) ) ) 
+            )
+          )
+        )
+      )
+      (if (= condition_object_case_val_type1_ T)
+        (progn
+          value-true1
+        )
+        value-false1
+      )
+    )
   ;
   ;CUTING-LENGTH_FUNC
     (defun c:EXTR-from-Pline () 

@@ -4878,9 +4878,85 @@
             REV_VAL           "A"
             REV_DATE_VAL       (TAS:CKST_plotter_date_cond-for-ASPG_);"31-10-2025" ;(TA:CDATE "/" "DDMMYYYY")
             REV_DESC_VAL      "FIRST ISSUED"
-            DWG_VAL           "TA"
-            CHK_VAL           "KEN" 
-            APP_VAL           "MK"
+            DWG_VAL           ""
+            CHK_VAL           "" 
+            APP_VAL           ""
+      )
+      (cond
+        (;date_condd_case_5 ABOVE
+            (and
+              (wcmatch (getvar "dwgname") "*PP17*")
+              (wcmatch (getvar "dwgname") "*ENT*")
+            )
+            (progn
+              (setq DWG_VAL "TA"
+                    CHK_VAL "DL"
+                    APP_VAL "SP"
+              )
+              
+            )
+        )
+        (;date_condd_case_5 ABOVE
+            (and
+              (wcmatch (getvar "dwgname") "*PP18*")
+              (wcmatch (getvar "dwgname") "*ENT*")
+            )
+            (progn
+              (setq DWG_VAL "TA"
+                    CHK_VAL "SN"
+                    APP_VAL "SP"
+              )
+            )
+        )
+        (;date_condd_case_5 ABOVE
+            (and
+              (wcmatch (getvar "dwgname") "*PP19*")
+              (or 
+                (wcmatch (getvar "dwgname") "*AR-2*")
+                (wcmatch (getvar "dwgname") "*19-SE-6*")
+                (wcmatch (getvar "dwgname") "*ENT*")
+              )
+            )
+            (progn
+              (setq DWG_VAL "TA"
+                    CHK_VAL "WM"
+                    APP_VAL "SP"
+              )
+            )
+        )
+        (;date_condd_case_5 ABOVE
+            (and
+              (wcmatch (getvar "dwgname") "*IV01*")
+              (or 
+                (wcmatch (getvar "dwgname") "*AR-2*")
+                (wcmatch (getvar "dwgname") "*IV01*")
+                
+              )
+            )
+            (progn
+              (setq DWG_VAL "TA"
+                    CHK_VAL "SN"
+                    APP_VAL "SP"
+              )
+              
+            )
+        )
+        (;date_condd_case_5 ABOVE
+            (and
+              (wcmatch (getvar "dwgname") "*VS01*")
+              (or 
+                (wcmatch (getvar "dwgname") "*AR-2*")
+                (wcmatch (getvar "dwgname") "*VS01*")
+                
+              )
+            )
+            (progn
+              (setq DWG_VAL "TA"
+                    CHK_VAL "SN"
+                    APP_VAL "SP"
+              )
+            )
+        )
       )
       (setq DESIGNED_BY_DATE_val REV_DATE_VAL)
         ; (c:PPLINE_CKST_REWORK-TTB24_)
