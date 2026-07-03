@@ -9684,7 +9684,7 @@
           (sslength ss_pre_filter_set_xx_)
           
         )
-        (setq ss_pre_filter_set_xx_1 (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "jjj" "6UU56" "4Y4Y") ))
+        (setq ss_pre_filter_set_xx_1 (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "jjj" "6UU56" "4Y4Y" "8o8o") ))
         (setq ss_pre_filter_set_xx_1_ (TA:standard_list_croodinate_sorting ss_pre_filter_set_xx_1 "X"))
       ;
       ;preloop_and_while
