@@ -9684,15 +9684,17 @@
           (sslength ss_pre_filter_set_xx_)
           
         )
-        (setq ss_pre_filter_set_xx_1 (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "jjj" "6UU56") ))
+        (setq ss_pre_filter_set_xx_1 (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "jjj" "6UU56" "4Y4Y") ))
         (setq ss_pre_filter_set_xx_1_ (TA:standard_list_croodinate_sorting ss_pre_filter_set_xx_1 "X"))
       ;
       ;preloop_and_while
+        (setq ii (getint "spec number"))
         (setq ss_pre_filter_set_xx_1_i 0)
         (while (< ss_pre_filter_set_xx_1_i (length ss_pre_filter_set_xx_1_))
           (setq ss_pre_filter_set_xx_1_ename_ (car (nth  ss_pre_filter_set_xx_1_i ss_pre_filter_set_xx_1_)))
           (setq ss_pre_filter_set_xx_1_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_1_ename_))
           (setq namefile_ (strcat (LM:StringSubst "" ".dwg" (getvar "dwgname")) "_") )
+          
           (TA:danaiplot_ ss_pre_filter_set_xx_1_obj_ namefile_ ss_pre_filter_set_xx_1_i)
           (setq ss_pre_filter_set_xx_1_i (+ ss_pre_filter_set_xx_1_i 1))
         )
