@@ -125,16 +125,20 @@
   )
 ;
 ;Text_FUNC_
-  (defun LM:StringSubst (new old str / inc len) 
-    (setq len (strlen new)
-          inc 0
-    )
-    (while (setq inc (vl-string-search old str inc)) 
-      (setq str (vl-string-subst new old str inc)
-            inc (+ inc len)
+  (defun LM:StringSubst ( new old str / inc len )  
+    (if (= (wcmatch  str (strcat "*" old "*") ) T) 
+      (progn 
+        (setq len (strlen new)
+              inc 0
+        )
+        (while (setq inc (vl-string-search old str inc)) 
+          (setq str (vl-string-subst new old str inc)
+                inc (+ inc len)
+          )
+          str
+        )
       )
     )
-    str
   )
 ;
 ;Get_DOC_FUNC_
@@ -9182,60 +9186,128 @@
         )
         (sslength ss_pre_filter_set_xx_)
       )
-      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_v2_ ss_pre_filter_set_xx_ (list "000_FAMELINE_SYMBOL_BUBBLE_NAME" "000 - CKST_HEADING_VAL")))
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_v2_ ss_pre_filter_set_xx_ (list "000_FAMELINE_SYMBOL_BUBBLE_NAME" "000 - CKST_HEADING_VAL" ) ) )
     ;
     ;preloop_and_while
       (setq ss_pre_filter_set_xx_i 0)
       (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
         (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
         (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
-          (setq Er-msg_ 
-            (vl-catch-all-apply 
-              (function 
-                (lambda () 
-                  (LM:vl-setattributevalue 
-                    ss_pre_filter_set_xx_obj_
-                    "BUB_NO"
-                    (LM:StringSubst 
-                      (rtos (+ (atoi (substr (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "BUB_NO") (- (strlen (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "BUB_NO" ) ) 1 ) 4 ) ) 1 ) 2 0 )
-                      (LM:StringSubst "" " " (substr (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "BUB_NO") (- (strlen (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "BUB_NO" ) ) 1 ) 4 ) )
-                      (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "BUB_NO")
-                    )
+        (if (and 
+              (= (LM:Effectivename ss_pre_filter_set_xx_obj_ ) "000_FAMELINE_SYMBOL_BUBBLE_NAME")
+              (= ( wcmatch (strcase (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "BUB_NO"  )) "*DETAIL*") T)
+              (/= (TA:KeepNumber (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "BUB_NO"  )) "")
+            )
+          (progn
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "BUB_NO" (strcat "Detail " (rtos (+ (atoi (TA:KeepNumber (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "BUB_NO"  ))) 1) 2 0)) )
+          ) 
+        )
+        (if (and 
+              (= (LM:Effectivename ss_pre_filter_set_xx_obj_ ) "000 - CKST_HEADING_VAL")
+              (= ( wcmatch (strcase (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "HEADING-NAME"  )) "*ENTRANCE*") T)
+              (/= (TA:KeepNumber (TA:rightstr (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "HEADING-NAME"  ) 10)) "")
+            )
+          (progn
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "HEADING-NAME" 
+              (strcat 
+                (substr 
+                  (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "HEADING-NAME" )
+                  1
+                  (+ 
+                    (vl-string-search "DETAIL" (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "HEADING-NAME" ) 1 )
+                    (strlen "DETAIL ")
                   )
                 )
-              )
+                (rtos (+ (atoi (TA:KeepNumber (TA:rightstr (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "HEADING-NAME"  ) 10))) 1) 2 0)
+              ) 
+              
             )
+            (LM:vl-setattributevalue 
+              ss_pre_filter_set_xx_obj_
+              "BUBBLE_NO_VAL"
+              (TA:KeepNumber (TA:rightstr (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "HEADING-NAME" ) 10 ) )
+            )
+          ) 
+        )
+          
+          
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+  )
+  (defun c:temp-no-_ ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
           )
-          (setq Er-msg_ 
-            (vl-catch-all-apply 
-              (function 
-                (lambda () 
-                  (LM:vl-setattributevalue 
-                    ss_pre_filter_set_xx_obj_
-                    "HEADING-NAME"
-                    (LM:StringSubst 
-                      (rtos (+ (atoi (substr (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "HEADING-NAME") (- (strlen (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "HEADING-NAME" ) ) 1 ) 4 ) ) 1 ) 2 0 )
-                      (LM:StringSubst "" " " (substr (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "HEADING-NAME") (- (strlen (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "HEADING-NAME" ) ) 1 ) 4 ) )
-                      (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "HEADING-NAME")
-                    )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_v2_ ss_pre_filter_set_xx_ (list "000_FAMELINE_SYMBOL_BUBBLE_NAME" "000 - CKST_HEADING_VAL" ) ) )
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (if (and 
+              (= (LM:Effectivename ss_pre_filter_set_xx_obj_ ) "000_FAMELINE_SYMBOL_BUBBLE_NAME")
+              (= ( wcmatch (strcase (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "BUB_NO"  )) "*DETAIL*") T)
+              (/= (TA:KeepNumber (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "BUB_NO"  )) "")
+            )
+          (progn
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "BUB_NO" (strcat "Detail " (rtos (- (atoi (TA:KeepNumber (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "BUB_NO"  ))) 1) 2 0)) )
+          ) 
+        )
+        (if (and 
+              (= (LM:Effectivename ss_pre_filter_set_xx_obj_ ) "000 - CKST_HEADING_VAL")
+              (= ( wcmatch (strcase (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "HEADING-NAME"  )) "*ENTRANCE*") T)
+              (/= (TA:KeepNumber (TA:rightstr (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "HEADING-NAME"  ) 10)) "")
+            )
+          (progn
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "HEADING-NAME" 
+              (strcat 
+                (substr 
+                  (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "HEADING-NAME" )
+                  1
+                  (+ 
+                    (vl-string-search "DETAIL" (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "HEADING-NAME" ) 1 )
+                    (strlen "DETAIL ")
                   )
                 )
-              )
+                (rtos (- (atoi (TA:KeepNumber (TA:rightstr (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "HEADING-NAME"  ) 10))) 1) 2 0)
+              ) 
+              
             )
-          )
-          (setq Er-msg_ 
-            (vl-catch-all-apply 
-              (function 
-                (lambda () 
-                  (LM:vl-setattributevalue 
-                    ss_pre_filter_set_xx_obj_
-                    "BUBBLE_NO_VAL"
-                    (rtos (atoi (substr (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "HEADING-NAME") (- (strlen (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "HEADING-NAME" ) ) 1 ) 4 ) ) 2 0 )
-                  )
-                )
-              )
+            (LM:vl-setattributevalue 
+              ss_pre_filter_set_xx_obj_
+              "BUBBLE_NO_VAL"
+              (TA:KeepNumber (TA:rightstr (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "HEADING-NAME" ) 10 ) )
             )
-          )
+          ) 
+        )
+          
+          
         (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
       )
     ;
@@ -9542,3 +9614,89 @@
       ;
     ;
   )
+
+
+  (defun TA:danaiplot_ (sss_obj_ namefile_ pre-name_)
+    ; (setq sss_ename_ (car (entsel "specify Object")))
+    ; (setq sss_obj_ (vlax-ename->vla-object sss_ename_))
+    (setq sss_obj_getboundingbox (vla-getboundingbox sss_obj_ 'min_ 'max_)) 
+    (setq sss_min_ (vlax-safearray->list min_)) 
+    (setq sss_max_ (vlax-safearray->list max_)) 
+    (setq main_bol (LM:boundingbox sss_obj_))
+    (setq pre-name_ (+ pre-name_ 1) )
+    (if (findfile (setq filename (strcat "" (getvar 'DWGPREFIX) (strcat namefile_ (rtos pre-name_ 2 0)) ".pdf"))) 
+      (vl-file-delete filename)
+    )
+    (command "-plot" 
+             "Yes" ;Detailed Plot Configuration?
+             (getvar "ctab")
+             "DWG To PDF.pc3" ;Printer Name
+             "ISO_full_bleed_A4_(210.00_x_297.00_MM)" ;Paper Size
+             ;paper_size ;Paper Size
+             "m" ;Paper Units Millimeters
+             "Landscape" ;Orientation
+             "No" ;Plot Upside Down
+             "window" ;Plot Area
+             (nth 0 main_bol) ;vla-getboundingbox
+             (nth 2 main_bol) ;vla-getboundingbox
+             ;llpt				;Lower left corner of window
+             ;urpt				;Upper right corner of window
+             "Fit" ;Plot Scale	"Fit"
+             "Center" ;Plot Offset
+             "yes" ;Use Plot Style?
+             "A3_Standard (MRT-AGATE) - purple line.ctb" ;Plot Style Name
+             "Yes" ;Plot Lineweights?
+             "Y" ;scale linewieghts
+             "N"
+             "N"
+             filename ; Name file and Location
+             "Y"
+             "Y"
+    )
+  )
+
+    (defun c:xplot ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+          
+        )
+        (setq ss_pre_filter_set_xx_1 (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "jjj" "6UU56") ))
+        (setq ss_pre_filter_set_xx_1_ (TA:standard_list_croodinate_sorting ss_pre_filter_set_xx_1 "X"))
+      ;
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_1_i 0)
+        (while (< ss_pre_filter_set_xx_1_i (length ss_pre_filter_set_xx_1_))
+          (setq ss_pre_filter_set_xx_1_ename_ (car (nth  ss_pre_filter_set_xx_1_i ss_pre_filter_set_xx_1_)))
+          (setq ss_pre_filter_set_xx_1_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_1_ename_))
+          (setq namefile_ (strcat (LM:StringSubst "" ".dwg" (getvar "dwgname")) "_") )
+          (TA:danaiplot_ ss_pre_filter_set_xx_1_obj_ namefile_ ss_pre_filter_set_xx_1_i)
+          (setq ss_pre_filter_set_xx_1_i (+ ss_pre_filter_set_xx_1_i 1))
+        )
+      ;
+    )
+    
+  

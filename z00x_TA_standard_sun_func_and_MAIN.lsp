@@ -2740,6 +2740,15 @@
         (append (list (car (reverse lst))) (reverse (cdr (reverse lst))) )
       )
     )
+    (defun TA:KeepNumber (str /)
+      (vl-list->string
+        (vl-remove-if-not
+          '(lambda (c) (and (>= c 48) (<= c 57)))
+          (vl-string->list str)
+        )
+      )
+    )
+  
   ;
   ;format_FUNC
     (defun format-all-workbook-list (data)
@@ -12062,8 +12071,8 @@
     )
     (defun c:finding_attribute_findattval ()
       (if (and 
-            (= att-pre_filter_set_xx_ nil)
-            (TA:getkword "keep input offset value ?"  "Yes" "No"  att-pre_filter_set_xx_ "false")
+            (/= att-pre_filter_set_xx_ nil)
+            (TA:getkword "new input selection-set ?"  "Yes" "No"  att-pre_filter_set_xx_ "false")
           )
         (progn
           ;selection_set_for_fillter_blk_name
@@ -12098,9 +12107,12 @@
       )
 
       (setq att-finder_mode (TA:choose_list_v3 
-                              (setq attlist_ (list "match_value" "*wildcard_value*" "numbering"))
+                              (setq attlist_ (list "match_value" "*wildcard_value*" "numbering" "multi-name"))
                               "select block"
-                              (if (= att-finder_modeexval nil) 
+                              (if (or 
+                                    (= att-finder_modeexval nil)
+                                    (= att-finder_mode nil)
+                                  ) 
                                 (progn 
                                   (setq att-finder_modeexval 1)
                                 )
@@ -12115,6 +12127,13 @@
                             )
       )
       (setq att-value_list_ (list "user input" "C04" "C05" "corner" "edge" "E2_PL_01_") )
+      (setq att-value_multi-list_ (list 
+                                    (list "")
+                                    (list "Detail 1" "Detail 2" "Detail 3" "Detail 4" "Detail 5" "Detail 6" "Detail 7" )
+                                    (list "Detail 8" "Detail 9" "Detail 10" "Detail 11" "Detail 12" "Detail 13" "Detail 14" )
+                                    (list "Detail 15" "Detail 16" "Detail 17" "Detail 18" "Detail 19" "Detail 20" "Detail 21" )
+                                  )
+      )
       (cond
         ( (= att-finder_mode "match_value")
           (progn 
@@ -12141,7 +12160,6 @@
             )
             (setq att-value_list_val att-match_value_)
           )
-          
         )
         ( (= att-finder_mode "*wildcard_value*")
           (progn
@@ -12196,6 +12214,13 @@
             (setq filter_max_range_ (cond ( (getreal (strcat "\nspecify get filter_max_range_ \n<" (rtos (setq filter_max_range_ (cond (filter_max_range_) (1.0) ) ) ) "> : " ) ) ) (filter_max_range_) ) )
           )
         )
+        ( (= att-finder_mode "multi-name")
+          (progn
+            (setq att-value_multi-list_val_ (cond ( (getint (strcat "\nspecify list set for matching \n<" (rtos (setq att-value_multi-list_val_ (cond (att-value_multi-list_val_) (1.0) ) ) ) "> : " ) ) ) (att-value_multi-list_val_) ) )
+              
+          )
+        )
+        
       )
       
       ;preloop_and_while
@@ -12235,6 +12260,21 @@
               (setq tester_save (list "asd245"  "2dsg398598ifasa" "Sdasf" "900 mm.") )
               
               (vl-list->string tester_save )
+            )
+          )
+          (if (and 
+                (= (vla-get-hasattributes att-pre_filter_set_xx_obj_) :vlax-true)
+                (/= (setq att-pre_filter_set_xx_obj_val-list_ (LM:vl-getattributevalue-val-TA-Modifies att-pre_filter_set_xx_obj_)) nil)
+                (and 
+                  (= att-finder_mode "multi-name")
+                )
+              )
+            (progn
+              (if (/= (setq att-pre_filter_set_xx_obj_match-val_ (TA:wcmatch_list  (nth att-value_multi-list_val_ att-value_multi-list_) att-pre_filter_set_xx_obj_val-list_ nil)) nil)
+                (progn
+                  (setq att-pre_filter_set_xx_new-ss_ (ssadd att-pre_filter_set_xx_ename_ att-pre_filter_set_xx_new-ss_ ))
+                )
+              )
             )
           )
           (setq att-pre_filter_set_xx_i (+ att-pre_filter_set_xx_i 1))
