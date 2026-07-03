@@ -9695,7 +9695,8 @@
           (setq ss_pre_filter_set_xx_1_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_1_ename_))
           (setq namefile_ (strcat (LM:StringSubst "" ".dwg" (getvar "dwgname")) "_") )
           
-          (TA:danaiplot_ ss_pre_filter_set_xx_1_obj_ namefile_ ss_pre_filter_set_xx_1_i)
+          (TA:danaiplot_ ss_pre_filter_set_xx_1_obj_ namefile_ (- ii 1))
+          (setq ii (+ ii 1))
           (setq ss_pre_filter_set_xx_1_i (+ ss_pre_filter_set_xx_1_i 1))
         )
       ;
