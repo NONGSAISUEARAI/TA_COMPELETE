@@ -1,0 +1,22 @@
+	"defun_selection-set": {
+    "prefix": "choose_list",
+    "body": [
+        "(setq ${1:att}list_name_ (TA:choose_list_v3",
+        "                              (setq ${1:att}list_ (list \"match_value\" \"*wildcard_value*\" \"numbering\"))",
+        "                              \"select block\"",
+        "                              (if (= ${1:att}list_name_exval nil)",
+        "                                (progn",
+        "                                  (setq ${1:att}list_name_exval 1)",
+        "                                )",
+        "                                (setq ${1:att}list_name_exval (+",
+        "                                                             (vl-position ${1:att}list_name_",
+        "                                                                          ${1:att}list_",
+        "                                                             )",
+        "                                                             1",
+        "                                                           )",
+        "                                )",
+        "                              )",
+        "                            )",
+        ")"
+    ],
+    "description": "TA choose list with variable prefix"

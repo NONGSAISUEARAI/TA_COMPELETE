@@ -54,6 +54,17 @@
     (setq str_value_length (strlen str_value_))
     (substr str_value_ (- (+ str_value_length 1) right_value_ ) 100)
   )
+  (defun TAS:StringSubst-for-createlayer (new old str / inc len) 
+    (setq len (strlen new)
+          inc 0
+    )
+    (while (setq inc (vl-string-search old str inc))
+        (setq str (vl-string-subst new old str inc)
+              inc (+ inc len)
+        )
+    )
+    str
+  )
 ;
 ;prototype for filter layer
   (defun TA:generate_filter_list1 (1st_filter_ 2nd_filter_ 3rd_filter_ 4th_filter)
@@ -448,7 +459,7 @@
   (defun c:create_main_and_sub_filter_creF4 (main_filter_name_)
     ;presettting
       ; example
-      ;   (setq Prefix_filter_name_ "000_CLIP-IN_")
+        ; (setq Prefix_filter_name_ "000_CLIP-IN_")
       ;   (setq Prefix_filter_name_LV1 "PANEL_")
       ;   (setq Prefix_filter_name_LV2 "ACESSORIES_")
       ;   (setq Prefix_filter_name_LV3 "SUBFAME_")
@@ -626,7 +637,7 @@
         ;                           (list "B2" "*HATCH*")
         ;                           (list "C2" "*MAIN*")
         ;                           (list "D1" "*SUB*")
-        ;                           (list "A2" "")
+        ;                           (list "A2" "SSS")
         ;                           (list "A1" "HATCH")
         ;                         )
         ; )
@@ -649,16 +660,17 @@
                 (setq sub_filter_nameset_i 0)
                 (while (< sub_filter_nameset_i (length sub_filter_nameset_))
                   (setq sub_filter_nameset_val_ (car (nth  sub_filter_nameset_i sub_filter_nameset_)))
-                  
+                  (setq bypass_lv nil)
                   (command "-layer" 
                            "filter"
                            "edit"
                             (strcat Prefix_filter_name_  
                                     (substr main_filter_name_next_val_ 1 20)
                                     "_"
-                                    (LM:StringSubst 
+                                    (TAS:StringSubst-for-createlayer 
                                       "_1"
-                                      (if 
+                                    (cond
+                                      ( ;case1
                                         (or 
                                           (= (wcmatch sub_filter_nameset_val_ "*_1") T )
                                           (= (wcmatch sub_filter_nameset_val_ "*_2") T )
@@ -668,22 +680,47 @@
                                           (= (wcmatch sub_filter_nameset_val_ "*_6") T )
                                           (= (wcmatch sub_filter_nameset_val_ "*_7") T )
                                           (= (wcmatch sub_filter_nameset_val_ "*_8") T )
+                                          (= (wcmatch sub_filter_nameset_val_ "*_9") T )
                                           (= (wcmatch sub_filter_nameset_val_ "*_10") T )
-                                          (= (wcmatch sub_filter_nameset_val_ "*_251") T )
-
                                         )
                                         (progn 
                                           (TA:rightstr sub_filter_nameset_val_ 2)
                                         )
-                                        "XIOIOXIOXOXIOXชื่อมั่วๆ"
                                       )
+                                      ( ;case2
+                                        (or 
+                                          (= (wcmatch sub_filter_nameset_val_ "*_251") T )
+                                        )
+                                        (progn 
+                                          (TA:rightstr sub_filter_nameset_val_ 4)
+                                        )
+                                      )
+                                      ( ;case1
+                                        (and
+                                          (/= (wcmatch sub_filter_nameset_val_ "*_1") T )
+                                          (/= (wcmatch sub_filter_nameset_val_ "*_2") T )
+                                          (/= (wcmatch sub_filter_nameset_val_ "*_3") T )
+                                          (/= (wcmatch sub_filter_nameset_val_ "*_4") T )
+                                          (/= (wcmatch sub_filter_nameset_val_ "*_5") T )
+                                          (/= (wcmatch sub_filter_nameset_val_ "*_6") T )
+                                          (/= (wcmatch sub_filter_nameset_val_ "*_7") T )
+                                          (/= (wcmatch sub_filter_nameset_val_ "*_8") T )
+                                          (/= (wcmatch sub_filter_nameset_val_ "*_9") T )
+                                          (/= (wcmatch sub_filter_nameset_val_ "*_10") T )
+                                          (/= (wcmatch sub_filter_nameset_val_ "*_251") T )
+                                        )
+                                        (progn 
+                                          "XIOIOXIOXOXIOXชื่อมั่วๆ"
+                                        )
+                                      )
+                                    )
                                       sub_filter_nameset_val_
                                     )
                             ); (Filter name must be sensitibe case)
                           "add"
                           (strcat "*" Prefix_filter_name_ main_filter_name_next_val_ "_" sub_filter_nameset_val_ "*") ;(add layer name to filter, Can use wildcard for adding)
                           "x" ""
-                    )
+                  )
 
                   (setq sub_filter_nameset_i (+ sub_filter_nameset_i 1))
                 )
@@ -1890,9 +1927,16 @@
                                   "INDICATOR" ;
                                   "BREAKER" ;
                                   "GROUND" ;
+                                  "TITTLE-BLOCK";
                                 )
       )
       (setq 4th_filter_val_main (list  ;4th_filter
+                                      (list "CUT_COLOR_1" 1) ;
+                                      (list "CUT_COLOR_2" 2) ;
+                                      (list "CUT_COLOR_3" 3) ;
+                                      (list "CUT_COLOR_4" 4) ;
+                                      (list "CUT_COLOR_5" 5) ;
+                                      (list "CUT_COLOR_251" 251) ;
                                       (list "MAIN_COLOR_1" 1) ;
                                       (list "MAIN_COLOR_2" 2) ;
                                       (list "MAIN_COLOR_3" 3) ;
@@ -1920,6 +1964,54 @@
                                       (list "TEXT_COLOR_4" 4) ;
                                       (list "TEXT_COLOR_5" 5) ;
                                       (list "TEXT_COLOR_6" 6) ;
+                                      (list "TEXT_COLOR_251" 251) ;
+                                       ;
+                                )
+      )
+    )
+    (TA:generate_filter_list
+      (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+      (setq 2nd_filter_val_main "000 - 0_SYM_DWG_") ;2nd_filter
+      (setq 3rd_filter_val_main (list ;3rd_filter
+                                  "HEADING" ;
+                                  "SECTION" ;
+                                )
+      )
+      (setq 4th_filter_val_main (list  ;4th_filter
+                                      (list "CUT_COLOR_1" 1) ;
+                                      (list "CUT_COLOR_2" 2) ;
+                                      (list "CUT_COLOR_3" 3) ;
+                                      (list "CUT_COLOR_4" 4) ;
+                                      (list "CUT_COLOR_5" 5) ;
+                                      (list "CUT_COLOR_251" 251) ;
+                                      (list "MAIN_COLOR_1" 1) ;
+                                      (list "MAIN_COLOR_2" 2) ;
+                                      (list "MAIN_COLOR_3" 3) ;
+                                      (list "MAIN_COLOR_4" 4) ;
+                                      (list "MAIN_COLOR_5" 5) ;
+                                      (list "MAIN_COLOR_6" 6) ;
+                                      (list "MAIN_COLOR_8" 8) ;
+                                      (list "MAIN_COLOR_251" 251) ;
+                                      (list "SUB_COLOR_1" 2) ;
+                                      (list "SUB_COLOR_2" 2) ;
+                                      (list "SUB_COLOR_3" 3) ;
+                                      (list "SUB_COLOR_4" 4) ;
+                                      (list "SUB_COLOR_5" 5) ;
+                                      (list "SUB_COLOR_6" 6) ;
+                                      (list "SUB_COLOR_8" 8) ;
+                                      (list "SUB_COLOR_251" 251) ;
+                                      (list "HATCH_" 251) ;
+                                      (list "WIPEOUT_" 250) ;
+                                      (list "HIDDEN_" 251) ;
+                                      (list "SYMBOL_" 251) ;
+                                      (list "DEF_SUB" 250) ;
+                                      (list "TEXT_COLOR_1" 1) ;
+                                      (list "TEXT_COLOR_2" 2) ;
+                                      (list "TEXT_COLOR_3" 3) ;
+                                      (list "TEXT_COLOR_4" 4) ;
+                                      (list "TEXT_COLOR_5" 5) ;
+                                      (list "TEXT_COLOR_6" 6) ;
+                                      (list "TEXT_COLOR_251" 251) ;
                                        ;
                                 )
       )
@@ -1938,6 +2030,7 @@
                                       (list "MAIN_COLOR_4" 4) ;
                                       (list "MAIN_COLOR_5" 5) ;
                                       (list "MAIN_COLOR_6" 6) ;
+                                      (list "MAIN_COLOR_9" 9) ;
                                       (list "MAIN_COLOR_251" 251) ;
                                       (list "SUB_COLOR_1" 2) ;
                                       (list "SUB_COLOR_2" 2) ;
@@ -1946,6 +2039,7 @@
                                       (list "SUB_COLOR_5" 5) ;
                                       (list "SUB_COLOR_6" 6) ;
                                       (list "SUB_COLOR_8" 8) ;
+                                      (list "SUB_COLOR_9" 9) ;
                                       (list "SUB_COLOR_251" 251) ;
                                       (list "HATCH_" 251) ;
                                       (list "WIPEOUT_" 250) ;

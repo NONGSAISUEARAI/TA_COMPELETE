@@ -8361,26 +8361,40 @@
         )
         (sslength ss_pre_filter_set_xx_)
       )
-      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_v2_ ss_pre_filter_set_xx_ (List "000 - CKST_HEADING_VAL" "000 - CKST_MINI-HEADING_VAL_" )))
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_v2_ ss_pre_filter_set_xx_ (List "000 - CKST_HEADING_VAL" "000 - CKST_MINI-HEADING_VAL_" "000 - 0_SYM_DWG_HEADING" )))
     ;
     ;preloop_and_while
       (setq ss_pre_filter_set_xx_i 0)
       (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
         (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
         (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
-        (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "distance1" 24)
+        (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "distance1" 10)
         (LM:setdynpropvalue 
           ss_pre_filter_set_xx_obj_
           "distance1"
           (fix 
-            (distance 
-              (nth 0 (cdr (TA:ename+vla-getboundingbox ss_pre_filter_set_xx_obj_)))
-              (list 
-                (car (nth 1 (cdr (TA:ename+vla-getboundingbox ss_pre_filter_set_xx_obj_))))
-                (cadr (nth 0 (cdr (TA:ename+vla-getboundingbox ss_pre_filter_set_xx_obj_))))
-                (caddr (nth 1 (cdr (TA:ename+vla-getboundingbox ss_pre_filter_set_xx_obj_))))
+            (if (= (LM:effectivename ss_pre_filter_set_xx_obj_ ) "000 - 0_SYM_DWG_HEADING")
+              (progn
+                
+                (+(distance 
+                  (nth 0 (cdr (TA:ename+vla-getboundingbox ss_pre_filter_set_xx_obj_)))
+                  (list 
+                    (car (nth 1 (cdr (TA:ename+vla-getboundingbox ss_pre_filter_set_xx_obj_))))
+                    (cadr (nth 0 (cdr (TA:ename+vla-getboundingbox ss_pre_filter_set_xx_obj_))))
+                    (caddr (nth 1 (cdr (TA:ename+vla-getboundingbox ss_pre_filter_set_xx_obj_))))
+                  )
+                ) 10)
               )
+              (distance 
+                  (nth 0 (cdr (TA:ename+vla-getboundingbox ss_pre_filter_set_xx_obj_)))
+                  (list 
+                    (car (nth 1 (cdr (TA:ename+vla-getboundingbox ss_pre_filter_set_xx_obj_))))
+                    (cadr (nth 0 (cdr (TA:ename+vla-getboundingbox ss_pre_filter_set_xx_obj_))))
+                    (caddr (nth 1 (cdr (TA:ename+vla-getboundingbox ss_pre_filter_set_xx_obj_))))
+                  )
+                )
             )
+            
           )
         )
         (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
