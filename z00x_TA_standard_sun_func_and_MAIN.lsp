@@ -20355,7 +20355,10 @@
               (setq layer_obj_name_ (TA:choose_list_v3 
                                       layer_list_
                                       "select block"
-                                      (if (= layer_obj_name_exval nil) 
+                                      (if (or
+                                            (= layer_obj_name_exval nil)
+                                            (= layer_obj_name_ nil)
+                                          ) 
                                         (progn 
                                           (setq layer_obj_name_exval 1)
                                         )
