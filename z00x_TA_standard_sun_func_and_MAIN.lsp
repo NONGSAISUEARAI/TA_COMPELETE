@@ -5169,9 +5169,6 @@
       (setvar "osmode" 1215)
       (setq namefile_ (getvar "dwgname"))
       (setq nameblk (LM:StringSubst 
-                      ""
-                      ","
-                      (LM:StringSubst 
                         ""
                         ".dwg"
                         (strcat 
@@ -5184,7 +5181,6 @@
                           (getstring "input_subfix")
                         )
                       )
-                    )
       )
       (if 
         (or 
@@ -12071,8 +12067,9 @@
     )
     (defun c:finding_attribute_findattval ()
       (if (and 
-            (/= att-pre_filter_set_xx_ nil)
-            (TA:getkword "new input selection-set ?"  "Yes" "No"  att-pre_filter_set_xx_ "false")
+            ; (/= att-pre_filter_set_xx_ nil)
+            ; (= (TA:getkword "new input selection-set ?"  "Yes" "No"  att-pre_filter_set_xx_ "false") nil) ;พัง
+            (= 1 1)
           )
         (progn
           ;selection_set_for_fillter_blk_name
@@ -12129,9 +12126,12 @@
       (setq att-value_list_ (list "user input" "C04" "C05" "corner" "edge" "E2_PL_01_") )
       (setq att-value_multi-list_ (list 
                                     (list "")
-                                    (list "Detail 1" "Detail 2" "Detail 3" "Detail 4" "Detail 5" "Detail 6" "Detail 7" )
-                                    (list "Detail 8" "Detail 9" "Detail 10" "Detail 11" "Detail 12" "Detail 13" "Detail 14" )
-                                    (list "Detail 15" "Detail 16" "Detail 17" "Detail 18" "Detail 19" "Detail 20" "Detail 21" )
+                                    (list "Detail 1" "Detail 2" "Detail 3" "Detail 4" "Detail 5" "Detail 6"  )
+                                    (list "Detail 7" "Detail 8" "Detail 9" "Detail 10" "Detail 11" "Detail 12" )
+                                    (list "Detail 13" "Detail 14" "Detail 15" "Detail 16" "Detail 17" "Detail 18"  )
+                                    (list "Detail 19" "Detail 20")
+                                    (list "A-1" "A-2" "B-1" "B-2" "D-1") ;6
+                                    (list "B-3" "C-1" ) ;7
                                   )
       )
       (cond
@@ -12230,7 +12230,7 @@
                  (= (type att-pre_filter_set_xx_) 'PICKSET)
                  (< att-pre_filter_set_xx_i (sslength att-pre_filter_set_xx_))
                )
-          (setq att-pre_filter_set_xx_ename_ (ssname att-pre_filter_set_xx_ att-pre_filter_set_xx_i))
+          (setq att-pre_filter_set_xx_ename_ (ssname att-pre_filter_set_xx_ att-pre_filter_set_xx_i)) 
           (setq att-pre_filter_set_xx_obj_ (vlax-ename->vla-object  att-pre_filter_set_xx_ename_))
           (if (and 
                 (= (vla-get-hasattributes att-pre_filter_set_xx_obj_) :vlax-true)
@@ -12270,7 +12270,7 @@
                 )
               )
             (progn
-              (if (/= (setq att-pre_filter_set_xx_obj_match-val_ (TA:wcmatch_list  (nth att-value_multi-list_val_ att-value_multi-list_) att-pre_filter_set_xx_obj_val-list_ nil)) nil)
+              (if (/= (setq att-pre_filter_set_xx_obj_match-val_ (TA:wcmatch_list  (nth (fix att-value_multi-list_val_) att-value_multi-list_) att-pre_filter_set_xx_obj_val-list_ nil)) nil)
                 (progn
                   (setq att-pre_filter_set_xx_new-ss_ (ssadd att-pre_filter_set_xx_ename_ att-pre_filter_set_xx_new-ss_ ))
                 )
@@ -20178,6 +20178,7 @@
                               "000 - EXISTING_BUILDING_MAIN_COLOR_2"
                               "000 - EXISTING_BUILDING_MAIN_COLOR_3"
                               "000 - EXISTING_BUILDING_MAIN_COLOR_251"
+                              "000 - EXISTING_BUILDING_DEF_SUB"
                               ""
                               "000 - EXISTING_DIM_MAIN_COLOR_251"
                               "000 - EXISTING_STEEL-STRUCTURE_DEF_SUB"
@@ -20189,6 +20190,8 @@
                               "000 - EXISTING_CANOPY_DEF_SUB"
                               ""
                               "010 - ASPG_FASTERN_MAIN_COLOR_1"
+                              "010 - ASPG_FRAMING_SUB_COLOR_1"
+                              
                           
                         )
       )
@@ -39623,7 +39626,7 @@
                       (setq block_6 "who_s_create_that_block-metal")
                       (setq block_7 "who_s_create_that_block-ANSI35")
                       (setq block_8 "who_s_create_that_block-RC-PRECAST-1")
-                      (setq block_9 "tedt")
+                      (setq block_9 "who_s_create_that_block-deg90")
                      )
       )
       (setq choose_block_di (cond ( (getint (strcat "\nSpecify block"
@@ -47310,7 +47313,7 @@
       (setq namelist (list 
                       (setq block_0 (strcase (strcat "*" "" "*")) )
                       (setq block_1 (strcase (strcat "*" "Vertical Panel with Gap" "*")) )
-                      (setq block_2 (strcase (strcat "*" "A$Cf6525e95" "*")) )
+                      (setq block_2 (strcase (strcat "*" "000 - CKST_HEADING_VAL" "*")) )
                       (setq block_3 (strcase (strcat "*" "heat,smoke" "*")) )
                       (setq block_4 (strcase (strcat "*" "Luminaire" "*")) )
                       (setq block_5 (strcase (strcat "*" "Square" "*")) )
@@ -58081,7 +58084,7 @@
 (defun c:prefix-subfix_all-block_ ()
   (setq block_all-list_ (TA:get_name_block_in_drawing_to_list_v2))
   (setq prefix "")
-  (setq subfix "for_PP19_stair_only" )
+  (setq subfix "SUB" )
   ;preloop_and_while
     (setq block_all-list_i 0)
     (while (< block_all-list_i (length block_all-list_))
@@ -58998,4 +59001,204 @@
     ;
     (command "pselect"  temp-ss_ "" )
   )
+
+  (defun c:t1 ()
+    (setq txttemp_1 "SFL")
+    (setq txttemp_2 "FFL")
+    (setq entatt_ename_ (car (nentsel "specify Object")))
+    (setq entatt_obj_ (vlax-ename->vla-object entatt_ename_))
+    (vla-put-textstring entatt_obj_ (LM:StringSubst txttemp_2 txttemp_1  (vla-get-textstring entatt_obj_)))
+    
+  )
   
+  (defun c:temp_fix_scx2 ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_Filter_set_xx_ (list "000 - CKST_HEADING_VAL")))
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname   ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (if (and 
+              (= (LM:EffectiveName ss_pre_filter_set_xx_obj_ ) "000 - CKST_HEADING_VAL")
+              (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "sc_val" )  "*1:*") T) 
+            )
+          (progn
+            (setq val-X2_ (* (atoi (substr (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "sc_val") (+ (vl-string-search ":" (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "sc_val" ) 1 ) 2 ) 8 ) ) 2))
+            (LM:vl-setattributevalue 
+              ss_pre_filter_set_xx_obj_ 
+              "sc_val"
+              (strcat "SCALE 1:" (rtos val-X2_ 2 0 ))
+            )
+          )
+        )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+  )
+  (defun c:temp_fix_scd2 ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_Filter_set_xx_ (list "000 - CKST_HEADING_VAL")))
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname   ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (if (and 
+              (= (LM:EffectiveName ss_pre_filter_set_xx_obj_ ) "000 - CKST_HEADING_VAL")
+              (= (wcmatch (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "sc_val" )  "*1:*") T) 
+            )
+          (progn
+            (setq val-X2_ (/ (atoi (substr (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "sc_val") (+ (vl-string-search ":" (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "sc_val" ) 1 ) 2 ) 8 ) ) 2))
+            (LM:vl-setattributevalue 
+              ss_pre_filter_set_xx_obj_ 
+              "sc_val"
+              (strcat "SCALE 1:" (rtos val-X2_ 2 0 ))
+            )
+          )
+        )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+  )
+  (defun c:temp_fix_sc3 ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "Title Block_Under Ground_C1 v3")))
+    ;
+    ;while selection process
+      (setq ERR_ nil)
+      (setq stoper 0)
+      (while ;for keep insertion point and dist. fix length one side
+        (and
+          (= (vl-catch-all-error-p ERR_) nil)
+          (/= stoper 5)
+        )
+        (setq ERR_1
+          (vl-catch-all-apply
+            (function
+              (lambda ()
+                ;preloop_and_while
+                    (setq ss_pre_filter_set_xx_i 0)
+                    (while (and (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_)) (= (vl-catch-all-error-p ERR_) nil))
+                      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+                      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+                      (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "SCALE_FOR_A1_val" "A1 = 1:5")
+                      (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DWG_SCALE_val" "A3 = 1:10")
+                      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+                    )
+                    (setq ERR_ (vl-catch-all-apply (function (lambda () (getstring "\nA1 = 1:5 \nA1 = 1:10 \nHit [ENTER] to continue...") ) ) ) )
+                    (setq ss_pre_filter_set_xx_i 0)
+                    (while (and (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_)) (= (vl-catch-all-error-p ERR_) nil))
+                      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+                      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+                      (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "SCALE_FOR_A1_val" "A1 = 1:20")
+                      (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DWG_SCALE_val" "A3 = 1:40")
+                      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+                    )
+                    (setq ERR_ (vl-catch-all-apply (function (lambda () (getstring "\nA1 = 1:20 \nA1 = 1:40 \nHit [ENTER] to continue...") ) ) ) )
+                    (setq ss_pre_filter_set_xx_i 0)
+                    (while (and (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_)) (= (vl-catch-all-error-p ERR_) nil))
+                      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+                      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+                      (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "SCALE_FOR_A1_val" "A1 = 1:25")
+                      (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DWG_SCALE_val" "A3 = 1:50")
+                      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+                    )
+                    (setq ERR_ (vl-catch-all-apply (function (lambda () (getstring "\nA1 = 1:25 \nA1 = 1:50 \nHit [ENTER] to continue...") ) ) ) )
+                    (setq ss_pre_filter_set_xx_i 0)
+                    (while (and (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_)) (= (vl-catch-all-error-p ERR_) nil))
+                      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+                      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+                      (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "SCALE_FOR_A1_val" "A1 = 1:50")
+                      (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DWG_SCALE_val" "A3 = 1:100")
+                      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+                    )
+                    (setq stoper (+ stoper 1))
+                ;
+              )
+            )
+          )
+        )
+      )
+    ;
+  )
