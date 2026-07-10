@@ -15098,24 +15098,42 @@
                 (setq dim_ename (entlast))
                 (setq dim_obj_ (vlax-ename->vla-object dim_ename))
                 (setq new_ss_dim_ (ssadd dim_ename new_ss_dim_))
-                (cond
-                  ((= ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 0)
-                    (progn
-                      ; (vla-put-stylename dim_obj_ "DIM E-C") ;metthod for model for TA
-                      (vla-put-stylename dim_obj_ DIM_E-E) ;metthod for layout for Fameline
+                (if 
+                  (= 
+                    (cond 
+                      ((= ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 0)
+                       (progn 
+                         ; (vla-put-stylename dim_obj_ "DIM E-C") ;metthod for model for TA
+                         (vla-put-stylename dim_obj_ DIM_E-E) ;metthod for layout for Fameline
+                       )
+                      )
+                      ((and (= ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 0) 
+                            (= ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 
+                               (- (length ss_pre_filter_set_xx_inslist_sorted_highest_Y_) 
+                                  2
+                               )
+                            )
+                       )
+                       (progn 
+                         ; (vla-put-stylename dim_obj_ "DIM E-C") ;metthod for model for TA
+                         (vla-put-stylename dim_obj_ DIM_E-E) ;metthod for layout for Fameline
+                       )
+                      )
+                      ((= ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 
+                          (- (length ss_pre_filter_set_xx_inslist_sorted_highest_Y_) 
+                             2
+                          )
+                       )
+                       (progn 
+                         ; (vla-put-stylename dim_obj_ "DIM C-E") ;metthod for model for TA
+                         (vla-put-stylename dim_obj_ DIM_E-E) ;metthod for layout for Fameline
+                       )
+                      )
                     )
+                    nil
                   )
-                  ((and (= ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 0) (= ss_pre_filter_set_xx_inslist_sorted_highest_Y_i (- (length ss_pre_filter_set_xx_inslist_sorted_highest_Y_) 2)))
-                    (progn
-                      ; (vla-put-stylename dim_obj_ "DIM E-C") ;metthod for model for TA
-                      (vla-put-stylename dim_obj_ DIM_E-E) ;metthod for layout for Fameline
-                    )
-                  )
-                  ((= ss_pre_filter_set_xx_inslist_sorted_highest_Y_i (- (length ss_pre_filter_set_xx_inslist_sorted_highest_Y_) 2))
-                    (progn
-                      ; (vla-put-stylename dim_obj_ "DIM C-E") ;metthod for model for TA
-                      (vla-put-stylename dim_obj_ DIM_E-E) ;metthod for layout for Fameline
-                    )
+                  (progn 
+                    (vla-put-stylename dim_obj_ DIM_E-E)
                   )
                 )
                 (vla-put-ScaleFactor  dim_obj_ sc )
@@ -15136,11 +15154,12 @@
       (_EndUndo doc)
     )
     (defun c:BBex ()
+      (_StartUndo doc)
       ;special for me only work with CKST Drwaing Construction 
-        (setq DIM_E-C "FAMELINE-CKST_E-C") ;Ref from C:dimsetting  
-        (setq DIM_C-C "FAMELINE-CKST_C-C") ;Ref from C:dimsetting 
-        (setq DIM_C-E "FAMELINE-CKST_C-E") ;Ref from C:dimsetting 
-        (setq DIM_E-E "FAMELINE-CKST_E-E") ;Ref from C:dimsetting 
+        (setq DIM_E-C _global-dim_E-C_) ;Ref from C:dimsetting 
+        (setq DIM_C-C _global-dim_C-C_) ;Ref from C:dimsetting 
+        (setq DIM_C-E _global-dim_C-E_) ;Ref from C:dimsetting 
+        (setq DIM_E-E _global-dim_E-E_) ;Ref from C:dimsetting 
         (setq dimprec 0 )
       ;
       ;Keep setting dimension
@@ -15435,13 +15454,13 @@
                   ((= ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 0)
                     (progn
                       ; (vla-put-stylename dim_obj_ "DIM E-E") ; for model for TA
-                      (vla-put-stylename dim_obj_ "FAMELINE-CKST_E-E") ; for layout for fameline
+                      (vla-put-stylename dim_obj_ DIM_E-E) ; for layout for fameline
                     )
                   )
                   ((= ss_pre_filter_set_xx_inslist_sorted_highest_Y_i (- (length ss_pre_filter_set_xx_inslist_sorted_highest_Y_) 2))
                     (progn
                       ; (vla-put-stylename dim_obj_ "DIM E-E") ; for model for TA
-                      (vla-put-stylename dim_obj_ "FAMELINE-CKST_E-E") ; for layout for fameline
+                      (vla-put-stylename dim_obj_ DIM_E-E) ; for layout for fameline
                     )
                   )
                 )

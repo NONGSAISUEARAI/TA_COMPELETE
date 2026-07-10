@@ -39630,6 +39630,7 @@
                       (setq block_7 "who_s_create_that_block-ANSI35")
                       (setq block_8 "who_s_create_that_block-RC-PRECAST-1")
                       (setq block_9 "who_s_create_that_block-deg90")
+                      (setq block_10 "who_s_create_that_block-RC-PLENUM-WALL")
                      )
       )
       (setq choose_block_di (cond ( (getint (strcat "\nSpecify block"
@@ -39642,6 +39643,7 @@
                                                     "\n7 = " block_7 
                                                     "\n8 = " block_8 
                                                     "\n9 = " block_9 
+                                                    "\n10 = " block_10
                                                     "\n<" 
                                                     (rtos 
                                                       (setq choose_block_di (cond 
