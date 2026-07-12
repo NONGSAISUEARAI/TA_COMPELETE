@@ -16000,6 +16000,7 @@
     )
     (defun c:matching_attribute_properties_maatt ()
       (_StartUndo doc)
+      
       ;selection_set_for_fillter_blk_name
         (if  ;pre_select_ssget_or_post_select_ssget
           (=
@@ -16038,8 +16039,13 @@
           (setq REF-blk_obj_ (vlax-ename->vla-object REF-blk_ename_))
           (setq REF-blk_obj_efname_ (LM:effectivename REF-blk_obj_))
           (setq REF-blk_obj_attlist_ (LM:vl-getattributevalues REF-blk_obj_ ))
+          (setq REF-blk_obj_atttaglist_ (LM:vl-getattributevalue-tag-TA-Modifies REF-blk_obj_ ))
+          (setq REF-blk_obj_attvallist_ (LM:vl-getattributevalue-val-TA-Modifies REF-blk_obj_ ))
         )
       )
+      ;
+      ;user-input_
+        (setq skip_blank_val_ (cond ( (getint (strcat "\nspecify 0 for skip blank value\n<" (rtos (setq skip_blank_val_ (cond (skip_blank_val_) (0) ) ) ) "> : " ) ) ) (skip_blank_val_) ) )
       ;
       ;preloop
         (setq ERR_ nil)
@@ -16079,15 +16085,25 @@
                     (while (< REF-blk_obj_attlist_i (length REF-blk_obj_attlist_))
                       (setq REF-blk_obj_attlist_name_ (nth  REF-blk_obj_attlist_i REF-blk_obj_attlist_))
                       
-                        (if (and 
-                              (= REF-blk_obj_efname_ ss_pre_filter_set_xx_target_obj_efname )
+                        (if (and ;EF-name matching = off
+                              ; (= REF-blk_obj_efname_ ss_pre_filter_set_xx_target_obj_efname )
+                              (/= (member (car REF-blk_obj_attlist_name_) REF-blk_obj_atttaglist_) nil)
                               (/= (car REF-blk_obj_attlist_name_ ) "Origin")
                             )
                           (progn
                             (LM:vl-setattributevalue  
                               ss_pre_filter_set_xx_target_obj_
                               (car REF-blk_obj_attlist_name_)
-                              (cdr REF-blk_obj_attlist_name_)
+                              (if (and 
+                                    (= skip_blank_val_ 0)
+                                    (= (cdr REF-blk_obj_attlist_name_ ) "") ;
+                                  )
+                                (progn
+                                  (LM:vl-getattributevalue ss_pre_filter_set_xx_target_obj_ (car REF-blk_obj_attlist_name_))
+                                  
+                                )
+                                (cdr REF-blk_obj_attlist_name_)
+                              )
                             )
                           )
                         )
@@ -59164,6 +59180,7 @@
               (lambda ()
                 ;preloop_and_while
                     (setq ss_pre_filter_set_xx_i 0)
+                    (setq ERR_ (vl-catch-all-apply (function (lambda () (getstring "\nA1 = 1:5 \nA1 = 1:10 \nHit [ENTER] to continue...") ) ) ) )
                     (while (and (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_)) (= (vl-catch-all-error-p ERR_) nil))
                       (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
                       (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))

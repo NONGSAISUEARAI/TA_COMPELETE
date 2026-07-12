@@ -9062,6 +9062,206 @@
       )
     ;
   )
+  (defun c:FL-BUBBLE_CUSTOM_SORT_ ()
+    ;sorting by user selection and input
+      (setq CKST_customsort_ ())
+      (setq err_ "S")
+      (while (/= (wcmatch (strcase (vl-princ-to-string err_)) "*ERROR*") T) 
+        (setq err_ (vl-catch-all-apply 
+                    (function 
+                      (lambda () 
+                        (setvar "SELECTIONPREVIEW" 3)
+                        (setq CKST_customsort_ (cons (setq ee (vlax-ename->vla-object (car (entsel "specify Object")) ) ) CKST_customsort_ ) )
+                        
+                      )
+                    )
+                  )
+        )
+      )
+      
+      ; (setq CKST_customsort_ (mapcar 'car (TA:Count_item_in_list_ CKST_customsort_)))
+      (setq ERR_deep-tag_bypass_
+        (vl-catch-all-apply
+          (function
+            (lambda ()
+              (setq CKST_deep-tag_ (car (nentsel "specify deep tag for sorting")))
+            )
+          )
+        )
+      )
+    ;
+    ;
+      (if (/= (wcmatch (strcase (vl-princ-to-string ERR_deep-tag_bypass_)) "*ERROR*") T)
+        (progn
+          (setq CKST_customsort_ (reverse CKST_customsort_))
+          (setq CKST_deep-tag_name_ (vla-get-tagstring (vlax-ename->vla-object CKST_deep-tag_) ))
+          
+        )
+      )
+    ;
+    (setvar "SELECTIONPREVIEW" 0)
+    ;insert string val process
+    (setq prefix_txt_ ;Get-string by keep previous value
+      (if
+        (or
+          (/= (setq prefix_txt_val (getstring (strcat "\nSpecify Prefix name <" (if prefix_txt_ prefix_txt_ "") ">: ") ) ) "" )
+        )
+          (progn
+            (setq prefix_txt_ prefix_txt_val)
+            (setq prefix_txt_keep_val_ prefix_txt_val)
+          )
+        (setq prefix_txt_val prefix_txt_keep_val_)
+      )
+    )
+    (setq midfix_ ;Get-string by keep previous value
+          (if 
+            (or 
+              (/= 
+                (setq midfix_val (getstring (strcat "\nSpecify Midfix name\n" (LM:StringSubst " " "_" prefix_txt_) " - <" (if midfix_ midfix_ "") ">: " ) ) )
+                ""
+              )
+            )
+            (progn 
+              (setq midfix_ midfix_val)
+              (setq midfix_keep_val_ midfix_val)
+            )
+            (setq midfix_val midfix_keep_val_)
+          )
+    )
+    (setq ckst_increment_ (cond 
+                            ((getint 
+                               (strcat "\nspecify start number\n" 
+                                       (if (= (LM:StringSubst " " "_" prefix_txt_) nil) (progn (LM:StringSubst " " "_" prefix_txt_) ) prefix_txt_) " - " 
+                                       (if (= (LM:StringSubst " " "_" midfix_val) nil) (progn (LM:StringSubst " " "_" midfix_val) ) midfix_val ) 
+                                       " - <" (rtos (setq ckst_increment_ (cond (ckst_increment_) (1.0) ) ) ) "> : " 
+                               )
+                             )
+                            )
+                            (ckst_increment_)
+                          )
+    )
+    ;
+    ;preloop_and_while
+      (setq CKST_customsort_i 0)
+      (while (< CKST_customsort_i (length CKST_customsort_))
+        (setq CKST_customsort_obj_ (nth  CKST_customsort_i CKST_customsort_))
+        (if (= prefix_txt_ nil) (progn (setq prefix_txt_ "") ) )
+        (if (= midfix_ nil) (progn (setq midfix_ "") ) )
+        (if (and 
+              (= prefix_txt_ "_")
+              (= midfix_ "_")
+            )
+          (progn
+            (setq pre-mid-increment (LM:StringSubst "" "_" (strcat prefix_txt_ "" midfix_ "" (TA:prefix_value_000 ckst_increment_) )) )
+          )
+          (setq pre-mid-increment (LM:StringSubst "-" "_" (strcat prefix_txt_ "" midfix_ "" (TA:prefix_value_000 ckst_increment_) )) )
+        )
+        
+        
+        (LM:vl-setattributevalue CKST_customsort_obj_ CKST_deep-tag_name_ pre-mid-increment )
+    
+        (setq ckst_increment_ (+ ckst_increment_ 1))
+        (setq CKST_customsort_i (+ CKST_customsort_i 1))
+      )
+    ;
+  )
+  (defun c:FAMELINE_dwglist ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "D5HU"))
+    ; 
+    ;preloop_and_while
+      (setq target-obj_list_ (list))
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (setq ss_pre_filter_set_xx_obj_att-all-list_ (LM:vl-getattributevalues ss_pre_filter_set_xx_obj_))
+        (setq ss_pre_filter_set_xx_obj_att-list_ (list 
+                                                   (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+                                                   (nth 17 ss_pre_filter_set_xx_obj_att-all-list_)
+                                                   (nth 2 ss_pre_filter_set_xx_obj_att-all-list_)
+                                                   (nth 3 ss_pre_filter_set_xx_obj_att-all-list_)
+                                                   (nth 3 ss_pre_filter_set_xx_obj_att-all-list_)
+                                                   (nth 4 ss_pre_filter_set_xx_obj_att-all-list_)
+                                                   (nth 7 ss_pre_filter_set_xx_obj_att-all-list_)
+                                                 )
+        )
+        (setq target-obj_list_ (cons ss_pre_filter_set_xx_obj_att-list_ target-obj_list_) )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )  
+    ;
+    ;TA:stanndard_lambda_sorting
+      (setq target-obj_list_sorted_ (vl-sort target-obj_list_  ;bigest open indent list
+                                                (function 
+                                                  (lambda (a b) 
+                                                    (< (nth 0 (car a)) (nth 0 (car b)))
+                                                  )
+                                                )
+                            ) ;bigest close indent list
+      )
+    ;
+    ;user-input-
+      (setq dwgkist_new_pt_ (getpoint "specify point" ))
+    ;
+    ;preloop_and_while
+      (setq target-obj_list_sorted_i 0)
+      (setq move_i 0)
+      (while (< target-obj_list_sorted_i (length target-obj_list_sorted_))
+        (setq target-obj_list_sorted_ename_ (nth  target-obj_list_sorted_i target-obj_list_sorted_))
+        (TA:vla-insertblock 
+          "A$Cda98cd29"
+          dwgkist_new_pt_
+          1
+          0
+        )
+        (TA:move_axis_insertionpoint (vlax-ename->vla-object (entlast) ) "Y" move_i)
+        ;preloop_and_while
+          (setq target-obj_list_sorted_ename_i 1)
+          (while (< target-obj_list_sorted_ename_i (length target-obj_list_sorted_ename_))
+            (setq target-obj_list_sorted_ename_tag_ (car (nth  target-obj_list_sorted_ename_i target-obj_list_sorted_ename_)))
+            (setq target-obj_list_sorted_ename_val_ (cdr (nth  target-obj_list_sorted_ename_i target-obj_list_sorted_ename_)))
+            (LM:vl-setattributevalue 
+              (vlax-ename->vla-object (entlast) )
+              target-obj_list_sorted_ename_tag_
+              (if (= target-obj_list_sorted_ename_val_ "") (progn "-" ) target-obj_list_sorted_ename_val_ )
+            )
+        
+            
+            (setq target-obj_list_sorted_ename_i (+ target-obj_list_sorted_ename_i 1))
+          )
+        ;
+        
+        (setq move_i (- move_i 3.6))
+        (setq target-obj_list_sorted_i (+ target-obj_list_sorted_i 1))
+      )
+    ;
+  )
   (defun c:temp-no+_ ()
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget
