@@ -9055,7 +9055,12 @@
         )
         
         
-        (LM:vl-setattributevalue CKST_customsort_obj_ CKST_deep-tag_name_ pre-mid-increment )
+        (if (/= (LM:StringSubst " " "  " (LM:vl-setattributevalue CKST_customsort_obj_ CKST_deep-tag_name_ pre-mid-increment )) nil)
+          (progn
+            (LM:StringSubst " " "  " (LM:vl-setattributevalue CKST_customsort_obj_ CKST_deep-tag_name_ pre-mid-increment ))
+          )
+          (LM:vl-setattributevalue CKST_customsort_obj_ CKST_deep-tag_name_ pre-mid-increment )
+        ) 
     
         (setq ckst_increment_ (+ ckst_increment_ 1))
         (setq CKST_customsort_i (+ CKST_customsort_i 1))
@@ -9645,7 +9650,7 @@
             )
         )
       ;
-      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "300HK ORDER FROM CHINA REV.2-LOT 2_20260529-185614FLxx") ))
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "300HK ORDER FROM CHINA REV.2-LOT 2_20260529-185614FLxx" "D5HU") ))
       ;preloop_and_while
         (setq ss_pre_filter_set_xx_i 0)
         (setq External_ref_ename_ ())
@@ -9669,7 +9674,7 @@
             (progn
               (setq main_bol (LM:boundingbox ss_pre_filter_set_xx_obj_))
               (setq pre-name_ (strcat 
-                                (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "DWG_NO")
+                                (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "DWG-NO")
                               )
               )
               ; (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "REV_DATE_01" "27-10-2025")

@@ -16741,7 +16741,68 @@
         )
       )
     )
-
+    (defun c:seldim ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT,dimension") ;type of object
+                                                ; (cons 8 "000 - 0_SYM_DWG_GRIDLINE_MAIN_COLOR_251")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT,dimension") ;type of object
+                                                ; (cons 8 "000 - 0_SYM_DWG_GRIDLINE_MAIN_COLOR_251")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+        ; (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "000-GRID_LINE_DYN_V2")))
+      ;
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (setq sel_dim-ss_ (ssadd))
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (cond
+             (
+            (and 
+              (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbBlockReference" )
+              (= (LM:effectivename ss_pre_filter_set_xx_obj_) "000-GRID_LINE_DYN_V2" )
+            )
+            (progn 
+              (setq sel_dim-ss_ (ssadd ss_pre_filter_set_xx_ename_ sel_dim-ss_))
+            )
+          )
+          ( 
+            (and 
+              (= (vla-get-objectname ss_pre_filter_set_xx_obj_) "AcDbRotatedDimension" )
+              
+            )
+            (progn 
+              (setq sel_dim-ss_ (ssadd ss_pre_filter_set_xx_ename_ sel_dim-ss_))
+            )
+          )
+          
+          )
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+      (command "pselect"  sel_dim-ss_ "" )
+    )
     (defun c:grid-line_trim_GLTRIM ()
       (_startundo doc)
       (defun TAS:grid-line_trim (gridline_obj_ line_obj_)
