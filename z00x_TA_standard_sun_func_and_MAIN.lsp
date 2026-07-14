@@ -39651,6 +39651,7 @@
                       (setq block_8 "who_s_create_that_block-RC-PRECAST-1")
                       (setq block_9 "who_s_create_that_block-deg90")
                       (setq block_10 "who_s_create_that_block-RC-PLENUM-WALL")
+                      (setq block_11 "who_s_create_that_block-BRICK-WALL")
                      )
       )
       (setq choose_block_di (cond ( (getint (strcat "\nSpecify block"
@@ -39664,6 +39665,7 @@
                                                     "\n8 = " block_8 
                                                     "\n9 = " block_9 
                                                     "\n10 = " block_10
+                                                    "\n11 = " block_11
                                                     "\n<" 
                                                     (rtos 
                                                       (setq choose_block_di (cond 
