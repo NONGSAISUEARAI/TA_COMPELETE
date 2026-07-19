@@ -20687,6 +20687,10 @@
     )
   ;
   ;CUTING-LENGTH_FUNC
+    ;color byblock ก้่อน
+    ;pairing length
+    ;indicate color 
+    ;lineup
     (defun c:EXTR-from-Pline () 
       ;selection_set_for_fillter_blk_name
         (if  ;pre_select_ssget_or_post_select_ssget
@@ -20956,7 +20960,7 @@
                     (= (vla-get-color target-match_obj_) 0)
                     (= (member target-match ss_pre_filter_set_xx_list-ename_) nil)
                     (or 
-                      (< (+ (LM:getdynpropvalue target-match_obj_ "H") ss_pre_filter_set_xx_obj_cur-L) 6000)
+                      (< (+ (LM:getdynpropvalue target-match_obj_ "H") ss_pre_filter_set_xx_obj_cur-L) 6050)
                     )
                   )
                 (progn
@@ -47340,7 +47344,7 @@
                       (setq block_3 (strcase (strcat "*" "heat,smoke" "*")) )
                       (setq block_4 (strcase (strcat "*" "Luminaire" "*")) )
                       (setq block_5 (strcase (strcat "*" "Square" "*")) )
-                      (setq block_6 (strcase (strcat "*" "lowp" "*")) )
+                      (setq block_6 (strcase (strcat "*" "tray" "*")) )
                       (setq block_7 (strcase (strcat "*" "ACM" "*")) )
                       (setq block_8 (strcase (strcat "*" "extr" "*")) )
                       (setq block_9 (strcase (strcat "*" "DPA_CP_Entrance" "*")) )
