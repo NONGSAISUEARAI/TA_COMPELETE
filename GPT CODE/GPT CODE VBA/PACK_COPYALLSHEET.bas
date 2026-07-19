@@ -1,4 +1,4 @@
-Attribute VB_Name = "copyallsheet_module"
+Attribute VB_Name = "pack_copyallsheet"
 Option Explicit
 
 Function copyallsheet(SourceRange As Range)
@@ -60,3 +60,4 @@ Function copyallsheet(SourceRange As Range)
     copyallsheet = Result
 
 End Function
+
