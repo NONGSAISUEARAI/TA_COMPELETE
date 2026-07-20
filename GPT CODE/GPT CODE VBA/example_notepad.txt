@@ -1,7 +1,46 @@
-ไฟล์ Notepad ตัวอย่าง
-
+บันทึกส่งต่อให้ Codex ห้องอื่น (Handoff Note)
+วันที่: 20 กรกฎาคม 2026
 โปรเจกต์: TA_COMPELETE
-หัวข้อ: Excel VBA - Cutting Plan และ Material Packing
-สถานะ: สร้างไฟล์ทดสอบสำเร็จ
+ตำแหน่งโปรเจกต์: C:\Users\tawan.t\Documents\GitHub\TA_COMPELETE
 
-ไฟล์นี้ใช้สำหรับทดสอบการสร้างและแก้ไขไฟล์ภายในโปรเจกต์
+1. สิ่งที่พูดคุยและตรวจสอบวันนี้
+- ผู้ใช้ต้องการใช้คอมพิวเตอร์เครื่องปัจจุบันเป็นเครื่องหลัก และเชื่อมโปรเจกต์เดียวกันกับคอมพิวเตอร์ 2 เครื่องผ่าน GitHub
+- จากภาพ GitHub Desktop พบว่า repository ชื่อ TA_COMPELETE เชื่อมกับ GitHub แล้ว
+- Repository อยู่ในบัญชี/เจ้าของ NONGSAISUEARAI ใช้ branch main และเป็น Private repository
+- GitHub Desktop แสดง Fetch origin, View on GitHub และ No local changes ณ เวลาที่ดูภาพ
+- แนะนำให้คอมพิวเตอร์เครื่องที่ 2 ใช้ GitHub Desktop > File > Clone repository แล้วเลือก NONGSAISUEARAI/TA_COMPELETE
+- แนวทางทำงานคือ Pull/Fetch ก่อนเริ่ม แก้ไฟล์ จากนั้น Commit และ Push
+- คำสั่ง git ใน PowerShell ของสภาพแวดล้อม Codex ยังเรียกใช้ไม่ได้ เพราะไม่พบ git ใน PATH แต่ GitHub Desktop ใช้งาน repository ได้
+
+2. ภาพรวมโปรเจกต์
+- แกนหลักเป็น AutoCAD Automation เขียนด้วย AutoLISP (.lsp)
+- ใช้กับงานเขียนแบบ/Shop Drawing และลดงานซ้ำใน AutoCAD
+- มีงานเกี่ยวกับ Layer, Block, Attribute, Dimension, Layout, Viewport, Plot, Hatch, Polyline, XCLIP, PDF import และข้อมูลจาก Excel
+- มีแนวโน้มเกี่ยวข้องกับงานผลิต/ก่อสร้าง เช่น cutting plan, blank size, louver และงานจัดการแบบ
+
+3. งาน Excel ที่ผู้ใช้กำลังพัฒนา
+- ผู้ใช้ยืนยันว่าฝั่ง Excel กำลังทำ Cutting Plan และ Packing วัสดุเป็นหลัก
+- เป้าหมายคือรับขนาดและจำนวนชิ้นงาน รวมถึง Stock วัตถุดิบ แล้วจัดชิ้นงานลง Stock เพื่อลดเศษ
+- ระบบคำนวณ Allowance, จำนวน Stock ที่ใช้, เศษคงเหลือ และเปอร์เซ็นต์ Waste
+
+4. ไฟล์ VBA ที่ตรวจพบใน GPT CODE\GPT CODE VBA
+- PACK_SUMMARY_v2_9.bas: สรุปผล Packing, Stock ที่ใช้, Gap และ Waste
+- PACK_copyallsheet_v2.bas: รวมข้อมูลจากหลาย Worksheet
+- PACK_COPYALLSHEET.bas: ฟังก์ชันรวมข้อมูลจากทุก Sheet รุ่นเดิม
+- PACK_ToggleFormulaPrefix.bas: สลับเซลล์ AM2 ระหว่างสูตรและข้อความสูตร
+- EXCEL\mul_v2_5_FINAL.bas: มีฟังก์ชัน PACK_MULTI_v2_6 ซึ่งเป็น Packing Engine หลัก
+- EXCEL\PairSumProbability.bas: คำนวณผลรวมของคู่ข้อมูล จำนวนคู่ และความน่าจะเป็น
+- EXCEL\Copy_X_AA_AllSheets_To_SUM_BK1.bas: รวมข้อมูลคอลัมน์ X:AA จากทุก Sheet ไปยัง Sheet SUM BK1
+
+5. ข้อสรุปสำหรับทำงานต่อ
+- เมื่อผู้ใช้พูดถึงฝั่ง AutoCAD ให้ยึด AutoLISP Automation และ Shop Drawing เป็นบริบทหลัก
+- เมื่อผู้ใช้พูดถึงฝั่ง Excel ให้ยึด Cutting Plan และ Material Packing เป็นบริบทหลัก
+- ก่อนแก้ Packing Algorithm ควรตรวจอินพุต ได้แก่ ความยาวชิ้นงาน, Qty, Stock length, Stock qty, Waste/เศษเดิม และ Allowance
+- ระวังไฟล์ .bas บางไฟล์แสดงข้อความภาษาไทยผิด encoding เมื่ออ่านผ่าน PowerShell
+
+6. การเปลี่ยนแปลงไฟล์วันนี้
+- สร้างไฟล์นี้ขึ้นมาเป็นไฟล์ทดสอบ แล้วปรับให้เป็นบันทึกส่งต่องานสำหรับ Codex อีกห้อง
+- ตำแหน่งไฟล์: C:\Users\tawan.t\Documents\GitHub\TA_COMPELETE\GPT CODE\GPT CODE VBA\example_notepad.txt
+
+คำแนะนำให้ Codex ห้องถัดไป:
+ให้อ่านบันทึกนี้ก่อนเริ่มงาน แล้วตรวจไฟล์ต้นฉบับจริงอีกครั้งก่อนแก้โค้ด โดยรักษาการเปลี่ยนแปลงเดิมของผู้ใช้และหลีกเลี่ยงการลบไฟล์โดยไม่ได้รับคำสั่งชัดเจน

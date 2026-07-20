@@ -1,0 +1,241 @@
+TA_COMPELETE - DEV NOTE: AUTOLISP / LAYER FILTER
+วันที่: 2026-07-20
+
+วัตถุประสงค์
+สรุปผลการศึกษาเรื่องการตรวจจับ เลือก และอ่าน Layer Filter Folder
+จาก Layer Properties Manager ด้วย AutoLISP เพื่อใช้ส่งต่องานให้ Codex/session อื่น
+
+============================================================
+1. ข้อสรุปหลัก
+============================================================
+
+1) AutoLISP สามารถอ่านรายชื่อ Layer Filter/Group Filter ที่บันทึกอยู่ใน DWG ได้
+
+2) AutoLISP สามารถอ่านรายชื่อ Layer ที่เป็นสมาชิกของ Group Filter ได้
+
+3) AutoLISP สามารถให้ผู้ใช้เลือกชื่อ Filter ภายในคำสั่งของเราเอง แล้วนำรายชื่อ
+   Layer ใน Filter ไปเปิด/ปิด, Freeze/Thaw, Lock/Unlock หรือทำงานอย่างอื่นได้
+
+4) AutoLISP ไม่มี API มาตรฐานสำหรับตรวจว่า Filter Folder ตัวใดกำลังถูก
+   คลิกหรือไฮไลต์ใน Filter Tree ของ Layer Properties Manager
+
+5) AutoLISP ไม่มี API มาตรฐานสำหรับสั่งให้แถบเลือกใน Layer Properties Manager
+   ย้ายไปไฮไลต์ Filter Folder ที่ระบุ
+
+6) ดังนั้นคำว่า "เลือก Filter" ต้องแยกเป็น 2 ความหมาย:
+
+   - เลือกเชิงตรรกะภายในโปรแกรม LISP: ทำได้
+   - เลือก/ไฮไลต์ Filter ในหน้าต่าง Layer Properties Manager: ทำไม่ได้โดยตรง
+
+============================================================
+2. ไฟล์และตำแหน่งโค้ดที่ศึกษา
+============================================================
+
+ไฟล์:
+C:\Users\tawan.t\Documents\GitHub\TA_COMPELETE\000 - FOR_CREATE_LAYER_.lsp
+
+ศึกษาตั้งแต่บรรทัด 2460 ลงไป
+
+ฟังก์ชันสำคัญ:
+
+- :LayerFilterList                 เริ่มประมาณบรรทัด 2461
+- test                             เริ่มประมาณบรรทัด 2504
+- :grouplayerfilterswlayernames    เริ่มประมาณบรรทัด 2566
+- :layergroupon                    เริ่มประมาณบรรทัด 2597
+- :layergroupoff                   เริ่มประมาณบรรทัด 2604
+- GetFilterTree                    เริ่มประมาณบรรทัด 2617
+- dbg-step1 ถึง dbg-step5          เริ่มประมาณบรรทัด 2646
+- dbg-check-nested                 เริ่มประมาณบรรทัด 2782
+
+============================================================
+3. โครงสร้างข้อมูล Layer Filter ที่พบ
+============================================================
+
+โค้ดในไฟล์เข้าถึงข้อมูลตามแนวทางนี้:
+
+LayerTable
+  -> Extension Dictionary
+     -> ACLYDICTIONARY
+        -> Filter objects
+        -> Sub-dictionaries สำหรับ Nested Filters
+
+DXF code ที่ใช้ในโค้ด:
+
+- code 1   : class/type ของ Filter เช่น "AcLyLayerGroup"
+- code 300 : ชื่อ Layer Filter
+- code 330 : reference ไปยัง Layer สมาชิกของ Group Filter
+- code 350 : reference ไปยัง Filter object ใน Dictionary
+- code 360 : reference ไปยัง Dictionary/ข้อมูลลูกสำหรับ Nested Filter
+
+ชื่อ Layer อ่านจาก LayerTableRecord ด้วย DXF code 2
+
+============================================================
+4. วิธี List ชื่อ Filter Folder
+============================================================
+
+ฟังก์ชันที่มีอยู่แล้ว:
+
+(:LayerFilterList)
+
+ฟังก์ชันนี้อ่าน Filter ระดับบนและเรียก :SubFilterList แบบ recursive เมื่อพบ
+code 360 จึงมีแนวโน้มรองรับ Nested Filter หลายระดับ
+
+ผลลัพธ์เป็น list ของชื่อ Filter เช่น:
+
+("All"
+ "All Used Layers"
+ "PPLINE-FAMELINE"
+ "010 - SOLID_10_"
+ "010 - SOLID_10_ACCESSORIES"
+ "010 - SOLID_10_SOLID-SHEET")
+
+============================================================
+5. วิธี List Group Filter พร้อม Layer สมาชิก
+============================================================
+
+ฟังก์ชันที่มีอยู่แล้ว:
+
+(:grouplayerfilterswlayernames)
+
+ฟังก์ชันตรวจเฉพาะรายการที่มี class:
+
+"AcLyLayerGroup"
+
+ผลลัพธ์มีโครงสร้างประมาณนี้:
+
+(("010 - SOLID_10_SOLID-SHEET"
+  ("LAYER-01" "LAYER-02" "LAYER-03"))
+ ("010 - SOLID_10_PANEL"
+  ("LAYER-10" "LAYER-11")))
+
+การค้น Filter ที่ต้องการ:
+
+(setq filterName "010 - SOLID_10_SOLID-SHEET")
+(setq filterData
+      (assoc filterName (:grouplayerfilterswlayernames)))
+(setq layerList (cadr filterData))
+
+หลังจากนั้น layerList คือรายชื่อ Layer ที่ LISP สามารถนำไปทำงานต่อได้
+
+ข้อจำกัดปัจจุบัน:
+:grouplayerfilterswlayernames ใช้ dictnext กับ ACLYDICTIONARY ระดับแรก
+จึงอาจไม่อ่าน Group Filter ที่ซ้อนอยู่ใน Nested Filter ได้ครบทุกระดับ
+
+============================================================
+6. การเปิดและปิด Layer ตาม Group Filter
+============================================================
+
+มีฟังก์ชันอยู่แล้ว:
+
+(:layergroupon "ชื่อ Group Filter")
+(:layergroupoff "ชื่อ Group Filter")
+
+ตัวอย่าง:
+
+(:layergroupon "010 - SOLID_10_SOLID-SHEET")
+(:layergroupoff "010 - SOLID_10_SOLID-SHEET")
+
+:layergroupoff มีการตรวจว่า Current Layer อยู่ในกลุ่มที่จะปิดหรือไม่
+ถ้าอยู่ จะ thaw/set/unlock Layer 0 และเปลี่ยน Current Layer เป็น 0 ก่อน
+
+============================================================
+7. ข้อควรระวังในโค้ดปัจจุบัน
+============================================================
+
+1) dictnext ใช้ iterator ร่วมกันเพียงตัวเดียว
+
+   ฟังก์ชัน GetFilterTree เรียก dictnext แล้ว recurse ไปเรียก dictnext กับ
+   Dictionary ลูกทันที การทำแบบนี้อาจทำให้ iterator ของ Dictionary แม่หาย
+   และอาจข้าม Filter บางรายการ
+
+   แนวทางแก้คืออ่าน entries ของ Dictionary ปัจจุบันใส่ list ให้ครบก่อน
+   แล้วจึง recurse เข้า Dictionary ลูก
+
+2) ฟังก์ชัน test ยังไม่ใช่ recursive traversal ที่สมบูรณ์
+
+   มีโอกาสเพิ่ม topLevel ซ้ำ และอ่านได้เพียงบางระดับ
+
+3) dbg-step5 อ่าน code 330 ทุกตำแหน่งใน item
+
+   code 330 บางตัวอาจเป็น owner reference ไม่ใช่ Layer member
+   แนวทางใน :grouplayerfilterswlayernames ปลอดภัยกว่า เพราะเริ่มอ่าน code 330
+   หลัง assoc 300 ด้วย (member i itm)
+
+4) ต้องมี nil/error guards
+
+   Drawing บางไฟล์อาจไม่มี Extension Dictionary หรือ ACLYDICTIONARY
+   ฟังก์ชัน production ควรตรวจ nil ทุกขั้นก่อน entget/dictsearch
+
+============================================================
+8. คำสั่ง Debug ที่เตรียมไว้ในไฟล์
+============================================================
+
+ฟังก์ชัน debug ไม่ได้ขึ้นต้นด้วย c: จึงเรียกจาก Command Line ด้วยวงเล็บ:
+
+(dbg-step1)
+(dbg-step2)
+(dbg-step3)
+(dbg-step4)
+(dbg-step5)
+(dbg-check-nested)
+
+ความหมายโดยย่อ:
+
+- step1: หา Layer 0 และ owner ซึ่งคือ LayerTable
+- step2: หา Extension Dictionary ของ LayerTable
+- step3: หา ACLYDICTIONARY
+- step4: แสดง Filter class และชื่อ Filter ระดับบน
+- step5: แสดง Group Filter และ Layer references
+- check-nested: ตรวจว่า Filter ใดมี code 360/Sub-dictionary
+
+============================================================
+9. สิ่งที่ควรพัฒนาต่อ
+============================================================
+
+แนะนำสร้างฟังก์ชัน production กลางเพียงชุดเดียว เช่น:
+
+(TA:GetLayerFilterTree)
+
+ผลลัพธ์ควรเก็บข้อมูลอย่างน้อย:
+
+- Filter name
+- Filter class/type
+- Parent path
+- Depth level
+- Layer member list
+- Children
+
+จากนั้นให้คำสั่งอื่นใช้ข้อมูลจากฟังก์ชันกลาง ไม่ควรเดิน Dictionary ซ้ำหลายแบบ
+
+ควรเพิ่มคำสั่งเลือก Filter ภายใน TA_COMPELETE เช่น DCL/List Box:
+
+1) อ่าน Filter Tree
+2) แสดงชื่อ/ลำดับ Folder ให้ผู้ใช้เลือก
+3) เก็บชื่อที่เลือกในตัวแปรของ TA_COMPELETE
+4) ใช้ Layer member list ทำงานต่อ
+
+การเลือกแบบนี้เป็น "Current Filter ของระบบ TA_COMPELETE"
+ไม่ใช่ Current/Highlighted Filter ใน Layer Properties Manager
+
+============================================================
+10. บทสรุปสำหรับ Session ถัดไป
+============================================================
+
+อย่าเริ่มจากการค้น Named Object Dictionary ทั้งหมด เพราะโค้ดในโปรเจกต์พบ
+เส้นทางที่ตรงกับข้อมูลจริงแล้ว คือ Extension Dictionary ของ LayerTable และ
+รายการ "ACLYDICTIONARY"
+
+ใช้ :LayerFilterList สำหรับรายชื่อ Filter ทั้งหมด
+ใช้ :grouplayerfilterswlayernames สำหรับ Group Filter พร้อม Layer ระดับบน
+
+งานถัดไปที่มีประโยชน์ที่สุดคือรวมสองแนวทางนี้เป็น recursive function ที่:
+
+- อ่าน Nested Filter ได้ครบ
+- คืนชื่อ Filter พร้อม Layer members
+- ไม่ทำ nested dictnext โดยตรง
+- มี nil/error handling
+- พร้อมต่อเข้ากับ DCL/List Box ของ TA_COMPELETE
+
+หมายเหตุ: การอ่านหรือแก้ internal dictionary ของ AutoCAD ควรทำอย่างระมัดระวัง
+สำหรับงานนี้ให้อ่านข้อมูลอย่างเดียวก่อน หลีกเลี่ยง entmod/entdel กับ
+ACLYDICTIONARY จนกว่าจะทดสอบกับสำเนา DWG และหลาย AutoCAD versions แล้ว
