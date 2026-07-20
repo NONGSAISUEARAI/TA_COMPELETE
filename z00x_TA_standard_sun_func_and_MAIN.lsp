@@ -20208,6 +20208,9 @@
                               "010 - ASPG_FASTERN_MAIN_COLOR_1"
                               "010 - ASPG_FRAMING_SUB_COLOR_1"
                               
+                              "010 - C10_EXISTING_EX_MAIN_COLOR_251"
+                              "010 - C10_EXISTING_EX_SUB_COLOR_251"
+                              
                           
                         )
       )
@@ -59230,3 +59233,6 @@
       )
     ;
   )
+
+
+  (strcat (getvar "dwgprefix" ) (substr (rtos (getvar "cdate" ) 2 7)  10 10) ".PDF" )
