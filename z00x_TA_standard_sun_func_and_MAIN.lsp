@@ -56093,7 +56093,7 @@
                     )
                     (sslength ss_pre_filter_set_xx_)
                   )
-                  (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "000_ASPG_TYP_FILES_LOUVER_WITH_C-C_FRAME_DYN_VIEW" "000_ASPG_TYP_FILES_LOUVER_WITH_C-C_FRAME_DYN_VIEW_SUB")))
+                  (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "000_ASPG_TYP_FILES_LOUVER_WITH_C-C_TRIM_FRONT_VIEW" "000_ASPG_TYP_FILES_LOUVER_WITH_C-C_FRAME_DYN_VIEW" "000_ASPG_TYP_FILES_LOUVER_WITH_C-C_FRAME_DYN_VIEW_SUB")))
                 ;
                 ;preloop_and_while
                   (setq ss_pre_filter_set_xx_i 0)
