@@ -1,0 +1,341 @@
+บันทึกส่งต่องานฉบับละเอียดสำหรับ Codex อีกเครื่อง
+วันที่จัดทำ: 21 กรกฎาคม 2026
+โปรเจกต์: TA_COMPELETE
+เจ้าของงาน: ผู้ใช้ tawan.t
+
+======================================================================
+1. วัตถุประสงค์ของบันทึก
+======================================================================
+
+ไฟล์นี้จัดทำเพื่อให้ Codex/AI อีกห้องหรืออีกเครื่องเข้าใจบริบทการทำงานทั้งหมด
+โดยไม่ต้องเริ่มวิเคราะห์ใหม่ตั้งแต่ต้น ควรอ่านไฟล์นี้ก่อนแก้ VBA ในโฟลเดอร์นี้
+
+ตำแหน่งโปรเจกต์:
+C:\Users\tawan.t\Documents\GitHub\TA_COMPELETE
+
+ตำแหน่งงาน VBA ที่กำลังพัฒนา:
+C:\Users\tawan.t\Documents\GitHub\TA_COMPELETE\GPT CODE\GPT CODE VBA
+
+======================================================================
+2. บริบทหลักของโปรเจกต์
+======================================================================
+
+โปรเจกต์ TA_COMPELETE มีงานหลักสองด้าน:
+
+2.1 AutoCAD / AutoLISP
+- ใช้สร้าง Automation สำหรับงานเขียนแบบและ Shop Drawing
+- มีไฟล์ .lsp จำนวนมากสำหรับ Layer, Block, Attribute, Dimension, Layout,
+  Viewport, Plot, Hatch, Polyline, XCLIP, PDF import และงานผลิต
+- มีแนวโน้มเกี่ยวข้องกับงาน facade, aluminium, louver, blank size,
+  cutting plan และการเตรียมแบบเพื่อการผลิต
+
+2.2 Excel / VBA
+- ผู้ใช้ยืนยันว่าฝั่ง Excel กำลังเน้น Cutting Plan และ Material Packing
+- รับรายการวัสดุ ความยาว จำนวน Stock และ Allowance
+- จัดชิ้นงานลง Stock คำนวณจำนวน Stock ที่ใช้ เศษ และ Waste
+- มีงานรวบรวมข้อมูลจากหลาย Sheet และทำ Summary
+
+ไฟล์ VBA เดิมที่สำคัญ:
+- PACK_SUMMARY_v2_9.bas: สรุปผล Packing และ Waste
+- PACK_copyallsheet_v2.bas: รวมข้อมูลจากหลาย Worksheet
+- EXCEL\mul_v2_5_FINAL.bas: มี Packing Engine ชื่อ PACK_MULTI_v2_6
+- EXCEL\PairSumProbability.bas: วิเคราะห์ผลรวมของคู่ข้อมูล
+- EXCEL\Copy_X_AA_AllSheets_To_SUM_BK1.bas: รวม X:AA ไป Sheet SUM BK1
+
+======================================================================
+3. สถานะ GitHub และการทำงานสองเครื่อง
+======================================================================
+
+- จากภาพ GitHub Desktop repository ชื่อ TA_COMPELETE เชื่อม GitHub แล้ว
+- เจ้าของ/บัญชีที่เห็นในภาพ: NONGSAISUEARAI
+- Branch: main
+- Repository: Private
+- GitHub Desktop แสดง Fetch origin และ View on GitHub
+- แนวทางใช้งานสองเครื่อง: Fetch/Pull ก่อนเริ่ม แก้ไข Commit แล้ว Push
+- เครื่องที่สองต้อง Clone repository ด้วยบัญชีที่มีสิทธิ์
+- ใน PowerShell ของ Codex เคยเรียกคำสั่ง git ไม่ได้ เพราะไม่พบ git ใน PATH
+  แต่ GitHub Desktop สามารถใช้งาน repository ได้
+
+======================================================================
+4. ไฟล์พื้นฐานที่สร้าง
+======================================================================
+
+4.1 example_notepad.txt
+- เดิมสร้างเป็นไฟล์ทดสอบ จากนั้นเปลี่ยนเป็น Handoff Note ของวันที่ 20 กรกฎาคม
+
+4.2 sample_2026-07-21.txt
+- ไฟล์ข้อความตัวอย่างสำหรับทดสอบการสร้างไฟล์
+
+4.3 KeepNumber.bas
+- ฟังก์ชัน KeepNumber(s As String) As Long
+- อ่านตัวเลขชุดแรกจากข้อความ โดยเริ่มเก็บเมื่อพบตัวเลข และหยุดเมื่อเจอ
+  อักขระอื่นหลังจากเริ่มเก็บแล้ว
+- ถ้าไม่พบตัวเลขคืนค่า 0
+
+ตัวอย่างแนวคิด:
+KeepNumber("ABC123-XYZ") คืน 123
+
+======================================================================
+5. SUMUNIQUE
+======================================================================
+
+ไฟล์: SumUnique.bas
+ฟังก์ชัน: SUMUNIQUE
+
+วัตถุประสงค์:
+- คืน Dynamic Array แบบ Spill สองคอลัมน์
+- คอลัมน์ 1 = Unique List
+- คอลัมน์ 2 = Total Value
+- ใช้ Application.SumIfs เพื่อรวมยอดของแต่ละรายการ
+- ข้ามเซลล์ว่างและ Error ในช่วงรายการ
+
+รูปแบบสูตร:
+=SUMUNIQUE(A1:A20)
+
+ถ้าแยกคอลัมน์รายการและยอด:
+=SUMUNIQUE(A1:A20,B1:B20)
+
+ข้อกำหนด:
+- UniqueRange และ SumRange ต้องมีจำนวนเซลล์เท่ากัน
+- ถ้าไม่ใส่ SumRange จะใช้ UniqueRange เป็น SumRange
+
+======================================================================
+6. COUNTUNIQUE เวอร์ชันแรก
+======================================================================
+
+ไฟล์: CountUnique.bas
+ฟังก์ชัน: COUNTUNIQUE
+
+สำคัญ:
+- ผู้ใช้สั่งให้คงเวอร์ชันแรกเหมือนตอนสร้างไฟล์
+- ห้ามเปลี่ยน COUNTUNIQUE ตัวนี้ให้เป็น Pivot หรือเพิ่ม Argument โดยพลการ
+- ฟังก์ชันนี้รับเพียง UniqueRange หนึ่ง Argument
+
+สูตร:
+=COUNTUNIQUE(A1:A20)
+
+ผลลัพธ์ Spill สองคอลัมน์:
+Unique List | Count
+
+พฤติกรรม:
+- แสดงรายการไม่ซ้ำตามลำดับที่พบ
+- นับจำนวนครั้งที่พบแต่ละรายการ
+- ไม่สนใจเซลล์ว่างและ Error
+- เปรียบเทียบข้อความแบบไม่สนตัวพิมพ์เล็ก/ใหญ่
+
+======================================================================
+7. COUNTUNIQUE_V2
+======================================================================
+
+ไฟล์: CountUnique_V2.bas
+ฟังก์ชัน: COUNTUNIQUE_V2
+
+แนวคิดตาราง:
+- เงื่อนไขที่ 1 = รายการแนวตั้งด้านซ้าย
+- เงื่อนไขที่ 2 = หัวกลุ่มแนวนอนด้านบน
+- เงื่อนไขที่ 3 = ซับย่อยใต้เงื่อนไขที่ 2
+- ช่องตัดกัน = จำนวนครั้งที่ตรงครบทุกเงื่อนไข
+- ถ้าไม่พบข้อมูล คืนค่า "" แทน 0
+- เงื่อนไขที่ 3 เป็น Optional
+- Heading เป็น Optional และเป็น Argument ท้ายสุด
+
+สูตรแบบสองเงื่อนไข:
+=COUNTUNIQUE_V2(Condition1Range,Condition2Range)
+
+ตัวอย่าง:
+=COUNTUNIQUE_V2(U3:U345,P3:P345)
+
+สูตรแบบสามเงื่อนไข:
+=COUNTUNIQUE_V2(Condition1Range,Condition2Range,Condition3Range)
+
+สูตรสามเงื่อนไขพร้อม Heading:
+=COUNTUNIQUE_V2(A2:A100,B2:B100,C2:C100,"CUTTING PLAN")
+
+สูตรไม่มีเงื่อนไขที่ 3 แต่มี Heading:
+=COUNTUNIQUE_V2(A2:A100,B2:B100,,"CUTTING PLAN")
+
+รองรับรูปแบบย่อ โดยส่ง Heading เป็น Argument ที่ 3 ซึ่งไม่ใช่ Range:
+=COUNTUNIQUE_V2(A2:A100,B2:B100,"CUTTING PLAN")
+
+ข้อควรจำ:
+- Formula Spill ไม่สามารถ Merge เซลล์ Heading หรือหัวกลุ่มอัตโนมัติ
+- Heading จึงอยู่ที่เซลล์แรกของบรรทัดแรก ส่วนช่องที่เหลือคืน ""
+- ทุกช่วงเงื่อนไขต้องมีจำนวนเซลล์เท่ากัน
+- V2 ไม่รับผลลัพธ์ SORT(...) ใน Argument ที่ประกาศเป็น Range
+- ห้าม SORT เฉพาะเงื่อนไขหนึ่งก่อนส่งเข้า UDF เพราะจะทำให้ข้อมูลแต่ละแถว
+  ไม่ตรงคู่กับเงื่อนไขอื่น
+
+======================================================================
+8. COUNTUNIQUE_V3
+======================================================================
+
+ไฟล์: CountUnique_V3.bas
+ฟังก์ชัน: COUNTUNIQUE_V3
+
+เหตุผลที่สร้าง V3:
+- ผู้ใช้เคยลองสูตร:
+  =COUNTUNIQUE_V2(SORT(U3:U345,1,1),P3:P345)
+- การ SORT เฉพาะคอลัมน์ U ทำให้ข้อมูลไม่ตรงกับคอลัมน์ P
+- จึงเพิ่มระบบ Sort ภายในฟังก์ชันหลังจากนับข้อมูลเสร็จ
+- V2 ต้องคงอยู่ ไม่ถูกแทนที่
+
+ลำดับ Argument:
+=COUNTUNIQUE_V3(Condition1Range,SortFlag,Condition2Range,[Condition3Range],[Heading])
+
+SortFlag:
+- 1 = เรียง Unique ของเงื่อนไขที่ 1 จากน้อยไปมาก
+- 0 = ไม่เรียง และคงลำดับที่พบในข้อมูลต้นทาง
+- ค่าอื่นคืน #VALUE!
+
+ตัวอย่างแทนการใช้ SORT:
+=COUNTUNIQUE_V3(U3:U345,1,P3:P345)
+
+ไม่เรียง:
+=COUNTUNIQUE_V3(U3:U345,0,P3:P345)
+
+มีเงื่อนไขที่ 3 และ Heading:
+=COUNTUNIQUE_V3(U3:U345,1,P3:P345,Q3:Q345,"CUTTING PLAN")
+
+ไม่มีเงื่อนไขที่ 3 แต่มี Heading:
+=COUNTUNIQUE_V3(U3:U345,1,P3:P345,,"CUTTING PLAN")
+
+พฤติกรรม Sort:
+- ถ้าทั้งสองค่าเป็นตัวเลข จะเรียงแบบตัวเลข
+- ถ้าไม่ใช่ตัวเลข จะเรียงข้อความแบบไม่สนตัวพิมพ์เล็ก/ใหญ่
+- เรียงเฉพาะ Unique Row Labels หลังนับแล้ว จึงไม่ทำลายความสัมพันธ์ของข้อมูล
+
+======================================================================
+9. UNIQUEIFS
+======================================================================
+
+ไฟล์: UniqueIfs.bas
+ฟังก์ชัน: UNIQUEIFS
+
+วัตถุประสงค์:
+- เลือก Unique List ตามเงื่อนไขหนึ่งข้อหรือหลายข้อ
+- คืน Dynamic Array แนวตั้งหนึ่งคอลัมน์
+- รับเงื่อนไขเป็นคู่ CriteriaRange, Criteria คล้าย SUMIFS/COUNTIFS
+
+Syntax:
+=UNIQUEIFS(UniqueRange,CriteriaRange1,Criteria1,[CriteriaRange2,Criteria2],...)
+
+ตัวอย่างหนึ่งเงื่อนไข:
+=UNIQUEIFS(A2:A100,B2:B100,"PP17")
+
+ตัวอย่างสองเงื่อนไข:
+=UNIQUEIFS(A2:A100,B2:B100,"PP17",C2:C100,"STD-LENGTH_1500")
+
+อ้างอิงเงื่อนไขจากเซลล์:
+=UNIQUEIFS(A2:A100,B2:B100,E1,C2:C100,D2)
+
+ตัวอย่าง Operator:
+=UNIQUEIFS(A2:A100,D2:D100,">1700")
+
+ข้อกำหนด:
+- ต้องมีเงื่อนไขอย่างน้อยหนึ่งคู่
+- จำนวน Argument เงื่อนไขต้องเป็นเลขคู่
+- ทุก CriteriaRange ต้องมีจำนวนเซลล์เท่ากับ UniqueRange
+- ข้ามรายการ Unique ที่เป็นช่องว่างหรือ Error
+- ใช้ Application.CountIf สำหรับตรวจเงื่อนไข จึงรองรับ Operator และ Wildcard
+
+======================================================================
+10. Formula IntelliSense ของฟังก์ชันที่เขียนเอง
+======================================================================
+
+ผู้ใช้ต้องการกล่องคำแนะนำขณะพิมพ์สูตรเหมือน:
+SUMIF(range, criteria, [sum_range])
+
+ข้อสรุป:
+- VBA UDF ธรรมดาไม่สามารถแสดง Native Formula IntelliSense แบบฟังก์ชันมาตรฐาน
+- Application.MacroOptions สามารถเพิ่ม Description, Category และ
+  ArgumentDescriptions ในหน้าต่าง Insert Function / Function Arguments (fx)
+- MacroOptions ไม่ได้สร้างกล่อง ScreenTip ขณะพิมพ์สูตรแบบ SUMIF
+- ถ้าต้องการ ScreenTip แบบ Native ต้องใช้เครื่องมือเพิ่ม เช่น Excel-DNA IntelliSense
+- Excel-DNA รองรับการผูก metadata ผ่าน .xll และคำอธิบายจาก Sheet/XML
+
+แหล่งข้อมูลที่ตรวจสอบ:
+- Microsoft Learn: Application.MacroOptions method (Excel)
+  https://learn.microsoft.com/en-us/office/vba/api/excel.application.macrooptions
+- Excel-DNA: IntelliSense
+  https://excel-dna.net/docs/guides-basic/Intellisense/
+
+======================================================================
+11. CONDITIONAL FORMATTING: BLANK / NON-BLANK
+======================================================================
+
+ไฟล์: Format_Blank_NonBlank.bas
+Macro หลัก: ApplyBlankNonBlankFormatting
+
+ผู้ใช้ส่งภาพ Rules Manager ซึ่งมีกฎสองรายการ:
+- Cell does not contain a blank value
+- Cell contains a blank value
+- Applies to ทั้ง Worksheet ประมาณ =$1:$1048576
+- Stop If True ไม่ถูกเลือก
+
+โค้ดที่จัดทำตามการตีความจากภาพ:
+- เซลล์ไม่ว่าง: เส้นขอบล่างสีดำ แบบทึบ ความหนา Thin
+- เซลล์ว่าง: เส้นขอบล่างสีเทาอ่อน แบบจุด ความหนา Thin
+- ใช้กับ ActiveSheet.Cells
+- ไม่ลบ Conditional Formatting เดิมก่อนเพิ่ม เพื่อไม่ทำลายกฎของผู้ใช้
+- StopIfTrue = False
+- แสดง MsgBox เมื่อเพิ่มกฎเรียบร้อย
+
+วิธีใช้:
+1. Import Format_Blank_NonBlank.bas เข้า VBA Project
+2. เปิด Sheet เป้าหมาย
+3. รัน ApplyBlankNonBlankFormatting หนึ่งครั้ง
+
+ข้อควรระวัง:
+- ถ้ารันซ้ำ จะเพิ่มกฎซ้ำ เพราะตั้งใจไม่ลบกฎเดิมโดยอัตโนมัติ
+- มี Macro DeleteAllConditionalFormattingFromActiveSheet แต่ต้องยืนยันก่อนลบ
+- Macro ลบจะลบ Conditional Formatting ทุกกฎใน Active Sheet
+- รูปภาพไม่ได้แสดง Format Details ครบถ้วน การเลือกเส้นทึบ/เส้นจุดจึงเป็น
+  สมมติฐานที่ใช้สร้างเวอร์ชันแรก หากผู้ใช้ต้องการสีหรือเส้นอื่นให้แก้ตามคำสั่ง
+
+======================================================================
+12. รายชื่อไฟล์ที่สร้างหรือแก้ในงานรอบนี้
+======================================================================
+
+- example_notepad.txt
+- sample_2026-07-21.txt
+- KeepNumber.bas
+- SumUnique.bas
+- CountUnique.bas
+- CountUnique_V2.bas
+- CountUnique_V3.bas
+- UniqueIfs.bas
+- Format_Blank_NonBlank.bas
+- CHAT_HISTORY_2026-07-21.txt (ไฟล์นี้)
+
+======================================================================
+13. สิ่งที่ยังไม่ได้ทดสอบจริงใน Excel
+======================================================================
+
+- โค้ดถูกสร้างและตรวจเชิงโครงสร้างจากไฟล์ แต่ยังไม่ได้ Import และ Compile
+  ภายใน Excel VBA Editor ในสภาพแวดล้อมนี้
+- ยังไม่ได้ทดสอบ Dynamic Spill จริงกับ Workbook ของผู้ใช้
+- ยังไม่ได้ตรวจ Regional List Separator ว่า Excel ใช้ comma หรือ semicolon
+- ยังไม่ได้ทดสอบข้อมูลจำนวนมากด้านความเร็ว
+- ยังไม่ได้ตรวจกรณี Mixed Type เช่น ตัวเลข 1500 กับข้อความ "1500"
+- ยังไม่ได้ทดสอบ Wildcard ที่เป็นข้อมูลจริง เช่น * และ ? ใน UNIQUEIFS
+- ยังไม่ได้เพิ่ม Application.MacroOptions หรือ Excel-DNA IntelliSense ลง Workbook
+
+======================================================================
+14. แนวทางให้ Codex ห้องถัดไป
+======================================================================
+
+1. อ่านไฟล์นี้และเปิดไฟล์ .bas เป้าหมายก่อนแก้
+2. อย่าเปลี่ยน COUNTUNIQUE เวอร์ชันแรก เพราะผู้ใช้สั่งให้คงเดิม
+3. ถ้าพัฒนาต่อจาก V2 ให้พิจารณาว่าควรออก V3/V4 แทนการทับเวอร์ชันเดิม
+4. รักษาความหมายของแกนตาราง:
+   - Condition 1 = แนวตั้ง
+   - Condition 2 = กลุ่มแนวนอน
+   - Condition 3 = ซับย่อยของ Condition 2
+5. ช่องที่ไม่มีผลลัพธ์ต้องคืน "" ไม่ใช่ 0 ตามคำสั่งผู้ใช้
+6. อย่า SORT ช่วงข้อมูลเงื่อนไขเพียงช่วงเดียวก่อนจับคู่ช่วงอื่น
+7. ก่อนเปลี่ยน Signature ของสูตร ต้องแจ้งตัวอย่าง Argument ใหม่ให้ผู้ใช้
+8. ถ้าจะลบ Conditional Formatting หรือไฟล์ ต้องขอคำสั่งที่ชัดเจนก่อน
+9. รักษาไฟล์เดิมและ Git history เพราะโปรเจกต์ใช้งานร่วมกันสองเครื่อง
+10. หลังแก้ ให้ผู้ใช้ Import/Replace Module แล้ว Compile VBAProject และทดสอบสูตร
+
+สิ้นสุดบันทึกส่งต่อ
