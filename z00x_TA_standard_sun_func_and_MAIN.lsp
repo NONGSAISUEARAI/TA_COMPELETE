@@ -39655,6 +39655,7 @@
                       (setq block_9 "who_s_create_that_block-deg90")
                       (setq block_10 "who_s_create_that_block-RC-PLENUM-WALL")
                       (setq block_11 "who_s_create_that_block-BRICK-WALL")
+                      (setq block_12 "010 - ALU_TRAY_PANEL_START-END_TZP-SHAPE_BOTTOM-VIEW")
                      )
       )
       (setq choose_block_di (cond ( (getint (strcat "\nSpecify block"
@@ -39669,6 +39670,7 @@
                                                     "\n9 = " block_9 
                                                     "\n10 = " block_10
                                                     "\n11 = " block_11
+                                                    "\n12 = " block_12
                                                     "\n<" 
                                                     (rtos 
                                                       (setq choose_block_di (cond 
@@ -56983,7 +56985,10 @@
     (setq entlast_ename (entlast))
     (setq entlast_obj (vlax-ename->vla-object entlast_ename))
     (LM:setdynpropvalue entlast_obj "sub_length" pt-length_)
-    (if (< (rad-to-deg (angle pt-1_ANG_ pt-2_ANG_) ) 90)
+    (if (and 
+          (> (rad-to-deg (angle pt-1_ANG_ pt-2_ANG_) ) 0)
+          (< (rad-to-deg (angle pt-1_ANG_ pt-2_ANG_) ) 90)
+        )
       (progn
         (LM:setdynpropvalue entlast_obj "flip state1" 1)
       )
