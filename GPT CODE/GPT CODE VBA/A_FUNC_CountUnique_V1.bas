@@ -1,4 +1,4 @@
-Attribute VB_Name = "CountUniqueModule"
+Attribute VB_Name = "A_FUNC_CountUnique_V1"
 Option Explicit
 
 ' Returns a two-column spill array:

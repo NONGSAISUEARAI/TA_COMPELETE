@@ -18508,44 +18508,68 @@
     )
     (defun c:intert_by_boundary-area_blk2bol ()
       (setq vertext_seq_ 4)
-      (setq blocklist_ (list 
+      (setq blocklist_list_ (list 
                          "A$Cac010039"
                          "000 - EXISTING_COLUMN"
                          "000 - CONCRETE_WALL"
                          "000 - CONCRETE_PRECAST"
+                         "010 - C10_PANEL_FRAMING_CUTVIEW"
+                         "010 - C10_PANEL_ACCESSORIES_SET-1"
                        )
       )
       (setq blocklayer_ (list 
-                          ""
+                          "0"
                           "000 - EXISTING_CONCRETE_CUT_COLOR_1"
                           "000 - EXISTING_CONCRETE_CUT_COLOR_5"
                           "000 - CONCRETE_PRECAST_CUT_COLOR_4"
                         )
       )
-      (setq blocklayer_number (nth 3  blocklayer_))
+      (setq blocklayer_number (nth 0  blocklayer_))
       (setq ERR_ nil)
-            (setq ERR_
-        (vl-catch-all-apply 
-          (function
-            (lambda ()
-              (setq blocklist_name_ (TA:choose_list_v3 
-                                      blocklist_
-                                      "select block"
-                                      (if (= blocklist_name_exval nil) 
-                                        (progn (setq blocklist_name_exval 1))
-                                        (setq blocklist_name_exval (+ 
-                                                                     (vl-position blocklist_name_ 
-                                                                                  blocklist_
-                                                                     )
-                                                                     1
+      (setq ERR_ (vl-catch-all-apply 
+                    (function 
+                      (lambda () 
+                        (setq blocklist_name_ (TA:choose_list_v3 
+                                                blocklist_
+                                                "select block"
+                                                (if 
+                                                  (= blocklist_name_exval nil)
+                                                  (progn (setq blocklist_name_exval 1))
+                                                  (setq blocklist_name_exval (+ 
+                                                                              (vl-position 
+                                                                                            blocklist_name_
+                                                                                            blocklist_
+                                                                              )
+                                                                              1
+                                                                            )
+                                                  )
+                                                )
+                                              )
+                        )
+                      )
+                    )
+                  )
+      )
+      (setq blocklist_list_name_ (TA:choose_list_v3
+                                    blocklist_list_
+                                    "select block"
+                                    (if 
+                                      (or
+                                        (= blocklist_list_name_exval nil)
+                                        (= blocklist_list_name_ nil)
+                                      )
+                                      (progn
+                                        (setq blocklist_list_name_exval 1)
+                                      )
+                                      (setq blocklist_list_name_exval (+
+                                                                   (vl-position blocklist_list_name_
+                                                                                blocklist_list_
                                                                    )
-                                        )
+                                                                   1
+                                                                 )
                                       )
                                     )
-              )   
-            )
-          )
-        )
+                                  )
       )
       ;while selection process
         (setq ERR_ nil)
@@ -18587,7 +18611,7 @@
                   ;
                   (setq ssbol_vertex_list_ (nth vertext_seq_ (TA:assembly_coordinate_coner (TA:ss_vla-getboundingbox ss_pre_filter_set_xx_))))
                   (TA:vla-insertblock 
-                    blocklist_name_
+                    blocklist_list_name_
                     ssbol_vertex_list_
                     1
                     0
@@ -18603,26 +18627,28 @@
                       (setq newinsert_obj (vlax-ename->vla-object newinsert_ename))
                       (vla-put-layer newinsert_obj blocklayer_number)
                       (vla-put-color newinsert_obj 256)
-                      (LM:setdynpropvalue newinsert_obj "distance2" vx_H)
-                      (LM:setdynpropvalue newinsert_obj "distance1" vx_W)
+                      (LM:setdynpropvalue newinsert_obj "Y" vx_H)
+                      (LM:setdynpropvalue newinsert_obj "X" vx_W)
                     ;
 
 
                   ;
-                  
-                  ; (repeat (setq i (sslength ss_pre_filter_set_xx_)) 
-                  ;   (vla-delete 
-                  ;     (vlax-ename->vla-object 
-                  ;       (ssname ss_pre_filter_set_xx_ (setq i (1- i)))
-                  ;     )
-                  ;   )
-                  ; )
+                  ;uncomment this repeat for delete ssset 
+                    (repeat (setq i (sslength ss_pre_filter_set_xx_)) 
+                      (vla-delete 
+                        (vlax-ename->vla-object 
+                          (ssname ss_pre_filter_set_xx_ (setq i (1- i)))
+                        )
+                      )
+                    )
+                  ;
                 )
               )
             )
           )
         )
       ;
+      
     )
   ; 
   ;LAYOUT_FUNC
@@ -20212,6 +20238,270 @@
                               "010 - C10_EXISTING_EX_SUB_COLOR_251"
                               
                           
+                        )
+      )
+      (defun TA:all-editblock_ (blockname line_color layer_name)
+        ; (setq blockname "PZG35")
+        ; (setq line_color 256)
+        ; (setq layer_name "008 - E&M_ACESSORIES_MAIN_COLOR_1")
+        (setq target_ '())
+        (setq blkdef (tblobjname "BLOCK" blockname))
+        (setq ent (entnext blkdef))
+        (while ent
+          (setq ed (entget ent))
+          (if (= (cdr (assoc 0 ed)) "HATCH")
+            (progn
+              (setq target_ (cons ent target_))
+              ;main idea of code keep or delete don't affect with core code
+                (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+                (vla-put-color target_obj_  line_color)
+                (vla-put-layer target_obj_  layer_name)
+                ; (vla-put-EntityTransparency target_obj_ 80 )
+              ;
+            )
+          )
+          (if (= (cdr (assoc 0 ed)) "ARC")
+            (progn
+              ; (setq target_ (cons ent target_))
+              ;main idea of code keep or delete don't affect with core code
+                (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+                (vla-put-color target_obj_  line_color)
+                (vla-put-layer target_obj_  layer_name)
+                
+              ;
+            )
+          )
+          (if (= (cdr (assoc 0 ed)) "LINE")
+            (progn
+              ; (setq target_ (cons ent target_))
+              ;main idea of code keep or delete don't affect with core code
+                (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+                (if (/= (vla-get-layer target_obj_ ) "A-ANNO-SYMB")
+                  (progn
+                    (vla-put-color target_obj_  line_color)
+                    (vla-put-layer target_obj_  layer_name)
+                  )
+                )
+              ;
+            )
+          )
+          (if (= (cdr (assoc 0 ed)) "LWPOLYLINE")
+            (progn
+              ; (setq target_ (cons ent target_))
+              ;main idea of code keep or delete don't affect with core code
+                (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+                (vla-put-color target_obj_  line_color)
+                (vla-put-layer target_obj_  layer_name)
+                
+              ;
+            )
+          )
+          (if (= (cdr (assoc 0 ed)) "SPLINE")
+            (progn
+              ; (setq target_ (cons ent target_))
+              ;main idea of code keep or delete don't affect with core code
+                (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+                (vla-put-color target_obj_  line_color)
+                (vla-put-layer target_obj_  layer_name)
+                
+              ;
+            )
+          )
+          (if (= (cdr (assoc 0 ed)) "ELLIPSE")
+            (progn
+              ; (setq target_ (cons ent target_))
+              ;main idea of code keep or delete don't affect with core code
+                (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+                (vla-put-color target_obj_  line_color)
+                (vla-put-layer target_obj_  layer_name)
+                
+              ;
+            )
+          )
+          (if (= (cdr (assoc 0 ed)) "CIRCLE")
+            (progn
+              ; (setq target_ (cons ent target_))
+              ;main idea of code keep or delete don't affect with core code
+                (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+                (vla-put-color target_obj_  line_color)
+                (vla-put-layer target_obj_  layer_name)
+                
+              ;
+            )
+          )
+          (if (= (cdr (assoc 0 ed)) "TEXT")
+            (progn
+              ; (setq target_ (cons ent target_))
+              ;main idea of code keep or delete don't affect with core code
+                (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+                (vla-put-color target_obj_  line_color)
+                (vla-put-layer target_obj_  layer_name)
+                
+              ;
+            )
+          )
+          (if (= (cdr (assoc 0 ed)) "MTEXT")
+            (progn
+              ; (setq target_ (cons ent target_))
+              ;main idea of code keep or delete don't affect with core code
+                (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+                (vla-put-color target_obj_  line_color)
+                (vla-put-layer target_obj_  layer_name)
+                
+              ;
+            )
+          )
+          (if (= (cdr (assoc 0 ed)) "ATTDEF")
+            (progn
+              ; (setq target_ (cons ent target_))
+              ;main idea of code keep or delete don't affect with core code
+                (setq target_obj_ (vlax-ename->vla-object (cdr (assoc -1 ed))))
+                (vla-put-color target_obj_  line_color)
+                (vla-put-layer target_obj_  layer_name)
+                
+              ;
+            )
+          )
+          (setq ent (entnext ent))
+        )
+        (reverse target)
+      )
+      (defun TA:Aassembly_all_nest_block (blkName / blkEnt ent elist result)
+        (setq blkEnt (tblobjname "BLOCK" blkName))
+
+        (while (setq blkEnt (entnext blkEnt))
+          (setq elist (entget blkEnt))
+
+          (if (= (cdr (assoc 0 elist)) "ENDBLK")
+            (setq blkEnt nil)
+            (progn
+              (if (= (cdr (assoc 0 elist)) "INSERT")
+                (progn
+                  (setq result
+                    (cons (cdr (assoc 2 elist)) result)
+                  )
+                  ;; recurse หา block ซ้อน
+                  (setq result
+                    (append result
+                      (TA:Aassembly_all_nest_block (cdr (assoc 2 elist)))
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+        result
+      )
+      (setq ERR_
+        (vl-catch-all-apply
+          (function
+            (lambda ()
+              (setq layer_obj_name_ (TA:choose_list_v3 
+                                      layer_list_
+                                      "select block"
+                                      (if (or
+                                            (= layer_obj_name_exval nil)
+                                            (= layer_obj_name_ nil)
+                                          ) 
+                                        (progn 
+                                          (setq layer_obj_name_exval 1)
+                                        )
+                                        (setq layer_obj_name_exval (+ 
+                                                                     (vl-position layer_obj_name_ 
+                                                                                  layer_list_
+                                                                     )
+                                                                     1
+                                                                   )
+                                        )
+                                      )
+                                    )
+              )
+            )
+          )
+        )
+      )
+      (if (/= (vl-catch-all-error-p ERR_) T) 
+        (progn 
+            ;selection_set_for_fillter_blk_name
+              (if  ;pre_select_ssget_or_post_select_ssget
+                (=
+                  (setq ss_pre_filter_set_xx_ (ssget "i"
+                                                    (list
+                                                      ; (cons 0 "INSERT") ;type of object
+                                                      ; (cons 8 "000 - GRID")   ;kind of layer
+                                                      ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                      ; (cons 62 1)           ;kind of color call sign with color code index
+                                                    )
+                                              )
+                  )
+                  nil
+                )
+                (progn
+                  (setq ss_pre_filter_set_xx_ (ssget
+                                                    (list
+                                                      ; (cons 0 "INSERT") ;type of object
+                                                      ; (cons 8 "000 - GRID")   ;kind of layer
+                                                      ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                      ; (cons 62 1)           ;kind of color call sign with color code index
+                                                    )
+                                              )
+                  )
+                )
+                (sslength ss_pre_filter_set_xx_)
+              )
+            ;
+            (TA:interface_text_ T)
+            (textscr)
+            (getstring "\nHit [ENTER] to continue...")
+            ;preloop_and_while
+              (setq ss_pre_filter_set_xx_i 0)
+              (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+                (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i)) 
+                (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+                
+                (vla-put-color ss_pre_filter_set_xx_obj_  line_color)
+                (vla-put-layer ss_pre_filter_set_xx_obj_  layer_obj_name_)
+                (if (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbBlockReference")
+                  (progn
+                    (setq ss_pre_filter_set_xx_obj_Efname_ (LM:Effectivename ss_pre_filter_set_xx_obj_))
+                    (setq blk-count_list_ (TA:Count_item_in_list_ (TA:Aassembly_all_nest_block ss_pre_filter_set_xx_obj_Efname_)))
+                    (TA:all-editblock_ ss_pre_filter_set_xx_obj_Efname_ line_color layer_obj_name_)
+                    ;preloop_and_while
+                      (setq blk-count_list_i 0)
+                      (while (< blk-count_list_i (length blk-count_list_))
+                        (setq blk-count_list_efname_ (car (nth  blk-count_list_i blk-count_list_)))
+                        (TA:all-editblock_ blk-count_list_efname_ line_color layer_obj_name_)
+                        (TA:textscr_process_V2 "\nupdate dynamic" blk-count_list_i blk-count_list_)
+
+                          
+                        (setq blk-count_list_i (+ blk-count_list_i 1))
+                      )
+                    ;
+                  )
+                )
+                ; (setq ss_pre_filter_set_xx_obj_lv1 (TA:Assembly_block_ ss_pre_filter_set_xx_obj_ ))
+                (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+              )
+            ;
+        )
+      )
+    )
+    (defun c:Dyeing_layer_object_dyeLIST_TEDY2_TEMP_DWGCMD ()
+      (setq line_color 256)
+      (setq layer_list_ (list 
+                              "010 - C10_PANEL_FASTERN_MAIN_COLOR_1" 
+                              "010 - C10_PANEL_FASTERN_MAIN_COLOR_2" 
+                              "010 - C10_PANEL_FASTERN_MAIN_COLOR_3" 
+                              "010 - C10_PANEL_FASTERN_MAIN_COLOR_4" 
+                              "010 - C10_PANEL_FASTERN_MAIN_COLOR_251" 
+                              "010 - C10_PANEL_FASTERN_DEF_SUB" 
+                              
+                              "010 - C10_PANEL_FRAMING_MAIN_COLOR_1"
+                              "010 - C10_PANEL_FRAMING_MAIN_COLOR_2"
+                              "010 - C10_PANEL_FRAMING_MAIN_COLOR_3"
+                              "010 - C10_PANEL_FRAMING_MAIN_COLOR_4"
+                              "010 - C10_PANEL_FRAMING_MAIN_COLOR_251"
                         )
       )
       (defun TA:all-editblock_ (blockname line_color layer_name)
@@ -59240,4 +59530,93 @@
   )
 
 
-  (strcat (getvar "dwgprefix" ) (substr (rtos (getvar "cdate" ) 2 7)  10 10) ".PDF" )
+  
+  
+
+  (defun c:f113 ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    ;while selection process
+      (setq ERR_ nil)
+      (while ;for keep insertion point and dist. fix length one side
+        (and
+          (= (vl-catch-all-error-p ERR_) nil)
+        )
+        (setq ERR_
+          (vl-catch-all-apply
+            (function
+              (lambda ()
+                (setq newman_ ;Get-string by keep previous value
+                    (if
+                      (or
+                        (/= (setq newman_val (getstring (strcat "\nSpecify Pattern name <" (if newman_ newman_ "") ">: ") ) ) "" )
+                      )
+                        (progn
+                          (setq newman_ newman_val)
+                          (setq newman_keep_val_ newman_val)
+                        )
+                      (setq newman_val newman_keep_val_)
+                    )
+                )
+              )
+            )
+          )
+        )
+        
+        ;preloop_and_while
+          (setq ss_pre_filter_set_xx_i 0)
+          (while (and 
+                   (= (vl-catch-all-error-p ERR_) nil)
+                   (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+                 )
+            (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+            (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+            (if (= (vl-catch-all-error-p ERR_) nil)
+              (progn
+                  (if (= newman_ "+")
+                    (progn
+                      (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "distance3" (+ (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "distance3" ) 5) ) ;parameter 1
+                      (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "distance4" (+ (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "distance4" ) 5) ) ;parameter 2
+                    )
+                    (List 
+                      (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "distance3" (- (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "distance3" ) 5) ) ;parameter 1
+                      (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "distance4" (- (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "distance4" ) 5) ) ;parameter 2
+                    )
+                  )
+                )
+              )
+            
+            (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+          )
+        ;
+      )
+    ;
+  )
+
+  

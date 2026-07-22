@@ -1,4 +1,4 @@
-Attribute VB_Name = "CountUniqueV2Module"
+Attribute VB_Name = "A_FUNC_CountUnique_V2"
 Option Explicit
 
 ' Builds a three-axis count table as a dynamic spill array.

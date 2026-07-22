@@ -1,0 +1,212 @@
+บันทึกสรุปและส่งต่องานประจำวันที่ 22 กรกฎาคม 2026
+โปรเจกต์: TA_COMPELETE
+โฟลเดอร์งาน:
+C:\Users\tawan.t\Documents\GitHub\TA_COMPELETE\GPT CODE\GPT CODE VBA
+
+======================================================================
+1. ปรับ EXCEL\copyallsheet.bas ให้กรองแถวว่างได้
+======================================================================
+
+ไฟล์:
+EXCEL\copyallsheet.bas
+
+ฟังก์ชันเดิม:
+=copyallsheet(SourceRange)
+
+ฟังก์ชันใหม่:
+=copyallsheet(SourceRange,[FilterEmptyRows])
+
+ความหมาย FilterEmptyRows:
+- 0 = ไม่กรองแถวว่าง และรักษาพฤติกรรมเดิม
+- 1 = ตัดแถวที่ทุกเซลล์ภายในคอลัมน์ของ SourceRange ว่างทั้งหมด
+- ถ้าไม่ใส่ Argument จะใช้ 0
+- ถ้าใส่ค่าอื่นนอกจาก 0 หรือ 1 จะคืน #VALUE!
+
+ตัวอย่าง:
+=copyallsheet(A1:D100,1)
+
+กฎการตรวจแถว:
+- ตรวจเฉพาะคอลัมน์ที่อยู่ใน SourceRange เช่น A:D
+- หากมีข้อมูลอย่างน้อยหนึ่งเซลล์ จะเก็บแถวนั้นไว้
+- Error ถือว่าเป็นข้อมูล
+- ถ้ากรองแล้วไม่มีข้อมูลเลย ฟังก์ชันคืน ""
+
+======================================================================
+2. ระบุไฟล์ copyallsheet ที่มีจุดเริ่มต้นของ Sheet
+======================================================================
+
+พบว่าไฟล์ V2 รองรับ StartSheet และ CopySheetCount:
+ชื่อเดิม ณ ตอนตรวจพบ:
+PACK_copyallsheet_v2.bas
+
+รูปแบบสูตร:
+=copyallsheet_v2(SourceRange,StartSheet,CopySheetCount)
+
+ตัวอย่างเริ่มจากชื่อ Sheet:
+=copyallsheet_v2(A1:D100,"PP17",5)
+
+ตัวอย่างเริ่มจากลำดับ Sheet:
+=copyallsheet_v2(A1:D100,3,5)
+
+======================================================================
+3. สร้าง copyallsheet_v3 จาก V2
+======================================================================
+
+สร้าง V3 แยกใหม่โดยไม่ทับ V2 แล้วเพิ่ม FilterEmptyRows ต่อท้าย
+
+ชื่อฟังก์ชัน:
+copyallsheet_v3
+
+รูปแบบสูตร:
+=copyallsheet_v3(SourceRange,StartSheet,CopySheetCount,[FilterEmptyRows])
+
+ตัวอย่าง:
+=copyallsheet_v3(A1:D100,"PP17",5,1)
+
+ความหมาย:
+- A1:D100 = ตำแหน่งช่วงข้อมูลบนแต่ละ Sheet
+- "PP17" = เริ่มคัดลอกจาก Sheet ชื่อ PP17
+- 5 = คัดลอกต่อเนื่อง 5 Sheet
+- 1 = กรองแถวที่ A:D ว่างทั้งหมดออก
+
+ตัวอย่างไม่กรอง:
+=copyallsheet_v3(A1:D100,"PP17",5,0)
+
+หรือ:
+=copyallsheet_v3(A1:D100,"PP17",5)
+
+พฤติกรรมสำคัญ:
+- StartSheet รับได้ทั้งชื่อ Sheet และหมายเลขลำดับ Sheet
+- ข้าม Sheet ที่เป็นตำแหน่งของสูตร
+- คืนชื่อ Sheet ในคอลัมน์แรกของผล Spill
+- เซลล์ว่างคืน "" แทน 0
+- ถ้า CopySheetCount <= 0 คืน #VALUE!
+- ถ้า StartSheet ไม่ถูกต้องคืน #REF!
+- ใช้ Application.Volatile True
+
+======================================================================
+4. สูตร Excel 2021 ดึงเลขที่มากกว่าจากข้อความ Dimension
+======================================================================
+
+โจทย์ตัวอย่าง:
+A1 = 1707 x 201
+
+เนื่องจาก Excel 2021 ไม่มี TEXTSPLIT จึงใช้สูตร:
+
+=MAX(VALUE(TRIM(LEFT(A1,SEARCH("x",A1)-1))),VALUE(TRIM(MID(A1,SEARCH("x",A1)+1,LEN(A1)))))
+
+ผลลัพธ์:
+1707
+
+หมายเหตุ:
+- SEARCH ไม่แยก x กับ X
+- สูตรนี้ออกแบบสำหรับตัวเลขสองชุดที่คั่นด้วยตัวอักษร x
+
+======================================================================
+5. เปลี่ยนกลุ่มชื่อ PACK เป็น A_FUNC สำหรับ Normal Functions
+======================================================================
+
+ผู้ใช้อธิบายว่าฟังก์ชันเหล่านี้เป็น Normal Function ที่ใช้ได้กับทุกไฟล์
+จึงไม่ควรใช้ prefix PACK ซึ่งสื่อว่าเป็นงาน Packing โดยเฉพาะ
+
+เปลี่ยนชื่อไฟล์และ Attribute VB_Name ดังนี้:
+
+ชื่อเดิม                         ชื่อใหม่
+PACK_copyallsheet_v1.bas        A_FUNC_copyallsheet_v1.bas
+PACK_copyallsheet_v2.bas        A_FUNC_copyallsheet_v2.bas
+PACK_copyallsheet_v3.bas        A_FUNC_copyallsheet_v3.bas
+CountUnique_V1.bas              A_FUNC_CountUnique_V1.bas
+CountUnique_V2.bas              A_FUNC_CountUnique_V2.bas
+CountUnique_V3.bas              A_FUNC_CountUnique_V3.bas
+
+Attribute VB_Name ใหม่:
+- A_FUNC_copyallsheet_v1
+- A_FUNC_copyallsheet_v2
+- A_FUNC_copyallsheet_v3
+- A_FUNC_CountUnique_V1
+- A_FUNC_CountUnique_V2
+- A_FUNC_CountUnique_V3
+
+สำคัญ:
+- เปลี่ยนเฉพาะชื่อไฟล์และชื่อ Module
+- ไม่เปลี่ยนชื่อ Function ที่ใช้ในสูตร
+- สูตรเดิม เช่น copyallsheet_v3(...) และ COUNTUNIQUE_V3(...) ยังคงเดิม
+
+======================================================================
+6. ย้าย KeepNumber เข้ากลุ่ม A_FUNC
+======================================================================
+
+ชื่อเดิม:
+KeepNumber.bas
+
+ชื่อใหม่:
+A_FUNC_KeepNumber.bas
+
+Attribute VB_Name ใหม่:
+A_FUNC_KeepNumber
+
+ชื่อฟังก์ชันยังคงเดิม:
+=KeepNumber(A1)
+
+======================================================================
+7. ย้าย ToggleFormulaPrefix เข้ากลุ่ม A_PUB
+======================================================================
+
+ผู้ใช้กำหนดให้ Macro สาธารณะตัวนี้ใช้ prefix A_PUB_
+
+ชื่อเดิม:
+PACK_ToggleFormulaPrefix.bas
+
+ชื่อใหม่:
+A_PUB_ToggleFormulaPrefix.bas
+
+Attribute VB_Name เดิม:
+PACK_ToggleFormulaPrefix_v2
+
+Attribute VB_Name ใหม่:
+A_PUB_ToggleFormulaPrefix
+
+ชื่อ Public Sub ยังคงเดิม:
+ToggleFormulaPrefix
+
+======================================================================
+8. สถานะชื่อไฟล์หลักหลังจบงานวันนี้
+======================================================================
+
+- A_FUNC_copyallsheet_v1.bas
+- A_FUNC_copyallsheet_v2.bas
+- A_FUNC_copyallsheet_v3.bas
+- A_FUNC_CountUnique_V1.bas
+- A_FUNC_CountUnique_V2.bas
+- A_FUNC_CountUnique_V3.bas
+- A_FUNC_KeepNumber.bas
+- A_PUB_ToggleFormulaPrefix.bas
+
+ไฟล์ที่ยังอยู่ในกลุ่ม PACK เพราะเป็นงาน Packing โดยตรง:
+- PACK_SUMMARY_v2_7.bas
+- PACK_SUMMARY_v2_9.bas
+
+======================================================================
+9. หลักการตั้งชื่อที่เข้าใจจากผู้ใช้
+======================================================================
+
+- A_FUNC_ = Worksheet Function / UDF ทั่วไปที่ใช้ได้กับทุก Workbook
+- A_PUB_  = Public Sub หรือ Macro ทั่วไปที่ผู้ใช้สั่งรัน
+- PACK_   = โค้ดที่เจาะจงกับ Cutting Plan / Material Packing
+
+Codex ห้องถัดไปควรรักษาหลักการนี้ในการสร้างหรือเปลี่ยนชื่อ Module
+
+======================================================================
+10. ข้อควรตรวจสอบใน Excel
+======================================================================
+
+- ไฟล์ถูกแก้ในระบบไฟล์ แต่ยังไม่ได้ Import และ Compile ใน Excel VBA Editor
+- เมื่อนำ Module ชื่อใหม่เข้า Excel ควรลบ Module ชื่อเก่าที่ซ้ำกันก่อน
+  มิฉะนั้นอาจเกิด Ambiguous name detected จาก Function ชื่อเดียวกัน
+- หลัง Import ให้ใช้ Debug > Compile VBAProject
+- ทดสอบ copyallsheet_v3 ทั้ง FilterEmptyRows = 0 และ 1
+- ทดสอบ StartSheet แบบชื่อและแบบหมายเลข
+- ตรวจว่าผล Spill มีพื้นที่ว่างเพียงพอ ไม่เกิด #SPILL!
+- หาก Workbook ใช้ semicolon เป็นตัวคั่น Argument ให้เปลี่ยน comma เป็น semicolon
+
+สิ้นสุดบันทึกประจำวันที่ 22 กรกฎาคม 2026

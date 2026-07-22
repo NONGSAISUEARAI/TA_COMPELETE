@@ -1,4 +1,4 @@
-Attribute VB_Name = "PACK_ToggleFormulaPrefix_v2"
+Attribute VB_Name = "A_PUB_ToggleFormulaPrefix"
 Option Explicit
 
 Public Sub ToggleFormulaPrefix()

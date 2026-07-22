@@ -1,4 +1,4 @@
-Attribute VB_Name = "pack_copyallsheet"
+Attribute VB_Name = "A_FUNC_copyallsheet_v1"
 Option Explicit
 
 Function copyallsheet(SourceRange As Range)

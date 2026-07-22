@@ -1,0 +1,353 @@
+TA_COMPELETE - DEV NOTE: AUTOLISP
+วันที่: 2026-07-22
+
+วัตถุประสงค์
+สรุปสิ่งที่ศึกษาและพูดคุยวันนี้ เพื่อให้ Codex/session อื่นรับช่วงงานได้ทันที
+
+============================================================
+1. ปัญหาเปลี่ยนสี Block แล้วสีไม่อัปเดต
+============================================================
+
+อาการ:
+
+- ใช้คำสั่งเปลี่ยนสีวัตถุภายใน Block Definition
+- สีของ Dynamic Block Reference ที่วางอยู่ใน Drawing ยังไม่เปลี่ยนทันที
+- สีจะเปลี่ยนหลังใช้คำสั่ง RESETBLOCK
+
+ไฟล์ที่เกี่ยวข้อง:
+
+C:\Users\tawan.t\Documents\GitHub\TA_COMPELETE\Z50_change_color_in_block_REV02_by_ยอดคะน้าเซียนซักแห้ง.lsp
+
+คำสั่งหลักที่ตรวจ:
+
+(defun c:RESET_COLOR_ ...)
+
+ตำแหน่งสำคัญโดยประมาณ:
+
+- TA:get_name_block_in_drawing_to_list เริ่มแถว 954
+- การตัดชื่อ Block ที่ขึ้นต้นด้วย * อยู่แถว 984
+- c:RESET_COLOR_ เริ่มแถว 1003
+- Loop BEDIT/BCLOSE อยู่แถว 1051-1061
+
+สาเหตุ:
+
+Dynamic Block Reference แสดงผลผ่าน Anonymous Block Definition ชื่อประมาณ:
+
+*U12
+*U45
+*U103
+
+แต่ฟังก์ชัน TA:get_name_block_in_drawing_to_list มีเงื่อนไข:
+
+(if (/= (substr filter_sorted_block_effectivename_ 1 1) "*")
+
+เงื่อนไขนี้ตัด Block Definition ทุกชื่อที่ขึ้นต้นด้วย * ออกจากรายการ
+จึงแก้เฉพาะ Block Definition ต้นฉบับ แต่ไม่ได้แก้ anonymous representation
+ที่ Dynamic Block Reference กำลังแสดงอยู่
+
+เมื่อผู้ใช้สั่ง RESETBLOCK AutoCAD จะสร้าง anonymous representation ใหม่จาก
+Block Definition ต้นฉบับ สีที่แก้ไว้จึงปรากฏ
+
+============================================================
+2. เหตุผลที่ไม่ควรสั่ง RESETBLOCK อัตโนมัติ
+============================================================
+
+RESETBLOCK อาจทำให้ค่าของ Dynamic Block Reference กลับไปเป็นค่าเริ่มต้น เช่น:
+
+- Stretch/Distance
+- Flip state
+- Visibility state
+- Lookup value
+- ค่าที่ผู้ใช้ปรับไว้เฉพาะแต่ละ Block Reference
+
+ดังนั้นไม่ควรแก้ปัญหาด้วยการเพิ่ม RESETBLOCK หลังคำสั่งเปลี่ยนสี
+
+============================================================
+3. แนวทางอัปเดตสีโดยไม่ RESETBLOCK
+============================================================
+
+แนวทางที่เสนอ:
+
+1) แก้สี Block Definition ต้นฉบับเหมือนเดิม
+2) เดิน Blocks collection ผ่าน ActiveX
+3) ค้นหา Anonymous Block Definition ที่ชื่อขึ้นต้นด้วย *U
+4) แก้ Color และ Dimension color overrides ของ entity ภายในโดยตรง
+5) เรียก Update เมื่อ object รองรับ
+6) ปิดท้ายด้วย Regen ของทุก Viewport
+
+ข้อดี:
+
+- สีปรากฏทันที
+- ไม่ต้อง RESETBLOCK
+- ไม่รีเซ็ต Stretch, Flip, Visibility และ Lookup ของแต่ละ Reference
+- Definition ต้นฉบับยังถูกแก้สำหรับการ regenerate ในอนาคต
+
+ฟังก์ชันตัวอย่าง:
+
+(defun TA:PutColorProperty (obj prop colorIndex)
+  (if (vlax-property-available-p obj prop T)
+    (vl-catch-all-apply
+      'vlax-put-property
+      (list obj prop colorIndex)
+    )
+  )
+)
+
+(defun TA:RefreshAnonymousBlockColors
+       (colorIndex / acad doc blocks blk blkName obj)
+
+  (vl-load-com)
+
+  (setq acad   (vlax-get-acad-object)
+        doc    (vla-get-ActiveDocument acad)
+        blocks (vla-get-Blocks doc)
+  )
+
+  (vlax-for blk blocks
+    (setq blkName (vla-get-Name blk))
+
+    ;; `* คือการ escape เครื่องหมาย * จริง
+    (if (wcmatch (strcase blkName) "`*U*")
+      (vlax-for obj blk
+        (TA:PutColorProperty obj 'Color colorIndex)
+        (TA:PutColorProperty obj 'TextColor colorIndex)
+        (TA:PutColorProperty obj 'DimensionLineColor colorIndex)
+        (TA:PutColorProperty obj 'ExtensionLineColor colorIndex)
+
+        (if (vlax-method-applicable-p obj 'Update)
+          (vl-catch-all-apply 'vla-Update (list obj))
+        )
+      )
+    )
+  )
+
+  (vla-Regen doc 1)
+  (princ)
+)
+
+ตำแหน่งเรียกใน c:RESET_COLOR_:
+
+- เรียกหลังจบ Loop BEDIT/BCLOSE ของ Block Definition ต้นฉบับ
+- เรียกก่อนหรือหลังแก้วัตถุ Model/Paper Space แต่ต้องก่อนจบคำสั่ง
+
+(TA:RefreshAnonymousBlockColors dim-main-color)
+(command "_.REGENALL")
+
+ต้องส่ง dim-main-color เพราะเป็นตัวเลขที่ ActiveX เข้าใจ:
+
+0     = ByBlock
+1-255 = ACI Color
+256   = ByLayer
+
+c-main-color บางกรณีเป็น string "byblock" หรือ "bylayer" จึงไม่ควรส่งให้
+VLA Color property โดยตรง
+
+หมายเหตุ:
+
+แนวทางนี้เป็นข้อเสนอการแก้ไข ยังไม่ได้แก้ไฟล์ Z50 จริงใน session นี้
+ควรทดสอบกับสำเนา DWG ที่มี Dynamic Block หลาย Visibility/Stretch states ก่อน
+
+============================================================
+4. การปรับคำสั่ง F113
+============================================================
+
+ผู้ใช้ส่งคำสั่ง c:f113 ซึ่งเลือก INSERT หลายตัว แล้วปรับ Dynamic Properties:
+
+"distance3"
+"distance4"
+
+เดิมเขียน LM:getdynpropvalue และ LM:setdynpropvalue ซ้ำแยกสองชุด
+
+แนวทาง refactor:
+
+- เก็บชื่อ Dynamic Properties เป็น list
+- ใช้ foreach ปรับทุก property
+- ใช้ delta เป็นค่าบวกหรือลบ
+
+ตัวอย่าง:
+
+(setq dynPropNames
+  '("distance3" "distance4")
+)
+
+(cond
+  ((= input "+") (setq delta  5.0))
+  ((= input "-") (setq delta -5.0))
+  (T             (setq delta nil))
+)
+
+(foreach dynPropName dynPropNames
+  (if
+    (numberp
+      (setq oldValue
+        (LM:getdynpropvalue obj dynPropName)
+      )
+    )
+    (LM:setdynpropvalue
+      obj
+      dynPropName
+      (+ oldValue delta)
+    )
+  )
+)
+
+ข้อดี:
+
+- เปลี่ยนชื่อ property ได้จากตำแหน่งเดียว
+- เพิ่ม distance5 หรือ property อื่นได้โดยเพิ่มใน list
+- ลดโค้ดซ้ำ
+- ตรวจด้วย numberp ก่อนคำนวณ ป้องกัน property ไม่มีอยู่แล้วนำ nil ไปบวก
+
+============================================================
+5. ความหมายของ / ใน defun
+============================================================
+
+รูปแบบทั่วไป:
+
+(defun ชื่อฟังก์ชัน (arguments / local-variables)
+  ...
+)
+
+เครื่องหมาย / ทำหน้าที่แบ่ง:
+
+- ตัวแปรก่อน /  คือ Argument/Parameter ที่ผู้เรียกต้องส่งให้ฟังก์ชัน
+- ตัวแปรหลัง /  คือ Local Variable ที่ใช้เฉพาะระหว่างฟังก์ชันทำงาน
+
+ตัวอย่าง:
+
+(defun AddNumbers (a b / result)
+  (setq result (+ a b))
+  result
+)
+
+a และ b เป็น Parameter
+result เป็น Local Variable
+
+สำหรับ AutoCAD command ที่ขึ้นต้นด้วย c: ปกติไม่มี Parameter จึงเขียน:
+
+(defun c:f113 (/ ss i ent obj)
+  ...
+)
+
+ถ้าเขียน:
+
+(defun c:f113 (ss i ent obj)
+  ...
+)
+
+AutoLISP จะเข้าใจว่า ss, i, ent และ obj เป็น Parameter แต่ AutoCAD เรียกคำสั่ง
+c:f113 โดยไม่ส่งค่า จึงอาจเกิด error "too few arguments"
+
+ถ้าเขียน:
+
+(defun c:f113 ()
+  (setq ss (ssget))
+)
+
+คำสั่งรันได้ แต่ ss ไม่ได้เป็น Local และค่าจะค้าง/กระทบ scope ภายนอก
+
+============================================================
+6. ตัวแปร Local ชื่อซ้ำกันระหว่าง defun
+============================================================
+
+ตัวแปรชื่อเดียวกันในหลายฟังก์ชันไม่ทับกัน หากแต่ละฟังก์ชันประกาศตัวแปรนั้น
+หลัง / ของตัวเอง
+
+(defun func1 (/ result)
+  (setq result "func1")
+  result
+)
+
+(defun func2 (/ result)
+  (setq result "func2")
+  result
+)
+
+result ของ func1 และ result ของ func2 เป็น Local คนละ binding
+
+แต่ AutoLISP ใช้ Dynamic Scope จึงมีกรณีสำคัญ:
+
+(defun func1 (/ result)
+  (setq result "func1")
+  (func2)
+  result
+)
+
+(defun func2 ()
+  (setq result "func2 changed it")
+)
+
+เมื่อ func2 ไม่ประกาศ result เป็น Local การ setq ใน func2 อาจแก้ Local result
+ของ func1 ที่กำลัง active อยู่ได้
+
+แนวทางปฏิบัติ:
+
+- ทุก defun ควรประกาศ temporary variables หลัง / ของตัวเอง
+- อย่าอาศัยว่าฟังก์ชันแม่ประกาศ Local แล้วฟังก์ชันลูกจะปลอดภัย
+- Global Variables ที่ตั้งใจให้จำค่าควรตั้งชื่อให้เด่น เช่น:
+
+*F113:PreviousInput*
+
+============================================================
+7. Local กับค่าที่ต้องการจำข้ามการเรียกคำสั่ง
+============================================================
+
+หาก previousInput อยู่หลัง /:
+
+(defun c:f113 (/ previousInput)
+  ...
+)
+
+ค่าจะจำได้เฉพาะระหว่าง c:f113 รอบปัจจุบัน และกลับเป็น nil เมื่อเรียกคำสั่งใหม่
+
+ถ้าต้องการจำค่า + หรือ - ข้ามการเรียก F113 หลายครั้ง ให้ใช้ Global ที่ตั้งใจไว้:
+
+*F113:PreviousInput*
+
+ตัวอย่าง:
+
+(if (= input "")
+  (setq input
+    (if *F113:PreviousInput*
+      *F113:PreviousInput*
+      "+"
+    )
+  )
+  (setq *F113:PreviousInput* input)
+)
+
+============================================================
+8. งานที่ควรทำต่อใน Session ถัดไป
+============================================================
+
+1) ยืนยันว่าคำสั่งที่ผู้ใช้ใช้งานจริงคือ RESET_COLOR_ หรือ CAC
+
+2) สำรองไฟล์ Z50 ก่อนแก้ logic สำคัญ
+
+3) เพิ่ม TA:RefreshAnonymousBlockColors โดยใช้ apply_patch
+
+4) ทดสอบกรณี:
+
+   - Static Block
+   - Dynamic Block ที่ไม่ได้ปรับค่า
+   - Dynamic Block ที่ Stretch ต่างกันหลาย Reference
+   - Visibility state ต่างกัน
+   - Flip state ต่างกัน
+   - Nested Dynamic Block
+   - Attribute และ Dimension ภายใน Block
+   - สี ByBlock, ACI 1-255 และ ByLayer
+
+5) ตรวจว่าการแก้ Anonymous Block Definitions ทุก *U กระทบ anonymous objects
+   ที่ไม่ใช่ Dynamic Block หรือไม่ หากต้องการความแม่นยำสูง ควรรวบรวมเฉพาะ
+   anonymous definition names ที่ถูกอ้างโดย Dynamic Block References จริง
+
+6) ปรับ F113 ในไฟล์จริงเมื่อผู้ใช้ระบุตำแหน่งไฟล์/อนุญาตให้แก้
+
+============================================================
+9. สถานะการแก้ไฟล์วันนี้
+============================================================
+
+- สร้างไฟล์บันทึกนี้เท่านั้น
+- ยังไม่ได้แก้ Z50_change_color_in_block_REV02_by_ยอดคะน้าเซียนซักแห้ง.lsp
+- ยังไม่ได้เพิ่ม/แก้ c:f113 ในไฟล์โปรแกรมจริง
+- โค้ดที่เสนอทั้งหมดต้องทดสอบใน AutoCAD ก่อนรวมเข้า production

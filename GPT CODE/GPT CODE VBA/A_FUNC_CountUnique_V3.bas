@@ -1,4 +1,4 @@
-Attribute VB_Name = "CountUniqueV3Module"
+Attribute VB_Name = "A_FUNC_CountUnique_V3"
 Option Explicit
 
 ' Syntax:

@@ -1,4 +1,4 @@
-Attribute VB_Name = "KeepNumberModule"
+Attribute VB_Name = "A_FUNC_KeepNumber"
 Option Explicit
 
 Public Function KeepNumber(ByVal s As String) As Long
