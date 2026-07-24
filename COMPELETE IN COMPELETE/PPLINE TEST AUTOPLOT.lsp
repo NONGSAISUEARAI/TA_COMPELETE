@@ -8183,8 +8183,8 @@
     (setq ckst_increment_ (cond 
                             ((getint 
                                (strcat "\nspecify start number\n" 
-                                       (LM:StringSubst " " "_" prefix_txt_) " - " 
-                                       (LM:StringSubst " " "_" midfix_val) 
+                                       (if (= (LM:StringSubst " " "_" prefix_txt_) nil) (progn prefix_txt_ ) (LM:StringSubst " " "_" prefix_txt_) ) " - " 
+                                       (if (= (LM:StringSubst " " "_" midfix_) nil) (progn midfix_ ) (LM:StringSubst " " "_" midfix_) ) 
                                        " - <" (rtos (setq ckst_increment_ (cond (ckst_increment_) (1.0) ) ) ) "> : " 
                                )
                              )
