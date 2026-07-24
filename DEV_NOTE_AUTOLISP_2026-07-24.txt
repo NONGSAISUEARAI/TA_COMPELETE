@@ -1,0 +1,371 @@
+TA_COMPELETE - DEV NOTE: ATTRIBUTE SELECTION AND PANEL NUMBERING
+วันที่: 2026-07-24
+
+วัตถุประสงค์
+สรุปงาน AutoLISP ที่พัฒนาในวันนี้ เพื่อให้ Codex/session อื่นรับช่วงต่อได้
+
+ไฟล์ที่แก้:
+
+C:\Users\tawan.t\Documents\GitHub\TA_COMPELETE\000 - SUB_FUNC.lsp
+
+============================================================
+1. กรอง Block ที่ PANEL_COLOR เป็นค่าว่าง
+============================================================
+
+เพิ่ม Sub Function:
+
+TA:Filter_ss_empty_panel_color_
+
+รูปแบบเรียก:
+
+(setq new_ss_
+  (TA:Filter_ss_empty_panel_color_
+    ss_pre_filter_set_xx_
+  )
+)
+
+การทำงาน:
+
+1) รับ Selection Set จากภายนอก
+2) ตรวจเฉพาะ Entity ชนิด INSERT
+3) แปลง Ename เป็น VLA Object
+4) ตรวจว่า Block มี Attribute
+5) อ่าน Tag "PANEL_COLOR" ด้วย Sub Function ของ Lee Mac:
+
+(LM:vl-getattributevalue block_object_ "PANEL_COLOR")
+
+6) เก็บ Block ลง Selection Set ใหม่เมื่อ:
+
+- มี Tag PANEL_COLOR จริง
+- ค่าเป็น String
+- ค่าเป็น ""
+- หรือมีเฉพาะ Space/Tab/Newline
+
+7) Block ที่ไม่มี Tag PANEL_COLOR จะไม่ถูกเพิ่ม
+8) คืนค่าเป็น Selection Set ว่างเมื่อไม่พบรายการ ไม่คืน nil
+
+============================================================
+2. Command กรอง PANEL_COLOR
+============================================================
+
+เพิ่ม Command:
+
+TA_PANEL_COLOR_EMPTY
+
+รูปแบบเรียกใน AutoCAD:
+
+TA_PANEL_COLOR_EMPTY
+
+การทำงาน:
+
+1) ตรวจ PICKFIRST/Preselection ก่อน
+2) ถ้าไม่มี Preselection จะให้ผู้ใช้เลือก INSERT
+3) เรียก TA:Filter_ss_empty_panel_color_
+4) เก็บผลใน new_ss_
+5) ใช้ sssetfirst ไฮไลต์เฉพาะ Block ที่ PANEL_COLOR ว่าง
+6) แจ้งจำนวน Block ที่พบ
+
+ตัวอย่างใช้ Sub Function เอง:
+
+(setq source_ss_ (ssget '((0 . "INSERT"))))
+(setq new_ss_
+  (TA:Filter_ss_empty_panel_color_ source_ss_)
+)
+
+(if (> (sslength new_ss_) 0)
+  (sssetfirst nil new_ss_)
+)
+
+============================================================
+3. รันหมายเลข Attribute PANEL_NO
+============================================================
+
+เพิ่ม Sub Function:
+
+TA:Run_panel_no_
+
+Arguments:
+
+1) selection_set_
+2) prefix_
+3) start_number_
+
+รูปแบบเรียก:
+
+(TA:Run_panel_no_
+  selection_set_
+  prefix_
+  start_number_
+)
+
+ค่าที่คืน:
+
+จำนวน Attribute PANEL_NO ที่แก้สำเร็จ
+
+การประกอบค่า:
+
+(strcat
+  prefix_
+  "_"
+  (itoa sequence_number_)
+)
+
+ตัวอย่าง:
+
+prefix_       = "PN"
+start_number_ = 1
+
+ผล:
+
+PN_1
+PN_2
+PN_3
+PN_4
+
+ใช้ Sub Function ของ Lee Mac:
+
+(LM:vl-setattributevalue
+  block_object_
+  "PANEL_NO"
+  panel_no_value_
+)
+
+หลักการเพิ่มเลข:
+
+- เพิ่มเลขเฉพาะ Block ที่มี Tag PANEL_NO และเขียนค่าสำเร็จ
+- Block ที่ไม่มี PANEL_NO จะถูกข้าม
+- เลขจึงไม่ขาดเพราะ Block ที่ไม่มี Tag
+
+============================================================
+4. Command รัน PANEL_NO
+============================================================
+
+เพิ่ม Command:
+
+TA_RUN_PANEL_NO
+
+ลำดับการทำงาน:
+
+1) ถาม Prefix
+2) ถามเลขเริ่มต้น
+3) ใช้ PICKFIRST/Preselection หรือให้เลือก INSERT
+4) เรียก TA:Run_panel_no_
+5) สั่ง REGEN
+6) แจ้งจำนวน Block ที่อัปเดต
+
+ตัวอย่าง:
+
+Command: TA_RUN_PANEL_NO
+Specify PANEL_NO prefix: PN
+Specify starting sequence number: 10
+
+ผล:
+
+PN_10
+PN_11
+PN_12
+
+เลขเริ่มต้นใช้ initget 6 จึงต้องเป็นจำนวนเต็มมากกว่า 0
+
+ข้อควรระวัง:
+
+ลำดับอ้างอิงตามลำดับ Entity ภายใน Selection Set ไม่ใช่การเรียงตามตำแหน่ง
+X/Y บน Drawing หากต้องการเรียงซ้ายไปขวาหรือบนลงล่าง ต้องนำ Selection Set
+ไปผ่านฟังก์ชัน Coordinate Sorting ก่อน
+
+============================================================
+5. กำหนด Attribute PANEL_ZONE
+============================================================
+
+เพิ่ม Sub Function:
+
+TA:Set_panel_zone_
+
+Arguments:
+
+1) selection_set_
+2) panel_zone_value_
+
+รูปแบบเรียก:
+
+(TA:Set_panel_zone_
+  selection_set_
+  panel_zone_value_
+)
+
+ค่าที่คืน:
+
+จำนวน Attribute PANEL_ZONE ที่แก้สำเร็จ
+
+ใช้ Sub Function ของ Lee Mac:
+
+(LM:vl-setattributevalue
+  block_object_
+  "PANEL_ZONE"
+  panel_zone_value_
+)
+
+Block ที่ไม่มี Tag PANEL_ZONE จะถูกข้าม
+
+============================================================
+6. Command กำหนด PANEL_ZONE
+============================================================
+
+เพิ่ม Command แยกจาก TA_RUN_PANEL_NO:
+
+TA_SET_PANEL_ZONE
+
+ไม่ได้รวม PANEL_ZONE เข้าไปใน TA_RUN_PANEL_NO ตามคำสั่งผู้ใช้
+
+รูปแบบค่าที่ต้องการ:
+
+PP{prefix}_ZONE_{suffix}
+
+วงเล็บปีกกา {} ใช้แสดงตำแหน่งตัวแปรเท่านั้น ไม่ถูกเขียนลง Attribute
+
+ตัวอย่าง:
+
+prefix = 18
+suffix = 2
+
+ผลลัพธ์:
+
+PP18_ZONE_2
+
+การประกอบค่า:
+
+(setq panel_zone_value_
+  (strcat
+    "PP"
+    panel_zone_prefix_
+    "_ZONE_"
+    panel_zone_suffix_
+  )
+)
+
+ลำดับการทำงาน:
+
+1) ถาม PANEL_ZONE Prefix
+2) ถาม PANEL_ZONE Suffix
+3) ประกอบเป็น PP{prefix}_ZONE_{suffix}
+4) ใช้ PICKFIRST/Preselection หรือให้เลือก INSERT
+5) เรียก TA:Set_panel_zone_
+6) สั่ง REGEN
+7) แจ้งจำนวน Block ที่อัปเดต
+
+ตัวอย่างใช้งาน:
+
+Command: TA_SET_PANEL_ZONE
+Prefix: 18
+Suffix: 2
+
+ค่าที่เขียนลง PANEL_ZONE:
+
+PP18_ZONE_2
+
+============================================================
+7. รูปแบบการเขียนโค้ดที่ใช้
+============================================================
+
+1) ฟังก์ชันภายในใช้ Prefix:
+
+TA:
+
+2) คำสั่ง AutoCAD ใช้:
+
+c:
+
+3) Temporary Variables ประกาศเป็น Local หลัง /
+
+4) ใช้ชื่อแปรรูปแบบ TA_COMPELETE ที่ลงท้ายด้วย _
+
+5) แยก Command Wrapper ออกจาก Sub Function:
+
+- Command รับ User Input และ Selection
+- Sub Function ประมวลผลและคืนผลลัพธ์
+
+6) อ้างอิง Attribute Functions ของ Lee Mac ที่มีอยู่แล้วในไฟล์:
+
+LM:vl-getattributevalue
+LM:vl-setattributevalue
+
+============================================================
+8. รายชื่อฟังก์ชันและคำสั่งที่เพิ่มวันนี้
+============================================================
+
+Sub Functions:
+
+TA:Filter_ss_empty_panel_color_
+TA:Run_panel_no_
+TA:Set_panel_zone_
+
+Commands:
+
+TA_PANEL_COLOR_EMPTY
+TA_RUN_PANEL_NO
+TA_SET_PANEL_ZONE
+
+============================================================
+9. สิ่งที่ยังไม่ได้ทดสอบใน AutoCAD
+============================================================
+
+โค้ดถูกเขียนลงไฟล์แล้ว แต่ยังไม่ได้รันภายใน AutoCAD ใน session นี้
+
+ควรทดสอบ:
+
+1) Block ที่ PANEL_COLOR เป็น ""
+2) Block ที่ PANEL_COLOR มี Space อย่างเดียว
+3) Block ที่ไม่มี PANEL_COLOR
+4) Block ที่ไม่มี Attribute
+5) Dynamic Block
+6) Block ที่มี PANEL_NO
+7) Block ที่ไม่มี PANEL_NO คั่นกลาง Selection Set
+8) PANEL_NO หลาย Block ว่าเลขต่อเนื่องถูกต้อง
+9) Block ที่มี PANEL_ZONE
+10) ค่า PP18_ZONE_2 ถูกเขียนถูกต้อง
+11) Preselection และ Post-selection
+12) การกด ESC ยกเลิกคำสั่ง
+
+============================================================
+10. แนวทางพัฒนาต่อ
+============================================================
+
+หากต้องการให้ PANEL_NO เรียงตามตำแหน่ง ควรเพิ่มตัวเลือก:
+
+- Left to Right
+- Right to Left
+- Top to Bottom
+- Bottom to Top
+
+หากต้องการเลขแบบเติมศูนย์:
+
+PN_001
+PN_002
+PN_003
+
+ให้ใช้ฟังก์ชัน Padding ก่อน strcat
+
+หากต้องการเลือกเฉพาะ PANEL_COLOR ว่างแล้วรัน PANEL_NO ต่อ สามารถประกอบ:
+
+(setq empty_color_ss_
+  (TA:Filter_ss_empty_panel_color_ source_ss_)
+)
+
+(TA:Run_panel_no_
+  empty_color_ss_
+  "PN"
+  1
+)
+
+============================================================
+11. สถานะไฟล์
+============================================================
+
+ไฟล์ที่มีการเปลี่ยนแปลง:
+
+C:\Users\tawan.t\Documents\GitHub\TA_COMPELETE\000 - SUB_FUNC.lsp
+
+ไฟล์บันทึกที่สร้าง:
+
+C:\Users\tawan.t\Documents\GitHub\TA_COMPELETE\DEV_NOTE_AUTOLISP_2026-07-24.txt
+

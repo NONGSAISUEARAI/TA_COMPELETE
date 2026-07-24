@@ -242,3 +242,380 @@
         )
     )
 ;
+
+;Filter INSERT selection set by empty PANEL_COLOR attribute
+;Reference sub-function: LM:vl-getattributevalue by Lee Mac
+;Input  : selection_set_ [pickset]
+;Return : new selection set containing INSERT objects whose
+;         PANEL_COLOR attribute exists and is empty
+  (defun TA:Filter_ss_empty_panel_color_
+         (selection_set_
+          /
+          new_ss_
+          selection_set_i_
+          selection_set_ename_
+          selection_set_obj_
+          panel_color_value_
+         )
+
+    (vl-load-com)
+    (setq new_ss_ (ssadd))
+
+    (if selection_set_
+      (progn
+        (setq selection_set_i_ 0)
+
+        (while (< selection_set_i_ (sslength selection_set_))
+          (setq selection_set_ename_
+                 (ssname selection_set_ selection_set_i_)
+          )
+
+          (if (= "INSERT"
+                 (cdr (assoc 0 (entget selection_set_ename_)))
+              )
+            (progn
+              (setq selection_set_obj_
+                     (vlax-ename->vla-object selection_set_ename_)
+              )
+
+              (if (= :vlax-true
+                     (vla-get-HasAttributes selection_set_obj_)
+                  )
+                (progn
+                  (setq panel_color_value_
+                         (LM:vl-getattributevalue
+                           selection_set_obj_
+                           "PANEL_COLOR"
+                         )
+                  )
+
+                  ;nil means the PANEL_COLOR tag was not found.
+                  ;Only an existing tag with an empty value is accepted.
+                  (if (and (= 'STR (type panel_color_value_))
+                           (= ""
+                              (vl-string-trim
+                                " \t\r\n"
+                                panel_color_value_
+                              )
+                           )
+                      )
+                    (ssadd selection_set_ename_ new_ss_)
+                  )
+                )
+              )
+            )
+          )
+
+          (setq selection_set_i_ (1+ selection_set_i_))
+        )
+      )
+    )
+
+    new_ss_
+  )
+
+
+;Command: select INSERT objects and keep blocks whose PANEL_COLOR is empty
+  (defun c:TA_PANEL_COLOR_EMPTY
+         (/
+          ss_pre_filter_set_xx_
+          new_ss_
+         )
+
+    (vl-load-com)
+
+    ;Use PICKFIRST selection first, otherwise prompt for a new selection.
+    (if (not
+          (setq ss_pre_filter_set_xx_
+                 (ssget "_I" '((0 . "INSERT")))
+          )
+        )
+      (setq ss_pre_filter_set_xx_
+             (ssget '((0 . "INSERT")))
+      )
+    )
+
+    (if ss_pre_filter_set_xx_
+      (progn
+        (setq new_ss_
+               (TA:Filter_ss_empty_panel_color_
+                 ss_pre_filter_set_xx_
+               )
+        )
+
+        (if (> (sslength new_ss_) 0)
+          (progn
+            (sssetfirst nil new_ss_)
+            (prompt
+              (strcat
+                "\nFound "
+                (itoa (sslength new_ss_))
+                " INSERT object(s) with empty PANEL_COLOR."
+              )
+            )
+          )
+          (prompt
+            "\nNo INSERT object with an empty PANEL_COLOR was found."
+          )
+        )
+      )
+      (prompt "\nNo INSERT object was selected.")
+    )
+
+    (princ)
+  )
+
+
+;Run PANEL_NO attribute using PREFIX_SEQUENCE format
+;Reference sub-function: LM:vl-setattributevalue by Lee Mac
+;Input  : selection_set_ [pickset], prefix_ [str], start_number_ [int]
+;Return : number of PANEL_NO attributes updated
+  (defun TA:Run_panel_no_
+         (selection_set_
+          prefix_
+          start_number_
+          /
+          selection_set_i_
+          selection_set_ename_
+          selection_set_obj_
+          panel_no_value_
+          updated_count_
+         )
+
+    (vl-load-com)
+    (setq selection_set_i_ 0
+          updated_count_   0
+    )
+
+    (if selection_set_
+      (while (< selection_set_i_ (sslength selection_set_))
+        (setq selection_set_ename_
+               (ssname selection_set_ selection_set_i_)
+        )
+
+        (if (= "INSERT"
+               (cdr (assoc 0 (entget selection_set_ename_)))
+            )
+          (progn
+            (setq selection_set_obj_
+                   (vlax-ename->vla-object selection_set_ename_)
+                  panel_no_value_
+                   (strcat
+                     prefix_
+                     "_"
+                     (itoa (+ start_number_ updated_count_))
+                   )
+            )
+
+            ;The sequence advances only when PANEL_NO exists and is updated.
+            (if (LM:vl-setattributevalue
+                  selection_set_obj_
+                  "PANEL_NO"
+                  panel_no_value_
+                )
+              (setq updated_count_ (1+ updated_count_))
+            )
+          )
+        )
+
+        (setq selection_set_i_ (1+ selection_set_i_))
+      )
+    )
+
+    updated_count_
+  )
+
+
+;Command: assign PREFIX_SEQUENCE values to PANEL_NO attributes
+  (defun c:TA_RUN_PANEL_NO
+         (/
+          ss_pre_filter_set_xx_
+          prefix_
+          start_number_
+          updated_count_
+         )
+
+    (vl-load-com)
+
+    ;Prefix must not be empty.
+    (while (= ""
+              (setq prefix_
+                     (getstring T "\nSpecify PANEL_NO prefix: ")
+              )
+           )
+      (prompt "\nPrefix cannot be empty.")
+    )
+
+    ;Require a positive starting sequence number.
+    (initget 6)
+    (setq start_number_
+           (getint "\nSpecify starting sequence number: ")
+    )
+
+    (if start_number_
+      (progn
+        ;Use PICKFIRST selection first, otherwise prompt for INSERT objects.
+        (if (not
+              (setq ss_pre_filter_set_xx_
+                     (ssget "_I" '((0 . "INSERT")))
+              )
+            )
+          (setq ss_pre_filter_set_xx_
+                 (ssget '((0 . "INSERT")))
+          )
+        )
+
+        (if ss_pre_filter_set_xx_
+          (progn
+            (setq updated_count_
+                   (TA:Run_panel_no_
+                     ss_pre_filter_set_xx_
+                     prefix_
+                     start_number_
+                   )
+            )
+
+            (command "_.REGEN")
+
+            (prompt
+              (strcat
+                "\nUpdated PANEL_NO on "
+                (itoa updated_count_)
+                " block(s)."
+              )
+            )
+          )
+          (prompt "\nNo INSERT object was selected.")
+        )
+      )
+    )
+
+    (princ)
+  )
+
+
+;Set PANEL_ZONE attribute for selected INSERT objects
+;Reference sub-function: LM:vl-setattributevalue by Lee Mac
+;Input  : selection_set_ [pickset], panel_zone_value_ [str]
+;Return : number of PANEL_ZONE attributes updated
+  (defun TA:Set_panel_zone_
+         (selection_set_
+          panel_zone_value_
+          /
+          selection_set_i_
+          selection_set_ename_
+          selection_set_obj_
+          updated_count_
+         )
+
+    (vl-load-com)
+    (setq selection_set_i_ 0
+          updated_count_   0
+    )
+
+    (if selection_set_
+      (while (< selection_set_i_ (sslength selection_set_))
+        (setq selection_set_ename_
+               (ssname selection_set_ selection_set_i_)
+        )
+
+        (if (= "INSERT"
+               (cdr (assoc 0 (entget selection_set_ename_)))
+            )
+          (progn
+            (setq selection_set_obj_
+                   (vlax-ename->vla-object selection_set_ename_)
+            )
+
+            (if (LM:vl-setattributevalue
+                  selection_set_obj_
+                  "PANEL_ZONE"
+                  panel_zone_value_
+                )
+              (setq updated_count_ (1+ updated_count_))
+            )
+          )
+        )
+
+        (setq selection_set_i_ (1+ selection_set_i_))
+      )
+    )
+
+    updated_count_
+  )
+
+
+;Command: assign one PANEL_ZONE value to selected INSERT objects
+  (defun c:TA_SET_PANEL_ZONE
+         (/
+          ss_pre_filter_set_xx_
+          panel_zone_prefix_
+          panel_zone_suffix_
+          panel_zone_value_
+          updated_count_
+         )
+
+    (vl-load-com)
+
+    ;Format: PP{prefix}_ZONE_{suffix}
+    ;Example: prefix = 18, suffix = 2 -> PP18_ZONE_2
+    (while (= ""
+              (setq panel_zone_prefix_
+                     (getstring T "\nSpecify PANEL_ZONE prefix <PP{prefix}>: ")
+              )
+           )
+      (prompt "\nPANEL_ZONE prefix cannot be empty.")
+    )
+
+    (while (= ""
+              (setq panel_zone_suffix_
+                     (getstring T "\nSpecify PANEL_ZONE suffix <ZONE_{suffix}>: ")
+              )
+           )
+      (prompt "\nPANEL_ZONE suffix cannot be empty.")
+    )
+
+    (setq panel_zone_value_
+           (strcat
+             "PP"
+             panel_zone_prefix_
+             "_ZONE_"
+             panel_zone_suffix_
+           )
+    )
+
+    ;Use PICKFIRST selection first, otherwise prompt for INSERT objects.
+    (if (not
+          (setq ss_pre_filter_set_xx_
+                 (ssget "_I" '((0 . "INSERT")))
+          )
+        )
+      (setq ss_pre_filter_set_xx_
+             (ssget '((0 . "INSERT")))
+      )
+    )
+
+    (if ss_pre_filter_set_xx_
+      (progn
+        (setq updated_count_
+               (TA:Set_panel_zone_
+                 ss_pre_filter_set_xx_
+                 panel_zone_value_
+               )
+        )
+
+        (command "_.REGEN")
+
+        (prompt
+          (strcat
+            "\nUpdated PANEL_ZONE on "
+            (itoa updated_count_)
+            " block(s)."
+          )
+        )
+      )
+      (prompt "\nNo INSERT object was selected.")
+    )
+
+    (princ)
+  )

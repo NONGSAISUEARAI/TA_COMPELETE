@@ -57312,6 +57312,76 @@
     )
   ;
 )
+(defun c:setazone ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+    (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ 
+                                  ss_pre_filter_set_xx_
+                                  (list 
+                                        "010 - ALU_TRAY_PANEL_FOR_AIR_GRILLE_STANDARD-SHAPE_BOTTOM-VIEW" 
+                                        "010 - ALU_TRAY_PANEL_FOR_BLANK-RECESSED-LIGHT_STANDARD-SHAPE_BOTTOM-VIEW" 
+                                        "010 - ALU_TRAY_PANEL_FOR_RECESSED-LIGHT_STANDARD-SHAPE_BOTTOM-VIEW" 
+                                        "010 - ALU_TRAY_PANEL_FOR_RECESSED-LIGHT_START-END_VARIES-SHAPE_BOTTOM-VIEW" 
+                                        "010 - ALU_TRAY_PANEL_START-END_STANDARD-SHAPE_BOTTOM-VIEW" 
+                                        "010 - ALU_TRAY_PANEL_START-END_TZP-SHAPE_BOTTOM-VIEW"
+                                  )
+                                )
+    )
+    ;1
+      (setq zoneprefix_ ;Get-string by keep previous value
+          (if
+            (or
+              (/= (setq zoneprefix_val (getstring (strcat "\nSpecify zoneprefix_ name <" (if zoneprefix_ zoneprefix_ "") ">: ") ) ) "" )
+            )
+              (progn
+                (setq zoneprefix_ zoneprefix_val)
+                (setq zoneprefix_keep_val_ zoneprefix_val)
+              )
+            (setq zoneprefix_val zoneprefix_keep_val_)
+          )
+      )
+      (setq zone_number_ (cond ( (getint (strcat "\nspecify get NUMBER\n<" (rtos (setq zone_number_ (cond (zone_number_) (1.0) ) ) ) "> : " ) ) ) (zone_number_) ) )
+      
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "panel_zone"  (strcat "ZONE" "_" zoneprefix_ "_" (TA:prefix_value_000 zone_number_)))
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+      (setq zone_number_ (+ zone_number_ 1))
+    ;
+  
+  
+)
 (defun c:ttpre ()
   
   (setq ss_bol_ (TA:ss_vla-getboundingbox (ssget "i")))
@@ -59620,3 +59690,4 @@
   )
 
   
+
