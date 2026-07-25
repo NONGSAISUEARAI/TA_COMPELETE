@@ -20953,6 +20953,70 @@
       (setq keepVAL_choose_block_di choose_block_di)
       (nth (- choose_block_di 1)  choose_data-list_)
     )
+    (defun TA:choose_list_v4 (choose_data-list_ txt_promt_ existing_value_
+                              / choose_data-list_sima n existing_position_
+                                default_index_ input_index_ prompt_text_)
+      ; V4 accepts the previous string value directly.
+      ; Each calling variable therefore keeps a separate selection.
+      (if (and (= (type choose_data-list_) 'LIST)
+               (> (length choose_data-list_) 0)
+          )
+        (progn
+          (setq choose_data-list_sima (TA:list-to-Text choose_data-list_)
+                existing_position_   (vl-position existing_value_
+                                                  choose_data-list_
+                                     )
+                default_index_       (if existing_position_
+                                       (1+ existing_position_)
+                                       1
+                                     )
+                n                    0
+                prompt_text_         (strcat
+                                       "\n" txt_promt_
+                                       (apply
+                                         'strcat
+                                         (mapcar
+                                           '(lambda (x)
+                                             (strcat
+                                               "\n"
+                                               (itoa (setq n (1+ n)))
+                                               " = "
+                                               x
+                                             )
+                                           )
+                                           choose_data-list_sima
+                                         )
+                                       )
+                                       "\n<"
+                                       (itoa default_index_)
+                                       "> : "
+                                     )
+          )
+          (setq input_index_ nil)
+          (while (null input_index_)
+            (initget 6)
+            (setq input_index_ (getint prompt_text_))
+            (cond
+              ((null input_index_)
+               (setq input_index_ default_index_)
+              )
+              ((> input_index_ (length choose_data-list_))
+               (prompt
+                 (strcat
+                   "\nPlease enter a number from 1 to "
+                   (itoa (length choose_data-list_))
+                   "."
+                 )
+               )
+               (setq input_index_ nil)
+              )
+            )
+          )
+          (nth (1- input_index_) choose_data-list_)
+        )
+        nil
+      )
+    )
     (defun TA:getkword ( getkword_text_ initget_text1_ initget_text2_ value-true1 value-false1 ) ; for if true-false by keyword
       ; (setq getkword_text_ "keep input offset value ?")
       ; (setq initget_text1_ "Yes")
@@ -59688,6 +59752,271 @@
       )
     ;
   )
+
+  (defun c:sortzone ( ) 
+    (defun TA:TBsort_ (TBsort_ tol
+                       / data xSortIndex xSorted currentColumn columnX
+                         item itemX columnSortIndex sortedResult)
+
+      ;; ระยะ X ที่ถือว่าอยู่ในคอลัมน์เดียวกัน
+      (if (or (null tol) (<= tol 0.0))
+        (setq tol 5.0)
+      )
+
+      ;; ถ้าใช้ UCS ให้แปลงจุดจาก WCS เป็น UCS ก่อน
+      (if (= (getvar "WORLDUCS") 0)
+        (setq data
+          (mapcar
+            '(lambda (item)
+              (list
+                (car item)
+                (trans (cadr item) 0 1)
+              )
+            )
+            TBsort_
+          )
+        )
+        (setq data TBsort_)
+      )
+
+      ;; ขั้นแรกเรียงทุกวัตถุตาม X จากซ้ายไปขวา
+      ;; ใช้ vl-sort-i เพื่อไม่ให้ข้อมูลตำแหน่งซ้ำถูกตัดออก
+      (setq xSortIndex
+        (vl-sort-i
+          data
+          '(lambda (a b)
+            (< (car (cadr a)) (car (cadr b)))
+          )
+        )
+      )
+      (setq xSorted
+        (mapcar
+          '(lambda (index)
+            (nth index data)
+          )
+          xSortIndex
+        )
+      )
+
+      ;; แบ่งกลุ่มตามคอลัมน์จากซ้ายไปขวา
+      (setq currentColumn nil
+            columnX       nil
+            sortedResult  nil
+      )
+
+      (foreach item xSorted
+        (setq itemX (car (cadr item)))
+
+        (if (or (null currentColumn)
+                (<= (abs (- itemX columnX)) tol)
+            )
+          (progn
+            ;; ค่า X ของสมาชิกแรกเป็นแนวอ้างอิงของคอลัมน์
+            (if (null currentColumn)
+              (setq columnX itemX)
+            )
+            (setq currentColumn (cons item currentColumn))
+          )
+          (progn
+            ;; จบคอลัมน์เดิม: เรียงค่า Y จากมากไปน้อย
+            (setq columnSortIndex
+              (vl-sort-i
+                currentColumn
+                '(lambda (a b)
+                  (> (cadr (cadr a)) (cadr (cadr b)))
+                )
+              )
+            )
+            (setq sortedResult
+              (append
+                sortedResult
+                (mapcar
+                  '(lambda (index)
+                    (nth index currentColumn)
+                  )
+                  columnSortIndex
+                )
+              )
+            )
+
+            ;; เริ่มคอลัมน์ใหม่ทางขวา
+            (setq currentColumn (list item)
+                  columnX       itemX
+            )
+          )
+        )
+      )
+
+      ;; เรียงและเพิ่มคอลัมน์สุดท้าย
+      (if currentColumn
+        (progn
+          (setq columnSortIndex
+            (vl-sort-i
+              currentColumn
+              '(lambda (a b)
+                (> (cadr (cadr a)) (cadr (cadr b)))
+              )
+            )
+          )
+          (setq sortedResult
+            (append
+              sortedResult
+              (mapcar
+                '(lambda (index)
+                  (nth index currentColumn)
+                )
+                columnSortIndex
+              )
+            )
+          )
+        )
+      )
+
+      sortedResult
+    )
+    (defun TA:LRsort_ (LRsort_ tol)
+      (defun TA:convert-list-ucs (lst /)
+        (mapcar
+          '(lambda (a)
+            (list
+              (car a)
+              (trans (cadr a) 0 1)
+            )
+          )
+          lst
+        )
+      )
+      (setq tol 5.0) ; ระยะที่ถือว่าเป็นแถวเดียวกัน (mm)
+      (if (= (getvar "worlducs" ) 0 )
+        (progn
+          (setq LRsort_ (TA:convert-list-ucs LRsort_))
+          (setq sorted_
+            (vl-sort LRsort_
+              '(lambda (a b)
+
+                (setq ya (cadr (cadr a)))
+                (setq yb (cadr (cadr b)))
+
+                (setq xa (car (cadr a)))
+                (setq xb (car (cadr b)))
+
+                (if (> (abs (- ya yb)) tol)
+                  (> ya yb) ; แถวบน -> ล่าง
+                  (< xa xb) ; ซ้าย -> ขวา
+                )
+
+              )
+            )
+
+          )
+        )
+        (setq sorted_
+          (vl-sort LRsort_
+            '(lambda (a b)
+
+              (setq ya (cadr (cadr a)))
+              (setq yb (cadr (cadr b)))
+
+              (setq xa (car (cadr a)))
+              (setq xb (car (cadr b)))
+
+              (if (> (abs (- ya yb)) tol)
+                (> ya yb) ; แถวบน -> ล่าง
+                (< xa xb) ; ซ้าย -> ขวา
+              )
+
+            )
+          )
+        )
+        
+      )
+    )
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    (setq ss_list_filter_xx_ (TA:standard_list_croodinate_sorting ss_pre_filter_set_xx_ "Y" ))
+    ;preloop_and_while
+      ;user-input-
+      (setq sortinglist_ (list "left to right" "top to below"))
+      (setq sorting-finder_mode
+        (TA:choose_list_v4
+          sortinglist_
+          "select sorting mode"
+          sorting-finder_mode
+        )
+      )
+      (setq station_number  (cond ( (getint (strcat "\nspecify get station_number \n<" (rtos (setq station_number ( cond (station_number) ( 1.0 ) ) ) ) "> : " ) ) ) (station_number) ) )
+      (setq input-zone (cond ( (getint (strcat "\nspecify get input-zone \n<" (rtos (setq input-zone ( cond ( input-zone ) ( 1.0 ) ) ) ) "> : " ) ) ) (input-zone) ) )
+      (setq panel_no_  (cond ( (getint (strcat "\nspecify get panel_no_ \n<" (rtos (setq panel_no_ ( cond (panel_no_) ( 1.0 ) ) ) ) "> : " ) ) ) (panel_no_) ) )
+      
+      (if (= sorting-finder_mode "top to below" )
+        (progn
+          (setq ss_list_filter_xx_sorted_ (TA:TBsort_ ss_list_filter_xx_ 5 ))
+        )
+        (setq ss_list_filter_xx_sorted_ (reverse (TA:LRsort_ ss_list_filter_xx_ 5 )))
+      )
+      (setq ss_list_filter_xx_sorted_i 0)
+      (while (< ss_list_filter_xx_sorted_i (length ss_list_filter_xx_sorted_))
+        (setq ss_list_filter_xx_sorted_ename_ (car (nth  ss_list_filter_xx_sorted_i ss_list_filter_xx_sorted_)))
+        (setq ss_list_filter_xx_sorted_obj_ (vlax-ename->vla-object  ss_list_filter_xx_sorted_ename_))
+        (if (= (wcmatch (LM:effectivename ss_list_filter_xx_sorted_obj_ ) "*ALU_TRAY_*") T)
+          (progn
+            ;core att
+              (LM:vl-setattributevalue ss_list_filter_xx_sorted_obj_ "panel_zone" 
+                (strcat "PP" (rtos station_number 2 0 ) "_" "ZONE" "_" (TA:prefix_value_00 input-zone ))
+              )
+              (LM:vl-setattributevalue ss_list_filter_xx_sorted_obj_ "panel_no" 
+                (strcat "PP" (rtos station_number 2 0 ) "_" "ZONE" "_" (TA:prefix_value_00 input-zone )
+                "_"  (TA:prefix_value_000 panel_no_))
+              )
+                
+
+
+            ;
+          )
+        )
+        
+        
+        (setq panel_no_ (+ panel_no_ 1))
+        (setq ss_list_filter_xx_sorted_i (+ ss_list_filter_xx_sorted_i 1))
+      )
+      (if (< ss_list_filter_xx_sorted_i (length ss_list_filter_xx_sorted_))
+        (progn
+          (setq panel_no_ (+ panel_no_ 1))
+        )
+      )
+    ;
+  
+  
+  
+  
+  )   
+  
 
   
 
