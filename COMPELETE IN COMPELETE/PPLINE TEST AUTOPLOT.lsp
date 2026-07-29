@@ -9650,7 +9650,7 @@
             )
         )
       ;
-      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "300HK ORDER FROM CHINA REV.2-LOT 2_20260529-185614FLxx" "D5HU") ))
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "300HK ORDER FROM CHINA REV.2-LOT 2_20260529-185614FLxx" "D5HU" "1eu") ))
       ;preloop_and_while
         (setq ss_pre_filter_set_xx_i 0)
         (setq External_ref_ename_ ())
@@ -9722,6 +9722,93 @@
         )
       ;
     ;
+  )
+  (defun c:Plotter_FLsort ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "300HK ORDER FROM CHINA REV.2-LOT 2_20260529-185614FLxx" "D5HU" "1eu") ))
+      (setq ss_pre_filter_set_xx_sortlist_ (TA:standard_list_croodinate_sorting ss_pre_filter_set_xx_ "Y" ))
+      (setq ss_pre_filter_set_xx_sortlist_ (TA:LRsort_ ss_pre_filter_set_xx_sortlist_ 5))
+    ;
+    ;
+      (setq sorting-finder_mode
+        (TA:choose_list_v4
+          (setq sortinglist_ (list "left to right" "top to below"))
+          "select sorting mode"
+          sorting-finder_mode
+        )
+      )
+      (if (= sorting-finder_mode "top to below" )
+        (progn
+          (setq ss_pre_filter_set_xx_sortlist_ (TA:TBsort_ ss_pre_filter_set_xx_sortlist_ 5 ))
+        )
+        (setq ss_pre_filter_set_xx_sortlist_ (TA:LRsort_ ss_pre_filter_set_xx_sortlist_ 5 ))
+      )
+      (setq prefix-number_ ;Get-string by keep previous value
+          (if
+            (or
+              (/= (setq prefix-number_val (getstring (strcat "\nSpecify Pattern name <" (if prefix-number_ prefix-number_ "") ">: ") ) ) "" )
+            )
+              (progn
+                (setq prefix-number_ prefix-number_val)
+                (setq prefix-number_keep_val_ prefix-number_val)
+              )
+            (setq prefix-number_val prefix-number_keep_val_)
+          )
+      )
+      (setq FLplot_start_number_ (cond ( (getint (strcat "\nspecify get FLplot_start_number_ \n<" (rtos (setq FLplot_start_number_ (cond (FLplot_start_number_) (1.0) ) ) ) "> : " ) ) ) (FLplot_start_number_) ) )
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_sortlist_i 0)
+      (while (< ss_pre_filter_set_xx_sortlist_i (length ss_pre_filter_set_xx_sortlist_))
+        (setq ss_pre_filter_set_xx_sortlist_ename_ (car (nth  ss_pre_filter_set_xx_sortlist_i ss_pre_filter_set_xx_sortlist_))) 
+        (setq ss_pre_filter_set_xx_sortlist_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_sortlist_ename_))
+        (LM:vl-setattributevalue 
+          ss_pre_filter_set_xx_sortlist_obj_ 
+          "DWG-NO"
+          (strcat (LM:vl-getattributevalue ss_pre_filter_set_xx_sortlist_obj_ "TTL_PJ_NO") "-" prefix-number_ "-" (TA:prefix_value_000 FLplot_start_number_)  ) 
+        )
+        (LM:vl-setattributevalue 
+          ss_pre_filter_set_xx_sortlist_obj_ 
+          "TTL_PJ_SHEET_NO"
+          (strcat (TA:prefix_value_000 FLplot_start_number_)  ) 
+        )
+        (LM:vl-setattributevalue 
+          ss_pre_filter_set_xx_sortlist_obj_ 
+          "TTL_PJ_TOTAL_NO"
+          (TA:prefix_value_000 (length ss_pre_filter_set_xx_sortlist_)) 
+        )
+        
+        (setq FLplot_start_number_ (+ FLplot_start_number_ 1))
+        (setq ss_pre_filter_set_xx_sortlist_i (+ ss_pre_filter_set_xx_sortlist_i 1))
+      )
+    ;
+    
   )
 
 

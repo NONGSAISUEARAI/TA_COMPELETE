@@ -14105,10 +14105,10 @@
     (defun c:Bcc ()
       (_StartUndo doc)
       ;special for me only work with CKST Drwaing Construction 
-        (setq DIM_E-C "FAMELINE-CKST_E-C") ;Ref from C:dimsetting 
-        (setq DIM_C-C "FAMELINE-CKST_C-C") ;Ref from C:dimsetting 
-        (setq DIM_C-E "FAMELINE-CKST_C-E") ;Ref from C:dimsetting 
-        (setq DIM_E-E "FAMELINE-CKST_E-E") ;Ref from C:dimsetting 
+        (setq DIM_E-C _global-dim_E-C_) ;Ref from C:dimsetting 
+        (setq DIM_C-C _global-dim_C-C_) ;Ref from C:dimsetting 
+        (setq DIM_C-E _global-dim_C-E_) ;Ref from C:dimsetting 
+        (setq DIM_E-E _global-dim_E-E_) ;Ref from C:dimsetting 
         (setq dimprec 0 )
       ;
       ;Keep setting dimension
@@ -14442,10 +14442,10 @@
     (defun c:Bcx ()
       (_StartUndo doc)
       ;special for me only work with CKST Drwaing Construction 
-        (setq DIM_E-C "FAMELINE-CKST_E-C") ;Ref from C:dimsetting 
-        (setq DIM_C-C "FAMELINE-CKST_C-C") ;Ref from C:dimsetting 
-        (setq DIM_C-E "FAMELINE-CKST_C-E") ;Ref from C:dimsetting 
-        (setq DIM_E-E "FAMELINE-CKST_E-E") ;Ref from C:dimsetting 
+        (setq DIM_E-C _global-dim_E-C_) ;Ref from C:dimsetting 
+        (setq DIM_C-C _global-dim_C-C_) ;Ref from C:dimsetting 
+        (setq DIM_C-E _global-dim_C-E_) ;Ref from C:dimsetting 
+        (setq DIM_E-E _global-dim_E-E_) ;Ref from C:dimsetting 
         (setq dimprec 0 )
       ;
       ;Keep setting dimension
@@ -14778,13 +14778,13 @@
     )
     (defun c:Bex ()
       (_StartUndo doc)
-      ; ;special for me only work with CKST Drwaing Construction 
-      ;   (setq DIM_E-C "FAMELINE-CKST_E-C") ;Ref from C:dimsetting 
-      ;   (setq DIM_C-C "FAMELINE-CKST_C-C") ;Ref from C:dimsetting 
-      ;   (setq DIM_C-E "FAMELINE-CKST_C-E") ;Ref from C:dimsetting 
-      ;   (setq DIM_E-E "FAMELINE-CKST_E-E") ;Ref from C:dimsetting 
-      ;   (setq dimprec 0 )
-      ; ;
+      ;special for me only work with CKST Drwaing Construction 
+        (setq DIM_E-C _global-dim_E-C_) ;Ref from C:dimsetting 
+        (setq DIM_C-C _global-dim_C-C_) ;Ref from C:dimsetting 
+        (setq DIM_C-E _global-dim_C-E_) ;Ref from C:dimsetting 
+        (setq DIM_E-E _global-dim_E-E_) ;Ref from C:dimsetting 
+        (setq dimprec 0 )
+      ;
       ;Keep setting dimension
         (setq acadObj (vlax-get-acad-object))
         (setq doc (vla-get-ActiveDocument acadObj))
@@ -15482,10 +15482,10 @@
     )
     (defun c:BBCx ()
       ;special for me only work with CKST Drwaing Construction 
-        (setq DIM_E-C "FAMELINE-CKST_E-C") ;Ref from C:dimsetting  
-        (setq DIM_C-C "FAMELINE-CKST_C-C") ;Ref from C:dimsetting 
-        (setq DIM_C-E "FAMELINE-CKST_C-E") ;Ref from C:dimsetting 
-        (setq DIM_E-E "FAMELINE-CKST_E-E") ;Ref from C:dimsetting 
+        (setq DIM_E-C _global-dim_E-C_) ;Ref from C:dimsetting 
+        (setq DIM_C-C _global-dim_C-C_) ;Ref from C:dimsetting 
+        (setq DIM_C-E _global-dim_C-E_) ;Ref from C:dimsetting 
+        (setq DIM_E-E _global-dim_E-E_) ;Ref from C:dimsetting 
         (setq dimprec 0 )
       ;
       ;Keep setting dimension

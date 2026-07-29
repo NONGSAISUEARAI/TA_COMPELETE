@@ -10500,7 +10500,12 @@
       (defun c:change_layer_chDEF_ ()
         (setq target_layer_ "DEFPOINTS") ;change layer here
         (setq total_layer (TA:get_name_layer_in_drawing))
-        (setq find_layer_ (TA:member (strcat target_layer_) total_layer))
+        (setq find_layer_ (or 
+                            (TA:member (strcat target_layer_) total_layer)
+                            (TA:member "Defpoints" total_layer)
+                            (TA:member "defpoints" total_layer)
+                          )
+        )
 
         ;selection_set_for_fillter_blk_name
           (if  ;pre_select_ssget_or_post_select_ssget

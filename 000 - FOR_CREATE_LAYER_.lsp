@@ -976,6 +976,7 @@
             (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
             (setq 2nd_filter_val_main "FRAMING_") ;2nd_filter
             (setq 3rd_filter_val_main (list  ;3rd_filter
+                                            "ACESSORIES"
                                             "CC-01" ;
                                             "HR-02A" ;
                                             "HR-02B" ;
@@ -984,21 +985,41 @@
                                       )
             )
             (setq 4th_filter_val_main (list  ;4th_filter
-                                            (list "MAIN_COLOR_1" 3) ;
-                                            (list "MAIN_COLOR_2" 2) ;
-                                            (list "MAIN_COLOR_3" 2) ;
-                                            (list "MAIN_COLOR_5" 2) ;
-                                            (list "SUB_COLOR_1" 1) ;
-                                            (list "SUB_COLOR_2" 1) ;
-                                            (list "SUB_COLOR_3" 251) ;
-                                            (list "SUB_COLOR_4" 251) ;
-                                            (list "SUB_COLOR_4" 251) ;
-                                            (list "HATCH_" 251) ;
-                                            (list "WIPEOUT_" 250) ;
-                                            (list "HIDDEN_" 251) ;
-                                            (list "SYMBOL_" 251) ;
-                                            (list "DEF_SUB" 250) ;
-                                      )
+                                    (list "CUT_COLOR_1" 1) ;
+                                    (list "CUT_COLOR_2" 2) ;
+                                    (list "CUT_COLOR_3" 3) ;
+                                    (list "CUT_COLOR_4" 4) ;
+                                    (list "CUT_COLOR_5" 5) ;
+                                    (list "CUT_COLOR_6" 6) ;
+                                    (list "MAIN_COLOR_1" 1) ;
+                                    (list "MAIN_COLOR_2" 2) ;
+                                    (list "MAIN_COLOR_3" 3) ;
+                                    (list "MAIN_COLOR_4" 4) ;
+                                    (list "MAIN_COLOR_5" 5) ;
+                                    (list "MAIN_COLOR_6" 6) ;
+                                    (list "MAIN_COLOR_251" 251) ;
+                                    (list "SUB_COLOR_1" 1) ;
+                                    (list "SUB_COLOR_2" 2) ;
+                                    (list "SUB_COLOR_3" 3) ;
+                                    (list "SUB_COLOR_4" 4) ;
+                                    (list "SUB_COLOR_5" 5) ;
+                                    (list "SUB_COLOR_6" 6) ;
+                                    (list "SUB_COLOR_8" 8) ;
+                                    (list "SUB_COLOR_251" 251) ;
+                                    (list "HATCH_" 251) ;
+                                    (list "WIPEOUT_" 250) ;
+                                    (list "HIDDEN_" 251) ;
+                                    (list "SYMBOL_" 251) ;
+                                    (list "DEF_SUB" 250) ;
+                                    (list "TEXT_COLOR_1" 1) ;
+                                    (list "TEXT_COLOR_2" 2) ;
+                                    (list "TEXT_COLOR_3" 3) ;
+                                    (list "TEXT_COLOR_3" 3) ;
+                                    (list "TEXT_COLOR_4" 4) ;
+                                    (list "TEXT_COLOR_5" 5) ;
+                                    (list "TEXT_COLOR_6" 6) ;
+                                    ;
+                              )
             )
           )
           
@@ -1293,37 +1314,6 @@
                                       (list "TEXT_COLOR_5" 0 0 255) ; Blue
                                       (list "TEXT_COLOR_6" 255 0 255) ; Magenta
                                       (list "TEXT_COLOR_7" 0 0 0) ; Black
-                                )
-      )
-    )
-  )
-  (defun c:crelayfram ()
-    (TA:generate_filter_list 
-      (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
-      (setq 2nd_filter_val_main "FRAMING_") ;2nd_filter
-      (setq 3rd_filter_val_main (list  ;3rd_filter
-                                      "CC-01" ;
-                                      "HR-02A" ;
-                                      "HR-02B" ;
-                                      "HR-09B" ;
-                                      "HANGING" ;
-                                )
-      )
-      (setq 4th_filter_val_main (list  ;4th_filter
-                                      (list "MAIN_COLOR_1" 3) ;
-                                      (list "MAIN_COLOR_2" 2) ;
-                                      (list "MAIN_COLOR_3" 2) ;
-                                      (list "MAIN_COLOR_5" 2) ;
-                                      (list "SUB_COLOR_1" 1) ;
-                                      (list "SUB_COLOR_2" 1) ;
-                                      (list "SUB_COLOR_3" 251) ;
-                                      (list "SUB_COLOR_4" 251) ;
-                                      (list "SUB_COLOR_4" 251) ;
-                                      (list "HATCH_" 251) ;
-                                      (list "WIPEOUT_" 250) ;
-                                      (list "HIDDEN_" 251) ;
-                                      (list "SYMBOL_" 251) ;
-                                      (list "DEF_SUB" 250) ;
                                 )
       )
     )
@@ -2328,6 +2318,59 @@
                                     ;
                               )
     )
+    )
+    
+  )
+  (defun c:crelay3000panel ()
+    (TA:generate_filter_list
+      (setq 1st_filter_ "PPLINE-FAMELINE") ;1s_filter
+      (setq 2nd_filter_val_main "010 - Cxx_300-PANEL_") ;2nd_filter
+      (setq 3rd_filter_val_main (list ;3rd_filter
+                                  "PANEL";
+                                  "SOLID-SHEET"
+                                  "ACCESSORIES"
+                                  "FRAMING" ;
+                                  "FASTERN" ;
+                                  "DIMS"
+                                )
+      )
+      (setq 4th_filter_val_main (list  ;4th_filter
+                                    (list "CUT_COLOR_1" 1) ;
+                                    (list "CUT_COLOR_2" 2) ;
+                                    (list "CUT_COLOR_3" 3) ;
+                                    (list "CUT_COLOR_4" 4) ;
+                                    (list "CUT_COLOR_5" 5) ;
+                                    (list "CUT_COLOR_6" 6) ;
+                                    (list "MAIN_COLOR_1" 1) ;
+                                    (list "MAIN_COLOR_2" 2) ;
+                                    (list "MAIN_COLOR_3" 3) ;
+                                    (list "MAIN_COLOR_4" 4) ;
+                                    (list "MAIN_COLOR_5" 5) ;
+                                    (list "MAIN_COLOR_6" 6) ;
+                                    (list "MAIN_COLOR_251" 251) ;
+                                    (list "SUB_COLOR_1" 2) ;
+                                    (list "SUB_COLOR_2" 2) ;
+                                    (list "SUB_COLOR_3" 3) ;
+                                    (list "SUB_COLOR_4" 4) ;
+                                    (list "SUB_COLOR_5" 5) ;
+                                    (list "SUB_COLOR_6" 6) ;
+                                    (list "SUB_COLOR_8" 8) ;
+                                    (list "SUB_COLOR_251" 251) ;
+                                    (list "HATCH_" 251) ;
+                                    (list "WIPEOUT_" 250) ;
+                                    (list "HIDDEN_" 251) ;
+                                    (list "SYMBOL_" 251) ;
+                                    (list "DEF_SUB" 250) ;
+                                    (list "TEXT_COLOR_1" 1) ;
+                                    (list "TEXT_COLOR_2" 2) ;
+                                    (list "TEXT_COLOR_3" 3) ;
+                                    (list "TEXT_COLOR_3" 3) ;
+                                    (list "TEXT_COLOR_4" 4) ;
+                                    (list "TEXT_COLOR_5" 5) ;
+                                    (list "TEXT_COLOR_6" 6) ;
+                                    ;
+                              )
+      )
     )
     
   )
