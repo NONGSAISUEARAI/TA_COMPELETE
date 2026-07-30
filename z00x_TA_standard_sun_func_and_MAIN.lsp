@@ -5312,6 +5312,7 @@
                                                 ; (cons 8 "000 - GRID")   ;kind of layer
                                                 ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                                 ; (cons 62 1)           ;kind of color call sign with color code index
+                                                (cons 66 1)           ;kind of color call sign with color code index
                                               )
                                         )
             )
@@ -5324,17 +5325,68 @@
                                                 ; (cons 8 "000 - GRID")   ;kind of layer
                                                 ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                                 ; (cons 62 1)           ;kind of color call sign with color code index
+                                                (cons 66 1)
                                               )
                                         )
             )
           )
           (sslength ss_pre_filter_set_xx_)
         )
-        (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "xxxxxxxxxxxxxxxxxxxxxxxxxxxx"))
+        (setq ss_pre_filter_set_xx_sorted (TA:standard_list_croodinate_sorting ss_pre_filter_set_xx_ "Y"))
       ;
-      (setq tag-target_sort_ename_ (car (entsel "specify Object")))
+      (setq tag-target_sort_ename_ (car (nentsel "specify Object")))
       (setq tag-target_sort_obj_ (vlax-ename->vla-object tag-target_sort_ename_))
-      
+      (setq tag-target_sort_obj_tagname_ (vla-get-tagstring tag-target_sort_obj_ ))
+      ;
+      ;
+      (setq sorting-finder_mode
+        (TA:choose_list_v4
+          (setq sortinglist_ (list "left to right" "top to below"))
+          "select sorting mode"
+          sorting-finder_mode
+        )
+      )
+      (if (= sorting-finder_mode "top to below" )
+        (progn
+          (setq ss_pre_filter_set_xx_sorted_ (TA:TBsort_ ss_pre_filter_set_xx_sorted 5 ))
+        )
+        (setq ss_pre_filter_set_xx_sorted_ (TA:LRsort_ ss_pre_filter_set_xx_sorted 5 ))
+      )
+      (setq prefix-str-sort_ ;Get-string by keep previous value
+          (if
+            (or
+              (/= (setq prefix-str-sort_val (getstring (strcat "\nSpecify Pattern name \n \ for delete prefix <" (if prefix-str-sort_ prefix-str-sort_ "") ">: ") ) ) "" )
+            )
+              (progn
+                (setq prefix-str-sort_ prefix-str-sort_val)
+                (setq prefix-str-sort_keep_val_ prefix-str-sort_val)
+              )
+            (setq prefix-str-sort_val prefix-str-sort_keep_val_)
+          )
+      )
+      (setq BLKATTsort_start_num (cond ( (getint (strcat "\nspecify BLKATTsort_start_num\n<" (rtos (setq BLKATTsort_start_num (cond (BLKATTsort_start_num) (1.0) ) ) ) "> : " ) ) ) (BLKATTsort_start_num) ) )
+      (setq BLKATTsort_start_num_i (TA:prefix_value_00 BLKATTsort_start_num))
+      ;
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_sorted_i 0)
+        (while (< ss_pre_filter_set_xx_sorted_i (length ss_pre_filter_set_xx_sorted_))
+          (setq ss_pre_filter_set_xx_sorted_ename_ (car (nth ss_pre_filter_set_xx_sorted_i ss_pre_filter_set_xx_sorted_ )))
+          (setq ss_pre_filter_set_xx_sorted_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_sorted_ename_))
+          (if (/=  (member tag-target_sort_obj_tagname_  (LM:vl-getattributevalue-tag-TA-Modifies ss_pre_filter_set_xx_sorted_obj_)  ) nil)
+            (progn
+              (if (= (wcmatch prefix-str-sort_ "\\*") T)
+                (progn
+                  (setq prefix-str-sorted_ "")
+                )
+                (setq prefix-str-sorted_ prefix-str-sort_)
+              )
+              (LM:vl-setattributevalue ss_pre_filter_set_xx_sorted_obj_ tag-target_sort_obj_tagname_ (strcat prefix-str-sorted_ BLKATTsort_start_num_i))
+              (setq BLKATTsort_start_num_i (TA:prefix_value_00 (setq BLKATTsort_start_num (+ BLKATTsort_start_num 1))))
+            )
+          )
+          (setq ss_pre_filter_set_xx_sorted_i (+ ss_pre_filter_set_xx_sorted_i 1))
+        )
+      ;
     )
     (defun c:MKTblk () 
       ;selection_set_for_fillter_blk_name
