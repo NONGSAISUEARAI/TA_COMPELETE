@@ -1,4 +1,4 @@
-Attribute VB_Name = "modPackSummary_v2_90"
+Attribute VB_Name = "S_FUNC_Pack_Summary_v2_9"
 Option Explicit
 
 Function PACK_SUMMARY_v2_9( _
