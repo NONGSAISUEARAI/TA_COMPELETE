@@ -60672,5 +60672,171 @@
   )
   
 
-  
+  (defun c:TA_HATCH_ANSI33
+        (/
+          nent_data_
+          hatch_ename_
+          hatch_obj_
+          error_result_
+        )
+
+    (vl-load-com)
+
+    ;; ไม่รับค่าศูนย์และค่าติดลบ แต่กด Enter ได้
+    (initget 6)
+
+    ;; ถาม Hatch Scale และจำค่าครั้งก่อน
+    (setq input_hatch_scale
+      (cond
+        (
+          (getreal
+            (strcat
+              "\nSpecify Hatch Scale <"
+              (rtos
+                (setq input_hatch_scale
+                  (cond
+                    (input_hatch_scale)
+                    (1.0)
+                  )
+                )
+                2
+                2
+              )
+              ">: "
+            )
+          )
+        )
+        (input_hatch_scale)
+      )
+    )
+
+    (while
+      (and
+        (not hatch_ename_)
+        (setq nent_data_
+          (nentsel "\nSelect Hatch: ")
+        )
+      )
+
+      (setq hatch_ename_ (car nent_data_)
+            hatch_obj_
+            (vlax-ename->vla-object hatch_ename_)
+      )
+
+      (if (/= "AcDbHatch"
+              (vla-get-ObjectName hatch_obj_)
+          )
+        (progn
+          (prompt "\nSelected object is not a Hatch.")
+          (setq hatch_ename_ nil)
+        )
+      )
+    )
+
+    (if hatch_ename_
+      (progn
+        (setq error_result_
+          (vl-catch-all-apply
+            (function
+              (lambda ()
+                ;; เปลี่ยน Pattern
+                (vla-SetPattern
+                  hatch_obj_
+                  1
+                  "ANSI33"
+                )
+
+                ;; กำหนด Scale
+                (vla-put-PatternScale
+                  hatch_obj_
+                  input_hatch_scale
+                )
+
+                (vla-Evaluate hatch_obj_)
+              )
+            )
+          )
+        )
+
+        (if (vl-catch-all-error-p error_result_)
+          (prompt
+            (strcat
+              "\nUnable to change Hatch: "
+              (vl-catch-all-error-message error_result_)
+            )
+          )
+          (progn
+            (vla-Regen
+              (vla-get-ActiveDocument
+                (vlax-get-acad-object)
+              )
+              1
+            )
+
+            (prompt
+              (strcat
+                "\nHatch changed to ANSI33, Scale = "
+                (rtos input_hatch_scale 2 2)
+              )
+            )
+          )
+        )
+      )
+    )
+
+    (princ)
+  )
+
+  (defun c:sumdyn ()
+    ;presetting from code
+      (setq sum_parameter "X")
+    ; 
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    ;preloop_and_while
+      (setq sum_val_ 0)
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (if (and 
+              (= (vla-get-isdynamicblock ss_pre_filter_set_xx_obj_  ) :vlax-true )
+              (/= (member (strcase sum_parameter) (setq dynamic_property_list_ (mapcar (function (lambda ( property_name_ ) (strcase property_name_) ) ) (LM:getdynprops_nonvalue ss_pre_filter_set_xx_obj_ ) ) )) nil )
+              
+            )
+          (progn
+            (setq sum_val_ (+ (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ sum_parameter) sum_val_ ))
+          )
+        )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+    (alert (rtos (/ sum_val_ 1000) 2 2))
+  ) 
 
