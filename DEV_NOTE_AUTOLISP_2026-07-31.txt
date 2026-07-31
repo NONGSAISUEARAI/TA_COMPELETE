@@ -1,0 +1,305 @@
+TA_COMPELETE - CHAT HISTORY: AUTOLISP
+วันที่: 2026-07-31
+
+วัตถุประสงค์
+สรุปงานและความรู้ที่พูดคุยวันนี้ เพื่อให้ Codex/session อื่นรับช่วงต่อได้
+
+============================================================
+1. อ่าน History ล่าสุด
+============================================================
+
+อ่านไฟล์:
+
+C:\Users\tawan.t\Documents\GitHub\TA_COMPELETE\DEV_NOTE_AUTOLISP_2026-07-24.txt
+
+สถานะที่รับช่วงมา:
+
+- มีคำสั่ง TA_PANEL_COLOR_EMPTY
+- มีคำสั่ง TA_RUN_PANEL_NO
+- มีคำสั่ง TA_SET_PANEL_ZONE
+- โค้ดอยู่ใน 000 - SUB_FUNC.lsp
+- ใช้ Attribute Sub Functions ของ Lee Mac
+- งานดังกล่าวยังไม่ได้ทดสอบภายใน AutoCAD จาก session ก่อน
+
+============================================================
+2. คำสั่ง NENTSEL เปลี่ยน Hatch เป็น ANSI33
+============================================================
+
+ผู้ใช้ขอโค้ดที่ใช้ nentsel เลือก Hatch และเปลี่ยน Pattern เป็น ANSI33
+
+แนวทาง:
+
+1) ใช้ nentsel เพื่อเลือก Nested Entity ได้
+2) นำ Ename จาก (car nent_data_) ไปแปลงเป็น VLA Object
+3) ตรวจ ObjectName ว่าเป็น "AcDbHatch"
+4) ใช้ ActiveX SetPattern:
+
+(vla-SetPattern hatch_obj_ 1 "ANSI33")
+
+ค่า 1 หมายถึง acHatchPatternTypePreDefined
+
+5) เรียก:
+
+(vla-Evaluate hatch_obj_)
+(vla-Regen doc_obj_ 1)
+
+ข้อควรระวัง:
+
+- หาก Hatch อยู่ใน Block Definition การแก้ไขอาจกระทบ Block instance อื่น
+  ที่ใช้ Definition เดียวกัน
+- Hatch ภายใน Xref อาจแก้ไม่ได้
+- ควรครอบ vla-SetPattern ด้วย vl-catch-all-apply
+
+สถานะไฟล์:
+
+ตอนแรกมีการเพิ่ม TA:Set_hatch_pattern_ และ c:TA_HATCH_ANSI33 ลง
+000 - SUB_FUNC.lsp แต่ผู้ใช้แจ้งว่าไม่ต้องสร้าง/แก้ไฟล์ จึงนำโค้ดส่วนนี้
+ออกจากไฟล์เรียบร้อยแล้ว
+
+ปัจจุบันคำสั่ง TA_HATCH_ANSI33 ไม่ได้อยู่ในไฟล์โปรเจกต์
+โค้ดถูกส่งให้ผู้ใช้ในแชตเท่านั้น
+
+============================================================
+3. เพิ่ม User Input สำหรับ Hatch Scale
+============================================================
+
+ผู้ใช้ต้องการรูปแบบ User Input ที่จำค่าครั้งก่อน คล้าย:
+
+(setq input_layout_number
+  (cond
+    ((getint ...))
+    (input_layout_number)
+  )
+)
+
+สำหรับ Hatch Scale ควรใช้ getreal ไม่ใช่ getint เพราะ Scale อาจมีทศนิยม
+
+ตัวแปรที่ใช้:
+
+input_hatch_scale
+
+ตัวอย่างแนวทาง:
+
+(initget 6)
+
+(setq input_hatch_scale
+  (cond
+    (
+      (getreal
+        (strcat
+          "\nSpecify Hatch Scale <"
+          (rtos
+            (setq input_hatch_scale
+              (cond
+                (input_hatch_scale)
+                (1.0)
+              )
+            )
+            2
+            2
+          )
+          ">: "
+        )
+      )
+    )
+    (input_hatch_scale)
+  )
+)
+
+initget 6 ทำให้:
+
+- ไม่รับค่าศูนย์
+- ไม่รับค่าติดลบ
+- ยังกด Enter เพื่อใช้ Default ได้
+
+นำค่าไปใช้กับ Hatch:
+
+(vla-put-PatternScale
+  hatch_obj_
+  input_hatch_scale
+)
+
+ตัวอย่าง:
+
+Specify Hatch Scale <1.00>: 2.5
+
+ผล:
+
+Pattern = ANSI33
+Scale   = 2.50
+
+เมื่อเรียกคำสั่งรอบถัดไป ตัวแปร Global input_hatch_scale จะจำ 2.50
+
+หมายเหตุ:
+
+อย่าใส่ input_hatch_scale ไว้หลัง / ใน defun หากต้องการจำค่าข้ามการเรียกคำสั่ง
+
+============================================================
+4. SSGET สำหรับ Dynamic Block
+============================================================
+
+ข้อสรุป:
+
+ssget ไม่มี DXF Group Code ที่บอกว่า INSERT นั้นเป็น Dynamic Block โดยตรง
+
+ขั้นแรกให้เลือก INSERT:
+
+(setq ss_
+  (ssget '((0 . "INSERT")))
+)
+
+หรือเลือกทั้ง Drawing:
+
+(setq ss_
+  (ssget "_X" '((0 . "INSERT")))
+)
+
+จากนั้นกรองด้วย ActiveX Property:
+
+(and
+  (vlax-property-available-p block_obj_ 'IsDynamicBlock)
+  (= :vlax-true
+     (vla-get-IsDynamicBlock block_obj_)
+  )
+)
+
+ไม่แนะนำให้ใช้ชื่อ *U อย่างเดียว เช่น:
+
+(ssget "_X" '((0 . "INSERT") (2 . "`*U*")))
+
+เหตุผล:
+
+- *U เป็น Anonymous Block Name
+- Dynamic Block บางสถานะอาจไม่ตรงวิธีกรองนี้
+- Anonymous Block บางตัวอาจไม่ใช่ Dynamic Block
+- IsDynamicBlock แม่นยำกว่า
+
+============================================================
+5. LM:getdynprops_nonvalue
+============================================================
+
+พบ Function ในโปรเจกต์:
+
+(defun LM:getdynprops_nonvalue (blk)
+  (mapcar
+    '(lambda (x)
+       (vla-get-propertyname x)
+     )
+    (vlax-invoke blk 'getdynamicblockproperties)
+  )
+)
+
+หน้าที่:
+
+- รับ VLA Dynamic Block Reference
+- คืน List ของชื่อ Dynamic Properties
+- ไม่คืนค่า Property Values
+
+ตัวอย่าง:
+
+(LM:getdynprops_nonvalue ss_pre_filter_set_xx_obj_)
+
+ผล:
+
+("X" "Origin" "thk" "Origin" "Distance1" "Origin" "view")
+
+============================================================
+6. ใช้ LAMBDA และ STRCASE กับชื่อ Dynamic Properties
+============================================================
+
+ผู้ใช้ต้องการแปลงชื่อ Dynamic Properties ทั้ง List เป็นตัวพิมพ์ใหญ่
+
+โค้ด:
+
+(mapcar
+  '(lambda (x)
+     (strcase x)
+   )
+  (LM:getdynprops_nonvalue
+    ss_pre_filter_set_xx_obj_
+  )
+)
+
+ผล:
+
+("X" "ORIGIN" "THK" "ORIGIN" "DISTANCE1" "ORIGIN" "VIEW")
+
+รูปแบบใช้ชื่อตัวแปรอ่านง่าย:
+
+(setq dynamic_property_list_
+  (mapcar
+    (function
+      (lambda (property_name_)
+        (strcase property_name_)
+      )
+    )
+    (LM:getdynprops_nonvalue
+      ss_pre_filter_set_xx_obj_
+    )
+  )
+)
+
+ถ้าต้องการตัวพิมพ์เล็ก:
+
+(mapcar
+  '(lambda (x)
+     (strcase x T)
+   )
+  (LM:getdynprops_nonvalue
+    ss_pre_filter_set_xx_obj_
+  )
+)
+
+ผล:
+
+("x" "origin" "thk" "origin" "distance1" "origin" "view")
+
+============================================================
+7. ตัวอย่างตรวจว่ามี Dynamic Property ที่ต้องการหรือไม่
+============================================================
+
+สามารถแปลงชื่อเป็นตัวพิมพ์ใหญ่ก่อนตรวจ เพื่อไม่สนตัวพิมพ์เล็ก/ใหญ่:
+
+(setq dynamic_property_list_
+  (mapcar
+    '(lambda (property_name_)
+       (strcase property_name_)
+     )
+    (LM:getdynprops_nonvalue
+      ss_pre_filter_set_xx_obj_
+    )
+  )
+)
+
+(if (member "DISTANCE1" dynamic_property_list_)
+  (prompt "\nFound DISTANCE1")
+  (prompt "\nDISTANCE1 not found")
+)
+
+ใช้ member ได้โดยตรง ไม่จำเป็นต้องใช้ TA:find-all-indexes หากต้องการเพียง
+ตรวจว่ามีชื่อ Property อยู่หรือไม่
+
+============================================================
+8. สถานะการแก้ไฟล์วันนี้
+============================================================
+
+- ไม่มีคำสั่ง Hatch ใหม่คงอยู่ใน 000 - SUB_FUNC.lsp
+- การเพิ่มคำสั่ง Hatch ที่ทำชั่วคราวถูกย้อนออกแล้วตามคำสั่งผู้ใช้
+- โค้ด NENTSEL/ANSI33/Hatch Scale ถูกส่งในแชตเท่านั้น
+- สร้างไฟล์ Chat History นี้เพียงไฟล์เดียว
+
+ไฟล์ History:
+
+C:\Users\tawan.t\Documents\GitHub\TA_COMPELETE\DEV_NOTE_AUTOLISP_2026-07-31.txt
+
+============================================================
+9. งานที่ควรทำต่อ
+============================================================
+
+1) หากจะนำ TA_HATCH_ANSI33 เข้า Production ให้ผู้ใช้ระบุไฟล์เป้าหมายก่อน
+2) ทดสอบ nentsel กับ Hatch ปกติ, Hatch ใน Static Block และ Dynamic Block
+3) ทดสอบกรณี Hatch ใน Xref
+4) ตรวจว่าการแก้ Hatch ใน Block Definition กระทบ instance ใดบ้าง
+5) หากต้องการกรอง Dynamic Block ให้ใช้ IsDynamicBlock หลัง ssget INSERT
+6) หากตรวจชื่อ Dynamic Property ให้ strcase ทั้งค่าค้นหาและ Property List
+
