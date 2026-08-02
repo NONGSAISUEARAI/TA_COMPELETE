@@ -2560,6 +2560,9 @@
    )
   )
 )
+(:grouplayerfilterswlayernames )
+
+
 
 
 (defun :layergroupon (name / lst)
