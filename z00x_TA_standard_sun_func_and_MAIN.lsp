@@ -48589,7 +48589,7 @@
       (sslength ss_pre_filter_set_xx_)
     )
   ;
-  (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000-GRID_LINE_DYN_V2"))
+  (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_v2_ ss_pre_filter_set_xx_ (list "000-GRID_LINE_DYN_V2" "000-GRID_LINE_DYN_V3")))
   ;preloop_and_while
     (setq ss_pre_filter_set_xx_i 0)
     (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
@@ -60851,3 +60851,44 @@
     (alert (rtos (/ sum_val_ 1000) 2 2))
   ) 
 
+  (defun c:MKpliso ()
+    (setvar "SELECTIONPREVIEW" 3)
+    (setq pline1_ename_ (car (entsel "specify Object")))
+    (setq pline1_obj_ (vlax-ename->vla-object pline1_ename_))
+    (setq pline1_obj_vtx_ (TA:Get_Pline_vertext_angle_case1 pline1_ename_))
+    (setq pline2_ename_ (car (entsel "specify Object")))
+    (setq pline2_obj_ (vlax-ename->vla-object pline2_ename_))
+    (setq pline2_obj_vtx_ (TA:Get_Pline_vertext_angle_case2 pline2_ename_))
+    
+    
+    ;preloop_and_while
+      (setq pline1_obj_vtx_i 0)
+      (while (and 
+               (< pline1_obj_vtx_i (length pline1_obj_vtx_))
+               (= (length pline1_obj_vtx_ ) (length pline2_obj_vtx_))
+               
+             )
+        (if (or 
+              (= 1 1)
+              (= pline1_obj_vtx_i 0)
+              (= pline1_obj_vtx_i 3)
+              (= pline1_obj_vtx_i 5)
+              (= pline1_obj_vtx_i 7)
+              (= pline1_obj_vtx_i 9)
+            )
+          (progn
+            (command "line" (car (nth pline1_obj_vtx_i pline1_obj_vtx_)) (car (nth pline1_obj_vtx_i pline2_obj_vtx_)) ""  )
+          )
+        )
+  
+        
+    
+        (setq pline1_obj_vtx_i (+ pline1_obj_vtx_i 1))
+      )
+    ;
+    
+    
+
+
+    (setvar "SELECTIONPREVIEW" 1)
+  )

@@ -19457,17 +19457,79 @@
 
 
 (defun c:DIM_ALL_POLYLINE_DPLALL ()
+  (_StartUndo doc)
+  ;special for me only work with CKST Drwaing Construction 
+    (setq DIM_E-C _global-dim_E-C_) ;Ref from C:dimsetting 
+    (setq DIM_C-C _global-dim_C-C_) ;Ref from C:dimsetting 
+    (setq DIM_C-E _global-dim_C-E_) ;Ref from C:dimsetting 
+    (setq DIM_E-E _global-dim_E-E_) ;Ref from C:dimsetting 
+    (setq dimprec 0 )
+  ;
+  ;Keep setting dimension
+    (setq acadObj (vlax-get-acad-object))
+    (setq doc (vla-get-ActiveDocument acadObj))
+    (setq modelSpace (vla-get-ModelSpace doc))
+    (setq layoutactive (vla-get-paperspace doc))
+    (initget "Yes No")
+    (setq ss_ ;Detect the variable's result in case of a function error
+      (vl-catch-all-apply 
+        (function 
+          (lambda () 
+            (setq setting_ (not (eq "No" (getkword "\nKeep setting dimension ? \nSpecify Dim Scale Overall [Yes/No] <Y>: " ))))
+          )
+        )
+      )
+    )
+    (if ;Keep setting dimension
+      (and 
+        (= setting_ nil)
+        (= ss_ nil)
+      )
+      (progn
+        ;set model
+          (setq acadObj (vlax-get-acad-object))
+          (setq doc (vla-get-ActiveDocument acadObj))
+          (setq modelSpace (vla-get-ModelSpace doc))
+          (setq scl (cond ( (getreal (strcat "\nSpecify Dim Scale Overall <" (rtos (setq scl (cond (scl) (1.0) ) ) ) "> : " ) ) ) (scl) ) )
+          (setq lv_ (cond ( (getreal (strcat "\nSpecify Level <" (rtos (setq lv_ (cond (lv_) (1.0) ) ) ) "> : " ) ) ) (lv_) ) )
+          (setq dimprec (cond ( (getreal (strcat "\nSpecify _AIDIMPREC <" (rtos (setq dimprec (cond (dimprec) (1.0) ) ) ) "> : " ) ) ) (dimprec) ) )
+          (setq lv_add (* lv_ 1.25))
+          (if (and 
+                (= (wcmatch (getvar "DIMSTYLE") "*FAMELINE*") T )
+                (= (wcmatch (getvar "DIMSTYLE") "*CKST*") nil )
+              )
+            (progn
+              (setq sc (* scl 10)) ; 5 = 50 2 = 20
+              (setq lv_add (* lv_ (* 0.80 1.25)))
+            )
+            (setq sc (* scl 10)) ; 5 = 50 2 = 20
+          )
+          (setq of_point 4.5); OF_DIM OFFSET FROM pt2 = 6 mm.
+          (setq hi_point 4); OF_DIM OFFSET FROM pt2 = 6 mm.
+          (setq OF_DIM (*(* (* scl 1) of_point) lv_add))
+          (setq HI_DIM (*(* (* scl 1) hi_point) lv_add))
+          (setvar "dimscale" sc )
+          ;while_select_block_on_condition_
+            (setq sss_ename_ nil)
+            (setq Er-msg_sss_ename_ nil)
+            (setq sss_obj_dimname_ nil)
+          ;
+        ;
+      )
+    )
+  ;
   ;user input polyline
   (setq ssss_ename_ (car (entsel "specify Object")))
   (setq ssss_obj_ (vlax-ename->vla-object ssss_ename_))
   (setq vtx_list_ (TA:Get_Pline_vertext_angle_case1 ssss_ename_))
   ;
   ;user input offset dim  
-    (setq offset (cond ( (getreal (strcat "\nspecify_scale<" (rtos (setq dynamic_scale_ (cond (dynamic_scale_) (1.0) ) ) ) "> : " ) ) ) (dynamic_scale_) ) )
+    (setq offset (cond ( (getreal (strcat "\n specify offset dimension value <" (rtos (setq offset (cond (offset) (1.0) ) ) ) "> : " ) ) ) (offset) ) )
   ;
   ;preloop_and_while
     (setq vtx_list_i 0)
     (setq vtx_list_ii 1)
+    (setq new_ss_dim_ (ssadd))
     (while (< vtx_list_i (length vtx_list_))
       (setq vtx_list_val-1_ (car (nth  vtx_list_i vtx_list_)))
       (setq vtx_list_val-2_ (car (nth  vtx_list_ii vtx_list_)))
@@ -19476,11 +19538,24 @@
             (/= vtx_list_val-2_ nil)
           )
         (progn
-          (TA:add-parallel-dim vtx_list_val-1_ vtx_list_val-2_ -5)
+          (TA:add-parallel-dim vtx_list_val-1_ vtx_list_val-2_ (* OF_DIM offset))
+          ;new_blk_entlast object
+            (setq dim_ename (entlast))
+            (setq dim_obj_ (vlax-ename->vla-object dim_ename))
+          ;
+          (vla-put-stylename dim_obj_ DIM_E-E)
+          (vla-put-ScaleFactor  dim_obj_ sc )
+          ; (vlax-dump-object  dim_obj_  )
+          (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
+          ; (command "dimreassociate" dim_ename "" ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_cur-ins_ ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_next-ins_)
+          (command "_AIDIMPREC" dimprec dim_ename "" )
+          (setq new_ss_dim_ (ssadd dim_ename  new_ss_dim_))
+          
         )
       )
       (setq vtx_list_i (+ vtx_list_i 1))
       (setq vtx_list_ii (+ vtx_list_ii 1))
     )
   ;
+  (command "pselect"  new_ss_dim_ "" )
 )
