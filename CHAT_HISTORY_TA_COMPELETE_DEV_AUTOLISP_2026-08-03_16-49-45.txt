@@ -1,0 +1,335 @@
+CHAT HISTORY
+Room: TA_COMPELETE_DEV_AUTOLISP
+Timestamp: 2026-08-03 16:49:45 +07:00
+Timezone: Asia/Bangkok
+Workspace: C:\Users\tawan.t\Documents\GitHub\TA_COMPELETE
+
+============================================================
+1. ขอบเขตของห้องแชท
+============================================================
+
+ห้องนี้ใช้คุย วิเคราะห์ และพัฒนางาน AutoLISP ภายใต้โปรเจกต์
+TA_COMPELETE โดยยึดโค้ดและรูปแบบการตั้งชื่อใน Workspace เป็นหลัก
+
+============================================================
+2. Layer Filter / Group Filter
+============================================================
+
+ศึกษาการอ่าน Layer Filter Folder จากไฟล์:
+
+C:\Users\tawan.t\Documents\GitHub\TA_COMPELETE\000 - FOR_CREATE_LAYER_.lsp
+
+ส่วนที่ศึกษาประมาณบรรทัด 2460 ลงไป
+
+ข้อสรุป:
+
+- AutoLISP อ่านรายชื่อ Filter และ Group Filter ที่บันทึกใน DWG ได้
+- ข้อมูลอยู่ใน Extension Dictionary ของ LayerTable ภายใต้ ACLYDICTIONARY
+- ชื่อ Filter อ่านจาก DXF code 300
+- Layer สมาชิกของ Group Filterอ้างอิงผ่าน DXF code 330
+- Nested Filter เชื่อมผ่าน DXF code 360
+- :LayerFilterList ใช้ List ชื่อ Filter รวม Sub Filter
+- :grouplayerfilterswlayernames ใช้อ่าน Group Filter พร้อม Layer สมาชิกระดับบน
+- AutoLISP ไม่มี API มาตรฐานสำหรับตรวจ Filter ที่กำลังไฮไลต์ใน Layer
+  Properties Manager
+- AutoLISP ไม่มี API มาตรฐานสำหรับสั่ง UI ให้เลือก Filter Folder
+- สามารถเลือก Filter เชิงตรรกะภายในระบบ TA_COMPELETE แล้วนำรายชื่อ Layer
+  ไปเปิด/ปิด, Freeze/Thaw หรือ Lock/Unlock ได้
+
+ข้อควรระวัง:
+
+- dictnext ใช้ iterator ร่วมกัน จึงไม่ควร recurse เข้า Dictionary ลูกทันที
+- ควรเก็บรายการของ Dictionary แม่ให้ครบก่อน recurse
+
+History ที่เกี่ยวข้อง:
+
+DEV_NOTE_LAYER_FILTER_AUTOLISP_2026-07-20.txt
+
+============================================================
+3. ปัญหาสี Dynamic Block ไม่อัปเดต
+============================================================
+
+ศึกษาจากไฟล์:
+
+Z50_change_color_in_block_REV02_by_ยอดคะน้าเซียนซักแห้ง.lsp
+
+อาการ:
+
+- แก้สีภายใน Block Definition แล้ว Dynamic Block ยังแสดงสีเดิม
+- สีเปลี่ยนหลังใช้ RESETBLOCK
+
+สาเหตุ:
+
+- Dynamic Block Reference แสดงผ่าน Anonymous Block Definition ชื่อ *U...
+- ฟังก์ชันรวบรวม Block Name ตัดชื่อที่ขึ้นต้นด้วย * ออก
+- Definition ต้นฉบับถูกแก้ แต่ anonymous representation ปัจจุบันไม่ได้ถูกแก้
+- RESETBLOCK สร้าง representation ใหม่จากต้นฉบับ สีจึงปรากฏ
+
+แนวทางแก้โดยไม่ RESETBLOCK:
+
+- แก้ Definition ต้นฉบับตามเดิม
+- เดิน Blocks collection แล้วอัปเดต Anonymous Block *U โดยตรงผ่าน VLA
+- แก้ Color และ Dimension color overrides
+- เรียก Update และ Regen
+
+เหตุผลที่ไม่ควร RESETBLOCK อัตโนมัติ:
+
+- อาจรีเซ็ต Stretch, Flip, Visibility, Lookup และค่าประจำ Reference
+
+History ที่เกี่ยวข้อง:
+
+DEV_NOTE_AUTOLISP_2026-07-22.txt
+
+============================================================
+4. Local Variables และเครื่องหมาย / ใน DEFUN
+============================================================
+
+รูปแบบ:
+
+(defun FunctionName (arguments / local-variables)
+  ...
+)
+
+ความหมาย:
+
+- ก่อน / คือ Parameters ที่ผู้เรียกต้องส่ง
+- หลัง / คือ Local Variables
+- Command ที่ขึ้นต้นด้วย c: ปกติไม่มี Parameter จึงเขียน:
+
+(defun c:COMMAND_NAME (/ ss_ obj_ index_)
+  ...
+)
+
+ตัวแปร Local ชื่อเดียวกันในหลาย defun ไม่ทับกัน หากทุกฟังก์ชันประกาศ
+ตัวแปรนั้นหลัง / ของตัวเอง
+
+AutoLISP ใช้ Dynamic Scope หากฟังก์ชันลูกไม่ประกาศตัวแปรเป็น Local
+การ setq อาจแก้ Local Binding ของฟังก์ชันแม่ที่กำลังทำงานอยู่ได้
+
+ค่าที่ต้องจำข้ามการเรียก Command ไม่ควรประกาศหลัง / และควรตั้งชื่อ Global
+ให้ชัด เช่น *F113:PreviousInput*
+
+============================================================
+5. PANEL_COLOR Filter
+============================================================
+
+แก้ไฟล์:
+
+C:\Users\tawan.t\Documents\GitHub\TA_COMPELETE\000 - SUB_FUNC.lsp
+
+เพิ่ม Sub Function:
+
+TA:Filter_ss_empty_panel_color_
+
+หน้าที่:
+
+- รับ Selection Set
+- ตรวจเฉพาะ INSERT
+- อ่าน Attribute PANEL_COLOR ด้วย LM:vl-getattributevalue
+- เก็บ Block ที่มี Tag PANEL_COLOR และค่าเป็นค่าว่าง
+- ค่า Space/Tab/Newline อย่างเดียวถือว่าว่าง
+- Block ที่ไม่มี Tag PANEL_COLOR จะไม่ถูกเก็บ
+- คืน Selection Set ใหม่
+
+เพิ่ม Command:
+
+TA_PANEL_COLOR_EMPTY
+
+หน้าที่:
+
+- รองรับ PICKFIRST/Preselection
+- หากไม่มี Preselection จะให้เลือก INSERT
+- ไฮไลต์ Block ที่ PANEL_COLOR ว่างด้วย sssetfirst
+- แจ้งจำนวน Block ที่พบ
+
+============================================================
+6. PANEL_NO Running Number
+============================================================
+
+เพิ่ม Sub Function:
+
+TA:Run_panel_no_
+
+Arguments:
+
+- selection_set_
+- prefix_
+- start_number_
+
+ใช้ Lee Mac Function:
+
+LM:vl-setattributevalue
+
+รูปแบบค่า:
+
+PREFIX_SEQUENCE
+
+ตัวอย่าง:
+
+PN_1
+PN_2
+PN_3
+
+เพิ่ม Command:
+
+TA_RUN_PANEL_NO
+
+ลำดับ:
+
+1) ถาม Prefix
+2) ถามเลขเริ่มต้น
+3) เลือก INSERT
+4) เขียน PANEL_NO
+5) เพิ่มเลขเฉพาะ Block ที่มี PANEL_NO และเขียนสำเร็จ
+
+ข้อจำกัด:
+
+- ลำดับอ้างอิงตาม Entity Order ใน Selection Set
+- ยังไม่ได้เรียงตาม X/Y
+
+============================================================
+7. PANEL_ZONE
+============================================================
+
+เพิ่ม Sub Function:
+
+TA:Set_panel_zone_
+
+เพิ่ม Command แยก:
+
+TA_SET_PANEL_ZONE
+
+รูปแบบค่า:
+
+PP{prefix}_ZONE_{suffix}
+
+วงเล็บ {} เป็น Placeholder ไม่ได้เขียนลง Attribute
+
+ตัวอย่าง:
+
+prefix = 18
+suffix = 2
+
+ผล:
+
+PP18_ZONE_2
+
+History ของงาน PANEL_COLOR, PANEL_NO และ PANEL_ZONE:
+
+DEV_NOTE_AUTOLISP_2026-07-24.txt
+
+============================================================
+8. NENTSEL เปลี่ยน Hatch เป็น ANSI33
+============================================================
+
+เขียนตัวอย่าง Command ในแชต:
+
+TA_HATCH_ANSI33
+
+แนวทาง:
+
+- ใช้ nentsel เพื่อเลือก Hatch รวม Hatch ภายใน Block
+- ตรวจ ObjectName ว่าเป็น AcDbHatch
+- ใช้ vla-SetPattern ชนิด Predefined ค่า 1 และชื่อ ANSI33
+- เรียก vla-Evaluate และ Regen
+- ใช้ vl-catch-all-apply จับ Error
+
+เพิ่ม User Input Hatch Scale:
+
+- ใช้ getreal เพราะ Scale มีทศนิยมได้
+- ใช้ initget 6 เพื่อไม่รับศูนย์และค่าติดลบ
+- ใช้ตัวแปร Global input_hatch_scale เพื่อจำค่าครั้งก่อน
+- ใช้ vla-put-PatternScale กำหนด Scale
+
+สถานะสำคัญ:
+
+- ผู้ใช้กำหนดว่าไม่ต้องสร้างหรือแก้ไฟล์สำหรับโค้ดชุดนี้
+- โค้ด Hatch ถูกส่งในแชตเท่านั้น
+- การเพิ่มโค้ด Hatch ชั่วคราวใน 000 - SUB_FUNC.lsp ถูกย้อนออกแล้ว
+- ปัจจุบัน TA_HATCH_ANSI33 ไม่ได้อยู่ในไฟล์โปรเจกต์
+
+============================================================
+9. SSGET สำหรับ Dynamic Block
+============================================================
+
+ssget ไม่มี DXF Group Code สำหรับตรวจ Dynamic Block โดยตรง
+
+ขั้นแรกกรอง INSERT:
+
+(ssget '((0 . "INSERT")))
+
+จากนั้นตรวจผ่าน ActiveX:
+
+(and
+  (vlax-property-available-p block_obj_ 'IsDynamicBlock)
+  (= :vlax-true
+     (vla-get-IsDynamicBlock block_obj_)
+  )
+)
+
+ไม่แนะนำให้ใช้ชื่อ *U อย่างเดียว เพราะ *U เป็น Anonymous Block Name และ
+ไม่ใช่เงื่อนไขที่ยืนยัน Dynamic Block ได้ครบถ้วน
+
+============================================================
+10. LM:getdynprops_nonvalue และ STRCASE
+============================================================
+
+LM:getdynprops_nonvalue คืน List ชื่อ Dynamic Properties โดยไม่คืน Values
+
+ตัวอย่างผล:
+
+("X" "Origin" "thk" "Origin" "Distance1" "Origin" "view")
+
+แปลงเป็นตัวพิมพ์ใหญ่ด้วย lambda:
+
+(mapcar
+  '(lambda (property_name_)
+     (strcase property_name_)
+   )
+  (LM:getdynprops_nonvalue
+    ss_pre_filter_set_xx_obj_
+  )
+)
+
+ผล:
+
+("X" "ORIGIN" "THK" "ORIGIN" "DISTANCE1" "ORIGIN" "VIEW")
+
+หากต้องการตรวจว่ามี Property หรือไม่ ใช้ member ได้:
+
+(if (member "DISTANCE1" dynamic_property_list_)
+  (prompt "\nFound DISTANCE1")
+)
+
+History ที่เกี่ยวข้อง:
+
+DEV_NOTE_AUTOLISP_2026-07-31.txt
+
+============================================================
+11. ไฟล์ History ที่มีอยู่
+============================================================
+
+DEV_NOTE_LAYER_FILTER_AUTOLISP_2026-07-20.txt
+DEV_NOTE_AUTOLISP_2026-07-22.txt
+DEV_NOTE_AUTOLISP_2026-07-24.txt
+DEV_NOTE_AUTOLISP_2026-07-31.txt
+CHAT_HISTORY_TA_COMPELETE_DEV_AUTOLISP_2026-08-03_16-49-45.txt
+
+============================================================
+12. สถานะล่าสุดและงานที่ควรทำต่อ
+============================================================
+
+สถานะ:
+
+- งาน Attribute Commands อยู่ใน 000 - SUB_FUNC.lsp
+- โค้ด Hatch อยู่ใน Chat History/บทสนทนาเท่านั้น
+- ยังไม่มีหลักฐานการทดสอบคำสั่งใหม่ทั้งหมดภายใน AutoCAD ใน session นี้
+
+งานต่อ:
+
+1) ทดสอบ TA_PANEL_COLOR_EMPTY กับ Static และ Dynamic Block
+2) ทดสอบ TA_RUN_PANEL_NO และตรวจ Selection Order
+3) ทดสอบ TA_SET_PANEL_ZONE ให้ได้ PP18_ZONE_2
+4) หากต้องการนำ Hatch Command เข้า Production ให้ระบุไฟล์ปลายทางก่อน
+5) หากรัน PANEL_NO ตามตำแหน่ง ให้เพิ่ม Coordinate Sorting
+

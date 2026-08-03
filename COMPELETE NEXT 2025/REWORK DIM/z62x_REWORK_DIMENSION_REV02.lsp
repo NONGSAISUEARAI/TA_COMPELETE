@@ -662,6 +662,7 @@
           ;     )
           ;     (list ;main
           ;       (list(list 119.914 405.524 0.0) "<Entity name: 23abbecaed0>") 
+          ;       (list(list 119.914 405.524 0.0) "<Entity name: 23abbecaed0>") 
           ;       (list(list 251.971 407.524 0.0) "<Entity name: 23abbecaee0>")
           ;       (list(list 356.296 409.524 0.0) "<Entity name: 23abbecaef0>")
           ;     )
@@ -9825,6 +9826,55 @@
     (setq doc (vla-get-ActiveDocument (vlax-get-Acad-Object)))
     (setq dimstyles (vla-get-DimStyles doc))
     (setq dimstyle (vla-Item dimstyles "FAMELINE-CKST_E-C"))
+  )
+  (defun TA:add-parallel-dim (pt1 pt2 offset / doc space ang dimPoint dimObject)
+    ;Note By Code_Developer
+    ;The pripciple of code work that designed for shortcut to add parallel dimension from two points with offset distance. 
+    ;
+    ;
+    (vl-load-com)
+    ;; tranfer x y 
+      (setq pt1  (if (= (getvar "worlducs") 0)(progn (trans pt1 0 0)) pt1 ))
+      (setq pt2  (if (= (getvar "worlducs") 0)(progn (trans pt2 0 0)) pt2 ))
+    ;
+    
+    ;; Active document
+      (setq doc
+        (vla-get-ActiveDocument
+          (vlax-get-acad-object)
+        )
+      )
+    ;
+    ;; ตรวจพื้นที่ทำงานปัจจุบัน
+      (setq space
+        (TA:get-current-space doc)
+      )
+    ;
+    ;; มุมแนว pt1 → pt2
+      (setq ang
+        (angle pt1 pt2)
+      )
+    ;
+    ;; จุดบนเส้น Dimension ที่ขนานและ Offset
+      (setq dimPoint
+        (polar
+          pt2
+          (+ ang (/ pi 2.0))
+          offset
+        )
+      )
+    ;
+    ;; สร้าง Dimension ในพื้นที่ทำงานปัจจุบัน
+      (setq dimObject
+        (vla-AddDimRotated
+          space
+          (vlax-3d-point pt1)
+          (vlax-3d-point pt2)
+          (vlax-3d-point dimPoint)
+          ang
+        )
+      )
+    dimObject
   )
 ;
 (defun TA:make_current_ucs_ (ucs_obj_ )
@@ -19399,4 +19449,38 @@
 
 
 
-    
+
+
+
+
+
+
+
+(defun c:DIM_ALL_POLYLINE_DPLALL ()
+  ;user input polyline
+  (setq ssss_ename_ (car (entsel "specify Object")))
+  (setq ssss_obj_ (vlax-ename->vla-object ssss_ename_))
+  (setq vtx_list_ (TA:Get_Pline_vertext_angle_case1 ssss_ename_))
+  ;
+  ;user input offset dim  
+    (setq offset (cond ( (getreal (strcat "\nspecify_scale<" (rtos (setq dynamic_scale_ (cond (dynamic_scale_) (1.0) ) ) ) "> : " ) ) ) (dynamic_scale_) ) )
+  ;
+  ;preloop_and_while
+    (setq vtx_list_i 0)
+    (setq vtx_list_ii 1)
+    (while (< vtx_list_i (length vtx_list_))
+      (setq vtx_list_val-1_ (car (nth  vtx_list_i vtx_list_)))
+      (setq vtx_list_val-2_ (car (nth  vtx_list_ii vtx_list_)))
+      (if (and
+            (/= vtx_list_val-1_ nil)
+            (/= vtx_list_val-2_ nil)
+          )
+        (progn
+          (TA:add-parallel-dim vtx_list_val-1_ vtx_list_val-2_ -5)
+        )
+      )
+      (setq vtx_list_i (+ vtx_list_i 1))
+      (setq vtx_list_ii (+ vtx_list_ii 1))
+    )
+  ;
+)

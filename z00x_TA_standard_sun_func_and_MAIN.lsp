@@ -1484,6 +1484,16 @@
       (setq get_obj_ (vlax-ename->vla-object get_ename_))
       (princ (vla-get-handle get_obj_))
     )
+    (defun TA:get-current-space (doc)
+      (if
+        (and
+          (= (getvar "TILEMODE") 0)
+          (= (getvar "CVPORT") 1)
+        )
+        (vla-get-PaperSpace doc)
+        (vla-get-ModelSpace doc)
+      )
+    )
 
   ;
   ;Get_Data Function Ta Trai
@@ -20521,6 +20531,7 @@
                               "010 - C10_EXISTING_EX_MAIN_COLOR_251"
                               "010 - C10_EXISTING_EX_SUB_COLOR_251"
                               
+                              "A-ROOM-IDEN"
                           
                         )
       )
