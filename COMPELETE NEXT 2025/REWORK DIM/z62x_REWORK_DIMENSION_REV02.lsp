@@ -19456,7 +19456,7 @@
 
 
 
-(defun c:DIM_ALL_POLYLINE_DPLALL ()
+(defun c:DIM_ALL_POLYLINE_DIMPLALL ()
   (_StartUndo doc)
   ;special for me only work with CKST Drwaing Construction 
     (setq DIM_E-C _global-dim_E-C_) ;Ref from C:dimsetting 
@@ -19529,10 +19529,28 @@
   ;preloop_and_while
     (setq vtx_list_i 0)
     (setq vtx_list_ii 1)
-    (setq new_ss_dim_ (ssadd))
+    (setq global_selction_set_ (ssadd))
     (while (< vtx_list_i (length vtx_list_))
       (setq vtx_list_val-1_ (car (nth  vtx_list_i vtx_list_)))
       (setq vtx_list_val-2_ (car (nth  vtx_list_ii vtx_list_)))
+      (if (= vtx_list_i 0)
+        (progn
+          (setq vtx_list_val-1_ (car (nth  0 vtx_list_)))
+          (setq vtx_list_val-end_ (car (nth  (- (length vtx_list_) 1) vtx_list_)))
+          (TA:add-parallel-dim vtx_list_val-1_ vtx_list_val-end_ (* -1 (* OF_DIM offset)))
+          ;new_blk_entlast object
+            (setq dim_ename (entlast))
+            (setq dim_obj_ (vlax-ename->vla-object dim_ename))
+          ;
+          (vla-put-stylename dim_obj_ DIM_E-E)
+          (vla-put-ScaleFactor  dim_obj_ sc )
+          ; (vlax-dump-object  dim_obj_  )
+          (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
+          ; (command "dimreassociate" dim_ename "" ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_cur-ins_ ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_next-ins_)
+          (command "_AIDIMPREC" dimprec dim_ename "" )
+          (setq global_selction_set_ (ssadd dim_ename  global_selction_set_))
+        )
+      )
       (if (and
             (/= vtx_list_val-1_ nil)
             (/= vtx_list_val-2_ nil)
@@ -19549,7 +19567,7 @@
           (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
           ; (command "dimreassociate" dim_ename "" ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_cur-ins_ ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_next-ins_)
           (command "_AIDIMPREC" dimprec dim_ename "" )
-          (setq new_ss_dim_ (ssadd dim_ename  new_ss_dim_))
+          (setq global_selction_set_ (ssadd dim_ename  global_selction_set_))
           
         )
       )
@@ -19558,4 +19576,5 @@
     )
   ;
   (command "pselect"  new_ss_dim_ "" )
+  (_endUndo doc)
 )

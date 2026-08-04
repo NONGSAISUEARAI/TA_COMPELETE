@@ -10385,6 +10385,13 @@
     )
   ;
   ;Selection_FUNC
+    (defun c:call_global_selction_set_cgs ()
+      ;Note By Code_Developer
+      ;pripciple of codework is designed for call nominal selection 
+      ;
+      ;
+      (command "pselect"  global_selction_set_ "" )
+    )
     (defun c:filter_object_and_selection_[sscircle] () ;ssget["Depend_On_User"]
       ;Note By Code_Developer
       ;The principle of codework is to selection object by ssget method via variable name [ss_pre_filter_set_xx_]
@@ -10763,6 +10770,7 @@
 
       
     )
+
   ;
   ;DESELECTION_FUNC
     (defun c:desel ()
@@ -21858,7 +21866,68 @@
       
     )
   ;
+  ;repair_FUNC
+    (defun c:s23 ()
+      (setq pline-target_ename_ (car (entsel "specify Object")))
+      (setq pline-target_obj_ (vlax-ename->vla-object pline-target_ename_))
+      (setq pline-target_obj_vtx-list_ (TA:Get_Pline_vertext_angle_case1 pline-target_ename_))
+      ;preloop_and_while
+        (setq pline-target_obj_vtx-list_i 0)
+        (setq setset ())
+        (setq setset (cons (car (nth  pline-target_obj_vtx-list_i pline-target_obj_vtx-list_)) setset))
+        
+        (while (< pline-target_obj_vtx-list_i (- (length pline-target_obj_vtx-list_) 1))
+          (setq pline-target_obj_vtx-list_xy1 (car (nth  pline-target_obj_vtx-list_i pline-target_obj_vtx-list_)))
+          (setq pline-target_obj_vtx-list_xy2 (car (nth  (+ 1  pline-target_obj_vtx-list_i) pline-target_obj_vtx-list_)))
+          (setq pline-target_obj_vtx-list_ang1 (cadr (nth  pline-target_obj_vtx-list_i pline-target_obj_vtx-list_)))
+          (setq pline-target_obj_vtx-list_ang2 (cadr (nth  (+ 1  pline-target_obj_vtx-list_i) pline-target_obj_vtx-list_)))
+          
+          (setq tolerance_ang_ 2.0)
+          (setq nearest_angle_ (* 90.0 (LM:round (/ pline-target_obj_vtx-list_ang1 90.0)) ) )
+          
+          (setq pline-target_obj_vtx-list_result 
+                (polar (car setset) 
+                        (setq ang (* (/ pi 2.0) 
+                                    (LM:round (/ (deg-to-rad pline-target_obj_vtx-list_ang1) (/ pi 2.0)))
+                                  )
+                        ) 
+                        (fix (distance pline-target_obj_vtx-list_xy1 pline-target_obj_vtx-list_xy2))
+                )
+          )
 
+          (if (<= (abs (- pline-target_obj_vtx-list_ang1 nearest_angle_)) tolerance_)
+            (progn
+              ; อยู่ใน tolerance ให้ปัดเข้ามุมมาตรฐาน
+              (setq pline-target_obj_vtx-list_result 
+                (polar (car setset) 
+                        (setq ang (* (/ pi 2.0) 
+                                    (LM:round (/ (deg-to-rad pline-target_obj_vtx-list_ang1) (/ pi 2.0)))
+                                  )
+                        ) 
+                        (fix (distance pline-target_obj_vtx-list_xy1 pline-target_obj_vtx-list_xy2))
+                )
+              )
+            )
+            (progn
+              (setq pline-target_obj_vtx-list_result 
+                (polar (car setset) 
+                        (deg-to-rad pline-target_obj_vtx-list_ang1) 
+                        (fix (distance pline-target_obj_vtx-list_xy1 pline-target_obj_vtx-list_xy2))
+                )
+              )
+            )
+          )
+          (setq setset (cons pline-target_obj_vtx-list_result  setset))
+          (distance (car setset) (cadr setset))
+          (setq pline-target_obj_vtx-list_i (+ pline-target_obj_vtx-list_i 1))
+        )
+      ;
+      (setvar "osmode" 0)
+      (create-pline (reverse setset) )
+      (vla-delete pline-target_obj_)
+      (setvar "osmode" 1215)
+    )
+  ;
 ;                                   
   (defun c:expl-p () 
     (vl-load-com)
@@ -36367,6 +36436,57 @@
   ;     )
   ;   ;
   ; )
+  (defun c:PPLINE_CKST_300dode_findaddon ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "000_CKST-FAMELINE_CEILING_CODE_PANEL"))
+    ;preloop_and_while
+      (setq global_selction_set_ (ssadd))
+      (setq ss_pre_filter_set_xx_i 0)
+      (TA:interface_text_ T)
+      
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+
+        (if (/= (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_add-on"  ) "")
+          (progn
+            (setq global_selction_set_ (ssadd ss_pre_filter_set_xx_ename_ global_selction_set_))
+          )
+        )
+        
+        (TA:textscr_process_V2 "\nu finding add-on block" ss_pre_filter_set_xx_i ss_pre_filter_set_xx_)
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+    (command "pselect"  global_selction_set_ "" )
+  )
   (defun c:PPLINE_CKST_insert_code_panel_300codemklayer ()
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget
@@ -58601,41 +58721,7 @@
   (command "measure" ssss_ename_ "B" "AAW" "Y" 20 )
 )
 
-(defun c:s23 ()
-  (setq pline-target_ename_ (car (entsel "specify Object")))
-  (setq pline-target_obj_ (vlax-ename->vla-object pline-target_ename_))
-  (setq pline-target_obj_vtx-list_ (TA:Get_Pline_vertext_angle_case1 pline-target_ename_))
-  ;preloop_and_while
-    (setq pline-target_obj_vtx-list_i 0)
-    (setq setset ())
-    (setq setset (cons (car (nth  pline-target_obj_vtx-list_i pline-target_obj_vtx-list_)) setset))
-    
-    (while (< pline-target_obj_vtx-list_i (- (length pline-target_obj_vtx-list_) 1))
-      (setq pline-target_obj_vtx-list_xy1 (car (nth  pline-target_obj_vtx-list_i pline-target_obj_vtx-list_)))
-      (setq pline-target_obj_vtx-list_xy2 (car (nth  (+ 1  pline-target_obj_vtx-list_i) pline-target_obj_vtx-list_)))
-      (setq pline-target_obj_vtx-list_ang1 (cadr (nth  pline-target_obj_vtx-list_i pline-target_obj_vtx-list_)))
-      (setq pline-target_obj_vtx-list_ang2 (cadr (nth  (+ 1  pline-target_obj_vtx-list_i) pline-target_obj_vtx-list_)))
-      
-      
-      (setq pline-target_obj_vtx-list_result 
-             (polar (car setset) 
-                    (setq ang (* (/ pi 2.0) 
-                                 (LM:round (/ (deg-to-rad pline-target_obj_vtx-list_ang1) (/ pi 2.0)))
-                              )
-                    ) 
-                    (fix (distance pline-target_obj_vtx-list_xy1 pline-target_obj_vtx-list_xy2))
-             )
-      )
-      (setq setset (cons pline-target_obj_vtx-list_result  setset))
-      (distance (car setset) (cadr setset))
-      (setq pline-target_obj_vtx-list_i (+ pline-target_obj_vtx-list_i 1))
-    )
-  ;
-  (setvar "osmode" 0)
-  (create-pline (reverse setset) )
-  (vla-delete pline-target_obj_)
-  (setvar "osmode" 1215)
-)
+
 
 
 
