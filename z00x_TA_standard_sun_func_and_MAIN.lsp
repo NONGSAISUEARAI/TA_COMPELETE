@@ -9022,6 +9022,236 @@
       
     )
     
+    ;HATCH_FUNC-DEEP-MATCHING
+      (defun c:TA_HATCH_DEEP-MA_DOT
+            (/
+              nent_data_
+              hatch_ename_
+              hatch_obj_
+              error_result_
+            )
+
+        (vl-load-com)
+        (setq H-NAME "DOTS")
+        ;; ไม่รับค่าศูนย์และค่าติดลบ แต่กด Enter ได้
+        (initget 6)
+
+        ;; ถาม Hatch Scale และจำค่าครั้งก่อน
+        (setq input_hatch_scale
+          (cond
+            (
+              (getreal
+                (strcat
+                  "\nSpecify Hatch Scale <"
+                  (rtos
+                    (setq input_hatch_scale
+                      (cond
+                        (input_hatch_scale)
+                        (1.0)
+                      )
+                    )
+                    2
+                    2
+                  )
+                  ">: "
+                )
+              )
+            )
+            (input_hatch_scale)
+          )
+        )
+
+        (while
+          (and
+            (not hatch_ename_)
+            (setq nent_data_
+              (nentsel "\nSelect Hatch: ")
+            )
+          )
+
+          (setq hatch_ename_ (car nent_data_)
+                hatch_obj_
+                (vlax-ename->vla-object hatch_ename_)
+          )
+
+          (if (/= "AcDbHatch"
+                  (vla-get-ObjectName hatch_obj_)
+              )
+            (progn
+              (prompt "\nSelected object is not a Hatch.")
+              (setq hatch_ename_ nil)
+            )
+          )
+        )
+
+        (if hatch_ename_
+          (progn
+            (setq error_result_
+              (vl-catch-all-apply
+                (function
+                  (lambda ()
+                    ;; เปลี่ยน Pattern
+                    (vla-SetPattern
+                      hatch_obj_
+                      1
+                      H-NAME
+                    )
+
+                    ;; กำหนด Scale
+                    (vla-put-PatternScale
+                      hatch_obj_
+                      input_hatch_scale
+                    )
+
+                    (vla-Evaluate hatch_obj_)
+                  )
+                )
+              )
+            )
+
+            (if (vl-catch-all-error-p error_result_)
+              (prompt
+                (strcat
+                  "\nUnable to change Hatch: "
+                  (vl-catch-all-error-message error_result_)
+                )
+              )
+              (progn
+                (vla-Regen
+                  (vla-get-ActiveDocument
+                    (vlax-get-acad-object)
+                  )
+                  1
+                )
+
+                (prompt
+                  (strcat
+                    "\nHatch changed to ANSI33, Scale = "
+                    (rtos input_hatch_scale 2 2)
+                  )
+                )
+              )
+            )
+          )
+        )
+
+        (princ)
+      )
+      (defun c:TA_HATCH_DEEP-MA_ANSI33
+            (/
+              nent_data_
+              hatch_ename_
+              hatch_obj_
+              error_result_
+            )
+
+        (vl-load-com)
+        (setq H-NAME "ANSI33")
+        ;; ไม่รับค่าศูนย์และค่าติดลบ แต่กด Enter ได้
+        (initget 6)
+
+        ;; ถาม Hatch Scale และจำค่าครั้งก่อน
+        (setq input_hatch_scale
+          (cond
+            (
+              (getreal
+                (strcat
+                  "\nSpecify Hatch Scale <"
+                  (rtos
+                    (setq input_hatch_scale
+                      (cond
+                        (input_hatch_scale)
+                        (1.0)
+                      )
+                    )
+                    2
+                    2
+                  )
+                  ">: "
+                )
+              )
+            )
+            (input_hatch_scale)
+          )
+        )
+
+        (while
+          (and
+            (not hatch_ename_)
+            (setq nent_data_
+              (nentsel "\nSelect Hatch: ")
+            )
+          )
+
+          (setq hatch_ename_ (car nent_data_)
+                hatch_obj_
+                (vlax-ename->vla-object hatch_ename_)
+          )
+
+          (if (/= "AcDbHatch"
+                  (vla-get-ObjectName hatch_obj_)
+              )
+            (progn
+              (prompt "\nSelected object is not a Hatch.")
+              (setq hatch_ename_ nil)
+            )
+          )
+        )
+
+        (if hatch_ename_
+          (progn
+            (setq error_result_
+              (vl-catch-all-apply
+                (function
+                  (lambda ()
+                    ;; เปลี่ยน Pattern
+                    (vla-SetPattern
+                      hatch_obj_
+                      1
+                      H-NAME
+                    )
+
+                    ;; กำหนด Scale
+                    (vla-put-PatternScale
+                      hatch_obj_
+                      input_hatch_scale
+                    )
+
+                    (vla-Evaluate hatch_obj_)
+                  )
+                )
+              )
+            )
+
+            (if (vl-catch-all-error-p error_result_)
+              (prompt
+                (strcat
+                  "\nUnable to change Hatch: "
+                  (vl-catch-all-error-message error_result_)
+                )
+              )
+              (progn
+                (vla-Regen
+                  (vla-get-ActiveDocument
+                    (vlax-get-acad-object)
+                  )
+                  1
+                )
+
+                (prompt
+                  (strcat
+                    "\nHatch changed to ANSI33, Scale = "
+                    (rtos input_hatch_scale 2 2)
+                  )
+                )
+              )
+            )
+          )
+        )
+
+        (princ)
+      )
+    ;
   ;
   ;symbol_FUNC_
     (defun c:add_breakline_to_rectangle_ADBK ()
@@ -21924,6 +22154,78 @@
       ;
       (setvar "osmode" 0)
       (create-pline (reverse setset) )
+      (vla-delete pline-target_obj_)
+      (setvar "osmode" 1215)
+    )
+    (defun c:s90_reangline-to-90 ()
+      (setq pline-target_ename_ (car (entsel "specify Object")))
+      (setq pline-target_obj_ (vlax-ename->vla-object pline-target_ename_))
+      (setq pline-target_obj_vtx-list_ (TA:Get_Pline_vertext_angle_case1 pline-target_ename_))
+      ;preloop_and_while
+        (setq pline-target_obj_vtx-list_i 0)
+        (setq setset ())
+        (setq setset (cons (car (nth  pline-target_obj_vtx-list_i pline-target_obj_vtx-list_)) setset))
+        
+        (while (< pline-target_obj_vtx-list_i (- (length pline-target_obj_vtx-list_) 1))
+          (setq pline-target_obj_vtx-list_xy1 (car (nth  pline-target_obj_vtx-list_i pline-target_obj_vtx-list_)))
+          (setq pline-target_obj_vtx-list_xy2 (car (nth  (+ 1  pline-target_obj_vtx-list_i) pline-target_obj_vtx-list_)))
+          (setq pline-target_obj_vtx-list_ang1 (cadr (nth  pline-target_obj_vtx-list_i pline-target_obj_vtx-list_)))
+          (setq pline-target_obj_vtx-list_ang2 (cadr (nth  (+ 1  pline-target_obj_vtx-list_i) pline-target_obj_vtx-list_)))
+          
+          (setq tolerance_ang_ 2.0)
+          (setq nearest_angle_ (* 90.0 (LM:round (/ pline-target_obj_vtx-list_ang1 90.0)) ) )
+          
+          (setq pline-target_obj_vtx-list_result 
+                (polar (car setset) 
+                        (deg-to-rad 90) 
+                        (fix (distance pline-target_obj_vtx-list_xy1 pline-target_obj_vtx-list_xy2))
+                )
+          )
+
+          (if (<= (abs (- pline-target_obj_vtx-list_ang1 nearest_angle_)) tolerance_)
+            (progn
+              ; อยู่ใน tolerance ให้ปัดเข้ามุมมาตรฐาน
+              (setq pline-target_obj_vtx-list_result 
+                (polar (car setset) 
+                        (deg-to-rad 90) 
+                        (fix (distance pline-target_obj_vtx-list_xy1 pline-target_obj_vtx-list_xy2))
+                )
+              )
+            )
+            (progn
+              (setq pline-target_obj_vtx-list_result 
+                (polar (car setset) 
+                        (deg-to-rad 90) 
+                        (fix (distance pline-target_obj_vtx-list_xy1 pline-target_obj_vtx-list_xy2))
+                )
+              )
+            )
+          )
+          (setq setset (cons pline-target_obj_vtx-list_result  setset))
+          (distance (car setset) (cadr setset))
+          (setq pline-target_obj_vtx-list_i (+ pline-target_obj_vtx-list_i 1))
+        )
+      ;
+      (setvar "osmode" 0)
+      
+      
+      (if (= (getvar "worlducs") 0) 
+        (progn 
+          (setq trans_point_list_
+            (mapcar
+              '(lambda (point_)
+                (trans point_ 0 1)
+              )
+              setset
+            )
+          )
+        )
+        (progn 
+          (setq trans_point_list_ setset)
+        )
+        
+      )
+      (create-pline (reverse trans_point_list_) )
       (vla-delete pline-target_obj_)
       (setvar "osmode" 1215)
     )
@@ -60769,120 +61071,7 @@
   )
   
 
-  (defun c:TA_HATCH_ANSI33
-        (/
-          nent_data_
-          hatch_ename_
-          hatch_obj_
-          error_result_
-        )
-
-    (vl-load-com)
-
-    ;; ไม่รับค่าศูนย์และค่าติดลบ แต่กด Enter ได้
-    (initget 6)
-
-    ;; ถาม Hatch Scale และจำค่าครั้งก่อน
-    (setq input_hatch_scale
-      (cond
-        (
-          (getreal
-            (strcat
-              "\nSpecify Hatch Scale <"
-              (rtos
-                (setq input_hatch_scale
-                  (cond
-                    (input_hatch_scale)
-                    (1.0)
-                  )
-                )
-                2
-                2
-              )
-              ">: "
-            )
-          )
-        )
-        (input_hatch_scale)
-      )
-    )
-
-    (while
-      (and
-        (not hatch_ename_)
-        (setq nent_data_
-          (nentsel "\nSelect Hatch: ")
-        )
-      )
-
-      (setq hatch_ename_ (car nent_data_)
-            hatch_obj_
-            (vlax-ename->vla-object hatch_ename_)
-      )
-
-      (if (/= "AcDbHatch"
-              (vla-get-ObjectName hatch_obj_)
-          )
-        (progn
-          (prompt "\nSelected object is not a Hatch.")
-          (setq hatch_ename_ nil)
-        )
-      )
-    )
-
-    (if hatch_ename_
-      (progn
-        (setq error_result_
-          (vl-catch-all-apply
-            (function
-              (lambda ()
-                ;; เปลี่ยน Pattern
-                (vla-SetPattern
-                  hatch_obj_
-                  1
-                  "ANSI33"
-                )
-
-                ;; กำหนด Scale
-                (vla-put-PatternScale
-                  hatch_obj_
-                  input_hatch_scale
-                )
-
-                (vla-Evaluate hatch_obj_)
-              )
-            )
-          )
-        )
-
-        (if (vl-catch-all-error-p error_result_)
-          (prompt
-            (strcat
-              "\nUnable to change Hatch: "
-              (vl-catch-all-error-message error_result_)
-            )
-          )
-          (progn
-            (vla-Regen
-              (vla-get-ActiveDocument
-                (vlax-get-acad-object)
-              )
-              1
-            )
-
-            (prompt
-              (strcat
-                "\nHatch changed to ANSI33, Scale = "
-                (rtos input_hatch_scale 2 2)
-              )
-            )
-          )
-        )
-      )
-    )
-
-    (princ)
-  )
+  
 
   (defun c:sumdyn ()
     ;presetting from code
@@ -60936,7 +61125,7 @@
     ;
     (alert (rtos (/ sum_val_ 1000) 2 2))
   ) 
-
+  
   (defun c:MKpliso ()
     (setvar "SELECTIONPREVIEW" 3)
     (setq pline1_ename_ (car (entsel "specify Object")))
@@ -60963,7 +61152,22 @@
               (= pline1_obj_vtx_i 9)
             )
           (progn
-            (command "line" (car (nth pline1_obj_vtx_i pline1_obj_vtx_)) (car (nth pline1_obj_vtx_i pline2_obj_vtx_)) ""  )
+            (command "line" 
+                     (if (= (getvar "worlducs") 0)
+                       (progn 
+                         (trans (car (nth pline1_obj_vtx_i pline1_obj_vtx_)) 0 1)
+                       )
+                       (car (nth pline1_obj_vtx_i pline1_obj_vtx_)) 
+                     )
+                     (if (= (getvar "worlducs") 0)
+                       (progn 
+                         (trans (car (nth pline1_obj_vtx_i pline2_obj_vtx_)) 0 1)
+                       )
+                       (car (nth pline1_obj_vtx_i pline2_obj_vtx_)) 
+                     )
+
+                     ""  
+            )
           )
         )
   

@@ -1,0 +1,11 @@
+(setq CX:solid-ss (ssget "_X" '((0 . "3DSOLID"))))
+(setq CX:marker (entlast))
+(command "_.SECTION" CX:solid-ss "" "_3P" '(0.0 7000.0 0.0) '(1.0 7000.0 0.0) '(0.0 7000.0 1.0))
+(setq CX:region (entlast))
+(command "_.EXPLODE" CX:region "")
+(setq CX:fh (open "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/_codex_section_report.txt" "w"))
+(setq CX:en (entnext CX:marker))
+(while CX:en (write-line (vl-princ-to-string (entget CX:en)) CX:fh) (setq CX:en (entnext CX:en)))
+(close CX:fh)
+_.QUIT
+_Y
