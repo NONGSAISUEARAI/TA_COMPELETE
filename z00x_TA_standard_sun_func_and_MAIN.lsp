@@ -9037,6 +9037,98 @@
         (initget 6)
 
         ;; ถาม Hatch Scale และจำค่าครั้งก่อน
+        (setq input_hatch_scale (cond ( (getreal (strcat "\nSpecify Hatch Scale <" (rtos (setq input_hatch_scale (cond (input_hatch_scale) (1.0) ) ) 2 2 ) ">: " ) ) ) (input_hatch_scale) ) )
+
+        (while
+          (and
+            (not hatch_ename_)
+            (setq nent_data_
+              (nentsel "\nSelect Hatch: ")
+            )
+          )
+
+          (setq hatch_ename_ (car nent_data_)
+                hatch_obj_
+                (vlax-ename->vla-object hatch_ename_)
+          )
+
+          (if (/= "AcDbHatch"
+                  (vla-get-ObjectName hatch_obj_)
+              )
+            (progn
+              (prompt "\nSelected object is not a Hatch.")
+              (setq hatch_ename_ nil)
+            )
+          )
+        )
+
+        (if hatch_ename_
+          (progn
+            (setq error_result_
+              (vl-catch-all-apply
+                (function
+                  (lambda ()
+                    ;; เปลี่ยน Pattern
+                    (vla-SetPattern
+                      hatch_obj_
+                      1
+                      H-NAME
+                    )
+
+                    ;; กำหนด Scale
+                    (vla-put-PatternScale
+                      hatch_obj_
+                      input_hatch_scale
+                    )
+                    (TA:add_hatch_scale hatch_ename_)
+                    (vla-Evaluate hatch_obj_)
+                  )
+                )
+              )
+            )
+
+            (if (vl-catch-all-error-p error_result_)
+              (prompt
+                (strcat
+                  "\nUnable to change Hatch: "
+                  (vl-catch-all-error-message error_result_)
+                )
+              )
+              (progn
+                (vla-Regen
+                  (vla-get-ActiveDocument
+                    (vlax-get-acad-object)
+                  )
+                  1
+                )
+
+                (prompt
+                  (strcat
+                    "\nHatch changed to ANSI33, Scale = "
+                    (rtos input_hatch_scale 2 2)
+                  )
+                )
+              )
+            )
+          )
+        )
+
+        (princ)
+      )
+      (defun c:TA_HATCH_DEEP-MA_ANSI32
+            (/
+              nent_data_
+              hatch_ename_
+              hatch_obj_
+              error_result_
+            )
+
+        (vl-load-com)
+        (setq H-NAME "ANSI32")
+        ;; ไม่รับค่าศูนย์และค่าติดลบ แต่กด Enter ได้
+        (initget 6)
+
+        ;; ถาม Hatch Scale และจำค่าครั้งก่อน
         (setq input_hatch_scale
           (cond
             (
@@ -9102,7 +9194,7 @@
                       hatch_obj_
                       input_hatch_scale
                     )
-
+                    (TA:add_hatch_scale hatch_ename_)
                     (vla-Evaluate hatch_obj_)
                   )
                 )
@@ -9126,7 +9218,7 @@
 
                 (prompt
                   (strcat
-                    "\nHatch changed to ANSI33, Scale = "
+                    "\nHatch changed to ANSI32, Scale = "
                     (rtos input_hatch_scale 2 2)
                   )
                 )
@@ -9216,7 +9308,7 @@
                       hatch_obj_
                       input_hatch_scale
                     )
-
+                    (TA:add_hatch_scale hatch_ename_)
                     (vla-Evaluate hatch_obj_)
                   )
                 )
@@ -61181,4 +61273,157 @@
 
 
     (setvar "SELECTIONPREVIEW" 1)
+  )
+
+
+
+  (defun c:swap ()
+    (setq sss_ename_ (car (entsel "specify Object")))
+    (setq sss_obj_ (vlax-ename->vla-object sss_ename_))
+    (setq sss_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint sss_obj_))))
+    (setq ttt_ename_ (car (entsel "specify Object")))
+    (setq ttt_obj_ (vlax-ename->vla-object ttt_ename_))
+    (setq ttt_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ttt_obj_))))
+    
+    (vla-put-insertionpoint sss_obj_ (vlax-3d-point ttt_obj_ins_))
+    (vla-put-insertionpoint ttt_obj_ (vlax-3d-point sss_obj_ins_))
+    
+  )
+  (defun c:TEMP_MAINtoSUB_ ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              ; (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              ; (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (if (= (wcmatch (vla-get-layer ss_pre_filter_set_xx_obj_ ) "*MAIN_COLOR_*") T)
+          (progn
+            (vla-put-layer
+              ss_pre_filter_set_xx_obj_ 
+              (LM:StringSubst "SUB" "MAIN" (vla-get-layer ss_pre_filter_set_xx_obj_ ))
+            )
+          )
+        )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+  )
+  (defun c:TEMP_SUBtoMAIN_ ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              ; (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              ; (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (if (= (wcmatch (vla-get-layer ss_pre_filter_set_xx_obj_ ) "*MAIN_COLOR_*") T)
+          (progn
+            (vla-put-layer
+              ss_pre_filter_set_xx_obj_ 
+              (LM:StringSubst "SUB" "MAIN" (vla-get-layer ss_pre_filter_set_xx_obj_ ))
+            )
+          )
+        )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+  )
+  (defun c:TEMP_p2p_ ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              ; (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              ; (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (if (= (wcmatch (vla-get-layer ss_pre_filter_set_xx_obj_ ) "*PANEL_PANEL*") T)
+          (progn
+            (vla-put-layer
+              ss_pre_filter_set_xx_obj_ 
+              (LM:StringSubst  "PANEL_BACK-PANEL" "PANEL_PANEL" (vla-get-layer ss_pre_filter_set_xx_obj_ ))
+            )
+          )
+        )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
   )

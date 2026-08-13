@@ -2274,6 +2274,7 @@
       (setq 2nd_filter_val_main "010 - C10_PANEL_") ;2nd_filter
       (setq 3rd_filter_val_main (list ;3rd_filter
                                   "PANEL";
+                                  "BACK-PANEL";
                                   "SOLID-SHEET"
                                   "ACCESSORIES"
                                   "FRAMING" ;
@@ -2295,7 +2296,7 @@
                                     (list "MAIN_COLOR_5" 5) ;
                                     (list "MAIN_COLOR_6" 6) ;
                                     (list "MAIN_COLOR_251" 251) ;
-                                    (list "SUB_COLOR_1" 2) ;
+                                    (list "SUB_COLOR_1" 1) ;
                                     (list "SUB_COLOR_2" 2) ;
                                     (list "SUB_COLOR_3" 3) ;
                                     (list "SUB_COLOR_4" 4) ;
@@ -2317,7 +2318,7 @@
                                     (list "TEXT_COLOR_6" 6) ;
                                     ;
                               )
-    )
+      )
     )
     
   )

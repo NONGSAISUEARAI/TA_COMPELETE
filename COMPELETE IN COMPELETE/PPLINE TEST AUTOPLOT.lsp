@@ -9345,6 +9345,57 @@
       )
     ;
   )
+  (defun c:temp_ci-no+_ ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_v2_ ss_pre_filter_set_xx_ (list "000_FAMELINE_SYMBOL_INDICATOR_NAME_" ) ) )
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (if (and 
+              (= (LM:Effectivename ss_pre_filter_set_xx_obj_ ) "000_FAMELINE_SYMBOL_INDICATOR_NAME_")
+              
+              (/= (TA:KeepNumber (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "NUMBER"  )) "")
+            )
+          (progn
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "NUMBER" (strcat "" (rtos (+ (atoi (TA:KeepNumber (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "NUMBER"  ))) 1) 2 0)) )
+          ) 
+        )
+        
+          
+          
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+  )
   (defun c:temp-no-_ ()
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget
@@ -9651,7 +9702,7 @@
             )
         )
       ;
-      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "300HK ORDER FROM CHINA REV.2-LOT 2_20260529-185614FLxx" "D5HU" "1eu") ))
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "300HK ORDER FROM CHINA REV.2-LOT 2_20260529-185614FLxx" "D5HU" "1eu" "2eu" "3eu") ))
       ;preloop_and_while
         (setq ss_pre_filter_set_xx_i 0)
         (setq External_ref_ename_ ())
@@ -9752,7 +9803,7 @@
         )
         (sslength ss_pre_filter_set_xx_)
       )
-      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "300HK ORDER FROM CHINA REV.2-LOT 2_20260529-185614FLxx" "D5HU" "1eu") ))
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "300HK ORDER FROM CHINA REV.2-LOT 2_20260529-185614FLxx" "D5HU" "1eu" "2eu") ))
       (setq ss_pre_filter_set_xx_sortlist_ (TA:standard_list_croodinate_sorting ss_pre_filter_set_xx_ "Y" ))
       (setq ss_pre_filter_set_xx_sortlist_ (TA:LRsort_ ss_pre_filter_set_xx_sortlist_ 5))
     ;
