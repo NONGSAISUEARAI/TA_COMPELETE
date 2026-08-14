@@ -5208,109 +5208,109 @@
       
     )
     ; (defun c:MKblk () 
-    ;   ;selection_set_for_fillter_blk_name
-    ;     (if  ;pre_select_ssget_or_post_select_ssget
-    ;       (=
-    ;         (setq sstarget_ (ssget "i"
-    ;                                           (list
-    ;                                             ; (cons 0 "INSERT") ;type of object
-    ;                                             ; (cons 8 "000 - GRID")   ;kind of layer
-    ;                                             ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-    ;                                             ; (cons 62 1)           ;kind of color call sign with color code index
-    ;                                           )
-    ;                                     )
-    ;         )
-    ;         nil
-    ;       )
-    ;       (progn
-    ;         (setq sstarget_ (ssget
-    ;                                           (list
-    ;                                             ; (cons 0 "INSERT") ;type of object
-    ;                                             ; (cons 8 "000 - GRID")   ;kind of layer
-    ;                                             ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-    ;                                             ; (cons 62 1)           ;kind of color call sign with color code index
-    ;                                           )
-    ;                                     )
-    ;         )
-    ;       )
-    ;       (sslength sstarget_)
-    ;     )
-    ;   (setvar "osmode" 1215)
-    ;   ; (setq pttarget_ (getpoint "specify point for basepoint"))
-    ;   (setq ssssasas (TA:ss_vla-getboundingbox sstarget_))
-    ;   (setq pttarget_ (car ssssasas))
-    ;   (command "point" pttarget_)
-    ;   (setq pttarget_torr (list 
-    ;                     (+ (car (car ssssasas)) 0) ;ไม่เผื่อก็ ใส่ 0 ปกติใส่ 2.5 เผื่อใบตัด
-    ;                     (+ (cadr (car ssssasas)) 0) ;ไม่เผื่อก็ ใส่ 0 ปกติใส่ 2.5 เผื่อใบตัด
-                        
-    ;                   )
-    ;   )
-      
-    ;   (setvar "osmode" 1215)
-    ;   (setq namefile_ (getvar "dwgname"))
-    ;   (setq name_ename_ (car (entsel "specify EF name")))
-    ;   (setq name_obj_ (vlax-ename->vla-object name_ename_))
-    ;   (setq nameblk (LM:StringSubst 
-    ;                   ""
-    ;                   ","
-    ;                   (LM:StringSubst 
-    ;                     ""
-    ;                     ".dwg"
-    ;                     (strcat 
-    ;                       namefile_
-    ;                       "_"
-    ;                       ""
-    ;                       (LM:StringSubst "-" "/" (vla-get-textstring name_obj_))
-    ;                       ; (rtos (fix (* (car (TA:get_vertex_len_ (ssname sstarget_ 0))) 1000 ) ) 2 0 )
-    ;                       ; "mm."
-    ;                     )
-    ;                   )
-    ;                 )
-    ;   )
-    ;   (if 
-    ;     (or 
-    ;       (wcmatch
-    ;         (vl-princ-to-string
-    ;           (vl-catch-all-apply 
-    ;             (function 
-    ;               (lambda () 
-    ;                 (vla-Item (vla-get-Blocks doc) nameblk)
-    ;               )
-    ;             )
-    ;           )
-    ;         )
-    ;         "*error*,*IAcadBlock*"
-    ;       )
-    ;     )
-    ;     (progn
-    ;       (if 
-    ;         (and
-    ;           (wcmatch
-    ;             (vl-princ-to-string
-    ;               (vl-catch-all-apply 
-    ;                 (function 
-    ;                   (lambda () 
-    ;                     (vla-delete (vla-Item (vla-get-Blocks doc) nameblk) )
-    ;     )
-    ;   )
-    ;               )
-    ;             )
-    ;             "*error*,*IAcadBlock*"
-    ;           )
-    ;         )
-    ;         (progn
-    ;           (command "_block" nameblk pttarget_torr sstarget_ "" )
-    ;           (TA:vla-insertblock nameblk pttarget_torr 1 0 )
-    ;         )
-    ;       )
-    ;     )
-    ;   )
-    ;   ; ;new_blk_entlast object
-    ;   ;   (setq sss_ename (entlast))
-    ;   ;   (setq sss_obj (vlax-ename->vla-object sss_ename))
-    ;   ;   (command "_copybase" pttarget_ sss_ename ""    )
-    ;   ; ;
+      ;   ;selection_set_for_fillter_blk_name
+      ;     (if  ;pre_select_ssget_or_post_select_ssget
+      ;       (=
+      ;         (setq sstarget_ (ssget "i"
+      ;                                           (list
+      ;                                             ; (cons 0 "INSERT") ;type of object
+      ;                                             ; (cons 8 "000 - GRID")   ;kind of layer
+      ;                                             ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+      ;                                             ; (cons 62 1)           ;kind of color call sign with color code index
+      ;                                           )
+      ;                                     )
+      ;         )
+      ;         nil
+      ;       )
+      ;       (progn
+      ;         (setq sstarget_ (ssget
+      ;                                           (list
+      ;                                             ; (cons 0 "INSERT") ;type of object
+      ;                                             ; (cons 8 "000 - GRID")   ;kind of layer
+      ;                                             ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+      ;                                             ; (cons 62 1)           ;kind of color call sign with color code index
+      ;                                           )
+      ;                                     )
+      ;         )
+      ;       )
+      ;       (sslength sstarget_)
+      ;     )
+      ;   (setvar "osmode" 1215)
+      ;   ; (setq pttarget_ (getpoint "specify point for basepoint"))
+      ;   (setq ssssasas (TA:ss_vla-getboundingbox sstarget_))
+      ;   (setq pttarget_ (car ssssasas))
+      ;   (command "point" pttarget_)
+      ;   (setq pttarget_torr (list 
+      ;                     (+ (car (car ssssasas)) 0) ;ไม่เผื่อก็ ใส่ 0 ปกติใส่ 2.5 เผื่อใบตัด
+      ;                     (+ (cadr (car ssssasas)) 0) ;ไม่เผื่อก็ ใส่ 0 ปกติใส่ 2.5 เผื่อใบตัด
+                          
+      ;                   )
+      ;   )
+        
+      ;   (setvar "osmode" 1215)
+      ;   (setq namefile_ (getvar "dwgname"))
+      ;   (setq name_ename_ (car (entsel "specify EF name")))
+      ;   (setq name_obj_ (vlax-ename->vla-object name_ename_))
+      ;   (setq nameblk (LM:StringSubst 
+      ;                   ""
+      ;                   ","
+      ;                   (LM:StringSubst 
+      ;                     ""
+      ;                     ".dwg"
+      ;                     (strcat 
+      ;                       namefile_
+      ;                       "_"
+      ;                       ""
+      ;                       (LM:StringSubst "-" "/" (vla-get-textstring name_obj_))
+      ;                       ; (rtos (fix (* (car (TA:get_vertex_len_ (ssname sstarget_ 0))) 1000 ) ) 2 0 )
+      ;                       ; "mm."
+      ;                     )
+      ;                   )
+      ;                 )
+      ;   )
+      ;   (if 
+      ;     (or 
+      ;       (wcmatch
+      ;         (vl-princ-to-string
+      ;           (vl-catch-all-apply 
+      ;             (function 
+      ;               (lambda () 
+      ;                 (vla-Item (vla-get-Blocks doc) nameblk)
+      ;               )
+      ;             )
+      ;           )
+      ;         )
+      ;         "*error*,*IAcadBlock*"
+      ;       )
+      ;     )
+      ;     (progn
+      ;       (if 
+      ;         (and
+      ;           (wcmatch
+      ;             (vl-princ-to-string
+      ;               (vl-catch-all-apply 
+      ;                 (function 
+      ;                   (lambda () 
+      ;                     (vla-delete (vla-Item (vla-get-Blocks doc) nameblk) )
+      ;     )
+      ;   )
+      ;               )
+      ;             )
+      ;             "*error*,*IAcadBlock*"
+      ;           )
+      ;         )
+      ;         (progn
+      ;           (command "_block" nameblk pttarget_torr sstarget_ "" )
+      ;           (TA:vla-insertblock nameblk pttarget_torr 1 0 )
+      ;         )
+      ;       )
+      ;     )
+      ;   )
+      ;   ; ;new_blk_entlast object
+      ;   ;   (setq sss_ename (entlast))
+      ;   ;   (setq sss_obj (vlax-ename->vla-object sss_ename))
+      ;   ;   (command "_copybase" pttarget_ sss_ename ""    )
+      ;   ; ;
     ; )
     (defun c:BLKATTsort ()
       ;selection_set_for_fillter_blk_name
@@ -5902,14 +5902,6 @@
       ;   (command "_copybase" pttarget_ sss_ename ""    )
       ; ;
     )
-    (if (= 1 2) ;vvvvvv
-      (progn
-        (setq ss_ename_ (car (entsel "specify Object")))
-        (setq ss_obj_ (vlax-ename->vla-object ss_ename_))
-        (TA:Assembly_des-name-block_ ss_obj_)
-        
-      )
-    )
     (defun c:make_cutting_plan_addATT ()
       
       (command "-attdef" "L" "" "FULL_SIZE_NO." "" "----" "S" "TA" "J" "MC" 0 0 0)
@@ -6158,8 +6150,9 @@
       ;
       
     )
+
   ;
-  ;dynamic_block_FUNC
+  ;dynamic_block_and_ATTRIBUTE_FUNC
     ;dynamic_Alminium_sheet_FUNC
       (defun c:dynamic_update_U-Carrier_[UCupdate] ()
         
@@ -6399,6 +6392,100 @@
             (command "_.BACTION"  "ST" upper_ below_ sstemp_sel_ss "")
           ;
           (setq vvv_List_i (+ vvv_List_i 1))
+        )
+      ;
+    )
+    (defun c:blkattadd ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      ;keepstring process
+        (setq blk-att-add_string_ ;Get-string by keep previous value
+            (if
+              (or
+                (/= (setq blk-att-add_string_val (getstring (strcat "\nSpecify Pattern name <" (if blk-att-add_string_ blk-att-add_string_ "") ">: ") ) ) "" )
+              )
+                (progn
+                  (setq blk-att-add_string_ blk-att-add_string_val)
+                  (setq blk-att-add_string_keep_val_ blk-att-add_string_val)
+                )
+              (setq blk-att-add_string_val blk-att-add_string_keep_val_)
+            )
+        )
+      ;
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (if (= ss_pre_filter_set_xx_i 0)
+            (progn
+              (setq add-minus_val_ ;Get-string by keep previous value
+                (if
+                  (or
+                    (/= (setq add-minus_val_val (getstring (strcat "\nSpecify Pattern name <" (if add-minus_val_ add-minus_val_ "") ">: ") ) ) "" )
+                  )
+                    (progn
+                      (setq add-minus_val_ add-minus_val_val)
+                      (setq add-minus_val_keep_val_ add-minus_val_val)
+                    )
+                  (setq add-minus_val_val add-minus_val_keep_val_)
+                )
+              )
+            )
+          )
+          (cond
+            ( (and 
+                  (/= (atoi (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ blk-att-add_string_ )) 0)
+                  (= add-minus_val_ "+" )
+                )
+              (progn
+                (LM:vl-setattributevalue 
+                  ss_pre_filter_set_xx_obj_ 
+                  blk-att-add_string_ 
+                  (+ (atoi (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ blk-att-add_string_ )) 1)
+                )
+              )
+            )
+            ( (and 
+                  (/= (atoi (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ blk-att-add_string_ )) 0)
+                  (= add-minus_val_ "-" )
+                )
+              (progn
+                (LM:vl-setattributevalue 
+                  ss_pre_filter_set_xx_obj_ 
+                  blk-att-add_string_ 
+                  (- (atoi (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ blk-att-add_string_ )) 1)
+                )
+              )
+            )
+          )
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
         )
       ;
     )
@@ -22322,6 +22409,7 @@
       (setvar "osmode" 1215)
     )
   ;
+
 ;                                   
   (defun c:expl-p () 
     (vl-load-com)
@@ -61426,4 +61514,13 @@
         (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
       )
     ;
+  )
+  (defun c:temp_replace_text_t11 ()
+    (setq old_text "M10")
+    (setq new_text "M5")
+    (setq sss_ename_ (car (entsel "specify Object")))
+    (setq sss_obj_ (vlax-ename->vla-object sss_ename_))
+    (setq sss_obj_text_ (vla-get-textstring sss_obj_))
+    (vla-put-textstring sss_obj_ (LM:StringSubst  new_text old_text sss_obj_text_) )
+    
   )
