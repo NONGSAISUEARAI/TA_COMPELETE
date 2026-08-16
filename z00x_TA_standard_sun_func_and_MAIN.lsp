@@ -20907,48 +20907,13 @@
     )
     (defun c:Dyeing_layer_object_dyeLIST ()
       (setq line_color 256)
-      (setq layer_list_ (list "000 - 0_HIDE_OBJ_FRAMING_DEF_SUB" 
+      (setq layer_list_ (list 
+                              "USER INPUT LAYER"
+                              "000 - 0_HIDE_OBJ_FRAMING_DEF_SUB" 
                               "000 - 0_HIDE_OBJ_FRAMING_DEF_SUB_1"
                               "000 - CONCRETE_PRECAST_MAIN_COLOR_1" 
+                              "010 - ASPG_FLASHING_MAIN_COLOR_1"
 
-                              "000 - EXISTING_BUILDING_MAIN_COLOR_1"
-                              "000 - EXISTING_BUILDING_MAIN_COLOR_251"
-                              "000 - EXISTING_COLUMN_MAIN_COLOR_1"
-                              "000 - EXISTING_CONCRETE_MAIN_COLOR_1"
-                              "000 - EXISTING_DIM_MAIN_COLOR_251"
-                              "000 - EXISTING_STEEL-STRUCTURE_MAIN_COLOR_1"
-                              "000 - EXISTING_STEEL-STRUCTURE_MAIN_COLOR_2"
-                              "000 - EXISTING_STEEL-STRUCTURE_MAIN_COLOR_251"
-                              "000 - EXISTING_STEEL-STRUCTURE_DEF_SUB"
-                              ""
-                              "000 - EXISTING_LOUVERS_DEF_SUB"
-                              ""
-                              "000 - EXISTING_PRECAST_MAIN_COLOR_1"
-                              "000 - EXISTING_PRECAST_MAIN_COLOR_2"
-                              "000 - EXISTING_PRECAST_MAIN_COLOR_3"
-                              ""
-                              "000 - EXISTING_BUILDING_MAIN_COLOR_1"
-                              "000 - EXISTING_BUILDING_MAIN_COLOR_2"
-                              "000 - EXISTING_BUILDING_MAIN_COLOR_3"
-                              "000 - EXISTING_BUILDING_MAIN_COLOR_251"
-                              "000 - EXISTING_BUILDING_DEF_SUB"
-                              ""
-                              "000 - EXISTING_DIM_MAIN_COLOR_251"
-                              "000 - EXISTING_STEEL-STRUCTURE_DEF_SUB"
-                              ""
-                              "000 - EXISTING_CANOPY_MAIN_COLOR_1"
-                              "000 - EXISTING_CANOPY_MAIN_COLOR_2"
-                              "000 - EXISTING_CANOPY_MAIN_COLOR_3"
-                              "000 - EXISTING_CANOPY_MAIN_COLOR_251"
-                              "000 - EXISTING_CANOPY_DEF_SUB"
-                              ""
-                              "010 - ASPG_FASTERN_MAIN_COLOR_1"
-                              "010 - ASPG_FRAMING_SUB_COLOR_1"
-                              
-                              "010 - C10_EXISTING_EX_MAIN_COLOR_251"
-                              "010 - C10_EXISTING_EX_SUB_COLOR_251"
-                              
-                              "A-ROOM-IDEN"
                           
                         )
       )
@@ -21115,6 +21080,7 @@
                                       (if (or
                                             (= layer_obj_name_exval nil)
                                             (= layer_obj_name_ nil)
+                                            
                                           ) 
                                         (progn 
                                           (setq layer_obj_name_exval 1)
@@ -21131,6 +21097,13 @@
               )
             )
           )
+        )
+      )
+      (if (= layer_obj_name_ "USER INPUT LAYER")
+        (progn
+          (setq layer_obj_name__ename_ (car (nentsel "specify layer Object")))
+          (setq layer_obj_name__obj_ (vlax-ename->vla-object layer_obj_name__ename_))
+          (setq layer_obj_name_val_ (vla-get-layer layer_obj_name__obj_  ))
         )
       )
       (if (/= (vl-catch-all-error-p ERR_) T) 
@@ -21173,17 +21146,17 @@
                 (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
                 
                 (vla-put-color ss_pre_filter_set_xx_obj_  line_color)
-                (vla-put-layer ss_pre_filter_set_xx_obj_  layer_obj_name_)
+                (vla-put-layer ss_pre_filter_set_xx_obj_  layer_obj_name_val_)
                 (if (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbBlockReference")
                   (progn
                     (setq ss_pre_filter_set_xx_obj_Efname_ (LM:Effectivename ss_pre_filter_set_xx_obj_))
                     (setq blk-count_list_ (TA:Count_item_in_list_ (TA:Aassembly_all_nest_block ss_pre_filter_set_xx_obj_Efname_)))
-                    (TA:all-editblock_ ss_pre_filter_set_xx_obj_Efname_ line_color layer_obj_name_)
+                    (TA:all-editblock_ ss_pre_filter_set_xx_obj_Efname_ line_color layer_obj_name_val_)
                     ;preloop_and_while
                       (setq blk-count_list_i 0)
                       (while (< blk-count_list_i (length blk-count_list_))
                         (setq blk-count_list_efname_ (car (nth  blk-count_list_i blk-count_list_)))
-                        (TA:all-editblock_ blk-count_list_efname_ line_color layer_obj_name_)
+                        (TA:all-editblock_ blk-count_list_efname_ line_color layer_obj_name_val_)
                         (TA:textscr_process_V2 "\nupdate dynamic" blk-count_list_i blk-count_list_)
 
                           
@@ -59398,7 +59371,8 @@
   (setq ssss_obj_ (vlax-ename->vla-object ssss_ename_))
   (setq ssss_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ssss_obj_))))
   (setq ssss_obj_ins_ucs (if (= (getvar "worlducs") 0)(progn (trans ssss_obj_ins_ 0 1)) ssss_obj_ins_ ))
-  (LM:vl-setattributevalue ssss_obj_ "LV_NAME_3" (strcat "FFL +" (rtos (/ (cadr ssss_obj_ins_ucs) 1000) 2 3 ) " m."))
+  (LM:vl-setattributevalue ssss_obj_ "LV_NAME_3" (strcat "EL +" (rtos (/ (cadr ssss_obj_ins_ucs) 1000) 2 3 ) ""))
+  ; (LM:vl-setattributevalue ssss_obj_ "LV_NAME_3" (strcat "FFL +" (rtos (/ (cadr ssss_obj_ins_ucs) 1000) 2 3 ) " m."))
 )
 
 
