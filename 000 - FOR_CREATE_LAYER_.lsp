@@ -1720,6 +1720,9 @@
       (setq 2nd_filter_val_main "000 - EXISTING_") ;2nd_filter
       (setq 3rd_filter_val_main (list ;3rd_filter
                                   "BUILDING" ;
+                                  "FINISHING-WALL" ;
+                                  "MANSORY-WALL" ;
+                                  "AAC-WALL" ;
                                   "COLUMN" ;
                                   "LOUVERS"
                                   "CANOPY"
@@ -1760,6 +1763,7 @@
                                 )
       )
     ) 
+     
   )
   (defun c:crelay ()
     (TA:generate_filter_list

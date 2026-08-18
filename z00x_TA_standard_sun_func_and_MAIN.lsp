@@ -5479,14 +5479,15 @@
                     (function 
                       (lambda () 
                         (vla-delete (vla-Item (vla-get-Blocks doc) nameblk) )
+         )
         )
-      )
                   )
                 )
                 "*error*,*IAcadBlock*"
               )
             )
             (progn
+              (setvar  "osmode" 0)
               (command "_block" nameblk pttarget_torr sstarget_ "" )
               (TA:vla-insertblock 
                 nameblk 
@@ -5498,6 +5499,7 @@
           )
         )
       )
+      (setvar "osmode" 1215)
       ; ;new_blk_entlast object
       ;   (setq sss_ename (entlast))
       ;   (setq sss_obj (vlax-ename->vla-object sss_ename))
@@ -17008,6 +17010,39 @@
       ;
       (_EndUndo doc)
     )
+    (defun c:matching_malayer ()
+      (setq target_obj_layer_ nil)
+      (setq layer_list_ (list 
+                           "user input"
+                           "000 - EXISTING_FINISHING-WALL_HATCH_" 
+                           "000 - EXISTING_COLUMN_HATCH_" 
+                           "000 - EXISTING_AAC-WALL_HATCH_" 
+                           "" 
+                           "" 
+                           "" 
+                         )
+      )
+      (setq layer_list_mode
+        (TA:choose_list_v4
+          layer_list_
+          "select layer_list_ mode"
+          layer_list_mode
+        )
+      )
+      (if (= layer_list_mode "user input")
+        (progn
+          (setq target_ename_ (car (entsel "specify Layer Object")))
+          (setq target_obj_ (vlax-ename->vla-object target_ename_))
+          (setq target_obj_layer_ (vla-get-layer target_obj_))
+        )
+        (setq target_obj_layer_ layer_list_mode)
+      )
+      (setq yyy_ename_ (car (nentsel "specify Object")))
+      (setq yyy_obj_ (vlax-ename->vla-object yyy_ename_))
+      
+      (setq yyy_obj_layer_ (vla-put-layer yyy_obj_  target_obj_layer_))
+      
+    )
     (defun c:polar_x_pox ()
       ;presetting
         (setq polar_move_val 0.125)
@@ -19483,13 +19518,13 @@
                         (setq blocklist_name_ (TA:choose_list_v4
                                                 blocklist_list_
                                                 "select block"
-                                                blocklist_name_
+                                                                                            blocklist_name_
+                                                                              )
+                                                                            )
+                                                  )
+                                                )
                                               )
                         )
-                      )
-                    )
-                  )
-      )
       
       ;while selection process
         (setq ERR_ nil)
@@ -61836,5 +61871,5 @@
     ;
 
 
-
+    
   )
