@@ -59615,8 +59615,8 @@
   (setq ssss_obj_ (vlax-ename->vla-object ssss_ename_))
   (setq ssss_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ssss_obj_))))
   (setq ssss_obj_ins_ucs (if (= (getvar "worlducs") 0)(progn (trans ssss_obj_ins_ 0 1)) ssss_obj_ins_ ))
-  ; (LM:vl-setattributevalue ssss_obj_ "LV_NAME_3" (strcat "EL +" (rtos (/ (cadr ssss_obj_ins_ucs) 1000) 2 3 ) ""))
-  (LM:vl-setattributevalue ssss_obj_ "LV_NAME_3" (strcat "FFL +" (rtos (/ (cadr ssss_obj_ins_ucs) 1000) 2 3 ) " m."))
+  (LM:vl-setattributevalue ssss_obj_ "LV_NAME_3" (strcat "EL +" (rtos (/ (cadr ssss_obj_ins_ucs) 1000) 2 3 ) ""))
+  ; (LM:vl-setattributevalue ssss_obj_ "LV_NAME_3" (strcat "FFL +" (rtos (/ (cadr ssss_obj_ins_ucs) 1000) 2 3 ) " m."))
 )
 
 
@@ -59624,7 +59624,7 @@
 (defun c:prefix-subfix_all-block_ ()
   (setq block_all-list_ (TA:get_name_block_in_drawing_to_list_v2))
   (setq prefix "")
-  (setq subfix "SUB" )
+  (setq subfix "_SUB" )
   ;preloop_and_while
     (setq block_all-list_i 0)
     (while (< block_all-list_i (length block_all-list_))
