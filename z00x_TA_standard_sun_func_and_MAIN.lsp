@@ -6132,15 +6132,15 @@
     )
     (defun c:rename_block_bycase ()
       ; (setq target-change_ "000 - ASSCESSORIES*")
-      (setq target-change_ "000 -*")
-      (setq next-change_ "FRAMING_HANGING")
+      (setq target-change_ "*300-PANEL_*")
+      (setq next-change_ "C10_PANEL_")
       (setq all-block_indwg_ (TA:get_name_block_in_drawing_to_list_v2))
       
       ;preloop_and_while
         (setq all-block_indwg_i 0)
         (while (< all-block_indwg_i (length all-block_indwg_))
           (setq all-block_indwg_val_ (car (nth  all-block_indwg_i all-block_indwg_)))
-          (if (= (wcmatch all-block_indwg_val_ target-change_) T)
+          (if (= (wcmatch all-block_indwg_val_ (strcat  target-change_ )) T)
             (progn
               (setq newcut_ (LM:StringSubst "" "*"  target-change_  ))
               (command "rename" "B" all-block_indwg_val_ (LM:StringSubst next-change_ newcut_  all-block_indwg_val_  ))
@@ -9204,6 +9204,98 @@
 
         (princ)
       )
+      (defun c:TA_HATCH_DEEP-MA_SAND
+            (/
+              nent_data_
+              hatch_ename_
+              hatch_obj_
+              error_result_
+            )
+
+        (vl-load-com)
+        (setq H-NAME "AR-SAND")
+        ;; ไม่รับค่าศูนย์และค่าติดลบ แต่กด Enter ได้
+        (initget 6)
+
+        ;; ถาม Hatch Scale และจำค่าครั้งก่อน
+        (setq input_hatch_scale (cond ( (getreal (strcat "\nSpecify Hatch Scale <" (rtos (setq input_hatch_scale (cond (input_hatch_scale) (1.0) ) ) 2 2 ) ">: " ) ) ) (input_hatch_scale) ) )
+
+        (while
+          (and
+            (not hatch_ename_)
+            (setq nent_data_
+              (nentsel "\nSelect Hatch: ")
+            )
+          )
+
+          (setq hatch_ename_ (car nent_data_)
+                hatch_obj_
+                (vlax-ename->vla-object hatch_ename_)
+          )
+
+          (if (/= "AcDbHatch"
+                  (vla-get-ObjectName hatch_obj_)
+              )
+            (progn
+              (prompt "\nSelected object is not a Hatch.")
+              (setq hatch_ename_ nil)
+            )
+          )
+        )
+
+        (if hatch_ename_
+          (progn
+            (setq error_result_
+              (vl-catch-all-apply
+                (function
+                  (lambda ()
+                    ;; เปลี่ยน Pattern
+                    (vla-SetPattern
+                      hatch_obj_
+                      1
+                      H-NAME
+                    )
+
+                    ;; กำหนด Scale
+                    (vla-put-PatternScale
+                      hatch_obj_
+                      input_hatch_scale
+                    )
+                    (TA:add_hatch_scale hatch_ename_)
+                    (vla-Evaluate hatch_obj_)
+                  )
+                )
+              )
+            )
+
+            (if (vl-catch-all-error-p error_result_)
+              (prompt
+                (strcat
+                  "\nUnable to change Hatch: "
+                  (vl-catch-all-error-message error_result_)
+                )
+              )
+              (progn
+                (vla-Regen
+                  (vla-get-ActiveDocument
+                    (vlax-get-acad-object)
+                  )
+                  1
+                )
+
+                (prompt
+                  (strcat
+                    "\nHatch changed to ANSI33, Scale = "
+                    (rtos input_hatch_scale 2 2)
+                  )
+                )
+              )
+            )
+          )
+        )
+
+        (princ)
+      )
       (defun c:TA_HATCH_DEEP-MA_ANSI32
             (/
               nent_data_
@@ -10282,6 +10374,79 @@
       (setq text2_ename_ (car (entsel "specify New Object")))
       (setq text2_obj_ (vlax-ename->vla-object text2_ename_))
       (command "rename" "b" (vla-get-textstring text1_obj_) (vla-get-textstring text2_obj_))
+    )
+    (defun c:rename_block_RENBLKV2_RENB3x
+      ( / text1_ename_ text1_obj_ text2_ename_ text2_obj_ old_block_name_ new_block_name_ blocks_ block_def_ error_result_ )
+      (vl-load-com)
+      
+      (if
+        (and
+          (setq text1_ename_
+            (car (entsel "\nSpecify Old Block Name Text: "))
+          )
+          (setq text2_ename_
+            (car (entsel "\nSpecify New Block Name Text: "))
+          )
+        )
+        (progn
+          (setq text1_obj_ (vlax-ename->vla-object text1_ename_)
+                text2_obj_ (vlax-ename->vla-object text2_ename_)
+                old_block_name_ (vla-get-TextString text1_obj_)
+                new_block_name_ (vla-get-TextString text2_obj_)
+                blocks_
+                  (vla-get-Blocks
+                    (vla-get-ActiveDocument (vlax-get-acad-object))
+                  )
+          )
+
+          (setq error_result_
+            (vl-catch-all-apply
+              'vla-Item
+              (list blocks_ old_block_name_)
+            )
+          )
+
+          (if
+            (vl-catch-all-error-p error_result_)
+            (prompt
+              (strcat
+                "\nBlock not found: "
+                old_block_name_
+              )
+            )
+            (progn
+              (setq block_def_ error_result_)
+
+              (setq error_result_
+                (vl-catch-all-apply
+                  'vla-put-Name
+                  (list block_def_ new_block_name_)
+                )
+              )
+
+              (if
+                (vl-catch-all-error-p error_result_)
+                (prompt
+                  (strcat
+                    "\nUnable to rename block: "
+                    (vl-catch-all-error-message error_result_)
+                  )
+                )
+                (prompt
+                  (strcat
+                    "\nBlock renamed: "
+                    old_block_name_
+                    " -> "
+                    new_block_name_
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+
+      (princ)
     )
     (defun c:rename_block_RENBLK ()
       ;NOTE-FROM_DEV
@@ -17274,13 +17439,43 @@
       (command "selectsimilar" "se" )
     )
     (defun c:objdistance ()
-      (setq 1_ename_ (car (entsel "specify Object")))
-      (setq 1_obj_ (vlax-ename->vla-object 1_ename_))
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      
+      ; (setq 1_ename_ (car (entsel "specify Object")))
+      (setq 1_obj_ (vlax-ename->vla-object (ssname ss_pre_filter_set_xx_ 0)))
       (setq 1_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 1_obj_))))
-      (setq 2_ename_ (car (entsel "specify Object")))
-      (setq 2_obj_ (vlax-ename->vla-object 2_ename_))
+      ; (setq 2_ename_ (car (entsel "specify Object")))
+      (setq 2_obj_ (vlax-ename->vla-object (ssname ss_pre_filter_set_xx_ 1)))
       (setq 2_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 2_obj_))))
       (alert (rtos (distance 1_obj_ins_ 2_obj_ins_) 2 4))
+
     )
     (defun c:circledistance_cdit_ ()
       ;selection_set_for_fillter_blk_name
@@ -19605,6 +19800,60 @@
       ;
       
     )
+    (defun c:manual_array_MLarray ()
+      (if 
+        (= (setq ss_pre_filter_set_xx_ (ssget "i" (list (cons 0 "insert" ) ) ) ) nil)
+        (progn 
+          (setq marray_ename_ (car (entsel "specify Object")))
+        )
+        (setq marray_ename_ (ssname (setq ss_pre_filter_set_xx_ (ssget "i" (list (cons 0 "insert" ) ) ) ) 0 ) )
+      )
+        
+      
+      ; (setq marray_ename_ (car (entsel "specify Object")))
+      (setq marray_obj_ (vlax-ename->vla-object marray_ename_))
+      (setq marray_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint marray_obj_))))
+      (setq marray_obj_ins_re-insert_pt (if (= (getvar "worlducs") 0)(progn (trans marray_obj_ins_ 0 1)) marray_obj_ins_ ))
+      
+      (setq user-input-point_ (if (= (getvar "worlducs") 0)(progn (trans (getpoint marray_obj_ins_re-insert_pt "specify point") 1 1)) (getpoint marray_obj_ins_re-insert_pt "specify point") ))
+      
+      (setq array_length_ (cond ( (getint (strcat "\nspecify get move to point\n<" (rtos (setq array_length_ (cond (array_length_) (0) ) ) ) "> : " ) ) ) (array_length_) ) )
+      ;while selection process
+        (setq ERR_ nil)
+        (setq mul_i 1)
+        (while ;for keep insertion point and dist. fix length one side
+          (and
+            (= (vl-catch-all-error-p ERR_) nil)
+          )
+          (setq ERR_
+            (vl-catch-all-apply
+              (function
+                (lambda ()
+                  (getstring (strcat "enter for continue"))
+                )
+              )
+            )
+          )
+          (if (and 
+                (= (vl-catch-all-error-p ERR_) nil)
+              )
+            (progn
+              (vla-copy marray_obj_ )
+              (vla-move 
+                (vlax-ename->vla-object (entlast))
+                (vlax-3d-point marray_obj_ins_re-insert_pt)
+                (vlax-3d-point 
+                  (polar marray_obj_ins_re-insert_pt (angle marray_obj_ins_re-insert_pt user-input-point_ ) (* array_length_ mul_i))
+                )
+                
+              )
+              (setq mul_i (+ mul_i 1 ))
+            )
+          )
+
+        )
+      ;
+    )
   ; 
   ;LAYOUT_FUNC
     (defun c:F78 ()
@@ -20397,6 +20646,29 @@
       (setq str_value_length (strlen str_value_))
       (substr str_value_ (- (+ str_value_length 1) right_value_ ) 100)
     )
+    (defun c:combinetext ()
+      (setvar "selectionpreview" 3)
+      (setq combine-text_ () )
+      (setq err_ nil )
+      (while (/= (wcmatch (strcase (vl-princ-to-string err_)) "*ERROR*") T) 
+        (setq err_ (vl-catch-all-apply 
+                    (function 
+                      (lambda () 
+                        (setq combine-text_ (cons (vla-get-textstring (setq ee (vlax-ename->vla-object (car (entsel "specify Object")) ) ) ) combine-text_ ) )
+                      )
+                    )
+                  )
+        )
+      )
+      
+      (create-text-vla 
+        (vlax-3d-point (if (= (getvar "worlducs") 0)(progn (setq VPBB_min_ (trans (getpoint "specify point") 1 0))) (getpoint "specify point") ))
+        
+        (LM:lst->str (reverse combine-text_) "")
+        50
+        0
+      )
+    )
   ;
   ;UCS_FUNC
     (defun TA:saveucs () 
@@ -20703,7 +20975,7 @@
       ;
       (_endUndo doc)
     )
-    
+
   ;
   ;Dyeing Layer 
     (defun c:Dyeing_layer_Dyebyname ()
@@ -21157,8 +21429,7 @@
                               "000 - 0_HIDE_OBJ_FRAMING_DEF_SUB_1"
                               "000 - CONCRETE_PRECAST_MAIN_COLOR_1" 
                               "010 - ASPG_FLASHING_MAIN_COLOR_1"
-
-                          
+                              "010 - C10_PANEL_ACCESSORIES_MAIN_COLOR_2"
                         )
       )
       (defun TA:all-editblock_ (blockname line_color layer_name)
@@ -21318,25 +21589,10 @@
         (vl-catch-all-apply
           (function
             (lambda ()
-              (setq layer_obj_name_ (TA:choose_list_v3 
+              (setq layer_obj_name_ (TA:choose_list_v4 
                                       layer_list_
                                       "select block"
-                                      (if (or
-                                            (= layer_obj_name_exval nil)
-                                            (= layer_obj_name_ nil)
-                                            
-                                          ) 
-                                        (progn 
-                                          (setq layer_obj_name_exval 1)
-                                        )
-                                        (setq layer_obj_name_exval (+ 
-                                                                     (vl-position layer_obj_name_ 
-                                                                                  layer_list_
-                                                                     )
-                                                                     1
-                                                                   )
-                                        )
-                                      )
+                                      layer_obj_name_
                                     )
               )
             )
@@ -21349,6 +21605,7 @@
           (setq layer_obj_name__obj_ (vlax-ename->vla-object layer_obj_name__ename_))
           (setq layer_obj_name_val_ (vla-get-layer layer_obj_name__obj_  ))
         )
+        (setq layer_obj_name_val_ layer_obj_name_ )
       )
       (if (/= (vl-catch-all-error-p ERR_) T) 
         (progn 
@@ -21740,7 +21997,7 @@
         )
       )
     )
-
+    
   ;
   ;USER-INPUT_FUNC
     (defun TA:choose_list_ (choose_data-list_)
@@ -22626,7 +22883,131 @@
       (setvar "osmode" 1215)
     )
   ;
+  ;Layer_FUNC
+    (defun c:rename_layer_bycase
+      (
+        /
+        target_change_
+        next_change_
+        all_layer_indwg_
+        all_layer_indwg_i
+        all_layer_indwg_val_
+        layer_data_
+        newcut_
+        new_layer_name_
+        layers_
+        layer_obj_
+        error_result_
+        rename_count_
+      )
 
+      (vl-load-com)
+
+      ;; Pattern ของ Layer เดิม
+      (setq target_change_ "*300-PANEL_*")
+
+      ;; ข้อความใหม่ที่ใช้แทน "300-PANEL_"
+      (setq next_change_ "C10_PANEL_")
+
+      ;; ดึง Layer ทั้งหมดจาก Drawing
+      (setq all_layer_indwg_ '())
+      (setq layer_data_ (tblnext "LAYER" T))
+
+      (while layer_data_
+        (setq all_layer_indwg_ (cons (cdr (assoc 2 layer_data_)) all_layer_indwg_))
+        (setq layer_data_ (tblnext "LAYER"))
+      )
+
+      (setq all_layer_indwg_ (reverse all_layer_indwg_))
+      (setq layers_ (vla-get-Layers (vla-get-ActiveDocument (vlax-get-acad-object))))
+      (setq all_layer_indwg_i 0)
+      (setq rename_count_ 0)
+
+      ;; เอา * ออกจาก Pattern เพื่อใช้เป็นข้อความค้นหา
+      (setq newcut_ (LM:StringSubst "" "*" target_change_))
+
+      ;; วน Rename Layer
+      (while (< all_layer_indwg_i (length all_layer_indwg_))
+        (setq all_layer_indwg_val_ (nth all_layer_indwg_i all_layer_indwg_))
+
+        (if (wcmatch all_layer_indwg_val_ target_change_)
+          (progn
+            ;; ตัวอย่าง: AAA300-PANEL_BBB -> AAAC10_PANEL_BBB
+            (setq new_layer_name_ (LM:StringSubst next_change_ newcut_ all_layer_indwg_val_))
+
+            ;; ไม่ Rename ถ้าชื่อใหม่มีอยู่แล้ว
+            (if
+              (tblsearch "LAYER" new_layer_name_)
+              (prompt
+                (strcat
+                  "\nSkip: Layer already exists: "
+                  new_layer_name_
+                )
+              )
+
+              (progn
+                (setq error_result_
+                  (vl-catch-all-apply
+                    'vla-Item
+                    (list layers_ all_layer_indwg_val_)
+                  )
+                )
+
+                (if (not (vl-catch-all-error-p error_result_))
+                  (progn
+                    (setq layer_obj_ error_result_)
+
+                    (setq error_result_
+                      (vl-catch-all-apply
+                        'vla-put-Name
+                        (list layer_obj_ new_layer_name_)
+                      )
+                    )
+
+                    (if (vl-catch-all-error-p error_result_)
+                      (prompt
+                        (strcat
+                          "\nUnable to rename: "
+                          all_layer_indwg_val_
+                          " | "
+                          (vl-catch-all-error-message error_result_)
+                        )
+                      )
+
+                      (progn
+                        (setq rename_count_ (+ rename_count_ 1))
+
+                        (prompt
+                          (strcat
+                            "\nRenamed: "
+                            all_layer_indwg_val_
+                            " -> "
+                            new_layer_name_
+                          )
+                        )
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+
+        (setq all_layer_indwg_i (+ all_layer_indwg_i 1))
+      )
+
+      (prompt
+        (strcat
+          "\nCompleted. Renamed "
+          (itoa rename_count_)
+          " layer(s)."
+        )
+      )
+
+      (princ)
+    )
+  ;
 ;                                   
   (defun c:expl-p () 
     (vl-load-com)
@@ -41151,7 +41532,7 @@
                                             ) ) ) (choose_block_di) ) )
     ;
     (setq distance_block-scaling_ (cond ( (getreal (strcat "\nspecify distance_block-scaling_ <" (rtos (setq distance_block-scaling_ (cond (distance_block-scaling_) (1) ) ) ) "> : " ) ) ) (distance_block-scaling_) ) )
-    (setq angle-block (cond ( (getreal (strcat "\nspecify distance_block-scaling_ <" (rtos (setq angle-block (cond (angle-block) (0) ) ) ) "> : " ) ) ) (angle-block) ) )
+    (setq angle-block (cond ( (getreal (strcat "\nspecify angle_ <" (rtos (setq angle-block (cond (angle-block) (0) ) ) ) "> : " ) ) ) (angle-block) ) )
     ;preloop_and_while
       (setq ss_pre_filter_set_xx_i 0)
       (setq ss_new_sec (ssadd))

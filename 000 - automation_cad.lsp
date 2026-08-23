@@ -8241,6 +8241,7 @@
   ;Shell_FUNC
     ;Copy to clipboard FUNC
       (defun TA:copytext->clipboard (clipboard_text)
+        ; (setq clipboard_text (LM:effectivename nameblk_obj_ ))
         ;sub FUNC สำหรับในคัดลอก text ให้อยู่ clipboard สำหรับ ctrl+v ในอนาคต
         ;มีฟังชั่นแบบนี้ด้วยหรอ ถามจริง
         (vlax-invoke

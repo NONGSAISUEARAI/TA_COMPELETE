@@ -1,3 +1,5 @@
+
+
 (defun TA:create-filter-lv1 (layer_val_)
   (if (=  (type (setq iferror_ ;Detect the variable's result in case of a function error
                   (vl-catch-all-apply 
@@ -134,4 +136,4 @@
      )
   )
 )
- (TA:sort-filter-tree (TA:read-filter-tree))
+(TA:sort-filter-tree (TA:read-filter-tree))
