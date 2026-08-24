@@ -19817,7 +19817,7 @@
       
       (setq user-input-point_ (if (= (getvar "worlducs") 0)(progn (trans (getpoint marray_obj_ins_re-insert_pt "specify point") 1 1)) (getpoint marray_obj_ins_re-insert_pt "specify point") ))
       
-      (setq array_length_ (cond ( (getint (strcat "\nspecify get move to point\n<" (rtos (setq array_length_ (cond (array_length_) (0) ) ) ) "> : " ) ) ) (array_length_) ) )
+      (setq array_length_ (cond ( (getreal (strcat "\nspecify get move to point\n<" (rtos (setq array_length_ (cond (array_length_) (0) ) ) ) "> : " ) ) ) (array_length_) ) )
       ;while selection process
         (setq ERR_ nil)
         (setq mul_i 1)

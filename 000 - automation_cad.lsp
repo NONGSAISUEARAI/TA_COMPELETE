@@ -10977,6 +10977,21 @@
       (setq nameblk_ename_ (car (entsel "specify Object")))
       (setq nameblk_obj_ (vlax-ename->vla-object nameblk_ename_))
       (TA:copytext->clipboard (LM:effectivename nameblk_obj_ ))
+      (setq Er-msg_ 
+        (vl-catch-all-apply 
+          (function 
+            (lambda () 
+              (create-text-vla 
+                (vlax-3d-point (if (= (getvar "worlducs") 0)(progn (setq VPBB_min_ (trans (getpoint "specify point") 1 0))) (getpoint "specify point") ))
+                
+                (LM:lst->str (reverse combine-text_) "")
+                50
+                0
+              )
+            )
+          )
+        )
+      )
     )
     (defun c:copylayernametoclipboard_CPLNAME ()
       (setq nameblk_ename_ (car (entsel "specify Object")))
