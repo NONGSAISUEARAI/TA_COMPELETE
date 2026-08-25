@@ -60022,6 +60022,17 @@
     )
   ;
 )
+(defun c:qq1 ()
+  (setq block_all-list_ (TA:get_name_block_in_drawing_to_list_v2))
+  (setq prefix "")
+  (setq subfix (getstring "ใส่ชื่อ สถานี ไอสัสไอควย") )
+  (setq targetpp_ename_ (car (entsel "specify Object")))
+  (setq targetpp_obj_ (vlax-ename->vla-object targetpp_ename_))
+  (setq block_all-list_name_ (LM:EffectiveName targetpp_obj_ ))
+  
+  (command "rename" "b" block_all-list_name_ (strcat prefix block_all-list_name_ subfix))
+
+)
 
 
 
@@ -61854,7 +61865,7 @@
 
   (defun c:sumdyn ()
     ;presetting from code
-      (setq sum_parameter "X")
+      (setq sum_parameter "distance1")
     ; 
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget
@@ -61903,6 +61914,14 @@
       )
     ;
     (alert (rtos (/ sum_val_ 1000) 2 2))
+    (TA:copytext->clipboard (rtos (/ sum_val_ 1000) 2 2))
+  ) 
+  (defun c:ar1 ()
+    (setq area_ename_ (car (nentsel "specify Object")))
+    (setq area_obj_ (vlax-ename->vla-object area_ename_))
+    (setq area_obj_area (/ (vla-get-area area_obj_) 1000000))
+    (alert (rtos area_obj_area 2 2))
+    (TA:copytext->clipboard (rtos area_obj_area 2 2))
   ) 
   
   (defun c:MKpliso ()
@@ -62254,3 +62273,6 @@
 
     
   )
+
+
+
