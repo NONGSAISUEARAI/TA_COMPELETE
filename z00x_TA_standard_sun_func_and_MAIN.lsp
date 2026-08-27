@@ -5344,23 +5344,68 @@
         )
         (setq ss_pre_filter_set_xx_sorted (TA:standard_list_croodinate_sorting ss_pre_filter_set_xx_ "Y"))
       ;
-      (setq tag-target_sort_ename_ (car (nentsel "specify Object")))
+      (setq tag-target_sort_ename_ (car (nentsel "specify TAG Object")))
       (setq tag-target_sort_obj_ (vlax-ename->vla-object tag-target_sort_ename_))
       (setq tag-target_sort_obj_tagname_ (vla-get-tagstring tag-target_sort_obj_ ))
       ;
       ;
       (setq sorting-finder_mode
         (TA:choose_list_v4
-          (setq sortinglist_ (list "left to right" "top to below"))
+          (setq sortinglist_ (list "left to right" "top to below" "custom"))
           "select sorting mode"
           sorting-finder_mode
         )
       )
-      (if (= sorting-finder_mode "top to below" )
-        (progn
-          (setq ss_pre_filter_set_xx_sorted_ (TA:TBsort_ ss_pre_filter_set_xx_sorted 5 ))
+      (cond
+        ( (= sorting-finder_mode "top to below" )
+          (progn
+            (setq ss_pre_filter_set_xx_sorted_ (TA:TBsort_ ss_pre_filter_set_xx_sorted 5 ))
+          )
+          
         )
-        (setq ss_pre_filter_set_xx_sorted_ (TA:LRsort_ ss_pre_filter_set_xx_sorted 5 ))
+        ( (= sorting-finder_mode "left to right" )
+          (progn
+            (setq ss_pre_filter_set_xx_sorted_ (TA:LRsort_ ss_pre_filter_set_xx_sorted 5 ))
+          )
+          
+        )
+        ( (= sorting-finder_mode "custom" )
+          (progn
+            ;while selection process
+              (setq ERR_ nil)
+              (setq ss_pre_filter_set_xx_sorted_ ())
+              (setq custom-list_ename_ nil)
+              (while ;for keep insertion point and dist. fix length one side
+                (and
+                  (= (vl-catch-all-error-p ERR_) nil)
+                  (/= custom-list_ename_ "PASS")
+                )
+                (setq ERR_
+                  (vl-catch-all-apply
+                    (function
+                      (lambda ()
+                        (setq custom-list_ename_ (car (entsel "specify Object to list")))
+                        (setq custom-list_ename_vlains (list custom-list_ename_ (list 0 0 0)))
+                        (if (/= custom-list_ename_ nil)
+                          (progn
+                            (setq ss_pre_filter_set_xx_sorted_ 
+                              (cons custom-list_ename_vlains ss_pre_filter_set_xx_sorted_)
+                            )
+                          )
+                          (setq custom-list_ename_ "PASS")
+                        )
+                        
+                      )
+                    )
+                  )
+                )
+              )
+              (setq ss_pre_filter_set_xx_sorted_ (reverse ss_pre_filter_set_xx_sorted_ ))
+            ;
+          )
+          
+        
+        )
       )
       (setq prefix-str-sort_ ;Get-string by keep previous value
           (if

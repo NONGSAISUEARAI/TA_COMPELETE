@@ -2669,6 +2669,7 @@
         (princ (strcat "\nBlock " block-name " not found."))
       )
     )
+    
     (defun c:ADD_VISIBILITY_multi-mode_ADVSM_ ()
       (setq input_ins_ (getpoint ))
       (setq name_vis_ "view")
@@ -11428,7 +11429,7 @@
       ;ss-set length obj 
       
       ;preloop_and_while
-        (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "A$Cfb884e87"  )))
+        ; (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "A$Cfb884e87"  )))
         (setq ss_pre_filter_set_xx_i 0)
         (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
           (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))

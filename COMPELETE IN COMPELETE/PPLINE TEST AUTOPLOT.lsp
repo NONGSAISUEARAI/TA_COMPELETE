@@ -3338,7 +3338,7 @@
       ; (setq ss (car (entsel)))
       (setq adoc (vla-get-activedocument (vlax-get-acad-object)))
       (setq lyout (vla-get-activelayout adoc))
-      (setq styleSheet "A3_Standard (MRT-AGATE) - purple line - GEN.ctb")
+      (setq styleSheet "A3_Standard (MRT-AGATE) - purple line.ctb")
       (setq cfgName "AutoCAD PDF (High Quality Print).pc3")
       (vla-RefreshPlotDeviceInfo lyout)
       (vla-put-ConfigName lyout CfgName)
@@ -4247,6 +4247,16 @@
                
              )
           )
+          (;date_condd_case_5 ABOVE
+             (and
+                
+                (wcmatch (getvar "dwgname") "*P00*")
+             )
+             (progn
+               (TA:CDATE "-" "DDMMYYYY")
+               
+             )
+          )
           (T (TA:CDATE "-" "DDMMYYYY"))
         )
       )
@@ -4371,7 +4381,7 @@
                 )
               ;
               ;input_type_of_plot_
-                (TA:preset_plotter_mode_3-1) 
+                (TA:preset_plotter_mode_3) 
               ;
             ; )
               (command "-plot" 
@@ -5873,168 +5883,6 @@
 
       
     
-    ;
-  )
-  (defun c:Plotter_CKST_CSDfra0 ()
-      ;presetting
-      (setq REV_list_         (list 2)
-            REV_VAL           "A"
-            REV_DATE_VAL       "28-11-2025" ;(TA:CDATE "/" "DDMMYYYY")
-            REV_DESC_VAL      "REVISED ACCORDING TO THE COMMENTS"
-            DWG_VAL           "TA"
-            CHK_VAL           "KEN" 
-            APP_VAL           "MK"
-      )
-      (setq DESIGNED_BY_DATE_val REV_DATE_VAL)
-        ; (c:PPLINE_CKST_REWORK-TTB24_)
-        ; (c:PPLINE_CKST_REWORK-TTB25_)
-      ;
-      ;return
-        (command "ucs" "world")
-      ;
-      ;go_to_layout-process
-        ; (if 
-        ;   (or 
-        ;     (= (getvar "ctab") "model")
-        ;     (/= (getvar "ctab") "FAMING")
-        ;   )
-        ;   (progn 
-        ;     (setvar "ctab" "FAMING")
-            
-        ;   )
-        ;   (setvar "ctab" "FAMING")
-        ; )
-      ;
-      ;selection_set_for_fillter_blk_name
-        (if  ;pre_select_ssget_or_post_select_ssget
-          (=
-            (setq ss_pre_filter_set_xx_ (ssget "i"
-                                              (list
-                                                (cons 0 "INSERT") ;type of object
-                                                (cons 410 (getvar "CTAB"))
-                                                ; (cons 8 "000 - GRID")   ;kind of layer
-                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                                ; (cons 62 1)           ;kind of color call sign with color code index
-                                              )
-                                        )
-            )
-            nil
-          )
-          (progn
-            (setq ss_pre_filter_set_xx_ (ssget 
-                                              (list
-                                                (cons 0 "INSERT") ;type of object
-                                                (cons 410 (getvar "CTAB"))
-                                                ; (cons 8 "000 - GRID")   ;kind of layer
-                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                                ; (cons 62 1)           ;kind of color call sign with color code index
-                                              )
-                                        )
-            )
-          )
-          (sslength ss_pre_filter_set_xx_)
-        )
-      ;
-      ;preloop_and_while
-        (setq ss_pre_filter_set_xx_i 0)
-        (setq External_ref_ename_ ())
-        (while (and 
-                (= (type REV_list_) 'list)
-                (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-              )
-          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
-          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
-          
-          (TA:PPLINE_CKST_REWORK-REV_ ss_pre_filter_set_xx_obj_ REV_list_ REV_VAL REV_DATE_VAL REV_DESC_VAL DWG_VAL CHK_VAL APP_VAL)
-
-          
-          (if
-            (or
-              ; (= (sslength ss_pre_filter_set_xx_) 1)
-              (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_ )) (strcat "*" (strcase "Title Block_Under Ground_C1 v3") "*"))  T)
-              (= (wcmatch (strcase (LM:effectivename ss_pre_filter_set_xx_obj_ )) (strcat "*" (strcase "Title Block_Under Ground_C2 v3") "*"))  T)
-              
-            )
-            (progn
-              (setq main_bol (LM:boundingbox ss_pre_filter_set_xx_obj_))
-              (setq pre-name_ (strcat 
-                                (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "STATUS_VAL")
-                                "-"
-                                (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "DRAWING_NO_val")
-                                "-"
-                                (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "rev_no_val")
-                              )
-              )
-              ; (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "REV_DATE_01" "27-10-2025")
-              (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DESIGNED_BY_DATE_val" DESIGNED_BY_DATE_val )
-              ;plot process
-                (if 
-                  (findfile (setq filename (strcat "" (getvar 'DWGPREFIX)  pre-name_ ".pdf")))
-                  (vl-file-delete filename)
-                )
-              ;
-              ;input_type_of_plot_
-                (TA:preset_plotter_mode_3) 
-              ;
-            ;   (command "-plot" 
-            ;         "Yes" ;Detailed Plot Configuration?
-            ;         (getvar "ctab")
-            ;         "DWG To PDF.pc3" ;Printer Name
-            ;         "ISO_full_bleed_A3_(420.00_x_297.00_mm)" ;Paper Size
-            ;         ;paper_size ;Paper Size
-            ;         "m" ;Paper Units Millimeters
-            ;         "Landscape" ;Orientation
-            ;         "No" ;Plot Upside Down
-            ;         ; "extents" ;Plot Area
-            ;         (nth 0 main_bol) ;vla-getboundingbox
-            ;         (nth 2 main_bol) ;vla-getboundingbox
-            ;         ;llpt				;Lower left corner of window
-            ;         ;urpt				;Upper right corner of window
-            ;         "Fit" ;Plot Scale	"Fit"
-            ;         "Center" ;Plot Offset
-            ;         "yes" ;Use Plot Style?
-            ;         "A3_Standard (MRT-AGATE) - purple line.ctb" ;Plot Style Name
-            ;         "Yes" ;Plot Lineweights?
-            ;         "" ;Enter shade plot setting ["As displayed"/"Wireframe"/"Hidden"/"Visual styles"/"Rendered"]
-            ;         "N"
-            ;         "N"
-            ;         filename ; Name file and Location
-            ;         "Y"
-            ;         "Y"
-                
-            ; )
-              (command "-plot" 
-                    "Yes" ;Detailed Plot Configuration?
-                    (getvar "ctab")
-                    "DWG To PDF.pc3" ;Printer Name
-                    "ISO_full_bleed_A1_(841.00_x_594.00_MM)" ;Paper Size
-                    ;paper_size ;Paper Size
-                    "m" ;Paper Units Millimeters
-                    "Landscape" ;Orientation
-                    "No" ;Plot Upside Down
-                    "window" ;Plot Area
-                    (nth 0 main_bol) ;vla-getboundingbox
-                    (nth 2 main_bol) ;vla-getboundingbox
-                    ;llpt				;Lower left corner of window
-                    ;urpt				;Upper right corner of window
-                    "Fit" ;Plot Scale	"Fit"
-                    "Center" ;Plot Offset
-                    "yes" ;Use Plot Style?
-                    "A3_Standard (MRT-AGATE) - purple line.ctb" ;Plot Style Name
-                    "Yes" ;Plot Lineweights?
-                    "" ;Enter shade plot setting ["As displayed"/"Wireframe"/"Hidden"/"Visual styles"/"Rendered"]
-                    "N"
-                    "N"
-                    filename ; Name file and Location
-                    "Y"
-                    "Y"
-                
-            )
-            )
-          )
-          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
-        )
-      ;
     ;
   )
   (defun retrurn_CSD ()
