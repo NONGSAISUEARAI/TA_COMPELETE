@@ -11483,7 +11483,7 @@
           )
           (sslength ss_pre_filter_set_xx_)
         )
-        (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "A$Cfb884e87") )) 
+        ; (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "A$Cfb884e87") )) 
       ;
       (setq DL2-parameter "distance1")
       (setq pline-ref_ename_ (car (entsel "specify Object for intersection")))
