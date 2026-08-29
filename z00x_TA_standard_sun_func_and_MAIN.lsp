@@ -4920,6 +4920,118 @@
         )
       )
     )
+    (defun c:replace_block_object_reblock3 ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      (setq ERR_
+        (vl-catch-all-apply
+          (function
+            (lambda ()
+              (setq target_blk_obj_EFNAME_ nil)
+              (setq target_blk_ename_ (car (entsel "specify target_blk_ename_")))
+              (setq target_blk_obj_ (vlax-ename->vla-object target_blk_ename_))
+              (setq target_blk_obj_EFNAME_ (LM:effectivename target_blk_obj_))
+            )
+          )
+        )
+      )
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (setq ss_new_block_ (ssadd))
+        (while (and 
+                 (= (vl-catch-all-error-p ERR_) nil)
+                 (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+               )
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+          (setq ss_pre_filter_set_xx_obj_ro (rad-to-deg (vla-get-rotation ss_pre_filter_set_xx_obj_ )))
+          
+          ;special code dynamic length
+            (setq distance1_ (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "distance1"))
+          ;
+          
+          (TA:vla-insertblock
+            target_blk_obj_EFNAME_
+            ss_pre_filter_set_xx_obj_ins_
+            1
+            (deg-to-rad ss_pre_filter_set_xx_obj_ro)
+          )
+          
+          
+          ;new_blk_entlast object
+            (setq new_block_ename (entlast))
+            (setq ss_new_block_ (ssadd new_block_ename ss_new_block_) )
+            ;special code dynamic length
+              (LM:setdynpropvalue (vlax-ename->vla-object  new_block_ename) "distance1" distance1_)
+            ;
+          ;
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+      ; (setq ERR_temp1
+      ;   (vl-catch-all-apply
+      ;     (function
+      ;       (lambda ()
+      ;         (TA:ss-erase ss_pre_filter_set_xx_ )
+      ;       )
+      ;     )
+      ;   )
+      ; )
+      (setq Er-msg_detectloop nil)
+      (while
+        (= (type (setq Er-msg_detectloop (vl-catch-all-apply (function (lambda () (setq ref_ename_ (car (entsel "specify rotaion"))) ) ) ) )) 'ENAME )
+        (cond
+          ( (and 
+                ; (= H Hsub )
+                (= (type Er-msg_detectloop) 'ENAME )
+            )
+            (progn
+              ;preloop_and_while
+                (setq ss_new_block_i 0)
+                (while (< ss_new_block_i (sslength ss_new_block_))
+                  (setq ss_new_block_ename_ (ssname ss_new_block_ ss_new_block_i))
+                  (setq ss_new_block_obj_ (vlax-ename->vla-object  ss_new_block_ename_))
+                  (vla-put-rotation ss_new_block_obj_ 
+                                    (setq ref_obj_ro (vla-get-rotation (vlax-ename->vla-object ref_ename_)))
+                                    
+                  )
+                  (setq ss_new_block_i (+ ss_new_block_i 1))
+                )
+              ;
+              
+              
+            )
+          )
+        )
+      )
+    )
     (defun TA:Assembly_block_ (blk_obj_ )
       ; (setq blk_ename_ (car (entsel "specify Object")))
       ; (setq blk_obj_ (vlax-ename->vla-object blk_ename_))
@@ -6177,6 +6289,8 @@
     )
     (defun c:rename_block_bycase ()
       ; (setq target-change_ "000 - ASSCESSORIES*")
+      ; (setq target-change_ "*C10_PANEL_*")
+      ; (setq next-change_ "300-PANEL_")
       (setq target-change_ "*300-PANEL_*")
       (setq next-change_ "C10_PANEL_")
       (setq all-block_indwg_ (TA:get_name_block_in_drawing_to_list_v2))
@@ -17522,6 +17636,45 @@
       (alert (rtos (distance 1_obj_ins_ 2_obj_ins_) 2 4))
 
     )
+    (defun c:objydist ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      
+      ; (setq 1_ename_ (car (entsel "specify Object")))
+      (setq 1_obj_ (vlax-ename->vla-object (ssname ss_pre_filter_set_xx_ 0)))
+      (setq 1_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 1_obj_))))
+      ; (setq 2_ename_ (car (entsel "specify Object")))
+      (setq 2_obj_ (vlax-ename->vla-object (ssname ss_pre_filter_set_xx_ 1)))
+      (setq 2_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint 2_obj_))))
+      (alert (rtos (- (cadr 1_obj_ins_) (cadr 2_obj_ins_)) 2 4))
+
+    )
     (defun c:circledistance_cdit_ ()
       ;selection_set_for_fillter_blk_name
         (if  ;pre_select_ssget_or_post_select_ssget
@@ -17865,7 +18018,7 @@
       (if (= (vl-catch-all-error-p ERR_) T) 
         (progn 
           (setq blank_ss (ssadd))
-          (command "pselect" blank_ss "")
+          (sssetfirst nil)
         )
       )
     )
@@ -19752,19 +19905,7 @@
       )
       (setq blocklayer_number (nth 0  blocklayer_))
       (setq ERR_ nil)
-      (setq ERR_ (vl-catch-all-apply 
-                    (function 
-                      (lambda () 
-                        (setq blocklist_name_ (TA:choose_list_v4
-                                                blocklist_list_
-                                                "select block"
-                                                                                            blocklist_name_
-                                                                              )
-                                                                            )
-                                                  )
-                                                )
-                                              )
-                        )
+      (setq ERR_ (vl-catch-all-apply (function (lambda () (setq blocklist_name_ (TA:choose_list_v4 blocklist_list_ "select block" blocklist_name_ ) ) ) ) ) )
       
       ;while selection process
         (setq ERR_ nil)
@@ -19845,7 +19986,83 @@
       ;
       
     )
-    (defun c:manual_array_MLarray ()
+    (defun c:intert_by_boundary-area_blk2bols ()
+      (setq vertext_seq_ 3)
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      ;
+        (setq blocklist_list_ (list 
+                          "A$C31bb98ba"
+                          "000 - EXISTING_COLUMN"
+                          "000 - CONCRETE_WALL"
+                          "000 - CONCRETE_PRECAST"
+                          "010 - C10_PANEL_FRAMING_CUTVIEW"
+                          "010 - C10_PANEL_ACCESSORIES_SET-1"
+                          "010 - C10_PANEL_PANEL_GREEN_PLATE_SET-A-BOT-VIEW"
+                          "010 - C10_PANEL_PANEL_GREEN_PLATE_SET-B-BOT-VIEW"
+                          "010 - C10_PANEL_PANEL_GREEN_PLATE_SET-C-BOT-VIEW"
+                        )
+        )
+        (setq blocklayer_ (list 
+                            "0"
+                            "000 - EXISTING_CONCRETE_CUT_COLOR_1"
+                            "000 - EXISTING_CONCRETE_CUT_COLOR_5"
+                            "000 - CONCRETE_PRECAST_CUT_COLOR_4"
+                          )
+        )
+        (setq blocklayer_number (nth 0  blocklayer_))
+        (setq ERR_ nil)
+        (setq ERR_ (vl-catch-all-apply (function (lambda () (setq blocklist_name_ (TA:choose_list_v4 blocklist_list_ "select block" blocklist_name_ ) ) ) ) ) )
+      ;
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (setq ss_pre_filter_set_xx_obj_getboundingbox (vla-getboundingbox ss_pre_filter_set_xx_obj_ 'min_ 'max_)) 
+          (setq ss_pre_filter_set_xx_min_ (vlax-safearray->list min_)) 
+          (setq ss_pre_filter_set_xx_max_ (vlax-safearray->list max_)) 
+          
+          (setq ssbol_vertex_list_2 (nth 2 (TA:assembly_coordinate_coner (list ss_pre_filter_set_xx_min_ ss_pre_filter_set_xx_max_ ))))
+          (setq ssbol_vertex_list_3 (nth 3 (TA:assembly_coordinate_coner (list ss_pre_filter_set_xx_min_ ss_pre_filter_set_xx_max_ ))))
+          (TA:vla-insertblock
+            "A$C3cbad0ab"
+            (TA:midpoint ssbol_vertex_list_2 ssbol_vertex_list_3)
+            1
+            (deg-to-rad 0)
+          )
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+      
+    )
+    (defun c:insert_array_insarray ()
       (if 
         (= (setq ss_pre_filter_set_xx_ (ssget "i" (list (cons 0 "insert" ) ) ) ) nil)
         (progn 
@@ -19859,8 +20076,23 @@
       (setq marray_obj_ (vlax-ename->vla-object marray_ename_))
       (setq marray_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint marray_obj_))))
       (setq marray_obj_ins_re-insert_pt (if (= (getvar "worlducs") 0)(progn (trans marray_obj_ins_ 0 1)) marray_obj_ins_ ))
+      (setq user-input-point_ nil)
+      (setq user-input-point_1 nil)
+      (setq user-input-point_2 nil)
+      (if (and 
+            (= (vl-catch-all-error-p (vl-catch-all-apply (function (lambda () (setq user-input-point_1 (getpoint  "specify point" ) ) ) ) ) ) nil )
+            (/= user-input-point_1 nil)
+            (= (vl-catch-all-error-p (vl-catch-all-apply (function (lambda () (setq user-input-point_ (getpoint user-input-point_1 "specify point" ) ) ) ) ) ) nil )
+            
+          )
+        (progn
+        (setq mlar_current-ang_ (angle  user-input-point_1 user-input-point_ ))
+        )
+        (setq user-input-point_ (if (= (getvar "worlducs") 0)(progn (trans (getpoint marray_obj_ins_re-insert_pt "specify point") 1 1)) (getpoint marray_obj_ins_re-insert_pt "specify point") )
+              mlar_current-ang_ (angle   marray_obj_ins_re-insert_pt user-input-point_)
+        )
+      )
       
-      (setq user-input-point_ (if (= (getvar "worlducs") 0)(progn (trans (getpoint marray_obj_ins_re-insert_pt "specify point") 1 1)) (getpoint marray_obj_ins_re-insert_pt "specify point") ))
       
       (setq array_length_ (cond ( (getreal (strcat "\nspecify get move to point\n<" (rtos (setq array_length_ (cond (array_length_) (0) ) ) ) "> : " ) ) ) (array_length_) ) )
       ;while selection process
@@ -19888,7 +20120,7 @@
                 (vlax-ename->vla-object (entlast))
                 (vlax-3d-point marray_obj_ins_re-insert_pt)
                 (vlax-3d-point 
-                  (polar marray_obj_ins_re-insert_pt (angle marray_obj_ins_re-insert_pt user-input-point_ ) (* array_length_ mul_i))
+                  (polar marray_obj_ins_re-insert_pt mlar_current-ang_ (* array_length_ mul_i))
                 )
                 
               )
@@ -22949,10 +23181,10 @@
       (vl-load-com)
 
       ;; Pattern ของ Layer เดิม
-      (setq target_change_ "*300-PANEL_*")
+      (setq target_change_ "*C10_PANEL_*")
 
       ;; ข้อความใหม่ที่ใช้แทน "300-PANEL_"
-      (setq next_change_ "C10_PANEL_")
+      (setq next_change_ "300-PANEL_")
 
       ;; ดึง Layer ทั้งหมดจาก Drawing
       (setq all_layer_indwg_ '())

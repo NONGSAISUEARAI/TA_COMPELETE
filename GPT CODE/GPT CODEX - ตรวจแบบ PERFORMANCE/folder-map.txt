@@ -1,0 +1,55 @@
+FOLDER MAP — PERFORMANCE LOUVERS
+
+Naming rule
+- Every folder name carries the full preceding path as its prefix.
+- The preceding path is enclosed in square brackets: [PREFIX]_CURRENT_FOLDER.
+- Date folders use the format [FULL_PREFIX]_yyyymmdd.
+
+Station and entrance map
+
+[PP17]
+  [PP17]_ENT1
+  [PP17]_ENT2
+
+[PP18]
+  [PP18]_ENT1
+  [PP18]_ENT2
+  [PP18]_ENT3
+  [PP18]_ENT4
+
+[PP19]
+  [PP19]_ENT1
+  [PP19]_ENT2
+  [PP19]_ENT3
+
+[IV01]
+[VS01]
+
+Standard structure for each entrance
+
+[PPxx]
+  [PPxx]_ENTx
+    [PPxx_ENTx]_FROM_FL
+      [PPxx_ENTx_FROM_FL]_CAD
+        [PPxx_ENTx_FROM_FL_CAD]_yyyymmdd
+      [PPxx_ENTx_FROM_FL]_PDF
+        [PPxx_ENTx_FROM_FL_PDF]_yyyymmdd
+    [PPxx_ENTx]_FROM_CKST
+      [PPxx_ENTx_FROM_CKST]_COMMENT
+        [PPxx_ENTx_FROM_CKST_COMMENT]_yyyymmdd
+      [PPxx_ENTx_FROM_CKST]_APPROVE
+        [PPxx_ENTx_FROM_CKST_APPROVE]_yyyymmdd
+
+Standard structure for IV01 and VS01 (no entrance split)
+
+[STATION]
+  [STATION]_FROM_FL
+    [STATION_FROM_FL]_CAD
+      [STATION_FROM_FL_CAD]_yyyymmdd
+    [STATION_FROM_FL]_PDF
+      [STATION_FROM_FL_PDF]_yyyymmdd
+  [STATION]_FROM_CKST
+    [STATION_FROM_CKST]_COMMENT
+      [STATION_FROM_CKST_COMMENT]_yyyymmdd
+    [STATION_FROM_CKST]_APPROVE
+      [STATION_FROM_CKST_APPROVE]_yyyymmdd
