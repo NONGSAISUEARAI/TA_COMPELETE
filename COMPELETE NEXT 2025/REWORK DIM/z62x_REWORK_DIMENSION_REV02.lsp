@@ -9546,6 +9546,15 @@
       (command "-layer" "filter" "s" "All" "")
     )
   ;
+  ;LEE MAC FIX ERRROR 
+    (defun *error* (msg)
+      (if (and msg
+              (not (wcmatch (strcase msg) "*BREAK*,*CANCEL*,*EXIT*")))
+        (princ (strcat "\nError: " msg))
+      )
+      (princ)
+    )
+  ;
 ;
 
 ;DIM sub-FUNC
@@ -12409,6 +12418,7 @@
       (_EndUndo doc)
     )
     (defun c:Dex ()
+
       (_StartUndo doc)
       ;special for me only work with CKST Drwaing Construction 
         (setq DIM_E-C _global-dim_E-C_) ;Ref from C:dimsetting 
@@ -12792,7 +12802,7 @@
         (alert "please go to C:Dimsettin /nand set DIM EE EC CC CE")
       )
       (command "pselect"  new_ss_dim_ "" )
-      (c:move_dim_level_mvdim)
+      ; (c:move_dim_level_mvdim)
       (_EndUndo doc)
       (command "pselect" local_command_dex  "" )
     )
@@ -15204,6 +15214,11 @@
       (c:move_dim_level_mvdim)
       (_EndUndo doc)
       (command "pselect"  local_command_dex "" )
+    )
+    (defun c:btest ()
+      (setq ss_ename_ (car (entsel "specify Object")))
+      (setq ss_obj_ (vlax-ename->vla-object ss_ename_))
+      
     )
     (defun c:BBex ()
       (_StartUndo doc)

@@ -6311,7 +6311,33 @@
       ;
       
     )
-
+    (defun c:get_block_bycase ()
+      (setq all-block_indwg_ (TA:get_name_block_in_drawing_to_list_v2))
+      (setq wildcard-search_ "*`[ASPG-COMBINE`]*")
+      ;preloop_and_while
+        (setq all-block_indwg_i 0)
+        (setq all-block_indwg_newlist ())
+        (while (< all-block_indwg_i (length all-block_indwg_))
+          (setq all-block_indwg_ename_ (car (nth  all-block_indwg_i all-block_indwg_)))
+          (if (= (wcmatch all-block_indwg_ename_ wildcard-search_ ) T )
+            (progn
+              (setq all-block_indwg_newlist (cons all-block_indwg_ename_ all-block_indwg_newlist ))
+            )
+          )
+      
+          (setq all-block_indwg_i (+ all-block_indwg_i 1))
+        )
+      ;
+      ;preloop_and_while
+        (setq all-block_indwg_newlist_i 0)
+        (while (< all-block_indwg_newlist_i (length all-block_indwg_newlist_))
+          (setq all-block_indwg_newlist_ename_ (nth  all-block_indwg_newlist_i all-block_indwg_newlist_))
+          
+      
+          (setq all-block_indwg_newlist_i (+ all-block_indwg_newlist_i 1))
+        )
+      ;
+    )
   ;
   ;dynamic_block_and_ATTRIBUTE_FUNC
     ;dynamic_Alminium_sheet_FUNC
@@ -13319,6 +13345,30 @@
       ;
       (command "pselect"  att-pre_filter_set_xx_new-ss_ "" )
     )
+    (defun c:FINDTXT (/ key ss)
+      (setq key (getstring T "\nSpecify text to find: "))
+
+      (setq ss
+        (ssget "X"
+          (list
+            '(0 . "TEXT,MTEXT")
+            (cons 1 (strcat "*" "Type " key  "*"))
+          )
+        )
+      )
+      (setq global_selction_set_ ss)
+      (if ss
+        (progn
+          (princ (strcat "\nFound : " (itoa (sslength ss)) " object(s)"))
+          (sssetfirst nil ss)
+          (command "zoom" "O" global_selction_set_ "")
+        )
+        (princ "\nNot found.")
+        
+      )
+
+      (princ)
+    )
   ;
   ;TITLE DRAWING FUNC
     (defun c:sort_heading_number_sorH ()
@@ -19883,9 +19933,9 @@
       ;
     )
     (defun c:intert_by_boundary-area_blk2bol ()
-      (setq vertext_seq_ 3)
+      (setq vertext_seq_ 0)
       (setq blocklist_list_ (list 
-                         "A$C31bb98ba"
+                         "A$Ceadd66a9"
                          "000 - EXISTING_COLUMN"
                          "000 - CONCRETE_WALL"
                          "000 - CONCRETE_PRECAST"
@@ -58924,6 +58974,510 @@
       )
     ;
 
+  )
+  (defun c:ASPGScleancombine ()
+    ;presetting_
+    ; 
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              ; (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              ; (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        
+        ; (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  (car (entsel "specify Object"))))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        
+        
+        (if (and ;dimension obj
+              (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbRotatedDimension")
+            )
+          (progn
+            (vla-put-layer ss_pre_filter_set_xx_obj_ "COMBINE_DIMS_DEF_SUB")
+          )
+        )
+        (if (and ;dimension line layer 
+              (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbLine")
+              (or 
+                (= (vla-get-layer ss_pre_filter_set_xx_obj_ ) "DIMENSION")
+                (= (vla-get-layer ss_pre_filter_set_xx_obj_ ) "MULLION")
+              )
+              (/= (vla-get-color ss_pre_filter_set_xx_obj_ ) 3)
+            )
+          (progn
+            (vla-put-layer ss_pre_filter_set_xx_obj_ "COMBINE_DIMS_DEF_SUB")
+          )
+        )
+        (if (and ;fastern
+              (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbBlockReference")
+              (or 
+                (= (LM:EffectiveName ss_pre_filter_set_xx_obj_ ) "PZG35")
+                (= (LM:EffectiveName ss_pre_filter_set_xx_obj_ ) "BOLT PLAN VIEW")
+              )
+            )
+          (progn
+            (vla-put-layer ss_pre_filter_set_xx_obj_ "COMBINE_FASTERN_MAIN_COLOR_1")
+          )
+        )
+        (if (and ;bracket aspg
+              (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbRegion")
+              (= (vla-get-color ss_pre_filter_set_xx_obj_ ) 1)
+            )
+          (progn
+            (vla-put-layer ss_pre_filter_set_xx_obj_ "COMBINE_BRAKCET_MAIN_COLOR_1")
+          )
+        )
+        (if (and ;double-blade aspg
+              (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbPolyline")
+              (= (vla-get-color ss_pre_filter_set_xx_obj_ ) 2)
+            )
+          (progn
+            (vla-put-layer ss_pre_filter_set_xx_obj_ "COMBINE_DOUBLE-BLADE_MAIN_COLOR_2")
+          )
+        )
+        (if (and ;single-blade aspg
+              (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbRegion")
+              (= (vla-get-color ss_pre_filter_set_xx_obj_ ) 6)
+            )
+          (progn
+            (vla-put-layer ss_pre_filter_set_xx_obj_ "COMBINE_SINGLE-BLADE_MAIN_COLOR_2")
+          )
+        )
+        (if (and ;extr-framing aspg
+              (or 
+                (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbLine")
+                (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbPolyline")
+              )
+              (= (vla-get-color ss_pre_filter_set_xx_obj_ ) 3)
+            )
+          (progn
+            (vla-put-layer ss_pre_filter_set_xx_obj_ "COMBINE_SINGLE-BLADE_MAIN_COLOR_3")
+          )
+        )
+        (if (and ;bracket-L-profile aspg
+              (or 
+                (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbLine")
+                (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbPolyline")
+              )
+              (= (vla-get-color ss_pre_filter_set_xx_obj_ ) 0)
+            )
+          (progn
+            (vla-put-layer ss_pre_filter_set_xx_obj_ "COMBINE_BRAKCET_MAIN_COLOR_1")
+          )
+        )
+        (if (and ;basepoint 
+              (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbBlockReference")
+              (= (LM:EffectiveName ss_pre_filter_set_xx_obj_ ) "COMBINE_ORI_BSpoint_")
+            )
+          (progn
+            (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+            (setq ss_pre_filter_set_xx_obj_getboundingbox (vla-getboundingbox ss_pre_filter_set_xx_obj_ 'min_ 'max_)) 
+            (setq ss_pre_filter_set_xx_min_ (vlax-safearray->list min_)) 
+            (setq ss_pre_filter_set_xx_max_ (vlax-safearray->list max_)) 
+            (setq ss_pre_filter_set_xx_obj_ggb (nth 4 (TA:assembly_coordinate_coner (list ss_pre_filter_set_xx_min_ ss_pre_filter_set_xx_max_ ) )))
+            (command "point"  ss_pre_filter_set_xx_obj_ggb "" )
+          )
+        )
+        (if (and ;MTEXT
+              (or 
+                (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbMText")
+                (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbText")
+              )
+            )
+          (progn
+            (vla-put-layer ss_pre_filter_set_xx_obj_ "COMBINE_TEXT_DEF_SUB")
+            (setq textstring_ (vla-get-textstring ss_pre_filter_set_xx_obj_ ))
+          )
+        )
+        (vla-put-color ss_pre_filter_set_xx_obj_ 256)
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+  )
+  (defun c:ASPGSCOMBINE ()
+    ;presetting_
+    ; 
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              ; (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              ; (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        
+        ; (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  (car (entsel "specify Object"))))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        
+        
+        (if (and ;dimension obj
+              (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbRotatedDimension")
+            )
+          (progn
+            (vla-put-layer ss_pre_filter_set_xx_obj_ "COMBINE_DIMS_DEF_SUB")
+          )
+        )
+        (if (and ;dimension line layer 
+              (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbLine")
+              (or 
+                (= (vla-get-layer ss_pre_filter_set_xx_obj_ ) "DIMENSION")
+                (= (vla-get-layer ss_pre_filter_set_xx_obj_ ) "MULLION")
+              )
+              (/= (vla-get-color ss_pre_filter_set_xx_obj_ ) 3)
+            )
+          (progn
+            (vla-put-layer ss_pre_filter_set_xx_obj_ "COMBINE_DIMS_DEF_SUB")
+          )
+        )
+        (if (and ;fastern
+              (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbBlockReference")
+              (or 
+                (= (LM:EffectiveName ss_pre_filter_set_xx_obj_ ) "PZG35")
+                (= (LM:EffectiveName ss_pre_filter_set_xx_obj_ ) "BOLT PLAN VIEW")
+              )
+            )
+          (progn
+            (vla-put-layer ss_pre_filter_set_xx_obj_ "COMBINE_FASTERN_MAIN_COLOR_1")
+          )
+        )
+        (if (and ;bracket aspg
+              (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbRegion")
+              (= (vla-get-color ss_pre_filter_set_xx_obj_ ) 1)
+            )
+          (progn
+            (vla-put-layer ss_pre_filter_set_xx_obj_ "COMBINE_BRAKCET_MAIN_COLOR_1")
+          )
+        )
+        (if (and ;double-blade aspg
+              (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbPolyline")
+              (= (vla-get-color ss_pre_filter_set_xx_obj_ ) 2)
+            )
+          (progn
+            (vla-put-layer ss_pre_filter_set_xx_obj_ "COMBINE_DOUBLE-BLADE_MAIN_COLOR_2")
+          )
+        )
+        (if (and ;single-blade aspg
+              (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbRegion")
+              (= (vla-get-color ss_pre_filter_set_xx_obj_ ) 6)
+            )
+          (progn
+            (vla-put-layer ss_pre_filter_set_xx_obj_ "COMBINE_SINGLE-BLADE_MAIN_COLOR_2")
+          )
+        )
+        (if (and ;extr-framing aspg
+              (or 
+                (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbLine")
+                (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbPolyline")
+              )
+              (= (vla-get-color ss_pre_filter_set_xx_obj_ ) 3)
+            )
+          (progn
+            (vla-put-layer ss_pre_filter_set_xx_obj_ "COMBINE_SINGLE-BLADE_MAIN_COLOR_3")
+          )
+        )
+        (if (and ;bracket-L-profile aspg
+              (or 
+                (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbLine")
+                (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbPolyline")
+              )
+              (= (vla-get-color ss_pre_filter_set_xx_obj_ ) 0)
+            )
+          (progn
+            (vla-put-layer ss_pre_filter_set_xx_obj_ "COMBINE_BRAKCET_MAIN_COLOR_1")
+          )
+        )
+        (if (and ;basepoint 
+              (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbBlockReference")
+              (= (LM:EffectiveName ss_pre_filter_set_xx_obj_ ) "COMBINE_ORI_BSpoint_")
+            )
+          (progn
+            (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+            (setq ss_pre_filter_set_xx_obj_getboundingbox (vla-getboundingbox ss_pre_filter_set_xx_obj_ 'min_ 'max_)) 
+            (setq ss_pre_filter_set_xx_min_ (vlax-safearray->list min_)) 
+            (setq ss_pre_filter_set_xx_max_ (vlax-safearray->list max_)) 
+            (setq ss_pre_filter_set_xx_obj_ggb (nth 4 (TA:assembly_coordinate_coner (list ss_pre_filter_set_xx_min_ ss_pre_filter_set_xx_max_ ) )))
+            (command "point"  ss_pre_filter_set_xx_obj_ggb "" )
+          )
+        )
+        (if (and ;MTEXT
+              (or 
+                (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbMText")
+                (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbText")
+              )
+            )
+          (progn
+            (vla-put-layer ss_pre_filter_set_xx_obj_ "COMBINE_TEXT_DEF_SUB")
+            (setq textstring_ (vla-get-textstring ss_pre_filter_set_xx_obj_ ))
+          )
+        )
+        (vla-put-color ss_pre_filter_set_xx_obj_ 256)
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+      (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
+      (setq blocks (vla-get-Blocks doc))
+      (setvar "osmode" 0)
+      (command "_block" (strcat "[ASPG-COMBINE]_" textstring_ "_[SINGLE-BLADE]") ss_pre_filter_set_xx_obj_ggb ss_pre_filter_set_xx_ "" )
+      (TA:vla-insertblock 
+        (strcat "[ASPG-COMBINE]_" textstring_ "_[SINGLE-BLADE]")
+        ss_pre_filter_set_xx_obj_ggb
+        1
+        0
+      )
+      (setvar "osmode" 1215)
+    ;
+  )
+  (defun c:ASPGDCOMBINE ()
+    ;presetting_
+    ; 
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              ; (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              ; (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  (car (entsel "specify Object"))))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        
+        (if (and ;dimension obj
+              (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbRotatedDimension")
+            )
+          (progn
+            (vla-put-layer ss_pre_filter_set_xx_obj_ "COMBINE_DIMS_DEF_SUB")
+          )
+        )
+        (if (and ;dimension line layer 
+              (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbLine")
+              (or 
+                (= (vla-get-layer ss_pre_filter_set_xx_obj_ ) "DIMENSION")
+                (= (vla-get-layer ss_pre_filter_set_xx_obj_ ) "MULLION")
+              )
+              (/= (vla-get-color ss_pre_filter_set_xx_obj_ ) 3)
+            )
+          (progn
+            (vla-put-layer ss_pre_filter_set_xx_obj_ "COMBINE_DIMS_DEF_SUB")
+          )
+        )
+        (if (and ;fastern
+              (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbBlockReference")
+              (or 
+                (= (LM:EffectiveName ss_pre_filter_set_xx_obj_ ) "PZG35")
+                (= (LM:EffectiveName ss_pre_filter_set_xx_obj_ ) "BOLT PLAN VIEW")
+              )
+            )
+          (progn
+            (vla-put-layer ss_pre_filter_set_xx_obj_ "COMBINE_FASTERN_MAIN_COLOR_1")
+          )
+        )
+        (if (and ;bracket aspg
+              (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbRegion")
+              (= (vla-get-color ss_pre_filter_set_xx_obj_ ) 1)
+            )
+          (progn
+            (vla-put-layer ss_pre_filter_set_xx_obj_ "COMBINE_BRAKCET_MAIN_COLOR_1")
+          )
+        )
+        (if (and ;double-blade aspg
+              (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbPolyline")
+              (= (vla-get-color ss_pre_filter_set_xx_obj_ ) 2)
+            )
+          (progn
+            (vla-put-layer ss_pre_filter_set_xx_obj_ "COMBINE_DOUBLE-BLADE_MAIN_COLOR_2")
+          )
+        )e
+        (if (and ;single-blade aspg
+              (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbRegion")
+              (= (vla-get-color ss_pre_filter_set_xx_obj_ ) 6)
+            )
+          (progn
+            (vla-put-layer ss_pre_filter_set_xx_obj_ "COMBINE_SINGLE-BLADE_MAIN_COLOR_2")
+          )
+        )
+        (if (and ;extr-framing aspg
+              (or 
+                (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbLine")
+                (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbPolyline")
+              )
+              (= (vla-get-color ss_pre_filter_set_xx_obj_ ) 3)
+            )
+          (progn
+            (vla-put-layer ss_pre_filter_set_xx_obj_ "COMBINE_SINGLE-BLADE_MAIN_COLOR_3")
+          )
+        )
+        (if (and ;bracket-L-profile aspg
+              (or 
+                (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbLine")
+                (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbPolyline")
+              )
+              (= (vla-get-color ss_pre_filter_set_xx_obj_ ) 0)
+            )
+          (progn
+            (vla-put-layer ss_pre_filter_set_xx_obj_ "COMBINE_BRAKCET_MAIN_COLOR_1")
+          )
+        )
+        (if (and ;basepoint 
+              (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbBlockReference")
+              (= (LM:EffectiveName ss_pre_filter_set_xx_obj_ ) "COMBINE_ORI_BSpoint_")
+            )
+          (progn
+            (setq ss_pre_filter_set_xx_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint ss_pre_filter_set_xx_obj_))))
+            (setq ss_pre_filter_set_xx_obj_getboundingbox (vla-getboundingbox ss_pre_filter_set_xx_obj_ 'min_ 'max_)) 
+            (setq ss_pre_filter_set_xx_min_ (vlax-safearray->list min_)) 
+            (setq ss_pre_filter_set_xx_max_ (vlax-safearray->list max_)) 
+            (setq ss_pre_filter_set_xx_obj_ggb (nth 4 (TA:assembly_coordinate_coner (list ss_pre_filter_set_xx_min_ ss_pre_filter_set_xx_max_ ) )))
+            (command "point"  ss_pre_filter_set_xx_obj_ggb "" )
+          )
+        )
+        (if (and ;MTEXT
+              (or 
+                (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbMText")
+                (= (vla-get-objectname ss_pre_filter_set_xx_obj_ ) "AcDbText")
+              )
+            )
+          (progn
+            (vla-put-layer ss_pre_filter_set_xx_obj_ "COMBINE_TEXT_DEF_SUB")
+            (setq textstring_ (vla-get-textstring ss_pre_filter_set_xx_obj_ ))
+          )
+        )
+        (vla-put-color ss_pre_filter_set_xx_obj_ 256)
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+      (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
+      (setq blocks (vla-get-Blocks doc))
+      (setvar "osmode" 0)
+      (command "_block" (strcat "[ASPG-COMBINE]_" textstring_ "_[DOUBLE-BLADE]") ss_pre_filter_set_xx_obj_ggb ss_pre_filter_set_xx_ "" )
+      (TA:vla-insertblock 
+        (strcat "[ASPG-COMBINE]_" textstring_ "[DOUBLE-BLADE]")
+        ss_pre_filter_set_xx_obj_ggb
+        1
+        0
+      )
+      (setvar "osmode" 1215)
+    ;
+  )
+  (defun c:t33_temp_aspg_ ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "lwpolyline") ;type of object
+                                              (cons 8 "DIMENSION")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "lwpolyline") ;type of object
+                                              (cons 8 "DIMENSION")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    (setq sssset_ins_1_ (nth 0 (TA:assembly_coordinate_coner (TA:ss_vla-getboundingbox ss_pre_filter_set_xx_))))
+    (command "pselect"  ss_pre_filter_set_xx_ "" )
+    (TA:vla-insertblock
+      "COMBINE_ORI_BSpoint_"
+      sssset_ins_1_
+      1
+      0
+    )
+    (TA:vla-insertblock
+      "INSERT-ATT"
+      sssset_ins_1_
+      1
+      0
+    )
+    ;new_blk_entlast object
+      (setq ss_ename (entlast))
+      (setq ss_obj (vlax-ename->vla-object ss_ename))
+      (vla-explode ss_obj)
+    ;
   )
 ;
 
