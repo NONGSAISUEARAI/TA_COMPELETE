@@ -6318,14 +6318,16 @@
     (defun c:get_block_bycase ()
       (setq all-block_indwg_ (TA:get_name_block_in_drawing_to_list_v2))
       (setq wildcard-search_ "*`[ASPG-COMBINE`]*")
+      (setq p1 (getpoint "specify point 1"))
+      (setq p2 (getpoint p1 "specify point 1"))
       ;preloop_and_while
         (setq all-block_indwg_i 0)
-        (setq all-block_indwg_newlist ())
+        (setq all-block_indwg_newlist_ ())
         (while (< all-block_indwg_i (length all-block_indwg_))
           (setq all-block_indwg_ename_ (car (nth  all-block_indwg_i all-block_indwg_)))
           (if (= (wcmatch all-block_indwg_ename_ wildcard-search_ ) T )
             (progn
-              (setq all-block_indwg_newlist (cons all-block_indwg_ename_ all-block_indwg_newlist ))
+              (setq all-block_indwg_newlist_ (cons all-block_indwg_ename_ all-block_indwg_newlist_ ))
             )
           )
       
@@ -6336,11 +6338,67 @@
         (setq all-block_indwg_newlist_i 0)
         (while (< all-block_indwg_newlist_i (length all-block_indwg_newlist_))
           (setq all-block_indwg_newlist_ename_ (nth  all-block_indwg_newlist_i all-block_indwg_newlist_))
+          (if (/= (strlen (TA:KeepNumber all-block_indwg_newlist_ename_) ) 3)
+            (progn
+              (setq new-nameblk_ 
+                (TA:renameblock_ 
+                  all-block_indwg_newlist_ename_
+                  (LM:StringSubst (TA:prefix_value_000 (atoi (TA:KeepNumber all-block_indwg_newlist_ename_ )))   (TA:KeepNumber all-block_indwg_newlist_ename_) all-block_indwg_newlist_ename_)
+                )
+              )
+            )
+          )
+
           
-      
           (setq all-block_indwg_newlist_i (+ all-block_indwg_newlist_i 1))
         )
       ;
+      
+      
+      
+    )
+    (defun TA:all-block_filter_ (wildcard-search_ )
+      (setq all-block_indwg_ (TA:get_name_block_in_drawing_to_list_v2))
+      ; (setq wildcard-search_ "*`[ASPG-COMBINE`]*")
+      ;preloop_and_while
+        (setq all-block_indwg_i 0)
+        (setq all-block_indwg_newlist_ ())
+        (while (< all-block_indwg_i (length all-block_indwg_))
+          (setq all-block_indwg_ename_ (car (nth  all-block_indwg_i all-block_indwg_)))
+          (if (= (wcmatch all-block_indwg_ename_ wildcard-search_ ) T )
+            (progn
+              (setq all-block_indwg_newlist_ (cons all-block_indwg_ename_ all-block_indwg_newlist_ ))
+            )
+          )
+      
+          (setq all-block_indwg_i (+ all-block_indwg_i 1))
+        )
+      ;
+      (setq result all-block_indwg_newlist_)
+    )
+    (defun c:insert_block_list_ ()
+      (setq filterlist-blk_ (TA:all-block_filter_ "*`[ASPG-COMBINE`]*"))
+      (setq point-1_ (getpoint "specify point 1 "))
+      (setq point-2_ (getpoint point-1_ "specify point 2 "))
+      ;preloop_and_while
+        (setq filterlist-blk_i 0)
+        (while (< filterlist-blk_i (length filterlist-blk_))
+          (setq filterlist-blk_ename_ (nth  filterlist-blk_i filterlist-blk_))
+          (TA:vla-insertblock 
+            filterlist-blk_ename_
+            point-1_
+            1
+            0
+          )
+          ;new_blk_entlast object
+            (setq inslist_ename (entlast))
+            (setq inslist_obj_ (vlax-ename->vla-object inslist_ename))
+            (TA:move_axis_insertionpoint inslist_obj_ "Y" (* (distance point-1_ point-2_) filterlist-blk_i))
+          ;
+          (setq filterlist-blk_i (+ filterlist-blk_i 1))
+        )
+      ;
+      
     )
   ;
   ;dynamic_block_and_ATTRIBUTE_FUNC
@@ -10289,6 +10347,94 @@
     )
   ;
   ;EF_NAME_TO_ATT_TEXT_BLOCK_FUNC
+    (defun TA:renameblock_  ( old_block_name_ new_block_name_ / doc_ blocks_ block_def_ error_result_ )
+      (vl-load-com)
+      (cond
+        ;; ชื่อเก่าหรือชื่อใหม่ต้องเป็น String
+        (
+          (not
+            (and
+              (= (type old_block_name_) 'STR)
+              (= (type new_block_name_) 'STR)
+            )
+          )
+          (prompt "\nError: Old Block name and New Block name must be String.")
+          nil
+        )
+
+        ;; ห้ามชื่อว่าง
+        (
+          (or
+            (= (vl-string-trim " " old_block_name_) "")
+            (= (vl-string-trim " " new_block_name_) "")
+          )
+          (prompt "\nError: Block name cannot be blank.")
+          nil
+        )
+
+        ;; ไม่ต้องเปลี่ยนหากชื่อเดิมและใหม่เหมือนกัน
+        (
+          (= (strcase old_block_name_) (strcase new_block_name_))
+          (prompt "\nBlock name is unchanged.")
+          old_block_name_
+        )
+
+        ;; ตรวจว่ามี Block ชื่อเดิมจริง
+        (
+          (not (tblsearch "BLOCK" old_block_name_))
+          (prompt (strcat "\nError: Block not found: " old_block_name_))
+          nil
+        )
+
+        ;; ห้ามตั้งชื่อซ้ำกับ Block ที่มีอยู่แล้ว
+        (
+          (tblsearch "BLOCK" new_block_name_)
+          (prompt (strcat "\nError: New Block name already exists: " new_block_name_))
+          nil
+        )
+
+        ;; Rename Block
+        (T
+          (setq doc_ (vla-get-ActiveDocument (vlax-get-acad-object)))
+          (setq blocks_ (vla-get-Blocks doc_))
+
+          (setq error_result_
+            (vl-catch-all-apply
+              'vla-Item
+              (list blocks_ old_block_name_)
+            )
+          )
+          (if
+            (vl-catch-all-error-p error_result_)
+            (progn
+              (prompt
+                (strcat
+                  "\nError: Cannot access Block Definition: "
+                  (vl-catch-all-error-message error_result_)
+                )
+              )
+              nil
+            )
+            (progn
+              (setq block_def_ error_result_)
+              (setq error_result_ (vl-catch-all-apply 'vla-put-Name (list block_def_ new_block_name_) ) )
+              (if
+                (vl-catch-all-error-p error_result_)
+                (progn
+                  (prompt (strcat "\nError: Cannot rename Block: " (vl-catch-all-error-message error_result_) ) )
+                  nil
+                )
+
+                (progn
+                  (prompt (strcat "\nBlock renamed: " old_block_name_ " -> " new_block_name_ ) )
+                  new_block_name_
+                )
+              )
+            )
+          )
+        )
+      )
+    )
     (defun TA:fillter_block_name_ (blk_ename_ )
       ;LEE-MAC_SUB_FUNC
         (defun LM:StringSubst ( new old str / inc len )
@@ -10672,20 +10818,20 @@
 
 
     )
-    (defun TA:renameblock_ (Old_name New_name)
-      ; (setq Old_name "W-2-PP20-AR-4280-01-A_20260115-120954_ASDADADSDESW24")
-      ; (setq New_name "W-2-PP20-AR-4180-01-A_20260217_092300_NEWLIGHT")
-      (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
-      (if (and 
-            (= (type (vl-catch-all-apply (function (lambda () (vla-Item (vla-get-Blocks doc) Old_name) ) ) ) ) 'VLA-OBJECT)
-            (= (type (vl-catch-all-apply (function (lambda () (vla-Item (vla-get-Blocks doc) New_name) ) ) ) ) 'VL-CATCH-ALL-APPLY-ERROR)
-          )
-        (progn
-          (command "rename" "B" Old_name New_name)
-        )
-        (princ "SOMETHING BAD" )
-      )
-    )
+    ; (defun TA:renameblock_ (Old_name New_name)
+    ;   ; (setq Old_name "W-2-PP20-AR-4280-01-A_20260115-120954_ASDADADSDESW24")
+    ;   ; (setq New_name "W-2-PP20-AR-4180-01-A_20260217_092300_NEWLIGHT")
+    ;   (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
+    ;   (if (and 
+    ;         (= (type (vl-catch-all-apply (function (lambda () (vla-Item (vla-get-Blocks doc) Old_name) ) ) ) ) 'VLA-OBJECT)
+    ;         (= (type (vl-catch-all-apply (function (lambda () (vla-Item (vla-get-Blocks doc) New_name) ) ) ) ) 'VL-CATCH-ALL-APPLY-ERROR)
+    ;       )
+    ;     (progn
+    ;       (command "rename" "B" Old_name New_name)
+    ;     )
+    ;     (princ "SOMETHING BAD" )
+    ;   )
+    ; )
     ; (TA:renameblock_ "A$Cd7765226" "000 - RECEED_DIM")
     (defun c:rename_block_RENBLKV4_RENB4 ()
       (setq text1_ename_ (car (entsel "specify Old Object")))
@@ -11015,7 +11161,7 @@
       
       
     )
-
+    
   ;
   ;Joint_FUNC
     (defun c:joint_line_JOL ()
@@ -59441,7 +59587,7 @@
           (setq ss_pre_filter_set_xx_ (ssget "i"
                                             (list
                                               (cons 0 "lwpolyline") ;type of object
-                                              (cons 8 "DIMENSION")   ;kind of layer
+                                              (cons 8 "DIMENSION,COMBINE_SINGLE-BLADE_MAIN_COLOR_3")   ;kind of layer
                                               ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                               ; (cons 62 1)           ;kind of color call sign with color code index
                                             )
@@ -59453,7 +59599,7 @@
           (setq ss_pre_filter_set_xx_ (ssget
                                             (list
                                               (cons 0 "lwpolyline") ;type of object
-                                              (cons 8 "DIMENSION")   ;kind of layer
+                                              (cons 8 "DIMENSION,COMBINE_SINGLE-BLADE_MAIN_COLOR_3")   ;kind of layer
                                               ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                               ; (cons 62 1)           ;kind of color call sign with color code index
                                             )
