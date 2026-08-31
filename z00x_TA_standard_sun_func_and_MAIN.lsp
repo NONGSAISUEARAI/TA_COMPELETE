@@ -5485,7 +5485,7 @@
           (progn
             ;while selection process
               (setq ERR_ nil)
-              (setq ss_pre_filter_set_xx_sorted_ ())
+              (setq ss_pre_filter_set_xx_sorted_ ())pse
               (setq custom-list_ename_ nil)
               (while ;for keep insertion point and dist. fix length one side
                 (and
@@ -5496,14 +5496,17 @@
                   (vl-catch-all-apply
                     (function
                       (lambda ()
+                        (setvar "selectionpreview" 3)
+                        (setq temp-ssblk (ssadd))
                         (setq custom-list_ename_ (car (entsel "specify Object to list")))
                         (setq custom-list_ename_vlains (list custom-list_ename_ (list 0 0 0)))
                         (if (/= custom-list_ename_ nil)
                           (progn
-                            (setq ss_pre_filter_set_xx_sorted_ 
-                              (cons custom-list_ename_vlains ss_pre_filter_set_xx_sorted_)
-                            )
+                            (setq ss_pre_filter_set_xx_sorted_ (cons custom-list_ename_vlains ss_pre_filter_set_xx_sorted_) )
+                            (setq temp-ssblk (ssadd custom-list_ename_ temp-ssblk))
+                            (command "pselect"  temp-ssblk "" )
                           )
+
                           (setq custom-list_ename_ "PASS")
                         )
                         
@@ -5512,6 +5515,7 @@
                   )
                 )
               )
+              (setvar "selectionpreview" 0)
               (setq ss_pre_filter_set_xx_sorted_ (reverse ss_pre_filter_set_xx_sorted_ ))
             ;
           )
@@ -63107,3 +63111,5 @@
 
 
 
+
+  

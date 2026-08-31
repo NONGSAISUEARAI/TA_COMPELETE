@@ -1,0 +1,111 @@
+CHAT HISTORY / HANDOFF
+วันที่: 2026-08-29
+หัวข้อ: AutoLISP Debug ใน VS Code และอาการหยุดที่ PSELECT
+
+================================================================
+1) บริบท
+================================================================
+
+ตรวจโค้ดคำสั่ง AutoLISP c:Bex ซึ่งบางเครื่องหยุดที่บรรทัด:
+
+  (command "pselect" local_command_dex "")
+
+แม้ไม่มี breakpoint หรือ error แสดงขึ้นในขณะนั้น ขณะที่อีกเครื่องทำงานได้ปกติ
+
+================================================================
+2) ข้อสรุปเรื่อง PSELECT
+================================================================
+
+- PSELECT เป็นคำสั่ง interactive และต้องอาศัย command state ของ AutoCAD
+- หากคำสั่งก่อนหน้า (โดยเฉพาะ c:move_dim_level_mvdim) ยังจบไม่สมบูรณ์ ค่า/อินพุตที่ส่งให้ PSELECT อาจไปอยู่กับคำสั่งเดิม ทำให้ดูเหมือน LISP หยุดรอที่ PSELECT
+- จึงไม่ใช่ปัญหาที่เกิดแบบตายตัวกับทุกเครื่อง; AutoCAD version, profile, system variables และ LISP อื่นที่โหลดอยู่ อาจทำให้พฤติกรรมต่างกัน
+
+ข้อเสนอแนะให้เปลี่ยนการตั้ง preselection จาก:
+
+  (command "pselect" local_command_dex "")
+
+เป็น:
+
+  (if (and local_command_dex (> (sslength local_command_dex) 0))
+    (sssetfirst nil local_command_dex)
+  )
+
+และเปลี่ยนส่วน new_ss_dim_ ก่อนเรียก c:move_dim_level_mvdim เป็นแนวเดียวกัน:
+
+  (if (and new_ss_dim_ (> (sslength new_ss_dim_) 0))
+    (sssetfirst nil new_ss_dim_)
+  )
+  (c:move_dim_level_mvdim)
+
+sssetfirst ตั้งชุดวัตถุที่ถูกเลือกโดยตรง และไม่เปิด prompt ให้รอ input แบบ PSELECT
+
+================================================================
+3) CMDACTIVE
+================================================================
+
+CMDACTIVE เป็น System Variable แบบอ่านอย่างเดียว ใช้ตรวจว่ามีคำสั่ง/หน้าต่างใดกำลัง active อยู่หรือไม่
+
+ค่าแบบ bit-code:
+- 0  = ไม่มีคำสั่ง active
+- 1  = คำสั่งปกติกำลัง active
+- 2  = Transparent command active
+- 4  = Script active
+- 8  = Dialog box active
+- 16 = DDE active
+- 32 = AutoLISP active (เฉพาะบางกรณี ObjectARX)
+- 64 = ObjectARX command active
+
+ค่าที่เป็นผลบวก เช่น 5 = 1 + 4 หมายถึงมีคำสั่งปกติและ script active พร้อมกัน
+
+ก่อนถึง PSELECT ควรตรวจ:
+
+  (getvar "CMDACTIVE")
+
+ผลที่ต้องการคือ 0 หากมีค่า 1 หรือค่าที่มี 1 รวมอยู่ แสดงว่ามี command ก่อนหน้ายังไม่จบ
+
+CMDACTIVE ตั้งค่าเองไม่ได้ หากพบคำสั่งค้าง ให้กด Esc ใน AutoCAD เพื่อยกเลิก command นั้นก่อน
+
+================================================================
+4) VS Code / AutoLISP Debugger
+================================================================
+
+- ใช้ส่วนขยาย Autodesk: AutoCAD AutoLISP Extension เวอร์ชัน 1.6.3
+- launch.json แบบ type: attachlisp / request: attach เป็นรูปแบบเก่าที่ extension แจ้งว่า deprecated
+- ให้ใช้ Extension Setting ชื่อ "Debug: Attach Process" แทน โดยตั้ง process เป็น acad (หรือชื่อ process ของ AutoCAD ที่ใช้งาน)
+- จากนั้นเปิดไฟล์ .lsp และกด F5 เลือก "AutoLISP Debug: Attach" เพื่อเชื่อมกับ AutoCAD ที่เปิดอยู่
+- Python Debugger ใช้ debug ไฟล์ .py เท่านั้น และไม่เกี่ยวกับ AutoLISP
+- "Evaluate" ไม่ใช่ debug configuration แยกต่างหาก แต่คือการประเมิน expression ใน Debug Console หลังจาก Attach Debug แล้ว
+
+ตัวอย่าง expression สำหรับ Evaluate ใน Debug Console:
+
+  (getvar "CMDACTIVE")
+  (if local_command_dex (sslength local_command_dex) 0)
+  (list (getvar "CMDACTIVE")
+        (if local_command_dex (sslength local_command_dex) 0))
+
+================================================================
+5) ภาพหน้าจอที่บันทึกไว้
+================================================================
+
+ภาพ: C:\Users\popul\AppData\Local\Temp\codex-clipboard-d793704d-95fd-485b-a700-80085e16715a.png
+
+ภาพยืนยันว่า VS Code เชื่อม AutoLISP Debug: Attach สำเร็จ
+
+ใน Debug Console มีการทดลองคำสั่ง c:SD และพบ error:
+
+  ; error: bad argument type: lentityp nil
+
+สาเหตุของ error นี้: (entsel "specify Object") คืนค่า nil เมื่อผู้ใช้กด Esc หรือไม่ได้เลือกวัตถุ แล้ว nil ถูกส่งต่อไปยัง (vlax-ename->vla-object ass_ename_)
+
+ควรป้องกันด้วยการตรวจผล entsel ก่อน เช่น:
+
+  (if (setq ass_ename_ (car (entsel "\nSpecify object: ")))
+    (setq ass_obj_ (vlax-ename->vla-object ass_ename_))
+  )
+
+================================================================
+6) งานที่ยังไม่ได้ทำ
+================================================================
+
+- ยังไม่ได้แก้ไขไฟล์ AutoLISP ต้นฉบับ
+- หากต้องการแก้จริง ให้ตรวจ definition ของ c:move_dim_level_mvdim ว่าปิดทุก (command ...) ด้วย input จบครบถ้วน และปรับ PSELECT เป็น sssetfirst
