@@ -3805,6 +3805,117 @@
           
         )
       )
+      (defun TA:Offset_object_ ( input_object_ offset_distance_ offset_side_ / input_object_vla_ signed_distance_ offset_result_ )
+
+        ;convert ENAME to VLA-OBJECT
+        (setq input_object_vla_
+          (cond
+            (
+              (= (type input_object_) 'ENAME)
+              (vlax-ename->vla-object input_object_)
+            )
+            (
+              (= (type input_object_) 'VLA-OBJECT)
+              input_object_
+            )
+          )
+        )
+
+        ;calculate signed distance
+        (setq signed_distance_
+          (*
+            (abs offset_distance_)
+            (if (< offset_side_ 0)
+              -1.0
+              1.0
+            )
+          )
+        )
+
+        ;offset
+        (if input_object_vla_
+          (progn
+            (setq offset_result_
+              (vl-catch-all-apply
+                (function
+                  (lambda ()
+                    (vlax-invoke
+                      input_object_vla_
+                      'Offset
+                      signed_distance_
+                    )
+                  )
+                )
+              )
+            )
+
+            (if (vl-catch-all-error-p offset_result_)
+              (progn
+                (prompt
+                  (strcat
+                    "\nOffset Error: "
+                    (vl-catch-all-error-message offset_result_)
+                  )
+                )
+                (setq offset_result_ nil)
+              )
+            )
+          )
+        )
+
+        offset_result_
+        (entlast)
+      )
+      (defun c:MKAHP ()
+        
+        
+        (_startundo doc)
+        (setq mkahp_ename_ (ssname (ssget "i" '((0 . "LWPOLYLINE"))) 0))
+        (setq mkahp_obj_ (vlax-ename->vla-object mkahp_ename_))
+        
+        (setq newline_front-ss_ (ssadd))
+        (setq newline_mid-ss_ (ssadd))
+        (setq newline_back-ss_ (ssadd))
+        (setq newline_fold-ss_ (ssadd))
+        
+        (setq newline_front0 (vlax-vla-object->ename (vla-copy mkahp_obj_ )))
+        (setq newline_front1 (TA:Offset_object_ mkahp_obj_ 0.8 1))
+        (setq newline_front-ss_ (ssadd newline_front0 newline_front-ss_))
+        (setq newline_front-ss_ (ssadd newline_front1 newline_front-ss_))
+        (TA:joint_line_JOL newline_front-ss_)
+        (vla-put-color (vlax-ename->vla-object (entlast)) 3)
+        (vla-put-layer (vlax-ename->vla-object (entlast)) "010 - C07_PANEL_PANEL_CUT_COLOR_3")
+        
+        (setq newline_mid1 (TA:Offset_object_ mkahp_obj_ 0.8 1))
+        (setq newline_mid2 (TA:Offset_object_ mkahp_obj_ 5.5 1))
+        (setq newline_mid-ss_ (ssadd newline_mid1 newline_mid-ss_))
+        (setq newline_mid-ss_ (ssadd newline_mid2 newline_mid-ss_))
+        (TA:joint_line_JOL newline_mid-ss_)
+        (vla-put-color (vlax-ename->vla-object (entlast)) 1)
+        (vla-put-layer (vlax-ename->vla-object (entlast)) "010 - C07_PANEL_PANEL_CUT_COLOR_1")
+        
+        (setq newline_back1 (TA:Offset_object_ mkahp_obj_ 5.5 1))
+        (setq newline_back2 (TA:Offset_object_ mkahp_obj_ 6 1))
+        (setq newline_back-ss_ (ssadd newline_back1 newline_back-ss_))
+        (setq newline_back-ss_ (ssadd newline_back2 newline_back-ss_))
+        (TA:joint_line_JOL newline_back-ss_)
+        (vla-put-color (vlax-ename->vla-object (entlast)) 3)
+        (vla-put-layer (vlax-ename->vla-object (entlast)) "010 - C07_PANEL_PANEL_CUT_COLOR_3")
+          ; (setq newline_fold1 (TA:Offset_object_ mkahp_obj_ 6 1))
+          ; (setq newline_fold2 (TA:Offset_object_ mkahp_obj_ 20 1))
+          ; (setq newline_fold-ss_ (ssadd newline_fold1 newline_fold-ss_))
+          ; (setq newline_fold-ss_ (ssadd newline_fold2 newline_fold-ss_))
+        
+        (sslength newline_front-ss_ )
+
+
+
+          ; (TA:joint_line_JOL newline_fold-ss_)
+          ; (vla-put-color (vlax-ename->vla-object (entlast)) 1)
+          
+        (_endundo doc)
+      )
+      
     ;
   ;
   ;Block Editor_FUNC
@@ -11124,24 +11235,73 @@
           )
         ;
       ;
-      ;ASPG event code
-        ;new_blk_entlast object
-          (setq newpline_ename (entlast))
-          (setq newpline_obj (vlax-ename->vla-object newpline_ename))
-          (vla-put-layer newpline_obj "010 - ASPG_FLASHING_MAIN_COLOR_3")
-          (vla-put-color newpline_obj 256)
-          (command "pselect"  newpline_ename "" )
-          (c:Selectionset_wipeout_sswe)
-          ;new_blk_entlast object
-            (setq wipepline_ename (entlast))
-            (setq wipepline_obj (vlax-ename->vla-object wipepline_ename))
-            (vla-put-layer wipepline_obj "010 - ASPG_FLASHING_WIPEOUT_")
-            (vla-put-color wipepline_obj 256)
-          ;
-          (command "pselect"   "" )
-          (command "draworder" newpline_ename "" "F")
-        ;
+      (_EndUndo doc)
+    )
+    
+    (defun TA:joint_line_JOL (ss_pre_filter_set_xx_ )
+      ;Note By Code_Developer
+      ;This command is designed to work exclusively with a LWPOLYLINE espectespecially object from offset line
+      ;The principle of this code is to read the insertion points (vertices) of the polyline at the head and tail,then create polylines at both insertion points and join them together.
       ;
+      (_startundo doc)
+        ;joint_pline
+          ;condition_rule_for_run
+            (if (and 
+                  (/= ss_pre_filter_set_xx_ nil)
+                  (= (sslength ss_pre_filter_set_xx_) 2)
+                )
+              (progn
+                ;preloop_and_while
+                  (setq ss_pre_filter_set_xx_i 0)
+                  (setq ss_pre_filter_set_xx_ii 1)
+                  (while (< ss_pre_filter_set_xx_i 1)
+                    ;first_pline_process
+                      (setq ss_pre_filter_set_xx_i_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+                        (setq ss_pre_filter_set_xx_i_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_i_ename_))
+                          (setq ss_pre_filter_set_xx_i_obj_vertex_len_ (cadr (TA:Get_Pline_vertext_ins_point_ ss_pre_filter_set_xx_i_ename_)))
+
+                            (setq ss_pre_filter_set_xx_i_obj_vertex_len_headline_ (nth 0 ss_pre_filter_set_xx_i_obj_vertex_len_))
+                            (setq ss_pre_filter_set_xx_i_obj_vertex_len_botline_ (nth (- (length ss_pre_filter_set_xx_i_obj_vertex_len_) 1) ss_pre_filter_set_xx_i_obj_vertex_len_))
+                      ;copy_pline_object
+                        ; (vla-copy ss_pre_filter_set_xx_i_obj_)
+                      ;
+                    ;
+                    ;second_pline_process
+                      (setq ss_pre_filter_set_xx_ii_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_ii))
+                        (setq ss_pre_filter_set_xx_ii_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ii_ename_))
+
+                          (setq ss_pre_filter_set_xx_ii_obj_vertex_len_ (cadr (TA:Get_Pline_vertext_ins_point_ ss_pre_filter_set_xx_ii_ename_)))
+
+                            (setq ss_pre_filter_set_xx_ii_obj_vertex_len_headline_ (nth 0 ss_pre_filter_set_xx_ii_obj_vertex_len_))
+                            (setq ss_pre_filter_set_xx_ii_obj_vertex_len_botline_ (nth (- (length ss_pre_filter_set_xx_ii_obj_vertex_len_) 1) ss_pre_filter_set_xx_ii_obj_vertex_len_))
+                      ;copy_pline_object
+                        ; (vla-copy ss_pre_filter_set_xx_ii_obj_)
+                      ;
+                    ;
+                    ;making_pline_process_
+                      (setvar "osmode" 0)
+                      (if (= (getvar "worlducs") 0)(progn (setq ss_pre_filter_set_xx_ii_obj_vertex_len_headline_ (trans ss_pre_filter_set_xx_ii_obj_vertex_len_headline_ 0 1))) ss_pre_filter_set_xx_ii_obj_vertex_len_headline_ )
+                      (if (= (getvar "worlducs") 0)(progn (setq ss_pre_filter_set_xx_ii_obj_vertex_len_botline_ (trans ss_pre_filter_set_xx_ii_obj_vertex_len_botline_ 0 1))) ss_pre_filter_set_xx_ii_obj_vertex_len_botline_ )
+                      (if (= (getvar "worlducs") 0)(progn (setq ss_pre_filter_set_xx_i_obj_vertex_len_headline_ (trans ss_pre_filter_set_xx_i_obj_vertex_len_headline_ 0 1))) ss_pre_filter_set_xx_i_obj_vertex_len_headline_ )
+                      (if (= (getvar "worlducs") 0)(progn (setq ss_pre_filter_set_xx_i_obj_vertex_len_botline_ (trans ss_pre_filter_set_xx_i_obj_vertex_len_botline_ 0 1))) ss_pre_filter_set_xx_i_obj_vertex_len_botline_ )
+                      (create-pline (list ss_pre_filter_set_xx_i_obj_vertex_len_headline_ ss_pre_filter_set_xx_ii_obj_vertex_len_headline_)) ;head_of_line
+                        (setq new_joint_headline_ (entlast))
+                      (create-pline (list ss_pre_filter_set_xx_i_obj_vertex_len_botline_ ss_pre_filter_set_xx_ii_obj_vertex_len_botline_)) ;bot_of_line
+                        (setq new_joint_botline_ (entlast))
+                    ;
+                    ;Jointline_process
+                      (command "join" new_joint_headline_ new_joint_botline_ ss_pre_filter_set_xx_i_ename_ ss_pre_filter_set_xx_ii_ename_ "")
+                    ;
+                    (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+                  )
+                ;
+                (setvar "osmode" 1215)
+                ; (command "draworder"  "L" "" "B") 
+
+              )
+            )
+          ;
+        ;
       (_EndUndo doc)
     )
   ;
@@ -17645,7 +17805,15 @@
       (command "pselect"  ss_pre_filter_set_xx_  "" )
     )
     (defun c:simsetting ()
-      (command "selectsimilar" "se" )
+      (setq ERR_
+        (vl-catch-all-apply
+          (function
+            (lambda ()
+              (command "selectsimilar" "se" )
+            )
+          )
+        )
+      )
     )
     (defun c:objdistance ()
       ;selection_set_for_fillter_blk_name
@@ -19935,7 +20103,7 @@
     (defun c:intert_by_boundary-area_blk2bol ()
       (setq vertext_seq_ 0)
       (setq blocklist_list_ (list 
-                         "A$Ceadd66a9"
+                         "USER-INPUT"
                          "000 - EXISTING_COLUMN"
                          "000 - CONCRETE_WALL"
                          "000 - CONCRETE_PRECAST"
@@ -19955,7 +20123,32 @@
       )
       (setq blocklayer_number (nth 0  blocklayer_))
       (setq ERR_ nil)
-      (setq ERR_ (vl-catch-all-apply (function (lambda () (setq blocklist_name_ (TA:choose_list_v4 blocklist_list_ "select block" blocklist_name_ ) ) ) ) ) )
+      (setq ERR_ (vl-catch-all-apply 
+                   (function 
+                     (lambda () 
+                       (setq blocklist_name_ (TA:choose_list_v4 
+                                               blocklist_list_
+                                               "select block"
+                                               blocklist_name_
+                                             )
+                       )
+                       (if (= blocklist_name_ "USER-INPUT")
+                            (progn
+                              (setq blocklist_name_ (LM:effectivename 
+                                                      (setq blocklist_name_obj_ (vlax-ename->vla-object 
+                                                                                  (car ( entsel "specify Object" ) )
+                                                                                )
+                                                      )
+                                                    )
+                              ) 
+                              
+                            )
+                        )
+                     )
+                   )
+                 )
+      )
+      
       
       ;while selection process
         (setq ERR_ nil)

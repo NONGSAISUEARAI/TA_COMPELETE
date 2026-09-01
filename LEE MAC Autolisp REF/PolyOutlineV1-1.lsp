@@ -21,7 +21,7 @@
         (progn
             (initget "Yes No")
             (setq d (/= "No" (getkword "\nDelete Original? [Yes/No] <Yes>: ")))
-            (repeat (setq i (sslength s))
+            (repaeat (setq i (sslength s))
                 (LM:PolyOutline (setq e (ssname s (setq i (1- i)))))
                 (if d (entdel e))
             )

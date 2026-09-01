@@ -952,7 +952,7 @@
         (setq target_list_i 0)
         (setq check_list_val "N")
         (while (and (< target_list_i (length target_list_)) (= check_list_val "N"))
-          (setq target_list_ename_ (nth  target_list_i target_list_))
+          (setq target_list_ename_ (nth  target_list_i target_list_)) 
             (if (= target_val_ target_list_ename_ )
               (progn
                 (setq check_list_val "Y")
@@ -16080,7 +16080,7 @@
         (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
           (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
           (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
-          (vla-put-textoverride ss_pre_filter_set_xx_obj_ "varies")
+          (vla-put-textoverride ss_pre_filter_set_xx_obj_ "VARIES")
           (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
         )
       ;

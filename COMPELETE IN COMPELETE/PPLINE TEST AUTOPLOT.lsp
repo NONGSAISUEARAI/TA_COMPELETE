@@ -9194,7 +9194,81 @@
       )
     ;
   )
-  (defun c:temp_ci-no+_ ()
+  (defun c:number ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_v2_ ss_pre_filter_set_xx_ (list "000_FAMELINE_SYMBOL_INDICATOR_NAME_" ) ) )
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (setq add-or_remove_ ;Get-string by keep previous value
+          (if
+            (or
+              (/= (setq add-or_remove_val (getstring (strcat "\nSpecify Pattern name <" (if add-or_remove_ add-or_remove_ "") ">: ") ) ) "" )
+            )
+              (progn
+                (setq add-or_remove_ add-or_remove_val)
+                (setq add-or_remove_keep_val_ add-or_remove_val)
+              )
+            (setq add-or_remove_val add-or_remove_keep_val_)
+          )
+      )
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (cond
+          ( (and 
+                (= (LM:Effectivename ss_pre_filter_set_xx_obj_ ) "000_FAMELINE_SYMBOL_INDICATOR_NAME_")
+                ( = add-or_remove_ "+")
+                (/= (TA:KeepNumber (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "NUMBER"  )) "")
+              )
+            (progn
+              (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "NUMBER" (strcat "" (rtos (+ (atoi (TA:KeepNumber (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "NUMBER"  ))) 1) 2 0)) )
+            ) 
+          )
+          ( (and 
+                (= (LM:Effectivename ss_pre_filter_set_xx_obj_ ) "000_FAMELINE_SYMBOL_INDICATOR_NAME_")
+                ( = add-or_remove_ "-")
+                (/= (TA:KeepNumber (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "NUMBER"  )) "")
+              )
+            (progn
+              (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "NUMBER" (strcat "" (rtos (- (atoi (TA:KeepNumber (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "NUMBER"  ))) 1) 2 0)) )
+            ) 
+          )
+        )
+        
+          
+          
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+  )
+  (defun c:QQ- ()
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget
         (=
@@ -9235,7 +9309,7 @@
               (/= (TA:KeepNumber (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "NUMBER"  )) "")
             )
           (progn
-            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "NUMBER" (strcat "" (rtos (+ (atoi (TA:KeepNumber (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "NUMBER"  ))) 1) 2 0)) )
+            (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "NUMBER" (strcat "" (rtos (- (atoi (TA:KeepNumber (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "NUMBER"  ))) 1) 2 0)) )
           ) 
         )
         
@@ -9245,7 +9319,7 @@
       )
     ;
   )
-  (defun c:temp-no-_ ()
+  (defun c:temp ()
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget
         (=
