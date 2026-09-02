@@ -2935,7 +2935,56 @@
         )
       )
     )
-  
+    (defun TA:List_to_mtext_ ( input_list_ insertion_point_ text_height_ / acad_document_ drawing_space_ mtext_string_ mtext_obj_ )
+
+      (vl-load-com)
+
+      ;convert each list item to one MText line
+      (setq mtext_string_ "")
+
+      (foreach item_ input_list_
+        (setq mtext_string_
+          (strcat
+            mtext_string_
+            (if (= mtext_string_ "")
+              ""
+              "\\P"
+            )
+            (vl-princ-to-string item_)
+          )
+        )
+      )
+
+      ;get current drawing space
+      (setq acad_document_
+        (vla-get-ActiveDocument
+          (vlax-get-acad-object)
+        )
+      )
+
+      (setq drawing_space_
+        (vla-get-Block
+          (vla-get-ActiveLayout acad_document_)
+        )
+      )
+
+      ;create MText
+      (setq mtext_obj_
+        (vla-AddMText
+          drawing_space_
+          (vlax-3d-point insertion_point_)
+          0.0
+          mtext_string_
+        )
+      )
+
+      (vla-put-Height
+        mtext_obj_
+        text_height_
+      )
+
+      mtext_obj_
+    )
   ;
   ;format_FUNC
     (defun format-all-workbook-list (data)
@@ -20525,6 +20574,345 @@
       ;
     )
   ; 
+  ;COUNTING_FUNC
+
+    (defun c:counting_blklist_ ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      ; 
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (setq ss_pre_filter_set_xx_obj_blk_efname_list_ ())
+        (setq ss_pre_filter_set_xx_obj_blk_efname_list_summary_ ())
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (if (and 
+                ; (= (LM:effectivename ss_pre_filter_set_xx_obj_  ) EF_targetname_)
+                (= (vla-get-isdynamicblock ss_pre_filter_set_xx_obj_) :vlax-true)
+              )
+            (progn
+              ; (setq ss_pre_filter_set_xx_obj_blk_efname_ (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "Distance1" ))
+              (Setq ss_pre_filter_set_xx_obj_blk_efname_list_ (cons (list 
+                                                                          (LM:effectivename ss_pre_filter_set_xx_obj_  )
+                                                                    ) 
+                                                                    ss_pre_filter_set_xx_obj_blk_efname_list_
+                                                              )
+              )
+              (setq ss_pre_filter_set_xx_obj_blk_efname_list_summary_ (TA:Count_item_in_list_ ss_pre_filter_set_xx_obj_blk_efname_list_))
+            )
+          )
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+      (TA:List_to_mtext_ 
+        ;TA:stanndard_lambda_sorting
+          (append 
+            (list (LM:effectivename ss_pre_filter_set_xx_obj_  ) )
+            (setq ss_pre_filter_set_xx_obj_blk_efname_list_summary_sorted_ 
+                 (vl-sort ss_pre_filter_set_xx_obj_blk_efname_list_summary_  ;bigest open indent list
+                                                    (function 
+                                                      (lambda (a b) 
+                                                        (< (nth 0 (car a)) (nth 0 (car b)))
+                                                      )
+                                                    )
+                                ) ;bigest close indent list
+            )
+          )
+        ; 
+        
+        (getpoint "SSSS") 
+        100
+      )
+    )
+    (defun c:counting_parameter_sumparameter (/ err_)
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      (setq ERR_
+        (vl-catch-all-apply
+          (function
+            (lambda ()
+              (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ 
+                                            (setq EF_targetname_ (LM:EffectiveName (setq target_obj_ (vlax-ename->vla-object (setq target_ename_ (car (entsel "specify Object")))))))
+                                          )
+              )
+            )
+          )
+        )
+      )
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (setq ss_pre_filter_set_xx_obj_parameter_list_ ())
+        (setq ss_pre_filter_set_xx_obj_parameter_list_summary_ ())
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (if (and 
+                (= (LM:effectivename ss_pre_filter_set_xx_obj_  ) EF_targetname_)
+                (= (vla-get-isdynamicblock ss_pre_filter_set_xx_obj_) :vlax-true)
+              )
+            (progn
+              (setq ss_pre_filter_set_xx_obj_parameter_ (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "Distance1" ))
+              (Setq ss_pre_filter_set_xx_obj_parameter_list_ (cons (list 
+                                                                         (LM:round ss_pre_filter_set_xx_obj_parameter_)
+                                                                   ) 
+                                                                   ss_pre_filter_set_xx_obj_parameter_list_
+                                                             )
+              )
+              (setq ss_pre_filter_set_xx_obj_parameter_list_summary_ (TA:Count_item_in_list_ ss_pre_filter_set_xx_obj_parameter_list_))
+            )
+          )
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+      (TA:List_to_mtext_ 
+        ;TA:stanndard_lambda_sorting
+          (append 
+            (list (LM:effectivename ss_pre_filter_set_xx_obj_  ) )
+            (setq ss_pre_filter_set_xx_obj_parameter_list_summary_sorted_ 
+                 (vl-sort ss_pre_filter_set_xx_obj_parameter_list_summary_  ;bigest open indent list
+                                                    (function 
+                                                      (lambda (a b) 
+                                                        (< (nth 0 (car a)) (nth 0 (car b)))
+                                                      )
+                                                    )
+                                ) ;bigest close indent list
+            )
+          )
+        ; 
+        
+        (getpoint "SSSS") 
+        100
+      )
+    )
+    (defun c:counting_blklist_ ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      ;user-input-color
+        (and
+          (setq usert-input-point_1 (getpoint "\nSpecify point for insert mtext : "))
+          (setq usert-input-point_2 (getpoint usert-input-point_1 "\nSpecify point for insert mtext : "))
+          (setq usert-input-distance_ (distance usert-input-point_1 usert-input-point_2 ))
+          (setq usert-input-angle_ (angle usert-input-point_1 usert-input-point_2 ))
+          (setq  usert-input-point_1_base usert-input-point_1 )
+         )
+      
+
+      ;
+      ; 
+      ;preloop_and_while filter dynamic ef name process
+        (setq ss_pre_filter_set_xx_i 0)
+        (setq ss_pre_filter_set_xx_obj_blk_efname_list_ ())
+        (setq ss_pre_filter_set_xx_obj_blk_efname_list_summary_ ())
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (if (and 
+                ; (= (LM:effectivename ss_pre_filter_set_xx_obj_  ) EF_targetname_)
+                (= (vla-get-isdynamicblock ss_pre_filter_set_xx_obj_) :vlax-true)
+              )
+            (progn
+              ; (setq ss_pre_filter_set_xx_obj_blk_efname_ (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "Distance1" ))
+              (Setq ss_pre_filter_set_xx_obj_blk_efname_list_ (cons (list 
+                                                                          (LM:effectivename ss_pre_filter_set_xx_obj_  )
+                                                                    ) 
+                                                                    ss_pre_filter_set_xx_obj_blk_efname_list_
+                                                              )
+              )
+              (setq ss_pre_filter_set_xx_obj_blk_efname_list_summary_ (TA:Count_item_in_list_ ss_pre_filter_set_xx_obj_blk_efname_list_))
+            )
+          )
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_obj_blk_efname_list_summary_i 0)
+        (while (< ss_pre_filter_set_xx_obj_blk_efname_list_summary_i (length ss_pre_filter_set_xx_obj_blk_efname_list_summary_))
+          (setq ss_pre_filter_set_xx_obj_blk_efname_list_summary_item_ (TA:EF_Filter_ss_set_ 
+                                                                          ss_pre_filter_set_xx_
+                                                                          (setq ss_pre_filter_set_xx_obj_blk_efname_list_summary_efname_ 
+                                                                                  (car ( car ( nth ss_pre_filter_set_xx_obj_blk_efname_list_summary_i ss_pre_filter_set_xx_obj_blk_efname_list_summary_ ) ))
+                                                                          )
+                                                                       )
+          ) 
+          ;preloop_and_while
+            (setq ss_pre_filter_set_xx_obj_blk_efname_list_summary_item_i 0)
+            (setq ss_pre_filter_set_xx_obj_parameter_list_ ())
+            (while (< ss_pre_filter_set_xx_obj_blk_efname_list_summary_item_i (sslength ss_pre_filter_set_xx_obj_blk_efname_list_summary_item_))
+              (setq ss_pre_filter_set_xx_obj_blk_efname_list_summary_item_ename_ (ssname ss_pre_filter_set_xx_obj_blk_efname_list_summary_item_ ss_pre_filter_set_xx_obj_blk_efname_list_summary_item_i))
+              (setq ss_pre_filter_set_xx_obj_blk_efname_list_summary_item_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_obj_blk_efname_list_summary_item_ename_))
+              (if (and 
+                    (= (LM:effectivename ss_pre_filter_set_xx_obj_blk_efname_list_summary_item_obj_  ) ss_pre_filter_set_xx_obj_blk_efname_list_summary_efname_)
+                    (= (vla-get-isdynamicblock ss_pre_filter_set_xx_obj_blk_efname_list_summary_item_obj_) :vlax-true)
+                  )
+                (progn
+                  (setq ss_pre_filter_set_xx_obj_parameter_ (LM:getdynpropvalue ss_pre_filter_set_xx_obj_blk_efname_list_summary_item_obj_ "Distance1" ))
+                  (Setq ss_pre_filter_set_xx_obj_parameter_list_ (cons (list 
+                                                                        ;  (LM:effectivename ss_pre_filter_set_xx_obj_blk_efname_list_summary_item_obj_  )
+                                                                        (LM:round ss_pre_filter_set_xx_obj_parameter_)
+                                                                      ) 
+                                                                      ss_pre_filter_set_xx_obj_parameter_list_
+                                                                )
+                  )
+                  (setq ss_pre_filter_set_xx_obj_parameter_list_summary_ (TA:Count_item_in_list_ ss_pre_filter_set_xx_obj_parameter_list_))
+                )
+              )
+              (setq ss_pre_filter_set_xx_obj_blk_efname_list_summary_item_i (+ ss_pre_filter_set_xx_obj_blk_efname_list_summary_item_i 1))
+            )
+          ;
+          ;
+          ;insert mtext array process
+            ; (TA:List_to_mtext_ 
+            ;   ;TA:stanndard_lambda_sorting
+            ;     (append 
+            ;       (list ss_pre_filter_set_xx_obj_blk_efname_list_summary_efname_ )
+            ;       (setq ss_pre_filter_set_xx_obj_parameter_list_summary_sorted_ 
+            ;           (vl-sort ss_pre_filter_set_xx_obj_parameter_list_summary_  ;bigest open indent list
+            ;                                               (function 
+            ;                                                 (lambda (a b) 
+            ;                                                   (< (nth 0 (car a)) (nth 0 (car b)))
+            ;                                                 )
+            ;                                               )
+            ;                           ) ;bigest close indent list
+            ;       )
+            ;     )
+            ;   ; 
+            ;   (setq usert-input-point_1
+            ;     (polar
+            ;       usert-input-point_1_base
+            ;       usert-input-angle_
+            ;       (* usert-input-distance_
+            ;         ss_pre_filter_set_xx_obj_blk_efname_list_summary_i
+            ;       )
+            ;     )
+            ;   ) 
+            ;   100
+            ; )
+          ;
+          (TA:List_to_mtext_ 
+            ;TA:stanndard_lambda_sorting
+              (append 
+                (list ss_pre_filter_set_xx_obj_blk_efname_list_summary_efname_ )
+                (setq ss_pre_filter_set_xx_obj_parameter_list_summary_sorted_ 
+                    (vl-sort ss_pre_filter_set_xx_obj_parameter_list_summary_  ;bigest open indent list
+                                                        (function 
+                                                          (lambda (a b) 
+                                                            (< (nth 0 (car a)) (nth 0 (car b)))
+                                                          )
+                                                        )
+                                    ) ;bigest close indent list
+                )
+              )
+            ; 
+            (if (= ss_pre_filter_set_xx_obj_blk_efname_list_summary_i 0)
+              (progn
+                usert-input-point_1
+              )
+              (setq mtext_vertex_list_
+                (polar
+                  mtext_vertex_list_base
+                  usert-input-angle_
+                  50
+                )
+              ) 
+            )  
+            75
+          )
+          ;new_blk_entlast object
+            (setq mtext_ename (entlast))
+            (setq mtext_obj_ (vlax-ename->vla-object mtext_ename))
+            (setq mtext_obj_getboundingbox (vla-getboundingbox mtext_obj_ 'min_ 'max_)) 
+            (setq mtext_min_ (vlax-safearray->list min_)) 
+            (setq mtext_max_ (vlax-safearray->list max_))
+            (setq mtext_vertex_list_ (nth 0 (TA:assembly_coordinate_coner (list mtext_min_ mtext_max_ ))))
+            (setq mtext_vertex_list_base mtext_vertex_list_ )
+          
+          ;
+      
+          (setq ss_pre_filter_set_xx_obj_blk_efname_list_summary_i (+ ss_pre_filter_set_xx_obj_blk_efname_list_summary_i 1))
+        )
+      ;
+    )
+    
+  ;
   ;LAYOUT_FUNC
     (defun c:F78 ()
       ;return

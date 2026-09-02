@@ -14836,7 +14836,7 @@
       (c:move_dim_level_mvdim)
       (_EndUndo doc)
     )
-    (defun c:Bex ()
+    (defun c:Bex (/ local_command_dex)
       (_StartUndo doc)
       ;special for me only work with CKST Drwaing Construction 
         (setq DIM_E-C _global-dim_E-C_) ;Ref from C:dimsetting 
@@ -15211,7 +15211,7 @@
         (alert "please go to C:Dimsettin /nand set DIM EE EC CC CE")
       )
       (command "pselect"  new_ss_dim_ "" )
-      (c:move_dim_level_mvdim)
+      ; (c:move_dim_level_mvdim)
       (_EndUndo doc)
       (command "pselect"  local_command_dex "" )
     )
