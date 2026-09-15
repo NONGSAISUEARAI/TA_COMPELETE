@@ -2198,13 +2198,60 @@
   ;
   ;CREATE_OBJECT_FUNC
     ;text
-      (defun create-text-vla (pt textString height rotation / acadDoc textObj) 
-        (setq acadObj (vlax-get-acad-object))
-        (setq doc (vla-get-ActiveDocument acadObj))
-        (setq modelSpace (vla-get-ModelSpace doc))
-        (setq textObj (vla-addtext modelSpace textString pt height))
+      (defun create-text-vla
+        (
+          pt
+          textString
+          height
+          rotation
+          /
+          acadObj
+          acadDoc
+          drawingSpace
+          textObj
+        )
+
+        (vl-load-com)
+
+        (setq acadObj
+          (vlax-get-acad-object)
+        )
+
+        (setq acadDoc
+          (vla-get-ActiveDocument acadObj)
+        )
+
+        ;ตรวจ Current Space
+        (setq drawingSpace
+          (if (= 1 (getvar "CVPORT"))
+            ;อยู่ใน Paper Space / Layout
+            (vla-get-PaperSpace acadDoc)
+
+            ;อยู่ใน Model Space หรืออยู่ภายใน Viewport
+            (vla-get-ModelSpace acadDoc)
+          )
+        )
+
+        ;รองรับทั้ง Point List และ Variant Point
+        (if (= (type pt) 'LIST)
+          (setq pt
+            (vlax-3d-point pt)
+          )
+        )
+
+        ;create text
+        (setq textObj
+          (vla-AddText
+            drawingSpace
+            textString
+            pt
+            height
+          )
+        )
+
         (vla-put-Height textObj height)
         (vla-put-Rotation textObj rotation)
+
         textObj
       )
     ;

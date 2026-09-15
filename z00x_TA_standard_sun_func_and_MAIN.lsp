@@ -9201,7 +9201,9 @@
       )
       (if (/= e nil)
         (progn
+          
           (setq d (entget e))
+          
           (setq origin_x (cdr (assoc 43 d)))
           (setq origin_y (cdr (assoc 44 d)))
           (command "ucs"  "w")
@@ -9209,6 +9211,48 @@
         )
       )
       
+    )
+    (defun c:C03_input-acs ()
+      (if (= (ssget "i" (list (cons 0 "hatch") ) ) nil)
+        (progn
+          
+          (setq e (car (entsel "\nSelect Hatch: ")))
+        )
+        (setq e (ssname (ssget (list (cons 0 "hatch") ) ) 0))
+      )
+      (if (/= e nil)
+        (progn
+          (setq eori (vlax-safearray->list (vlax-variant-value (vla-get-Origin (vlax-ename->vla-object e)))))
+          (setq d (entget e))
+          (setq origin_x (cdr (assoc 43 d)))
+          (setq origin_y (cdr (assoc 44 d)))
+          (command "ucs"  "w")
+          (command "ucs" (list origin_x  origin_y ) "")
+        )
+      )
+      ;new_blk_entlast object clamp-rail
+        (vla-copy (vlax-ename->vla-object e) )
+        (setq e_ename (entlast))
+        (setq e_obj (vlax-ename->vla-object e_ename))
+        (vla-SetPattern e_obj 1 "000_GL600")
+        (vla-put-color e_obj 1)
+        
+        (command "HATCHSETORIGIN" e_ename "" (trans (list 0  0 ) 0 1   ))
+        
+      ;
+      ;new_blk_entlast object clamp-rail
+        (vla-copy (vlax-ename->vla-object e) )
+        (setq e_ename (entlast))
+        (setq e_obj (vlax-ename->vla-object e_ename))
+        (vla-SetPattern e_obj 1 "000_GL1200")
+        (vla-put-color e_obj 3)
+        
+        (command "HATCHSETORIGIN" e_ename "" (trans (list 0  0 ) 0 1   ))
+        
+      ;
+      ;
+        
+      ;
     )
     (defun TA:add_hatch_scale (sss_ename_ )
       (setq hatch_scale_list_ (list 
@@ -20429,7 +20473,7 @@
       
     )
     (defun c:intert_by_boundary-area_blk2bols ()
-      (setq vertext_seq_ 3)
+      (setq vertext_seq_ 0)
       ;selection_set_for_fillter_blk_name
         (if  ;pre_select_ssget_or_post_select_ssget
           (=
@@ -20460,6 +20504,7 @@
       ;
       ;
         (setq blocklist_list_ (list 
+                          "user_input"
                           "A$C31bb98ba"
                           "000 - EXISTING_COLUMN"
                           "000 - CONCRETE_WALL"
@@ -20481,10 +20526,19 @@
         (setq blocklayer_number (nth 0  blocklayer_))
         (setq ERR_ nil)
         (setq ERR_ (vl-catch-all-apply (function (lambda () (setq blocklist_name_ (TA:choose_list_v4 blocklist_list_ "select block" blocklist_name_ ) ) ) ) ) )
+        (if (= ERR_ "user_input")
+          (progn
+            (setq blocklist_input_obj_efname_ (LM:effectivename (setq blocklist_input_obj_ (vlax-ename->vla-object (car ( entsel "specify Object" ) ) ) ) ) )
+          )
+          (setq blocklist_input_obj_efname_ blocklist_name_ )
+        )
       ;
       ;preloop_and_while
         (setq ss_pre_filter_set_xx_i 0)
-        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (while (and 
+                 (= (vla-get-objectname blocklist_input_obj_) "AcDbBlockReference")
+                 (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+               )
           (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
           (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
           (setq ss_pre_filter_set_xx_obj_getboundingbox (vla-getboundingbox ss_pre_filter_set_xx_obj_ 'min_ 'max_)) 
@@ -20494,14 +20548,24 @@
           (setq ssbol_vertex_list_2 (nth 2 (TA:assembly_coordinate_coner (list ss_pre_filter_set_xx_min_ ss_pre_filter_set_xx_max_ ))))
           (setq ssbol_vertex_list_3 (nth 3 (TA:assembly_coordinate_coner (list ss_pre_filter_set_xx_min_ ss_pre_filter_set_xx_max_ ))))
           (TA:vla-insertblock
-            "A$C3cbad0ab"
-            (TA:midpoint ssbol_vertex_list_2 ssbol_vertex_list_3)
+            blocklist_input_obj_efname_
+            (nth vertext_seq_ (TA:assembly_coordinate_coner (list ss_pre_filter_set_xx_min_ ss_pre_filter_set_xx_max_ )))
             1
             (deg-to-rad 0)
           )
           (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
         )
       ;
+      (setq bypass-for-kill_ss_
+        (vl-catch-all-apply
+          (function
+            (lambda ()
+              (getstring "\nHit [ENTER] to kill selection set ...")
+              (TA:ss-erase ss_pre_filter_set_xx_)
+            )
+          )
+        )
+      )
       
     )
     (defun c:insert_array_insarray ()
@@ -20573,6 +20637,87 @@
         )
       ;
     )
+    (defun c:special_blk-insert_tittle-block_paum1 ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT,text,mtext") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT,text,mtext") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      (setq ss_fitler_mtext_ (ssget "i" 
+                                         (list 
+                                           (cons 0 "mtext") ;type of object
+                                           (cons 8 "0")   ;kind of layer
+                                           ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                           ; (cons 62 1)           ;kind of color call sign with color code index
+                                         )
+                                  )
+      )
+      (setq ss_fitler_ttblock_ (ssget "i" 
+                                         (list 
+                                           (cons 0 "insert") ;type of object
+                                           (cons 8 "0")   ;kind of layer
+                                          ;  (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                           ; (cons 62 1)           ;kind of color call sign with color code index
+                                         )
+                                  )
+      )
+      (setq ERR_ (vl-catch-all-apply (function (lambda () (setq ss_fitler_ttblock_ (TA:EF_Filter_ss_set_V2_ ss_fitler_ttblock_ (list "D5HU_FAKE")) ) ) ) ) )
+      
+      (setq new-asem_  (TA:ss_vla-getboundingbox ss_fitler_ttblock_ ))
+      (if (/= new-asem_ nil)
+        (progn
+          (TA:vla-insertblock 
+            "D5HU"
+            (nth 0 new-asem_)
+            1
+            0
+          )
+        )
+      )
+      ;new_blk_entlast object
+        (setq new-D5HU_ename (entlast))
+        (setq new-D5HU_obj (vlax-ename->vla-object new-D5HU_ename))
+        (setq ss_fitler_mtext_val (vla-get-textstring (vlax-ename->vla-object (ssname ss_fitler_mtext_ 0)))  )
+        (LM:vl-setattributevalue new-D5HU_obj "TTL_PJ_NO" "FL-PJ-26-031")
+        (LM:vl-setattributevalue new-D5HU_obj "TTL_PJ_NAME_" "MRT PURPLE LINE  4\\PSTATION (PP17 - PP20)")
+        (LM:vl-setattributevalue new-D5HU_obj "TTL_PJ_PART-CODE" "xxx")
+        (LM:vl-setattributevalue new-D5HU_obj "TTL_PJ_PART-NAME" "xxx")
+        (LM:vl-setattributevalue new-D5HU_obj "TTL_PJ_MATTERIAL" "xxx")
+        (LM:vl-setattributevalue new-D5HU_obj "TTL_PJ_THK" "xxx")
+        (LM:vl-setattributevalue new-D5HU_obj "TTL_PJ_SPEC" "xxx")
+        (LM:vl-setattributevalue new-D5HU_obj "TTL_PJ_FINISH_1" "xxx")
+        
+        (LM:vl-setattributevalue new-D5HU_obj "TTL_PJ_DWG_TITLE" ss_fitler_mtext_val)
+        (LM:vl-setattributevalue new-D5HU_obj "TTL_PJ_DRAW-BY" "Aummarin.ltd")
+        (LM:vl-setattributevalue new-D5HU_obj "TTL_PJ_CHECKED" "Aummarin.ltd")
+      ;
+      (TA:ss-erase ss_pre_filter_set_xx_)
+    )
+   
+    
   ; 
   ;COUNTING_FUNC
 
