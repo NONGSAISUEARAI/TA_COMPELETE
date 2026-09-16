@@ -3380,6 +3380,32 @@
       (setvar "PLOTTRANSPARENCYOVERRIDE" 2)
     ;
   )
+  (defun TA:preset_plotter_mode_3-2 ()
+    (list AA
+     ;set_var_plot
+      ; (setq ss (car (entsel)))
+      (setq adoc (vla-get-activedocument (vlax-get-acad-object)))
+      (setq lyout (vla-get-activelayout adoc))
+      (setq styleSheet "FAMELINE-CKST.ctb")
+      (setq cfgName "AutoCAD PDF (High Quality Print).pc3")
+      (vla-RefreshPlotDeviceInfo lyout)
+      (vla-put-ConfigName lyout CfgName)
+      (vla-put-PaperUnits lyout acMillimeters)
+      (vla-put-plotrotation lyout ac0degrees)
+      ; (vla-put-PlotType lyout acWindow)
+      (vla-put-PlotType lyout acExtents)
+      (vla-put-CanonicalMediaName lyout "ISO_full_bleed_A3_(420.00_x_297.00_MM)")
+      (vla-put-PlotWithLineweights lyout :vlax-true)
+      (vla-put-PlotWithPlotStyles lyout :vlax-true)
+      (vla-put-StyleSheet lyout styleSheet)
+      (vla-put-CenterPlot lyout :vlax-true)
+      (vla-put-standardscale lyout acScaleToFit )
+      (vla-put-plotrotation lyout ac90degrees)
+      (vla-put-PaperUnits lyout acMillimeters)
+      (setvar "PLOTTRANSPARENCYOVERRIDE" 2)
+    ;
+    )
+  )
   (defun TA:preset_plotter_mode_4 ()
     ;set_var_plot
       ; (setq ss (car (entsel)))
@@ -9648,10 +9674,7 @@
             )
             (progn
               (setq main_bol (LM:boundingbox ss_pre_filter_set_xx_obj_))
-              (setq pre-name_ (strcat 
-                                (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "DWG-NO")
-                              )
-              )
+              (setq pre-name_ (TA:Mtext_format_to_text_ (strcat (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "DWG-NO") )) )
               ; (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "REV_DATE_01" "27-10-2025")
               ; (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DESIGNED_BY_DATE_val" DESIGNED_BY_DATE_val )
               ;plot process
@@ -9661,7 +9684,7 @@
                 )
               ;
               ;input_type_of_plot_
-                (TA:preset_plotter_mode_3-1) 
+                (TA:preset_plotter_mode_3-2) 
               ;
             ; )
               (command "-plot" 
@@ -9681,7 +9704,7 @@
                        "Fit" ;Plot Scale	"Fit"
                        "Center" ;Plot Offset
                        "yes" ;Use Plot Style?
-                       "A3_Standard (MRT-AGATE) - purple line.ctb" ;Plot Style Name
+                       (nth 3 (TA:preset_plotter_mode_3-2)) ;Plot Style Name
                        "Yes" ;Plot Lineweights?
                        "Y" ;scale linewieghts
                        "N"

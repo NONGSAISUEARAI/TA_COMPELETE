@@ -917,6 +917,124 @@
         
       )
     )
+    (defun TA:Sort_mtext_top_to_bottom_
+      (
+        selection_set_
+        /
+        index_
+        mtext_ename_
+        mtext_obj_
+        insertion_point_
+        data_list_
+        sorted_list_
+      )
+
+      (vl-load-com)
+
+      (setq index_ 0)
+      (setq data_list_ '())
+
+      ;get MText data
+      (while (< index_ (sslength selection_set_))
+        (setq mtext_ename_
+          (ssname selection_set_ index_)
+        )
+
+        (setq mtext_obj_
+          (vlax-ename->vla-object mtext_ename_)
+        )
+
+        ;InsertionPoint from VLA is WCS
+        (setq insertion_point_
+          (vlax-safearray->list
+            (vlax-variant-value
+              (vla-get-InsertionPoint mtext_obj_)
+            )
+          )
+        )
+
+        ;WCS to Current UCS
+        (setq insertion_point_
+          (trans insertion_point_ 0 1)
+        )
+
+        ;store ENAME, point and original index
+        (setq data_list_
+          (cons
+            (list
+              mtext_ename_
+              insertion_point_
+              index_
+            )
+            data_list_
+          )
+        )
+
+        (setq index_ (1+ index_))
+      )
+
+      ;sort:
+      ;1. Y จากมากไปน้อย = บนลงล่าง
+      ;2. ถ้า Y เท่ากัน ให้ X จากน้อยไปมาก = ซ้ายไปขวา
+      (setq data_list_
+        (vl-sort
+          data_list_
+          (function
+            (lambda (data_a_ data_b_ / point_a_ point_b_)
+              (setq point_a_ (cadr data_a_))
+              (setq point_b_ (cadr data_b_))
+
+              (cond
+                ;different Y
+                (
+                  (not
+                    (equal
+                      (cadr point_a_)
+                      (cadr point_b_)
+                      1e-8
+                    )
+                  )
+                  (> (cadr point_a_)
+                    (cadr point_b_)
+                  )
+                )
+
+                ;same Y, different X
+                (
+                  (not
+                    (equal
+                      (car point_a_)
+                      (car point_b_)
+                      1e-8
+                    )
+                  )
+                  (< (car point_a_)
+                    (car point_b_)
+                  )
+                )
+
+                ;same position, use original index
+                (T
+                  (< (caddr data_a_)
+                    (caddr data_b_)
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+
+      ;return ENAME list
+      (setq sorted_list_
+        (mapcar
+          'car
+          data_list_
+        )
+      )
+
+      sorted_list_
+    )
   ;
   ;get_Intersect_func
     (defun LM:intersections (ob1 ob2 mod / lst rtn) 
@@ -2539,7 +2657,7 @@
       (setq result (list pt1 pt2 pt3 pt4 pt_mid len_1 Len_2 Len_3 Len_4))
     )
   ;
-  ;convert_value_FUNC
+  ;convert_FUNC
     (defun deg-to-rad (angle)
       (* angle (/ pi 180.0))
     )
@@ -2984,6 +3102,120 @@
       )
 
       mtext_obj_
+    )
+    (defun TA:Mtext_format_to_text_
+      (
+        mtext_string_
+        /
+        _replace_all_
+        semicolon_position_
+      )
+
+      ;replace all strings
+      (defun _replace_all_
+        (
+          new_string_
+          old_string_
+          source_string_
+          /
+          position_
+        )
+
+        (while
+          (setq position_
+            (vl-string-search
+              old_string_
+              source_string_
+            )
+          )
+
+          (setq source_string_
+            (strcat
+              (substr source_string_ 1 position_)
+              new_string_
+              (substr
+                source_string_
+                (+
+                  position_
+                  (strlen old_string_)
+                  1
+                )
+              )
+            )
+          )
+        )
+
+        source_string_
+      )
+
+      ;remove Font Format:
+      ;{\fCentury Gothic|b1|i0|c0|p34;
+      (if
+        (setq semicolon_position_
+          (vl-string-search ";" mtext_string_)
+        )
+        (setq mtext_string_
+          (substr
+            mtext_string_
+            (+ semicolon_position_ 2)
+          )
+        )
+      )
+
+      ;remove special MText characters
+      (setq mtext_string_
+        (_replace_all_ "" "\\P" mtext_string_)
+      )
+
+      (setq mtext_string_
+        (_replace_all_ " " "\\~" mtext_string_)
+      )
+
+      (setq mtext_string_
+        (_replace_all_ "" "{" mtext_string_)
+      )
+
+      (setq mtext_string_
+        (_replace_all_ "" "}" mtext_string_)
+      )
+
+      ;remove underline and overline codes
+      (foreach format_code_
+        '(
+          "\\L"
+          "\\l"
+          "\\O"
+          "\\o"
+          "\\K"
+          "\\k"
+        )
+
+        (setq mtext_string_
+          (_replace_all_
+            ""
+            format_code_
+            mtext_string_
+          )
+        )
+      )
+
+      ;remove duplicate spaces
+      (while
+        (vl-string-search "  " mtext_string_)
+        (setq mtext_string_
+          (_replace_all_
+            " "
+            "  "
+            mtext_string_
+          )
+        )
+      )
+
+      ;remove spaces at beginning and end
+      (vl-string-trim
+        " "
+        mtext_string_
+      )
     )
   ;
   ;format_FUNC
@@ -5683,38 +5915,37 @@
         
         )
       )
-      (setq prefix-str-sort_ ;Get-string by keep previous value
-          (if
-            (or
-              (/= (setq prefix-str-sort_val (getstring (strcat "\nSpecify Pattern name \n \ for delete prefix <" (if prefix-str-sort_ prefix-str-sort_ "") ">: ") ) ) "" )
-            )
-              (progn
-                (setq prefix-str-sort_ prefix-str-sort_val)
-                (setq prefix-str-sort_keep_val_ prefix-str-sort_val)
-              )
-            (setq prefix-str-sort_val prefix-str-sort_keep_val_)
-          )
+      (setq prefix-str_list (list 
+                           "user input"
+                           "MRT PURPLE LINE  4\\PSTATION (PP17 - PP20)"
+                           "FL-PJ-26-008-PL1065V-\\PTYP-"
+                           "FL-PJ-26-008-PL2065V-\\PTYP-"
+                           "FL-PJ-26-008-PL2065V-\\PLOT-1-PART-"
+                           "FL-PJ-26-008-PL1065V-\\PLOT-1-PART-"
+                         )
+      )
+      (setq prefix-str_sort_mode
+        (TA:choose_list_v4
+          prefix-str_list
+          "select prefix-str_sort_ mode"
+          prefix-str_sort_mode
+        )
       )
       (setq BLKATTsort_start_num (cond ( (getint (strcat "\nspecify BLKATTsort_start_num\n<" (rtos (setq BLKATTsort_start_num (cond (BLKATTsort_start_num) (1.0) ) ) ) "> : " ) ) ) (BLKATTsort_start_num) ) )
-      (setq BLKATTsort_start_num_i (TA:prefix_value_00 BLKATTsort_start_num))
+      (setq BLKATTsort_start_num_i (TA:prefix_value_000 BLKATTsort_start_num))
       ;
       ;preloop_and_while
         (setq ss_pre_filter_set_xx_sorted_i 0)
         (while (< ss_pre_filter_set_xx_sorted_i (length ss_pre_filter_set_xx_sorted_))
           (setq ss_pre_filter_set_xx_sorted_ename_ (car (nth ss_pre_filter_set_xx_sorted_i ss_pre_filter_set_xx_sorted_ )))
           (setq ss_pre_filter_set_xx_sorted_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_sorted_ename_))
-          (if (/=  (member tag-target_sort_obj_tagname_  (LM:vl-getattributevalue-tag-TA-Modifies ss_pre_filter_set_xx_sorted_obj_)  ) nil)
-            (progn
-              (if (= (wcmatch prefix-str-sort_ "\\*") T)
-                (progn
-                  (setq prefix-str-sorted_ "")
-                )
-                (setq prefix-str-sorted_ prefix-str-sort_)
-              )
-              (LM:vl-setattributevalue ss_pre_filter_set_xx_sorted_obj_ tag-target_sort_obj_tagname_ (strcat prefix-str-sorted_ BLKATTsort_start_num_i))
-              (setq BLKATTsort_start_num_i (TA:prefix_value_00 (setq BLKATTsort_start_num (+ BLKATTsort_start_num 1))))
-            )
-          )
+          
+          (LM:vl-setattributevalue ss_pre_filter_set_xx_sorted_obj_ tag-target_sort_obj_tagname_ (strcat prefix-str_sort_mode BLKATTsort_start_num_i))
+          (LM:vl-setattributevalue ss_pre_filter_set_xx_sorted_obj_ "TTL_PJ_SHEET_NO" BLKATTsort_start_num_i)
+          (LM:vl-setattributevalue ss_pre_filter_set_xx_sorted_obj_ "TTL_PJ_TOTAL_NO" (TA:prefix_value_000 (length ss_pre_filter_set_xx_sorted_)))
+          (setq BLKATTsort_start_num_i (TA:prefix_value_000 (setq BLKATTsort_start_num (+ BLKATTsort_start_num 1))))
+          
+          
           (setq ss_pre_filter_set_xx_sorted_i (+ ss_pre_filter_set_xx_sorted_i 1))
         )
       ;
@@ -20716,7 +20947,149 @@
       ;
       (TA:ss-erase ss_pre_filter_set_xx_)
     )
-   
+    (defun c:special_blk-insert_tittle-block_paum2 ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT,text,mtext") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT,text,mtext") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      (setq ss_fitler_mtext_ (ssget "i" 
+                                         (list 
+                                           (cons 0 "mtext") ;type of object
+                                           (cons 8 "0")   ;kind of layer
+                                           ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                           ; (cons 62 1)           ;kind of color call sign with color code index
+                                         )
+                                  )
+      )
+      (setq ss_fitler_ttblock_ (ssget "i" 
+                                         (list 
+                                           (cons 0 "insert") ;type of object
+                                           (cons 8 "0")   ;kind of layer
+                                          ;  (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                           ; (cons 62 1)           ;kind of color call sign with color code index
+                                         )
+                                  )
+      )
+      (setq ERR_ (vl-catch-all-apply (function (lambda () (setq ss_fitler_ttblock_ (TA:EF_Filter_ss_set_V2_ ss_fitler_ttblock_ (list "D5HU_FAKE")) ) ) ) ) )
+      
+      (setq new-asem_  (TA:ss_vla-getboundingbox ss_fitler_ttblock_ ))
+      (if (/= new-asem_ nil)
+        (progn
+          (TA:vla-insertblock 
+            "D5HU"
+            (nth 0 new-asem_)
+            1
+            0
+          )
+        )
+      )
+      ;new_blk_entlast object
+        (setq new-D5HU_ename (entlast))
+        (setq new-D5HU_obj (vlax-ename->vla-object new-D5HU_ename))
+        (setq ss_fitler_mtext_val (vla-get-textstring (vlax-ename->vla-object (ssname ss_fitler_mtext_ 0)))  )
+        (LM:vl-setattributevalue new-D5HU_obj "TTL_PJ_NO" "FL-PJ-26-031")
+        (LM:vl-setattributevalue new-D5HU_obj "TTL_PJ_NAME_" "MRT PURPLE LINE  4\\PSTATION (PP17 - PP20)")
+        (LM:vl-setattributevalue new-D5HU_obj "TTL_PJ_PART-CODE" "")
+        (LM:vl-setattributevalue new-D5HU_obj "TTL_PJ_PART-NAME" "")
+        (LM:vl-setattributevalue new-D5HU_obj "TTL_PJ_MATTERIAL" "")
+        (LM:vl-setattributevalue new-D5HU_obj "TTL_PJ_THK" "")
+        (LM:vl-setattributevalue new-D5HU_obj "TTL_PJ_SPEC" "")
+        (LM:vl-setattributevalue new-D5HU_obj "TTL_PJ_FINISH_1" "paint")
+        
+        (LM:vl-setattributevalue new-D5HU_obj "TTL_PJ_DWG_TITLE" ss_fitler_mtext_val)
+        (LM:vl-setattributevalue new-D5HU_obj "TTL_PJ_DRAW-BY" "Aummarin.ltd")
+        (LM:vl-setattributevalue new-D5HU_obj "TTL_PJ_CHECKED" "Aummarin.ltd")
+      ;
+      (TA:ss-erase ss_pre_filter_set_xx_)
+    )
+    
+    (defun c:paum3 ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "mtext") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "mtext") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      (setq sorted_list_ (TA:Sort_mtext_top_to_bottom_ ss_pre_filter_set_xx_))
+      (setq mtext_string_list_ (mapcar (function (lambda (ename_) (vla-get-TextString (vlax-ename->vla-object ename_) ) ) ) (TA:Sort_mtext_top_to_bottom_ ss_pre_filter_set_xx_ ) ) )
+      (setq attribute_tag_list_
+        (list
+          "TTL_PJ_PART-CODE"
+          "TTL_PJ_PART-NAME"
+          "TTL_PJ_MATTERIAL"
+          "TTL_PJ_SPEC"
+          "TTL_PJ_THK"
+          "TTL_PJ_FINISH_1"
+          "TTL_PJ_DWG_TITLE"
+        )
+      )
+      ;preloop_and_while
+        (setq newatt_ename_ (car (entsel "specify ttitle Object")))
+        (setq newatt_obj_ (vlax-ename->vla-object newatt_ename_))
+        
+        (setq attribute_tag_list_i 0)
+        (while (and 
+                 (< attribute_tag_list_i (length attribute_tag_list_))
+                 (< attribute_tag_list_i (length mtext_string_list_))
+               )
+          (setq attribute_tag_list_val_ (nth  attribute_tag_list_i attribute_tag_list_))
+          (if (> attribute_tag_list_i 1)
+            (progn
+              (LM:vl-setattributevalue newatt_obj_ attribute_tag_list_val_ (TA:Mtext_format_to_text_ (nth attribute_tag_list_i mtext_string_list_)))
+            )
+            (LM:vl-setattributevalue newatt_obj_ attribute_tag_list_val_ (nth attribute_tag_list_i mtext_string_list_))
+          )
+          (setq attribute_tag_list_i (+ attribute_tag_list_i 1))
+        )
+      ;
+      (TA:ss-erase ss_pre_filter_set_xx_)
+    )
     
   ; 
   ;COUNTING_FUNC

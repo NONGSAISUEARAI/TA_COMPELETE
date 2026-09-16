@@ -19455,7 +19455,14 @@
 
 
 
-
+  (defun c:dimred ()
+    (setq dimred_ename_ (car (entsel "specify Object")))
+    (setq dimred_obj_ (vlax-ename->vla-object dimred_ename_))
+    (vla-put-layer dimred_obj_ "009_ALTRAY_DIMS_MAIN_COLOR_1")
+    (vla-put-lineweight  dimred_obj_ 20 )
+    (vla-put-textcolor  dimred_obj_ 256 )
+    
+  )
   (defun c:t1deep ()
     (setq ssss_ename_ (car (nentsel "specify Object")))
     (setq ssss_obj_ (vlax-ename->vla-object ssss_ename_))
