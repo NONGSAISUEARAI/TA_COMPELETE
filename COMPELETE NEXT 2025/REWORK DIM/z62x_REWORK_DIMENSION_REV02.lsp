@@ -19461,7 +19461,20 @@
     (vla-put-layer dimred_obj_ "009_ALTRAY_DIMS_MAIN_COLOR_1")
     (vla-put-lineweight  dimred_obj_ 20 )
     (vla-put-textcolor  dimred_obj_ 256 )
+
     
+    
+  )
+
+  (defun c:set_dimtext_background_fill (/ dim_dxf)
+    (foreach dim (vl-remove-if 'listp (mapcar 'cadr (ssnamex (ssget '((0 . "dimension"))))))
+      (if (assoc -3 (setq dim_dxf (entget dim '("*"))))
+        (setq dim_dxf (append (vl-remove (assoc -3 dim_dxf) dim_dxf) '((-3 ("ACAD" (1000 . "DSTYLE") (1002 . "{") (1070 . 69) (1070 . 1) (1002 . "}"))))))
+        (setq dim_dxf (append dim_dxf '((-3 ("ACAD" (1000 . "DSTYLE") (1002 . "{") (1070 . 69) (1070 . 1) (1002 . "}"))))))
+      )
+      (entmod dim_dxf)
+    )
+    (princ)
   )
   (defun c:t1deep ()
     (setq ssss_ename_ (car (nentsel "specify Object")))

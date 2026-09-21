@@ -6682,7 +6682,7 @@
         )
       ;
     )
-    (defun c:rename_block_bycase ()
+    (defun c:rename_block_bycase () 
       ; (setq target-change_ "000 - ASSCESSORIES*")
       ; (setq target-change_ "*C10_PANEL_*")
       ; (setq next-change_ "300-PANEL_")
