@@ -8104,7 +8104,7 @@
           clipboard_text ;input อะไรลงไป
         )
       )
-      (defun TA:GetClipboardText ( / htmlfile clipObj result)
+      (defun TA:GetClipboardText ( / htmlfile clipObj result) 
         (setq htmlfile (vlax-create-object "htmlfile"))
         (setq clipObj  (vlax-get (vlax-get htmlfile 'ParentWindow) 'ClipBoardData))
         (setq result   (vlax-invoke clipObj 'GetData "Text"))

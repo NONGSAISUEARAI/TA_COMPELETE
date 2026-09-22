@@ -1035,6 +1035,117 @@
 
       sorted_list_
     )
+    (defun TA:Sort_nested_list_
+      (input_list_ sort_position_
+      /
+      index_
+      decorated_list_
+      sorted_list_
+      )
+
+      (setq index_ 0)
+
+      ;; เพิ่มเลขลำดับเดิม เพื่อป้องกันรายการซ้ำหาย
+      (setq decorated_list_
+        (mapcar
+          '(lambda (item_)
+            (setq index_ (1+ index_))
+            (cons index_ item_)
+          )
+          input_list_
+        )
+      )
+
+      (setq sorted_list_
+        (vl-sort
+          decorated_list_
+          '(lambda
+            (item_a_ item_b_
+              /
+              value_a_
+              value_b_
+              number_a_
+              number_b_
+              string_a_
+              string_b_
+            )
+
+            ;; sort_position_ ใช้ 1, 2 หรือ 3
+            (setq value_a_
+              (nth
+                (1- sort_position_)
+                (car (cdr item_a_))
+              )
+            )
+
+            (setq value_b_
+              (nth
+                (1- sort_position_)
+                (car (cdr item_b_))
+              )
+            )
+
+            ;; แปลง Numeric String เป็นตัวเลข
+            (setq number_a_
+              (cond
+                ((numberp value_a_) value_a_)
+                ((= (type value_a_) 'STR)
+                  (distof value_a_ 2)
+                )
+              )
+            )
+
+            (setq number_b_
+              (cond
+                ((numberp value_b_) value_b_)
+                ((= (type value_b_) 'STR)
+                  (distof value_b_ 2)
+                )
+              )
+            )
+
+            (cond
+              ;; เรียงแบบตัวเลข
+              ((and number_a_ number_b_)
+                (if (= number_a_ number_b_)
+                  (< (car item_a_) (car item_b_))
+                  (< number_a_ number_b_)
+                )
+              )
+
+              ;; เรียงแบบข้อความ
+              (T
+                (setq string_a_
+                  (strcase (vl-princ-to-string value_a_))
+                )
+
+                (setq string_b_
+                  (strcase (vl-princ-to-string value_b_))
+                )
+
+                (if (= string_a_ string_b_)
+                  ;; ค่าเหมือนกัน ให้รักษาลำดับเดิม
+                  (< (car item_a_) (car item_b_))
+
+                  ;; เรียงข้อความ A-Z
+                  (=
+                    string_a_
+                    (car
+                      (acad_strlsort
+                        (list string_a_ string_b_)
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+
+      ;; ตัดเลขลำดับที่เพิ่มไว้ออก
+      (mapcar 'cdr sorted_list_)
+    )
   ;
   ;get_Intersect_func
     (defun LM:intersections (ob1 ob2 mod / lst rtn) 
@@ -14002,6 +14113,17 @@
       )
 
       (princ)
+    )
+    (defun c:izoom ()
+      (setq ss_i_zoom_ename_ (ssname  (ssget "i" ) 0))
+        (setq ss_i_zoom_obj_ (vla-getboundingbox (vlax-ename->vla-object ss_i_zoom_ename_) 'min_ 'max_)) 
+        (setq rec_min_ (vlax-safearray->list min_)) 
+        (setq rec_max_ (vlax-safearray->list max_))   
+      (vla-zoomcenter 
+        (vlax-get-acad-object)
+        (vlax-3d-point rec_max_ )
+        10000
+      )
     )
   ;
   ;TITLE DRAWING FUNC
@@ -41591,6 +41713,95 @@
     ; (command "pselect"  (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "000_CKST-FAMELINE_CEILING_CODE_PANEL"))) "" )
     (command "pselect"  ss_pre_filter_set_xx_sort_ename_ "" )
   )
+  (defun c:PPLINE_CSKST_ADD_CODE_TO_PANEL_find300accessories_ ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "000_CKST-FAMELINE_CEILING_CODE_PANEL")))
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (setq ss_newlist_  (ssadd ))
+      (setq ss_newlist_listval_  ( ))
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (if (and 
+              
+              ; (= (vla-get-hasattributes ss_pre_filter_set_xx_obj_ ) :vlax-true )
+              (/= (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_add-on" ) "")
+              (/= (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_add-on" ) "varies_lot")
+              (/= (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_add-on" ) "XXXXXXX")
+            )
+          (progn
+            (setq ss_newlist_listval_  (cons (list 
+                                               (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_no" )
+                                               (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_matt_type" )
+                                               (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_width" )
+                                               (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_add-on" )
+                                               (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_color" )
+                                             )  
+                                             ss_newlist_listval_ 
+                                       ) 
+            )
+            (setq ss_newlist_ (ssadd ss_pre_filter_set_xx_ename_  ss_newlist_ ) )
+          )
+        )
+        (TA:textscr_process_V2 "updated" ss_pre_filter_set_xx_i ss_pre_filter_set_xx_ )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i  1))
+      )
+    ;
+    (sslength ss_newlist_ )
+    (setq summary_acessories_List_ (TA:Sort_nested_list_ (TA:Count_item_in_list_ ss_newlist_listval_) 2))
+    (defun TA:Print_list_by_line_ (input_list_ / item_)
+      (foreach item_ input_list_
+        (princ "\n")
+        (prin1 item_)
+      )
+      (princ)
+    )
+    
+    (command "pselect"  ss_newlist_  "" )
+    (TA:Print_list_by_line_ summary_acessories_List_)
+    
+  )
+  (defun c:PPLINE_300CODEexport_TO_CSV ()
+    (setq filepath "C:\\TA\\PPLINE CKST\\C1-C2_Finishes-Reflected Ceiling Plan\\PP-LINE_CL-PART\\HOOK ON DOWNLIGHT SMOKE\\")
+    (setq filename_ (strcat (LM:StringSubst "" ".dwg"  (getvar "dwgname"))  ".csv"))
+    
+    (setq export_list_ (append 
+                         (list (List (strcat filename_ " Accessories dimension list") )) 
+                         (list (list "CODE" "MATT TYPE" "PANEL WIDTH" "TYPE ACESSORIES" "COLOR") ) 
+                         ss_newlist_listval_
+                       )
+    )
+    
+    (LM:writecsv export_list_ (strcat filepath filename_))
+  )
   (defun c:PPLINE_CKST_regenerate_reCODE ()
     ;selection_set_for_fillter_blk_name
       (if  ;pre_select_ssget_or_post_select_ssget
@@ -64355,5 +64566,69 @@
   )
 
 
+
+
+(defun c:TA_SET_ALL_BLOCK_UNITS_MM ;แปลงทุกอย่างให้เป็นหน่วย millimeter 
+  ( / acad_document_ blocks_collection_ block_obj_ success_count_ skip_count_ error_result_ )
+
+  (vl-load-com)
+
+  (setq acad_document_
+    (vla-get-ActiveDocument
+      (vlax-get-acad-object)
+    )
+  )
+
+  (setq blocks_collection_
+    (vla-get-Blocks acad_document_)
+  )
+
+  (setq success_count_ 0)
+  (setq skip_count_    0)
+
+  ;; กำหนดหน่วยของ Drawing เป็น Millimeters
+  (setvar "INSUNITS" 4)
+
+  (vlax-for block_obj_ blocks_collection_
+
+    ;; ไม่แก้ Layout และ Xref
+    (if
+      (and
+        (= (vla-get-IsLayout block_obj_) :vlax-false)
+        (= (vla-get-IsXRef block_obj_)   :vlax-false)
+        (vlax-property-available-p block_obj_ 'Units T)
+      )
+
+      (progn
+        (setq error_result_
+          (vl-catch-all-apply
+            'vla-put-Units
+            (list block_obj_ 4)
+          )
+        )
+
+        (if (vl-catch-all-error-p error_result_)
+          (setq skip_count_ (1+ skip_count_))
+          (setq success_count_ (1+ success_count_))
+        )
+      )
+
+      (setq skip_count_ (1+ skip_count_))
+    )
+  )
+
+  (vla-Regen acad_document_ 1)
+
+  (princ
+    (strcat
+      "\nBlock units changed to Millimeters: "
+      (itoa success_count_)
+      "\nSkipped Layout/Xref/Unsupported blocks: "
+      (itoa skip_count_)
+    )
+  )
+
+  (princ)
+)
 
 
