@@ -14125,6 +14125,46 @@
         10000
       )
     )
+    (defun c:current_zoom_curzoom ()
+      (if (> (sslength (setq curzoom_ssget_ (ssget "i"))) 1)
+        (progn
+          ;preloop_and_while
+            (setq curzoom_ssget_i 0)
+            (setq cur-zoom_stopper_ nil)
+            (while (and
+                      (= (vl-catch-all-error-p cur-zoom_stopper_) nil)
+                      (< curzoom_ssget_i (sslength curzoom_ssget_))
+                   )
+              (setq curzoom_ssget_ename_ (ssname curzoom_ssget_ curzoom_ssget_i))
+              (setq curzoom_ssget_obj_ (vlax-ename->vla-object  curzoom_ssget_ename_))
+              (setq curzoom_ssget_obj_bol_ (vla-getboundingbox curzoom_ssget_obj_ 'min_ 'max_)) 
+              (setq rec_min_ (vlax-safearray->list min_)) 
+              (setq rec_max_ (vlax-safearray->list max_))   
+              (vla-zoomcenter 
+                (vlax-get-acad-object)
+                (vlax-3d-point rec_max_ )
+                5000
+              )
+              (if (= curzoom_ssget_i (- ( sslength curzoom_ssget_) 1))
+                (progn
+                  (setq curzoom_ssget_i 0)
+                )
+              )
+              (setq cur-zoom_stopper_
+                (vl-catch-all-apply
+                  (function
+                    (lambda ()
+                      (getstring (strcat "\nHit \nHit \nHit [ENTER] " (strcat (rtos curzoom_ssget_i 2 0 )  "/" (rtos ( sslength curzoom_ssget_) 2 0 )) " to continue..."))
+                    )
+                  )
+                )
+              )
+              (setq curzoom_ssget_i (+ curzoom_ssget_i 1))
+            )
+          ;
+        )
+      )
+    )
   ;
   ;TITLE DRAWING FUNC
     (defun c:sort_heading_number_sorH ()
@@ -41713,89 +41753,91 @@
     ; (command "pselect"  (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "000_CKST-FAMELINE_CEILING_CODE_PANEL"))) "" )
     (command "pselect"  ss_pre_filter_set_xx_sort_ename_ "" )
   )
-  (defun c:PPLINE_CSKST_ADD_CODE_TO_PANEL_find300accessories_ ()
-    ;selection_set_for_fillter_blk_name
-      (if  ;pre_select_ssget_or_post_select_ssget
-        (=
-          (setq ss_pre_filter_set_xx_ (ssget "i"
-                                            (list
-                                              (cons 0 "INSERT") ;type of object
-                                              ; (cons 8 "000 - GRID")   ;kind of layer
-                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                              ; (cons 62 1)           ;kind of color call sign with color code index
-                                            )
-                                      )
-          )
-          nil
-        )
-        (progn
-          (setq ss_pre_filter_set_xx_ (ssget
-                                            (list
-                                              (cons 0 "INSERT") ;type of object
-                                              ; (cons 8 "000 - GRID")   ;kind of layer
-                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                              ; (cons 62 1)           ;kind of color call sign with color code index
-                                            )
-                                      )
-          )
-        )
-        (sslength ss_pre_filter_set_xx_)
-      )
-      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "000_CKST-FAMELINE_CEILING_CODE_PANEL")))
-    ;
-    ;preloop_and_while
-      (setq ss_pre_filter_set_xx_i 0)
-      (setq ss_newlist_  (ssadd ))
-      (setq ss_newlist_listval_  ( ))
-      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
-        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
-        (if (and 
-              
-              ; (= (vla-get-hasattributes ss_pre_filter_set_xx_obj_ ) :vlax-true )
-              (/= (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_add-on" ) "")
-              (/= (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_add-on" ) "varies_lot")
-              (/= (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_add-on" ) "XXXXXXX")
+    (defun c:PPLINE_CSKST_ADD_CODE_TO_PANEL_find300accessories_ ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
             )
+            nil
+          )
           (progn
-            (setq ss_newlist_listval_  (cons (list 
-                                               (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_no" )
-                                               (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_matt_type" )
-                                               (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_width" )
-                                               (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_add-on" )
-                                               (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_color" )
-                                             )  
-                                             ss_newlist_listval_ 
-                                       ) 
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
             )
-            (setq ss_newlist_ (ssadd ss_pre_filter_set_xx_ename_  ss_newlist_ ) )
           )
+          (sslength ss_pre_filter_set_xx_)
         )
-        (TA:textscr_process_V2 "updated" ss_pre_filter_set_xx_i ss_pre_filter_set_xx_ )
-        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i  1))
+        (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "000_CKST-FAMELINE_CEILING_CODE_PANEL")))
+      ;
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (setq ss_newlist_  (ssadd ))
+        (setq ss_newlist_listval_  ( ))
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (if (and 
+                
+                ; (= (vla-get-hasattributes ss_pre_filter_set_xx_obj_ ) :vlax-true )
+                (/= (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_add-on" ) "")
+                (/= (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_add-on" ) "varies_lot")
+                (/= (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_add-on" ) "XXXXXXX")
+              )
+            (progn
+              (setq ss_newlist_listval_  (cons (list 
+                                                (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_no" )
+                                                (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_matt_type" )
+                                                (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_width" )
+                                                (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_add-on" )
+                                                (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_color" )
+                                                (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_shape" )
+                                              )  
+                                              ss_newlist_listval_ 
+                                        ) 
+              )
+              (setq ss_newlist_ (ssadd ss_pre_filter_set_xx_ename_  ss_newlist_ ) )
+            )
+          )
+          (TA:textscr_process_V2 "updated" ss_pre_filter_set_xx_i ss_pre_filter_set_xx_ )
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i  1))
+        )
+      ;
+      (sslength ss_newlist_ )
+      (setq summary_acessories_List_ (TA:Sort_nested_list_ (TA:Count_item_in_list_ ss_newlist_listval_) 2))
+      (defun TA:Print_list_by_line_ (input_list_ / item_)
+        (foreach item_ input_list_
+          (princ "\n")
+          (prin1 item_)
+        )
+        (princ)
       )
-    ;
-    (sslength ss_newlist_ )
-    (setq summary_acessories_List_ (TA:Sort_nested_list_ (TA:Count_item_in_list_ ss_newlist_listval_) 2))
-    (defun TA:Print_list_by_line_ (input_list_ / item_)
-      (foreach item_ input_list_
-        (princ "\n")
-        (prin1 item_)
-      )
-      (princ)
+      
+      (command "pselect"  ss_newlist_  "" )
+      (TA:Print_list_by_line_ summary_acessories_List_)
+      
     )
-    
-    (command "pselect"  ss_newlist_  "" )
-    (TA:Print_list_by_line_ summary_acessories_List_)
-    
-  )
+  
   (defun c:PPLINE_300CODEexport_TO_CSV ()
     (setq filepath "C:\\TA\\PPLINE CKST\\C1-C2_Finishes-Reflected Ceiling Plan\\PP-LINE_CL-PART\\HOOK ON DOWNLIGHT SMOKE\\")
     (setq filename_ (strcat (LM:StringSubst "" ".dwg"  (getvar "dwgname"))  ".csv"))
     
     (setq export_list_ (append 
                          (list (List (strcat filename_ " Accessories dimension list") )) 
-                         (list (list "CODE" "MATT TYPE" "PANEL WIDTH" "TYPE ACESSORIES" "COLOR") ) 
+                         (list (list "CODE" "MATT TYPE" "PANEL WIDTH" "TYPE ACESSORIES" "COLOR" "panel_shape") ) 
                          ss_newlist_listval_
                        )
     )
@@ -64632,3 +64674,350 @@
 )
 
 
+(defun c:csvtoblk ()
+  (defun TA:Addrectangle (spc StartPoint Width Height InsertPoint / x y x0 y0 pts pl)
+
+    (setq x (car StartPoint)
+          y (cadr StartPoint))
+
+    ;; หา Bottom-Left ของ Rectangle
+    (cond
+
+      ;; Center
+      ((= InsertPoint 0)
+      (setq x0 (- x (/ Width 2.0))
+            y0 (- y (/ Height 2.0)))
+      )
+
+      ;; Bottom Left
+      ((= InsertPoint 1)
+      (setq x0 x
+            y0 y)
+      )
+
+      ;; Bottom Right
+      ((= InsertPoint 2)
+      (setq x0 (- x Width)
+            y0 y)
+      )
+
+      ;; Top Right
+      ((= InsertPoint 3)
+      (setq x0 (- x Width)
+            y0 (- y Height))
+      )
+
+      ;; Top Left
+      ((= InsertPoint 4)
+      (setq x0 x
+            y0 (- y Height))
+      )
+
+    )
+
+    ;; สร้าง Vertex Array
+    (setq pts
+      (vlax-make-safearray
+        vlax-vbDouble
+        '(0 . 7)
+      )
+    )
+
+    (vlax-safearray-fill
+      pts
+      (list
+        x0             y0
+        (+ x0 Width)   y0
+        (+ x0 Width)   (+ y0 Height)
+        x0             (+ y0 Height)
+      )
+    )
+
+    ;; สร้าง Polyline
+    (setq pl
+      (vla-AddLightWeightPolyline spc pts)
+    )
+
+    (vla-put-Closed pl :vlax-true)
+
+    ;; Return VLA Object
+    pl
+  )
+  (defun TA:GetBracketData (str / p1 p2)
+    (if
+      (and
+        (setq p1 (vl-string-search "(" str))
+        (setq p2 (vl-string-search ")" str p1))
+      )
+      (substr str (+ p1 2) (- p2 p1 1))
+    )
+  )
+  (defun TA:ssget-vla-boundary (vla-obj filter / coords pts ss)
+
+    ;; ดึง Coordinates จาก VLA Object
+    (setq coords
+      (vlax-safearray->list
+        (vlax-variant-value
+          (vla-get-Coordinates vla-obj)
+        )
+      )
+    )
+
+    ;; แปลง x y x y ... -> ((x y) (x y) ...)
+    (while coords
+      (setq pts
+        (cons
+          (list (car coords) (cadr coords))
+          pts
+        )
+      )
+      (setq coords (cddr coords))
+    )
+
+    (setq pts (reverse pts))
+
+    ;; Selection
+    (setq ss
+      (ssget "_CP" pts filter)
+    )
+
+    ss
+  )
+  (defun TA:SS-SetLayerColor (ss layer color / i obj)
+
+    (if ss
+      (repeat (setq i (sslength ss))
+
+        (setq obj
+          (vlax-ename->vla-object
+            (ssname ss (setq i (1- i)))
+          )
+        )
+
+        ;; Layer
+        (vla-put-Layer obj layer)
+
+        ;; Color
+        (vla-put-Color obj color)
+
+      )
+    )
+
+    ss
+  )
+  (defun TA:Delay (ms / t0)
+    (setq t0 (getvar "MILLISECS"))
+    (while (< (- (getvar "MILLISECS") t0) ms))
+  )
+  (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
+  (setq spc (vla-get-ModelSpace doc))
+  (setq kkk (TA:GetClipboardText ))
+  (setq insert-list_ (LM:str->lst kkk "\r\n"))
+  
+  (setq startpoint (getpoint "startpoint ")
+        startpoint (list 
+                     (LM:round (car startpoint) )
+                     (LM:round (cadr startpoint) )
+                     (LM:round (caddr startpoint) )
+                     
+                   )
+        
+  )
+  
+  ;preloop_and_while
+    (setq insert-list_i 0)
+    (setq startpoint_runloop startpoint)
+    (while (< insert-list_i (- (length insert-list_) 1))
+      (setq insert-list_val_ (LM:str->lst (nth  insert-list_i insert-list_) ","))
+      ; (setq insert-list_val_ (LM:str->lst "C04,1750,SD,S5206TH,standard_shape,(0)" ","))
+        (if 
+          (and 
+            (> (atof (nth 1 insert-list_val_ )) 900)
+            (wcmatch 
+              (vl-princ-to-string 
+                (vl-catch-all-apply 
+                  (function 
+                    (lambda () 
+                      (vla-Item (vla-get-Blocks doc) (strcat "300HK ORDER FROM CHINA REV.2-LOT 2_300" (nth 1 insert-list_val_) "HK-A-PF-S-ACOUS" ) )
+                    )
+                  )
+                )
+              )
+              "*IAcadBlock*"
+            )
+          )
+          (progn
+            (TA:vla-insertblock 
+              (strcat "300HK ORDER FROM CHINA REV.2-LOT 2_300" (nth 1 insert-list_val_ ) "HK-A-PF-S-ACOUS")
+              startpoint_runloop
+              1000
+              0
+            )
+            ;new_blk_entlast object
+              (setq newblkinsert_ename (entlast))
+              (setq newblkinsert_obj_ (vlax-ename->vla-object newblkinsert_ename))
+              (vla-explode newblkinsert_obj_)
+              (vla-Delete newblkinsert_obj_)
+
+              
+            ;
+            ;insertlist_data 
+              (setq  insert-list_val_position_ (LM:str->lst (TA:GetBracketData (nth  insert-list_i insert-list_)) ","))
+              (create-text-vla 
+                (vlax-3d-point (list (car startpoint_runloop) (- (cadr startpoint_runloop) 250) (caddr startpoint_runloop) ))
+                (nth  insert-list_i insert-list_)
+                100
+                0
+              )
+              (getstring "2000")
+              (cond
+                ( (= (length insert-list_val_position_ )  1)
+                  (progn
+                    (setq insmid (list 
+                                        (+ (car startpoint_runloop) (atof (nth 0 insert-list_val_position_)))
+                                        (+ (cadr startpoint_runloop) 150)
+                                        (+ (caddr startpoint_runloop) 0)
+                                      )
+                    )
+                    (setq rec-mid_obj_ (if (= (wcmatch (nth 2 insert-list_val_) "*DL*") T) 
+                            (progn 
+                              (TA:Addrectangle spc insmid 110 110 0)
+                            )
+                            (TA:Addrectangle spc insmid 130 130 0)
+                          )
+                    )
+                    (vla-put-layer rec-mid_obj_ "Defpoints")
+                    (TA:SS-SetLayerColor 
+                      (TA:ssget-vla-boundary rec-mid_obj_ '((0 . "circle")))  
+                      "Defpoints" 
+                      256
+                    )
+                  )
+                )
+                ( (= (length insert-list_val_position_ )  2)
+                  (progn
+                    (setq insleft (list 
+                                        (+ (car startpoint_runloop) (atof (nth 0 insert-list_val_position_)))
+                                        (+ (cadr startpoint_runloop) 150)
+                                        (+ (caddr startpoint_runloop) 0)
+                                      )
+                    )
+                    (setq insright (list 
+                                            (+ (car startpoint_runloop) (atof (nth 1 insert-list_val_position_)))
+                                            (+ (cadr startpoint_runloop) 150)
+                                            (+ (caddr startpoint_runloop) 0)
+                                          )
+                    )
+                    (setq rec-left_obj_ (if (= (wcmatch (nth 2 insert-list_val_) "*DL*") T) 
+                            (progn 
+                              (TA:Addrectangle spc insleft 110 110 0)
+                            )
+                            (TA:Addrectangle spc insleft 130 130 0)
+                          )
+                    )
+                    (vla-put-layer rec-left_obj_ "Defpoints")
+                    (TA:SS-SetLayerColor 
+                      (TA:ssget-vla-boundary rec-left_obj_ '((0 . "circle")))  
+                      "Defpoints" 
+                      256
+                    )
+                    (setq rec-right_obj_ (if (= (wcmatch (nth 2 insert-list_val_) "*DL*") T) 
+                            (progn 
+                              (TA:Addrectangle spc insright 110 110 0)
+                            )
+                            (TA:Addrectangle spc insright 130 130 0)
+                          )
+                    )
+                    (vla-put-layer rec-right_obj_ "Defpoints")
+                    (TA:SS-SetLayerColor 
+                      (TA:ssget-vla-boundary rec-right_obj_ '((0 . "circle")))  
+                      "Defpoints" 
+                      256
+                    )
+                  )
+                )
+                ( (= (length insert-list_val_position_ )  3)
+                  (progn
+                    (setq insleft (list 
+                                        (+ (car startpoint_runloop) (atof (nth 0 insert-list_val_position_)))
+                                        (+ (cadr startpoint_runloop) 150)
+                                        (+ (caddr startpoint_runloop) 0)
+                                      )
+                    )
+                    (setq insmid (list 
+                                        (+ (car startpoint_runloop) (atof (nth 1 insert-list_val_position_)))
+                                        (+ (cadr startpoint_runloop) 150)
+                                        (+ (caddr startpoint_runloop) 0)
+                                      )
+                    )
+                    (setq insright (list 
+                                        (+ (car startpoint_runloop) (atof (nth 2 insert-list_val_position_)))
+                                        (+ (cadr startpoint_runloop) 150)
+                                        (+ (caddr startpoint_runloop) 0)
+                                      )
+                    )
+                    (setq rec-left_obj_ (if (= (wcmatch (nth 2 insert-list_val_) "*DL*") T) 
+                            (progn 
+                              (TA:Addrectangle spc insleft 110 110 0)
+                            )
+                            (TA:Addrectangle spc insleft 130 130 0)
+                          )
+                    )
+                    (vla-put-layer rec-left_obj_ "Defpoints")
+                    (TA:SS-SetLayerColor 
+                      (TA:ssget-vla-boundary rec-left_obj_ '((0 . "circle")))  
+                      "Defpoints" 
+                      256
+                    )
+                    (setq rec-mid_obj_ (if (= (wcmatch (nth 2 insert-list_val_) "*DL*") T) 
+                            (progn 
+                              (TA:Addrectangle spc insmid 110 110 0)
+                            )
+                            (TA:Addrectangle spc insmid 130 130 0)
+                          )
+                    )
+                    (vla-put-layer rec-mid_obj_ "Defpoints")
+                    (TA:SS-SetLayerColor 
+                      (TA:ssget-vla-boundary rec-mid_obj_ '((0 . "circle")))  
+                      "Defpoints" 
+                      256
+                    )
+                    (setq rec-right_obj_ (if (= (wcmatch (nth 2 insert-list_val_) "*DL*") T) 
+                            (progn 
+                              (TA:Addrectangle spc insright 110 110 0)
+                            )
+                            (TA:Addrectangle spc insright 130 130 0)
+                          )
+                    )
+                    (vla-put-layer rec-right_obj_ "Defpoints")
+                    (TA:SS-SetLayerColor 
+                      (TA:ssget-vla-boundary rec-right_obj_ '((0 . "circle")))  
+                      "Defpoints" 
+                      256
+                    )
+                  )
+                )
+              )
+              
+            ;
+          )
+          (create-text-vla 
+            (vlax-3d-point startpoint_runloop)
+            (strcat "NO BLOCK " "300HK ORDER FROM CHINA REV.2-LOT 2_300" (nth 1 insert-list_val_) "HK-A-PF-S-ACOUS" "---------------" (nth  insert-list_i insert-list_))
+            500
+            0
+          )
+        )
+        (setq startpoint_runloop (list 
+                                  (+ (car startpoint_runloop) 0)
+                                  (- (cadr startpoint_runloop) 4000)
+                                  (+ (caddr startpoint_runloop) 0)
+                                  
+                                  )
+        )
+      ;
+      (setq insert-list_i (+ insert-list_i 1))
+      (setq t0 (getvar "MILLISECS"))
+    )
+  ;
+)
