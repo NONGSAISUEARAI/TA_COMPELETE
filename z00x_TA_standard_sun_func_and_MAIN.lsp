@@ -14122,7 +14122,7 @@
       (vla-zoomcenter 
         (vlax-get-acad-object)
         (vlax-3d-point rec_max_ )
-        10000
+        500
       )
     )
     (defun c:current_zoom_curzoom ()
@@ -64837,192 +64837,192 @@
     (while (< insert-list_i (- (length insert-list_) 1))
       (setq insert-list_val_ (LM:str->lst (nth  insert-list_i insert-list_) ","))
       ; (setq insert-list_val_ (LM:str->lst "C04,1750,SD,S5206TH,standard_shape,(0)" ","))
-      (if 
-        (and 
+        (if 
+          (and 
           (> (atof (nth 1 insert-list_val_ )) 500)
-          (wcmatch 
-            (vl-princ-to-string 
-              (vl-catch-all-apply 
-                (function 
-                  (lambda () 
-                    (vla-Item (vla-get-Blocks doc) (strcat "300HK ORDER FROM CHINA REV.2-LOT 2_300" (nth 1 insert-list_val_) "HK-A-PF-S-ACOUS" ) )
+            (wcmatch 
+              (vl-princ-to-string 
+                (vl-catch-all-apply 
+                  (function 
+                    (lambda () 
+                      (vla-Item (vla-get-Blocks doc) (strcat "300HK ORDER FROM CHINA REV.2-LOT 2_300" (nth 1 insert-list_val_) "HK-A-PF-S-ACOUS" ) )
+                    )
                   )
                 )
               )
+              "*IAcadBlock*"
             )
-            "*IAcadBlock*"
           )
-        )
-        (progn
+          (progn
           (TA:vla-insertblock 
             "A$C55c47737"
             startpoint_runloop
             1
             0
           )
-          (TA:vla-insertblock 
-            (strcat "300HK ORDER FROM CHINA REV.2-LOT 2_300" (nth 1 insert-list_val_ ) "HK-A-PF-S-ACOUS")
-            startpoint_runloop
-            1000
-            0
-          )
-          ;new_blk_entlast object
-            (setq newblkinsert_ename (entlast))
-            (setq newblkinsert_obj_ (vlax-ename->vla-object newblkinsert_ename))
-            (vla-explode newblkinsert_obj_)
-            (vla-Delete newblkinsert_obj_)
-
-            
-          ;
-          ;insertlist_data 
-            (setq  insert-list_val_position_ (LM:str->lst (TA:GetBracketData (nth  insert-list_i insert-list_)) ","))
-            (create-text-vla 
-              (vlax-3d-point (list (car startpoint_runloop) (- (cadr startpoint_runloop) 2000) (caddr startpoint_runloop) ))
-              (nth  insert-list_i insert-list_)
-              500
+            (TA:vla-insertblock 
+              (strcat "300HK ORDER FROM CHINA REV.2-LOT 2_300" (nth 1 insert-list_val_ ) "HK-A-PF-S-ACOUS")
+              startpoint_runloop
+              1000
               0
             )
+            ;new_blk_entlast object
+              (setq newblkinsert_ename (entlast))
+              (setq newblkinsert_obj_ (vlax-ename->vla-object newblkinsert_ename))
+              (vla-explode newblkinsert_obj_)
+              (vla-Delete newblkinsert_obj_)
+
+              
+            ;
+            ;insertlist_data 
+              (setq  insert-list_val_position_ (LM:str->lst (TA:GetBracketData (nth  insert-list_i insert-list_)) ","))
+              (create-text-vla 
+              (vlax-3d-point (list (car startpoint_runloop) (- (cadr startpoint_runloop) 2000) (caddr startpoint_runloop) ))
+                (nth  insert-list_i insert-list_)
+              500
+                0
+              )
             (vla-put-layer (vlax-ename->vla-object (entlast)) "Defpoints")
-            (getstring "2000")
-            (cond
-              ( (= (length insert-list_val_position_ )  1)
-                (progn
-                  (setq insmid (list 
-                                      (+ (car startpoint_runloop) (atof (nth 0 insert-list_val_position_)))
-                                      (+ (cadr startpoint_runloop) 150)
-                                      (+ (caddr startpoint_runloop) 0)
-                                    )
-                  )
-                  (setq rec-mid_obj_ (if (= (wcmatch (nth 2 insert-list_val_) "*DL*") T) 
-                          (progn 
-                            (TA:Addrectangle spc insmid 110 110 0)
+              (getstring "2000")
+              (cond
+                ( (= (length insert-list_val_position_ )  1)
+                  (progn
+                    (setq insmid (list 
+                                        (+ (car startpoint_runloop) (atof (nth 0 insert-list_val_position_)))
+                                        (+ (cadr startpoint_runloop) 150)
+                                        (+ (caddr startpoint_runloop) 0)
+                                      )
+                    )
+                    (setq rec-mid_obj_ (if (= (wcmatch (nth 2 insert-list_val_) "*DL*") T) 
+                            (progn 
+                              (TA:Addrectangle spc insmid 110 110 0)
+                            )
+                            (TA:Addrectangle spc insmid 130 130 0)
                           )
-                          (TA:Addrectangle spc insmid 130 130 0)
-                        )
+                    )
+                    (vla-put-layer rec-mid_obj_ "Defpoints")
+                    (TA:SS-SetLayerColor 
+                      (TA:ssget-vla-boundary rec-mid_obj_ '((0 . "circle")))  
+                      "Defpoints" 
+                      256
+                    )
                   )
+                )
+                ( (= (length insert-list_val_position_ )  2)
+                  (progn
+                    (setq insleft (list 
+                                        (+ (car startpoint_runloop) (atof (nth 0 insert-list_val_position_)))
+                                        (+ (cadr startpoint_runloop) 150)
+                                        (+ (caddr startpoint_runloop) 0)
+                                      )
+                    )
+                    (setq insright (list 
+                                            (+ (car startpoint_runloop) (atof (nth 1 insert-list_val_position_)))
+                                            (+ (cadr startpoint_runloop) 150)
+                                            (+ (caddr startpoint_runloop) 0)
+                                          )
+                    )
+                    (setq rec-left_obj_ (if (= (wcmatch (nth 2 insert-list_val_) "*DL*") T) 
+                            (progn 
+                              (TA:Addrectangle spc insleft 110 110 0)
+                            )
+                            (TA:Addrectangle spc insleft 130 130 0)
+                          )
+                    )
+                    (vla-put-layer rec-left_obj_ "Defpoints")
+                    (TA:SS-SetLayerColor 
+                      (TA:ssget-vla-boundary rec-left_obj_ '((0 . "circle")))  
+                      "Defpoints" 
+                      256
+                    )
+                    (setq rec-right_obj_ (if (= (wcmatch (nth 2 insert-list_val_) "*DL*") T) 
+                            (progn 
+                              (TA:Addrectangle spc insright 110 110 0)
+                            )
+                            (TA:Addrectangle spc insright 130 130 0)
+                          )
+                    )
+                    (vla-put-layer rec-right_obj_ "Defpoints")
+                    (TA:SS-SetLayerColor 
+                      (TA:ssget-vla-boundary rec-right_obj_ '((0 . "circle")))  
+                      "Defpoints" 
+                      256
+                    )
+                  )
+                )
+                ( (= (length insert-list_val_position_ )  3)
+                  (progn
+                    (setq insleft (list 
+                                        (+ (car startpoint_runloop) (atof (nth 0 insert-list_val_position_)))
+                                        (+ (cadr startpoint_runloop) 150)
+                                        (+ (caddr startpoint_runloop) 0)
+                                      )
+                    )
+                    (setq insmid (list 
+                                        (+ (car startpoint_runloop) (atof (nth 1 insert-list_val_position_)))
+                                        (+ (cadr startpoint_runloop) 150)
+                                        (+ (caddr startpoint_runloop) 0)
+                                      )
+                    )
+                    (setq insright (list 
+                                        (+ (car startpoint_runloop) (atof (nth 2 insert-list_val_position_)))
+                                        (+ (cadr startpoint_runloop) 150)
+                                        (+ (caddr startpoint_runloop) 0)
+                                      )
+                    )
+                    (setq rec-left_obj_ (if (= (wcmatch (nth 2 insert-list_val_) "*DL*") T) 
+                            (progn 
+                              (TA:Addrectangle spc insleft 110 110 0)
+                            )
+                            (TA:Addrectangle spc insleft 130 130 0)
+                          )
+                    )
+                    (vla-put-layer rec-left_obj_ "Defpoints")
+                    (TA:SS-SetLayerColor 
+                      (TA:ssget-vla-boundary rec-left_obj_ '((0 . "circle")))  
+                      "Defpoints" 
+                      256
+                    )
+                    (setq rec-mid_obj_ (if (= (wcmatch (nth 2 insert-list_val_) "*DL*") T) 
+                            (progn 
+                              (TA:Addrectangle spc insmid 110 110 0)
+                            )
+                            (TA:Addrectangle spc insmid 130 130 0)
+                          )
+                    )
                   (vla-put-layer rec-mid_obj_ "Defpoints")
-                  (TA:SS-SetLayerColor 
-                    (TA:ssget-vla-boundary rec-mid_obj_ '((0 . "circle")))  
-                    "Defpoints" 
-                    256
+                    (vla-put-layer rec-mid_obj_ "Defpoints")
+                    (TA:SS-SetLayerColor 
+                      (TA:ssget-vla-boundary rec-mid_obj_ '((0 . "circle")))  
+                      "Defpoints" 
+                      256
+                    )
+                    (setq rec-right_obj_ (if (= (wcmatch (nth 2 insert-list_val_) "*DL*") T) 
+                            (progn 
+                              (TA:Addrectangle spc insright 110 110 0)
+                            )
+                            (TA:Addrectangle spc insright 130 130 0)
+                          )
+                    )
+                    (vla-put-layer rec-right_obj_ "Defpoints")
+                    (TA:SS-SetLayerColor 
+                      (TA:ssget-vla-boundary rec-right_obj_ '((0 . "circle")))  
+                      "Defpoints" 
+                      256
+                    )
                   )
                 )
               )
-              ( (= (length insert-list_val_position_ )  2)
-                (progn
-                  (setq insleft (list 
-                                      (+ (car startpoint_runloop) (atof (nth 0 insert-list_val_position_)))
-                                      (+ (cadr startpoint_runloop) 150)
-                                      (+ (caddr startpoint_runloop) 0)
-                                    )
-                  )
-                  (setq insright (list 
-                                          (+ (car startpoint_runloop) (atof (nth 1 insert-list_val_position_)))
-                                          (+ (cadr startpoint_runloop) 150)
-                                          (+ (caddr startpoint_runloop) 0)
-                                        )
-                  )
-                  (setq rec-left_obj_ (if (= (wcmatch (nth 2 insert-list_val_) "*DL*") T) 
-                          (progn 
-                            (TA:Addrectangle spc insleft 110 110 0)
-                          )
-                          (TA:Addrectangle spc insleft 130 130 0)
-                        )
-                  )
-                  (vla-put-layer rec-left_obj_ "Defpoints")
-                  (TA:SS-SetLayerColor 
-                    (TA:ssget-vla-boundary rec-left_obj_ '((0 . "circle")))  
-                    "Defpoints" 
-                    256
-                  )
-                  (setq rec-right_obj_ (if (= (wcmatch (nth 2 insert-list_val_) "*DL*") T) 
-                          (progn 
-                            (TA:Addrectangle spc insright 110 110 0)
-                          )
-                          (TA:Addrectangle spc insright 130 130 0)
-                        )
-                  )
-                  (vla-put-layer rec-right_obj_ "Defpoints")
-                  (TA:SS-SetLayerColor 
-                    (TA:ssget-vla-boundary rec-right_obj_ '((0 . "circle")))  
-                    "Defpoints" 
-                    256
-                  )
-                )
-              )
-              ( (= (length insert-list_val_position_ )  3)
-                (progn
-                  (setq insleft (list 
-                                      (+ (car startpoint_runloop) (atof (nth 0 insert-list_val_position_)))
-                                      (+ (cadr startpoint_runloop) 150)
-                                      (+ (caddr startpoint_runloop) 0)
-                                    )
-                  )
-                  (setq insmid (list 
-                                      (+ (car startpoint_runloop) (atof (nth 1 insert-list_val_position_)))
-                                      (+ (cadr startpoint_runloop) 150)
-                                      (+ (caddr startpoint_runloop) 0)
-                                    )
-                  )
-                  (setq insright (list 
-                                      (+ (car startpoint_runloop) (atof (nth 2 insert-list_val_position_)))
-                                      (+ (cadr startpoint_runloop) 150)
-                                      (+ (caddr startpoint_runloop) 0)
-                                    )
-                  )
-                  (setq rec-left_obj_ (if (= (wcmatch (nth 2 insert-list_val_) "*DL*") T) 
-                          (progn 
-                            (TA:Addrectangle spc insleft 110 110 0)
-                          )
-                          (TA:Addrectangle spc insleft 130 130 0)
-                        )
-                  )
-                  (vla-put-layer rec-left_obj_ "Defpoints")
-                  (TA:SS-SetLayerColor 
-                    (TA:ssget-vla-boundary rec-left_obj_ '((0 . "circle")))  
-                    "Defpoints" 
-                    256
-                  )
-                  (setq rec-mid_obj_ (if (= (wcmatch (nth 2 insert-list_val_) "*DL*") T) 
-                          (progn 
-                            (TA:Addrectangle spc insmid 110 110 0)
-                          )
-                          (TA:Addrectangle spc insmid 130 130 0)
-                        )
-                  )
-                  (vla-put-layer rec-mid_obj_ "Defpoints")
-                  (vla-put-layer rec-mid_obj_ "Defpoints")
-                  (TA:SS-SetLayerColor 
-                    (TA:ssget-vla-boundary rec-mid_obj_ '((0 . "circle")))  
-                    "Defpoints" 
-                    256
-                  )
-                  (setq rec-right_obj_ (if (= (wcmatch (nth 2 insert-list_val_) "*DL*") T) 
-                          (progn 
-                            (TA:Addrectangle spc insright 110 110 0)
-                          )
-                          (TA:Addrectangle spc insright 130 130 0)
-                        )
-                  )
-                  (vla-put-layer rec-right_obj_ "Defpoints")
-                  (TA:SS-SetLayerColor 
-                    (TA:ssget-vla-boundary rec-right_obj_ '((0 . "circle")))  
-                    "Defpoints" 
-                    256
-                  )
-                )
-              )
-            )
-            
-          ;
-        )
-        (create-text-vla 
-          (vlax-3d-point startpoint_runloop)
-          (strcat "NO BLOCK " "300HK ORDER FROM CHINA REV.2-LOT 2_300" (nth 1 insert-list_val_) "HK-A-PF-S-ACOUS" "---------------" (nth  insert-list_i insert-list_))
+              
+            ;
+          )
+          (create-text-vla 
+            (vlax-3d-point startpoint_runloop)
+            (strcat "NO BLOCK " "300HK ORDER FROM CHINA REV.2-LOT 2_300" (nth 1 insert-list_val_) "HK-A-PF-S-ACOUS" "---------------" (nth  insert-list_i insert-list_))
           1000
-          0
+            0
+          )
         )
-      )
         (setq startpoint_runloop (list 
                                   (+ (car startpoint_runloop) 0)
                                   (- (cadr startpoint_runloop) 7000)
@@ -65035,4 +65035,63 @@
       (setq t0 (getvar "MILLISECS"))
     )
   ;
+)
+
+  (defun c:ssa1 ()
+    (setq sstext_ename_ (car (nentsel "specify Object")))
+    (setq sstext_obj_ (vlax-ename->vla-object sstext_ename_))
+    (setq sstext_entget_ (entget sstext_ename_))
+    (command "_.change"    "" "_P" "_A" "_No" "")
+  )
+  (defun c:TA_StyleAnnoOff (/ pick mtEnt mtData styleName styleEnt styleData oldXData)
+  (if (setq pick (nentsel "\nเลือก MText: "))
+    (progn
+      (setq mtEnt  (car pick)
+            mtData (entget mtEnt))
+
+      (if (= (cdr (assoc 0 mtData)) "MTEXT")
+        (progn
+          (setq styleName (cdr (assoc 7 mtData)))
+
+          ;; MText ที่ไม่มี DXF 7 ใช้ Style ชื่อ STANDARD
+          (if (null styleName)
+            (setq styleName "Standard")
+          )
+
+          (setq styleEnt  (tblobjname "STYLE" styleName)
+                styleData (entget styleEnt '("AcadAnnotative"))
+                oldXData  (assoc -3 styleData))
+
+          (if oldXData
+            (progn
+              (entmod
+                (subst
+                  (list -3
+                    (list "AcadAnnotative"
+                      '(1000 . "AnnotativeData")
+                      '(1002 . "{")
+                      '(1070 . 1)
+                      '(1070 . 0)
+                      '(1002 . "}")
+                    )
+                  )
+                  oldXData
+                  styleData
+                )
+              )
+              (princ (strcat "\nปิด Annotative ของ Text Style: " styleName))
+            )
+            (princ "\nText Style นี้ไม่มี XData AcadAnnotative")
+          )
+        )
+        (princ "\nวัตถุที่เลือกไม่ใช่ MText")
+      )
+    )
+  )
+  (princ)
+)
+(defun c:ss1 ()
+  (setq nn_ename_ (car (nentsel "specify Object")))
+  (setq nn_obj_ (vlax-ename->vla-object nn_ename_))
+  (vla-put-textstring nn_obj_ (TA:GetClipboardText) )
 )

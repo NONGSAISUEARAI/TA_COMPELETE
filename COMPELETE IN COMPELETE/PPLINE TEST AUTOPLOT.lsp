@@ -9584,9 +9584,9 @@
 
 
   (defun c:Plotter_FLPLOT()
-      ;return
-        (command "ucs" "world")
-      ;
+      ; ;return
+      ;   (command "ucs" "world")
+      ; ;
       ;go_to_layout-process
         ; (if 
         ;   (or 
