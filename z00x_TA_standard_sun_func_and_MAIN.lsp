@@ -19738,6 +19738,41 @@
     )
   ;
   ;INSERT_FUNC
+    (defun c:quick-insert_qqq1ins ()
+      (TA:vla-insertblock
+        "A$Cd7fbd647"
+        (getpoint)
+        1
+        0
+      )
+      (Setq sss (vlax-ename->vla-object (entlast)) )
+      (vla-explode sss)
+      (vla-delete sss)
+    )
+    (defun c:quick-insert_qqq2ins ()
+      (TA:vla-insertblock
+        "A$C5816e099"
+        (getpoint)
+        1
+        0
+      )
+      (Setq sss (vlax-ename->vla-object (entlast)) )
+      (vla-put-layer (vlax-ename->vla-object (entlast)) "000 - 0_SYM_DWG_GRIDLINE_MAIN_COLOR_251")
+      ; (vla-explode sss)
+      ; (vla-delete sss)
+    )
+    (defun c:quick-insert_qqq3ins ()
+      (TA:vla-insertblock
+        "DSASDADSA"
+        (getpoint)
+        1
+        0
+      )
+      (Setq sss (vlax-ename->vla-object (entlast)) )
+      (vla-put-layer (vlax-ename->vla-object (entlast)) "000 - 0_SYM_DWG_GRIDLINE_MAIN_COLOR_251")
+      ; (vla-explode sss)
+      ; (vla-delete sss)
+    )
     (defun c:qblk ()
       (setq kword_result_ (TA:getkword "Keep block name for insert block ?"  "Yes" "No"  "yes" "false"))
       (if (and 
@@ -56222,55 +56257,7 @@
 )
 
 
-(defun c:q1 ()
-  ;selection_set_for_fillter_blk_name
-    (if  ;pre_select_ssget_or_post_select_ssget
-      (=
-        (setq ss_pre_filter_set_xx_ (ssget "i"
-                                          (list
-                                            (cons 0 "circle") ;type of object
-                                            (cons 8 "008 - E&M_ALARM_MAIN_COLOR_2")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-        nil
-      )
-      (progn
-        (setq ss_pre_filter_set_xx_ (ssget
-                                          (list
-                                            (cons 0 "circle") ;type of object
-                                            (cons 8 "008 - E&M_ALARM_MAIN_COLOR_2")   ;kind of layer
-                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                            ; (cons 62 1)           ;kind of color call sign with color code index
-                                          )
-                                    )
-        )
-      )
-      (sslength ss_pre_filter_set_xx_)
-    )
-  ;
-  ;preloop_and_while
-    (setq ss_pre_filter_set_xx_i 0)
-    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i)) 
-      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
-      (setq ss_pre_filter_set_xx_obj_center_ (vlax-safearray->list (vlax-variant-value (vla-get-center ss_pre_filter_set_xx_obj_))))
-      (create-text-vla (vlax-3d-point ss_pre_filter_set_xx_obj_center_) "S" 200 0)
-      ;new_blk_entlast object
-        (setq new_text_ename (entlast))
-        (setq new_text_obj (vlax-ename->vla-object new_text_ename))
-        (setq new_text_obj_ins_ (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint new_text_obj))))
-        (vla-put-alignment  new_text_obj acAlignmentMiddleCenter)
-        (vla-put-textalignmentpoint new_text_obj (vlax-3d-point new_text_obj_ins_))
-        
-      ;
-      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
-    )
-  ;
-  
-)
+
 
 
 
@@ -62362,17 +62349,7 @@
     )
   ;
 )
-(defun c:qq1 ()
-  (setq block_all-list_ (TA:get_name_block_in_drawing_to_list_v2))
-  (setq prefix "")
-  (setq subfix (getstring "ใส่ชื่อ สถานี ไอสัสไอควย") )
-  (setq targetpp_ename_ (car (entsel "specify Object")))
-  (setq targetpp_obj_ (vlax-ename->vla-object targetpp_ename_))
-  (setq block_all-list_name_ (LM:EffectiveName targetpp_obj_ ))
-  
-  (command "rename" "b" block_all-list_name_ (strcat prefix block_all-list_name_ subfix))
 
-)
 
 
 
@@ -65038,25 +65015,35 @@
   ;
 )
 (defun c:csv2 ()
-
-  (setq kkk (TA:GetClipboardText ))
-  (setq insert-list_ (LM:str->lst kkk ","))
+  
+  ; (setq kkk_obj_str_ (TA:GetClipboardText ))
+  (setq kkk_ename_ (car (nentsel "specify Object")))
+  (setq kkk_obj_ (vlax-ename->vla-object kkk_ename_))
+  (setq kkk_obj_str_ (vla-get-textstring kkk_obj_ ))
+  (setq insert-list_ (LM:str->lst kkk_obj_str_ ","))
   (setq newTTB_ename_ (car (entsel "specify Object")))
   (setq newTTB_obj_ (vlax-ename->vla-object newTTB_ename_))
-  
-  (LM:vl-setattributevalue newTTB_obj_ "TTL_PJ_PART-CODE" 
-    (strcat 
-      "300"
-      (nth 1 insert-list_)
-      "HK-A/PF-S/ACOUS" "\\P"
-      "/"
-      "(" (nth 2 insert-list_) (TA:GetBracketData kkk) ")"
-      
+  (if (> (length insert-list_) 1) 
+    (progn 
+      (LM:vl-setattributevalue 
+        newTTB_obj_
+        "TTL_PJ_PART-CODE"
+        (strcat 
+          "300"
+          (nth 1 insert-list_)
+          "HK-A/PF-S/ACOUS"
+          "\\P"
+          "/"
+          "("
+          (nth 2 insert-list_)
+          ","
+          (TA:GetBracketData kkk_obj_str_)
+          ")"
+        )
+      )
+      (LM:vl-setattributevalue newTTB_obj_ "TTL_PJ_PART-NAME" "Alu.hook on Panel")
+      (LM:vl-setattributevalue newTTB_obj_ "TTL_PJ_FINISH_1" (nth 3 insert-list_))
     )
-  
   )
-  (LM:vl-setattributevalue newTTB_obj_ "TTL_PJ_PART-NAME" "Alu.hook on Panel" )
-  (LM:vl-setattributevalue newTTB_obj_ "TTL_PJ_FINISH_1" (nth 3 insert-list_) )
-  
   
 )

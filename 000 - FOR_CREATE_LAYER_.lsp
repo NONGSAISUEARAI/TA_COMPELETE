@@ -2706,8 +2706,10 @@
       (setq 2nd_filter_val_main "010 - Cxx_300-PANEL_") ;2nd_filter
       (setq 3rd_filter_val_main (list ;3rd_filter
                                   "PANEL";
-                                  "SOLID-SHEET"
+                                  "PERFORATED";
                                   "ACCESSORIES"
+                                  "U-HOOK"
+                                  "V-HOOK"
                                   "FRAMING" ;
                                   "FASTERN" ;
                                   "DIMS"
