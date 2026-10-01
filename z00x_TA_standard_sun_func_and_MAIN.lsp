@@ -6033,6 +6033,7 @@
                            "FL-PJ-26-008-PL2065V-\\PTYP-"
                            "FL-PJ-26-008-PL2065V-\\PLOT-1-PART-"
                            "FL-PJ-26-008-PL1065V-\\PLOT-1-PART-"
+                           "FL-PJ-26-031-HK-\\PMEP-PART-"
                          )
       )
       (setq prefix-str_sort_mode
@@ -12276,7 +12277,746 @@
 
       
     )
+    (defun c:save_selection_savess_ ()
+      (setq a "a = slot 1 (empty)"
+            b "b = slot 2 (empty)"
+            c "c = slot 3 (empty)"
+            d "d = slot 4 (empty)"
+            e "e = slot 5 (empty)"
+            f "f = slot 6 (empty)"
+            g "g = slot 7 (empty)"
+            h "h = slot 8 (empty)"
+            i "i = slot 9 (empty)"
+            j "j = slot 10 (empty)"
+      )
+      (setq ss_list_ (list ssA ssB ssC ssD ssE ssF ssH ssI ssJ))
+      ;preloop_and_while
+        (setq ss_list_i 0)
+        (while (< ss_list_i (length ss_list_))
+          (setq ss_list_val_ (nth 0 ss_list_))
+          (cond
+            (;_case_1
+              (and
+                  (= ss_list_i 0)
+                  (/= ssA nil)
+              )
+              (progn
+                (setq a "a = slot 1 (full)")
+                (princ "_case_1")
+              )
+            )
+            (;_case_2
+              (and
+                  (= ss_list_i 1)
+                  (/= ssB nil)
+              )
+              (progn
+                (setq b "b = slot 2 (full)")
+                (princ "_case_2")
+              )
+            )
+            (;_case_3
+              (and
+                  (= ss_list_i 2)
+                  (/= ssC nil)
+              )
+              (progn
+                (setq c "c = slot 3 (full)")
+                (princ "_case_3")
+              )
+            )
+            (;_case_4
+              (and
+                  (= ss_list_i 3)
+                  (/= ssD nil)
+              )
+              (progn
+                (setq d "d = slot 4 (full)")
+                (princ "_case_4")
+              )
+            )
+            (;_case_5
+              (and
+                  (= ss_list_i 4)
+                  (/= ssE nil)
+              )
+              (progn
+                (setq e "e = slot 5 (full)")
+                (princ "_case_5")
+              )
+            )
+            (;_case_6
+              (and
+                  (= ss_list_i 5)
+                  (/= ssF nil)
+              )
+              (progn
+                (setq f "f = slot 6 (full)")
+                (princ "_case_6")
+              )
+            )
+            (;_case_7
+              (and
+                  (= ss_list_i 6)
+                  (/= ssG nil)
+              )
+              (progn
+                (setq g "g = slot 7 (full)")
+                (princ "_case_7")
+              )
+            )
+            (;_case_8
+              (and
+                  (= ss_list_i 7)
+                  (/= ssH nil)
+              )
+              (progn
+                (setq h "h = slot 8 (full)")
+                (princ "_case_8")
+              )
+            )
+            (;_case_9
+              (and
+                  (= ss_list_i 8)
+                  (/= ssI nil)
+              )
+              (progn
+                (setq i "i = slot 9 (full)")
+                (princ "_case_9")
+              )
+            )
+            (;_case_10
+              (and
+                  (= ss_list_i 9)
+                  (/= ssJ nil)
+              )
+              (progn
+                (setq j "j= slot 10 (full)")
+                (princ "_case_10")
+              )
+            )
+          )
+      
+          (setq ss_list_i (+ ss_list_i 1))
+        )
+      ;
+      (setq visibility_mode_value_ (cond ((getint (strcat a"\n"b"\n"c"\n"d"\n" e"\n" f"\n" g"\n" h"\n" i"\n" j"\n" "<" (rtos (setq visibility_mode_value_ (cond (visibility_mode_value_) (1.0) ) ) ) "> : " ) ) ) (visibility_mode_value_) ) )
+      (cond 
+        ;; _case_1
+        ((= visibility_mode_value_ 1)
+         (progn 
+           (if (= (setq ssA (ssget "i" )) nil) 
+             (setq ssA (ssget ))
+           )
+           (sslength ssA)
+           (princ "_case_1")
+         )
+        )
 
+        ;; _case_2
+        ((= visibility_mode_value_ 2)
+         (progn 
+           (if (= (setq ssB (ssget "i" )) nil) 
+             (setq ssB (ssget ))
+           )
+           (sslength ssB)
+           (princ "_case_2")
+         )
+        )
+
+        ;; _case_3
+        ((= visibility_mode_value_ 3)
+         (progn 
+           (if (= (setq ssC (ssget "i" )) nil) 
+             (setq ssC (ssget ))
+           )
+           (sslength ssC)
+           (princ "_case_3")
+         )
+        )
+
+        ;; _case_4
+        ((= visibility_mode_value_ 4)
+         (progn 
+           (if (= (setq ssD (ssget "i" )) nil) 
+             (setq ssD (ssget ))
+           )
+           (sslength ssD)
+           (princ "_case_4")
+         )
+        )
+
+        ;; _case_5
+        ((= visibility_mode_value_ 5)
+         (progn 
+           (if (= (setq ssE (ssget "i" )) nil) 
+             (setq ssE (ssget ))
+           )
+           (sslength ssE)
+           (princ "_case_5")
+         )
+        )
+
+        ;; _case_6
+        ((= visibility_mode_value_ 6)
+         (progn 
+           (if (= (setq ssF (ssget "i" )) nil) 
+             (setq ssF (ssget ))
+           )
+           (sslength ssF)
+           (princ "_case_6")
+         )
+        )
+
+        ;; _case_7
+        ((= visibility_mode_value_ 7)
+         (progn 
+           (if (= (setq ssG (ssget "i" )) nil) 
+             (setq ssG (ssget ))
+           )
+           (sslength ssG)
+           (princ "_case_7")
+         )
+        )
+
+        ;; _case_8
+        ((= visibility_mode_value_ 8)
+         (progn 
+           (if (= (setq ssH (ssget "i" )) nil) 
+             (setq ssH (ssget ))
+           )
+           (sslength ssH)
+           (princ "_case_8")
+         )
+        )
+
+        ;; _case_9
+        ((= visibility_mode_value_ 9)
+         (progn 
+           (if (= (setq ssI (ssget "i" )) nil) 
+             (setq ssI (ssget ))
+           )
+           (sslength ssI)
+           (princ "_case_9")
+         )
+        )
+
+        ;; _case_10
+        ((= visibility_mode_value_ 10)
+         (progn 
+           (if (= (setq ssJ (ssget "i" )) nil) 
+             (setq ssJ (ssget ))
+           )
+           (sslength ssJ)
+           (princ "_case_10")
+         )
+        )
+      )
+    ) 
+    (defun c:load_selection_loadss_ ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq old_set_ (ssget "i"
+                                              (list
+                                                ; (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (princ "no pre object in old selection set")
+          )
+        )
+      ;
+      (setq a "a = slot 1"
+            b "b = slot 2"
+            c "c = slot 3"
+            d "d = slot 4"
+            e "e = slot 5"
+            f "f = slot 6"
+            g "g = slot 7"
+            h "h = slot 8"
+            i "i = slot 9"
+            j "j = slot 10"
+      )
+      (setq ss_list_ (list ssA ssB ssC ssD ssE ssF ssH ssI ssJ))
+      ;preloop_and_while
+        (setq ss_list_i 0)
+        (while (< ss_list_i (length ss_list_))
+          (setq ss_list_val_ (nth 0 ss_list_))
+          (cond
+            (;_case_1
+              (and
+                  (= ss_list_i 0)
+                  (/= ssA nil)
+              )
+              (progn
+                (setq a "a = slot 1 (full)")
+                (princ "_case_1")
+              )
+            )
+            (;_case_2
+              (and
+                  (= ss_list_i 1)
+                  (/= ssB nil)
+              )
+              (progn
+                (setq b "b = slot 2 (full)")
+                (princ "_case_2")
+              )
+            )
+            (;_case_3
+              (and
+                  (= ss_list_i 2)
+                  (/= ssC nil)
+              )
+              (progn
+                (setq c "c = slot 3 (full)")
+                (princ "_case_3")
+              )
+            )
+            (;_case_4
+              (and
+                  (= ss_list_i 3)
+                  (/= ssD nil)
+              )
+              (progn
+                (setq d "d = slot 4 (full)")
+                (princ "_case_4")
+              )
+            )
+            (;_case_5
+              (and
+                  (= ss_list_i 4)
+                  (/= ssE nil)
+              )
+              (progn
+                (setq e "e = slot 5 (full)")
+                (princ "_case_5")
+              )
+            )
+            (;_case_6
+              (and
+                  (= ss_list_i 5)
+                  (/= ssF nil)
+              )
+              (progn
+                (setq f "f = slot 6 (full)")
+                (princ "_case_6")
+              )
+            )
+            (;_case_7
+              (and
+                  (= ss_list_i 6)
+                  (/= ssG nil)
+              )
+              (progn
+                (setq g "g = slot 7 (full)")
+                (princ "_case_7")
+              )
+            )
+            (;_case_8
+              (and
+                  (= ss_list_i 7)
+                  (/= ssH nil)
+              )
+              (progn
+                (setq h "h = slot 8 (full)")
+                (princ "_case_8")
+              )
+            )
+            (;_case_9
+              (and
+                  (= ss_list_i 8)
+                  (/= ssI nil)
+              )
+              (progn
+                (setq i "i = slot 9 (full)")
+                (princ "_case_9")
+              )
+            )
+            (;_case_10
+              (and
+                  (= ss_list_i 9)
+                  (/= ssJ nil)
+              )
+              (progn
+                (setq j "j= slot 10 (full)")
+                (princ "_case_10")
+              )
+            )
+          )
+      
+          (setq ss_list_i (+ ss_list_i 1))
+        )
+      ;
+      (setq visibility_mode_value_ (cond ((getint (strcat a"\n"b"\n"c"\n"d"\n" e"\n" f"\n" g"\n" h"\n" i"\n" j"\n" "<" (rtos (setq visibility_mode_value_ (cond (visibility_mode_value_) (1.0) ) ) ) "> : " ) ) ) (visibility_mode_value_) ) )
+      (setq new_set_ (ssadd))
+
+      (cond 
+        ;; _case_1
+        ((= visibility_mode_value_ 1)
+        (progn 
+          (command "pselect"  ssA "" )
+          (setq new_set_ ssA )
+          (princ "_case_1")
+        )
+        )
+
+        ;; _case_2
+        ((= visibility_mode_value_ 2)
+        (progn 
+          (command "pselect"  ssB "" )
+          (setq new_set_ ssB )
+          (princ "_case_2")
+        )
+        )
+
+        ;; _case_3
+        ((= visibility_mode_value_ 3)
+        (progn 
+          (command "pselect"  ssC "" )
+          (setq new_set_ ssC )
+          (princ "_case_3")
+        )
+        )
+
+        ;; _case_4
+        ((= visibility_mode_value_ 4)
+        (progn 
+          (command "pselect"  ssD "" )
+          (setq new_set_ ssD )
+          (princ "_case_4")
+        )
+        )
+
+        ;; _case_5
+        ((= visibility_mode_value_ 5)
+        (progn 
+          (command "pselect"  ssE "" )
+          (setq new_set_ ssE )
+          (princ "_case_5")
+        )
+        )
+
+        ;; _case_6
+        ((= visibility_mode_value_ 6)
+        (progn 
+          (command "pselect"  ssF "" )
+          (setq new_set_ ssF )
+          (princ "_case_6")
+        )
+        )
+
+        ;; _case_7
+        ((= visibility_mode_value_ 7)
+        (progn 
+          (command "pselect"  ssG "" )
+          (setq new_set_ ssG )
+          (princ "_case_7")
+        )
+        )
+
+        ;; _case_8
+        ((= visibility_mode_value_ 8)
+        (progn 
+          (command "pselect"  ssH "" )
+          (setq new_set_ ssH )
+          (princ "_case_8")
+        )
+        )
+
+        ;; _case_9
+        ((= visibility_mode_value_ 9)
+        (progn 
+          (command "pselect"  ssI "" )
+          (setq new_set_ ssI )
+          (princ "_case_9")
+        )
+        )
+
+        ;; _case_10
+        ((= visibility_mode_value_ 10)
+        (progn 
+          (command "pselect"  ssJ "" )
+          (setq new_set_ ssj )
+          (princ "_case_10")
+        )
+        )
+      )
+
+
+      (if (/= old_set_ nil)
+        (progn
+          (setq sss (TA:combine_selection_set_ new_set_ old_set_))
+          (command "pselect"   sss "" )
+        )
+        (command "pselect"  new_set_ "" )
+      )
+    ) 
+    (defun c:add_selection_addss_
+      (
+        /
+        slot_symbol_list_
+        slot_number_
+        target_symbol_
+        old_ss_
+        add_ss_
+        combine_ss_
+        slot_i_
+        message_
+      )
+
+      ;; เก็บวัตถุที่เลือกไว้ก่อนเรียกคำสั่ง
+      (setq add_ss_ (ssget "_I"))
+      (setq slot_symbol_list_ '(ssA ssB ssC ssD ssE ssF ssG ssH ssI ssJ))
+
+      ;; TA:last_ss_slot_ เป็นตัวแปร Global สำหรับจำ Slot ล่าสุด
+      (if
+        (not
+          (and
+            (eq (type TA:last_ss_slot_) 'INT)
+            (<= 1 TA:last_ss_slot_ 10)
+          )
+        )
+        (setq TA:last_ss_slot_ 1)
+      )
+
+      ;; แสดงสถานะ Slot
+      (setq slot_i_ 0)
+      (setq message_ "")
+
+      (while (< slot_i_ (length slot_symbol_list_))
+        (setq target_symbol_ (nth slot_i_ slot_symbol_list_))
+
+        (setq message_
+          (strcat
+            message_
+            "\n"
+            (itoa (1+ slot_i_))
+            " = Slot "
+            (itoa (1+ slot_i_))
+            " "
+            (if
+              (and
+                (boundp target_symbol_)
+                (eq (type (eval target_symbol_)) 'PICKSET)
+                (> (sslength (eval target_symbol_)) 0)
+              )
+              "(full)"
+              "(empty)"
+            )
+          )
+        )
+
+        (setq slot_i_ (1+ slot_i_))
+      )
+
+      (prompt message_)
+
+      ;; กด Enter เพื่อใช้ Slot ล่าสุด
+      (initget 6)
+      (setq slot_number_ (cond ((getint (strcat "\nSpecify Slot [1-10] <" (itoa TA:last_ss_slot_) ">: "))) (TA:last_ss_slot_)))
+
+      (if
+        (<= slot_number_ 10)
+        (progn
+          (setq TA:last_ss_slot_ slot_number_)
+          (setq target_symbol_ (nth (1- slot_number_) slot_symbol_list_))
+
+          (setq old_ss_
+            (if
+              (and
+                (boundp target_symbol_)
+                (eq (type (eval target_symbol_)) 'PICKSET)
+              )
+              (eval target_symbol_)
+              nil
+            )
+          )
+
+          (if (not add_ss_)
+            (progn
+              (prompt "\nSelect objects to add to Slot: ")
+              (setq add_ss_ (ssget))
+            )
+          )
+
+          (if add_ss_
+            (progn
+              (setq combine_ss_ (ssadd))
+
+              ;; คัดลอกวัตถุเดิม
+              (if old_ss_
+                (progn
+                  (setq slot_i_ 0)
+
+                  (while (< slot_i_ (sslength old_ss_))
+                    (ssadd (ssname old_ss_ slot_i_) combine_ss_)
+                    (setq slot_i_ (1+ slot_i_))
+                  )
+                )
+              )
+
+              ;; เพิ่มวัตถุที่เลือก
+              (setq slot_i_ 0)
+
+              (while (< slot_i_ (sslength add_ss_))
+                (ssadd (ssname add_ss_ slot_i_) combine_ss_)
+                (setq slot_i_ (1+ slot_i_))
+              )
+
+              (set target_symbol_ combine_ss_)
+              (sssetfirst nil combine_ss_)
+
+              (prompt
+                (strcat
+                  "\nSlot "
+                  (itoa slot_number_)
+                  " now contains "
+                  (itoa (sslength combine_ss_))
+                  " object(s)."
+                )
+              )
+            )
+
+            (prompt "\nNo objects selected. Slot was not changed.")
+          )
+        )
+
+        (prompt "\nSlot must be between 1 and 10.")
+      )
+
+      (princ)
+    )
+
+
+    (defun c:DELSS
+      (
+        /
+        slot_symbol_list_
+        slot_number_
+        target_symbol_
+        old_ss_
+        remove_ss_
+        result_ss_
+        slot_i_
+        ename_
+        removed_
+      )
+
+      ;; เก็บวัตถุที่เลือกไว้ก่อนเรียกคำสั่ง
+      (setq remove_ss_ (ssget "_I"))
+      (setq slot_symbol_list_ '(ssA ssB ssC ssD ssE ssF ssG ssH ssI ssJ))
+
+      ;; ใช้ค่า Slot ล่าสุดร่วมกับ ADDSS
+      (if
+        (not
+          (and
+            (eq (type TA:last_ss_slot_) 'INT)
+            (<= 1 TA:last_ss_slot_ 10)
+          )
+        )
+        (setq TA:last_ss_slot_ 1)
+      )
+
+      ;; กด Enter เพื่อใช้ Slot ล่าสุด
+      (initget 6)
+      (setq slot_number_ (cond ((getint (strcat "\nSpecify Slot [1-10] <" (itoa TA:last_ss_slot_) ">: "))) (TA:last_ss_slot_)))
+
+      (if
+        (<= slot_number_ 10)
+        (progn
+          (setq TA:last_ss_slot_ slot_number_)
+          (setq target_symbol_ (nth (1- slot_number_) slot_symbol_list_))
+
+          (setq old_ss_
+            (if
+              (and
+                (boundp target_symbol_)
+                (eq (type (eval target_symbol_)) 'PICKSET)
+              )
+              (eval target_symbol_)
+              nil
+            )
+          )
+
+          (if
+            (or
+              (not old_ss_)
+              (= (sslength old_ss_) 0)
+            )
+            (prompt (strcat "\nSlot " (itoa slot_number_) " is empty."))
+
+            (progn
+              (if (not remove_ss_)
+                (progn
+                  (prompt "\nSelect objects to remove from Slot: ")
+                  (setq remove_ss_ (ssget))
+                )
+              )
+
+              (if remove_ss_
+                (progn
+                  ;; คัดลอกชุดเดิมก่อนลบ เพื่อไม่กระทบ Slot อื่น
+                  (setq result_ss_ (ssadd))
+                  (setq slot_i_ 0)
+
+                  (while (< slot_i_ (sslength old_ss_))
+                    (ssadd (ssname old_ss_ slot_i_) result_ss_)
+                    (setq slot_i_ (1+ slot_i_))
+                  )
+
+                  (setq slot_i_ 0)
+                  (setq removed_ 0)
+
+                  (while (< slot_i_ (sslength remove_ss_))
+                    (setq ename_ (ssname remove_ss_ slot_i_))
+
+                    (if (ssmemb ename_ result_ss_)
+                      (progn
+                        (ssdel ename_ result_ss_)
+                        (setq removed_ (1+ removed_))
+                      )
+                    )
+
+                    (setq slot_i_ (1+ slot_i_))
+                  )
+
+                  (if (= (sslength result_ss_) 0)
+                    (setq result_ss_ nil)
+                  )
+
+                  (set target_symbol_ result_ss_)
+                  (sssetfirst nil result_ss_)
+
+                  (prompt
+                    (strcat
+                      "\nRemoved "
+                      (itoa removed_)
+                      " object(s) from Slot "
+                      (itoa slot_number_)
+                      "."
+                    )
+                  )
+                )
+
+                (prompt "\nNo objects selected. Slot was not changed.")
+              )
+            )
+          )
+        )
+
+        (prompt "\nSlot must be between 1 and 10.")
+      )
+
+      (princ)
+    )
   ;
   ;DESELECTION_FUNC
     (defun c:desel ()
@@ -14170,6 +14910,7 @@
         )
       )
     )
+    
   ;
   ;TITLE DRAWING FUNC
     (defun c:sort_heading_number_sorH ()
@@ -17096,488 +17837,7 @@
       ;
       (command "-layer" "filter" "s" "All" "")
     )
-    (defun c:save_selection_savess_ ()
-      (setq a "a = slot 1 (empty)"
-            b "b = slot 2 (empty)"
-            c "c = slot 3 (empty)"
-            d "d = slot 4 (empty)"
-            e "e = slot 5 (empty)"
-            f "f = slot 6 (empty)"
-            g "g = slot 7 (empty)"
-            h "h = slot 8 (empty)"
-            i "i = slot 9 (empty)"
-            j "j = slot 10 (empty)"
-      )
-      (setq ss_list_ (list ssA ssB ssC ssD ssE ssF ssH ssI ssJ))
-      ;preloop_and_while
-        (setq ss_list_i 0)
-        (while (< ss_list_i (length ss_list_))
-          (setq ss_list_val_ (nth 0 ss_list_))
-          (cond
-            (;_case_1
-              (and
-                  (= ss_list_i 0)
-                  (/= ssA nil)
-              )
-              (progn
-                (setq a "a = slot 1 (full)")
-                (princ "_case_1")
-              )
-            )
-            (;_case_2
-              (and
-                  (= ss_list_i 1)
-                  (/= ssB nil)
-              )
-              (progn
-                (setq b "b = slot 2 (full)")
-                (princ "_case_2")
-              )
-            )
-            (;_case_3
-              (and
-                  (= ss_list_i 2)
-                  (/= ssC nil)
-              )
-              (progn
-                (setq c "c = slot 3 (full)")
-                (princ "_case_3")
-              )
-            )
-            (;_case_4
-              (and
-                  (= ss_list_i 3)
-                  (/= ssD nil)
-              )
-              (progn
-                (setq d "d = slot 4 (full)")
-                (princ "_case_4")
-              )
-            )
-            (;_case_5
-              (and
-                  (= ss_list_i 4)
-                  (/= ssE nil)
-              )
-              (progn
-                (setq e "e = slot 5 (full)")
-                (princ "_case_5")
-              )
-            )
-            (;_case_6
-              (and
-                  (= ss_list_i 5)
-                  (/= ssF nil)
-              )
-              (progn
-                (setq f "f = slot 6 (full)")
-                (princ "_case_6")
-              )
-            )
-            (;_case_7
-              (and
-                  (= ss_list_i 6)
-                  (/= ssG nil)
-              )
-              (progn
-                (setq g "g = slot 7 (full)")
-                (princ "_case_7")
-              )
-            )
-            (;_case_8
-              (and
-                  (= ss_list_i 7)
-                  (/= ssH nil)
-              )
-              (progn
-                (setq h "h = slot 8 (full)")
-                (princ "_case_8")
-              )
-            )
-            (;_case_9
-              (and
-                  (= ss_list_i 8)
-                  (/= ssI nil)
-              )
-              (progn
-                (setq i "i = slot 9 (full)")
-                (princ "_case_9")
-              )
-            )
-            (;_case_10
-              (and
-                  (= ss_list_i 9)
-                  (/= ssJ nil)
-              )
-              (progn
-                (setq j "j= slot 10 (full)")
-                (princ "_case_10")
-              )
-            )
-          )
-      
-          (setq ss_list_i (+ ss_list_i 1))
-        )
-      ;
-      (setq visibility_mode_value_ (cond ((getint (strcat a"\n"b"\n"c"\n"d"\n" e"\n" f"\n" g"\n" h"\n" i"\n" j"\n" "<" (rtos (setq visibility_mode_value_ (cond (visibility_mode_value_) (1.0) ) ) ) "> : " ) ) ) (visibility_mode_value_) ) )
-      (cond 
-        ;; _case_1
-        ((= visibility_mode_value_ 1)
-         (progn 
-           (if (= (setq ssA (ssget "i" )) nil) 
-             (setq ssA (ssget ))
-           )
-           (sslength ssA)
-           (princ "_case_1")
-         )
-        )
 
-        ;; _case_2
-        ((= visibility_mode_value_ 2)
-         (progn 
-           (if (= (setq ssB (ssget "i" )) nil) 
-             (setq ssB (ssget ))
-           )
-           (sslength ssB)
-           (princ "_case_2")
-         )
-        )
-
-        ;; _case_3
-        ((= visibility_mode_value_ 3)
-         (progn 
-           (if (= (setq ssC (ssget "i" )) nil) 
-             (setq ssC (ssget ))
-           )
-           (sslength ssC)
-           (princ "_case_3")
-         )
-        )
-
-        ;; _case_4
-        ((= visibility_mode_value_ 4)
-         (progn 
-           (if (= (setq ssD (ssget "i" )) nil) 
-             (setq ssD (ssget ))
-           )
-           (sslength ssD)
-           (princ "_case_4")
-         )
-        )
-
-        ;; _case_5
-        ((= visibility_mode_value_ 5)
-         (progn 
-           (if (= (setq ssE (ssget "i" )) nil) 
-             (setq ssE (ssget ))
-           )
-           (sslength ssE)
-           (princ "_case_5")
-         )
-        )
-
-        ;; _case_6
-        ((= visibility_mode_value_ 6)
-         (progn 
-           (if (= (setq ssF (ssget "i" )) nil) 
-             (setq ssF (ssget ))
-           )
-           (sslength ssF)
-           (princ "_case_6")
-         )
-        )
-
-        ;; _case_7
-        ((= visibility_mode_value_ 7)
-         (progn 
-           (if (= (setq ssG (ssget "i" )) nil) 
-             (setq ssG (ssget ))
-           )
-           (sslength ssG)
-           (princ "_case_7")
-         )
-        )
-
-        ;; _case_8
-        ((= visibility_mode_value_ 8)
-         (progn 
-           (if (= (setq ssH (ssget "i" )) nil) 
-             (setq ssH (ssget ))
-           )
-           (sslength ssH)
-           (princ "_case_8")
-         )
-        )
-
-        ;; _case_9
-        ((= visibility_mode_value_ 9)
-         (progn 
-           (if (= (setq ssI (ssget "i" )) nil) 
-             (setq ssI (ssget ))
-           )
-           (sslength ssI)
-           (princ "_case_9")
-         )
-        )
-
-        ;; _case_10
-        ((= visibility_mode_value_ 10)
-         (progn 
-           (if (= (setq ssJ (ssget "i" )) nil) 
-             (setq ssJ (ssget ))
-           )
-           (sslength ssJ)
-           (princ "_case_10")
-         )
-        )
-      )
-    ) 
-    (defun c:load_selection_loadss_ ()
-      ;selection_set_for_fillter_blk_name
-        (if  ;pre_select_ssget_or_post_select_ssget
-          (=
-            (setq old_set_ (ssget "i"
-                                              (list
-                                                ; (cons 0 "INSERT") ;type of object
-                                                ; (cons 8 "000 - GRID")   ;kind of layer
-                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                                ; (cons 62 1)           ;kind of color call sign with color code index
-                                              )
-                                        )
-            )
-            nil
-          )
-          (progn
-            (princ "no pre object in old selection set")
-          )
-        )
-      ;
-      (setq a "a = slot 1"
-            b "b = slot 2"
-            c "c = slot 3"
-            d "d = slot 4"
-            e "e = slot 5"
-            f "f = slot 6"
-            g "g = slot 7"
-            h "h = slot 8"
-            i "i = slot 9"
-            j "j = slot 10"
-      )
-      (setq ss_list_ (list ssA ssB ssC ssD ssE ssF ssH ssI ssJ))
-      ;preloop_and_while
-        (setq ss_list_i 0)
-        (while (< ss_list_i (length ss_list_))
-          (setq ss_list_val_ (nth 0 ss_list_))
-          (cond
-            (;_case_1
-              (and
-                  (= ss_list_i 0)
-                  (/= ssA nil)
-              )
-              (progn
-                (setq a "a = slot 1 (full)")
-                (princ "_case_1")
-              )
-            )
-            (;_case_2
-              (and
-                  (= ss_list_i 1)
-                  (/= ssB nil)
-              )
-              (progn
-                (setq b "b = slot 2 (full)")
-                (princ "_case_2")
-              )
-            )
-            (;_case_3
-              (and
-                  (= ss_list_i 2)
-                  (/= ssC nil)
-              )
-              (progn
-                (setq c "c = slot 3 (full)")
-                (princ "_case_3")
-              )
-            )
-            (;_case_4
-              (and
-                  (= ss_list_i 3)
-                  (/= ssD nil)
-              )
-              (progn
-                (setq d "d = slot 4 (full)")
-                (princ "_case_4")
-              )
-            )
-            (;_case_5
-              (and
-                  (= ss_list_i 4)
-                  (/= ssE nil)
-              )
-              (progn
-                (setq e "e = slot 5 (full)")
-                (princ "_case_5")
-              )
-            )
-            (;_case_6
-              (and
-                  (= ss_list_i 5)
-                  (/= ssF nil)
-              )
-              (progn
-                (setq f "f = slot 6 (full)")
-                (princ "_case_6")
-              )
-            )
-            (;_case_7
-              (and
-                  (= ss_list_i 6)
-                  (/= ssG nil)
-              )
-              (progn
-                (setq g "g = slot 7 (full)")
-                (princ "_case_7")
-              )
-            )
-            (;_case_8
-              (and
-                  (= ss_list_i 7)
-                  (/= ssH nil)
-              )
-              (progn
-                (setq h "h = slot 8 (full)")
-                (princ "_case_8")
-              )
-            )
-            (;_case_9
-              (and
-                  (= ss_list_i 8)
-                  (/= ssI nil)
-              )
-              (progn
-                (setq i "i = slot 9 (full)")
-                (princ "_case_9")
-              )
-            )
-            (;_case_10
-              (and
-                  (= ss_list_i 9)
-                  (/= ssJ nil)
-              )
-              (progn
-                (setq j "j= slot 10 (full)")
-                (princ "_case_10")
-              )
-            )
-          )
-      
-          (setq ss_list_i (+ ss_list_i 1))
-        )
-      ;
-      (setq visibility_mode_value_ (cond ((getint (strcat a"\n"b"\n"c"\n"d"\n" e"\n" f"\n" g"\n" h"\n" i"\n" j"\n" "<" (rtos (setq visibility_mode_value_ (cond (visibility_mode_value_) (1.0) ) ) ) "> : " ) ) ) (visibility_mode_value_) ) )
-      (setq new_set_ (ssadd))
-
-      (cond 
-        ;; _case_1
-        ((= visibility_mode_value_ 1)
-        (progn 
-          (command "pselect"  ssA "" )
-          (setq new_set_ ssA )
-          (princ "_case_1")
-        )
-        )
-
-        ;; _case_2
-        ((= visibility_mode_value_ 2)
-        (progn 
-          (command "pselect"  ssB "" )
-          (setq new_set_ ssB )
-          (princ "_case_2")
-        )
-        )
-
-        ;; _case_3
-        ((= visibility_mode_value_ 3)
-        (progn 
-          (command "pselect"  ssC "" )
-          (setq new_set_ ssC )
-          (princ "_case_3")
-        )
-        )
-
-        ;; _case_4
-        ((= visibility_mode_value_ 4)
-        (progn 
-          (command "pselect"  ssD "" )
-          (setq new_set_ ssD )
-          (princ "_case_4")
-        )
-        )
-
-        ;; _case_5
-        ((= visibility_mode_value_ 5)
-        (progn 
-          (command "pselect"  ssE "" )
-          (setq new_set_ ssE )
-          (princ "_case_5")
-        )
-        )
-
-        ;; _case_6
-        ((= visibility_mode_value_ 6)
-        (progn 
-          (command "pselect"  ssF "" )
-          (setq new_set_ ssF )
-          (princ "_case_6")
-        )
-        )
-
-        ;; _case_7
-        ((= visibility_mode_value_ 7)
-        (progn 
-          (command "pselect"  ssG "" )
-          (setq new_set_ ssG )
-          (princ "_case_7")
-        )
-        )
-
-        ;; _case_8
-        ((= visibility_mode_value_ 8)
-        (progn 
-          (command "pselect"  ssH "" )
-          (setq new_set_ ssH )
-          (princ "_case_8")
-        )
-        )
-
-        ;; _case_9
-        ((= visibility_mode_value_ 9)
-        (progn 
-          (command "pselect"  ssI "" )
-          (setq new_set_ ssI )
-          (princ "_case_9")
-        )
-        )
-
-        ;; _case_10
-        ((= visibility_mode_value_ 10)
-        (progn 
-          (command "pselect"  ssJ "" )
-          (setq new_set_ ssj )
-          (princ "_case_10")
-        )
-        )
-      )
-
-
-      (if (/= old_set_ nil)
-        (progn
-          (setq sss (TA:combine_selection_set_ new_set_ old_set_))
-          (command "pselect"   sss "" )
-        )
-        (command "pselect"  new_set_ "" )
-      )
-    ) 
     (defun c:match_point_X_mpxx ()
       ;user
       (setq p1_point_ (getpoint "specify reference Y axis Object"))
@@ -22445,6 +22705,79 @@
         (LM:lst->str (reverse combine-text_) "")
         50
         0
+      )
+    )
+    (defun TA:ss_text_to_list
+      (
+        ss_
+        /
+        ss_i_
+        text_ename_
+        text_obj_
+        point_
+        data_list_
+      )
+
+      (vl-load-com)
+      (setq ss_i_ 0)
+      (setq data_list_ nil)
+
+      (if (and ss_ (eq (type ss_) 'PICKSET))
+        (progn
+          (while (< ss_i_ (sslength ss_))
+            (setq text_ename_ (ssname ss_ ss_i_))
+            (setq text_obj_ (vlax-ename->vla-object text_ename_))
+
+            (if
+              (and
+                (vlax-property-available-p text_obj_ 'TextString)
+                (vlax-property-available-p text_obj_ 'InsertionPoint)
+              )
+              (progn
+                ;; InsertionPoint เป็น WCS; แปลงเป็น UCS ปัจจุบันก่อนเรียง
+                (setq point_
+                  (vlax-safearray->list
+                    (vlax-variant-value
+                      (vla-get-InsertionPoint text_obj_)
+                    )
+                  )
+                )
+                (setq point_ (trans point_ 0 1))
+
+                (setq data_list_
+                  (cons
+                    (list (vla-get-TextString text_obj_) point_ ss_i_)
+                    data_list_
+                  )
+                )
+              )
+            )
+
+            (setq ss_i_ (1+ ss_i_))
+          )
+
+          (setq data_list_
+            (vl-sort
+              data_list_
+              (function
+                (lambda (a_ b_ / xa_ xb_ ya_ yb_)
+                  (setq xa_ (car (cadr a_)))
+                  (setq xb_ (car (cadr b_)))
+                  (setq ya_ (cadr (cadr a_)))
+                  (setq yb_ (cadr (cadr b_)))
+
+                  (cond
+                    ((/= ya_ yb_) (> ya_ yb_))
+                    ((/= xa_ xb_) (< xa_ xb_))
+                    (T (< (caddr a_) (caddr b_)))
+                  )
+                )
+              )
+            )
+          )
+
+          (mapcar 'car data_list_)
+        )
       )
     )
   ;
@@ -41883,8 +42216,13 @@
                          ss_newlist_listval_
                        )
     )
+    (if (findfile (strcat filepath  filename_)) 
+      (progn
+        (LM:writecsv export_list_ (strcat filepath (LM:StringSubst "-" "." (rtos (getvar "cdate") 2 8) ) "-" filename_))
+      )
+      (LM:writecsv export_list_ (strcat filepath filename_))
+    )
     
-    (LM:writecsv export_list_ (strcat filepath filename_))
   )
   (defun c:PPLINE_CKST_regenerate_reCODE ()
     ;selection_set_for_fillter_blk_name
@@ -65032,9 +65370,29 @@
           "300"
           (nth 1 insert-list_)
           "HK-A/PF-S/ACOUS"
+          "-"
+          (cond
+            ( (= (wcmatch (nth 4 insert-list_) "standard_shape") T)
+              (progn
+                "STD"
+              )
+            )
+            ( (= (wcmatch (nth 4 insert-list_) "*varies*") T)
+              (progn
+                "VAR"
+              )
+            )
+            ( (= (wcmatch (nth 4 insert-list_) "*trapezoids*") T)
+              (progn
+                "TZD"
+              )
+            )
+          )
           "\\P"
           "/"
           "("
+          (nth 0 insert-list_)
+          ","
           (nth 2 insert-list_)
           ","
           (TA:GetBracketData kkk_obj_str_)
@@ -65046,4 +65404,57 @@
     )
   )
   
+)
+(defun c:csv3 ()
+  
+  (setq clipboard_list_ (TA:GetClipboardText ))
+  (setq insert-list_ (LM:str->lst clipboard_list_ "\r\n"))
+  (length insert-list_)
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq text-ss_ (ssget "i"
+                                          (list
+                                            (cons 0 "text") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq text-ss_ (ssget
+                                          (list
+                                            (cons 0 "text") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength text-ss_)
+    )
+    
+  ;
+  ; (TA:ss_text_to_list text-ss_)
+  
+  ;preloop_and_while
+    (setq text-ss_i 0)
+    (while (< text-ss_i (sslength text-ss_))
+      (setq text-ss_ename_ (ssname  text-ss_ text-ss_i ))
+      (setq text-ss_obj_ (vlax-ename->vla-object  text-ss_ename_  ))
+      (setq text-ss_obj_str (vla-get-textstring  text-ss_obj_  ))
+      (if (/= (member  text-ss_obj_str insert-list_) nil)
+        (progn
+          (vla-put-color text-ss_obj_ 1)
+        )
+        (vla-put-color text-ss_obj_ 2)
+      )
+  
+      (setq text-ss_i (+ text-ss_i 1))
+    )
+  ;
 )
