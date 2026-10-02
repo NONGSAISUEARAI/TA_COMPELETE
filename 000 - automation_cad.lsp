@@ -12723,6 +12723,12 @@
     (setq entity_obj_ (vlax-ename->vla-object entity_ename_))
     (vla-put-layer entity_obj_ layer_name_target_ )
   )
+  (defun c:matching_deepdef_ ()
+    (setq layer_name_target_ "Defpoints")
+    (setq entity_ename_ (car (nentsel "specify Object")))
+    (setq entity_obj_ (vlax-ename->vla-object entity_ename_))
+    (vla-put-layer entity_obj_ layer_name_target_ )
+  )
 ;
 ;selection deselection FUNC
   (defun c:Deselect-filter_block_DFB ()

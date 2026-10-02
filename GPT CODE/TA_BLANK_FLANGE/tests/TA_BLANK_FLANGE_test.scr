@@ -1,0 +1,7 @@
+(setq ta_bft_root_ "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/GPT CODE/TA_BLANK_FLANGE/")
+(setvar "TRUSTEDPATHS" (strcat (getvar "TRUSTEDPATHS") ";" ta_bft_root_ ";" ta_bft_root_ "tests"))
+(load (strcat ta_bft_root_ "TA_BLANK_FLANGE.lsp"))
+(load (strcat ta_bft_root_ "tests/TA_BLANK_FLANGE_tests.lsp"))
+_.QUIT
+_Yes
+

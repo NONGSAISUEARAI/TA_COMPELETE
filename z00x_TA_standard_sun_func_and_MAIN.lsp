@@ -25378,30 +25378,6 @@
   (print ")") ; พิมพ์ปิดวงเล็บ
 )
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ;RASTER MACHNE FUNC
   (defun c:Foldline_ ()
     ;Foldline_process_
@@ -27164,15 +27140,6 @@
   (setq user_input_name_block (LM:effectivename uni_obj_))
   (TA:set-block-blockscaling user_input_name_block acUniform) 
 )
-
-
-
-
-
-
-
-
-
 
 (defun c:Matchangle_Mang_ ()
   ;selection_set_for_fillter_blk_name
@@ -64932,68 +64899,68 @@
 
 
 
-(defun c:TA_SET_ALL_BLOCK_UNITS_MM ;แปลงทุกอย่างให้เป็นหน่วย millimeter 
-  ( / acad_document_ blocks_collection_ block_obj_ success_count_ skip_count_ error_result_ )
+  (defun c:TA_SET_ALL_BLOCK_UNITS_MM ;แปลงทุกอย่างให้เป็นหน่วย millimeter 
+    ( / acad_document_ blocks_collection_ block_obj_ success_count_ skip_count_ error_result_ )
 
-  (vl-load-com)
+    (vl-load-com)
 
-  (setq acad_document_
-    (vla-get-ActiveDocument
-      (vlax-get-acad-object)
-    )
-  )
-
-  (setq blocks_collection_
-    (vla-get-Blocks acad_document_)
-  )
-
-  (setq success_count_ 0)
-  (setq skip_count_    0)
-
-  ;; กำหนดหน่วยของ Drawing เป็น Millimeters
-  (setvar "INSUNITS" 4)
-
-  (vlax-for block_obj_ blocks_collection_
-
-    ;; ไม่แก้ Layout และ Xref
-    (if
-      (and
-        (= (vla-get-IsLayout block_obj_) :vlax-false)
-        (= (vla-get-IsXRef block_obj_)   :vlax-false)
-        (vlax-property-available-p block_obj_ 'Units T)
+    (setq acad_document_
+      (vla-get-ActiveDocument
+        (vlax-get-acad-object)
       )
+    )
 
-      (progn
-        (setq error_result_
-          (vl-catch-all-apply
-            'vla-put-Units
-            (list block_obj_ 4)
+    (setq blocks_collection_
+      (vla-get-Blocks acad_document_)
+    )
+
+    (setq success_count_ 0)
+    (setq skip_count_    0)
+
+    ;; กำหนดหน่วยของ Drawing เป็น Millimeters
+    (setvar "INSUNITS" 4)
+
+    (vlax-for block_obj_ blocks_collection_
+
+      ;; ไม่แก้ Layout และ Xref
+      (if
+        (and
+          (= (vla-get-IsLayout block_obj_) :vlax-false)
+          (= (vla-get-IsXRef block_obj_)   :vlax-false)
+          (vlax-property-available-p block_obj_ 'Units T)
+        )
+
+        (progn
+          (setq error_result_
+            (vl-catch-all-apply
+              'vla-put-Units
+              (list block_obj_ 4)
+            )
+          )
+
+          (if (vl-catch-all-error-p error_result_)
+            (setq skip_count_ (1+ skip_count_))
+            (setq success_count_ (1+ success_count_))
           )
         )
 
-        (if (vl-catch-all-error-p error_result_)
-          (setq skip_count_ (1+ skip_count_))
-          (setq success_count_ (1+ success_count_))
-        )
+        (setq skip_count_ (1+ skip_count_))
       )
-
-      (setq skip_count_ (1+ skip_count_))
     )
-  )
 
-  (vla-Regen acad_document_ 1)
+    (vla-Regen acad_document_ 1)
 
-  (princ
-    (strcat
-      "\nBlock units changed to Millimeters: "
-      (itoa success_count_)
-      "\nSkipped Layout/Xref/Unsupported blocks: "
-      (itoa skip_count_)
+    (princ
+      (strcat
+        "\nBlock units changed to Millimeters: "
+        (itoa success_count_)
+        "\nSkipped Layout/Xref/Unsupported blocks: "
+        (itoa skip_count_)
+      )
     )
-  )
 
-  (princ)
-)
+    (princ)
+  )
 
 
 (defun c:csvtoblk ()

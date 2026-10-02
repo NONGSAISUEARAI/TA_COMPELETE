@@ -1,0 +1,30 @@
+PASS valid CCW source
+PASS valid CW source
+PASS signed area
+PASS same 45 degree input at opposite ends
+PASS square ends 90/90
+PASS unequal end angles 45/90
+PASS rotated vertical edge uses local angles
+PASS reversed picking swaps unequal endpoint angles
+PASS closing edge supports wraparound
+PASS non-adjacent vertices rejected
+PASS same vertex twice rejected
+PASS end cuts cannot collapse flange
+PASS zero/180 angles rejected
+PASS outside independent of polygon winding
+PASS skipped kink vertices retained
+PASS selection order does not change contour
+PASS all four flanges join into valid outline
+PASS self-crossing outline rejected
+PASS collinear backtracking rejected
+PASS ordinary collinear vertices retained
+PASS large world coordinates keep area and topology
+PASS output style prepared
+PASS result is one closed LWPOLYLINE
+PASS all three preset properties applied
+PASS model space ownership assigned for save
+PASS source geometry and properties untouched
+PASS vertex picking converts rotated UCS to entity OCS
+PASS tilted normal and elevation preserved
+PASS paper space owner/layout preserved
+TOTAL PASS=29 FAIL=0
