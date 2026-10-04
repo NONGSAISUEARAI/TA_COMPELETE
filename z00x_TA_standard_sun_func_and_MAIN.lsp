@@ -14671,7 +14671,7 @@
                               )
                             )
       )
-      (setq att-value_list_ (list "user input" "PP17" "S2214V" "SA-09101" "PP18" "SA-05611" "PP19" "NS-1S-E0114" "SD-9211") )
+      (setq att-value_list_ (list "user input" "PP17" "S2214V" "SA-09101" "PP18" "SA-05611" "PP19" "NS-1S-E0114" "SD-9211" "standard_varies_shape") )
       (setq att-value_multi-list_ (list 
                                     (list "")
                                     (list "Detail 1" "Detail 2" "Detail 3" "Detail 4" "Detail 5" "Detail 6"  )
@@ -19998,20 +19998,9 @@
     )
   ;
   ;INSERT_FUNC
-    (defun c:quick-insert_qqq1ins ()
+    (defun c:quick-insert_qqq0ins ()
       (TA:vla-insertblock
-        "A$Cd7fbd647"
-        (getpoint)
-        1
-        0
-      )
-      (Setq sss (vlax-ename->vla-object (entlast)) )
-      (vla-explode sss)
-      (vla-delete sss)
-    )
-    (defun c:quick-insert_qqq2ins ()
-      (TA:vla-insertblock
-        "A$C5816e099"
+        "DIM-0S"
         (getpoint)
         1
         0
@@ -20021,6 +20010,27 @@
       ; (vla-explode sss)
       ; (vla-delete sss)
     )
+    (defun c:quick-insert_qqq1ins ()
+      (TA:vla-insertblock
+        "DIM-1SSS"
+        (getpoint)
+        1
+        0
+      )
+      (Setq sss (vlax-ename->vla-object (entlast)) )
+      (vla-put-layer (vlax-ename->vla-object (entlast)) "000 - 0_SYM_DWG_GRIDLINE_MAIN_COLOR_251")
+    )
+    (defun c:quick-insert_qqq2ins ()
+      (TA:vla-insertblock
+        "DIM-2SS"
+        (getpoint)
+        1
+        0
+      )
+      (Setq sss (vlax-ename->vla-object (entlast)) )
+      (vla-put-layer (vlax-ename->vla-object (entlast)) "000 - 0_SYM_DWG_GRIDLINE_MAIN_COLOR_251")
+    )
+    
     (defun c:quick-insert_qqq3ins ()
       (TA:vla-insertblock
         "DSASDADSA"
@@ -42093,93 +42103,111 @@
     ; (command "pselect"  (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "000_CKST-FAMELINE_CEILING_CODE_PANEL"))) "" )
     (command "pselect"  ss_pre_filter_set_xx_sort_ename_ "" )
   )
-    (defun c:PPLINE_CSKST_ADD_CODE_TO_PANEL_find300accessories_ ()
-      ;selection_set_for_fillter_blk_name
-        (if  ;pre_select_ssget_or_post_select_ssget
-          (=
-            (setq ss_pre_filter_set_xx_ (ssget "i"
-                                              (list
-                                                (cons 0 "INSERT") ;type of object
-                                                ; (cons 8 "000 - GRID")   ;kind of layer
-                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                                ; (cons 62 1)           ;kind of color call sign with color code index
-                                              )
-                                        )
-            )
-            nil
+  (defun c:PPLINE_CSKST_ADD_CODE_TO_PANEL_find300accessories_ ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
           )
-          (progn
-            (setq ss_pre_filter_set_xx_ (ssget
-                                              (list
-                                                (cons 0 "INSERT") ;type of object
-                                                ; (cons 8 "000 - GRID")   ;kind of layer
-                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                                ; (cons 62 1)           ;kind of color call sign with color code index
-                                              )
-                                        )
-            )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
           )
-          (sslength ss_pre_filter_set_xx_)
         )
-        (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "000_CKST-FAMELINE_CEILING_CODE_PANEL")))
-      ;
-      ;preloop_and_while
-        (setq ss_pre_filter_set_xx_i 0)
-        (setq ss_newlist_  (ssadd ))
-        (setq ss_newlist_listval_  ( ))
-        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
-          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
-          (if (and 
-                
-                ; (= (vla-get-hasattributes ss_pre_filter_set_xx_obj_ ) :vlax-true )
-                (/= (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_add-on" ) "")
-                (/= (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_add-on" ) "varies_lot")
-                (/= (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_add-on" ) "XXXXXXX")
-              )
-            (progn
-              (setq ss_newlist_listval_  (cons (list 
-                                                (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_no" )
-                                                (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_matt_type" )
-                                                (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_width" )
-                                                (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_add-on" )
-                                                (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_color" )
-                                                (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_shape" )
-                                              )  
-                                              ss_newlist_listval_ 
-                                        ) 
-              )
-              (setq ss_newlist_ (ssadd ss_pre_filter_set_xx_ename_  ss_newlist_ ) )
-            )
-          )
-          (TA:textscr_process_V2 "updated" ss_pre_filter_set_xx_i ss_pre_filter_set_xx_ )
-          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i  1))
-        )
-      ;
-      (sslength ss_newlist_ )
-      (setq summary_acessories_List_ (TA:Sort_nested_list_ (TA:Count_item_in_list_ ss_newlist_listval_) 2))
-      (defun TA:Print_list_by_line_ (input_list_ / item_)
-        (foreach item_ input_list_
-          (princ "\n")
-          (prin1 item_)
-        )
-        (princ)
+        (sslength ss_pre_filter_set_xx_)
       )
-      
-      (command "pselect"  ss_newlist_  "" )
-      (TA:Print_list_by_line_ summary_acessories_List_)
-      
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "000_CKST-FAMELINE_CEILING_CODE_PANEL")))
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (setq ss_newlist_  (ssadd ))
+      (setq ss_newlist_listval_  ( ))
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (if (and 
+              
+              ; (= (vla-get-hasattributes ss_pre_filter_set_xx_obj_ ) :vlax-true )
+              (/= (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_add-on" ) "")
+              (/= (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_add-on" ) "varies_lot")
+              (/= (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_add-on" ) "XXXXXXX")
+            )
+          (progn
+            (setq ss_newlist_listval_  (cons (list 
+                                              (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_no" )
+                                              (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_matt_type" )
+                                              (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_width" )
+                                              (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_add-on" )
+                                              (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_color" )
+                                              (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_shape" )
+                                            )  
+                                            ss_newlist_listval_ 
+                                      ) 
+            )
+            (setq ss_newlist_ (ssadd ss_pre_filter_set_xx_ename_  ss_newlist_ ) )
+          )
+        )
+        (TA:textscr_process_V2 "updated" ss_pre_filter_set_xx_i ss_pre_filter_set_xx_ )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i  1))
+      )
+    ;
+    (sslength ss_newlist_ )
+    (setq summary_acessories_List_ (TA:Sort_nested_list_ (TA:Count_item_in_list_ ss_newlist_listval_) 2))
+    (defun TA:Print_list_by_line_ (input_list_ / item_)
+      (foreach item_ input_list_
+        (princ "\n")
+        (prin1 item_)
+      )
+      (princ)
     )
+    
+    (command "pselect"  ss_newlist_  "" )
+    (TA:Print_list_by_line_ summary_acessories_List_)
+    
+  )
   
   (defun c:PPLINE_300CODEexport_TO_CSV ()
-    
-    (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA/TA_COMPELETE/WriteCSV-V1-1.lsp") ) ) ) )
-    (setq filepath "C:\\TA\\PPLINE CKST\\C1-C2_Finishes-Reflected Ceiling Plan\\PP-LINE_CL-PART\\HOOK ON DOWNLIGHT SMOKE\\")
+    (cond
+      ((and 
+        (= (getenv "COMPUTERNAME") "NONGSAISUEARAIH")
+        (= (getenv "USERNAME") "T")
+      )
+        (progn
+          (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA/TA_COMPELETE/WriteCSV-V1-1.lsp") ) ) ) )
+          (setq filepath "C:\\TA\\PPLINE CKST\\C1-C2_Finishes-Reflected Ceiling Plan\\PP-LINE_CL-PART\\HOOK ON DOWNLIGHT SMOKE\\")
+        )
+      )
+      ((and 
+        (= (getenv "COMPUTERNAME") "NONGSAISUEARAIH")
+        (= (getenv "USERNAME") "popul")
+      )
+        (progn
+          (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA/TA_COMPELETE/WriteCSV-V1-1.lsp") ) ) ) )
+          (setq filepath "C:\\TA\\PPLINE CKST\\C1-C2_Finishes-Reflected Ceiling Plan\\PP-LINE_CL-PART\\HOOK ON DOWNLIGHT SMOKE\\")
+        )
+      )
+    )
+
     (setq filename_ (strcat (LM:StringSubst "" ".dwg"  (getvar "dwgname"))  ".csv"))
     
     (setq export_list_ (append 
                          (list (List (strcat filename_ " Accessories dimension list") )) 
-                         (list (list "CODE" "MATT TYPE" "PANEL WIDTH" "TYPE ACESSORIES" "COLOR" "panel_shape") ) 
+                         (list (list "CODE" "MATT TYPE" "PANEL WIDTH" "TYPE ACESSORIES" "COLOR" "panel_shape" "OFFSET L" "OFFSET R" "DN SK POSITION") ) 
                          ss_newlist_listval_
                        )
     )
@@ -65121,7 +65149,7 @@
       ; (setq insert-list_val_ (LM:str->lst "C04,1750,SD,S5206TH,standard_shape,(0)" ","))
       (if 
         (and 
-          (> (atof (nth 1 insert-list_val_ )) 200)
+          (>= (atof (nth 1 insert-list_val_ )) 200)
           (/= (wcmatch (nth 4 insert-list_val_ ) "*trapezoids*") T)
           (wcmatch 
             (vl-princ-to-string 
@@ -65406,6 +65434,60 @@
     )
     
   ;
+  (TA:ss_text_to_list text-ss_)
+  (length (TA:ss_text_to_list text-ss_))
+  
+  ;preloop_and_while
+    (setq text-ss_i 0)
+    (while (< text-ss_i (sslength text-ss_))
+      (setq text-ss_ename_ (ssname  text-ss_ text-ss_i ))
+      (setq text-ss_obj_ (vlax-ename->vla-object  text-ss_ename_  ))
+      (setq text-ss_obj_str (vla-get-textstring  text-ss_obj_  ))
+      (if (/= (member  text-ss_obj_str insert-list_) nil)
+        (progn
+          (vla-put-color text-ss_obj_ 1)
+        )
+        (vla-put-color text-ss_obj_ 2)
+      )
+  
+      (setq text-ss_i (+ text-ss_i 1))
+    )
+  ;
+)
+(defun c:csv4 ()
+  
+  (setq clipboard_list_ (TA:GetClipboardText ))
+  (setq insert-list_ (LM:str->lst clipboard_list_ "\r\n"))
+  (length insert-list_)
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq text-ss_ (ssget "i"
+                                          (list
+                                            (cons 0 "text") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq text-ss_ (ssget
+                                          (list
+                                            (cons 0 "text") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength text-ss_)
+    )
+    
+  ;
   ; (TA:ss_text_to_list text-ss_)
   
   ;preloop_and_while
@@ -65424,4 +65506,131 @@
       (setq text-ss_i (+ text-ss_i 1))
     )
   ;
+)
+
+(defun c:TA1
+  (
+    /
+    ss_
+    ss_i_
+    text_ename_
+    text_obj_
+    point_
+    data_list_
+    item_
+    start_number_
+    current_number_
+    changed_
+    error_result_
+  )
+
+  (vl-load-com)
+
+  ;; ใช้วัตถุที่เลือกไว้ก่อน ถ้าไม่มีจึงให้เลือกใหม่
+  (setq ss_ (ssget "_I" '((0 . "TEXT,MTEXT"))))
+
+  (if (not ss_)
+    (progn
+      (prompt "\nSelect TEXT or MTEXT: ")
+      (setq ss_ (ssget '((0 . "TEXT,MTEXT"))))
+    )
+  )
+
+  (if ss_
+    (progn
+      ;; จำเลขเริ่มต้นครั้งก่อน
+      (if
+        (not
+          (and
+            (eq (type TA:text_number_start_) 'INT)
+            (> TA:text_number_start_ 0)
+          )
+        )
+        (setq TA:text_number_start_ 1)
+      )
+
+      (initget 6)
+      (setq start_number_ (cond ((getint (strcat "\nStarting number <" (itoa TA:text_number_start_) ">: "))) (TA:text_number_start_)))
+      (setq TA:text_number_start_ start_number_)
+
+      (setq ss_i_ 0)
+      (setq data_list_ nil)
+
+      ;; เก็บ Object, ตำแหน่ง และลำดับเดิม
+      (while (< ss_i_ (sslength ss_))
+        (setq text_ename_ (ssname ss_ ss_i_))
+        (setq text_obj_ (vlax-ename->vla-object text_ename_))
+
+        (setq point_
+          (vlax-safearray->list
+            (vlax-variant-value
+              (vla-get-InsertionPoint text_obj_)
+            )
+          )
+        )
+
+        ;; แปลง WCS เป็น UCS ปัจจุบัน
+        (setq point_ (trans point_ 0 1))
+        (setq data_list_ (cons (list text_obj_ point_ ss_i_) data_list_))
+        (setq ss_i_ (1+ ss_i_))
+      )
+
+      ;; Y มากไปน้อย; ถ้า Y เท่ากัน X น้อยไปมาก
+      (setq data_list_
+        (vl-sort
+          data_list_
+          (function
+            (lambda (a_ b_ / point_a_ point_b_)
+              (setq point_a_ (cadr a_))
+              (setq point_b_ (cadr b_))
+
+              (cond
+                ((/= (cadr point_a_) (cadr point_b_))
+                  (> (cadr point_a_) (cadr point_b_))
+                )
+                ((/= (car point_a_) (car point_b_))
+                  (< (car point_a_) (car point_b_))
+                )
+                (T
+                  (< (caddr a_) (caddr b_))
+                )
+              )
+            )
+          )
+        )
+      )
+
+      ;; เปลี่ยนข้อความเป็นตัวเลข
+      (setq current_number_ start_number_)
+      (setq changed_ 0)
+
+      (foreach item_ data_list_
+        (setq error_result_
+          (vl-catch-all-apply
+            'vla-put-TextString
+            (list (car item_) (itoa current_number_))
+          )
+        )
+
+        (if (not (vl-catch-all-error-p error_result_))
+          (progn
+            (setq current_number_ (1+ current_number_))
+            (setq changed_ (1+ changed_))
+          )
+        )
+      )
+
+      (prompt
+        (strcat
+          "\nChanged "
+          (itoa changed_)
+          " text object(s)."
+        )
+      )
+    )
+
+    (prompt "\nNo TEXT or MTEXT selected.")
+  )
+
+  (princ)
 )

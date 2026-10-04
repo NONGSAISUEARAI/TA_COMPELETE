@@ -12890,7 +12890,24 @@
   
 
 
+(defun c:qw1 ()
+  (TA:vla-insertblock
+    
+    "A$Cd65d1528"
+    (getpoint)
+    1.0
+    0
 
+  )
+  ;new_blk_entlast object
+    (setq vl_ename (entlast))
+    (setq vl_obj (vlax-ename->vla-object vl_ename))
+    (vla-explode vl_obj)
+    (vla-delete vl_obj)
+    (LM:setdynpropvalue (vlax-ename->vla-object (entlast)) "distance1" (getint))
+  ;
+  
+)
 
 
 
