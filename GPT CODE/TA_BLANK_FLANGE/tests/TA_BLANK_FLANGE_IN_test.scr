@@ -1,0 +1,58 @@
+(setq ta_bfi_root_ "C:/TA/TA_COMPELETE/GPT CODE/TA_BLANK_FLANGE/")
+(setq ta_bft_root_ "C:/TA/TA_COMPELETE/tmp/ta_bfi_validation/")
+(setvar "TRUSTEDPATHS" (strcat (getvar "TRUSTEDPATHS") ";C:\\TA\\TA_COMPELETE\\GPT CODE\\TA_BLANK_FLANGE;C:\\TA\\TA_COMPELETE\\GPT CODE\\TA_BLANK_FLANGE\\tests"))
+(load (strcat ta_bfi_root_ "TA_BLANK_FLANGE.lsp"))
+(load (strcat ta_bfi_root_ "tests/TA_BLANK_FLANGE_tests.lsp"))
+(load (strcat ta_bfi_root_ "tests/TA_BLANK_FLANGE_IN_tests.lsp"))
+(load (strcat ta_bfi_root_ "tests/TA_BLANK_FLANGE_IN_command_tests.lsp"))
+(c:FF2)
+20050,30000
+20000,30000
+20100,30000
+10
+45
+45
+Done
+Yes
+(TA:BFITEST:After_first_)
+(c:FF2)
+20050,30080
+20100,30080
+20000,30080
+
+
+
+Undo
+Done
+(TA:BFITEST:After_second_)
+(load (strcat ta_bfi_root_ "tests/TA_BLANK_FLANGE_PARTIAL_tests.lsp"))
+(c:FF1)
+40050,30000
+40000,30000
+40050,30000
+10
+45
+45
+40000,30000
+40075,30000
+
+
+
+Undo
+Done
+Yes
+(TA:BFPTEST:Command_check_)
+(TA:BFPTEST:Second_setup_)
+(c:FF1)
+50090,30000
+50070,30000
+50020,30000
+8
+90
+45
+Done
+No
+(TA:BFPTEST:Finish_)
+_.QUIT
+_Yes
+

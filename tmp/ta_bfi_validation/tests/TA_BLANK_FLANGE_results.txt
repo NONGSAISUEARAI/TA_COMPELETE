@@ -1,0 +1,43 @@
+PASS valid CCW source
+PASS valid CW source
+PASS signed area
+PASS same 45 degree input at opposite ends
+PASS square ends 90/90
+PASS unequal end angles 45/90
+PASS rotated vertical edge uses local angles
+PASS reversed picking swaps unequal endpoint angles
+PASS closing edge supports wraparound
+PASS non-adjacent vertices rejected
+PASS same vertex twice rejected
+PASS end cuts cannot collapse flange
+PASS zero/180 angles rejected
+PASS outside independent of polygon winding
+PASS skipped kink vertices retained
+PASS selection order does not change contour
+PASS all four flanges join into valid outline
+PASS self-crossing outline rejected
+PASS collinear backtracking rejected
+PASS ordinary collinear vertices retained
+PASS large world coordinates keep area and topology
+PASS output style prepared
+PASS result is one closed LWPOLYLINE
+PASS all three preset properties applied
+PASS model space ownership assigned for save
+PASS source geometry and properties untouched
+PASS bend style and dashed linetype prepared
+PASS two selected edges produce exactly two bend lines
+PASS bend segments follow source edges, including skipped gap
+PASS bend line is an OPEN two-vertex polyline
+PASS bend layer color and linetype independent of outline
+PASS bend linetype scale applied
+PASS editing an existing flange does not accumulate bend lines
+PASS Undo to one flange leaves exactly one bend line
+PASS partial creation failure rolls back new entities only
+PASS cancellation cleanup is safe twice and keeps source
+PASS Undo all/no flanges creates neither outline nor bend lines
+PASS vertex picking converts rotated UCS to entity OCS
+PASS tilted normal and elevation preserved
+PASS bend markers preserve tilted OCS plane and elevation
+PASS paper space owner/layout preserved
+PASS bend markers stay in source paper space
+TOTAL PASS=42 FAIL=0

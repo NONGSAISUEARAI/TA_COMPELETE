@@ -1,0 +1,24 @@
+PASS inside boundary and outside point classification
+PASS concave segment must not leave panel even with inside endpoints
+PASS boundary-collinear segment allowed
+PASS 45 degree bottom flange goes inward and reduces area to 7100
+PASS CW and CCW yield the same physical inward geometry
+PASS reverse pick swaps asymmetric angles
+PASS square ends remove retracing tips without losing closed outline
+PASS four equal inward mitres join into 80x60 rectangle
+PASS edge selection order does not change result
+PASS adjacent overlapping square flanges rejected
+PASS too deep flange and collapsed panel rejected
+PASS flange end angles crossing outside panel rejected
+PASS concave valid flange accepted but crossing notch rejected
+PASS ordinary collinear source vertices retained
+PASS large coordinates preserve inward area
+PASS FF1 outward contour remains unchanged
+PASS inside result creates closed outline and four original-edge bend lines
+PASS source unchanged and output has drawing ownership
+PASS inside result cleanup removes only created entities
+PASS Undo to no selected edges yields empty result
+PASS inside geometry retains tilted OCS and elevation
+PASS explicit repeated closing vertex is stripped by shared helper
+PASS reload preserves separate inward/outward input memory
+TOTAL PASS=23 FAIL=0

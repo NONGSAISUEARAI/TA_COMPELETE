@@ -1,0 +1,728 @@
+<Profile>
+	<Name>&lt;&lt;Unnamed Profile&gt;&gt;</Name>
+	<Description></Description>
+	<StorageRoot>
+		<ToolPaletteScheme>
+			<ToolPaletteSets>
+				<ToolPaletteSet>
+					<CAdUiDockControlBar Orientation="-1" AllowDocking="1">
+						<FloatInfo Left="773" Top="104" Width="172" Height="598"/>
+						<DockInfo Left="0" Top="0" Width="172" Height="368" MRUDockID="59421"/>
+					</CAdUiDockControlBar>
+					<CAdUiPaletteSet ActivePaletteIndex="0" TitleBarLocation="1" AutoRollup="0" Name="" Style="126" Opacity="100" Visible="0"/>
+					<CAcTcUiToolPaletteSet ID="{B17B40A6-2761-4BCC-BC48-2B8A465AA5EB}">
+						<ItemName resource="108" src="AcTcUiRes.dll"/>
+						<ToolPalettes>
+							<ToolPalette>
+								<CAdUiPalette PaletteStyle="1"/>
+								<CAcTcUiToolPalette>
+									<CatalogView ID="{D6BC41CF-FCAA-4FF7-8CDD-64D952C632E0}">
+										<ToolSource>
+											<Palette ID="{D6BC41CF-FCAA-4FF7-8CDD-64D952C632E0}"/>
+										</ToolSource>
+										<Image SizeCX="32" SizeCY="32"/>
+										<Style>491522</Style>
+									</CatalogView>
+								</CAcTcUiToolPalette>
+							</ToolPalette>
+							<ToolPalette>
+								<CAdUiPalette PaletteStyle="1"/>
+								<CAcTcUiToolPalette>
+									<CatalogView ID="{E1188229-8701-4068-84FC-F966150B965C}">
+										<ToolSource>
+											<Palette ID="{E1188229-8701-4068-84FC-F966150B965C}"/>
+										</ToolSource>
+										<Image SizeCX="32" SizeCY="32"/>
+										<Style>493570</Style>
+									</CatalogView>
+								</CAcTcUiToolPalette>
+							</ToolPalette>
+							<ToolPalette>
+								<CAdUiPalette PaletteStyle="1"/>
+								<CAcTcUiToolPalette>
+									<CatalogView ID="{A0CCA60A-AB56-4EFD-83A5-8764BC08CDA8}">
+										<ToolSource>
+											<Palette ID="{A0CCA60A-AB56-4EFD-83A5-8764BC08CDA8}"/>
+										</ToolSource>
+										<Image SizeCX="32" SizeCY="32"/>
+										<Style>491522</Style>
+									</CatalogView>
+								</CAcTcUiToolPalette>
+							</ToolPalette>
+							<ToolPalette>
+								<CAdUiPalette PaletteStyle="1"/>
+								<CAcTcUiToolPalette>
+									<CatalogView ID="{498DE575-CB69-4B2A-A12B-33012D265464}">
+										<ToolSource>
+											<Palette ID="{498DE575-CB69-4B2A-A12B-33012D265464}"/>
+										</ToolSource>
+										<Image SizeCX="32" SizeCY="32"/>
+										<Style>491522</Style>
+									</CatalogView>
+								</CAcTcUiToolPalette>
+							</ToolPalette>
+							<ToolPalette>
+								<CAdUiPalette PaletteStyle="1"/>
+								<CAcTcUiToolPalette>
+									<CatalogView ID="{5B6AC051-A4D1-4191-A86C-DFD866841B64}">
+										<ToolSource>
+											<Palette ID="{5B6AC051-A4D1-4191-A86C-DFD866841B64}"/>
+										</ToolSource>
+										<Image SizeCX="32" SizeCY="32"/>
+										<Style>491522</Style>
+									</CatalogView>
+								</CAcTcUiToolPalette>
+							</ToolPalette>
+							<ToolPalette>
+								<CAdUiPalette PaletteStyle="1"/>
+								<CAcTcUiToolPalette>
+									<CatalogView ID="{EA899C91-EF57-45F1-9CEB-2CE79A3B09EC}">
+										<ToolSource>
+											<Palette ID="{EA899C91-EF57-45F1-9CEB-2CE79A3B09EC}"/>
+										</ToolSource>
+										<Image SizeCX="32" SizeCY="32"/>
+										<Style>491522</Style>
+									</CatalogView>
+								</CAcTcUiToolPalette>
+							</ToolPalette>
+							<ToolPalette>
+								<CAdUiPalette PaletteStyle="1"/>
+								<CAcTcUiToolPalette>
+									<CatalogView ID="{5E3BD7D5-5F44-422d-8643-64C5C033202C}">
+										<ToolSource>
+											<Palette ID="{5E3BD7D5-5F44-422d-8643-64C5C033202C}"/>
+										</ToolSource>
+										<Image SizeCX="32" SizeCY="32"/>
+										<Style>491522</Style>
+									</CatalogView>
+								</CAcTcUiToolPalette>
+							</ToolPalette>
+							<ToolPalette>
+								<CAdUiPalette PaletteStyle="1"/>
+								<CAcTcUiToolPalette>
+									<CatalogView ID="{1BAC5354-C9CD-42E2-BD35-300929BC6140}">
+										<ToolSource>
+											<Palette ID="{1BAC5354-C9CD-42E2-BD35-300929BC6140}"/>
+										</ToolSource>
+										<Image SizeCX="32" SizeCY="32"/>
+										<Style>491522</Style>
+									</CatalogView>
+								</CAcTcUiToolPalette>
+							</ToolPalette>
+							<ToolPalette>
+								<CAdUiPalette PaletteStyle="1"/>
+								<CAcTcUiToolPalette>
+									<CatalogView ID="{3D96B628-B9A6-4BE7-9A54-4063288C5CE6}">
+										<ToolSource>
+											<Palette ID="{3D96B628-B9A6-4BE7-9A54-4063288C5CE6}"/>
+										</ToolSource>
+										<Image SizeCX="32" SizeCY="32"/>
+										<Style>458752</Style>
+									</CatalogView>
+								</CAcTcUiToolPalette>
+							</ToolPalette>
+							<ToolPalette>
+								<CAdUiPalette PaletteStyle="1"/>
+								<CAcTcUiToolPalette>
+									<CatalogView ID="{3B3603EA-7EB6-42d5-AFB9-C094F24CD71E}">
+										<ToolSource>
+											<Palette ID="{3B3603EA-7EB6-42d5-AFB9-C094F24CD71E}"/>
+										</ToolSource>
+										<Image SizeCX="32" SizeCY="32"/>
+										<Style>491522</Style>
+									</CatalogView>
+								</CAcTcUiToolPalette>
+							</ToolPalette>
+							<ToolPalette>
+								<CAdUiPalette PaletteStyle="1"/>
+								<CAcTcUiToolPalette>
+									<CatalogView ID="{4BE848C7-50A4-41BF-929E-ECE60FE5422F}">
+										<ToolSource>
+											<Palette ID="{4BE848C7-50A4-41BF-929E-ECE60FE5422F}"/>
+										</ToolSource>
+										<Image SizeCX="32" SizeCY="32"/>
+										<Style>491522</Style>
+									</CatalogView>
+								</CAcTcUiToolPalette>
+							</ToolPalette>
+							<ToolPalette>
+								<CAdUiPalette PaletteStyle="1"/>
+								<CAcTcUiToolPalette>
+									<CatalogView ID="{92CDB627-A8DF-4466-AFBD-FD5DC1351ED1}">
+										<ToolSource>
+											<Palette ID="{92CDB627-A8DF-4466-AFBD-FD5DC1351ED1}"/>
+										</ToolSource>
+										<Image SizeCX="32" SizeCY="32"/>
+										<Style>491522</Style>
+									</CatalogView>
+								</CAcTcUiToolPalette>
+							</ToolPalette>
+							<ToolPalette>
+								<CAdUiPalette PaletteStyle="1"/>
+								<CAcTcUiToolPalette>
+									<CatalogView ID="{8331A300-122F-4425-A7FF-467A42D79166}">
+										<ToolSource>
+											<Palette ID="{8331A300-122F-4425-A7FF-467A42D79166}"/>
+										</ToolSource>
+										<Image SizeCX="32" SizeCY="32"/>
+										<Style>491522</Style>
+									</CatalogView>
+								</CAcTcUiToolPalette>
+							</ToolPalette>
+							<ToolPalette>
+								<CAdUiPalette PaletteStyle="1"/>
+								<CAcTcUiToolPalette>
+									<CatalogView ID="{2DCDEF9A-7358-4CA4-837C-9AC674AE5317}">
+										<ToolSource>
+											<Palette ID="{2DCDEF9A-7358-4CA4-837C-9AC674AE5317}"/>
+										</ToolSource>
+										<Image SizeCX="32" SizeCY="32"/>
+										<Style>491522</Style>
+									</CatalogView>
+								</CAcTcUiToolPalette>
+							</ToolPalette>
+							<ToolPalette>
+								<CAdUiPalette PaletteStyle="1"/>
+								<CAcTcUiToolPalette>
+									<CatalogView ID="{68FCC725-A6B5-4A14-99C4-053CE9FF9325}">
+										<ToolSource>
+											<Palette ID="{68FCC725-A6B5-4A14-99C4-053CE9FF9325}"/>
+										</ToolSource>
+										<Image SizeCX="32" SizeCY="32"/>
+										<Style>491522</Style>
+									</CatalogView>
+								</CAcTcUiToolPalette>
+							</ToolPalette>
+							<ToolPalette>
+								<CAdUiPalette PaletteStyle="1"/>
+								<CAcTcUiToolPalette>
+									<CatalogView ID="A38BC6F2-6EC6-4558-BAAA-E031CC533BC8">
+										<ToolSource>
+											<Palette ID="A38BC6F2-6EC6-4558-BAAA-E031CC533BC8"/>
+										</ToolSource>
+										<Image SizeCX="32" SizeCY="32"/>
+										<Style>491522</Style>
+									</CatalogView>
+								</CAcTcUiToolPalette>
+							</ToolPalette>
+							<ToolPalette>
+								<CAdUiPalette PaletteStyle="1"/>
+								<CAcTcUiToolPalette>
+									<CatalogView ID="60763613-F7D6-41D4-BBBF-750DBB622295">
+										<ToolSource>
+											<Palette ID="60763613-F7D6-41D4-BBBF-750DBB622295"/>
+										</ToolSource>
+										<Image SizeCX="32" SizeCY="32"/>
+										<Style>491522</Style>
+									</CatalogView>
+								</CAcTcUiToolPalette>
+							</ToolPalette>
+							<ToolPalette>
+								<CAdUiPalette PaletteStyle="1"/>
+								<CAcTcUiToolPalette>
+									<CatalogView ID="B01DAE07-D43D-45A7-9A2E-2908D89505A2">
+										<ToolSource>
+											<Palette ID="B01DAE07-D43D-45A7-9A2E-2908D89505A2"/>
+										</ToolSource>
+										<Image SizeCX="32" SizeCY="32"/>
+										<Style>491522</Style>
+									</CatalogView>
+								</CAcTcUiToolPalette>
+							</ToolPalette>
+							<ToolPalette>
+								<CAdUiPalette PaletteStyle="1"/>
+								<CAcTcUiToolPalette>
+									<CatalogView ID="84C58344-3962-4ABF-9010-D6139359DA54">
+										<ToolSource>
+											<Palette ID="84C58344-3962-4ABF-9010-D6139359DA54"/>
+										</ToolSource>
+										<Image SizeCX="32" SizeCY="32"/>
+										<Style>491522</Style>
+									</CatalogView>
+								</CAcTcUiToolPalette>
+							</ToolPalette>
+							<ToolPalette>
+								<CAdUiPalette PaletteStyle="1"/>
+								<CAcTcUiToolPalette>
+									<CatalogView ID="4EADC391-4DB5-4F1E-B1AB-DC83B902F207">
+										<ToolSource>
+											<Palette ID="4EADC391-4DB5-4F1E-B1AB-DC83B902F207"/>
+										</ToolSource>
+										<Image SizeCX="32" SizeCY="32"/>
+										<Style>491522</Style>
+									</CatalogView>
+								</CAcTcUiToolPalette>
+							</ToolPalette>
+							<ToolPalette>
+								<CAdUiPalette PaletteStyle="1"/>
+								<CAcTcUiToolPalette>
+									<CatalogView ID="2D450476-FFD3-47B6-A635-7636ECDE86B8">
+										<ToolSource>
+											<Palette ID="2D450476-FFD3-47B6-A635-7636ECDE86B8"/>
+										</ToolSource>
+										<Image SizeCX="32" SizeCY="32"/>
+										<Style>491522</Style>
+									</CatalogView>
+								</CAcTcUiToolPalette>
+							</ToolPalette>
+							<ToolPalette>
+								<CAdUiPalette PaletteStyle="1"/>
+								<CAcTcUiToolPalette>
+									<CatalogView ID="6B1EF87E-251F-4894-99B4-2AB3D3E44DBF">
+										<ToolSource>
+											<Palette ID="6B1EF87E-251F-4894-99B4-2AB3D3E44DBF"/>
+										</ToolSource>
+										<Image SizeCX="32" SizeCY="32"/>
+										<Style>491522</Style>
+									</CatalogView>
+								</CAcTcUiToolPalette>
+							</ToolPalette>
+							<ToolPalette>
+								<CAdUiPalette PaletteStyle="1"/>
+								<CAcTcUiToolPalette>
+									<CatalogView ID="{0937C731-E045-4C09-8487-7E84CB5DB6DC}">
+										<ToolSource>
+											<Palette ID="{0937C731-E045-4C09-8487-7E84CB5DB6DC}"/>
+										</ToolSource>
+										<Image SizeCX="32" SizeCY="32"/>
+										<Style>491522</Style>
+									</CatalogView>
+								</CAcTcUiToolPalette>
+							</ToolPalette>
+							<ToolPalette>
+								<CAdUiPalette PaletteStyle="1"/>
+								<CAcTcUiToolPalette>
+									<CatalogView ID="{B45C75E1-94A1-4461-B78A-1D97964A5120}">
+										<ToolSource>
+											<Palette ID="{B45C75E1-94A1-4461-B78A-1D97964A5120}"/>
+										</ToolSource>
+										<Image SizeCX="32" SizeCY="32"/>
+										<Style>493570</Style>
+									</CatalogView>
+								</CAcTcUiToolPalette>
+							</ToolPalette>
+							<ToolPalette>
+								<CAdUiPalette PaletteStyle="1"/>
+								<CAcTcUiToolPalette>
+									<CatalogView ID="{01533F50-BCB3-42E4-B111-985FEC4D5D0A}">
+										<ToolSource>
+											<Palette ID="{01533F50-BCB3-42E4-B111-985FEC4D5D0A}"/>
+										</ToolSource>
+										<Image SizeCX="32" SizeCY="32"/>
+										<Style>493570</Style>
+									</CatalogView>
+								</CAcTcUiToolPalette>
+							</ToolPalette>
+							<ToolPalette>
+								<CAdUiPalette PaletteStyle="1"/>
+								<CAcTcUiToolPalette>
+									<CatalogView ID="{7EF257FB-3DA2-4091-9C6E-412C05465869}">
+										<ToolSource>
+											<Palette ID="{7EF257FB-3DA2-4091-9C6E-412C05465869}"/>
+										</ToolSource>
+										<Image SizeCX="32" SizeCY="32"/>
+										<Style>493570</Style>
+									</CatalogView>
+								</CAcTcUiToolPalette>
+							</ToolPalette>
+							<ToolPalette>
+								<CAdUiPalette PaletteStyle="1"/>
+								<CAcTcUiToolPalette>
+									<CatalogView ID="{31032267-7792-4ED9-996A-6750949C3364}">
+										<ToolSource>
+											<Palette ID="{31032267-7792-4ED9-996A-6750949C3364}"/>
+										</ToolSource>
+										<Image SizeCX="32" SizeCY="32"/>
+										<Style>493570</Style>
+									</CatalogView>
+								</CAcTcUiToolPalette>
+							</ToolPalette>
+							<ToolPalette>
+								<CAdUiPalette PaletteStyle="1"/>
+								<CAcTcUiToolPalette>
+									<CatalogView ID="{07E218EF-7B2F-4BE5-9C28-39565D0E477A}">
+										<ToolSource>
+											<Palette ID="{07E218EF-7B2F-4BE5-9C28-39565D0E477A}"/>
+										</ToolSource>
+										<Image SizeCX="32" SizeCY="32"/>
+										<Style>491522</Style>
+									</CatalogView>
+								</CAcTcUiToolPalette>
+							</ToolPalette>
+							<ToolPalette>
+								<CAdUiPalette PaletteStyle="1"/>
+								<CAcTcUiToolPalette>
+									<CatalogView ID="{775C6DF8-BCB6-48BA-8F98-9D4621E908F5}">
+										<ToolSource>
+											<Palette ID="{775C6DF8-BCB6-48BA-8F98-9D4621E908F5}"/>
+										</ToolSource>
+										<Image SizeCX="64" SizeCY="64"/>
+										<Style>491522</Style>
+									</CatalogView>
+								</CAcTcUiToolPalette>
+							</ToolPalette>
+						</ToolPalettes>
+						<ToolPaletteGroup>
+							<Name resource="157" src="AcTcUiRes.dll"/>
+							<ActivePaletteIndex>-1</ActivePaletteIndex>
+							<Contents>
+								<ToolPaletteGroup>
+									<Name resource="156" src="AcTcUiRes.dll"/>
+									<ActivePaletteIndex>0</ActivePaletteIndex>
+									<Contents>
+										<ToolPalette ID="{A0CCA60A-AB56-4EFD-83A5-8764BC08CDA8}"/>
+										<ToolPalette ID="{498DE575-CB69-4B2A-A12B-33012D265464}"/>
+										<ToolPalette ID="{5B6AC051-A4D1-4191-A86C-DFD866841B64}"/>
+										<ToolPalette ID="{3D96B628-B9A6-4BE7-9A54-4063288C5CE6}"/>
+										<ToolPalette ID="{EA899C91-EF57-45F1-9CEB-2CE79A3B09EC}"/>
+										<ToolPalette ID="{5E3BD7D5-5F44-422d-8643-64C5C033202C}"/>
+										<ToolPalette ID="{1BAC5354-C9CD-42E2-BD35-300929BC6140}"/>
+									</Contents>
+								</ToolPaletteGroup>
+								<ToolPaletteGroup>
+									<Name resource="179" src="AcTcUiRes.dll"/>
+									<ActivePaletteIndex>0</ActivePaletteIndex>
+									<Contents>
+										<ToolPalette ID="{E1188229-8701-4068-84FC-F966150B965C}"/>
+									</Contents>
+								</ToolPaletteGroup>
+								<ToolPaletteGroup>
+									<Name resource="180" src="AcTcUiRes.dll"/>
+									<ActivePaletteIndex>0</ActivePaletteIndex>
+									<Contents>
+										<ToolPalette ID="{498DE575-CB69-4B2A-A12B-33012D265464}"/>
+									</Contents>
+								</ToolPaletteGroup>
+								<ToolPaletteGroup>
+									<Name resource="181" src="AcTcUiRes.dll"/>
+									<ActivePaletteIndex>0</ActivePaletteIndex>
+									<Contents>
+										<ToolPalette ID="{5E3BD7D5-5F44-422d-8643-64C5C033202C}"/>
+									</Contents>
+								</ToolPaletteGroup>
+								<ToolPaletteGroup>
+									<Name resource="182" src="AcTcUiRes.dll"/>
+									<ActivePaletteIndex>0</ActivePaletteIndex>
+									<Contents>
+										<ToolPalette ID="{1BAC5354-C9CD-42E2-BD35-300929BC6140}"/>
+									</Contents>
+								</ToolPaletteGroup>
+								<ToolPaletteGroup>
+									<Name resource="183" src="AcTcUiRes.dll"/>
+									<ActivePaletteIndex>0</ActivePaletteIndex>
+									<Contents>
+										<ToolPalette ID="{5B6AC051-A4D1-4191-A86C-DFD866841B64}"/>
+									</Contents>
+								</ToolPaletteGroup>
+								<ToolPaletteGroup>
+									<Name resource="184" src="AcTcUiRes.dll"/>
+									<ActivePaletteIndex>0</ActivePaletteIndex>
+									<Contents>
+										<ToolPalette ID="{EA899C91-EF57-45F1-9CEB-2CE79A3B09EC}"/>
+									</Contents>
+								</ToolPaletteGroup>
+								<ToolPaletteGroup>
+									<Name resource="164" src="AcTcUiRes.dll"/>
+									<ActivePaletteIndex>0</ActivePaletteIndex>
+									<Contents>
+										<ToolPalette ID="{D6BC41CF-FCAA-4FF7-8CDD-64D952C632E0}"/>
+										<ToolPalette ID="{8331A300-122F-4425-A7FF-467A42D79166}"/>
+										<ToolPalette ID="{2DCDEF9A-7358-4CA4-837C-9AC674AE5317}"/>
+									</Contents>
+								</ToolPaletteGroup>
+								<ToolPaletteGroup>
+									<Name resource="177" src="AcTcUiRes.dll"/>
+									<ActivePaletteIndex>0</ActivePaletteIndex>
+									<Contents>
+										<ToolPalette ID="{3B3603EA-7EB6-42d5-AFB9-C094F24CD71E}"/>
+									</Contents>
+								</ToolPaletteGroup>
+								<ToolPaletteGroup>
+									<Name resource="178" src="AcTcUiRes.dll"/>
+									<ActivePaletteIndex>0</ActivePaletteIndex>
+									<Contents>
+										<ToolPalette ID="{92CDB627-A8DF-4466-AFBD-FD5DC1351ED1}"/>
+									</Contents>
+								</ToolPaletteGroup>
+								<ToolPaletteGroup>
+									<Name resource="166" src="AcTcUiRes.dll"/>
+									<ActivePaletteIndex>0</ActivePaletteIndex>
+									<Contents>
+										<ToolPalette ID="{0937C731-E045-4C09-8487-7E84CB5DB6DC}"/>
+									</Contents>
+								</ToolPaletteGroup>
+								<ToolPaletteGroup>
+									<Name resource="176" src="AcTcUiRes.dll"/>
+									<ActivePaletteIndex>0</ActivePaletteIndex>
+									<Contents>
+										<ToolPalette ID="{B45C75E1-94A1-4461-B78A-1D97964A5120}"/>
+										<ToolPalette ID="{01533F50-BCB3-42E4-B111-985FEC4D5D0A}"/>
+										<ToolPalette ID="{7EF257FB-3DA2-4091-9C6E-412C05465869}"/>
+										<ToolPalette ID="{31032267-7792-4ED9-996A-6750949C3364}"/>
+									</Contents>
+								</ToolPaletteGroup>
+								<ToolPaletteGroup>
+									<Name resource="168" src="AcTcUiRes.dll"/>
+									<ActivePaletteIndex>0</ActivePaletteIndex>
+									<Contents>
+										<ToolPalette ID="{07E218EF-7B2F-4BE5-9C28-39565D0E477A}"/>
+									</Contents>
+								</ToolPaletteGroup>
+								<ToolPaletteGroup>
+									<Name resource="167" src="AcTcUiRes.dll"/>
+									<ActivePaletteIndex>0</ActivePaletteIndex>
+									<Contents>
+										<ToolPalette ID="{775C6DF8-BCB6-48BA-8F98-9D4621E908F5}"/>
+									</Contents>
+								</ToolPaletteGroup>
+							</Contents>
+						</ToolPaletteGroup>
+					</CAcTcUiToolPaletteSet>
+				</ToolPaletteSet>
+			</ToolPaletteSets>
+		</ToolPaletteScheme>
+		<AuthorPaletteScheme>
+			<ToolPaletteSets>
+				<ToolPaletteSet><CAdUiDockControlBar Orientation="59420" AllowDocking="1"><FloatInfo Left="50" Top="150" Width="172" Height="433"/><DockInfo Left="576" Top="222" Width="217" Height="775" MRUDockID="59420"/></CAdUiDockControlBar><CAdUiPaletteSet ActivePaletteIndex="0" TitleBarLocation="0" AutoRollup="0" Name="Block Authoring Palettes - All Palettes" Style="4222" Opacity="100" RolloverOpacity="100" Visible="0"/><CAcTcUiToolPaletteSet ID="{1783040D-79F6-44EA-9779-CE4FD0C232A8}"><ToolPalettes><ToolPalette><CAdUiPalette PaletteStyle="1"/><CAcTcUiToolPalette><CatalogView ID="{3FED4826-E179-42F5-9802-AE8A357D7FCF}"><ToolSource><Palette ID="{3FED4826-E179-42F5-9802-AE8A357D7FCF}">Parameters</Palette></ToolSource><Image SizeCX="32" SizeCY="32"/><Style>493570</Style><ToolOrder><Tool ID="{4E8B342C-DFD5-40F9-8CD4-2E4B5DDEC08E}"/><Tool ID="{C6095040-2ACC-4C35-B422-2F3B34B47F49}"/><Tool ID="{53F46DC8-D918-4F82-AD58-EC7AE73EE3F4}"/><Tool ID="{3B97E139-D74A-4A8F-9B45-CAB318DCE2AF}"/><Tool ID="{4CB1A19D-7569-4DFD-8F6E-0B97C2B46BCF}"/><Tool ID="{0FCC6040-8870-4ACA-90DF-CBD7AA6297B5}"/><Tool ID="{182ED753-00B7-443E-90A9-807A99DF74FF}"/><Tool ID="{30766565-DC12-4FE9-81F1-5B804735F6D8}"/><Tool ID="{70492938-085B-40C6-A2BB-6401473B368F}"/><Tool ID="{5064D0F5-53B1-4EF8-AD24-C41D1FA3944A}"/></ToolOrder></CatalogView></CAcTcUiToolPalette></ToolPalette><ToolPalette><CAdUiPalette PaletteStyle="1"/><CAcTcUiToolPalette><CatalogView ID="{0334BDA1-AF4B-444E-841E-D236CBBF7EA1}"><ToolSource><Palette ID="{0334BDA1-AF4B-444E-841E-D236CBBF7EA1}">Actions</Palette></ToolSource><Image SizeCX="32" SizeCY="32"/><Style>493570</Style><ToolOrder><Tool ID="{662B9978-1663-45BD-8A36-D2B70016021F}"/><Tool ID="{C34D09BC-9973-4608-927C-77886DE51DC6}"/><Tool ID="{5BD676EB-AA26-4346-9708-41990A605EB6}"/><Tool ID="{25CE9279-D850-46AB-8ECA-CF25CA5A447B}"/><Tool ID="{0144DB09-0DA7-4594-8037-C9043F4AB847}"/><Tool ID="{AD47FB9B-48B8-42EB-82AF-58622573F66F}"/><Tool ID="{A4A74905-5DFF-4C66-8055-4EC7215F7E75}"/><Tool ID="{A303E85F-F2FA-4F17-97CC-7100432EB053}"/><Tool ID="{A303E85F-F2FA-4F17-97CC-7100432EB053}"/></ToolOrder></CatalogView></CAcTcUiToolPalette></ToolPalette><ToolPalette><CAdUiPalette PaletteStyle="1"/><CAcTcUiToolPalette><CatalogView ID="{A4AF9185-BD8E-41D5-BBBA-2F2D8397230E}"><ToolSource><Palette ID="{A4AF9185-BD8E-41D5-BBBA-2F2D8397230E}">Parameter Sets</Palette></ToolSource><Image SizeCX="32" SizeCY="32"/><Style>493570</Style><ToolOrder><Tool ID="{381C4246-1F3B-463F-9B29-0276A6FE8FA2}"/><Tool ID="{710A8DC7-DB03-4453-ACB2-5F80C2CCC9C4}"/><Tool ID="{470123E4-3862-491F-9BB6-80F649B8BC1C}"/><Tool ID="{BED2DE88-360A-480B-B01F-390F13251B6B}"/><Tool ID="{D05801DC-1338-457D-989F-676B13CC5601}"/><Tool ID="{7AF08B13-59BC-430B-B39A-60047856D031}"/><Tool ID="{3015D9CC-8359-4A5F-BE2A-01A9657822C6}"/><Tool ID="{9EDB0652-1BB6-4D4B-A638-35D9C306DE32}"/><Tool ID="{C2AE2AA6-39CA-4EB6-A825-A43E41D58529}"/><Tool ID="{9FD21C03-4935-4307-89CB-4FFD251DE7E2}"/><Tool ID="{C85A5760-7008-46F3-8CC5-D7CD24C0E7ED}"/><Tool ID="{DD649B06-C0BB-4950-BA65-02412D0D04C6}"/><Tool ID="{7F88C08B-3BC7-4782-B03B-97614E1F6812}"/><Tool ID="{857E96FD-8E0F-436D-B4B1-E12ED500B97D}"/><Tool ID="{A9D9D29A-5C8D-4C6A-B08B-19BD559E3E35}"/><Tool ID="{857E96FD-8E0F-436D-B4B1-E12ED500B97D}"/><Tool ID="{857E96FD-8E0F-436D-B4B1-E12ED500B97D}"/><Tool ID="{857E96FD-8E0F-436D-B4B1-E12ED500B97D}"/><Tool ID="{857E96FD-8E0F-436D-B4B1-E12ED500B97D}"/><Tool ID="{857E96FD-8E0F-436D-B4B1-E12ED500B97D}"/></ToolOrder></CatalogView></CAcTcUiToolPalette></ToolPalette><ToolPalette><CAdUiPalette PaletteStyle="1"/><CAcTcUiToolPalette><CatalogView ID="{F7E90983-852E-4241-BD20-82B991FD6878}"><ToolSource><Palette ID="{F7E90983-852E-4241-BD20-82B991FD6878}">Constraints</Palette></ToolSource><Image SizeCX="32" SizeCY="32"/><Style>493570</Style><ToolOrder><Tool ID="{0C9F96D4-7F50-4CD3-9EC7-ABD311ACA162}"/><Tool ID="{5D79A0D2-080C-4226-975B-0E73B63C952D}"/><Tool ID="{2AC651F8-1D5F-4B18-94A9-D449864A3544}"/><Tool ID="{16F8F2AC-F0A8-4F9E-9DFB-22E8E11ABB84}"/><Tool ID="{22159589-363F-4812-9C1F-8305A4317715}"/><Tool ID="{9CD84AB4-19FE-47A5-A20F-3427463CCEDD}"/><Tool ID="{A7CFA609-7D37-4B86-88B0-E12D1C700815}"/><Tool ID="{9EB39983-20BF-4267-8B4C-5C0609D5C44C}"/><Tool ID="{2C715255-7538-4556-B47C-3126F0B829E1}"/><Tool ID="{041B003A-3B54-41A8-A5D0-D084793DCA35}"/><Tool ID="{2B582510-E25D-4F7E-8A22-E30F1B5CAF53}"/><Tool ID="{05A4E87F-2831-46F3-908C-D0028F8A87C2}"/><Tool ID="{D9AE2B56-A21A-45E4-A204-5B935A8A38F9}"/><Tool ID="{B6FA76B6-728D-4CBF-B7D4-5E753BF9938C}"/><Tool ID="{43D88A73-1465-4424-B0A2-006B45D4E5E0}"/><Tool ID="{4F08F93F-70DC-4372-91DE-732A1B23B432}"/><Tool ID="{40AFBF9A-664F-4389-8301-EC73ED309238}"/><Tool ID="{272DC13A-D39A-41EE-9964-EE85D425FD54}"/><Tool ID="{4F1DB798-A659-48C1-99D6-45C2C633A916}"/><Tool ID="{3ED4DC65-1E8E-402F-8D81-3170D8EE1A9F}"/><Tool ID="{0DD55DEC-E884-420E-A209-FE8DBA3A480B}"/></ToolOrder></CatalogView></CAcTcUiToolPalette></ToolPalette></ToolPalettes></CAcTcUiToolPaletteSet></ToolPaletteSet></ToolPaletteSets>
+		</AuthorPaletteScheme>
+		<AcApData><AdUiTools><ToolsInfo><Tool CLSID="{B1AC3ED0-9573-4569-A97A-D9CAE382F5D2}"><CAdUiDockControlBar Orientation="59419" AllowDocking="1"><FloatInfo Left="50" Top="50" Width="300" Height="300"/><DockInfo Left="0" Top="49" Width="1920" Height="167" MRUDockID="59419"/></CAdUiDockControlBar><CAdUiPaletteSet ActivePaletteIndex="0" TitleBarLocation="0" AutoRollup="0" Name="Ribbon" Style="38438" Opacity="100" RolloverOpacity="100" Visible="1"/></Tool><Tool CLSID="{DEF5EAB2-4398-460E-9934-46E2828818EF}"><CAdUiDockControlBar Orientation="-1" AllowDocking="1"><FloatInfo Left="991" Top="74" Width="354" Height="646"/><DockInfo Left="0" Top="0" Width="0" Height="0" MRUDockID="0"/></CAdUiDockControlBar><CAdUiPaletteSet ActivePaletteIndex="0" TitleBarLocation="1" AutoRollup="0" Name="Command Macros" Style="46" Opacity="100" RolloverOpacity="100" Visible="0"/></Tool><Tool CLSID="{D5CF410D-3E11-4D0C-AE69-A75C9B788C47}"><CAdUiDockControlBar Orientation="59422" AllowDocking="1"><FloatInfo Left="50" Top="50" Width="300" Height="300"/><DockInfo Left="576" Top="792" Width="1319" Height="207" MRUDockID="59422"/></CAdUiDockControlBar><CAdUiPaletteSet ActivePaletteIndex="0" TitleBarLocation="0" AutoRollup="0" Name="CLI PaletteSet" Style="36864" Opacity="100" RolloverOpacity="100" Visible="1"/></Tool><Tool CLSID="{6D32A2D9-832E-11D2-A83C-0060B0872C0B}"><CAdUiDockControlBar Orientation="59420" AllowDocking="1"><FloatInfo Left="0" Top="50" Width="249" Height="538"/><DockInfo Left="25" Top="222" Width="547" Height="775" MRUDockID="59420"/></CAdUiDockControlBar><CAdUiPaletteSet ActivePaletteIndex="0" TitleBarLocation="0" AutoRollup="0" Name="Properties" Style="4142" Opacity="100" RolloverOpacity="100" Visible="1"/><PROP_STATE><PALETTE PALETTE_NAME="Design"><STYLE FLAGS="1375797431" COLUMNWIDTH="0.291489361702128"/><OBJECT NAME="{57708D68-55CE-4DAD-BFCA-973B6B136783}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="Constraint6" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/><CATEGORY NAME="Lines &amp; Arrows-22" STATE="0"/><CATEGORY NAME="Text-9" STATE="-1"/><CATEGORY NAME="Fit-21" STATE="-1"/><CATEGORY NAME="Primary Units-19" STATE="-1"/><CATEGORY NAME="Alternate Units-20" STATE="-1"/><CATEGORY NAME="Tolerances-23" STATE="-1"/></OBJECT><OBJECT NAME="{AE332C3B-CB38-4587-A2F2-303736253182}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Geometry5" STATE="-1"/></OBJECT><OBJECT NAME="{D183394E-BDA9-4058-94FB-D9F784EA90A3}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Property Labels2" STATE="-1"/><CATEGORY NAME="Geometry-25" STATE="-1"/><CATEGORY NAME="Value Set1" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/></OBJECT><OBJECT NAME="3DOrbit"><CATEGORY NAME="View0" STATE="-1"/><CATEGORY NAME="Misc0" STATE="-1"/></OBJECT><OBJECT NAME="{8E74BAEA-2ADF-4F77-B524-2633AD3C8AC4}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Geometry-25" STATE="-1"/><CATEGORY NAME="Overrides3" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/></OBJECT><OBJECT NAME="{D4B2A7BE-45D2-4613-AEBB-ADF26A641F7E}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Geometry-25" STATE="-1"/></OBJECT><OBJECT NAME="{C10E0337-8AAD-4715-AFEF-1EB65D622062}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Geometry5" STATE="-1"/></OBJECT><OBJECT NAME="{A06DD599-DBB9-4F47-97FA-DE3799CE06AD}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="0"/><CATEGORY NAME="Geometry5" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/><CATEGORY NAME="General0" STATE="-1"/><CATEGORY NAME="Custom2942" STATE="-1"/><CATEGORY NAME="Attributes2941" STATE="-1"/></OBJECT><OBJECT NAME="{BC71DEA1-D6FB-48B8-AB06-D151C81BBCDD}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="0"/><CATEGORY NAME="Lines &amp; Arrows-22" STATE="0"/><CATEGORY NAME="Text-9" STATE="0"/><CATEGORY NAME="Fit-21" STATE="0"/><CATEGORY NAME="Primary Units-19" STATE="0"/><CATEGORY NAME="Tolerances-23" STATE="0"/></OBJECT><OBJECT NAME="{E3200C12-FC4B-4B05-867B-3CF337C54AC3}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Geometry-25" STATE="-1"/><CATEGORY NAME="Stretch frame4" STATE="-1"/><CATEGORY NAME="Overrides3" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/></OBJECT><OBJECT NAME="{ED047E5C-1563-4984-BC8D-004047699F2A}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Property Labels2" STATE="-1"/><CATEGORY NAME="Geometry-25" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/></OBJECT><OBJECT NAME="{56597E12-3BE1-4A36-BB0F-05C6659D0FF9}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Geometry5" STATE="-1"/></OBJECT><OBJECT NAME="{BD06E974-B7D0-4D8E-AFDB-562CD2998079}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Geometry-25" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/></OBJECT><OBJECT NAME="{85C22FC1-28E6-44FA-9511-F7786B1E2310}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="Geometry5" STATE="-1"/></OBJECT><OBJECT NAME="ZeroSelect"><CATEGORY NAME="General0" STATE="-1"/><CATEGORY NAME="3D Visualization0" STATE="-1"/><CATEGORY NAME="Layout0" STATE="-1"/><CATEGORY NAME="Plot style0" STATE="-1"/><CATEGORY NAME="View0" STATE="-1"/><CATEGORY NAME="Misc0" STATE="-1"/><CATEGORY NAME="Block1975" STATE="-1"/></OBJECT><OBJECT NAME="{04710540-4076-467A-AEE0-C318C1E24389}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Property Labels2" STATE="-1"/><CATEGORY NAME="Geometry-25" STATE="-1"/><CATEGORY NAME="Value Set1" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/></OBJECT><OBJECT NAME="{45CD8F3C-2D86-4F0A-9533-765A6BAD532B}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Text-9" STATE="-1"/><CATEGORY NAME="Geometry5" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/></OBJECT><OBJECT NAME="{FD028A62-16C3-42B9-8218-E298F8D4C470}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Geometry5" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/></OBJECT><OBJECT NAME="{44A52280-AE56-490D-890C-89FB7279ED6B}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="0"/><CATEGORY NAME="Lines &amp; Arrows-22" STATE="0"/><CATEGORY NAME="Text-9" STATE="0"/><CATEGORY NAME="Fit-21" STATE="0"/><CATEGORY NAME="Primary Units-19" STATE="0"/><CATEGORY NAME="Alternate Units-20" STATE="0"/><CATEGORY NAME="Tolerances-23" STATE="0"/></OBJECT><OBJECT NAME="{6410C59E-2E2B-48FD-A348-2A874EA06F1C}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="Geometry5" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/><CATEGORY NAME="Lines &amp; Arrows-22" STATE="-1"/><CATEGORY NAME="Text-9" STATE="-1"/><CATEGORY NAME="Fit-21" STATE="-1"/></OBJECT><OBJECT NAME="{64B63491-8F39-4C24-B6C2-BAF50FAB801C}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Geometry5" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/></OBJECT><OBJECT NAME="{17000135-BAEE-4261-B079-BFEA8340CB29}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Property Labels2" STATE="-1"/><CATEGORY NAME="Geometry-25" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/></OBJECT><OBJECT NAME="{D86B6C47-11F2-4D95-B635-EA575F0892FC}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="0"/><CATEGORY NAME="Lines &amp; Arrows-22" STATE="0"/><CATEGORY NAME="Text-9" STATE="0"/><CATEGORY NAME="Fit-21" STATE="0"/><CATEGORY NAME="Primary Units-19" STATE="0"/><CATEGORY NAME="Alternate Units-20" STATE="0"/><CATEGORY NAME="Tolerances-23" STATE="0"/></OBJECT><OBJECT NAME="{9C58E941-039C-4AA5-85C9-8CF7F1C5D9A1}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Geometry-25" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/></OBJECT><OBJECT NAME="{565E523E-1EAA-4CDE-B7C0-FE1189D2E7D0}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Geometry5" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/><CATEGORY NAME="General0" STATE="-1"/></OBJECT><OBJECT NAME="{85B5B818-DB01-4B34-B95B-F4632D912B48}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="Geometry5" STATE="-1"/></OBJECT><OBJECT NAME="{72A9D289-F7DD-479F-8D4D-47C129CBAFBF}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Property Labels2" STATE="-1"/><CATEGORY NAME="Geometry-25" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/></OBJECT><OBJECT NAME="{0743E345-B59A-40CC-82DD-450CCE635D62}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Geometry-25" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/></OBJECT><OBJECT NAME="{C2E66FDD-82DC-4900-A1CB-8D81F90218FA}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Geometry-25" STATE="-1"/><CATEGORY NAME="Rows and Columns5" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/></OBJECT><OBJECT NAME="{2F976E5F-F8E2-445D-8841-4F2A7167110D}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Text-9" STATE="-1"/><CATEGORY NAME="Geometry5" STATE="-1"/></OBJECT><OBJECT NAME="{BBF6A206-CB04-479D-96AE-349E1E83319A}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="0"/><CATEGORY NAME="Lines &amp; Arrows-22" STATE="0"/><CATEGORY NAME="Text-9" STATE="0"/><CATEGORY NAME="Fit-21" STATE="0"/><CATEGORY NAME="Primary Units-19" STATE="0"/><CATEGORY NAME="Alternate Units-20" STATE="0"/><CATEGORY NAME="Tolerances-23" STATE="0"/></OBJECT><OBJECT NAME="{85452F88-5071-492E-B850-2E3C586DCBD8}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="0"/><CATEGORY NAME="Lines &amp; Arrows-22" STATE="0"/><CATEGORY NAME="Text-9" STATE="0"/><CATEGORY NAME="Fit-21" STATE="0"/><CATEGORY NAME="Primary Units-19" STATE="0"/><CATEGORY NAME="Alternate Units-20" STATE="0"/><CATEGORY NAME="Tolerances-23" STATE="0"/></OBJECT><OBJECT NAME="{B4D2536B-E398-4971-B722-8D2C37D28AE5}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="Geometry5" STATE="-1"/></OBJECT><OBJECT NAME="{D975A7B1-549A-4B61-AC39-191DC38BC29B}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="Constraint6" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/><CATEGORY NAME="Lines &amp; Arrows-22" STATE="0"/><CATEGORY NAME="Text-9" STATE="-1"/><CATEGORY NAME="Fit-21" STATE="-1"/><CATEGORY NAME="Primary Units-19" STATE="-1"/><CATEGORY NAME="Alternate Units-20" STATE="-1"/><CATEGORY NAME="Tolerances-23" STATE="-1"/></OBJECT><OBJECT NAME="{2813BF45-AA44-4F79-8CFC-490B2DD876B4}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="Geometry5" STATE="-1"/></OBJECT><OBJECT NAME="{BF4CC07E-E9BB-40D6-873F-855B211033B9}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="0"/><CATEGORY NAME="Lines &amp; Arrows-22" STATE="0"/><CATEGORY NAME="Text-9" STATE="0"/><CATEGORY NAME="Fit-21" STATE="0"/><CATEGORY NAME="Primary Units-19" STATE="0"/><CATEGORY NAME="Alternate Units-20" STATE="0"/><CATEGORY NAME="Tolerances-23" STATE="0"/></OBJECT><OBJECT NAME="{7B04A8D0-8043-4675-AF42-B6ADC28D847F}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="Image Adjust-17" STATE="-1"/><CATEGORY NAME="Geometry5" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/></OBJECT><OBJECT NAME="{ED15D4E8-67ED-4FEB-8CE2-419C84FE43B6}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Geometry-25" STATE="-1"/><CATEGORY NAME="Overrides3" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/></OBJECT><OBJECT NAME="{0B9DFBAA-64DB-4574-A703-3C019658D654}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Geometry5" STATE="-1"/></OBJECT><OBJECT NAME="{E5A9387A-E596-4C2B-97DB-D3B114A16CF4}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="Constraint6" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/><CATEGORY NAME="Lines &amp; Arrows-22" STATE="-1"/><CATEGORY NAME="Text-9" STATE="-1"/><CATEGORY NAME="Fit-21" STATE="-1"/><CATEGORY NAME="Primary Units-19" STATE="-1"/><CATEGORY NAME="Tolerances-23" STATE="-1"/></OBJECT><OBJECT NAME="{109A5872-92B2-4366-BAB5-FA9F4A49E97B}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Geometry-25" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/></OBJECT><OBJECT NAME="{95F7D2EF-4037-4952-A620-B5494CED13CA}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Property Labels2" STATE="-1"/><CATEGORY NAME="Geometry-25" STATE="-1"/><CATEGORY NAME="Value Set1" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/></OBJECT><OBJECT NAME="{659D254C-BF3D-4244-BF87-E710C16C8722}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Geometry5" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/></OBJECT><OBJECT NAME="{4CA6AA08-5011-4525-8C44-7FB7C2190CB8}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Geometry-25" STATE="-1"/><CATEGORY NAME="Solid History-28" STATE="-1"/></OBJECT><OBJECT NAME="{CB4650B7-6967-408A-B46C-A6FA6692CD8C}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Geometry5" STATE="-1"/></OBJECT><OBJECT NAME="{08BAC354-500F-4060-A7B2-E4F458EA8C3F}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="Geometry5" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/></OBJECT><OBJECT NAME="{F8C5C643-3E09-4E72-9417-946937561E61}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Property Labels2" STATE="-1"/><CATEGORY NAME="Geometry-25" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/></OBJECT><OBJECT NAME="{E4B3E167-D6E1-4B63-A68C-43B3F121BFF6}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Geometry-25" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/></OBJECT><OBJECT NAME="{B643DF4D-B90B-4DEC-8F8E-11C961220CA5}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="Geometry5" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/></OBJECT><OBJECT NAME="{2C74F89E-7421-46B4-BA54-F86F1BD9F237}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="0"/><CATEGORY NAME="Lines &amp; Arrows-22" STATE="0"/><CATEGORY NAME="Text-9" STATE="0"/><CATEGORY NAME="Fit-21" STATE="0"/><CATEGORY NAME="Primary Units-19" STATE="0"/><CATEGORY NAME="Alternate Units-20" STATE="0"/><CATEGORY NAME="Tolerances-23" STATE="0"/></OBJECT><OBJECT NAME="{FE718E8F-C3AA-4F30-9103-432450CF1DA1}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="Pattern-14" STATE="-1"/><CATEGORY NAME="Geometry-25" STATE="0"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/></OBJECT><OBJECT NAME="{FCDCCFFB-7C79-4F80-A74C-CA1E7C3003AE}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Text-9" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/></OBJECT><OBJECT NAME="{603F2BE2-7F1B-4E30-9952-7BB89BB37FBC}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="Constraint6" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/><CATEGORY NAME="Lines &amp; Arrows-22" STATE="0"/><CATEGORY NAME="Text-9" STATE="-1"/><CATEGORY NAME="Fit-21" STATE="0"/><CATEGORY NAME="Primary Units-19" STATE="-1"/><CATEGORY NAME="Alternate Units-20" STATE="-1"/><CATEGORY NAME="Tolerances-23" STATE="-1"/></OBJECT><OBJECT NAME="{C7E3119A-7576-4CEB-A1FD-B762EF961C36}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Geometry-25" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/></OBJECT><OBJECT NAME="{2CFFF5CE-FE81-47E1-8FF3-6614B1BF7B2A}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Geometry-25" STATE="-1"/><CATEGORY NAME="Mesh-16" STATE="-1"/></OBJECT><OBJECT NAME="{AC0E393D-267A-4D41-846A-8108C8F54FA5}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="Constraint6" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/><CATEGORY NAME="Lines &amp; Arrows-22" STATE="-1"/><CATEGORY NAME="Text-9" STATE="-1"/><CATEGORY NAME="Fit-21" STATE="-1"/><CATEGORY NAME="Primary Units-19" STATE="-1"/><CATEGORY NAME="Alternate Units-20" STATE="-1"/><CATEGORY NAME="Tolerances-23" STATE="-1"/></OBJECT><OBJECT NAME="{64B50936-0F4A-4B45-94E8-C3193273D218}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Geometry-25" STATE="-1"/><CATEGORY NAME="Stretch frame4" STATE="-1"/><CATEGORY NAME="Overrides3" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/></OBJECT><OBJECT NAME="{307BD44A-0FFD-4CEF-822B-4BDEA34B4A1D}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="Constraint6" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/><CATEGORY NAME="Lines &amp; Arrows-22" STATE="0"/><CATEGORY NAME="Text-9" STATE="-1"/><CATEGORY NAME="Fit-21" STATE="-1"/><CATEGORY NAME="Primary Units-19" STATE="-1"/><CATEGORY NAME="Tolerances-23" STATE="-1"/></OBJECT><OBJECT NAME="{3F25C247-8394-4F65-8714-27E06217A6F9}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Geometry5" STATE="-1"/></OBJECT><OBJECT NAME="{FDB02BA2-8442-47F1-98C8-F3CABB36CAF9}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/><CATEGORY NAME="Leaders1" STATE="-1"/><CATEGORY NAME="Block2" STATE="-1"/><CATEGORY NAME="Text3" STATE="-1"/></OBJECT><OBJECT NAME="{B66B883C-D2FC-4B03-9675-F7C517741630}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Text-9" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/></OBJECT><OBJECT NAME="{A9348FB8-9CF4-4B09-B4DA-BBC5713F8B2C}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Geometry-25" STATE="-1"/><CATEGORY NAME="Overrides3" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/></OBJECT><OBJECT NAME="{ABBE3F83-D585-4A50-9B69-198B0F566F2E}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="0"/><CATEGORY NAME="Lines &amp; Arrows-22" STATE="0"/><CATEGORY NAME="Text-9" STATE="0"/><CATEGORY NAME="Fit-21" STATE="0"/><CATEGORY NAME="Primary Units-19" STATE="0"/><CATEGORY NAME="Alternate Units-20" STATE="0"/><CATEGORY NAME="Tolerances-23" STATE="0"/></OBJECT><OBJECT NAME="{D0D21973-D541-4F7A-A7E1-532FAA9147BE}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Geometry-25" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/></OBJECT><OBJECT NAME="{69DDA82F-B603-48D4-A305-AAE4F44FE12B}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="Image Adjust-17" STATE="-1"/><CATEGORY NAME="Geometry5" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/></OBJECT><OBJECT NAME="{42353532-9E4C-4CB1-8A30-7ACBE9E69624}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Geometry-25" STATE="-1"/><CATEGORY NAME="Surface Associativity-33" STATE="-1"/><CATEGORY NAME="Trims-34" STATE="-1"/></OBJECT><OBJECT NAME="{BD5A3DB7-0C23-4C12-B3B2-4ACB5BEC7357}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="3D Visualization-31" STATE="-1"/><CATEGORY NAME="Geometry5" STATE="-1"/></OBJECT><OBJECT NAME="{84A78EE8-8F24-4A9D-BD08-16CDB0F841B8}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="Data Points-15" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/></OBJECT><OBJECT NAME="{DEA79E20-55FA-4440-BA44-74E6C5ABD579}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="Pattern-14" STATE="-1"/><CATEGORY NAME="Geometry-25" STATE="-1"/></OBJECT><OBJECT NAME="{10F749EA-B550-403D-9388-10BCAB6F24B8}"><CATEGORY NAME="General-12" STATE="-1"/><CATEGORY NAME="Misc-2" STATE="-1"/><CATEGORY NAME="Lines &amp; Arrows-22" STATE="-1"/><CATEGORY NAME="Text-9" STATE="-1"/><CATEGORY NAME="Fit-21" STATE="-1"/><CATEGORY NAME="Primary Units-19" STATE="-1"/><CATEGORY NAME="Alternate Units-20" STATE="-1"/><CATEGORY NAME="Tolerances-23" STATE="-1"/></OBJECT></PALETTE></PROP_STATE></Tool><Tool CLSID="{1783040D-79F6-44EA-9779-CE4FD0C232A8}"><CAdUiDockControlBar Orientation="59420" AllowDocking="1"><FloatInfo Left="50" Top="150" Width="172" Height="433"/><DockInfo Left="576" Top="222" Width="217" Height="775" MRUDockID="59420"/></CAdUiDockControlBar><CAdUiPaletteSet ActivePaletteIndex="0" TitleBarLocation="0" AutoRollup="0" Name="Block Authoring Palettes - All Palettes" Style="4222" Opacity="100" RolloverOpacity="100" Visible="0"/><CAcTcUiToolPaletteSet ID="{1783040D-79F6-44EA-9779-CE4FD0C232A8}"><ToolPalettes><ToolPalette><CAdUiPalette PaletteStyle="1"/><CAcTcUiToolPalette><CatalogView ID="{3FED4826-E179-42F5-9802-AE8A357D7FCF}"><ToolSource><Palette ID="{3FED4826-E179-42F5-9802-AE8A357D7FCF}">Parameters</Palette></ToolSource><Image SizeCX="32" SizeCY="32"/><Style>493570</Style><ToolOrder><Tool ID="{4E8B342C-DFD5-40F9-8CD4-2E4B5DDEC08E}"/><Tool ID="{C6095040-2ACC-4C35-B422-2F3B34B47F49}"/><Tool ID="{53F46DC8-D918-4F82-AD58-EC7AE73EE3F4}"/><Tool ID="{3B97E139-D74A-4A8F-9B45-CAB318DCE2AF}"/><Tool ID="{4CB1A19D-7569-4DFD-8F6E-0B97C2B46BCF}"/><Tool ID="{0FCC6040-8870-4ACA-90DF-CBD7AA6297B5}"/><Tool ID="{182ED753-00B7-443E-90A9-807A99DF74FF}"/><Tool ID="{30766565-DC12-4FE9-81F1-5B804735F6D8}"/><Tool ID="{70492938-085B-40C6-A2BB-6401473B368F}"/><Tool ID="{5064D0F5-53B1-4EF8-AD24-C41D1FA3944A}"/></ToolOrder></CatalogView></CAcTcUiToolPalette></ToolPalette><ToolPalette><CAdUiPalette PaletteStyle="1"/><CAcTcUiToolPalette><CatalogView ID="{0334BDA1-AF4B-444E-841E-D236CBBF7EA1}"><ToolSource><Palette ID="{0334BDA1-AF4B-444E-841E-D236CBBF7EA1}">Actions</Palette></ToolSource><Image SizeCX="32" SizeCY="32"/><Style>493570</Style><ToolOrder><Tool ID="{662B9978-1663-45BD-8A36-D2B70016021F}"/><Tool ID="{C34D09BC-9973-4608-927C-77886DE51DC6}"/><Tool ID="{5BD676EB-AA26-4346-9708-41990A605EB6}"/><Tool ID="{25CE9279-D850-46AB-8ECA-CF25CA5A447B}"/><Tool ID="{0144DB09-0DA7-4594-8037-C9043F4AB847}"/><Tool ID="{AD47FB9B-48B8-42EB-82AF-58622573F66F}"/><Tool ID="{A4A74905-5DFF-4C66-8055-4EC7215F7E75}"/><Tool ID="{A303E85F-F2FA-4F17-97CC-7100432EB053}"/><Tool ID="{A303E85F-F2FA-4F17-97CC-7100432EB053}"/></ToolOrder></CatalogView></CAcTcUiToolPalette></ToolPalette><ToolPalette><CAdUiPalette PaletteStyle="1"/><CAcTcUiToolPalette><CatalogView ID="{A4AF9185-BD8E-41D5-BBBA-2F2D8397230E}"><ToolSource><Palette ID="{A4AF9185-BD8E-41D5-BBBA-2F2D8397230E}">Parameter Sets</Palette></ToolSource><Image SizeCX="32" SizeCY="32"/><Style>493570</Style><ToolOrder><Tool ID="{381C4246-1F3B-463F-9B29-0276A6FE8FA2}"/><Tool ID="{710A8DC7-DB03-4453-ACB2-5F80C2CCC9C4}"/><Tool ID="{470123E4-3862-491F-9BB6-80F649B8BC1C}"/><Tool ID="{BED2DE88-360A-480B-B01F-390F13251B6B}"/><Tool ID="{D05801DC-1338-457D-989F-676B13CC5601}"/><Tool ID="{7AF08B13-59BC-430B-B39A-60047856D031}"/><Tool ID="{3015D9CC-8359-4A5F-BE2A-01A9657822C6}"/><Tool ID="{9EDB0652-1BB6-4D4B-A638-35D9C306DE32}"/><Tool ID="{C2AE2AA6-39CA-4EB6-A825-A43E41D58529}"/><Tool ID="{9FD21C03-4935-4307-89CB-4FFD251DE7E2}"/><Tool ID="{C85A5760-7008-46F3-8CC5-D7CD24C0E7ED}"/><Tool ID="{DD649B06-C0BB-4950-BA65-02412D0D04C6}"/><Tool ID="{7F88C08B-3BC7-4782-B03B-97614E1F6812}"/><Tool ID="{857E96FD-8E0F-436D-B4B1-E12ED500B97D}"/><Tool ID="{A9D9D29A-5C8D-4C6A-B08B-19BD559E3E35}"/><Tool ID="{857E96FD-8E0F-436D-B4B1-E12ED500B97D}"/><Tool ID="{857E96FD-8E0F-436D-B4B1-E12ED500B97D}"/><Tool ID="{857E96FD-8E0F-436D-B4B1-E12ED500B97D}"/><Tool ID="{857E96FD-8E0F-436D-B4B1-E12ED500B97D}"/><Tool ID="{857E96FD-8E0F-436D-B4B1-E12ED500B97D}"/></ToolOrder></CatalogView></CAcTcUiToolPalette></ToolPalette><ToolPalette><CAdUiPalette PaletteStyle="1"/><CAcTcUiToolPalette><CatalogView ID="{F7E90983-852E-4241-BD20-82B991FD6878}"><ToolSource><Palette ID="{F7E90983-852E-4241-BD20-82B991FD6878}">Constraints</Palette></ToolSource><Image SizeCX="32" SizeCY="32"/><Style>493570</Style><ToolOrder><Tool ID="{0C9F96D4-7F50-4CD3-9EC7-ABD311ACA162}"/><Tool ID="{5D79A0D2-080C-4226-975B-0E73B63C952D}"/><Tool ID="{2AC651F8-1D5F-4B18-94A9-D449864A3544}"/><Tool ID="{16F8F2AC-F0A8-4F9E-9DFB-22E8E11ABB84}"/><Tool ID="{22159589-363F-4812-9C1F-8305A4317715}"/><Tool ID="{9CD84AB4-19FE-47A5-A20F-3427463CCEDD}"/><Tool ID="{A7CFA609-7D37-4B86-88B0-E12D1C700815}"/><Tool ID="{9EB39983-20BF-4267-8B4C-5C0609D5C44C}"/><Tool ID="{2C715255-7538-4556-B47C-3126F0B829E1}"/><Tool ID="{041B003A-3B54-41A8-A5D0-D084793DCA35}"/><Tool ID="{2B582510-E25D-4F7E-8A22-E30F1B5CAF53}"/><Tool ID="{05A4E87F-2831-46F3-908C-D0028F8A87C2}"/><Tool ID="{D9AE2B56-A21A-45E4-A204-5B935A8A38F9}"/><Tool ID="{B6FA76B6-728D-4CBF-B7D4-5E753BF9938C}"/><Tool ID="{43D88A73-1465-4424-B0A2-006B45D4E5E0}"/><Tool ID="{4F08F93F-70DC-4372-91DE-732A1B23B432}"/><Tool ID="{40AFBF9A-664F-4389-8301-EC73ED309238}"/><Tool ID="{272DC13A-D39A-41EE-9964-EE85D425FD54}"/><Tool ID="{4F1DB798-A659-48C1-99D6-45C2C633A916}"/><Tool ID="{3ED4DC65-1E8E-402F-8D81-3170D8EE1A9F}"/><Tool ID="{0DD55DEC-E884-420E-A209-FE8DBA3A480B}"/></ToolOrder></CatalogView></CAcTcUiToolPalette></ToolPalette></ToolPalettes></CAcTcUiToolPaletteSet></Tool><Tool CLSID="{F1517EC6-62B7-4600-A00C-127FA2170291}"><CAdUiDockControlBar Orientation="59417" AllowDocking="1"><FloatInfo Left="25" Top="220" Width="1446" Height="777"/><DockInfo Left="221" Top="26766" Width="931" Height="262" MRUDockID="59417"/></CAdUiDockControlBar><CAdUiPaletteSet ActivePaletteIndex="0" TitleBarLocation="0" AutoRollup="1" Name="Layer Properties Manager" Style="65550" Opacity="100" RolloverOpacity="100" Visible="1"/></Tool><Tool CLSID="{5E0DE86A-1323-46AB-BE47-04AC3B69D260}"><AcParameterManagerPaletteSet name="BLOCK"><CAdUiDockControlBar Orientation="-1" AllowDocking="1"><FloatInfo Left="339" Top="185" Width="1110" Height="845"/><DockInfo Left="0" Top="0" Width="0" Height="0" MRUDockID="0"/></CAdUiDockControlBar><CAdUiPaletteSet ActivePaletteIndex="0" TitleBarLocation="0" AutoRollup="0" Name="Parameters Manager" Style="46" Opacity="100" RolloverOpacity="100" Visible="0"/><CAdUiPalette PaletteStyle="0"/><AcParameterManagerPalette Filter="0"><ListControl><Header name="Name" tooltip="Displays name of the parameter" hidden="0" index="0" width="174"/><Header name="Expression" tooltip="Displays the expression or value entered" hidden="0" index="1" width="75"/><Header name="Value" tooltip="Displays the value of the parameter" hidden="0" index="2" width="75"/></ListControl></AcParameterManagerPalette></AcParameterManagerPaletteSet><AcParameterManagerPaletteSet name="DRAWING"><CAdUiDockControlBar Orientation="-1" AllowDocking="1"><FloatInfo Left="339" Top="180" Width="366" Height="430"/><DockInfo Left="0" Top="0" Width="0" Height="0" MRUDockID="0"/></CAdUiDockControlBar><CAdUiPaletteSet ActivePaletteIndex="0" TitleBarLocation="0" AutoRollup="0" Name="Parameters Manager" Style="46" Opacity="100" RolloverOpacity="100" Visible="0"/><CAdUiPalette PaletteStyle="0"/><AcParameterManagerPalette Filter="0"><ListControl><Header name="Name" tooltip="Displays name of the parameter" hidden="0" index="0" width="75"/><Header name="Expression" tooltip="Displays the expression or value entered" hidden="0" index="1" width="75"/><Header name="Value" tooltip="Displays the value of the parameter" hidden="0" index="2" width="75"/></ListControl></AcParameterManagerPalette></AcParameterManagerPaletteSet></Tool><Tool CLSID="{179F7AA7-82FB-4CD5-BBAA-D59AFFFE3CF2}"><CAdUiDockControlBar Orientation="59418" AllowDocking="1"><FloatInfo Left="1420" Top="253" Width="563" Height="777"/><DockInfo Left="267199" Top="29806" Width="300" Height="775" MRUDockID="59418"/></CAdUiDockControlBar><CAdUiPaletteSet ActivePaletteIndex="1" TitleBarLocation="1" AutoRollup="1" Name="Blocks" Style="4142" Opacity="100" RolloverOpacity="100" Visible="1"/></Tool><Tool CLSID="{60284BE8-5CB0-474B-BD85-9D3335F5E471}"><CAdUiDockControlBar Orientation="-1" AllowDocking="1"><FloatInfo Left="366" Top="184" Width="326" Height="646"/><DockInfo Left="0" Top="0" Width="0" Height="0" MRUDockID="0"/></CAdUiDockControlBar><CAdUiPaletteSet ActivePaletteIndex="0" TitleBarLocation="0" AutoRollup="0" Name="Visual Styles Manager" Style="46" Opacity="100" RolloverOpacity="100" Visible="0"/><CAdUiPalette PaletteStyle="0"/></Tool><Tool CLSID="{57EBDB4A-B0D1-4081-A68B-F06CCA7FCBDB}"><CAdUiDockControlBar Orientation="59417" AllowDocking="1"><FloatInfo Left="25" Top="203" Width="549" Height="777"/><DockInfo Left="0" Top="1298" Width="485" Height="775" MRUDockID="59417"/></CAdUiDockControlBar><CAdUiPaletteSet ActivePaletteIndex="0" TitleBarLocation="0" AutoRollup="1" Name="Drawing Recovery Manager" Style="4142" Opacity="100" RolloverOpacity="100" Visible="1"/><CAdUiPalette PaletteStyle="0"/></Tool><Tool CLSID="{1A11B0B9-1AA0-4E71-95D1-C77737444340}"><CAdUiDockControlBar Orientation="-1" AllowDocking="1"><FloatInfo Left="42" Top="92" Width="229" Height="538"/><DockInfo Left="0" Top="0" Width="0" Height="0" MRUDockID="0"/></CAdUiDockControlBar><CAdUiPaletteSet ActivePaletteIndex="0" TitleBarLocation="0" AutoRollup="0" Name="External References" Style="46" Opacity="100" RolloverOpacity="100" Visible="0"/><XREF_PALETTESET><XREF_PALETTE TopToWholeRatio="0.6"><CAdUiPalette PaletteStyle="0"/><REFERENCE_VIEW Type="0"/><DETAILS_VIEW Type="0"/><TooltipSettings TooltipStyle="3" TooltipSize="1" ShowDetail="1"/></XREF_PALETTE></XREF_PALETTESET></Tool><Tool CLSID="{9278AB26-9620-4FC2-87F1-E4C1187D2EEA}"><MaterialBrowserPaletteSet><CAdUiDockControlBar Orientation="-1" AllowDocking="1"><FloatInfo Left="1495" Top="192" Width="304" Height="598"/><DockInfo Left="0" Top="0" Width="0" Height="0" MRUDockID="0"/></CAdUiDockControlBar><CAdUiPaletteSet ActivePaletteIndex="0" TitleBarLocation="0" AutoRollup="0" Name="Materials Browser" Style="46" Opacity="100" RolloverOpacity="100" Visible="0"/><CAdUiPalette PaletteStyle="1"/><MaterialBrowserPalette MaterialBrowserState="&lt;MaterialBrowser inSceneMaterialViewHeight=&quot;100&quot; isInSceneMaterialPreviewEnabled=&quot;1&quot; isLibraryPaneVisible=&quot;1&quot; isNavigationPaneVisible=&quot;1&quot; mergedBrowserWidth=&quot;294&quot; mergedEditorWidth=&quot;-1&quot; navigationPaneWidth=&quot;150&quot;&gt;&#xA; &lt;InSceneMaterialViews currentView=&quot;2&quot; sortColumn=&quot;1&quot; sortOrder=&quot;0&quot; swatchSizes=&quot;64,16,64&quot;&gt;&#xA;  &lt;View viewType=&quot;1&quot;/&gt;&#xA;  &lt;View columnWidths=&quot;-1,52,-1,0,52,162,-1&quot; viewType=&quot;2&quot;/&gt;&#xA;  &lt;View columnWidths=&quot;-1,52,-1,0,52,536,-1&quot; viewType=&quot;3&quot;/&gt;&#xA; &lt;/InSceneMaterialViews&gt;&#xA; &lt;LibraryMaterialViews currentView=&quot;2&quot; sortColumn=&quot;1&quot; sortOrder=&quot;0&quot; swatchSizes=&quot;64,16,64&quot;&gt;&#xA;  &lt;View viewType=&quot;1&quot;/&gt;&#xA;  &lt;View columnWidths=&quot;-1,52,-1,0,52,52,-1&quot; viewType=&quot;2&quot;/&gt;&#xA;  &lt;View columnWidths=&quot;-1,52,-1,0,52,536,-1&quot; viewType=&quot;3&quot;/&gt;&#xA; &lt;/LibraryMaterialViews&gt;&#xA; &lt;Libraries/&gt;&#xA;&lt;/MaterialBrowser&gt;&#xA;" MaterialBrowserTreeViewState="C:/Program Files/Common Files/Autodesk Shared/Materials/4/assetlibrary_base.adsklib"/></MaterialBrowserPaletteSet></Tool><Tool CLSID="{B371F8AA-7FF7-11D2-BA58-0060B0B5E151}"><CAdUiDockControlBar Orientation="-1" AllowDocking="1"><FloatInfo Left="384" Top="270" Width="1131" Height="538"/><DockInfo Left="0" Top="0" Width="0" Height="0" MRUDockID="0"/></CAdUiDockControlBar><CAdUiPaletteSet ActivePaletteIndex="0" TitleBarLocation="0" AutoRollup="0" Name="DesignCenter" Style="46" Opacity="100" RolloverOpacity="100" Visible="0"/></Tool><Tool CLSID="{457B2E45-D08B-4486-9AE8-01EBC23C911E}"><CAdUiDockControlBar Orientation="-1" AllowDocking="1"><FloatInfo Left="472" Top="250" Width="324" Height="408"/><DockInfo Left="0" Top="0" Width="0" Height="0" MRUDockID="0"/></CAdUiDockControlBar><CAdUiPaletteSet ActivePaletteIndex="0" TitleBarLocation="0" AutoRollup="0" Name="Render Presets Manager" Style="46" Opacity="100" RolloverOpacity="100" Visible="0"/></Tool><Tool CLSID="{618C5FEF-B687-4F57-8C82-FDEB1023DE58}"><CAdUiDockControlBar Orientation="59419" AllowDocking="1"><FloatInfo Left="50" Top="50" Width="300" Height="300"/><DockInfo Left="0" Top="49" Width="1920" Height="26" MRUDockID="59419"/></CAdUiDockControlBar><CAdUiPaletteSet ActivePaletteIndex="0" TitleBarLocation="0" AutoRollup="0" Name="Document Switch" Style="40448" Opacity="100" RolloverOpacity="100" Visible="0"/></Tool></ToolsInfo><StartupInfo><Tool ToolName="Ribbon" Command="_RIBBON"/><Tool ToolName="CLI PaletteSet" Command="COMMANDLINE"/><CAdUiAnchorBar><LeftAnchorBar ActiveAnchorTab="-1" JustifyAnchorTabs="1" AnchorTabsDisplayText="1"/><RightAnchorBar ActiveAnchorTab="-1" JustifyAnchorTabs="1" AnchorTabsDisplayText="1"/></CAdUiAnchorBar><Tool ToolName="acopm.arx" Command="properties"/><Tool ToolName="Layer" Command="Layer"/><Tool ToolName="Blocks" Command="BlocksPalette"/></StartupInfo></AdUiTools></AcApData><QuickAccessToolbar Workspace="Drafting &amp; Annotation"><QuickAccessToolbarItems ToolbarId="ACAD.QAT_TOOLBAR1" Orientation="Above"/></QuickAccessToolbar><Ribbon Workspace="Drafting &amp; Annotation"><WSRibbonRoot AutoHideMode="None" LockMode="None" ShowPanelTitleInHorizontalOrientation="true" ShowPanelTitleInVerticalOrientation="true">
+				<WSRibbonTabSourceReference MenuGroup="ACAD" TabId="ID_TabHome" Show="true" IsActive="false" UID="ID_WSR">
+					<ModifiedRev MajorVersion="25" MinorVersion="0" UserVersion="1"/>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelDraw" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0001">
+						<ModifiedRev MajorVersion="18" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelModify" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0002">
+						<ModifiedRev MajorVersion="18" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelBasicAnnotation" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0003">
+						<ModifiedRev MajorVersion="20" MinorVersion="0" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelLayers" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0004">
+						<ModifiedRev MajorVersion="20" MinorVersion="0" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelHome_Blocks" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0005">
+						<ModifiedRev MajorVersion="18" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelStandard_Properties" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0006">
+						<ModifiedRev MajorVersion="18" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelGroup" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0030">
+						<ModifiedRev MajorVersion="18" MinorVersion="2" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelStandard_Clipboard" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0007">
+						<ModifiedRev MajorVersion="18" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="RBN_00011049" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0079">
+						<ModifiedRev MajorVersion="18" MinorVersion="2" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="MODELDOC.RBN_200_F691F" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="WSRU_250_9145A">
+						<ModifiedRev MajorVersion="25" MinorVersion="0" UserVersion="1"/>
+					</WSRibbonPanelSourceReference>
+				</WSRibbonTabSourceReference>
+				<WSRibbonTabSourceReference MenuGroup="ACAD" TabId="ID_TabInsert" Show="true" IsActive="false" UID="ID_WSR_0008">
+					<ModifiedRev MajorVersion="19" MinorVersion="1" UserVersion="0"/>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelInsert_Block" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0009">
+						<ModifiedRev MajorVersion="18" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelAttributes" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0010">
+						<ModifiedRev MajorVersion="18" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelInsert_Reference" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0011">
+						<ModifiedRev MajorVersion="18" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelInsert_Import" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0012">
+						<ModifiedRev MajorVersion="18" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelInsert_Data" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0013">
+						<ModifiedRev MajorVersion="18" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelInsert_DataLink" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0014">
+						<ModifiedRev MajorVersion="18" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_Panel_Set_GeoLocation" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_200_FDB01">
+						<ModifiedRev MajorVersion="19" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+				</WSRibbonTabSourceReference>
+				<WSRibbonTabSourceReference MenuGroup="ACAD" TabId="ID_TabAnnotate" Show="true" IsActive="false" UID="ID_WSR_0015">
+					<ModifiedRev MajorVersion="21" MinorVersion="0" UserVersion="0"/>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelText" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0016">
+						<ModifiedRev MajorVersion="18" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelDimensions" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0017">
+						<ModifiedRev MajorVersion="18" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelCenterlines" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0032">
+						<ModifiedRev MajorVersion="21" MinorVersion="0" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelMultileaders" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0018">
+						<ModifiedRev MajorVersion="18" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelTables" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0019">
+						<ModifiedRev MajorVersion="18" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelMarkup" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0020">
+						<ModifiedRev MajorVersion="18" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelAnnotationScaling" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0021">
+						<ModifiedRev MajorVersion="18" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+				</WSRibbonTabSourceReference>
+				<WSRibbonTabSourceReference MenuGroup="ACAD" TabId="ID_TAB_3D_TOOLS" Show="true" IsActive="false" UID="WSR_0829">
+					<ModifiedRev MajorVersion="18" MinorVersion="2" UserVersion="0"/>
+					<WSRibbonPanelSourceReference PanelId="ID_PANEL_3DTOOLS_MODELING" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0159">
+						<ModifiedRev MajorVersion="18" MinorVersion="2" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PANEL_3DTOOLS_SOLID_EDITING" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0160">
+						<ModifiedRev MajorVersion="18" MinorVersion="2" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PANEL_3DTOOLS_SURFACES" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0161">
+						<ModifiedRev MajorVersion="18" MinorVersion="2" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PANEL_3DTOOLS_MESH" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0162">
+						<ModifiedRev MajorVersion="18" MinorVersion="2" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelSection" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0163">
+						<ModifiedRev MajorVersion="18" MinorVersion="2" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_3dBasics_PanelSelection" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0164">
+						<ModifiedRev MajorVersion="18" MinorVersion="2" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_3dBasics_PanelCoordinates" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0165">
+						<ModifiedRev MajorVersion="18" MinorVersion="2" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+				</WSRibbonTabSourceReference>
+				<WSRibbonTabSourceReference MenuGroup="ACAD" TabId="ID_TabRender" Show="false" IsActive="false" UID="WSR_0067">
+					<ModifiedRev MajorVersion="21" MinorVersion="0" UserVersion="0"/>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelLights" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0166">
+						<ModifiedRev MajorVersion="20" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelSun" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0167">
+						<ModifiedRev MajorVersion="18" MinorVersion="2" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelMaterials" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0168">
+						<ModifiedRev MajorVersion="18" MinorVersion="2" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelCameras" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0169">
+						<ModifiedRev MajorVersion="18" MinorVersion="2" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelMotionPathAnimation" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0170">
+						<ModifiedRev MajorVersion="18" MinorVersion="2" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelRender" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0171">
+						<ModifiedRev MajorVersion="20" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+				</WSRibbonTabSourceReference>
+				<WSRibbonTabSourceReference MenuGroup="ACAD" TabId="ID_TabView" Show="true" IsActive="false" UID="WSR_231_B4C1E">
+					<ModifiedRev MajorVersion="23" MinorVersion="1" UserVersion="0"/>
+					<WSRibbonPanelSourceReference PanelId="RBN_200_14623" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_231_F9076">
+						<ModifiedRev MajorVersion="23" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelNamedViews2" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_231_01D99">
+						<ModifiedRev MajorVersion="23" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelVisualStyles" Orientation="Docked" Show="false" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_231_7527D">
+						<ModifiedRev MajorVersion="23" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelViewports" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_231_EF1C4">
+						<ModifiedRev MajorVersion="23" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelCoord" Orientation="Docked" Show="false" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_231_B7273">
+						<ModifiedRev MajorVersion="23" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="RBN_231_E07B6" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_231_1259B">
+						<ModifiedRev MajorVersion="23" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="RBN_231_D4737" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_231_1259C">
+						<ModifiedRev MajorVersion="24" MinorVersion="0" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelPalettes" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_231_F6ACA">
+						<ModifiedRev MajorVersion="23" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelWindow" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_231_C17BC">
+						<ModifiedRev MajorVersion="23" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelViewNavigate2D" Orientation="Docked" Show="false" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_231_75553">
+						<ModifiedRev MajorVersion="23" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+				</WSRibbonTabSourceReference>
+				<WSRibbonTabSourceReference MenuGroup="ACAD" TabId="ID_TabManage" Show="true" IsActive="false" UID="ID_WSR_0022">
+					<ModifiedRev MajorVersion="18" MinorVersion="1" UserVersion="0"/>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelActionRecorder" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0028">
+						<ModifiedRev MajorVersion="18" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelCustomization" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0033">
+						<ModifiedRev MajorVersion="18" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelScriptsAndMacros" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0034">
+						<ModifiedRev MajorVersion="18" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelCADStandards" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0035">
+						<ModifiedRev MajorVersion="18" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelCleanup" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100"/>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelPerfAnalyzer" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100"/>
+				</WSRibbonTabSourceReference>
+				<WSRibbonTabSourceReference MenuGroup="ACAD" TabId="ID_TabOutput" Show="true" IsActive="false" UID="ID_WSR_0036">
+					<ModifiedRev MajorVersion="18" MinorVersion="1" UserVersion="0"/>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelPlot" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0037">
+						<ModifiedRev MajorVersion="18" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelExportPDFDWF2D" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0039">
+						<ModifiedRev MajorVersion="18" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+				</WSRibbonTabSourceReference>
+				<WSRibbonTabSourceReference MenuGroup="ACAD" TabId="RBN_00012112" Show="true" IsActive="false" UID="WSR_0814">
+					<ModifiedRev MajorVersion="25" MinorVersion="0" UserVersion="1"/>
+					<WSRibbonPanelSourceReference PanelId="APPMANAGER.RBN_190_B55E9" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="WSRU_250_29BA6">
+						<ModifiedRev MajorVersion="25" MinorVersion="0" UserVersion="1"/>
+					</WSRibbonPanelSourceReference>
+				</WSRibbonTabSourceReference>
+				<WSRibbonTabSourceReference MenuGroup="ACAD" TabId="ID_TabCollaborate" Show="true" IsActive="false" UID="ID_WSR_Anno2DDraft_TabCollaborate">
+					<ModifiedRev MajorVersion="23" MinorVersion="0" UserVersion="0"/>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelSharedViews" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_210_SHAREVIEW">
+						<ModifiedRev MajorVersion="23" MinorVersion="0" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelPlanGrid" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_210_PLANGRID">
+						<ModifiedRev MajorVersion="24" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelTrace" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_210_TRACE">
+						<ModifiedRev MajorVersion="24" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="RBN_231_16526" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100"/>
+				</WSRibbonTabSourceReference>
+				<WSRibbonTabSourceReference MenuGroup="ACAD" TabId="ID_TabAutomation" Show="false" IsActive="false" UID="ID_WSR_Anno2DDraft_TabAutomation">
+					<ModifiedRev MajorVersion="24" MinorVersion="2" UserVersion="0"/>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelMacroAdvisor" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_MACRO_ADVISOR">
+						<ModifiedRev MajorVersion="24" MinorVersion="2" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+				</WSRibbonTabSourceReference>
+				<WSRibbonTabSourceReference MenuGroup="EXPRESS" TabId="RBN_0047" Show="true" IsActive="false" UID="WSRU_250_DBAF4">
+					<ModifiedRev MajorVersion="25" MinorVersion="0" UserVersion="1"/>
+					<WSRibbonPanelSourceReference PanelId="RBN_0001" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100"/>
+					<WSRibbonPanelSourceReference PanelId="RBN_0022" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100"/>
+					<WSRibbonPanelSourceReference PanelId="RBN_0041" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100"/>
+					<WSRibbonPanelSourceReference PanelId="RBN_0051" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100"/>
+					<WSRibbonPanelSourceReference PanelId="RBN_0065" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100"/>
+					<WSRibbonPanelSourceReference PanelId="RBN_0072" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100"/>
+					<WSRibbonPanelSourceReference PanelId="RBN_0100" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100"/>
+					<WSRibbonPanelSourceReference PanelId="RBN_0113" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100"/>
+				</WSRibbonTabSourceReference>
+				<WSRibbonTabSourceReference MenuGroup="FEATUREDAPPS" TabId="RBN_190_37149" Show="true" IsActive="true" UID="WSRU_250_8E860">
+					<ModifiedRev MajorVersion="25" MinorVersion="0" UserVersion="1"/>
+					<WSRibbonPanelSourceReference PanelId="RBN_190_FBEAE" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100"/>
+					<WSRibbonPanelSourceReference PanelId="RBN_190_0AB71" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100"/>
+				</WSRibbonTabSourceReference>
+				<WSRibbonTabSourceReference MenuGroup="ACAD" TabId="ID_TabParametric" Show="false" IsActive="false" UID="WSR_0011">
+					<ModifiedRev MajorVersion="18" MinorVersion="1" UserVersion="0"/>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelParametricGeometricConstraints" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0027">
+						<ModifiedRev MajorVersion="18" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelParametricDimensionalConstraints" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0029">
+						<ModifiedRev MajorVersion="18" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+					<WSRibbonPanelSourceReference PanelId="ID_PanelParametricManage" Orientation="Docked" Show="true" xval="0" yval="0" FloatingGroup="0" FloatingOrder="0" FloatingOrientation="Vertical" PanelResizeOrder="100" UID="ID_WSR_0031">
+						<ModifiedRev MajorVersion="18" MinorVersion="1" UserVersion="0"/>
+					</WSRibbonPanelSourceReference>
+				</WSRibbonTabSourceReference>
+			</WSRibbonRoot></Ribbon><CommandLineControl Workspace="Drafting &amp; Annotation"><CLI Dock="DockedInESW" Location="388,985" Size="1140.6037735849056,0" HistorySize="1144.8,300" DockedSize="1319,207" InactiveOpacity="0.7" RolloverOpacity="1" WidthProportion="0.594064465408805"/></CommandLineControl><NavigationTools><NavigationBar><NavigationBar2DSettings CubeTool="true" WheelTool="true" PanTool="true" ZoomTool="true" OrbitTool="true" DXTool="true" ShowMotionTool="true" Visibility="false" Location="3" PosOffset="0" NegOffset="0" LinkToViewCube="false"/><NavigationBar3DSettings CubeTool="true" WheelTool="true" PanTool="true" ZoomTool="true" OrbitTool="true" DXTool="true" ShowMotionTool="true" Visibility="false" Location="0" PosOffset="0" NegOffset="0" LinkToViewCube="true"/></NavigationBar></NavigationTools></StorageRoot>
+</Profile>

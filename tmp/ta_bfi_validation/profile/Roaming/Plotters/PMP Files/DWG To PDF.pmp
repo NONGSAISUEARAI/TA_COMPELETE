@@ -1,0 +1,83 @@
+PIAFILEVERSION_3.0,json
+{
+ "data" : 
+ {
+  "meta" : 
+  {
+   "canonical_family_name" : "Autodesk ePlot",
+   "canonical_model_name" : "pdf",
+   "default_system_cfg" : false,
+   "dm_driver_version" : 0,
+   "driver_pathname" : "C:\\Program Files\\Autodesk\\AutoCAD 2025\\drv\\pdfplot17.hdi",
+   "driver_tag_line" : "PDF ePlot - by Autodesk",
+   "driver_type" : 3,
+   "driver_version" : "1.1-17.0.162.0 [v018-1]",
+   "file_only" : true,
+   "friendly_net_name" : "",
+   "locale" : "4B00409",
+   "localized_family_name" : "Autodesk ePlot (PDF)",
+   "localized_model_name" : "DWG To PDF",
+   "model_abilities" : "000550055000",
+   "platform" : "2,10,0",
+   "short_net_name" : "",
+   "show_custom_first" : false,
+   "toolkit_version" : 1,
+   "truetype_as_text" : true,
+   "udm_description" : "",
+   "user_defined_model_basename" : "",
+   "user_defined_model_pathname" : "C:\\Users\\popul\\AppData\\Roaming\\Autodesk\\AutoCAD 2025\\R25.0\\enu\\plotters\\PMP Files\\DWG To PDF.pmp"
+  },
+  "mod" : 
+  {
+   "media" : 
+   {
+    "abilities" : "500005500500505555000005550000000550000500000500000",
+    "caps_state" : "000000000000000000000000000000000000000000000000000",
+    "size_max_x" : 5080.0,
+    "size_max_y" : 5080.0,
+    "ui_owner" : "11111111111111111111000"
+   }
+  },
+  "udm" : 
+  {
+   "calibration" : 
+   {
+    "_x" : 1.0,
+    "_y" : 1.0
+   },
+   "media" : 
+   {
+    "description" : 
+    {
+     "0" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : true,
+      "media_bounds_urx" : 135.46665954589844,
+      "media_bounds_ury" : 101.59999847412109,
+      "name" : "User-1",
+      "printable_area" : 13763.412109375,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 135.46665954589844,
+      "printable_bounds_ury" : 101.59999847412109
+     }
+    },
+    "size" : 
+    {
+     "0" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : true,
+      "localized_name" : "Previous paper size  (5.33 x 4.00 inches)",
+      "media_description_name" : "User-1",
+      "media_group" : 14,
+      "name" : "User-1"
+     }
+    }
+   }
+  }
+ },
+ "subver" : "json",
+ "version" : 0.01
+}

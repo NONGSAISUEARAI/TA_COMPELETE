@@ -1,0 +1,6 @@
+PASS FF2 command completed and added exactly one outline and one bend
+PASS FF2 command saved getreal inputs separately
+PASS FF2 command restored settings and kept original on Yes
+PASS FF2 Enter reused defaults and Undo removed all new geometry
+PASS Undo all retains original and restores settings
+TOTAL PASS=5 FAIL=0

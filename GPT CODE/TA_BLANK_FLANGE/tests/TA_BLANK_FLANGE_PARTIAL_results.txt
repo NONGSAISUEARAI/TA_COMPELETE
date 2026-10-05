@@ -1,0 +1,22 @@
+PASS flange ends halfway along original edge
+PASS two interior endpoints retain unflanged portions at both ends
+PASS range-to-vertex does not repeat ending vertex
+PASS full-edge range remains compatible with original spec
+PASS reverse partial picking swaps asymmetric angles
+PASS clockwise source still sends partial flange outside
+PASS closing edge supports a partial range
+PASS short interval with collapsing end cuts is rejected
+PASS vertex keeps both incident edges for second-point disambiguation
+PASS vertex to midpoint resolves exact selected range
+PASS same point and points on different edges rejected
+PASS points away from boundary rejected
+PASS bend line stops at selected midpoint
+PASS source vertices and entity data untouched
+PASS partial result cleanup removes outline and bend together
+PASS partial picking respects rotated UCS tilted OCS and elevation
+PASS FF1 partial edit and Undo leave exactly one outline and bend
+PASS FF1 Undo restores original half-edge bend after changing range
+PASS FF1 preserves remembered values and restores settings
+PASS FF1 reverse interior range produces exact bend endpoints
+PASS FF1 keep-original No deletes source safely after successful result
+TOTAL PASS=21 FAIL=0

@@ -1,0 +1,277 @@
+{
+  "PropertyBag": {
+    "m_state": {
+      "List_0": {
+        "m_overrideValue": "25.0.0.0",
+        "$type": "Autodesk.AutoCAD.MacroRecorder.VersionState"
+      },
+      "List_1": {
+        "m_overrideValue": 20517,
+        "m_key": "OSMODE",
+        "$type": "Autodesk.AutoCAD.MacroRecorder.SysvarState"
+      },
+      "List_2": {
+        "m_overrideValue": -3,
+        "m_key": "DYNMODE",
+        "$type": "Autodesk.AutoCAD.MacroRecorder.SysvarState"
+      },
+      "List_3": {
+        "m_overrideValue": 1,
+        "m_key": "TILEMODE",
+        "$type": "Autodesk.AutoCAD.MacroRecorder.SysvarState"
+      },
+      "List_4": {
+        "m_overrideValue": 4,
+        "m_key": "INSUNITS",
+        "$type": "Autodesk.AutoCAD.MacroRecorder.SysvarState"
+      },
+      "List_5": {
+        "m_overrideValue": "1:500",
+        "m_key": "CANNOSCALE",
+        "$type": "Autodesk.AutoCAD.MacroRecorder.SysvarState"
+      },
+      "List_6": {
+        "m_overrideValue": null,
+        "$type": "Autodesk.AutoCAD.MacroRecorder.ViewState"
+      },
+      "List_7": {
+        "m_overrideValue": {
+          "Fields": {
+            "List_0": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            "List_1": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            "List_2": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            "$type": "Autodesk.AutoCAD.MacroRecorder.ListImp\u00601[System.Object]"
+          },
+          "$type": "Autodesk.AutoCAD.MacroRecorder.SerializableMatrix3d"
+        },
+        "$type": "Autodesk.AutoCAD.MacroRecorder.UCSState"
+      },
+      "$type": "Autodesk.AutoCAD.MacroRecorder.State"
+    },
+    "m_AcadVersionAtRecordTime": "25.0.0.0",
+    "m_macroDescription": "",
+    "m_restoreViewAtInput": true,
+    "m_restoreViewAfterPlayback": false,
+    "m_checkInconsistency": true,
+    "$type": "Autodesk.AutoCAD.MacroRecorder.PropertyBag"
+  },
+  "ChildList": {
+    "List_0": {
+      "PropertyBag": {
+        "m_state": {
+          "$type": "Autodesk.AutoCAD.MacroRecorder.State"
+        },
+        "m_data": null,
+        "m_paused": false,
+        "m_prompt": "",
+        "m_initgetFlags": 0,
+        "m_resturnStatus": 5000,
+        "m_keywords": null,
+        "m_expectedCommand": "",
+        "m_inputControlFlags": 0,
+        "m_mode": 0,
+        "m_SSGetIsManual": false,
+        "m_isEntSel": false,
+        "m_singlePick": false,
+        "m_recordedValidSelection": true,
+        "m_recordingCompleted": true,
+        "m_usePlaybackPickfirst": true,
+        "m_usedPickfirstAtRecordTime": false,
+        "m_inferredSelectionOffsets": [],
+        "m_useInferredSelection": false,
+        "m_allowInferredSelection": true,
+        "m_allowImpliedSelection": true,
+        "$type": "Autodesk.AutoCAD.MacroRecorder.PropertyBag"
+      },
+      "ChildList": {
+        "List_0": {
+          "PropertyBag": {
+            "m_state": {
+              "$type": "Autodesk.AutoCAD.MacroRecorder.State"
+            },
+            "m_data": null,
+            "m_paused": false,
+            "m_prompt": "",
+            "m_initgetFlags": 0,
+            "m_resturnStatus": 5000,
+            "m_keywords": null,
+            "m_expectedCommand": "",
+            "m_inputControlFlags": 0,
+            "m_mode": 0,
+            "m_SelMode": 3,
+            "m_isAdding": true,
+            "m_isSubSelection": false,
+            "m_isSinglePick": true,
+            "m_isCrossing": false,
+            "m_OriginalPointCount": 1,
+            "m_isCancelSelection": false,
+            "m_isUndo": false,
+            "$type": "Autodesk.AutoCAD.MacroRecorder.PropertyBag"
+          },
+          "ChildList": {
+            "List_0": {
+              "PropertyBag": {
+                "m_state": {
+                  "$type": "Autodesk.AutoCAD.MacroRecorder.State"
+                },
+                "m_data": {
+                  "Fields": {
+                    "List_0": [
+                      -2924190.894199297,
+                      -525042.2588439106,
+                      0
+                    ],
+                    "$type": "Autodesk.AutoCAD.MacroRecorder.ListImp\u00601[System.Object]"
+                  },
+                  "$type": "Autodesk.AutoCAD.MacroRecorder.SerializablePoint3d"
+                },
+                "m_paused": false,
+                "m_prompt": "",
+                "m_initgetFlags": 0,
+                "m_resturnStatus": 5100,
+                "m_keywords": null,
+                "m_expectedCommand": "",
+                "m_inputControlFlags": 0,
+                "m_mode": 1,
+                "m_relative": true,
+                "m_cvport": 2,
+                "m_viewHeight": 13468.424227053178,
+                "m_viewCenter": {
+                  "Fields": {
+                    "List_0": [
+                      -18741.05202166806,
+                      6277.840912635377
+                    ],
+                    "$type": "Autodesk.AutoCAD.MacroRecorder.ListImp\u00601[System.Object]"
+                  },
+                  "$type": "Autodesk.AutoCAD.MacroRecorder.SerializablePoint2d"
+                },
+                "$type": "Autodesk.AutoCAD.MacroRecorder.PropertyBag"
+              },
+              "ChildList": {
+                "$type": "Autodesk.AutoCAD.MacroRecorder.BaseNode\u002BChildList"
+              },
+              "$type": "Autodesk.AutoCAD.MacroRecorder.SelectObjectsPointNode"
+            },
+            "$type": "Autodesk.AutoCAD.MacroRecorder.BaseNode\u002BChildList"
+          },
+          "$type": "Autodesk.AutoCAD.MacroRecorder.SelectObjectsModeNode"
+        },
+        "$type": "Autodesk.AutoCAD.MacroRecorder.BaseNode\u002BChildList"
+      },
+      "$type": "Autodesk.AutoCAD.MacroRecorder.PickFirstNode"
+    },
+    "List_1": {
+      "PropertyBag": {
+        "m_state": {
+          "List_0": {
+            "m_overrideValue": 0,
+            "m_key": "EXPERT",
+            "$type": "Autodesk.AutoCAD.MacroRecorder.SysvarState"
+          },
+          "List_1": {
+            "m_overrideValue": 1,
+            "m_key": "TEXTEVAL",
+            "$type": "Autodesk.AutoCAD.MacroRecorder.SysvarState"
+          },
+          "List_2": {
+            "m_overrideValue": 0,
+            "m_key": "COPYMODE",
+            "$type": "Autodesk.AutoCAD.MacroRecorder.SysvarState"
+          },
+          "$type": "Autodesk.AutoCAD.MacroRecorder.State"
+        },
+        "m_data": "AI_DRAWORDER",
+        "m_commandFlags": 0,
+        "m_commandVersion": 0,
+        "m_playbackInput": true,
+        "m_isTransparent": false,
+        "m_RestorePickfirst": false,
+        "$type": "Autodesk.AutoCAD.MacroRecorder.PropertyBag"
+      },
+      "ChildList": {
+        "List_0": {
+          "PropertyBag": {
+            "m_state": {
+              "$type": "Autodesk.AutoCAD.MacroRecorder.State"
+            },
+            "m_data": "Front",
+            "m_paused": false,
+            "m_prompt": "Command: ",
+            "m_initgetFlags": 0,
+            "m_resturnStatus": -5005,
+            "m_keywords": {
+              "Above": "Above",
+              "Under": "Under",
+              "Front": "Front",
+              "Back": "Back"
+            },
+            "m_expectedCommand": "(C:AI_DRAWORDER)",
+            "m_inputControlFlags": -2146418676,
+            "m_mode": 128,
+            "$type": "Autodesk.AutoCAD.MacroRecorder.PropertyBag"
+          },
+          "ChildList": {
+            "$type": "Autodesk.AutoCAD.MacroRecorder.BaseNode\u002BChildList"
+          },
+          "$type": "Autodesk.AutoCAD.MacroRecorder.GetInputNode"
+        },
+        "$type": "Autodesk.AutoCAD.MacroRecorder.BaseNode\u002BChildList"
+      },
+      "$type": "Autodesk.AutoCAD.MacroRecorder.LispCommandNode"
+    },
+    "$type": "Autodesk.AutoCAD.MacroRecorder.BaseNode\u002BChildList"
+  },
+  "$type": "Autodesk.AutoCAD.MacroRecorder.MacroNode"
+}

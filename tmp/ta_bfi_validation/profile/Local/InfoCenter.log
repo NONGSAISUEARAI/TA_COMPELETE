@@ -1,0 +1,651 @@
+6/25/2026 3:49:18 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+6/25/2026 3:49:24 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+6/25/2026 3:49:24 AM: Error executing network check
+6/25/2026 3:49:24 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+6/25/2026 3:49:24 AM: Error executing network check
+6/25/2026 3:49:24 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+6/25/2026 1:12:16 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+6/25/2026 1:12:25 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+6/25/2026 1:12:25 PM: Error executing network check
+6/25/2026 1:12:25 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+6/25/2026 1:12:25 PM: Error executing network check
+6/25/2026 1:12:25 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+6/27/2026 5:25:51 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+6/27/2026 5:25:54 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+6/27/2026 5:25:54 AM: Error executing network check
+6/27/2026 5:25:54 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+6/27/2026 5:25:54 AM: Error executing network check
+6/27/2026 5:25:54 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+6/27/2026 10:23:18 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+6/27/2026 10:23:28 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+6/27/2026 10:23:28 AM: Error executing network check
+6/27/2026 10:23:28 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+6/27/2026 10:23:28 AM: Error executing network check
+6/27/2026 10:23:28 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+6/27/2026 10:29:49 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+6/27/2026 10:29:52 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+6/27/2026 10:29:52 PM: Error executing network check
+6/27/2026 10:29:52 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+6/27/2026 10:29:52 PM: Error executing network check
+6/27/2026 10:29:52 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+6/27/2026 10:33:57 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+6/27/2026 10:33:58 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+6/27/2026 10:33:58 PM: Error executing network check
+6/27/2026 10:33:58 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+6/27/2026 10:33:58 PM: Error executing network check
+6/27/2026 10:33:58 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+6/28/2026 12:35:39 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+6/28/2026 12:35:44 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+6/28/2026 12:35:44 AM: Error executing network check
+6/28/2026 12:35:44 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+6/28/2026 12:35:44 AM: Error executing network check
+6/28/2026 12:35:44 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+6/28/2026 3:23:40 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+6/28/2026 3:23:42 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+6/28/2026 3:23:42 AM: Error executing network check
+6/28/2026 3:23:42 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+6/28/2026 3:23:42 AM: Error executing network check
+6/28/2026 3:23:42 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+6/28/2026 2:37:01 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+6/28/2026 2:37:12 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+6/28/2026 2:37:12 PM: Error executing network check
+6/28/2026 2:37:12 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+6/28/2026 2:37:12 PM: Error executing network check
+6/28/2026 2:37:12 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+6/28/2026 6:15:09 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+6/28/2026 6:15:17 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+6/28/2026 6:15:17 PM: Error executing network check
+6/28/2026 6:15:17 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+6/28/2026 6:15:17 PM: Error executing network check
+6/28/2026 6:15:17 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+6/28/2026 6:56:20 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+6/28/2026 6:56:22 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+6/28/2026 6:56:22 PM: Error executing network check
+6/28/2026 6:56:22 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+6/28/2026 6:56:22 PM: Error executing network check
+6/28/2026 6:56:22 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+6/29/2026 12:47:20 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+6/29/2026 12:47:22 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+6/29/2026 12:47:22 AM: Error executing network check
+6/29/2026 12:47:22 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+6/29/2026 12:47:22 AM: Error executing network check
+6/29/2026 12:47:22 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+6/29/2026 10:54:23 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+6/29/2026 10:54:27 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+6/29/2026 10:54:27 PM: Error executing network check
+6/29/2026 10:54:27 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+6/29/2026 10:54:27 PM: Error executing network check
+6/29/2026 10:54:27 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/2/2026 4:27:02 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+7/2/2026 4:27:11 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+7/2/2026 4:27:11 PM: Error executing network check
+7/2/2026 4:27:11 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/2/2026 4:27:11 PM: Error executing network check
+7/2/2026 4:27:11 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/7/2026 11:59:01 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+7/7/2026 11:59:05 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+7/7/2026 11:59:05 PM: Error executing network check
+7/7/2026 11:59:05 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/7/2026 11:59:05 PM: Error executing network check
+7/7/2026 11:59:05 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/9/2026 10:56:57 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+7/9/2026 10:57:01 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+7/9/2026 10:57:01 AM: Error executing network check
+7/9/2026 10:57:01 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/9/2026 10:57:01 AM: Error executing network check
+7/9/2026 10:57:01 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/10/2026 1:55:56 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+7/10/2026 1:56:02 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+7/10/2026 1:56:02 AM: Error executing network check
+7/10/2026 1:56:02 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/10/2026 1:56:02 AM: Error executing network check
+7/10/2026 1:56:02 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/12/2026 1:44:12 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+7/12/2026 1:44:15 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+7/12/2026 1:44:15 AM: Error executing network check
+7/12/2026 1:44:15 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/12/2026 1:44:15 AM: Error executing network check
+7/12/2026 1:44:15 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/12/2026 11:59:39 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+7/12/2026 11:59:43 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+7/12/2026 11:59:43 AM: Error executing network check
+7/12/2026 11:59:43 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/12/2026 11:59:43 AM: Error executing network check
+7/12/2026 11:59:43 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/13/2026 12:11:34 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+7/13/2026 12:11:36 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+7/13/2026 12:11:36 AM: Error executing network check
+7/13/2026 12:11:36 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/13/2026 12:11:36 AM: Error executing network check
+7/13/2026 12:11:36 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/14/2026 12:25:36 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+7/14/2026 12:25:39 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+7/14/2026 12:25:39 AM: Error executing network check
+7/14/2026 12:25:39 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/14/2026 12:25:39 AM: Error executing network check
+7/14/2026 12:25:39 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/20/2026 3:17:23 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+7/20/2026 3:17:27 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+7/20/2026 3:17:27 AM: Error executing network check
+7/20/2026 3:17:27 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/20/2026 3:17:27 AM: Error executing network check
+7/20/2026 3:17:27 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/20/2026 11:30:17 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+7/20/2026 11:30:22 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+7/20/2026 11:30:22 PM: Error executing network check
+7/20/2026 11:30:22 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/20/2026 11:30:22 PM: Error executing network check
+7/20/2026 11:30:22 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/20/2026 11:43:28 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+7/20/2026 11:43:30 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+7/20/2026 11:43:30 PM: Error executing network check
+7/20/2026 11:43:30 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/20/2026 11:43:30 PM: Error executing network check
+7/20/2026 11:43:30 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/22/2026 12:23:22 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+7/22/2026 12:23:26 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+7/22/2026 12:23:26 AM: Error executing network check
+7/22/2026 12:23:26 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/22/2026 12:23:26 AM: Error executing network check
+7/22/2026 12:23:26 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/23/2026 1:38:42 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+7/23/2026 1:38:45 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+7/23/2026 1:38:45 AM: Error executing network check
+7/23/2026 1:38:45 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/23/2026 1:38:45 AM: Error executing network check
+7/23/2026 1:38:45 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/23/2026 10:44:27 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+7/23/2026 10:44:37 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+7/23/2026 10:44:37 AM: Error executing network check
+7/23/2026 10:44:37 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/23/2026 10:44:37 AM: Error executing network check
+7/23/2026 10:44:37 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/23/2026 10:33:56 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+7/23/2026 10:34:06 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+7/23/2026 10:34:06 PM: Error executing network check
+7/23/2026 10:34:06 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/23/2026 10:34:06 PM: Error executing network check
+7/23/2026 10:34:06 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/25/2026 11:42:32 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+7/25/2026 11:42:35 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+7/25/2026 11:42:35 PM: Error executing network check
+7/25/2026 11:42:35 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/25/2026 11:42:35 PM: Error executing network check
+7/25/2026 11:42:35 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/26/2026 1:44:17 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+7/26/2026 1:44:19 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+7/26/2026 1:44:19 AM: Error executing network check
+7/26/2026 1:44:19 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/26/2026 1:44:19 AM: Error executing network check
+7/26/2026 1:44:19 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/28/2026 1:40:54 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+7/28/2026 1:40:58 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+7/28/2026 1:40:58 PM: Error executing network check
+7/28/2026 1:40:58 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/28/2026 1:40:58 PM: Error executing network check
+7/28/2026 1:40:58 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/29/2026 5:32:40 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+7/29/2026 5:32:43 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+7/29/2026 5:32:43 PM: Error executing network check
+7/29/2026 5:32:43 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/29/2026 5:32:43 PM: Error executing network check
+7/29/2026 5:32:43 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/30/2026 12:41:00 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+7/30/2026 12:41:04 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+7/30/2026 12:41:04 PM: Error executing network check
+7/30/2026 12:41:04 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+7/30/2026 12:41:04 PM: Error executing network check
+7/30/2026 12:41:04 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/1/2026 2:42:09 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/1/2026 2:42:12 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/1/2026 2:42:12 AM: Error executing network check
+8/1/2026 2:42:12 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/1/2026 2:42:12 AM: Error executing network check
+8/1/2026 2:42:12 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/2/2026 10:03:10 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/2/2026 10:03:14 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/2/2026 10:03:14 PM: Error executing network check
+8/2/2026 10:03:14 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/2/2026 10:03:14 PM: Error executing network check
+8/2/2026 10:03:14 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/2/2026 10:07:36 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/2/2026 10:07:37 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/2/2026 10:07:37 PM: Error executing network check
+8/2/2026 10:07:37 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/2/2026 10:07:37 PM: Error executing network check
+8/2/2026 10:07:37 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/3/2026 2:38:19 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/3/2026 2:38:29 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/3/2026 2:38:29 AM: Error executing network check
+8/3/2026 2:38:29 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/3/2026 2:38:29 AM: Error executing network check
+8/3/2026 2:38:29 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/4/2026 12:44:55 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/4/2026 12:44:58 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/4/2026 12:44:58 AM: Error executing network check
+8/4/2026 12:44:58 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/4/2026 12:44:58 AM: Error executing network check
+8/4/2026 12:44:58 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/6/2026 8:26:06 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/6/2026 8:26:10 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/6/2026 8:26:10 AM: Error executing network check
+8/6/2026 8:26:10 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/6/2026 8:26:10 AM: Error executing network check
+8/6/2026 8:26:10 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/7/2026 12:20:41 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/7/2026 12:20:44 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/7/2026 12:20:44 AM: Error executing network check
+8/7/2026 12:20:44 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/7/2026 12:20:44 AM: Error executing network check
+8/7/2026 12:20:44 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/7/2026 2:04:41 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/7/2026 2:04:43 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/7/2026 2:04:43 AM: Error executing network check
+8/7/2026 2:04:43 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/7/2026 2:04:43 AM: Error executing network check
+8/7/2026 2:04:43 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/7/2026 11:34:56 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/7/2026 11:34:59 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/7/2026 11:34:59 AM: Error executing network check
+8/7/2026 11:34:59 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/7/2026 11:34:59 AM: Error executing network check
+8/7/2026 11:34:59 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/9/2026 12:51:50 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/9/2026 12:51:54 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/9/2026 12:51:54 PM: Error executing network check
+8/9/2026 12:51:54 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/9/2026 12:51:54 PM: Error executing network check
+8/9/2026 12:51:54 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/9/2026 4:10:42 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/9/2026 4:10:51 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/9/2026 4:10:51 PM: Error executing network check
+8/9/2026 4:10:51 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/9/2026 4:10:51 PM: Error executing network check
+8/9/2026 4:10:51 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/9/2026 11:43:33 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/9/2026 11:43:37 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/9/2026 11:43:37 PM: Error executing network check
+8/9/2026 11:43:37 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/9/2026 11:43:37 PM: Error executing network check
+8/9/2026 11:43:37 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/11/2026 1:29:41 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/11/2026 1:29:52 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/11/2026 1:29:52 AM: Error executing network check
+8/11/2026 1:29:52 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/11/2026 1:29:52 AM: Error executing network check
+8/11/2026 1:29:52 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/11/2026 7:32:38 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/11/2026 7:32:47 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/11/2026 7:32:47 PM: Error executing network check
+8/11/2026 7:32:47 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/11/2026 7:32:47 PM: Error executing network check
+8/11/2026 7:32:47 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/12/2026 10:15:48 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/12/2026 10:15:52 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/12/2026 10:15:52 PM: Error executing network check
+8/12/2026 10:15:52 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/12/2026 10:15:52 PM: Error executing network check
+8/12/2026 10:15:52 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/14/2026 1:07:18 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/14/2026 1:07:21 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/14/2026 1:07:21 AM: Error executing network check
+8/14/2026 1:07:21 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/14/2026 1:07:21 AM: Error executing network check
+8/14/2026 1:07:21 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/14/2026 2:54:01 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/14/2026 2:54:02 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/14/2026 2:54:02 AM: Error executing network check
+8/14/2026 2:54:02 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/14/2026 2:54:02 AM: Error executing network check
+8/14/2026 2:54:02 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/15/2026 3:02:02 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/15/2026 3:02:07 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/15/2026 3:02:07 PM: Error executing network check
+8/15/2026 3:02:07 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/15/2026 3:02:07 PM: Error executing network check
+8/15/2026 3:02:07 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/16/2026 7:59:57 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/16/2026 8:00:00 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/16/2026 8:00:00 PM: Error executing network check
+8/16/2026 8:00:00 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/16/2026 8:00:00 PM: Error executing network check
+8/16/2026 8:00:00 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/17/2026 2:39:53 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/17/2026 2:39:57 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/17/2026 2:39:57 AM: Error executing network check
+8/17/2026 2:39:57 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/17/2026 2:39:57 AM: Error executing network check
+8/17/2026 2:39:57 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/17/2026 11:59:31 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/17/2026 11:59:36 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/17/2026 11:59:36 PM: Error executing network check
+8/17/2026 11:59:36 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/17/2026 11:59:36 PM: Error executing network check
+8/17/2026 11:59:36 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/18/2026 11:08:18 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/18/2026 11:08:28 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/18/2026 11:08:28 PM: Error executing network check
+8/18/2026 11:08:28 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/18/2026 11:08:28 PM: Error executing network check
+8/18/2026 11:08:28 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/20/2026 1:07:49 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/20/2026 1:07:54 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/20/2026 1:07:54 AM: Error executing network check
+8/20/2026 1:07:54 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/20/2026 1:07:54 AM: Error executing network check
+8/20/2026 1:07:54 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/20/2026 2:37:45 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/20/2026 2:37:54 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/20/2026 2:37:54 PM: Error executing network check
+8/20/2026 2:37:54 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/20/2026 2:37:54 PM: Error executing network check
+8/20/2026 2:37:54 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/22/2026 1:00:09 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/22/2026 1:00:21 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/22/2026 1:00:21 AM: Error executing network check
+8/22/2026 1:00:21 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/22/2026 1:00:21 AM: Error executing network check
+8/22/2026 1:00:21 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/22/2026 12:31:28 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/22/2026 12:31:37 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/22/2026 12:31:37 PM: Error executing network check
+8/22/2026 12:31:37 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/22/2026 12:31:37 PM: Error executing network check
+8/22/2026 12:31:37 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/22/2026 1:53:44 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/22/2026 1:53:52 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/22/2026 1:53:52 PM: Error executing network check
+8/22/2026 1:53:52 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/22/2026 1:53:52 PM: Error executing network check
+8/22/2026 1:53:52 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/22/2026 2:07:21 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/22/2026 2:07:27 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/22/2026 2:07:27 PM: Error executing network check
+8/22/2026 2:07:27 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/22/2026 2:07:27 PM: Error executing network check
+8/22/2026 2:07:27 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/22/2026 6:41:56 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/22/2026 6:41:58 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/22/2026 6:41:58 PM: Error executing network check
+8/22/2026 6:41:58 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/22/2026 6:41:58 PM: Error executing network check
+8/22/2026 6:41:58 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/22/2026 11:53:07 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/22/2026 11:53:08 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/22/2026 11:53:08 PM: Error executing network check
+8/22/2026 11:53:08 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/22/2026 11:53:08 PM: Error executing network check
+8/22/2026 11:53:08 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/25/2026 12:44:04 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/25/2026 12:44:08 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/25/2026 12:44:08 AM: Error executing network check
+8/25/2026 12:44:08 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/25/2026 12:44:08 AM: Error executing network check
+8/25/2026 12:44:08 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/26/2026 11:22:19 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/26/2026 11:22:22 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/26/2026 11:22:22 PM: Error executing network check
+8/26/2026 11:22:22 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/26/2026 11:22:22 PM: Error executing network check
+8/26/2026 11:22:22 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/26/2026 11:44:18 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/26/2026 11:44:26 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/26/2026 11:44:26 PM: Error executing network check
+8/26/2026 11:44:26 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/26/2026 11:44:26 PM: Error executing network check
+8/26/2026 11:44:26 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/27/2026 9:46:17 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/27/2026 9:46:19 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/27/2026 9:46:19 AM: Error executing network check
+8/27/2026 9:46:19 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/27/2026 9:46:19 AM: Error executing network check
+8/27/2026 9:46:19 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/28/2026 1:55:23 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/28/2026 1:55:27 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/28/2026 1:55:27 AM: Error executing network check
+8/28/2026 1:55:27 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/28/2026 1:55:27 AM: Error executing network check
+8/28/2026 1:55:27 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/29/2026 3:07:46 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/29/2026 3:07:56 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/29/2026 3:07:56 AM: Error executing network check
+8/29/2026 3:07:56 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/29/2026 3:07:56 AM: Error executing network check
+8/29/2026 3:07:56 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/29/2026 4:05:26 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/29/2026 4:05:32 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/29/2026 4:05:32 PM: Error executing network check
+8/29/2026 4:05:32 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/29/2026 4:05:32 PM: Error executing network check
+8/29/2026 4:05:32 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/29/2026 8:23:10 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/29/2026 8:23:14 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/29/2026 8:23:14 PM: Error executing network check
+8/29/2026 8:23:14 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/29/2026 8:23:14 PM: Error executing network check
+8/29/2026 8:23:14 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/30/2026 12:31:59 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/30/2026 12:32:03 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/30/2026 12:32:03 AM: Error executing network check
+8/30/2026 12:32:03 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/30/2026 12:32:03 AM: Error executing network check
+8/30/2026 12:32:03 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/30/2026 11:56:08 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/30/2026 11:56:11 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/30/2026 11:56:11 PM: Error executing network check
+8/30/2026 11:56:11 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/30/2026 11:56:11 PM: Error executing network check
+8/30/2026 11:56:11 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/31/2026 12:47:38 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+8/31/2026 12:47:43 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+8/31/2026 12:47:43 AM: Error executing network check
+8/31/2026 12:47:43 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+8/31/2026 12:47:43 AM: Error executing network check
+8/31/2026 12:47:43 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+9/1/2026 12:26:53 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+9/1/2026 12:27:06 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+9/1/2026 12:27:06 AM: Error executing network check
+9/1/2026 12:27:06 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+9/1/2026 12:27:06 AM: Error executing network check
+9/1/2026 12:27:06 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+9/1/2026 11:37:42 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+9/1/2026 11:37:47 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+9/1/2026 11:37:47 PM: Error executing network check
+9/1/2026 11:37:47 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+9/1/2026 11:37:47 PM: Error executing network check
+9/1/2026 11:37:47 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+9/21/2026 1:57:14 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+9/21/2026 1:57:19 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+9/21/2026 1:57:19 AM: Error executing network check
+9/21/2026 1:57:19 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+9/21/2026 1:57:19 AM: Error executing network check
+9/21/2026 1:57:19 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+9/24/2026 9:25:36 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+9/24/2026 9:25:39 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+9/24/2026 9:25:39 AM: Error executing network check
+9/24/2026 9:25:39 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+9/24/2026 9:25:39 AM: Error executing network check
+9/24/2026 9:25:39 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+9/24/2026 10:55:15 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+9/24/2026 10:55:19 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+9/24/2026 10:55:19 AM: Error executing network check
+9/24/2026 10:55:19 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+9/24/2026 10:55:19 AM: Error executing network check
+9/24/2026 10:55:19 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+9/24/2026 12:39:18 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+9/24/2026 12:39:20 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+9/24/2026 12:39:20 PM: Error executing network check
+9/24/2026 12:39:20 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+9/24/2026 12:39:20 PM: Error executing network check
+9/24/2026 12:39:20 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+9/25/2026 2:49:14 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+9/25/2026 2:49:17 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+9/25/2026 2:49:17 AM: Error executing network check
+9/25/2026 2:49:17 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+9/25/2026 2:49:17 AM: Error executing network check
+9/25/2026 2:49:17 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+9/27/2026 7:33:12 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+9/27/2026 7:33:22 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+9/27/2026 7:33:22 PM: Error executing network check
+9/27/2026 7:33:22 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+9/27/2026 7:33:22 PM: Error executing network check
+9/27/2026 7:33:22 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+9/29/2026 1:31:31 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+9/29/2026 1:31:35 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+9/29/2026 1:31:35 AM: Error executing network check
+9/29/2026 1:31:35 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+9/29/2026 1:31:35 AM: Error executing network check
+9/29/2026 1:31:35 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+9/29/2026 10:31:50 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+9/29/2026 10:31:56 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+9/29/2026 10:31:56 PM: Error executing network check
+9/29/2026 10:31:56 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+9/29/2026 10:31:56 PM: Error executing network check
+9/29/2026 10:31:56 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+9/30/2026 2:02:00 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+9/30/2026 2:02:04 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+9/30/2026 2:02:04 AM: Error executing network check
+9/30/2026 2:02:04 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+9/30/2026 2:02:04 AM: Error executing network check
+9/30/2026 2:02:04 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+10/1/2026 2:06:10 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+10/1/2026 2:06:15 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+10/1/2026 2:06:15 AM: Error executing network check
+10/1/2026 2:06:15 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+10/1/2026 2:06:15 AM: Error executing network check
+10/1/2026 2:06:15 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+10/1/2026 9:59:16 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+10/1/2026 9:59:20 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+10/1/2026 9:59:20 AM: Error executing network check
+10/1/2026 9:59:20 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+10/1/2026 9:59:20 AM: Error executing network check
+10/1/2026 9:59:20 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+10/1/2026 2:29:54 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+10/1/2026 2:29:56 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+10/1/2026 2:29:56 PM: Error executing network check
+10/1/2026 2:29:56 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+10/1/2026 2:29:56 PM: Error executing network check
+10/1/2026 2:29:56 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+10/1/2026 3:17:27 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+10/1/2026 3:17:28 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+10/1/2026 3:17:28 PM: Error executing network check
+10/1/2026 3:17:28 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+10/1/2026 3:17:28 PM: Error executing network check
+10/1/2026 3:17:28 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+10/3/2026 11:25:19 PM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+10/3/2026 11:25:24 PM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+10/3/2026 11:25:24 PM: Error executing network check
+10/3/2026 11:25:24 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+10/3/2026 11:25:24 PM: Error executing network check
+10/3/2026 11:25:24 PM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+10/6/2026 1:00:07 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+10/6/2026 1:00:12 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+10/6/2026 1:00:12 AM: Error executing network check
+10/6/2026 1:00:12 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+10/6/2026 1:00:12 AM: Error executing network check
+10/6/2026 1:00:12 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+10/6/2026 3:30:25 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+10/6/2026 3:30:27 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+10/6/2026 3:30:27 AM: Error executing network check
+10/6/2026 3:30:27 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+10/6/2026 3:30:27 AM: Error executing network check
+10/6/2026 3:30:27 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+10/6/2026 3:31:19 AM: Configuration Read from: C:\Users\popul\AppData\Local\Autodesk\AutoCAD 2025\R25.0\enu\Support\infocenter.xml
+10/6/2026 3:31:21 AM: System.Runtime.InteropServices.COMException (0x80040154): Retrieving the COM class factory for component with CLSID {CEE92F99-D9C7-4E46-9AB7-E3F705B9A543} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+   at Autodesk.Private.InfoCenter.CommunicationCenter.InitCommCenter()
+10/6/2026 3:31:21 AM: Error executing network check
+10/6/2026 3:31:21 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).
+10/6/2026 3:31:21 AM: Error executing network check
+10/6/2026 3:31:21 AM: Retrieving the COM class factory for component with CLSID {9E928A7C-095E-4F44-81C5-D4F14F4F0265} failed due to the following error: 80040154 Class not registered (0x80040154 (REGDB_E_CLASSNOTREG)).

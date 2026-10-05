@@ -1,0 +1,1574 @@
+PIAFILEVERSION_3.0,json
+{
+ "data" : 
+ {
+  "del" : 
+  {
+   "media" : 
+   {
+    "max_roll_height" : 320000.0
+   }
+  },
+  "hidden" : 
+  {
+   "media" : 
+   {
+    "max_roll_height" : 320000.0
+   }
+  },
+  "meta" : 
+  {
+   "canonical_family_name" : "Raster File Formats",
+   "canonical_model_name" : "jfif",
+   "driver_pathname" : "C:\\Program Files\\Autodesk\\AutoCAD 2025\\drv\\raster17.hdi",
+   "driver_tag_line" : "Raster File Formats - by Autodesk",
+   "driver_type" : 0,
+   "driver_version" : "1.1.17.0.162.0 [a017-1]",
+   "file_only" : true,
+   "friendly_net_name" : "",
+   "localized_family_name" : "Raster File Formats",
+   "localized_model_name" : "Independent JPEG Group JFIF (JPEG Compression)",
+   "model_abilities" : "000000055000",
+   "short_net_name" : "",
+   "show_custom_first" : false,
+   "toolkit_version" : 1,
+   "truetype_as_text" : true,
+   "udm_description" : "",
+   "user_defined_model_basename" : "",
+   "user_defined_model_pathname" : "C:\\Users\\popul\\AppData\\Roaming\\Autodesk\\AutoCAD 2025\\R25.0\\enu\\plotters\\PMP Files\\PublishToWeb JPG.pmp"
+  },
+  "mod" : 
+  {
+   "media" : 
+   {
+    "abilities" : "500505500500505555000005550000000550000500000500555",
+    "caps_state" : "000000000000000000000000000000000000000000000000000",
+    "max_roll_height" : 320000.0,
+    "size_max_x" : 320000.0,
+    "size_max_y" : 320000.0,
+    "ui_owner" : "11111111111111111111000"
+   }
+  },
+  "udm" : 
+  {
+   "calibration" : 
+   {
+    "_x" : 1.0,
+    "_y" : 1.0
+   },
+   "media" : 
+   {
+    "description" : 
+    {
+     "0" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 1115.0,
+      "media_bounds_ury" : 1723.0,
+      "name" : "UserDefinedRaster Portrait 1115.00W x 1723.00H - (0, 0) x (1114, 1722) =1921145 Pixels",
+      "printable_area" : 1918308.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 1114.0,
+      "printable_bounds_ury" : 1722.0
+     },
+     "1" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 1723.0,
+      "media_bounds_ury" : 1115.0,
+      "name" : "UserDefinedRaster Landscape 1723.00W x 1115.00H - (0, 0) x (1722, 1114) =1921145 Pixels",
+      "printable_area" : 1918308.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 1722.0,
+      "printable_bounds_ury" : 1114.0
+     },
+     "10" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 962.0,
+      "media_bounds_ury" : 1362.0,
+      "name" : "UserDefinedRaster Portrait 962.00W x 1362.00H - (0, 0) x (961, 1361) =1310244 Pixels",
+      "printable_area" : 1307921.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 961.0,
+      "printable_bounds_ury" : 1361.0
+     },
+     "11" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 1640.0,
+      "media_bounds_ury" : 1171.0,
+      "name" : "UserDefinedRaster Landscape 1640.00W x 1171.00H - (0, 0) x (1639, 1170) =1920440 Pixels",
+      "printable_area" : 1917630.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 1639.0,
+      "printable_bounds_ury" : 1170.0
+     },
+     "12" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 1362.0,
+      "media_bounds_ury" : 962.0,
+      "name" : "UserDefinedRaster Landscape 1362.00W x 962.00H - (0, 0) x (1361, 961) =1310244 Pixels",
+      "printable_area" : 1307921.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 1361.0,
+      "printable_bounds_ury" : 961.0
+     },
+     "13" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 1171.0,
+      "media_bounds_ury" : 1640.0,
+      "name" : "UserDefinedRaster Portrait 1171.00W x 1640.00H - (0, 0) x (1170, 1639) =1920440 Pixels",
+      "printable_area" : 1917630.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 1170.0,
+      "printable_bounds_ury" : 1639.0
+     },
+     "14" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 1165.0,
+      "media_bounds_ury" : 1648.0,
+      "name" : "UserDefinedRaster Portrait 1165.00W x 1648.00H - (0, 0) x (1164, 1647) =1919920 Pixels",
+      "printable_area" : 1917108.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 1164.0,
+      "printable_bounds_ury" : 1647.0
+     },
+     "15" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 1648.0,
+      "media_bounds_ury" : 1165.0,
+      "name" : "UserDefinedRaster Landscape 1648.00W x 1165.00H - (0, 0) x (1647, 1164) =1919920 Pixels",
+      "printable_area" : 1917108.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 1647.0,
+      "printable_bounds_ury" : 1164.0
+     },
+     "16" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 921.0,
+      "media_bounds_ury" : 1423.0,
+      "name" : "UserDefinedRaster Portrait 921.00W x 1423.00H - (0, 0) x (920, 1422) =1310583 Pixels",
+      "printable_area" : 1308240.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 920.0,
+      "printable_bounds_ury" : 1422.0
+     },
+     "17" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 1423.0,
+      "media_bounds_ury" : 921.0,
+      "name" : "UserDefinedRaster Landscape 1423.00W x 921.00H - (0, 0) x (1422, 920) =1310583 Pixels",
+      "printable_area" : 1308240.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 1422.0,
+      "printable_bounds_ury" : 920.0
+     },
+     "18" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 129.0,
+      "media_bounds_ury" : 91.0,
+      "name" : "UserDefinedRaster Landscape 129.00W x 91.00H - (0, 0) x (128, 90) =11739 Pixels_1",
+      "printable_area" : 11520.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 128.0,
+      "printable_bounds_ury" : 90.0
+     },
+     "19" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 1302.0,
+      "media_bounds_ury" : 1006.0,
+      "name" : "UserDefinedRaster Landscape 1302.00W x 1006.00H - (0, 0) x (1301, 1005) =1309812 Pixels",
+      "printable_area" : 1307505.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 1301.0,
+      "printable_bounds_ury" : 1005.0
+     },
+     "2" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 566.0,
+      "media_bounds_ury" : 849.0,
+      "name" : "UserDefinedRaster Portrait 566.00W x 849.00H - (0, 0) x (565, 848) =480534 Pixels",
+      "printable_area" : 479120.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 565.0,
+      "printable_bounds_ury" : 848.0
+     },
+     "20" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 91.0,
+      "media_bounds_ury" : 129.0,
+      "name" : "UserDefinedRaster Portrait 91.00W x 129.00H - (0, 0) x (90, 128) =11739 Pixels",
+      "printable_area" : 11520.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 90.0,
+      "printable_bounds_ury" : 128.0
+     },
+     "21" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 1006.0,
+      "media_bounds_ury" : 1302.0,
+      "name" : "UserDefinedRaster Portrait 1006.00W x 1302.00H - (0, 0) x (1005, 1301) =1309812 Pixels",
+      "printable_area" : 1307505.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 1005.0,
+      "printable_bounds_ury" : 1301.0
+     },
+     "22" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 935.0,
+      "media_bounds_ury" : 1402.0,
+      "name" : "UserDefinedRaster Portrait 935.00W x 1402.00H - (0, 0) x (934, 1401) =1310870 Pixels",
+      "printable_area" : 1308534.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 934.0,
+      "printable_bounds_ury" : 1401.0
+     },
+     "23" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 1402.0,
+      "media_bounds_ury" : 935.0,
+      "name" : "UserDefinedRaster Landscape 1402.00W x 935.00H - (0, 0) x (1401, 934) =1310870 Pixels",
+      "printable_area" : 1308534.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 1401.0,
+      "printable_bounds_ury" : 934.0
+     },
+     "24" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 94.0,
+      "media_bounds_ury" : 125.0,
+      "name" : "UserDefinedRaster Portrait 94.00W x 125.00H - (0, 0) x (93, 124) =11750 Pixels",
+      "printable_area" : 11532.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 93.0,
+      "printable_bounds_ury" : 124.0
+     },
+     "25" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 1322.0,
+      "media_bounds_ury" : 991.0,
+      "name" : "UserDefinedRaster Landscape 1322.00W x 991.00H - (0, 0) x (1321, 990) =1310102 Pixels",
+      "printable_area" : 1307790.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 1321.0,
+      "printable_bounds_ury" : 990.0
+     },
+     "26" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 133.0,
+      "media_bounds_ury" : 89.0,
+      "name" : "UserDefinedRaster Landscape 133.00W x 89.00H - (0, 0) x (132, 88) =11837 Pixels",
+      "printable_area" : 11616.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 132.0,
+      "printable_bounds_ury" : 88.0
+     },
+     "27" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 991.0,
+      "media_bounds_ury" : 1322.0,
+      "name" : "UserDefinedRaster Portrait 991.00W x 1322.00H - (0, 0) x (990, 1321) =1310102 Pixels",
+      "printable_area" : 1307790.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 990.0,
+      "printable_bounds_ury" : 1321.0
+     },
+     "28" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 968.0,
+      "media_bounds_ury" : 1355.0,
+      "name" : "UserDefinedRaster Portrait 968.00W x 1355.00H - (0, 0) x (967, 1354) =1311640 Pixels",
+      "printable_area" : 1309318.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 967.0,
+      "printable_bounds_ury" : 1354.0
+     },
+     "29" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 1355.0,
+      "media_bounds_ury" : 968.0,
+      "name" : "UserDefinedRaster Landscape 1355.00W x 968.00H - (0, 0) x (1354, 967) =1311640 Pixels",
+      "printable_area" : 1309318.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 1354.0,
+      "printable_bounds_ury" : 967.0
+     },
+     "3" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 1576.0,
+      "media_bounds_ury" : 1218.0,
+      "name" : "UserDefinedRaster Landscape 1576.00W x 1218.00H - (0, 0) x (1575, 1217) =1919568 Pixels",
+      "printable_area" : 1916775.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 1575.0,
+      "printable_bounds_ury" : 1217.0
+     },
+     "30" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 558.0,
+      "media_bounds_ury" : 862.0,
+      "name" : "UserDefinedRaster Portrait 558.00W x 862.00H - (0, 0) x (557, 861) =480996 Pixels",
+      "printable_area" : 479577.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 557.0,
+      "printable_bounds_ury" : 861.0
+     },
+     "31" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 862.0,
+      "media_bounds_ury" : 558.0,
+      "name" : "UserDefinedRaster Landscape 862.00W x 558.00H - (0, 0) x (861, 557) =480996 Pixels",
+      "printable_area" : 479577.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 861.0,
+      "printable_bounds_ury" : 557.0
+     },
+     "32" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 610.0,
+      "media_bounds_ury" : 789.0,
+      "name" : "UserDefinedRaster Portrait 610.00W x 789.00H - (0, 0) x (609, 788) =481290 Pixels",
+      "printable_area" : 479892.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 609.0,
+      "printable_bounds_ury" : 788.0
+     },
+     "33" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 789.0,
+      "media_bounds_ury" : 610.0,
+      "name" : "UserDefinedRaster Landscape 789.00W x 610.00H - (0, 0) x (788, 609) =481290 Pixels",
+      "printable_area" : 479892.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 788.0,
+      "printable_bounds_ury" : 609.0
+     },
+     "34" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 586.0,
+      "media_bounds_ury" : 820.0,
+      "name" : "UserDefinedRaster Portrait 586.00W x 820.00H - (0, 0) x (585, 819) =480520 Pixels",
+      "printable_area" : 479115.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 585.0,
+      "printable_bounds_ury" : 819.0
+     },
+     "35" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 820.0,
+      "media_bounds_ury" : 586.0,
+      "name" : "UserDefinedRaster Landscape 820.00W x 586.00H - (0, 0) x (819, 585) =480520 Pixels",
+      "printable_area" : 479115.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 819.0,
+      "printable_bounds_ury" : 585.0
+     },
+     "36" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 824.0,
+      "media_bounds_ury" : 583.0,
+      "name" : "UserDefinedRaster Landscape 824.00W x 583.00H - (0, 0) x (823, 582) =480392 Pixels",
+      "printable_area" : 478986.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 823.0,
+      "printable_bounds_ury" : 582.0
+     },
+     "37" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 583.0,
+      "media_bounds_ury" : 824.0,
+      "name" : "UserDefinedRaster Portrait 583.00W x 824.00H - (0, 0) x (582, 823) =480392 Pixels",
+      "printable_area" : 478986.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 582.0,
+      "printable_bounds_ury" : 823.0
+     },
+     "38" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 87.0,
+      "media_bounds_ury" : 134.0,
+      "name" : "UserDefinedRaster Portrait 87.00W x 134.00H - (0, 0) x (86, 133) =11658 Pixels",
+      "printable_area" : 11438.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 86.0,
+      "printable_bounds_ury" : 133.0
+     },
+     "39" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 134.0,
+      "media_bounds_ury" : 87.0,
+      "name" : "UserDefinedRaster Landscape 134.00W x 87.00H - (0, 0) x (133, 86) =11658 Pixels",
+      "printable_area" : 11438.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 133.0,
+      "printable_bounds_ury" : 86.0
+     },
+     "4" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 849.0,
+      "media_bounds_ury" : 566.0,
+      "name" : "UserDefinedRaster Landscape 849.00W x 566.00H - (0, 0) x (848, 565) =480534 Pixels",
+      "printable_area" : 479120.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 848.0,
+      "printable_bounds_ury" : 565.0
+     },
+     "40" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 91.0,
+      "media_bounds_ury" : 129.0,
+      "name" : "UserDefinedRaster Portrait 91.00W x 129.00H - (0, 0) x (90, 128) =11739 Pixels_1",
+      "printable_area" : 11520.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 90.0,
+      "printable_bounds_ury" : 128.0
+     },
+     "41" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 124.0,
+      "media_bounds_ury" : 96.0,
+      "name" : "UserDefinedRaster Landscape 124.00W x 96.00H - (0, 0) x (123, 95) =11904 Pixels",
+      "printable_area" : 11685.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 123.0,
+      "printable_bounds_ury" : 95.0
+     },
+     "42" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 88.0,
+      "media_bounds_ury" : 135.0,
+      "name" : "UserDefinedRaster Portrait 88.00W x 135.00H - (0, 0) x (87, 134) =11880 Pixels",
+      "printable_area" : 11658.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 87.0,
+      "printable_bounds_ury" : 134.0
+     },
+     "43" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 135.0,
+      "media_bounds_ury" : 88.0,
+      "name" : "UserDefinedRaster Landscape 135.00W x 88.00H - (0, 0) x (134, 87) =11880 Pixels",
+      "printable_area" : 11658.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 134.0,
+      "printable_bounds_ury" : 87.0
+     },
+     "44" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 96.0,
+      "media_bounds_ury" : 124.0,
+      "name" : "UserDefinedRaster Portrait 96.00W x 124.00H - (0, 0) x (95, 123) =11904 Pixels",
+      "printable_area" : 11685.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 95.0,
+      "printable_bounds_ury" : 123.0
+     },
+     "45" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 94.0,
+      "media_bounds_ury" : 125.0,
+      "name" : "UserDefinedRaster Portrait 94.00W x 125.00H - (0, 0) x (93, 124) =11750 Pixels_1",
+      "printable_area" : 11532.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 93.0,
+      "printable_bounds_ury" : 124.0
+     },
+     "46" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 125.0,
+      "media_bounds_ury" : 94.0,
+      "name" : "UserDefinedRaster Landscape 125.00W x 94.00H - (0, 0) x (124, 93) =11750 Pixels",
+      "printable_area" : 11532.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 124.0,
+      "printable_bounds_ury" : 93.0
+     },
+     "47" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 89.0,
+      "media_bounds_ury" : 133.0,
+      "name" : "UserDefinedRaster Portrait 89.00W x 133.00H - (0, 0) x (88, 132) =11837 Pixels",
+      "printable_area" : 11616.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 88.0,
+      "printable_bounds_ury" : 132.0
+     },
+     "48" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 92.0,
+      "media_bounds_ury" : 128.0,
+      "name" : "UserDefinedRaster Portrait 92.00W x 128.00H - (0, 0) x (91, 127) =11776 Pixels",
+      "printable_area" : 11557.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 91.0,
+      "printable_bounds_ury" : 127.0
+     },
+     "49" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 129.0,
+      "media_bounds_ury" : 90.0,
+      "name" : "UserDefinedRaster Landscape 129.00W x 90.00H - (0, 0) x (128, 89) =11610 Pixels",
+      "printable_area" : 11392.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 128.0,
+      "printable_bounds_ury" : 89.0
+     },
+     "5" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 1218.0,
+      "media_bounds_ury" : 1576.0,
+      "name" : "UserDefinedRaster Portrait 1218.00W x 1576.00H - (0, 0) x (1217, 1575) =1919568 Pixels",
+      "printable_area" : 1916775.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 1217.0,
+      "printable_bounds_ury" : 1575.0
+     },
+     "50" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 91.0,
+      "media_bounds_ury" : 129.0,
+      "name" : "UserDefinedRaster Landscape 129.00W x 91.00H - (0, 0) x (128, 90) =11739 Pixels",
+      "printable_area" : 11520.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 90.0,
+      "printable_bounds_ury" : 128.0
+     },
+     "51" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 1149.0,
+      "media_bounds_ury" : 826.0,
+      "name" : "UserDefinedRaster Landscape 1149.00W x 826.00H - (0, 0) x (1148, 825) =949074 Pixels",
+      "printable_area" : 947100.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 1148.0,
+      "printable_bounds_ury" : 825.0
+     },
+     "52" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 320.0,
+      "media_bounds_ury" : 480.0,
+      "name" : "UserDefinedRaster Landscape 480.00W x 320.00H - (0, 0) x (479, 319) =153600 Pixels",
+      "printable_area" : 152801.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 319.0,
+      "printable_bounds_ury" : 479.0
+     },
+     "53" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 160.0,
+      "media_bounds_ury" : 240.0,
+      "name" : "UserDefinedRaster Landscape 240.00W x 160.00H - (0, 0) x (239, 159) =38400 Pixels",
+      "printable_area" : 38001.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 159.0,
+      "printable_bounds_ury" : 239.0
+     },
+     "54" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 119.0,
+      "media_bounds_ury" : 84.0,
+      "name" : "UserDefinedRaster Landscape 119.00W x 84.00H - (0, 0) x (118, 83) =9996 Pixels",
+      "printable_area" : 9794.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 118.0,
+      "printable_bounds_ury" : 83.0
+     },
+     "55" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 123.0,
+      "media_bounds_ury" : 95.0,
+      "name" : "UserDefinedRaster Landscape 123.00W x 95.00H - (0, 0) x (122, 94) =11685 Pixels",
+      "printable_area" : 11468.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 122.0,
+      "printable_bounds_ury" : 94.0
+     },
+     "56" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 95.0,
+      "media_bounds_ury" : 123.0,
+      "name" : "UserDefinedRaster Portrait 95.00W x 123.00H - (0, 0) x (94, 122) =11685 Pixels",
+      "printable_area" : 11468.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 94.0,
+      "printable_bounds_ury" : 122.0
+     },
+     "57" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 122.0,
+      "media_bounds_ury" : 95.0,
+      "name" : "UserDefinedRaster Landscape 122.00W x 95.00H - (0, 0) x (121, 94) =11590 Pixels",
+      "printable_area" : 11374.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 121.0,
+      "printable_bounds_ury" : 94.0
+     },
+     "58" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 95.0,
+      "media_bounds_ury" : 122.0,
+      "name" : "UserDefinedRaster Portrait 95.00W x 122.00H - (0, 0) x (94, 121) =11590 Pixels",
+      "printable_area" : 11374.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 94.0,
+      "printable_bounds_ury" : 121.0
+     },
+     "59" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 124.0,
+      "media_bounds_ury" : 93.0,
+      "name" : "UserDefinedRaster Landscape 124.00W x 93.00H - (0, 0) x (123, 92) =11532 Pixels",
+      "printable_area" : 11316.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 123.0,
+      "printable_bounds_ury" : 92.0
+     },
+     "6" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 1131.0,
+      "media_bounds_ury" : 1697.0,
+      "name" : "UserDefinedRaster Portrait 1131.00W x 1697.00H - (0, 0) x (1130, 1696) =1919307 Pixels",
+      "printable_area" : 1916480.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 1130.0,
+      "printable_bounds_ury" : 1696.0
+     },
+     "60" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 93.0,
+      "media_bounds_ury" : 124.0,
+      "name" : "UserDefinedRaster Portrait 93.00W x 124.00H - (0, 0) x (92, 123) =11532 Pixels",
+      "printable_area" : 11316.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 92.0,
+      "printable_bounds_ury" : 123.0
+     },
+     "61" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 132.0,
+      "media_bounds_ury" : 88.0,
+      "name" : "UserDefinedRaster Landscape 132.00W x 88.00H - (0, 0) x (131, 87) =11616 Pixels",
+      "printable_area" : 11397.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 131.0,
+      "printable_bounds_ury" : 87.0
+     },
+     "62" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 88.0,
+      "media_bounds_ury" : 132.0,
+      "name" : "UserDefinedRaster Portrait 88.00W x 132.00H - (0, 0) x (87, 131) =11616 Pixels",
+      "printable_area" : 11397.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 87.0,
+      "printable_bounds_ury" : 131.0
+     },
+     "63" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 127.0,
+      "media_bounds_ury" : 91.0,
+      "name" : "UserDefinedRaster Landscape 127.00W x 91.00H - (0, 0) x (126, 90) =11557 Pixels",
+      "printable_area" : 11340.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 126.0,
+      "printable_bounds_ury" : 90.0
+     },
+     "64" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 91.0,
+      "media_bounds_ury" : 127.0,
+      "name" : "UserDefinedRaster Portrait 91.00W x 127.00H - (0, 0) x (90, 126) =11557 Pixels",
+      "printable_area" : 11340.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 90.0,
+      "printable_bounds_ury" : 126.0
+     },
+     "65" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 746.0,
+      "media_bounds_ury" : 1055.0,
+      "name" : "UserDefinedRaster Portrait 746.00W x 1055.00H - (0, 0) x (745, 1054) =787030 Pixels",
+      "printable_area" : 785230.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 745.0,
+      "printable_bounds_ury" : 1054.0
+     },
+     "66" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 1055.0,
+      "media_bounds_ury" : 746.0,
+      "name" : "UserDefinedRaster Landscape 1055.00W x 746.00H - (0, 0) x (1054, 745) =787030 Pixels",
+      "printable_area" : 785230.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 1054.0,
+      "printable_bounds_ury" : 745.0
+     },
+     "67" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 1050.0,
+      "media_bounds_ury" : 750.0,
+      "name" : "UserDefinedRaster Landscape 1050.00W x 750.00H - (0, 0) x (1049, 749) =787500 Pixels",
+      "printable_area" : 785701.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 1049.0,
+      "printable_bounds_ury" : 749.0
+     },
+     "68" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 750.0,
+      "media_bounds_ury" : 1050.0,
+      "name" : "UserDefinedRaster Portrait 750.00W x 1050.00H - (0, 0) x (749, 1049) =787500 Pixels",
+      "printable_area" : 785701.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 749.0,
+      "printable_bounds_ury" : 1049.0
+     },
+     "69" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 1087.0,
+      "media_bounds_ury" : 725.0,
+      "name" : "UserDefinedRaster Landscape 1087.00W x 725.00H - (0, 0) x (1086, 724) =788075 Pixels",
+      "printable_area" : 786264.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 1086.0,
+      "printable_bounds_ury" : 724.0
+     },
+     "7" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 1697.0,
+      "media_bounds_ury" : 1131.0,
+      "name" : "UserDefinedRaster Landscape 1697.00W x 1131.00H - (0, 0) x (1696, 1130) =1919307 Pixels",
+      "printable_area" : 1916480.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 1696.0,
+      "printable_bounds_ury" : 1130.0
+     },
+     "70" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 725.0,
+      "media_bounds_ury" : 1087.0,
+      "name" : "UserDefinedRaster Portrait 725.00W x 1087.00H - (0, 0) x (724, 1086) =788075 Pixels",
+      "printable_area" : 786264.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 724.0,
+      "printable_bounds_ury" : 1086.0
+     },
+     "71" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 1009.0,
+      "media_bounds_ury" : 780.0,
+      "name" : "UserDefinedRaster Portrait 1009.00W x 8080.00H - (0, 0) x (1008, 8079) =8152720 Pixels",
+      "printable_area" : 785232.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 1008.0,
+      "printable_bounds_ury" : 779.0
+     },
+     "72" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 780.0,
+      "media_bounds_ury" : 1009.0,
+      "name" : "UserDefinedRaster Portrait 780.00W x 1009.00H - (0, 0) x (779, 1008) =787020 Pixels",
+      "printable_area" : 785232.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 779.0,
+      "printable_bounds_ury" : 1008.0
+     },
+     "73" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 1103.0,
+      "media_bounds_ury" : 714.0,
+      "name" : "UserDefinedRaster Landscape 1003.00W x 714.00H - (0, 0) x (1002, 713) =716142 Pixels",
+      "printable_area" : 785726.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 1102.0,
+      "printable_bounds_ury" : 713.0
+     },
+     "74" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 714.0,
+      "media_bounds_ury" : 1103.0,
+      "name" : "UserDefinedRaster Portrait 714.00W x 1103.00H - (0, 0) x (713, 1102) =787542 Pixels",
+      "printable_area" : 785726.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 713.0,
+      "printable_bounds_ury" : 1102.0
+     },
+     "75" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 297.0,
+      "media_bounds_ury" : 420.0,
+      "name" : "User-1",
+      "printable_area" : 110782.0,
+      "printable_bounds_llx" : 5.0,
+      "printable_bounds_lly" : 17.0,
+      "printable_bounds_urx" : 292.0,
+      "printable_bounds_ury" : 403.0
+     },
+     "8" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 1600.0,
+      "media_bounds_ury" : 1200.0,
+      "name" : "UserDefinedRaster Landscape 1600.00W x 1200.00H - (0, 0) x (1599, 1199) =1920000 Pixels",
+      "printable_area" : 1917201.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 1599.0,
+      "printable_bounds_ury" : 1199.0
+     },
+     "9" : 
+     {
+      "caps_type" : 2,
+      "dimensional" : false,
+      "media_bounds_urx" : 1200.0,
+      "media_bounds_ury" : 1600.0,
+      "name" : "UserDefinedRaster Portrait 1200.00W x 1600.00H - (0, 0) x (1199, 1599) =1920000 Pixels",
+      "printable_area" : 1917201.0,
+      "printable_bounds_llx" : 0.0,
+      "printable_bounds_lly" : 0.0,
+      "printable_bounds_urx" : 1199.0,
+      "printable_bounds_ury" : 1599.0
+     }
+    },
+    "max_roll_height" : 320000.0,
+    "size" : 
+    {
+     "0" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : true,
+      "localized_name" : "T_129x91_1.416(ISO_A1)",
+      "media_description_name" : "UserDefinedRaster Landscape 129.00W x 91.00H - (0, 0) x (128, 90) =11739 Pixels_1",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (129.00 x 91.00Pixels)_1"
+     },
+     "1" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : false,
+      "localized_name" : "User 1 (1006.00 x 1302.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Portrait 1006.00W x 1302.00H - (0, 0) x (1005, 1301) =1309812 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (1006.00 x 1302.00Pixels)"
+     },
+     "10" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : false,
+      "localized_name" : "User 1 (1171.00 x 1640.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Portrait 1171.00W x 1640.00H - (0, 0) x (1170, 1639) =1920440 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (1171.00 x 1640.00Pixels)"
+     },
+     "11" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : false,
+      "localized_name" : "User 1 (1200.00 x 1600.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Portrait 1200.00W x 1600.00H - (0, 0) x (1199, 1599) =1920000 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (1200.00 x 1600.00Pixels)"
+     },
+     "12" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : false,
+      "localized_name" : "User 1 (1218.00 x 1576.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Portrait 1218.00W x 1576.00H - (0, 0) x (1217, 1575) =1919568 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (1218.00 x 1576.00Pixels)"
+     },
+     "13" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : true,
+      "localized_name" : "User 1 (123.00 x 95.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Landscape 123.00W x 95.00H - (0, 0) x (122, 94) =11685 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (123.00 x 95.00Pixels)"
+     },
+     "14" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : true,
+      "localized_name" : "User 1 (124.00 x 93.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Landscape 124.00W x 93.00H - (0, 0) x (123, 92) =11532 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (124.00 x 93.00Pixels)"
+     },
+     "15" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : true,
+      "localized_name" : "User 1 (127.00 x 91.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Landscape 127.00W x 91.00H - (0, 0) x (126, 90) =11557 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (127.00 x 91.00Pixels)"
+     },
+     "16" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : true,
+      "localized_name" : "User 1 (1302.00 x 1006.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Landscape 1302.00W x 1006.00H - (0, 0) x (1301, 1005) =1309812 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (1302.00 x 1006.00Pixels)"
+     },
+     "17" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : true,
+      "localized_name" : "User 1 (132.00 x 88.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Landscape 132.00W x 88.00H - (0, 0) x (131, 87) =11616 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (132.00 x 88.00Pixels)"
+     },
+     "18" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : true,
+      "localized_name" : "User 1 (1322.00 x 991.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Landscape 1322.00W x 991.00H - (0, 0) x (1321, 990) =1310102 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (1322.00 x 991.00Pixels)"
+     },
+     "19" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : true,
+      "localized_name" : "User 1 (134.00 x 87.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Landscape 134.00W x 87.00H - (0, 0) x (133, 86) =11658 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (134.00 x 87.00Pixels)"
+     },
+     "2" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : true,
+      "localized_name" : "User 1 (1009.00 x 780.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Portrait 1009.00W x 8080.00H - (0, 0) x (1008, 8079) =8152720 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (1009.00 x 8080.00Pixels)"
+     },
+     "20" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : true,
+      "localized_name" : "User 1 (1355.00 x 968.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Landscape 1355.00W x 968.00H - (0, 0) x (1354, 967) =1311640 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (1355.00 x 968.00Pixels)"
+     },
+     "21" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : true,
+      "localized_name" : "User 1 (1362.00 x 962.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Landscape 1362.00W x 962.00H - (0, 0) x (1361, 961) =1310244 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (1362.00 x 962.00Pixels)"
+     },
+     "22" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : true,
+      "localized_name" : "User 1 (1402.00 x 935.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Landscape 1402.00W x 935.00H - (0, 0) x (1401, 934) =1310870 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (1402.00 x 935.00Pixels)"
+     },
+     "23" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : true,
+      "localized_name" : "User 1 (1423.00 x 921.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Landscape 1423.00W x 921.00H - (0, 0) x (1422, 920) =1310583 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (1423.00 x 921.00Pixels)"
+     },
+     "24" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : true,
+      "localized_name" : "User 1 (1576.00 x 1218.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Landscape 1576.00W x 1218.00H - (0, 0) x (1575, 1217) =1919568 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (1576.00 x 1218.00Pixels)"
+     },
+     "25" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : true,
+      "localized_name" : "User 1 (1600.00 x 1200.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Landscape 1600.00W x 1200.00H - (0, 0) x (1599, 1199) =1920000 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (1600.00 x 1200.00Pixels)"
+     },
+     "26" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : true,
+      "localized_name" : "User 1 (1640.00 x 1171.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Landscape 1640.00W x 1171.00H - (0, 0) x (1639, 1170) =1920440 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (1640.00 x 1171.00Pixels)"
+     },
+     "27" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : true,
+      "localized_name" : "User 1 (1648.00 x 1165.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Landscape 1648.00W x 1165.00H - (0, 0) x (1647, 1164) =1919920 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (1648.00 x 1165.00Pixels)"
+     },
+     "28" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : true,
+      "localized_name" : "User 1 (1697.00 x 1131.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Landscape 1697.00W x 1131.00H - (0, 0) x (1696, 1130) =1919307 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (1697.00 x 1131.00Pixels)"
+     },
+     "29" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : true,
+      "localized_name" : "User 1 (1723.00 x 1115.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Landscape 1723.00W x 1115.00H - (0, 0) x (1722, 1114) =1921145 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (1723.00 x 1115.00Pixels)"
+     },
+     "3" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : true,
+      "localized_name" : "User 1 (1050.00 x 750.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Landscape 1050.00W x 750.00H - (0, 0) x (1049, 749) =787500 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (1050.00 x 750.00Pixels)"
+     },
+     "30" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : false,
+      "localized_name" : "User 1 (558.00 x 862.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Portrait 558.00W x 862.00H - (0, 0) x (557, 861) =480996 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (558.00 x 862.00Pixels)"
+     },
+     "31" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : false,
+      "localized_name" : "User 1 (566.00 x 849.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Portrait 566.00W x 849.00H - (0, 0) x (565, 848) =480534 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (566.00 x 849.00Pixels)"
+     },
+     "32" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : false,
+      "localized_name" : "User 1 (583.00 x 824.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Portrait 583.00W x 824.00H - (0, 0) x (582, 823) =480392 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (583.00 x 824.00Pixels)"
+     },
+     "33" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : false,
+      "localized_name" : "User 1 (586.00 x 820.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Portrait 586.00W x 820.00H - (0, 0) x (585, 819) =480520 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (586.00 x 820.00Pixels)"
+     },
+     "34" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : false,
+      "localized_name" : "User 1 (610.00 x 789.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Portrait 610.00W x 789.00H - (0, 0) x (609, 788) =481290 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (610.00 x 789.00Pixels)"
+     },
+     "35" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : false,
+      "localized_name" : "User 1 (714.00 x 1103.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Portrait 714.00W x 1103.00H - (0, 0) x (713, 1102) =787542 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (714.00 x 1103.00Pixels)"
+     },
+     "36" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : false,
+      "localized_name" : "User 1 (725.00 x 1087.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Portrait 725.00W x 1087.00H - (0, 0) x (724, 1086) =788075 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (725.00 x 1087.00Pixels)"
+     },
+     "37" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : false,
+      "localized_name" : "User 1 (746.00 x 1055.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Portrait 746.00W x 1055.00H - (0, 0) x (745, 1054) =787030 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (746.00 x 1055.00Pixels)"
+     },
+     "38" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : false,
+      "localized_name" : "User 1 (750.00 x 1050.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Portrait 750.00W x 1050.00H - (0, 0) x (749, 1049) =787500 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (750.00 x 1050.00Pixels)"
+     },
+     "39" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : false,
+      "localized_name" : "User 1 (780.00 x 1009.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Portrait 780.00W x 1009.00H - (0, 0) x (779, 1008) =787020 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (780.00 x 1009.00Pixels)"
+     },
+     "4" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : true,
+      "localized_name" : "User 1 (1055.00 x 746.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Landscape 1055.00W x 746.00H - (0, 0) x (1054, 745) =787030 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (1055.00 x 746.00Pixels)"
+     },
+     "40" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : true,
+      "localized_name" : "User 1 (789.00 x 610.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Landscape 789.00W x 610.00H - (0, 0) x (788, 609) =481290 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (789.00 x 610.00Pixels)"
+     },
+     "41" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : true,
+      "localized_name" : "User 1 (820.00 x 586.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Landscape 820.00W x 586.00H - (0, 0) x (819, 585) =480520 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (820.00 x 586.00Pixels)"
+     },
+     "42" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : true,
+      "localized_name" : "User 1 (824.00 x 583.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Landscape 824.00W x 583.00H - (0, 0) x (823, 582) =480392 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (824.00 x 583.00Pixels)"
+     },
+     "43" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : true,
+      "localized_name" : "User 1 (849.00 x 566.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Landscape 849.00W x 566.00H - (0, 0) x (848, 565) =480534 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (849.00 x 566.00Pixels)"
+     },
+     "44" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : true,
+      "localized_name" : "User 1 (862.00 x 558.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Landscape 862.00W x 558.00H - (0, 0) x (861, 557) =480996 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (862.00 x 558.00Pixels)"
+     },
+     "45" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : false,
+      "localized_name" : "User 1 (87.00 x 134.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Portrait 87.00W x 134.00H - (0, 0) x (86, 133) =11658 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (87.00 x 134.00Pixels)"
+     },
+     "46" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : false,
+      "localized_name" : "User 1 (88.00 x 132.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Portrait 88.00W x 132.00H - (0, 0) x (87, 131) =11616 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (88.00 x 132.00Pixels)"
+     },
+     "47" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : false,
+      "localized_name" : "User 1 (91.00 x 127.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Portrait 91.00W x 127.00H - (0, 0) x (90, 126) =11557 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (91.00 x 127.00Pixels)"
+     },
+     "48" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : false,
+      "localized_name" : "User 1 (91.00 x 129.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Portrait 91.00W x 129.00H - (0, 0) x (90, 128) =11739 Pixels_1",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (91.00 x 129.00Pixels)"
+     },
+     "49" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : false,
+      "localized_name" : "User 1 (921.00 x 1423.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Portrait 921.00W x 1423.00H - (0, 0) x (920, 1422) =1310583 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (921.00 x 1423.00Pixels)"
+     },
+     "5" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : true,
+      "localized_name" : "User 1 (1087.00 x 725.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Landscape 1087.00W x 725.00H - (0, 0) x (1086, 724) =788075 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (1087.00 x 725.00Pixels)"
+     },
+     "50" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : false,
+      "localized_name" : "User 1 (93.00 x 124.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Portrait 93.00W x 124.00H - (0, 0) x (92, 123) =11532 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (93.00 x 124.00Pixels)"
+     },
+     "51" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : false,
+      "localized_name" : "User 1 (935.00 x 1402.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Portrait 935.00W x 1402.00H - (0, 0) x (934, 1401) =1310870 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (935.00 x 1402.00Pixels)"
+     },
+     "52" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : false,
+      "localized_name" : "User 1 (95.00 x 123.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Portrait 95.00W x 123.00H - (0, 0) x (94, 122) =11685 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (95.00 x 123.00Pixels)"
+     },
+     "53" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : false,
+      "localized_name" : "User 1 (962.00 x 1362.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Portrait 962.00W x 1362.00H - (0, 0) x (961, 1361) =1310244 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (962.00 x 1362.00Pixels)"
+     },
+     "54" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : false,
+      "localized_name" : "User 1 (968.00 x 1355.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Portrait 968.00W x 1355.00H - (0, 0) x (967, 1354) =1311640 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (968.00 x 1355.00Pixels)"
+     },
+     "55" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : false,
+      "localized_name" : "User 1 (991.00 x 1322.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Portrait 991.00W x 1322.00H - (0, 0) x (990, 1321) =1310102 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (991.00 x 1322.00Pixels)"
+     },
+     "56" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : true,
+      "localized_name" : "Previous paper size  (297.00 x 420.00 pixels)",
+      "media_description_name" : "User-1",
+      "media_group" : 16,
+      "name" : "User-1"
+     },
+     "6" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : true,
+      "localized_name" : "User 1 (1103.00 x 714.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Landscape 1003.00W x 714.00H - (0, 0) x (1002, 713) =716142 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (1003.00 x 714.00Pixels)"
+     },
+     "7" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : false,
+      "localized_name" : "User 1 (1115.00 x 1723.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Portrait 1115.00W x 1723.00H - (0, 0) x (1114, 1722) =1921145 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (1115.00 x 1723.00Pixels)"
+     },
+     "8" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : false,
+      "localized_name" : "User 1 (1131.00 x 1697.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Portrait 1131.00W x 1697.00H - (0, 0) x (1130, 1696) =1919307 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (1131.00 x 1697.00Pixels)"
+     },
+     "9" : 
+     {
+      "caps_type" : 2,
+      "landscape_mode" : false,
+      "localized_name" : "User 1 (1165.00 x 1648.00 Pixels)",
+      "media_description_name" : "UserDefinedRaster Portrait 1165.00W x 1648.00H - (0, 0) x (1164, 1647) =1919920 Pixels",
+      "media_group" : 16,
+      "name" : "UserDefinedRaster (1165.00 x 1648.00Pixels)"
+     }
+    }
+   }
+  }
+ },
+ "subver" : "json",
+ "version" : 0.01
+}
