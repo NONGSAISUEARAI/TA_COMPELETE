@@ -329,7 +329,7 @@
   (/ *error* preset_ tol_ source_ selection_ data_ vertices_ selecting_
      osmode_ cmdecho_ undo_open_ output_ bend_entities_ new_result_ width_ ang1_ ang2_
      history_ specs_ candidate_ spec_ previous_ contour_ point1_ point2_
-     i_ j_ running_)
+     i_ j_ running_ DELETE_OBJ_)
 
   (defun *error* (message_)
     (TA:BF:Erase_entities_ (cons output_ bend_entities_))
@@ -468,6 +468,21 @@
                          "; bend lines: " (itoa (length bend_entities_)))))
         (princ "\nNo blank outline created.")
       )
+    )
+  )
+  (initget "Yes No")
+  (setq ss_ ;Detect the variable's result in case of a function error
+    (vl-catch-all-apply 
+      (function 
+        (lambda () 
+          (setq DELETE_OBJ_ (not (eq "No" (getkword "\nKeep Existing point with object? [Yes/No] <Y>: "))))
+        )
+      )
+    )
+  )
+  (if (/= DELETE_OBJ_ T )
+    (progn
+      (vla-delete (vlax-ename->vla-object selection_))
     )
   )
   (princ)
