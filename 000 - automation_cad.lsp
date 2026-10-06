@@ -10843,6 +10843,12 @@
         )
       )
     )
+    (defun c:clipboard-text-to-att ()
+      (setq ssss (TA:GetClipboardText ))
+      
+      ( (LM:effectivename nameblk_obj_ ))
+      
+    )
     (defun c:copylayernametoclipboard_CPLNAME ()
       (setq nameblk_ename_ (car (entsel "specify Object")))
       (setq nameblk_obj_ (vlax-ename->vla-object nameblk_ename_))

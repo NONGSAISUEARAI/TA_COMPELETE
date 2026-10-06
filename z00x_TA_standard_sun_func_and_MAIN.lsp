@@ -7371,6 +7371,7 @@
       (LM:writecsv  ss_pre_filter_set_xx_obj_proplist_array_1 filepath_)
       
     )
+    
   ;
   ;hatch_FUNC
     (defun TA:create_hatch_ (hatch_ename_ hatch_ename_getang_ hatch_ename_getsc_)
@@ -42280,7 +42281,6 @@
         (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
         (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
         (if (and 
-              
               ; (= (vla-get-hasattributes ss_pre_filter_set_xx_obj_ ) :vlax-true )
               (/= (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_add-on" ) "")
               (/= (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_add-on" ) "varies_lot")
