@@ -9651,7 +9651,7 @@
             )
         )
       ;
-      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "300HK ORDER FROM CHINA REV.2-LOT 2_20260529-185614FLxx" "D5HU" "1eu" "2eu" "3eu") ))
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "300HK ORDER FROM CHINA REV.2-LOT 2_20260529-185614FLxx" "D5HU" "1eu" "2eu" "3eu" "D5HU_FAKE") ))
       ;preloop_and_while
         (setq ss_pre_filter_set_xx_i 0)
         (setq External_ref_ename_ ())
@@ -9749,7 +9749,7 @@
         )
         (sslength ss_pre_filter_set_xx_)
       )
-      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "300HK ORDER FROM CHINA REV.2-LOT 2_20260529-185614FLxx" "D5HU" "1eu" "2eu") ))
+      (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "300HK ORDER FROM CHINA REV.2-LOT 2_20260529-185614FLxx" "D5HU" "1eu" "2eu" "D5HU_FAKE") ))
       (setq ss_pre_filter_set_xx_sortlist_ (TA:standard_list_croodinate_sorting ss_pre_filter_set_xx_ "Y" ))
       (setq ss_pre_filter_set_xx_sortlist_ (TA:LRsort_ ss_pre_filter_set_xx_sortlist_ 5))
     ;

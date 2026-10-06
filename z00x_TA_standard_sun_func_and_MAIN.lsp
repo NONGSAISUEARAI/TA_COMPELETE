@@ -6031,8 +6031,8 @@
                            "MRT PURPLE LINE  4\\PSTATION (PP17 - PP20)"
                            "FL-PJ-26-008-PL1065V-\\PTYP-"
                            "FL-PJ-26-008-PL2065V-\\PTYP-"
-                           "FL-PJ-26-008-PL2065V-\\PLOT-1-PART-"
-                           "FL-PJ-26-008-PL1065V-\\PLOT-1-PART-"
+                           "FL-PJ-26-008-PL2065V-\\PLOT-2-PART-"
+                           "FL-PJ-26-008-PL1065V-\\PLOT-2-PART-"
                            "FL-PJ-26-031-HK-\\PMEP-PART-"
                          )
       )

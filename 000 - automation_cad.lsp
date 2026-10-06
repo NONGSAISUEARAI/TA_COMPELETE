@@ -10843,7 +10843,7 @@
         )
       )
     )
-    (defun c:clipboard-text-to-att ()
+    (defun c:clipboard-text-to-att-cb2att ()
       (setq strtxt_val_ (TA:GetClipboardText ))
       (setq strtxt_val_name_ (substr strtxt_val_ 1 (vl-string-search "TYPE" strtxt_val_)))
       (setq strtxt_val_code_ (LM:StringSubst "" "\r\n" (substr strtxt_val_ (vl-string-search "TYPE" strtxt_val_) 50)))
@@ -12920,35 +12920,35 @@
   
 )
 
-  (defun c:nt (/ source_ename_ source_obj_ target_point_ doc_ space_ new_text_)
-    (if (setq source_ename_ (car (nentsel "\nเลือก TEXT ต้นทาง: ")))
-      (progn
-        (setq source_obj_ (vlax-ename->vla-object source_ename_))
+(defun c:nt (/ source_ename_ source_obj_ target_point_ doc_ space_ new_text_)
+  (if (setq source_ename_ (car (nentsel "\nเลือก TEXT ต้นทาง: ")))
+    (progn
+      (setq source_obj_ (vlax-ename->vla-object source_ename_))
 
-        (if (= (vla-get-ObjectName source_obj_) "AcDbMText")
-          (if (setq target_point_ (getpoint "\nระบุจุดวาง TEXT ใหม่: "))
-            (progn
-              (setq doc_   (vla-get-ActiveDocument (vlax-get-acad-object)))
-              (setq space_ (vla-get-Block (vla-get-ActiveLayout doc_)))
+      (if (= (vla-get-ObjectName source_obj_) "AcDbMText")
+        (if (setq target_point_ (getpoint "\nระบุจุดวาง TEXT ใหม่: "))
+          (progn
+            (setq doc_   (vla-get-ActiveDocument (vlax-get-acad-object)))
+            (setq space_ (vla-get-Block (vla-get-ActiveLayout doc_)))
 
-              (setq new_text_
-                (vla-AddText
-                  space_
-                  (vla-get-TextString source_obj_)
-                  (vlax-3d-point (trans target_point_ 1 0))
-                  (vla-get-Height source_obj_)
-                )
+            (setq new_text_
+              (vla-AddText
+                space_
+                (vla-get-TextString source_obj_)
+                (vlax-3d-point (trans target_point_ 1 0))
+                (vla-get-Height source_obj_)
               )
-
-              (vla-put-Rotation new_text_ (vla-get-Rotation source_obj_))
             )
+
+            (vla-put-Rotation new_text_ (vla-get-Rotation source_obj_))
           )
-          (princ "\nวัตถุที่เลือกไม่ใช่ TEXT")
         )
+        (princ "\nวัตถุที่เลือกไม่ใช่ TEXT")
       )
     )
-    (princ)
   )
+  (princ)
+)
 
 
 
