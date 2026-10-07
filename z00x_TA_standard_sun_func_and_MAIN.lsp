@@ -6034,6 +6034,7 @@
                            "FL-PJ-26-008-PL2065V-\\PLOT-2-PART-"
                            "FL-PJ-26-008-PL1065V-\\PLOT-2-PART-"
                            "FL-PJ-26-031-HK-\\PMEP-PART-"
+                           "FL-PJ-26-031-\\PALU-PANEL-PART-"
                          )
       )
       (setq prefix-str_sort_mode
