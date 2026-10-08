@@ -4379,7 +4379,7 @@
           (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
           (LM:effectivename ss_pre_filter_set_xx_obj_)
           (TA:PPLINE_CKST_REWORK-REV_ ss_pre_filter_set_xx_obj_ (list 3) "" "" "" "" "" "")
-          (TA:PPLINE_CKST_REWORK-REV_ ss_pre_filter_set_xx_obj_ REV_list_ REV_VAL REV_DATE_VAL REV_DESC_VAL DWG_VAL CHK_VAL APP_VAL)
+          ; (TA:PPLINE_CKST_REWORK-REV_ ss_pre_filter_set_xx_obj_ REV_list_ REV_VAL REV_DATE_VAL REV_DESC_VAL DWG_VAL CHK_VAL APP_VAL)
           
           (if
             (or

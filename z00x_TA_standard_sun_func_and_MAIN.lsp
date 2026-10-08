@@ -10373,6 +10373,29 @@
             (input_hatch_scale)
           )
         )
+        (setq input_hatch_angle
+          (cond
+            (
+              (getreal
+                (strcat
+                  "\nSpecify Hatch Angle <"
+                  (rtos
+                    (setq input_hatch_angle
+                      (cond
+                        (input_hatch_angle)
+                        (1.0)
+                      )
+                    )
+                    2
+                    2
+                  )
+                  ">: "
+                )
+              )
+            )
+            (input_hatch_angle)
+          )
+        )
 
         (while
           (and
@@ -10414,6 +10437,10 @@
                     (vla-put-PatternScale
                       hatch_obj_
                       input_hatch_scale
+                    )
+                    (vla-put-patternangle
+                      hatch_obj_
+                      (deg-to-rad input_hatch_angle)
                     )
                     (TA:add_hatch_scale hatch_ename_)
                     (vla-Evaluate hatch_obj_)
