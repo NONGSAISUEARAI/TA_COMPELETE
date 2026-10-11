@@ -66058,3 +66058,47 @@
     )
   ;
 )
+
+(defun c:foo ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+    (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "xxxxxxxxxxxxxxxxxxxxxxxxxxxx"))
+  ;
+  ;get_data_process_for_fillter_blk_name
+    (if
+      (and
+        (= (sslength ss_pre_filter_set_xx_) 1)
+        (= (vla-get-objectname (vlax-ename->vla-object (ssname ss_pre_filter_set_xx_ 0))) "AcDbBlockReference")
+        (= (LM:effectivename (vlax-ename->vla-object (ssname ss_pre_filter_set_xx_ 0)) ) "LV_DATA_FROM_EXCEl" )
+      )
+      (progn
+        (setq LV_DATA_FROM_EXCEl_list_ (LM:vl-getattributevalues (vlax-ename->vla-object (ssname ss_pre_filter_set_xx_ 0))))
+      )
+    )
+  ;                                                                                                                         
+)

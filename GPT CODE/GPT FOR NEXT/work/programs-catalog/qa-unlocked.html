@@ -1,0 +1,113 @@
+<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-Uv9xZuPpVA+zgymZCBKdaJR4jBTIklT4BFqPnYmdrNw='; style-src 'self' 'sha256-9qZyeYlF7fq3bQUU8dkK6NjoUoDlKWGpHICIOvCq2Jo='; img-src 'self' data:; frame-src blob:; connect-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none'"><title>QA — Programs after unlock</title><link rel="stylesheet" href="publish/css/login.css"></head><body><section class="portfolio-view"><header class="viewer-bar"><span>TA / PORTFOLIO — QA OF DECRYPTED DOCUMENT</span><span>LOCAL TEST ONLY</span></header><iframe id="portfolio-frame" title="Programs" sandbox="allow-scripts" referrerpolicy="no-referrer" srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;th&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; form-action 'none'; base-uri 'none'&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+  &lt;meta name=&quot;description&quot; content=&quot;TA AutoLISP Collection — a bilingual program directory organized into seven workflow categories.&quot;&gt;
+  &lt;meta name=&quot;color-scheme&quot; content=&quot;dark&quot;&gt;
+  &lt;title&gt;Programs — TA AutoLISP Collection&lt;/title&gt;
+  &lt;style&gt;@charset &quot;UTF-8&quot;;
+:root{color-scheme:dark;--bg:#030711;--ink:#eaf3ff;--muted:#99adc8;--line:#d0e6ff24;--blue:#7ebaff;font-family:&quot;Segoe UI&quot;,Tahoma,Arial,sans-serif;scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.6}
+button,a{font:inherit}a{color:inherit;text-decoration:none}button{cursor:pointer}button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:2px solid #96c6ff;outline-offset:4px}
+canvas,.veil{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}.veil{background:radial-gradient(ellipse at 75% 20%,#16427b1c,transparent 55%),linear-gradient(transparent,#02040b88)}
+.wrap{width:min(1320px,calc(100% - 80px));margin-inline:auto;position:relative;z-index:1}
+.skip-link{position:fixed;top:-100px;left:20px;z-index:20;padding:10px 16px;background:#183660}.skip-link:focus{top:12px}
+.site-header{display:flex;align-items:center;justify-content:space-between;padding-block:28px;gap:24px;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:12px;font-size:11px;letter-spacing:1.8px;font-weight:600}.brand small{display:block;color:var(--muted);font-size:8px;letter-spacing:1px;margin-top:5px}
+.brand-mark{display:flex;align-items:center;justify-content:center;width:38px;height:38px;border:1px solid #acc9ff4d;background:#07112280;font:23px Consolas,monospace;letter-spacing:-2px}.brand-mark span{color:#84b9ff}
+.header-actions{display:flex;align-items:center;gap:10px}.current-page{font:10px Consolas,monospace;letter-spacing:1.5px;color:#b5ceef;margin-right:24px}
+.header-actions button{border:1px solid var(--line);background:#07112280;color:var(--muted);padding:8px 12px;border-radius:5px;font-size:11px}.header-actions button:hover{background:#13223c;color:var(--ink)}#language-toggle{color:var(--ink);font-family:Consolas,monospace;min-width:43px}
+.page-heading{padding:46px 0 34px;display:flex;align-items:flex-end;justify-content:space-between;gap:35px;border-bottom:1px solid var(--line)}
+.eyebrow{margin:0 0 13px;font:10px Consolas,monospace;letter-spacing:1.9px;color:#9bb7d9}.status-dot{display:inline-block;width:4px;height:4px;border-radius:50%;background:#94c6ff;box-shadow:0 0 10px #6bb7ff;vertical-align:middle;margin-right:9px}
+h1{margin:0;font-size:clamp(42px,4.2vw,58px);line-height:1.15;font-weight:450;letter-spacing:-1.5px}h1 span{color:#87b6ff}.intro{margin:15px 0 0;color:#a9bdd8;font-size:13px;max-width:650px}
+.directory-label{text-align:right;flex-shrink:0;padding-bottom:3px}.directory-label&gt;span{font:10px Consolas,monospace;letter-spacing:1.3px;color:#abc9ee}.directory-label small{display:block;font-size:10px;color:var(--muted);margin-top:8px}
+.directory-layout{display:grid;grid-template-columns:226px minmax(0,1fr);gap:46px;padding-top:34px;align-items:start}
+.category-index{position:sticky;top:26px}.index-title{font-size:11px;color:#b9cee9;margin:0 0 16px}.category-index nav{display:grid;gap:4px}
+.category-link{display:flex;align-items:flex-start;gap:12px;padding:11px 12px;border-left:2px solid transparent;border-radius:0 5px 5px 0;color:#93a9c7;font-size:11px;line-height:1.6;transition:background .15s,color .15s}.category-link&gt;span:first-child{font:9px Consolas,monospace;color:#6384ad;padding-top:3px;flex-shrink:0}.category-link:hover{color:#edf4ff;background:#12243c80}.category-link[aria-current=&quot;location&quot;]{background:linear-gradient(90deg,#16417366,#12223a22);border-left-color:#83b7ff;color:#dceaff}.category-link[aria-current=&quot;location&quot;]&gt;span:first-child{color:#a3caff}
+.index-note{font-size:10px;line-height:1.9;color:#6e89ab;margin:23px 12px 0;white-space:pre-line}
+.program-section{scroll-margin-top:24px;margin-bottom:33px}.category-heading{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:15px}
+.heading-left{display:flex;align-items:flex-start;gap:14px}.category-number{font:10px Consolas,monospace;color:#9dbfec;border:1px solid #adcaff36;border-radius:5px;width:31px;height:31px;display:grid;place-items:center;flex-shrink:0;margin-top:2px;background:#0d1b3080}
+h2{font-size:23px;font-weight:450;line-height:1.3;letter-spacing:-.35px;margin:0;color:#e2edfc}.category-subtitle{margin:5px 0 0;color:#8fa8c7;font-size:11px}.category-status{font:8px Consolas,monospace;letter-spacing:1px;color:#748fb1;flex-shrink:0}
+.table-wrap{border:1px solid #accaff2b;border-radius:8px;overflow:hidden;background:linear-gradient(160deg,#0d1b31d9,#071326d4);box-shadow:0 10px 32px #0002}
+table{border-collapse:collapse;table-layout:fixed;width:100%;font-size:12px}col:first-child{width:62%}col:nth-child(2){width:17%}col:nth-child(3){width:21%}
+thead{background:linear-gradient(95deg,#153352,#282950);color:#cbdffb}th{text-align:left;font-weight:500;font-size:11px;padding:11px 17px;border-bottom:1px solid #abcaff24}th+th{border-left:1px solid #abcaff1a;text-align:center}
+td{padding:0}.empty-row td{height:80px;text-align:center}.empty-content{display:flex;align-items:center;justify-content:center;gap:10px;color:#7890af;font-size:11px;padding:18px}.empty-icon{display:grid;place-items:center;width:22px;height:22px;border:1px dashed #92b9ed40;border-radius:4px;font:15px Consolas,monospace;color:#91b1d5}
+.site-footer{display:flex;align-items:center;gap:28px;justify-content:space-between;padding:24px 0 30px;border-top:1px solid var(--line);margin-top:10px;color:#6e89ab}.site-footer&gt;span{font:9px Consolas,monospace;letter-spacing:1px}.site-footer p{font-size:10px;margin:0}.site-footer a{font-size:10px;color:#a1b9d8}
+noscript{display:block;padding:30px;color:#ffadba}
+@media(max-width:1040px){.directory-layout{grid-template-columns:190px minmax(0,1fr);gap:28px}h2{font-size:21px}.category-status{display:none}.directory-label{display:none}}
+@media(max-width:760px){.wrap{width:calc(100% - 36px)}.site-header{padding-block:20px;gap:12px}.brand{font-size:9px;letter-spacing:1px;gap:9px}.brand small{font-size:6px;letter-spacing:.6px}.brand-mark{width:32px;height:32px;font-size:20px}.current-page{display:none}.header-actions{gap:6px}.header-actions button{padding:7px 9px;font-size:9px}#language-toggle{min-width:36px}.page-heading{padding:32px 0 24px}.eyebrow{font-size:8px;letter-spacing:1.3px}.intro{font-size:11px;line-height:1.9}.directory-layout{display:block;padding-top:22px}.category-index{position:static;margin-bottom:27px}.index-title{font-size:10px;margin-bottom:10px}.category-index nav{display:flex;overflow-x:auto;gap:8px;padding:4px 2px 12px;scrollbar-width:thin}.category-link{white-space:nowrap;border:1px solid var(--line);border-radius:5px;align-items:center;gap:8px;padding:8px 10px;font-size:10px}.category-link&gt;span:first-child{padding-top:0}.category-link[aria-current=&quot;location&quot;]{border-color:#83b7ff70}.index-note{display:none}.category-heading{margin-bottom:12px}.heading-left{gap:11px}.category-number{width:27px;height:27px;font-size:9px}h2{font-size:19px}.category-subtitle{font-size:10px;margin-top:4px}.program-section{margin-bottom:29px}col:first-child{width:50%}col:nth-child(2){width:22%}col:nth-child(3){width:28%}th{font-size:10px;padding:10px 12px}.empty-content{font-size:10px;padding:18px 10px}.empty-row td{height:75px}.site-footer{flex-wrap:wrap;gap:12px;padding-block:20px}.site-footer p{font-size:9px;order:3;flex-basis:100%}.site-footer a{margin-left:auto}}
+@media(prefers-reduced-motion:reduce){:root{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
+&lt;/style&gt;
+  
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;canvas id=&quot;stars&quot; aria-hidden=&quot;true&quot;&gt;&lt;/canvas&gt;
+  &lt;div class=&quot;veil&quot; aria-hidden=&quot;true&quot;&gt;&lt;/div&gt;
+  &lt;a class=&quot;skip-link&quot; href=&quot;#main&quot; data-i18n=&quot;skip&quot;&gt;ข้ามไปเนื้อหา&lt;/a&gt;
+  &lt;header class=&quot;site-header wrap&quot; id=&quot;top&quot;&gt;
+    &lt;a class=&quot;brand&quot; href=&quot;#top&quot; aria-label=&quot;TA AutoLISP Collection&quot;&gt;&lt;span class=&quot;brand-mark&quot; aria-hidden=&quot;true&quot;&gt;A&lt;span&gt;_&lt;/span&gt;&lt;/span&gt;&lt;span&gt;TA PORTFOLIO&lt;small&gt;AUTOLISP AUTOMATION DEVELOPER&lt;/small&gt;&lt;/span&gt;&lt;/a&gt;
+    &lt;div class=&quot;header-actions&quot;&gt;&lt;span class=&quot;current-page&quot;&gt;PROGRAMS&lt;/span&gt;&lt;button id=&quot;motion-toggle&quot; type=&quot;button&quot; aria-pressed=&quot;false&quot; data-i18n=&quot;pause&quot;&gt;หยุดดาว&lt;/button&gt;&lt;button id=&quot;language-toggle&quot; type=&quot;button&quot; aria-label=&quot;Switch to English&quot;&gt;EN&lt;/button&gt;&lt;/div&gt;
+  &lt;/header&gt;
+  &lt;main class=&quot;wrap&quot; id=&quot;main&quot;&gt;
+    &lt;section class=&quot;page-heading&quot; aria-labelledby=&quot;page-title&quot;&gt;
+      &lt;div&gt;&lt;p class=&quot;eyebrow&quot;&gt;&lt;span class=&quot;status-dot&quot;&gt;&lt;/span&gt; THE AUTOLISP COLLECTION&lt;/p&gt;&lt;h1 id=&quot;page-title&quot;&gt;Programs&lt;span&gt;.&lt;/span&gt;&lt;/h1&gt;&lt;p class=&quot;intro&quot; data-i18n=&quot;intro&quot;&gt;คลังคำสั่ง AutoLISP แยกตามประเภทงาน เตรียมพื้นที่ไว้สำหรับคำสั่งและวิดีโอสาธิต&lt;/p&gt;&lt;/div&gt;
+      &lt;div class=&quot;directory-label&quot;&gt;&lt;span&gt;DIRECTORY / 01—07&lt;/span&gt;&lt;small data-i18n=&quot;directoryState&quot;&gt;โครงสร้างหมวด · รอเติมรายการคำสั่ง&lt;/small&gt;&lt;/div&gt;
+    &lt;/section&gt;
+    &lt;div class=&quot;directory-layout&quot;&gt;
+      &lt;aside class=&quot;category-index&quot;&gt;&lt;p class=&quot;index-title&quot; data-i18n=&quot;categories&quot;&gt;หมวดคำสั่ง&lt;/p&gt;&lt;nav id=&quot;category-nav&quot; aria-label=&quot;Program categories&quot;&gt;&lt;/nav&gt;&lt;p class=&quot;index-note&quot; data-i18n=&quot;indexNote&quot;&gt;เลือกหมวดเพื่อเลื่อนไปยังตาราง&lt;br&gt;ชื่อคำสั่งจะลิงก์ไปหน้ารายละเอียดภายหลัง&lt;/p&gt;&lt;/aside&gt;
+      &lt;div class=&quot;program-list&quot; id=&quot;program-list&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;noscript&gt;เปิด JavaScript เพื่อแสดงหมวดคำสั่ง / Enable JavaScript to display the program directory.&lt;/noscript&gt;
+  &lt;/main&gt;
+  &lt;footer class=&quot;site-footer wrap&quot;&gt;&lt;span&gt;TA / CAD AUTOMATION&lt;/span&gt;&lt;p data-i18n=&quot;footer&quot;&gt;เตรียมหมวดตามโฟลเดอร์เดิม · ยังไม่ระบุเวอร์ชันหรือวันอัปเดตของคำสั่ง&lt;/p&gt;&lt;a href=&quot;#top&quot; data-i18n=&quot;backTop&quot;&gt;กลับด้านบน ↑&lt;/a&gt;&lt;/footer&gt;
+&lt;script&gt;&quot;use strict&quot;;
+(() =&gt; {
+  // These seven categories match the user's existing collection directories.
+  // Empty tables are intentional: no invented commands, versions or dates.
+  const categories = [
+    {id:&quot;block-dynamic&quot;,number:&quot;01&quot;,title:&quot;Block &amp; Dynamic Block&quot;,th:&quot;บล็อกและไดนามิกบล็อก&quot;,en:&quot;Block and dynamic block workflows&quot;},
+    {id:&quot;attributes-text&quot;,number:&quot;02&quot;,title:&quot;Attributes, Text &amp; Numbering&quot;,th:&quot;แอตทริบิวต์ ข้อความ และการรันเลข&quot;,en:&quot;Attributes, text and numbering workflows&quot;},
+    {id:&quot;selection-inspection&quot;,number:&quot;03&quot;,title:&quot;Selection &amp; Inspection&quot;,th:&quot;การเลือกและตรวจสอบวัตถุ&quot;,en:&quot;Object selection and inspection workflows&quot;},
+    {id:&quot;geometry-placement&quot;,number:&quot;04&quot;,title:&quot;Geometry &amp; Placement&quot;,th:&quot;เรขาคณิตและการจัดวาง&quot;,en:&quot;Geometry and placement workflows&quot;},
+    {id:&quot;drawing-standards&quot;,number:&quot;05&quot;,title:&quot;Drawing Standards&quot;,th:&quot;มาตรฐานงานเขียนแบบ&quot;,en:&quot;Drawing standards workflows&quot;},
+    {id:&quot;layout-documentation&quot;,number:&quot;06&quot;,title:&quot;Layout &amp; Documentation&quot;,th:&quot;เลย์เอาต์และเอกสารแบบ&quot;,en:&quot;Layout and documentation workflows&quot;},
+    {id:&quot;data-reporting&quot;,number:&quot;07&quot;,title:&quot;Data &amp; Reporting&quot;,th:&quot;ข้อมูลและรายงาน&quot;,en:&quot;Data and reporting workflows&quot;}
+  ];
+  const copy={
+    th:{skip:&quot;ข้ามไปเนื้อหา&quot;,intro:&quot;คลังคำสั่ง AutoLISP แยกตามประเภทงาน เตรียมพื้นที่ไว้สำหรับคำสั่งและวิดีโอสาธิต&quot;,directoryState:&quot;โครงสร้างหมวด · รอเติมรายการคำสั่ง&quot;,categories:&quot;หมวดคำสั่ง&quot;,indexNote:&quot;เลือกหมวดเพื่อเลื่อนไปยังตาราง\nชื่อคำสั่งจะลิงก์ไปหน้ารายละเอียดภายหลัง&quot;,program:&quot;Program / คำสั่ง&quot;,version:&quot;Version&quot;,updated:&quot;Updated&quot;,empty:&quot;รอเพิ่มรายการคำสั่งในหมวดนี้&quot;,footer:&quot;เตรียมหมวดตามโฟลเดอร์เดิม · ยังไม่ระบุเวอร์ชันหรือวันอัปเดตของคำสั่ง&quot;,backTop:&quot;กลับด้านบน ↑&quot;,pause:&quot;หยุดดาว&quot;,resume:&quot;เปิดดาว&quot;},
+    en:{skip:&quot;Skip to content&quot;,intro:&quot;AutoLISP programs organized by workflow. A directory prepared for command details and video demonstrations.&quot;,directoryState:&quot;Category structure · Program entries pending&quot;,categories:&quot;PROGRAM CATEGORIES&quot;,indexNote:&quot;Choose a category to jump to its table.\nProgram names will link to detail pages later.&quot;,program:&quot;Program&quot;,version:&quot;Version&quot;,updated:&quot;Updated&quot;,empty:&quot;Program entries will be added here.&quot;,footer:&quot;Categories match the existing folders. Program versions and update dates are not assigned yet.&quot;,backTop:&quot;Back to top ↑&quot;,pause:&quot;Pause stars&quot;,resume:&quot;Resume stars&quot;}
+  };
+  let lang=&quot;th&quot;;
+  const nav=document.getElementById(&quot;category-nav&quot;),list=document.getElementById(&quot;program-list&quot;);
+  categories.forEach(category=&gt;{
+    const link=document.createElement(&quot;a&quot;);link.className=&quot;category-link&quot;;link.href=&quot;#&quot;+category.id;link.innerHTML=`&lt;span&gt;${category.number}&lt;/span&gt;&lt;span&gt;${category.title}&lt;/span&gt;`;nav.append(link);
+    const section=document.createElement(&quot;section&quot;);section.className=&quot;program-section&quot;;section.id=category.id;section.setAttribute(&quot;aria-labelledby&quot;,category.id+&quot;-title&quot;);
+    section.innerHTML=`&lt;div class=&quot;category-heading&quot;&gt;&lt;div class=&quot;heading-left&quot;&gt;&lt;span class=&quot;category-number&quot; aria-hidden=&quot;true&quot;&gt;${category.number}&lt;/span&gt;&lt;div&gt;&lt;h2 id=&quot;${category.id}-title&quot;&gt;${category.title}&lt;/h2&gt;&lt;p class=&quot;category-subtitle&quot; data-category=&quot;${category.id}&quot;&gt;&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;span class=&quot;category-status&quot;&gt;ENTRIES PENDING&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;table-wrap&quot;&gt;&lt;table aria-labelledby=&quot;${category.id}-title&quot;&gt;&lt;colgroup&gt;&lt;col&gt;&lt;col&gt;&lt;col&gt;&lt;/colgroup&gt;&lt;thead&gt;&lt;tr&gt;&lt;th scope=&quot;col&quot; data-i18n=&quot;program&quot;&gt;&lt;/th&gt;&lt;th scope=&quot;col&quot; data-i18n=&quot;version&quot;&gt;&lt;/th&gt;&lt;th scope=&quot;col&quot; data-i18n=&quot;updated&quot;&gt;&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr class=&quot;empty-row&quot;&gt;&lt;td colspan=&quot;3&quot;&gt;&lt;div class=&quot;empty-content&quot;&gt;&lt;span class=&quot;empty-icon&quot; aria-hidden=&quot;true&quot;&gt;+&lt;/span&gt;&lt;span data-i18n=&quot;empty&quot;&gt;&lt;/span&gt;&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;`;list.append(section);
+  });
+  const links=[...nav.querySelectorAll(&quot;a&quot;)];
+  function current(id){links.forEach(link=&gt;{if(link.getAttribute(&quot;href&quot;)===&quot;#&quot;+id)link.setAttribute(&quot;aria-current&quot;,&quot;location&quot;);else link.removeAttribute(&quot;aria-current&quot;);});}
+  // Works both as a standalone file and inside the existing sandboxed srcdoc.
+  document.addEventListener(&quot;click&quot;,event=&gt;{const link=event.target.closest('a[href^=&quot;#&quot;]');if(!link)return;const target=document.getElementById(link.getAttribute(&quot;href&quot;).slice(1));if(!target)return;event.preventDefault();target.scrollIntoView({behavior:motionQuery.matches?&quot;instant&quot;:&quot;smooth&quot;});if(target.classList.contains(&quot;program-section&quot;))current(target.id);});
+  function updateIndex(){if(scrollY+innerHeight&gt;=document.documentElement.scrollHeight-4){current(categories[categories.length-1].id);return;}let id=categories[0].id;for(const section of list.querySelectorAll(&quot;section&quot;)){if(section.getBoundingClientRect().top&lt;=120)id=section.id;}current(id);}
+  addEventListener(&quot;scroll&quot;,updateIndex,{passive:true});current(categories[0].id);
+  const motionQuery=matchMedia(&quot;(prefers-reduced-motion: reduce)&quot;);let paused=motionQuery.matches;
+  function render(){document.documentElement.lang=lang;document.querySelectorAll(&quot;[data-i18n]&quot;).forEach(node=&gt;node.textContent=copy[lang][node.dataset.i18n]);document.querySelectorAll(&quot;[data-category]&quot;).forEach(node=&gt;node.textContent=categories.find(category=&gt;category.id===node.dataset.category)[lang]);const button=document.getElementById(&quot;language-toggle&quot;);button.textContent=lang===&quot;th&quot;?&quot;EN&quot;:&quot;TH&quot;;button.setAttribute(&quot;aria-label&quot;,lang===&quot;th&quot;?&quot;Switch to English&quot;:&quot;เปลี่ยนเป็นภาษาไทย&quot;);updateMotion();}
+  document.getElementById(&quot;language-toggle&quot;).addEventListener(&quot;click&quot;,()=&gt;{lang=lang===&quot;th&quot;?&quot;en&quot;:&quot;th&quot;;render();});
+  const canvas=document.getElementById(&quot;stars&quot;),ctx=canvas.getContext(&quot;2d&quot;);let w=0,h=0,depth=0,stars=[],raf=null,last=0;
+  function reset(star,random=false){star.x=(Math.random()-.5)*w*2.5;star.y=(Math.random()-.5)*h*2.5;star.z=random?Math.random()*depth+1:depth;star.hue=190+Math.random()*65;}
+  function draw(time,still=false){if(!ctx)return;const delta=still?0:Math.min((time-(last||time))/16.67,2);last=time;ctx.fillStyle=&quot;rgba(2,5,15,.96)&quot;;ctx.fillRect(0,0,w,h);for(const star of stars){star.z-=.32*delta*9;if(star.z&lt;1){reset(star);continue;}const x=w/2+star.x/star.z*500,y=h/2+star.y/star.z*500;if(x&lt;-w*.3||x&gt;w*1.3||y&lt;-h*.3||y&gt;h*1.3){reset(star);continue;}const r=Math.max(.45,Math.min(2.2,1.4*(1-star.z/depth)+.4));ctx.fillStyle=`hsla(${star.hue},80%,${Math.round(70+(1-star.z/depth)*22)}%,.67)`;ctx.beginPath();ctx.arc(x,y,r*.55,0,Math.PI*2);ctx.fill();}}
+  function resize(){if(!ctx)return;w=innerWidth;h=innerHeight;depth=Math.max(w,h)*1.25;const ratio=Math.min(devicePixelRatio||1,2);canvas.width=w*ratio;canvas.height=h*ratio;ctx.setTransform(ratio,0,0,ratio,0,0);stars=Array.from({length:w&lt;650?350:650},()=&gt;{const star={};reset(star,true);return star;});draw(performance.now(),true);}
+  function tick(time){raf=null;if(paused||document.hidden)return;draw(time);raf=requestAnimationFrame(tick);}function start(){if(!ctx||paused||document.hidden||raf!==null)return;last=performance.now();raf=requestAnimationFrame(tick);}function stop(){if(raf!==null)cancelAnimationFrame(raf);raf=null;last=0;}
+  function updateMotion(){const button=document.getElementById(&quot;motion-toggle&quot;);button.textContent=copy[lang][paused?&quot;resume&quot;:&quot;pause&quot;];button.setAttribute(&quot;aria-pressed&quot;,String(paused));}
+  document.getElementById(&quot;motion-toggle&quot;).addEventListener(&quot;click&quot;,()=&gt;{paused=!paused;updateMotion();if(paused){stop();draw(performance.now(),true);}else start();});motionQuery.addEventListener(&quot;change&quot;,event=&gt;{paused=event.matches;updateMotion();paused?stop():start();});document.addEventListener(&quot;visibilitychange&quot;,()=&gt;document.hidden?stop():start());addEventListener(&quot;resize&quot;,resize);addEventListener(&quot;pagehide&quot;,stop);addEventListener(&quot;pageshow&quot;,start);
+  resize();render();start();
+})();
+
+ document.addEventListener(&quot;click&quot;,event=&gt;{const link=event.target.closest(&quot;a[href^=\&quot;#\&quot;]&quot;);if(!link)return;const destination=document.getElementById(link.getAttribute(&quot;href&quot;).slice(1));if(destination){event.preventDefault();destination.scrollIntoView({behavior:matchMedia(&quot;(prefers-reduced-motion: reduce)&quot;).matches?&quot;instant&quot;:&quot;smooth&quot;});}});
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe></section></body></html>

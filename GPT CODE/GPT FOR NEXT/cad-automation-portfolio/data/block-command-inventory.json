@@ -1,0 +1,1375 @@
+{
+  "source": "C:\\TA\\TA_COMPELETE\\z00x_TA_standard_sun_func_and_MAIN.lsp",
+  "sha256": "b6d5966a5d70f9e0335c62f90b57b12c3b5a92bc19c480fdc73c511595ec811f",
+  "line_count": 66104,
+  "total_definitions": 1004,
+  "base_category_names": 45,
+  "reviewed_scope_definitions": 61,
+  "unmatched_closing_lines": [],
+  "unmatched_opening_lines": [],
+  "scope_note": "45 prior Block-category commands plus 15 related commands; not an exhaustive semantic inventory of the entire file. Static inspection only; no CAD execution.",
+  "definitions": [
+    {
+      "name": "c:allow_explode_block_ALEX",
+      "line": 4363,
+      "end_line": 4368,
+      "span": 6,
+      "declared": [],
+      "dependencies": [
+        "lm:effectivename",
+        "ta:set-block-explodable"
+      ],
+      "same_name_lines": [
+        4363
+      ]
+    },
+    {
+      "name": "c:ADD_VISIBILITY_multi-mode_ADVSM_",
+      "line": 4382,
+      "end_line": 4607,
+      "span": 226,
+      "declared": [],
+      "dependencies": [
+        "lm:effectivename",
+        "lm:getdynpropallowedvalues",
+        "lm:removenth"
+      ],
+      "same_name_lines": [
+        4382
+      ]
+    },
+    {
+      "name": "c:dyanamic_rename_array_REAR",
+      "line": 4608,
+      "end_line": 4620,
+      "span": 13,
+      "declared": [],
+      "dependencies": [],
+      "same_name_lines": [
+        4608
+      ]
+    },
+    {
+      "name": "c:dynamic_rewidth_array_1_rew1",
+      "line": 4621,
+      "end_line": 4714,
+      "span": 94,
+      "declared": [],
+      "dependencies": [],
+      "same_name_lines": [
+        4621
+      ]
+    },
+    {
+      "name": "c:dynamic_rewidth_array_2_rew2_",
+      "line": 4715,
+      "end_line": 4808,
+      "span": 94,
+      "declared": [],
+      "dependencies": [],
+      "same_name_lines": [
+        4715
+      ]
+    },
+    {
+      "name": "c:dynamic_ARsaveas_array_",
+      "line": 4809,
+      "end_line": 4895,
+      "span": 87,
+      "declared": [],
+      "dependencies": [
+        "lm:stringsubst",
+        "ta:set-block-blockscaling"
+      ],
+      "same_name_lines": [
+        4809
+      ]
+    },
+    {
+      "name": "c:dynamic_ARsaveas_array_and_insert_arsins",
+      "line": 4896,
+      "end_line": 5010,
+      "span": 115,
+      "declared": [],
+      "dependencies": [
+        "lm:getdynprops",
+        "lm:setdynpropvalue",
+        "lm:stringsubst",
+        "rad-to-deg",
+        "ta:set-block-blockscaling"
+      ],
+      "same_name_lines": [
+        4896
+      ]
+    },
+    {
+      "name": "c:BasePoint_to_BasePoint_[B2B]",
+      "line": 5011,
+      "end_line": 5220,
+      "span": 210,
+      "declared": [],
+      "dependencies": [],
+      "same_name_lines": [
+        5011
+      ]
+    },
+    {
+      "name": "c:Replace_block_object_Reblock",
+      "line": 5221,
+      "end_line": 5323,
+      "span": 103,
+      "declared": [],
+      "dependencies": [
+        "deg-to-rad",
+        "lm:effectivename",
+        "ta:ef_filter_ss_set_",
+        "ta:vla-insertblock"
+      ],
+      "same_name_lines": [
+        5221
+      ]
+    },
+    {
+      "name": "c:replace_block_object_reblock2",
+      "line": 5324,
+      "end_line": 5425,
+      "span": 102,
+      "declared": [],
+      "dependencies": [
+        "deg-to-rad",
+        "lm:effectivename",
+        "rad-to-deg",
+        "ta:ss-erase",
+        "ta:vla-insertblock"
+      ],
+      "same_name_lines": [
+        5324
+      ]
+    },
+    {
+      "name": "c:replace_block_object_reblock3",
+      "line": 5426,
+      "end_line": 5537,
+      "span": 112,
+      "declared": [],
+      "dependencies": [
+        "deg-to-rad",
+        "lm:effectivename",
+        "lm:getdynpropvalue",
+        "lm:setdynpropvalue",
+        "rad-to-deg",
+        "ta:vla-insertblock"
+      ],
+      "same_name_lines": [
+        5426
+      ]
+    },
+    {
+      "name": "c:DynBlk_make_thread-bolt_mktbolt",
+      "line": 5759,
+      "end_line": 5824,
+      "span": 66,
+      "declared": [],
+      "dependencies": [
+        "lm:setdynpropvalue",
+        "lm:stringsubst"
+      ],
+      "same_name_lines": [
+        5759
+      ]
+    },
+    {
+      "name": "c:MKTblk",
+      "line": 6066,
+      "end_line": 6173,
+      "span": 108,
+      "declared": [],
+      "dependencies": [
+        "lm:stringsubst",
+        "ta:vla-insertblock"
+      ],
+      "same_name_lines": [
+        6066
+      ]
+    },
+    {
+      "name": "c:MKblk",
+      "line": 6174,
+      "end_line": 6283,
+      "span": 110,
+      "declared": [],
+      "dependencies": [
+        "lm:stringsubst",
+        "ta:vla-insertblock"
+      ],
+      "same_name_lines": [
+        6174
+      ]
+    },
+    {
+      "name": "c:MKBREAL",
+      "line": 6284,
+      "end_line": 6338,
+      "span": 55,
+      "declared": [],
+      "dependencies": [
+        "ta:vla-insertblock"
+      ],
+      "same_name_lines": [
+        6284
+      ]
+    },
+    {
+      "name": "c:MKPartBLK_MKP2",
+      "line": 6339,
+      "end_line": 6444,
+      "span": 106,
+      "declared": [],
+      "dependencies": [
+        "lm:stringsubst",
+        "ta:vla-insertblock"
+      ],
+      "same_name_lines": [
+        6339
+      ]
+    },
+    {
+      "name": "c:MKPartBLK_MKPC06",
+      "line": 6445,
+      "end_line": 6571,
+      "span": 127,
+      "declared": [],
+      "dependencies": [
+        "lm:stringsubst",
+        "ta:get_name_block_in_drawing_to_list",
+        "ta:vla-insertblock",
+        "ta:wcmatch_list"
+      ],
+      "same_name_lines": [
+        6445
+      ]
+    },
+    {
+      "name": "c:rename_block_bycase",
+      "line": 6798,
+      "end_line": 6821,
+      "span": 24,
+      "declared": [],
+      "dependencies": [
+        "lm:stringsubst",
+        "ta:get_name_block_in_drawing_to_list_v2"
+      ],
+      "same_name_lines": [
+        6798
+      ]
+    },
+    {
+      "name": "c:get_block_bycase",
+      "line": 6822,
+      "end_line": 6863,
+      "span": 42,
+      "declared": [],
+      "dependencies": [
+        "lm:stringsubst",
+        "ta:get_name_block_in_drawing_to_list_v2",
+        "ta:keepnumber",
+        "ta:prefix_value_000",
+        "ta:renameblock_"
+      ],
+      "same_name_lines": [
+        6822
+      ]
+    },
+    {
+      "name": "c:insert_block_list_",
+      "line": 6883,
+      "end_line": 6906,
+      "span": 24,
+      "declared": [],
+      "dependencies": [
+        "ta:all-block_filter_",
+        "ta:move_axis_insertionpoint",
+        "ta:vla-insertblock"
+      ],
+      "same_name_lines": [
+        6883
+      ]
+    },
+    {
+      "name": "c:dynamic_update_U-Carrier_[UCupdate]",
+      "line": 6910,
+      "end_line": 7053,
+      "span": 144,
+      "declared": [],
+      "dependencies": [
+        "deg-to-rad",
+        "lm:effectivename",
+        "lm:getdynpropvalue",
+        "lm:setdynpropvalue",
+        "rad-to-deg"
+      ],
+      "same_name_lines": [
+        6910
+      ]
+    },
+    {
+      "name": "c:redynamicblock",
+      "line": 7055,
+      "end_line": 7126,
+      "span": 72,
+      "declared": [],
+      "dependencies": [
+        "lm:effectivename",
+        "lm:getdynprops",
+        "lm:setdynpropvalue",
+        "ta:interface_text_",
+        "ta:textscr_process_v2",
+        "ta:vla-insertblock"
+      ],
+      "same_name_lines": [
+        7055
+      ]
+    },
+    {
+      "name": "c:makedynamic_point_and_move",
+      "line": 7127,
+      "end_line": 7150,
+      "span": 24,
+      "declared": [],
+      "dependencies": [
+        "deg-to-rad",
+        "ta:get_pline_vertext_ins_point_"
+      ],
+      "same_name_lines": [
+        7127
+      ]
+    },
+    {
+      "name": "c:save_dynamic_scale_scdyn_",
+      "line": 10993,
+      "end_line": 11053,
+      "span": 61,
+      "declared": [],
+      "dependencies": [
+        "lm:effectivename",
+        "lm:getdynprops",
+        "lm:getvisibilityparametername",
+        "lm:getvisibilitystate",
+        "lm:setdynpropvalue",
+        "lm:setvisibilitystate",
+        "lm:toggleflipstate"
+      ],
+      "same_name_lines": [
+        10993
+      ]
+    },
+    {
+      "name": "c:fillter_blockname_to_text_b2text",
+      "line": 11285,
+      "end_line": 11325,
+      "span": 41,
+      "declared": [],
+      "dependencies": [
+        "lm:effectivename",
+        "lm:vl-setattributevalue",
+        "ta:fillter_block_name_"
+      ],
+      "same_name_lines": [
+        11285
+      ]
+    },
+    {
+      "name": "c:effectivename_to_att_EF2text",
+      "line": 11326,
+      "end_line": 11369,
+      "span": 44,
+      "declared": [],
+      "dependencies": [
+        "lm:effectivename",
+        "lm:vl-setattributevalue"
+      ],
+      "same_name_lines": [
+        11326
+      ]
+    },
+    {
+      "name": "c:rename_block_RENBLKV2_RENB2",
+      "line": 11370,
+      "end_line": 11411,
+      "span": 42,
+      "declared": [],
+      "dependencies": [
+        "lm:effectivename",
+        "lm:vl-getattributevalue"
+      ],
+      "same_name_lines": [
+        11370
+      ]
+    },
+    {
+      "name": "c:rename_block_RENBLKV2_RENB3",
+      "line": 11412,
+      "end_line": 11418,
+      "span": 7,
+      "declared": [],
+      "dependencies": [],
+      "same_name_lines": [
+        11412
+      ]
+    },
+    {
+      "name": "c:rename_block_RENBLKV2_RENB3x",
+      "line": 11419,
+      "end_line": 11491,
+      "span": 73,
+      "declared": [
+        "text1_ename_",
+        "text1_obj_",
+        "text2_ename_",
+        "text2_obj_",
+        "old_block_name_",
+        "new_block_name_",
+        "blocks_",
+        "block_def_",
+        "error_result_"
+      ],
+      "dependencies": [],
+      "same_name_lines": [
+        11419
+      ]
+    },
+    {
+      "name": "c:rename_block_RENBLK",
+      "line": 11492,
+      "end_line": 11526,
+      "span": 35,
+      "declared": [],
+      "dependencies": [
+        "lm:effectivename",
+        "lm:vl-getattributevalue"
+      ],
+      "same_name_lines": [
+        11492
+      ]
+    },
+    {
+      "name": "c:rename_block_RENBLKV4_RENB4",
+      "line": 11542,
+      "end_line": 11591,
+      "span": 50,
+      "declared": [],
+      "dependencies": [
+        "lm:effectivename"
+      ],
+      "same_name_lines": [
+        11542
+      ]
+    },
+    {
+      "name": "c:matching_dynamic_properties_madynprop",
+      "line": 18348,
+      "end_line": 18455,
+      "span": 108,
+      "declared": [],
+      "dependencies": [
+        "_endundo",
+        "_startundo",
+        "lm:effectivename",
+        "lm:getdynprops",
+        "lm:setdynpropvalue",
+        "ta:interface_text_",
+        "ta:textscr_process_v2"
+      ],
+      "same_name_lines": [
+        18348
+      ]
+    },
+    {
+      "name": "c:matching_attribute_properties_maatt",
+      "line": 18456,
+      "end_line": 18579,
+      "span": 124,
+      "declared": [],
+      "dependencies": [
+        "_endundo",
+        "_startundo",
+        "lm:effectivename",
+        "lm:vl-getattributevalue",
+        "lm:vl-getattributevalue-tag-ta-modifies",
+        "lm:vl-getattributevalue-val-ta-modifies",
+        "lm:vl-getattributevalues",
+        "lm:vl-setattributevalue",
+        "ta:interface_text_",
+        "ta:textscr_process_v2"
+      ],
+      "same_name_lines": [
+        18456
+      ]
+    },
+    {
+      "name": "c:matching_attribute_properties_madeepatt",
+      "line": 18580,
+      "end_line": 18615,
+      "span": 36,
+      "declared": [],
+      "dependencies": [
+        "_endundo",
+        "_startundo"
+      ],
+      "same_name_lines": [
+        18580
+      ]
+    },
+    {
+      "name": "c:offset_block_ofblk",
+      "line": 19069,
+      "end_line": 19118,
+      "span": 50,
+      "declared": [],
+      "dependencies": [
+        "_endundo",
+        "_startundo",
+        "ta:move_polar_insertionpoint"
+      ],
+      "same_name_lines": [
+        19069
+      ]
+    },
+    {
+      "name": "c:qblk",
+      "line": 20214,
+      "end_line": 20235,
+      "span": 22,
+      "declared": [],
+      "dependencies": [
+        "lm:effectivename",
+        "ta:getkword"
+      ],
+      "same_name_lines": [
+        20214
+      ]
+    },
+    {
+      "name": "c:insert_by_polyline_blk2pline",
+      "line": 20287,
+      "end_line": 20430,
+      "span": 144,
+      "declared": [],
+      "dependencies": [
+        "_endundo",
+        "_startundo",
+        "deg-to-rad",
+        "ta:get_pline_vertext_ins_point_",
+        "ta:getkword"
+      ],
+      "same_name_lines": [
+        20287
+      ]
+    },
+    {
+      "name": "c:insert_by_line_blk2pline",
+      "line": 20431,
+      "end_line": 20527,
+      "span": 97,
+      "declared": [],
+      "dependencies": [
+        "_endundo",
+        "_startundo"
+      ],
+      "same_name_lines": [
+        20431
+      ]
+    },
+    {
+      "name": "c:insert_by_intersect_blk2in_",
+      "line": 20528,
+      "end_line": 20642,
+      "span": 115,
+      "declared": [],
+      "dependencies": [
+        "deg-to-rad",
+        "lm:intersectionsinset"
+      ],
+      "same_name_lines": [
+        20528
+      ]
+    },
+    {
+      "name": "c:insert_by_centroid_blk2ct",
+      "line": 20643,
+      "end_line": 20661,
+      "span": 19,
+      "declared": [],
+      "dependencies": [
+        "lm:polycentroid"
+      ],
+      "same_name_lines": [
+        20643
+      ]
+    },
+    {
+      "name": "c:insert_by_centroid_blk2cen",
+      "line": 20662,
+      "end_line": 20695,
+      "span": 34,
+      "declared": [],
+      "dependencies": [
+        "lm:setdynpropvalue",
+        "ta:assembly_coordinate_coner"
+      ],
+      "same_name_lines": [
+        20662
+      ]
+    },
+    {
+      "name": "c:insert_array_insarray",
+      "line": 21442,
+      "end_line": 21510,
+      "span": 69,
+      "declared": [],
+      "dependencies": [],
+      "same_name_lines": [
+        21442
+      ]
+    },
+    {
+      "name": "c:counting_blklist_",
+      "line": 21737,
+      "end_line": 21811,
+      "span": 75,
+      "declared": [],
+      "dependencies": [
+        "lm:effectivename",
+        "ta:count_item_in_list_",
+        "ta:list_to_mtext_"
+      ],
+      "same_name_lines": [
+        21737,
+        21898
+      ]
+    },
+    {
+      "name": "c:counting_blklist_",
+      "line": 21898,
+      "end_line": 22071,
+      "span": 174,
+      "declared": [],
+      "dependencies": [
+        "lm:effectivename",
+        "lm:getdynpropvalue",
+        "lm:round",
+        "ta:assembly_coordinate_coner",
+        "ta:count_item_in_list_",
+        "ta:ef_filter_ss_set_",
+        "ta:list_to_mtext_"
+      ],
+      "same_name_lines": [
+        21737,
+        21898
+      ]
+    },
+    {
+      "name": "c:expl-p",
+      "line": 25301,
+      "end_line": 25312,
+      "span": 12,
+      "declared": [],
+      "dependencies": [],
+      "same_name_lines": [
+        25301
+      ]
+    },
+    {
+      "name": "c:ccc1_",
+      "line": 25518,
+      "end_line": 25528,
+      "span": 11,
+      "declared": [],
+      "dependencies": [
+        "rad-to-deg"
+      ],
+      "same_name_lines": [
+        25518
+      ]
+    },
+    {
+      "name": "c:unisc_",
+      "line": 27315,
+      "end_line": 27320,
+      "span": 6,
+      "declared": [],
+      "dependencies": [
+        "lm:effectivename",
+        "ta:set-block-blockscaling"
+      ],
+      "same_name_lines": [
+        27315
+      ]
+    },
+    {
+      "name": "c:resc",
+      "line": 29004,
+      "end_line": 29053,
+      "span": 50,
+      "declared": [],
+      "dependencies": [],
+      "same_name_lines": [
+        29004
+      ]
+    },
+    {
+      "name": "c:Resupport_spacing_DP1_",
+      "line": 33032,
+      "end_line": 33155,
+      "span": 124,
+      "declared": [],
+      "dependencies": [
+        "lm:getdynpropvalue",
+        "lm:setdynpropvalue",
+        "rad-to-deg"
+      ],
+      "same_name_lines": [
+        33032
+      ]
+    },
+    {
+      "name": "c:Assembly_blcok_",
+      "line": 33156,
+      "end_line": 33188,
+      "span": 33,
+      "declared": [],
+      "dependencies": [],
+      "same_name_lines": [
+        33156
+      ]
+    },
+    {
+      "name": "c:select_dynamic_block_seldyn",
+      "line": 51869,
+      "end_line": 51914,
+      "span": 46,
+      "declared": [],
+      "dependencies": [],
+      "same_name_lines": [
+        51869
+      ]
+    },
+    {
+      "name": "c:select_not_dynamic_block_",
+      "line": 51915,
+      "end_line": 51960,
+      "span": 46,
+      "declared": [],
+      "dependencies": [],
+      "same_name_lines": [
+        51915
+      ]
+    },
+    {
+      "name": "c:point_to_block_pt2blk",
+      "line": 59602,
+      "end_line": 59650,
+      "span": 49,
+      "declared": [],
+      "dependencies": [
+        "deg-to-rad",
+        "ta:vla-insertblock"
+      ],
+      "same_name_lines": [
+        59602
+      ]
+    },
+    {
+      "name": "c:dynjoint",
+      "line": 59760,
+      "end_line": 59863,
+      "span": 104,
+      "declared": [],
+      "dependencies": [
+        "deg-to-rad",
+        "lm:setdynpropvalue",
+        "rad-to-deg",
+        "ta:modifyrotation"
+      ],
+      "same_name_lines": [
+        59760
+      ]
+    },
+    {
+      "name": "c:STAHP",
+      "line": 59933,
+      "end_line": 59990,
+      "span": 58,
+      "declared": [],
+      "dependencies": [
+        "lm:round",
+        "lm:setdynpropvalue"
+      ],
+      "same_name_lines": [
+        59933
+      ]
+    },
+    {
+      "name": "c:tempPG",
+      "line": 60100,
+      "end_line": 60130,
+      "span": 31,
+      "declared": [],
+      "dependencies": [
+        "lm:getdynpropvalue",
+        "lm:roundup",
+        "lm:setdynpropvalue",
+        "ta:move_axis_insertionpoint"
+      ],
+      "same_name_lines": [
+        60100
+      ]
+    },
+    {
+      "name": "c:special_explode_sexx",
+      "line": 62703,
+      "end_line": 62770,
+      "span": 68,
+      "declared": [],
+      "dependencies": [
+        "_startundo",
+        "lm:effectivename",
+        "lm:getdynpropvalue",
+        "lm:setdynpropvalue"
+      ],
+      "same_name_lines": [
+        62703
+      ]
+    },
+    {
+      "name": "c:prefix-subfix_all-block_",
+      "line": 62831,
+      "end_line": 62850,
+      "span": 20,
+      "declared": [],
+      "dependencies": [
+        "ta:get_name_block_in_drawing_to_list_v2"
+      ],
+      "same_name_lines": [
+        62831
+      ]
+    },
+    {
+      "name": "c:RECTANGLE_TO_BLOCK_REC-TO-BLK",
+      "line": 65013,
+      "end_line": 65064,
+      "span": 52,
+      "declared": [],
+      "dependencies": [
+        "_endundo",
+        "_startundo",
+        "deg-to-rad",
+        "ta:assembly_coordinate_coner",
+        "ta:vla-insertblock"
+      ],
+      "same_name_lines": [
+        65013
+      ]
+    },
+    {
+      "name": "c:temp_T7",
+      "line": 65091,
+      "end_line": 65140,
+      "span": 50,
+      "declared": [],
+      "dependencies": [
+        "lm:setdynpropvalue",
+        "ta:ef_filter_ss_set_v2_"
+      ],
+      "same_name_lines": [
+        65091
+      ]
+    },
+    {
+      "name": "c:TA_SET_ALL_BLOCK_UNITS_MM",
+      "line": 65145,
+      "end_line": 65206,
+      "span": 62,
+      "declared": [
+        "acad_document_",
+        "blocks_collection_",
+        "block_obj_",
+        "success_count_",
+        "skip_count_",
+        "error_result_"
+      ],
+      "dependencies": [],
+      "same_name_lines": [
+        65145
+      ]
+    }
+  ],
+  "direct_helper_definitions": [
+    {
+      "name": "_EndUndo",
+      "line": 15532,
+      "end_line": 15541,
+      "declared": [
+        "doc"
+      ]
+    },
+    {
+      "name": "_StartUndo",
+      "line": 15523,
+      "end_line": 15530,
+      "declared": [
+        "doc"
+      ]
+    },
+    {
+      "name": "deg-to-rad",
+      "line": 2772,
+      "end_line": 2774,
+      "declared": [
+        "angle"
+      ]
+    },
+    {
+      "name": "LM:effectivename",
+      "line": 37,
+      "end_line": 44,
+      "declared": [
+        "obj"
+      ]
+    },
+    {
+      "name": "LM:getdynpropallowedvalues",
+      "line": 207,
+      "end_line": 212,
+      "declared": [
+        "blk",
+        "prp"
+      ]
+    },
+    {
+      "name": "LM:getdynprops",
+      "line": 177,
+      "end_line": 181,
+      "declared": [
+        "blk"
+      ]
+    },
+    {
+      "name": "LM:getdynpropvalue",
+      "line": 145,
+      "end_line": 150,
+      "declared": [
+        "blk",
+        "prp"
+      ]
+    },
+    {
+      "name": "LM:getvisibilityparametername",
+      "line": 236,
+      "end_line": 268,
+      "declared": [
+        "blk",
+        "vis"
+      ]
+    },
+    {
+      "name": "LM:getvisibilitystate",
+      "line": 274,
+      "end_line": 278,
+      "declared": [
+        "blk",
+        "vis"
+      ]
+    },
+    {
+      "name": "LM:intersectionsinset",
+      "line": 1219,
+      "end_line": 1229,
+      "declared": [
+        "sel",
+        "id1",
+        "id2",
+        "ob1",
+        "ob2",
+        "rtn"
+      ]
+    },
+    {
+      "name": "LM:PolyCentroid",
+      "line": 2548,
+      "end_line": 2594,
+      "declared": [
+        "e",
+        "l"
+      ]
+    },
+    {
+      "name": "LM:RemoveNth",
+      "line": 296,
+      "end_line": 302,
+      "declared": [
+        "n",
+        "l",
+        "i"
+      ]
+    },
+    {
+      "name": "LM:round",
+      "line": 2856,
+      "end_line": 2858,
+      "declared": [
+        "n"
+      ]
+    },
+    {
+      "name": "LM:roundup",
+      "line": 2859,
+      "end_line": 2863,
+      "declared": [
+        "n",
+        "m"
+      ]
+    },
+    {
+      "name": "LM:setdynpropvalue",
+      "line": 158,
+      "end_line": 171,
+      "declared": [
+        "blk",
+        "prp",
+        "val"
+      ]
+    },
+    {
+      "name": "LM:SetVisibilityState",
+      "line": 285,
+      "end_line": 293,
+      "declared": [
+        "blk",
+        "val",
+        "vis"
+      ]
+    },
+    {
+      "name": "LM:StringSubst",
+      "line": 3425,
+      "end_line": 3439,
+      "declared": [
+        "new",
+        "old",
+        "str",
+        "inc",
+        "len"
+      ]
+    },
+    {
+      "name": "LM:StringSubst",
+      "line": 11146,
+      "end_line": 11156,
+      "declared": [
+        "new",
+        "old",
+        "str",
+        "inc",
+        "len"
+      ]
+    },
+    {
+      "name": "LM:toggleflipstate",
+      "line": 218,
+      "end_line": 230,
+      "declared": [
+        "blk"
+      ]
+    },
+    {
+      "name": "LM:vl-getattributevalue",
+      "line": 81,
+      "end_line": 89,
+      "declared": [
+        "blk",
+        "tag"
+      ]
+    },
+    {
+      "name": "LM:vl-getattributevalue-tag-TA-Modifies",
+      "line": 116,
+      "end_line": 120,
+      "declared": [
+        "blk"
+      ]
+    },
+    {
+      "name": "LM:vl-getattributevalue-val-TA-Modifies",
+      "line": 121,
+      "end_line": 125,
+      "declared": [
+        "blk"
+      ]
+    },
+    {
+      "name": "LM:vl-getattributevalues",
+      "line": 111,
+      "end_line": 115,
+      "declared": [
+        "blk"
+      ]
+    },
+    {
+      "name": "LM:vl-setattributevalue",
+      "line": 96,
+      "end_line": 106,
+      "declared": [
+        "blk",
+        "tag",
+        "val"
+      ]
+    },
+    {
+      "name": "rad-to-deg",
+      "line": 2775,
+      "end_line": 2777,
+      "declared": [
+        "rad"
+      ]
+    },
+    {
+      "name": "TA:all-block_filter_",
+      "line": 6864,
+      "end_line": 6882,
+      "declared": [
+        "wildcard-search_"
+      ]
+    },
+    {
+      "name": "TA:assembly_coordinate_coner",
+      "line": 2732,
+      "end_line": 2769,
+      "declared": [
+        "main_border_"
+      ]
+    },
+    {
+      "name": "TA:Count_item_in_list_",
+      "line": 1440,
+      "end_line": 1455,
+      "declared": [
+        "c_list_"
+      ]
+    },
+    {
+      "name": "TA:EF_Filter_ss_set_",
+      "line": 1257,
+      "end_line": 1282,
+      "declared": [
+        "ss_pre_filter_set_",
+        "effectivename"
+      ]
+    },
+    {
+      "name": "TA:EF_Filter_ss_set_v2_",
+      "line": 1283,
+      "end_line": 1311,
+      "declared": [
+        "ss_pre_filter_set_",
+        "effectivename_list"
+      ]
+    },
+    {
+      "name": "TA:fillter_block_name_",
+      "line": 11144,
+      "end_line": 11227,
+      "declared": [
+        "blk_ename_"
+      ]
+    },
+    {
+      "name": "TA:get_name_block_in_drawing_to_list",
+      "line": 3485,
+      "end_line": 3532,
+      "declared": []
+    },
+    {
+      "name": "TA:get_name_block_in_drawing_to_list_v2",
+      "line": 3533,
+      "end_line": 3582,
+      "declared": []
+    },
+    {
+      "name": "TA:Get_Pline_vertext_ins_point_",
+      "line": 2481,
+      "end_line": 2491,
+      "declared": [
+        "ename_"
+      ]
+    },
+    {
+      "name": "TA:getkword",
+      "line": 24495,
+      "end_line": 24519,
+      "declared": [
+        "getkword_text_",
+        "initget_text1_",
+        "initget_text2_",
+        "value-true1",
+        "value-false1"
+      ]
+    },
+    {
+      "name": "TA:interface_text_",
+      "line": 20110,
+      "end_line": 20121,
+      "declared": [
+        "symbol"
+      ]
+    },
+    {
+      "name": "TA:KeepNumber",
+      "line": 3159,
+      "end_line": 3166,
+      "declared": [
+        "str"
+      ]
+    },
+    {
+      "name": "TA:List_to_mtext_",
+      "line": 3167,
+      "end_line": 3216,
+      "declared": [
+        "input_list_",
+        "insertion_point_",
+        "text_height_",
+        "acad_document_",
+        "drawing_space_",
+        "mtext_string_",
+        "mtext_obj_"
+      ]
+    },
+    {
+      "name": "TA:ModifyRotation",
+      "line": 2791,
+      "end_line": 2855,
+      "declared": [
+        "ex_rotation",
+        "new_rotation"
+      ]
+    },
+    {
+      "name": "TA:ModifyRotation",
+      "line": 17388,
+      "end_line": 17452,
+      "declared": [
+        "ex_rotation",
+        "new_rotation"
+      ]
+    },
+    {
+      "name": "TA:ModifyRotation",
+      "line": 17521,
+      "end_line": 17585,
+      "declared": [
+        "ex_rotation",
+        "new_rotation"
+      ]
+    },
+    {
+      "name": "TA:move_axis_insertionpoint",
+      "line": 1847,
+      "end_line": 1907,
+      "declared": [
+        "blk_obj_",
+        "axis_set_",
+        "axis_val_"
+      ]
+    },
+    {
+      "name": "TA:move_polar_insertionpoint",
+      "line": 1908,
+      "end_line": 1972,
+      "declared": [
+        "blk_obj_",
+        "axis_set_",
+        "axis_val_"
+      ]
+    },
+    {
+      "name": "TA:prefix_value_000",
+      "line": 3109,
+      "end_line": 3147,
+      "declared": [
+        "n"
+      ]
+    },
+    {
+      "name": "TA:renameblock_",
+      "line": 11056,
+      "end_line": 11143,
+      "declared": [
+        "old_block_name_",
+        "new_block_name_",
+        "doc_",
+        "blocks_",
+        "block_def_",
+        "error_result_"
+      ]
+    },
+    {
+      "name": "TA:set-block-blockscaling",
+      "line": 4369,
+      "end_line": 4381,
+      "declared": [
+        "block-name",
+        "parameter"
+      ]
+    },
+    {
+      "name": "TA:set-block-explodable",
+      "line": 4339,
+      "end_line": 4362,
+      "declared": [
+        "block-name",
+        "allow-exploding"
+      ]
+    },
+    {
+      "name": "TA:ss-erase",
+      "line": 2198,
+      "end_line": 2208,
+      "declared": [
+        "ss_pre_filter_set_xx_"
+      ]
+    },
+    {
+      "name": "TA:textscr_process_V2",
+      "line": 2673,
+      "end_line": 2710,
+      "declared": [
+        "msg-1",
+        "overall_rangecell_data_list_i",
+        "overall_rangecell_data_list_"
+      ]
+    },
+    {
+      "name": "TA:vla-insertblock",
+      "line": 4314,
+      "end_line": 4338,
+      "declared": [
+        "blockname",
+        "insertion_point",
+        "scale",
+        "rotation"
+      ]
+    },
+    {
+      "name": "TA:wcmatch_list",
+      "line": 1500,
+      "end_line": 1626,
+      "declared": [
+        "filter_string_list_",
+        "list_data_",
+        "strcase_val"
+      ]
+    }
+  ],
+  "dependency_note": "Internal call-head candidates only. Indirect calls, quoted expressions, external CAD commands, document state and block schemas require manual review."
+}

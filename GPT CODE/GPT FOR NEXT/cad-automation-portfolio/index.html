@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="AutoLISP Automation Developer — a Thai/English portfolio of CAD automation tools, organized by workflow.">
+  <meta name="color-scheme" content="light">
+  <title>AutoLISP Automation Developer — CAD Automation Portfolio</title>
+  <link rel="stylesheet" href="css/home.css">
+  <script src="js/home.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main" data-i18n="skip">ข้ามไปเนื้อหา</a>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="AutoLISP Automation Developer home">
+      <span class="brand-mark" aria-hidden="true">A<span>_</span></span>
+      <span>AutoLISP<span class="brand-sub">AUTOMATION DEVELOPER</span></span>
+    </a>
+    <nav aria-label="Main navigation">
+      <a href="#tools" data-i18n="navTools">คลังคำสั่ง</a>
+      <a href="#about" data-i18n="navAbout">เกี่ยวกับพอร์ต</a>
+      <button class="language-button" id="language-toggle" type="button" aria-label="Switch to English">EN <span aria-hidden="true">↗</span></button>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero section-wrap" id="top" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="status-dot"></span> CAD AUTOMATION / PORTFOLIO</p>
+        <h1 id="hero-title">AutoLISP<br>Automation<br><span>Developer.</span></h1>
+        <p class="hero-tagline" data-i18n="tagline">เปลี่ยนงานเขียนแบบที่ทำซ้ำ<br>ให้เป็นขั้นตอนที่ชัดเจนและตรวจสอบได้</p>
+        <p class="hero-description" data-i18n="intro">พอร์ตเครื่องมือสำหรับ Block, Dynamic Block และงานจัดการข้อมูลในแบบ เริ่มจากปัญหาที่ต้องแก้ ไปจนถึงวิธีใช้และข้อจำกัดของแต่ละคำสั่ง</p>
+        <div class="hero-actions">
+          <a class="button button-dark" href="#tools"><span data-i18n="explore">สำรวจคำสั่ง</span><span aria-hidden="true">↗</span></a>
+          <a class="text-link" href="#featured"><span data-i18n="featuredLink">ดูผลงานที่กำลังคัดเลือก</span><span aria-hidden="true">↓</span></a>
+        </div>
+        <div class="hero-footnote"><span class="tiny-cross" aria-hidden="true">+</span><span data-i18n="heroNote">TH / EN · แยกตามงานใช้งานจริง · ระบุสถานะการตรวจ</span></div>
+      </div>
+
+      <div class="drawing-card" id="drawing-card">
+        <div class="drawing-header"><span class="drawing-number">01 / BLOCK AUTOMATION</span><span class="drawing-dots" aria-hidden="true">● ● ●</span></div>
+        <div class="drawing-title"><h2>Match Dynamic<br>Properties</h2><span class="drawing-badge">CONCEPT</span></div>
+        <svg class="cad-drawing" viewBox="0 0 600 345" role="img" aria-labelledby="drawing-svg-title drawing-svg-desc">
+          <title id="drawing-svg-title">Dynamic block property matching concept</title>
+          <desc id="drawing-svg-desc">A reference block with a length of 600, and two target blocks. The concept button makes the target lengths match the reference.</desc>
+          <defs>
+            <pattern id="cad-grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M 24 0 L 0 0 0 24" fill="none" stroke="#b4cbd9" stroke-opacity=".08" stroke-width="1"/></pattern>
+            <marker id="dimension-arrow" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto-start-reverse"><path d="M0,0 L7,3.5 L0,7" fill="none" stroke="#718da3" stroke-width="1"/></marker>
+            <g id="beam"><rect width="260" height="42" rx="1"/><path d="M0 10 H260 M0 32 H260 M14 0 V42 M246 0 V42"/><path d="M-14 21 H274" stroke-dasharray="8 6" opacity=".5"/></g>
+          </defs>
+          <rect width="600" height="345" fill="url(#cad-grid)"/>
+          <g font-family="Consolas, monospace" font-size="11" fill="#9bb1c3">
+            <text x="30" y="35">REFERENCE</text><text x="30" y="158">TARGET 01</text><text x="30" y="267">TARGET 02</text>
+            <text x="490" y="35" fill="#e6c46a">Length: 600</text>
+            <text x="490" y="158" class="target-value">Length: 300</text>
+            <text x="490" y="267" class="target-value">Length: 420</text>
+          </g>
+          <g stroke="#e6c46a" stroke-width="1.6" fill="none"><use href="#beam" x="110" y="45"/></g>
+          <g stroke="#71c9bc" stroke-width="1.6" fill="none" class="target-a"><use href="#beam" x="0" y="0"/></g>
+          <g stroke="#71c9bc" stroke-width="1.6" fill="none" class="target-b"><use href="#beam" x="0" y="0"/></g>
+          <g fill="none" stroke="#718da3" stroke-width="1">
+            <path d="M110 94 V113 M370 94 V113"/><path d="M114 106 H366" marker-start="url(#dimension-arrow)" marker-end="url(#dimension-arrow)"/>
+            <path d="M75 66 V306 M69 66 H81 M69 185 H81 M69 294 H81" stroke-dasharray="3 4"/>
+            <path d="M390 67 H440 V294 H392" stroke-dasharray="4 5" opacity=".7"/>
+          </g>
+          <g font-family="Consolas, monospace" font-size="10" fill="#9bb1c3"><text x="226" y="124">600</text><text x="454" y="213" transform="rotate(-90 454 213)">PROPERTY MATCH</text></g>
+          <g fill="#0e2335" stroke="#9bb1c3"><circle cx="110" cy="66" r="3"/><circle cx="110" cy="185" r="3"/><circle cx="110" cy="294" r="3"/></g>
+          <g stroke="#46637b" stroke-width="1"><path d="M18 15 H32 M25 8 V22 M568 321 H582 M575 314 V328"/></g>
+        </svg>
+        <div class="drawing-controls">
+          <p id="concept-status" aria-live="polite" data-i18n="conceptStatus">ถ่ายทอดค่า Length จากต้นแบบ</p>
+          <button id="concept-toggle" type="button"><span data-i18n="conceptButton">ลองภาพแนวคิด</span><span aria-hidden="true">→</span></button>
+        </div>
+        <p class="drawing-disclaimer" data-i18n="conceptDisclaimer">ภาพอธิบายแนวคิด ไม่ใช่ GIF หรือผลทดสอบจาก AutoCAD</p>
+      </div>
+    </section>
+
+    <div class="workflow-strip section-wrap"><span class="strip-label" data-i18n="workflow">เส้นทางสำรวจ</span><span data-i18n="step1">01 เลือกหมวด</span><span aria-hidden="true">→</span><span data-i18n="step2">02 ดูคำสั่ง</span><span aria-hidden="true">→</span><span data-i18n="step3">03 วิธีใช้และสื่อสาธิต</span></div>
+
+    <section class="tools-section section-wrap" id="tools" aria-labelledby="tools-title">
+      <div class="section-heading"><div><p class="eyebrow">THE TOOL LIBRARY</p><h2 id="tools-title" data-i18n="toolsTitle">เริ่มจากงานที่ต้องการทำ</h2></div><p data-i18n="toolsIntro">แยกหมวดตามการใช้งาน<br>ไม่ต้องจำชื่อคำสั่งก่อนเริ่มค้นหา</p></div>
+      <div class="category-grid" id="category-grid" aria-label="Tool categories"></div>
+      <p class="category-note" data-i18n="categoryNote">หมวดด้านบนเป็นโครงสร้างตัวอย่าง คลิกเพื่อกรองผลงานที่กำลังคัดเลือกด้านล่าง</p>
+    </section>
+
+    <section class="featured-section section-wrap" id="featured" aria-labelledby="featured-title">
+      <div class="section-heading"><div><p class="eyebrow">SELECTED WORK / IN REVIEW</p><h2 id="featured-title" data-i18n="featuredTitle">เครื่องมือที่กำลังคัดเลือก</h2></div><button class="reset-filter" id="reset-filter" type="button" data-i18n="showAll">แสดงทั้งหมด ↗</button></div>
+      <p class="filter-status" id="filter-status" aria-live="polite"></p>
+      <div class="tool-grid" id="tool-grid"></div>
+      <p class="empty-state" id="empty-state" hidden data-i18n="empty">หมวดนี้ยังไม่มีผลงานในตัวอย่างหน้าแรก จะเพิ่มหลังคัดเลือกและตรวจคำสั่งแล้ว</p>
+      <div class="review-note"><span aria-hidden="true">↳</span><p data-i18n="reviewNote">รายการนี้ผ่านการอ่าน source แต่ยังไม่ได้ทดสอบการทำงานใน CAD และยังไม่มีไฟล์ดาวน์โหลดหรือ GIF จริงในหน้าเว็บตัวอย่างนี้</p></div>
+    </section>
+
+    <section class="about-section section-wrap" id="about" aria-labelledby="about-title">
+      <div class="about-heading"><p class="eyebrow">BEHIND THE AUTOMATION</p><h2 id="about-title" data-i18n="aboutTitle">ไม่ได้เล่าแค่คำสั่ง<br>แต่เล่าวิธีแก้ปัญหา</h2><p class="profile-placeholder" data-i18n="profilePlaceholder">ส่วนแนะนำผู้พัฒนา — รอเติมชื่อ ประวัติ และช่องทางติดต่อ</p></div>
+      <div class="about-content"><p class="about-lead" data-i18n="aboutLead">พอร์ตนี้รวบรวม workflow อัตโนมัติสำหรับงานเขียนแบบ โดยแสดงว่าคำสั่งทำอะไร ใช้ข้อมูลใด และมีข้อจำกัดตรงไหน</p><div class="about-principles"><div><span>01</span><h3 data-i18n="principle1">เริ่มจากปัญหา</h3><p data-i18n="principle1Body">อธิบายงานที่ทำซ้ำและสิ่งที่เครื่องมือช่วยจัดการ</p></div><div><span>02</span><h3 data-i18n="principle2">แสดงหลักฐาน</h3><p data-i18n="principle2Body">ใช้ source และสื่อสาธิตจริง ไม่อ้างผลลัพธ์ที่ยังไม่ทดสอบ</p></div><div><span>03</span><h3 data-i18n="principle3">บอกขอบเขต</h3><p data-i18n="principle3Body">ระบุ compatibility, dependencies และเครดิตของ helpers</p></div></div></div>
+    </section>
+  </main>
+  <footer class="site-footer section-wrap"><a href="#top">AutoLISP<span> / AUTOMATION DEVELOPER</span></a><p data-i18n="footerNote">ตัวอย่างหน้าแรก · ยังไม่เผยแพร่ · TH / EN</p><a class="back-top" href="#top" data-i18n="backTop">กลับด้านบน ↑</a></footer>
+
+  <dialog id="tool-dialog" aria-labelledby="dialog-title"><div class="dialog-top"><span class="eyebrow">TOOL OVERVIEW</span><button id="dialog-close" type="button" data-i18n="close" aria-label="Close tool overview">ปิด ×</button></div><div id="dialog-content"></div></dialog>
+</body>
+</html>
