@@ -1,0 +1,2277 @@
+{
+  "source": "C:\\Users\\popul\\OneDrive\\เดสก์ท็อป\\GPT BACKUP\\.codex-global-state.json",
+  "prompt_history": {
+    "019f7163-1cc8-7322-8860-8e3be334cec3": [
+      {
+        "index": 0,
+        "text": "ส่งโค้ดมาทั้งหมดเลย",
+        "truncated": false
+      },
+      {
+        "index": 1,
+        "text": "ทำไม มัน ยาวจัง เท่ากับของเดิมรึเปล่า",
+        "truncated": false
+      },
+      {
+        "index": 2,
+        "text": "เห้ย ไม่ใช่ขยับไปขวา ขยับลงล่า",
+        "truncated": false
+      },
+      {
+        "index": 3,
+        "text": "ส่งมาทั้งหมด",
+        "truncated": false
+      },
+      {
+        "index": 4,
+        "text": "ขอโทษที \n\nขยับตั้งแต่ item used list \nลง ไป 10 ช่อง",
+        "truncated": false
+      },
+      {
+        "index": 5,
+        "text": "ให้ส่งโค้ดมาทั้งหมด ตลอด ",
+        "truncated": false
+      },
+      {
+        "index": 6,
+        "text": "โอเค",
+        "truncated": false
+      },
+      {
+        "index": 7,
+        "text": "เริ่ม",
+        "truncated": false
+      },
+      {
+        "index": 8,
+        "text": "ส่งสิ",
+        "truncated": false
+      },
+      {
+        "index": 9,
+        "text": "เพิ่มเป็น 15",
+        "truncated": false
+      },
+      {
+        "index": 10,
+        "text": "\r\nOption Explicit\r\n\r\nFunction copyallsheet(SourceRange As Range)\r\n\r\n    Dim ws As Worksheet\r\n    Dim wsFormula As Worksheet\r\n    Dim Result() As Variant\r\n    Dim r As Long\r\n    Dim c As Long\r\n    Dim outRow As Long\r\n    Dim RowCount As Long\r\n    Dim ColCount As Long\r\n    Dim SheetCount As Long\r\n    Dim FirstRow As Long\r\n    Dim FirstCol As Long\r\n\r\n    Set wsFormula = Application.Caller.Worksheet\r\n\r\n    RowCount = SourceRange.Rows.Count\r\n    ColCount = SourceRange.Columns.Count\r\n\r\n    FirstRow = SourceRange.Row\r\n    FirstCol = SourceRange.Column\r\n\r\n    SheetCount = ThisWorkbook.Worksheets.Count - 1\r\n\r\n    If SheetCount <= 0 Then\r\n        copyallsheet = \"\"\r\n        Exit Function\r\n    End If\r\n\r\n    ReDim Result(1 To SheetCount * RowCount, 1 To ColCount + 1)\r\n\r\n    outRow = 1\r\n\r\n    For Each ws In ThisWorkbook.Worksheets\r\n\r\n        If ws.Name <> wsFormula.Name Then\r\n\r\n            For r = 1 To RowCount\r\n\r\n                Result(outRow, 1) = ws.Name\r\n\r\n                For c = 1 To ColCount\r\n\r\n                    Result(outRow, c + 1) = _\r\n                        ws.Cells(FirstRow + r - 1, FirstCol + c - 1).Value\r\n\r\n                Next c\r\n\r\n                outRow = outRow + 1\r\n\r\n            Next r\r\n\r\n        End If\r\n\r\n    Next ws\r\n\r\n    copyallsheet = Result\r\n\r\nEnd Function\n\nสร้างเป็นไฟล์ bas ไปเก็บที่ C:\\TA\\TA_COMPELETE\\GPT CODE\\GPT CODE VBA \n\r",
+        "truncated": false
+      },
+      {
+        "index": 11,
+        "text": "สร้างอันนี้ด้วย",
+        "truncated": false
+      },
+      {
+        "index": 12,
+        "text": "Public Function KeepNumber(ByVal s As String) As Long\r\n    Dim i As Long\r\n    Dim t As String\r\n    Dim ch As String\r\n\r\n    For i = 1 To Len(s)\r\n        ch = Mid$(s, i, 1)\r\n\r\n        If ch >= \"0\" And ch <= \"9\" Then\r\n            t = t & ch\r\n        ElseIf Len(t) > 0 Then\r\n            Exit For\r\n        End If\r\n    Next i\r\n\r\n    If Len(t) > 0 Then\r\n        KeepNumber = CLng(t)\r\n    Else\r\n        KeepNumber = 0\r\n    End If\r\nEnd Function\r\n\r\nSub clear_scroll()\r\n ActiveSheet.UsedRange\r\nEnd Sub\r",
+        "truncated": false
+      },
+      {
+        "index": 13,
+        "text": "Option Explicit\r\n\r\nPublic Sub ToggleFormulaPrefix()\r\n\r\n    Dim targetCell As Range\r\n    Dim formulaText As String\r\n\r\n    Set targetCell = ActiveSheet.Range(\"AM2\")\r\n\r\n    With targetCell\r\n\r\n        'ถ้าเป็นสูตร ให้เพิ่ม Prefix เพื่อเปลี่ยนเป็นข้อความ\r\n        If .HasFormula Then\r\n            formulaText = .Formula2\r\n            .Value2 = \"'\" & formulaText\r\n\r\n        'ถ้าเป็นข้อความที่ขึ้นต้นด้วย = ให้เปลี่ยนกลับเป็นสูตร\r\n        ElseIf Left$(CStr(.Value2), 1) = \"=\" Then\r\n            formulaText = CStr(.Value2)\r\n            .Formula2 = formulaText\r\n\r\n        End If\r\n\r\n    End With\r\n\r\nEnd Sub\r",
+        "truncated": false
+      },
+      {
+        "index": 14,
+        "text": "ตั้งแต่ KeepNumber จนถึงล่าสุดนำไปใส่โฟลเดอ",
+        "truncated": false
+      },
+      {
+        "index": 15,
+        "text": "ที่บอกเมื่อกี้ ใส่ใน C:\\TA\\TA_COMPELETE\\GPT CODE\\GPT CODE VBA",
+        "truncated": false
+      },
+      {
+        "index": 16,
+        "text": "อนุญาติให้ใส่ตามตำแหน่ง C:\\TA\\TA_COMPELETE\\GPT CODE\\GPT CODE VBA",
+        "truncated": false
+      },
+      {
+        "index": 17,
+        "text": "งั้นตั้ง C:\\TA\\TA_COMPELETE\\GPT CODE\\GPT CODE VBA เป็น workspcae",
+        "truncated": false
+      },
+      {
+        "index": 18,
+        "text": "ให้่อ่าน แชทที่เคยคุยกันเรื่อง cutting length เอาไว้ ",
+        "truncated": false
+      },
+      {
+        "index": 19,
+        "text": "ศึกษาไว้ก้่อนว่า เคยใช้โค้ดอะไรทำงาน จะได้ไม่ต้อง เทรนใหม่",
+        "truncated": false
+      }
+    ],
+    "019f73d7-0a9d-72b0-9e5b-aa079447eaf0": [
+      {
+        "index": 0,
+        "text": "    result(1, 1) = \"ผลบวก\"\n    result(1, 2) = \"จำนวนคู่\"\n    result(1, 3) = \"ความน่าจะเป็น\" เปลี่ยนเป็น eng เพราะ vba ไม่มี font ไทย",
+        "truncated": false
+      },
+      {
+        "index": 1,
+        "text": "หรือ vba มีฟอนไทย",
+        "truncated": false
+      },
+      {
+        "index": 2,
+        "text": "เขียน vba ที่ทำให้ สูตรช่องที่กำหนด ให้กลายเป็น comment",
+        "truncated": false
+      },
+      {
+        "index": 3,
+        "text": "Set targetRange = ThisWorkbook.Worksheets(\"Sheet1\").Range(\"AM2:AM2\")\n\nset ให้เป็น active sheet ปัจจุบัน",
+        "truncated": false
+      },
+      {
+        "index": 4,
+        "text": "ปรับใหม่ เอาแค่เพิ่ม หรือ ลบ prefix ของสูตร ก็พอ ",
+        "truncated": false
+      },
+      {
+        "index": 5,
+        "text": "แก มีสิทเขียนโค้ดลง โฟลเดอ ไหนบ้าง",
+        "truncated": false
+      },
+      {
+        "index": 6,
+        "text": "เขียน ไฟล์ notepad ตัวอย่าง ลง C:\\TA\\TA_COMPELETE\\GPT CODE\\GPT CODE VBA",
+        "truncated": false
+      },
+      {
+        "index": 7,
+        "text": "ทำไม chat ช่องอื่น ทำไม่ได้",
+        "truncated": false
+      },
+      {
+        "index": 8,
+        "text": "อ่านไฟล์ excel ได้มั้ย",
+        "truncated": false
+      },
+      {
+        "index": 9,
+        "text": "อ่านชีทตั้งแต่ pp17ent1 - vs01 \nดูcol T ว่า จำนวน SELF DRILLING NO.8 (hex) (pc) รวมกันได้เท่าไร",
+        "truncated": false
+      },
+      {
+        "index": 10,
+        "text": "แล้ว N:O รวมกัน",
+        "truncated": false
+      },
+      {
+        "index": 11,
+        "text": " 656.00 \r\n 656.00 \r\n 444.00 \r\n 444.00 \r\n 10.00 \r\n 10.00 \r\n 324.00 \r\n 324.00 \r\n 560.00 \r\n 560.00 \r\n 338.00 \r\n 338.00 \r\n 216.00 \r\n 216.00 \r\n 150.00 \r\n 150.00 \r\n 452.00 \r\n 452.00 จำนวน  BK-L BK-R ใช่มั้ย \n 256.00 \r\n 256.00 \r\n 102.00 \r\n 102.00 \n\n\r",
+        "truncated": false
+      },
+      {
+        "index": 12,
+        "text": "1 ตัวใช่ self drill 2 ตัว",
+        "truncated": false
+      },
+      {
+        "index": 13,
+        "text": "ทำไม จำนวนไม่เท่ากัน",
+        "truncated": false
+      },
+      {
+        "index": 14,
+        "text": "แก้ไฟล์ได้มั้ย",
+        "truncated": false
+      },
+      {
+        "index": 15,
+        "text": "แก้ทั้งทีั่ยังเปิดไฟล์ หรอ",
+        "truncated": false
+      },
+      {
+        "index": 16,
+        "text": "นับจำนวนช่อง P",
+        "truncated": false
+      },
+      {
+        "index": 17,
+        "text": "4138 ใช้ hex 2 ตัว",
+        "truncated": false
+      },
+      {
+        "index": 18,
+        "text": "ไดคัด ลายเซ็น",
+        "truncated": false
+      },
+      {
+        "index": 19,
+        "text": "archive chat อยู่ตรงไหน",
+        "truncated": false
+      }
+    ],
+    "019f7958-3044-75d1-995d-a58dcee3351c": [
+      {
+        "index": 0,
+        "text": "คอมเครื่องที่ 1  ตั้งตรงเป็นที่ workspcae C:\\TA\\TA_COMPELETE\\GPT CODE\\GPT CODE VBA ",
+        "truncated": false
+      },
+      {
+        "index": 1,
+        "text": "มี chat ที่เคยคุยเรื่อง cutting length เอาไว้",
+        "truncated": false
+      },
+      {
+        "index": 2,
+        "text": "เอาไปใส่ในโฟลเดอ",
+        "truncated": false
+      },
+      {
+        "index": 3,
+        "text": "สรุปทำไงให้ โปรเจคออนไลน",
+        "truncated": false
+      },
+      {
+        "index": 4,
+        "text": "โชยว์ที่อยู่ workspace",
+        "truncated": false
+      }
+    ],
+    "019f7961-21ec-74f1-b2f3-b092a3cba95a": [
+      {
+        "index": 0,
+        "text": "รีเซตทุกวันไหน",
+        "truncated": false
+      },
+      {
+        "index": 1,
+        "text": "ถ้าใช้หมด เกิดไร",
+        "truncated": false
+      },
+      {
+        "index": 2,
+        "text": "ถ้าสมบมุติบางอย่างใช้ ตัวธรรมดา เพื่อ ประหยัด",
+        "truncated": false
+      },
+      {
+        "index": 3,
+        "text": "ถ้าเป็น  chat gpt ไม่นับ usage ใช่มั้ย",
+        "truncated": false
+      },
+      {
+        "index": 4,
+        "text": "ดูจำนวนการใช้งานยังไง",
+        "truncated": false
+      }
+    ],
+    "019f7baa-5a40-7670-b66f-b29124798605": [
+      {
+        "index": 0,
+        "text": "เพิ่ม attribute ข้างบนหน่อย",
+        "truncated": false
+      },
+      {
+        "index": 1,
+        "text": "แก้เป็น PACK_SUMMARY_v2_9",
+        "truncated": false
+      },
+      {
+        "index": 2,
+        "text": "ใส่ค่ายังไง",
+        "truncated": false
+      },
+      {
+        "index": 3,
+        "text": "ทำไมมันขึ้น #name",
+        "truncated": false
+      },
+      {
+        "index": 4,
+        "text": "ชื่อ attribute กับ function ตรงกันไม่ได้หรอ",
+        "truncated": false
+      },
+      {
+        "index": 5,
+        "text": "ไฟล์ bas อยุ่ใน workspace ถ้าสมมุติลากเข้าไปใส่ใน excel ถ้าเราแก้ไฟล์ที่โฟลเดอร์ workspace ไฟล์ ใน excel จะเปลี่ยนัม้ย",
+        "truncated": false
+      },
+      {
+        "index": 6,
+        "text": "ทำไงถึงจะเชื่อมกัน",
+        "truncated": false
+      },
+      {
+        "index": 7,
+        "text": "Option Explicit\r\n\r\nPublic Sub ToggleFormulaPrefix()\r\n\r\n    Dim targetCell As Range\r\n    Dim formulaText As String\r\n\r\n    Set targetCell = ActiveSheet.Range(\"AM2\")\r\n\r\n    With targetCell\r\n\r\n        'ถ้าเป็นสูตร ให้เพิ่ม Prefix เพื่อเปลี่ยนเป็นข้อความ\r\n        If .HasFormula Then\r\n            formulaText = .Formula2\r\n            .Value2 = \"'\" & formulaText\r\n\r\n        'ถ้าเป็นข้อความที่ขึ้นต้นด้วย = ให้เปลี่ยนกลับเป็นสูตร\r\n        ElseIf Left$(CStr(.Value2), 1) = \"=\" Then\r\n            formulaText = CStr(.Value2)\r\n            .Formula2 = formulaText\r\n\r\n        End If\r\n\r\n    End With\r\n\r\nEnd Sub\r\n\nแก้ AM2 เป็น user input และ คงค่านั้นไว้เสมอ",
+        "truncated": false
+      },
+      {
+        "index": 8,
+        "text": "ปรับข้อความใน text box ทุกอย่างเป็น ภาษาอังกฤษ ยกเว้น คอมเม้น",
+        "truncated": false
+      },
+      {
+        "index": 9,
+        "text": "เวลารัน ต้องรันตัวไหน",
+        "truncated": false
+      },
+      {
+        "index": 10,
+        "text": "Option Explicit\r\n\r\nPublic Sub ToggleFormulaPrefix()\r\n\r\n    Dim targetCell As Range\r\n    Dim formulaText As String\r\n\r\n    Set targetCell = ActiveSheet.Range(\"AM2\")\r\n\r\n    With targetCell\r\n\r\n        '¶éÒà»ç¹ÊÙµÃ ãËéà¾ÔèÁ Prefix à¾×èÍà»ÅÕèÂ¹à»ç¹¢éÍ¤ÇÒÁ\r\n        If .HasFormula Then\r\n            formulaText = .Formula2\r\n            .Value2 = \"'\" & formulaText\r\n\r\n        '¶éÒà»ç¹¢éÍ¤ÇÒÁ·Õè¢Öé¹µé¹´éÇÂ = ãËéà»ÅÕèÂ¹¡ÅÑºà»ç¹ÊÙµÃ\r\n        ElseIf Left$(CStr(.Value2), 1) = \"=\" Then\r\n            formulaText = CStr(.Value2)\r\n            .Formula2 = formulaText\r\n\r\n        End If\r\n\r\n    End With\r\n\r\nEnd Sub\n\nสูตรทำงานดีมั้ย ",
+        "truncated": false
+      },
+      {
+        "index": 11,
+        "text": "Attribute VB_Name = \"copyallsheet\"\nOption Explicit\n\nFunction copyallsheet(SourceRange As Range)\n\n    Dim ws As Worksheet\n    Dim wsFormula As Worksheet\n    Dim Result() As Variant\n    Dim r As Long\n    Dim c As Long\n    Dim outRow As Long\n    Dim RowCount As Long\n    Dim ColCount As Long\n    Dim SheetCount As Long\n    Dim FirstRow As Long\n    Dim FirstCol As Long\n\n    Set wsFormula = Application.Caller.Worksheet\n\n    RowCount = SourceRange.Rows.Count\n    ColCount = SourceRange.Columns.Count\n\n    FirstRow = SourceRange.Row\n    FirstCol = SourceRange.Column\n\n    SheetCount = ThisWorkbook.Worksheets.Count - 1\n\n    If SheetCount <= 0 Then\n        copyallsheet = \"\"\n        Exit Function\n    End If\n\n    ReDim Result(1 To SheetCount * RowCount, 1 To ColCount + 1)\n\n    outRow = 1\n\n    For Each ws In ThisWorkbook.Worksheets\n\n        If ws.Name <> wsFormula.Name Then\n\n            For r = 1 To RowCount\n\n                Result(outRow, 1) = ws.Name\n\n                For c = 1 To ColCount\n\n                    Result(outRow, c + 1) = _\n                        ws.Cells(FirstRow + r - 1, FirstCol + c - 1).Value\n\n                Next c\n\n                outRow = outRow + 1\n\n            Next r\n\n        End If\n\n    Next ws\n\n    copyallsheet = Result\n\nEnd Function\n\nเวอชั่น v2 ขอเป็น จำนวนชีทที่ใช้ copy ให้เพิ่มจุด start หน้าชีท argument ต่อให้เพิ่มจำนวนชีทที่copy ต่อจากจุด start",
+        "truncated": false
+      },
+      {
+        "index": 12,
+        "text": "Attribute VB_Name = \"pack_CopyAllSheet_v2\" ",
+        "truncated": false
+      },
+      {
+        "index": 13,
+        "text": "ถ้าไม่เป็นช่องที่ไม่มีข้อมูลให้เท่ากับ 0",
+        "truncated": false
+      },
+      {
+        "index": 14,
+        "text": "ให้เท่า \"\"",
+        "truncated": false
+      },
+      {
+        "index": 15,
+        "text": "สร้างไฟล์นี้ได้เลย",
+        "truncated": false
+      },
+      {
+        "index": 16,
+        "text": "วางไว้ตรง C:\\TA\\TA_COMPELETE\\GPT CODE\\GPT CODE VBA ก่อน",
+        "truncated": false
+      },
+      {
+        "index": 17,
+        "text": "ขอบคุณ รอบนี้ไม่เป็นไร เอามาวางไว้แล้ว",
+        "truncated": false
+      },
+      {
+        "index": 18,
+        "text": "โชยว์ที่อยู่ workspace",
+        "truncated": false
+      },
+      {
+        "index": 19,
+        "text": "เปลี่ยนเป็น C:\\TA\\TA_COMPELETE",
+        "truncated": false
+      }
+    ],
+    "019f8046-d01b-7c20-98c3-25ef85e30cab": [
+      {
+        "index": 0,
+        "text": "ภาษาไทย",
+        "truncated": false
+      }
+    ],
+    "019f804a-3ab4-7b82-b8f0-52a1892a4e64": [
+      {
+        "index": 0,
+        "text": "git clone [NONGSAISUEARAI/TA_COMPELETE](https://github.com/NONGSAISUEARAI/TA_COMPELETE)",
+        "truncated": false
+      },
+      {
+        "index": 1,
+        "text": "gh auth login",
+        "truncated": false
+      },
+      {
+        "index": 2,
+        "text": "รู่มั้ยว่าทำงานแล้วต้อ",
+        "truncated": false
+      },
+      {
+        "index": 3,
+        "text": "โอเค",
+        "truncated": false
+      },
+      {
+        "index": 4,
+        "text": "ถามหน่อย ถ้าคุยเรื่องหนังกับ กับคอมอีกเครื่องใน project คอมเครื่องจะรู้เรื่องมั้ย",
+        "truncated": false
+      }
+    ],
+    "019f8f8d-7c71-7f81-a9f0-f04d075434d9": [
+      {
+        "index": 0,
+        "text": "โอเค ตรวจแผ่นที่ผิด",
+        "truncated": false
+      },
+      {
+        "index": 1,
+        "text": "หัวข้อแผ่น ทำเป็นลิ้งไปที่ไฟล์ ดีกว่า",
+        "truncated": false
+      },
+      {
+        "index": 2,
+        "text": "ขอดูตัวอย่างสักหน่อย",
+        "truncated": false
+      },
+      {
+        "index": 3,
+        "text": "ชื่อไฟล์เต็มๆสิ",
+        "truncated": false
+      },
+      {
+        "index": 4,
+        "text": "โอเค ต่อไปเอาแบบนี้",
+        "truncated": false
+      },
+      {
+        "index": 5,
+        "text": "สรุปงานที่ทำ สิ่งที่เรียนรู้ วันนี้ เป็น chat history",
+        "truncated": false
+      },
+      {
+        "index": 6,
+        "text": "ได้สรุป วิธธีการแสดงข้อมูลด้วยมั้ย",
+        "truncated": false
+      },
+      {
+        "index": 7,
+        "text": "อัพเดทสิ่งที่ทำและพัฒนาทั้งหมด เป็น chat history yyyy mm dd ตามด้วยชื่อ ตรวจแบบ Performance Louver และจัดชุด PDF-DWG",
+        "truncated": false
+      },
+      {
+        "index": 8,
+        "text": "ย้าย chat history ไปยังโฟลเดอ ที่เป็น souce floder",
+        "truncated": false
+      },
+      {
+        "index": 9,
+        "text": "C:\\TA\\TA_COMPELETE\\GPT CODE\\GPT CODEX - ตรวจแบบ PERFORMANCE",
+        "truncated": false
+      },
+      {
+        "index": 10,
+        "text": "ตั้งชื่อ CHAT_HISTORY_YYYY-MM-DD_ตรวจแบบ Performance Louver และจัดชุด PDF-DWG",
+        "truncated": false
+      },
+      {
+        "index": 11,
+        "text": "ตรวจแบบจ้าาา",
+        "truncated": false
+      },
+      {
+        "index": 12,
+        "text": "ถูกมั้ย",
+        "truncated": false
+      },
+      {
+        "index": 13,
+        "text": "แก้ละ ถือว่า ผ่าน",
+        "truncated": false
+      },
+      {
+        "index": 14,
+        "text": "ไม่ต้องโชว์ :codex-file-citation{path=\"C:__codex_directive_quoted_backslash__TA__codex_directive_quoted_backslash__PPLINE CKST__codex_directive_quoted_backslash__C1&C2_0121-1 Update (29.01.26) PPedit__codex_directive_quoted_backslash__PP17__codex_directive_quoted_backslash__REV. TA PP17 ENT1 REV03__codex_directive_quoted_backslash__W-1-PP17-AR-2185-02-A.pdf\" purpose=\"source\"} ",
+        "truncated": false
+      },
+      {
+        "index": 15,
+        "text": "ไหนๆ ลองสรุปมาใมห่",
+        "truncated": false
+      },
+      {
+        "index": 16,
+        "text": "ถูกต้อง",
+        "truncated": false
+      },
+      {
+        "index": 17,
+        "text": "ไม่เข้าใจ",
+        "truncated": false
+      },
+      {
+        "index": 18,
+        "text": "โอเคแก้ละ",
+        "truncated": false
+      },
+      {
+        "index": 19,
+        "text": "สรุปใหม่",
+        "truncated": false
+      }
+    ],
+    "019faf22-1b88-7ea2-8406-5fad4f6978cc": [
+      {
+        "index": 0,
+        "text": "เฉพาะหน้าแรก",
+        "truncated": false
+      },
+      {
+        "index": 1,
+        "text": "ตรงลายเซ็ฯมีคำว่า (ผจก.ฝ่าย) เติมกลับเข้าไป",
+        "truncated": false
+      },
+      {
+        "index": 2,
+        "text": "ตัดหน้าอื่นออก เหลือแต่หน้าแรก",
+        "truncated": false
+      },
+      {
+        "index": 3,
+        "text": "ทำเป็น ไฟล์ excel ได้มั้ย",
+        "truncated": false
+      },
+      {
+        "index": 4,
+        "text": "ไฟล์หน้าแรก เอา รายการ 1 ถึง 11 ไปใส่แทน",
+        "truncated": false
+      },
+      {
+        "index": 5,
+        "text": "ไม่เอาไฟล์ excel  \nเอาไปแก้ในไฟล pdf",
+        "truncated": false
+      },
+      {
+        "index": 6,
+        "text": "ทำไมตารางไม่ตรงกัน",
+        "truncated": false
+      },
+      {
+        "index": 7,
+        "text": "ปรับแก้รายการข้อมูลใหม่",
+        "truncated": false
+      },
+      {
+        "index": 8,
+        "text": "มุมขวาบน ปรับเป็น 0026",
+        "truncated": false
+      },
+      {
+        "index": 9,
+        "text": "วันที่สั่งงานเป็น 23/07/2026 \nวันที่ต้องการ 31/07/2026",
+        "truncated": false
+      }
+    ],
+    "019fb9a3-cb87-79c2-b109-a349204a0eb1": [
+      {
+        "index": 0,
+        "text": "LAYERFILTERLIST คือ",
+        "truncated": false
+      },
+      {
+        "index": 1,
+        "text": "ผิดๆๆ หมายถึงอันนี้  LAYERFILTERALERT",
+        "truncated": false
+      },
+      {
+        "index": 2,
+        "text": "(defun TA:if_found_layer_ (layer_val_)\r\n      (if (=  (type (setq iferror_ ;Detect the variable's result in case of a function error\r\n                    (vl-catch-all-apply \r\n                      (function \r\n                        (lambda () \r\n                          (setq iferror_val_ (vla-Item (vla-get-layers (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))) layer_val_))\r\n                        )\r\n                      )\r\n                    )\r\n                  )\r\n              \r\n              ) \n\nใช้ตัวนี้ ในการ detect หา เลเยอร์ ซ้ำเอา \n            'VLA-OBJECT\r\n          )\r\n      (progn\r\n        T\r\n      )\r\n      nil\r\n      )\r\n    )",
+        "truncated": false
+      },
+      {
+        "index": 3,
+        "text": "ไม่ต้องทำเป็น defun TA: ละ เอาไส้ในออกมาใช้ กับ command เลย",
+        "truncated": false
+      },
+      {
+        "index": 4,
+        "text": "(defun TA:create-filter-lv1 (layer_val_)\r\n  (if (=  (type (setq iferror_ ;Detect the variable's result in case of a function error\r\n                  (vl-catch-all-apply \r\n                    (function \r\n                      (lambda () \r\n                        (setq iferror_val_ (vla-Item (vla-get-layers (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))) layer_val_))\r\n                      )\r\n                    )\r\n                  )\r\n                )\r\n            \r\n            ) \r\n          'VLA-OBJECT\r\n        )\r\n    (progn\r\n      \"layer name is already had\"\r\n    )\r\n    \r\n    (command \"_.-LAYER\" \"_Filter\" \"_New\" \"_Group\" \"\" \"\" filter-name \"\")\r\n  )\r\n)",
+        "truncated": false
+      },
+      {
+        "index": 5,
+        "text": "มันทำงานถูกต้องแล้ว",
+        "truncated": false
+      },
+      {
+        "index": 6,
+        "text": "ต้องการให้ logic รันแบบ ปิด",
+        "truncated": false
+      },
+      {
+        "index": 7,
+        "text": "ใช้ตัวแปร ภายใน",
+        "truncated": false
+      },
+      {
+        "index": 8,
+        "text": "(defun TA:create-filter-lv1 (layer_val_)\r\n  (if (=  (type (setq iferror_ ;Detect the variable's result in case of a function error\r\n                  (vl-catch-all-apply \r\n                    (function \r\n                      (lambda () \r\n                        (setq iferror_val_ (vla-Item (vla-get-layers (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))) layer_val_))\r\n                      )\r\n                    )\r\n                  )\r\n                )\r\n            \r\n            ) \r\n          'VLA-OBJECT\r\n        )\r\n    (progn\r\n      \"layer name is already had\"\r\n    )\r\n    \r\n    (command \"_.-LAYER\" \"_Filter\" \"_New\" \"_Group\" \"\" \"\" filter-name \"\")\r\n  )\r\n)\n\nแค่ปรับ ให้เป็นตัวแปรภายใน",
+        "truncated": false
+      },
+      {
+        "index": 9,
+        "text": "(setq iferror_val_ (vla-Item (vla-get-layers (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))) layer_val_))\n\nมีวิธีเช็ค filter floder มั้ย",
+        "truncated": false
+      },
+      {
+        "index": 10,
+        "text": "(defun :grouplayerfilterswlayernames nil \r\n  ((lambda (foo) \r\n     (foo (entget (cdr (assoc 330 (entget (tblobjname \"layer\" \"0\"))))))\r\n   ) \r\n   (lambda (enx / dic i itm rtn) \r\n     (and (setq dic (cdr (assoc 360 (member '(102 . \"{ACAD_XDICTIONARY\") enx)))) \r\n          (setq dic (cdr (assoc -1 (dictsearch dic \"aclydictionary\"))))\r\n          (while (setq itm (dictnext dic (not itm))) \r\n            (if (= \"AcLyLayerGroup\" (cdr (assoc 1 itm))) \r\n              (setq i   (assoc 300 itm)\r\n                    rtn (cons \r\n                          (list (cdr i) \r\n                                (mapcar \r\n                                  '(lambda (y) (cdr (assoc 2 (entget (cdr y)))))\r\n                                  (vl-remove-if '(lambda (x) (/= 330 (car x))) \r\n                                                (member i itm)\r\n                                  )\r\n                                )\r\n                          )\r\n                          rtn\r\n                        )\r\n              )\r\n            )\r\n          )\r\n     )\r\n     (reverse rtn)\r\n   )\r\n  )\r\n)\n\nคำสั่งนี่ทำงานยังไง",
+        "truncated": false
+      },
+      {
+        "index": 11,
+        "text": "มีวิธี อ่าน filter floder ที่ซ้อนใน filter floder มั้ย",
+        "truncated": false
+      },
+      {
+        "index": 12,
+        "text": "(\"PPLINE-FAMELINE\" ((\"008 - LIGHT_\" ((\"008 - LIGHT_FLUORESCENT\" ((\"008 - LIGHT_FLUORESCENT_MAIN_COLOR_1\" nil) (\"008 - LIGHT_FLUORESCENT_SUB_COLOR_1\" nil) (\"008 - LIGHT_FLUORESCENT_HATCH_\" nil) (\"008 - LIGHT_FLUORESCENT_WIPEOUT_\" nil) (\"008 - LIGHT_FLUORESCENT_HIDDEN_\" nil) (\"008 - LIGHT_FLUORESCENT_SYMBOL_\" nil) (\"008 - LIGHT_FLUORESCENT_DEF_SUB\" nil) (\"008 - LIGHT_FLUORESCENT_TEXT\" nil))) (\"008 - LIGHT_DN\" ((\"008 - LIGHT_DN_MAIN_COLOR_1\" nil) (\"008 - LIGHT_DN_SUB_COLOR_1\" nil) (\"008 - LIGHT_DN_HATCH_\" nil) (\"008 - LIGHT_DN_WIPEOUT_\" nil) (\"008 - LIGHT_DN_HIDDEN_\" nil) (\"008 - LIGHT_DN_SYMBOL_\" nil) (\"008 - LIGHT_DN_DEF_SUB\" nil) (\"008 - LIGHT_DN_TEXT\" nil)))))))\r\n\nขอดู tree หน่อย",
+        "truncated": false
+      },
+      {
+        "index": 13,
+        "text": "(\"PPLINE-FAMELINE\" ((\"008 - LIGHT_\" ((\"008 - LIGHT_FLUORESCENT\" ((\"008 - LIGHT_FLUORESCENT_MAIN_COLOR_1\" nil) (\"008 - LIGHT_FLUORESCENT_SUB_COLOR_1\" nil) (\"008 - LIGHT_FLUORESCENT_HATCH_\" nil) (\"008 - LIGHT_FLUORESCENT_WIPEOUT_\" nil) (\"008 - LIGHT_FLUORESCENT_HIDDEN_\" nil) (\"008 - LIGHT_FLUORESCENT_SYMBOL_\" nil) (\"008 - LIGHT_FLUORESCENT_DEF_SUB\" nil) (\"008 - LIGHT_FLUORESCENT_TEXT\" nil))) (\"008 - LIGHT_DN\" ((\"008 - LIGHT_DN_MAIN_COLOR_1\" nil) (\"008 - LIGHT_DN_SUB_COLOR_1\" nil) (\"008 - LIGHT_DN_HATCH_\" nil) (\"008 - LIGHT_DN_WIPEOUT_\" nil) (\"008 - LIGHT_DN_HIDDEN_\" nil) (\"008 - LIGHT_DN_SYMBOL_\" nil) (\"008 - LIGHT_DN_DEF_SUB\" nil) (\"008 - LIGHT_DN_TEXT\" nil))))) (\"008 - AIR_\" ((\"008 - AIR_MASK\" ((\"008 - AIR_MASK_MAIN_COLOR_1\" nil) (\"008 - AIR_MASK_SUB_COLOR_1\" nil) (\"008 - AIR_MASK_HATCH_\" nil) (\"008 - AIR_MASK_WIPEOUT_\" nil) (\"008 - AIR_MASK_HIDDEN_\" nil) (\"008 - AIR_MASK_SYMBOL_\" nil) (\"008 - AIR_MASK_DEF_SUB\" nil))))) (\"000_AREA_\" ((\"000_AREA_C02\" ((\"000_AREA_C02_MAIN_COLOR_1\" nil) (\"000_AREA_C02_HATCH_\" nil))) (\"000_AREA_C11\" ((\"000_AREA_C11_MAIN_COLOR_1\" nil) (\"000_AREA_C11_HATCH_\" nil))) (\"000_AREA_C03\" ((\"000_AREA_C03_MAIN_COLOR_1\" nil) (\"000_AREA_C03_HATCH_\" nil))) (\"000_AREA_C04\" ((\"000_AREA_C04_MAIN_COLOR_1\" nil) (\"000_AREA_C04_HATCH_\" nil))) (\"000_AREA_C05\" ((\"000_AREA_C05_MAIN_COLOR_1\" nil) (\"000_AREA_C05_HATCH_\" nil))) (\"000_AREA_C06\" ((\"000_AREA_C06_MAIN_COLOR_1\" nil) (\"000_AREA_C06_HATCH_\" nil))) (\"000_AREA_C07\" ((\"000_AREA_C07_MAIN_COLOR_1\" nil) (\"000_AREA_C07_HATCH_\" nil))) (\"000_AREA_C08\" ((\"000_AREA_C08_MAIN_COLOR_1\" nil) (\"000_AREA_C08_HATCH_\" nil))) (\"000_AREA_C09\" ((\"000_AREA_C09_MAIN_COLOR_1\" nil) (\"000_AREA_C09_HATCH_\" nil))) (\"000_AREA_C10\" ((\"000_AREA_C10_MAIN_COLOR_1\" nil) (\"000_AREA_C10_HATCH_\" nil))) (\"000_AREA_ASPG_AREA\" ((\"000_AREA_ASPG_AREA_MAIN_COLOR_1\" nil) (\"000_AREA_ASPG_AREA_HATCH_\" nil)))))))\r",
+        "truncated": false
+      },
+      {
+        "index": 14,
+        "text": "((\"sadsd\" ((\"TTTA\" nil) (\"Group Filter1\" nil))) (\"PPLINE-FAMELINE\" ((\"008 - LIGHT_\" ((\"008 - LIGHT_FLUORESCENT\" ((\"008 - LIGHT_FLUORESCENT_MAIN_COLOR_1\" nil) (\"008 - LIGHT_FLUORESCENT_SUB_COLOR_1\" nil) (\"008 - LIGHT_FLUORESCENT_HATCH_\" nil) (\"008 - LIGHT_FLUORESCENT_WIPEOUT_\" nil) (\"008 - LIGHT_FLUORESCENT_HIDDEN_\" nil) (\"008 - LIGHT_FLUORESCENT_SYMBOL_\" nil) (\"008 - LIGHT_FLUORESCENT_DEF_SUB\" nil) (\"008 - LIGHT_FLUORESCENT_TEXT\" nil))) (\"008 - LIGHT_DN\" ((\"008 - LIGHT_DN_MAIN_COLOR_1\" nil) (\"008 - LIGHT_DN_SUB_COLOR_1\" nil) (\"008 - LIGHT_DN_HATCH_\" nil) (\"008 - LIGHT_DN_WIPEOUT_\" nil) (\"008 - LIGHT_DN_HIDDEN_\" nil) (\"008 - LIGHT_DN_SYMBOL_\" nil) (\"008 - LIGHT_DN_DEF_SUB\" nil) (\"008 - LIGHT_DN_TEXT\" nil))))) (\"008 - AIR_\" ((\"008 - AIR_MASK\" ((\"008 - AIR_MASK_MAIN_COLOR_1\" nil) (\"008 - AIR_MASK_SUB_COLOR_1\" nil) (\"008 - AIR_MASK_HATCH_\" nil) (\"008 - AIR_MASK_WIPEOUT_\" nil) (\"008 - AIR_MASK_HIDDEN_\" nil) (\"008 - AIR_MASK_SYMBOL_\" nil) (\"008 - AIR_MASK_DEF_SUB\" nil))))) (\"000_AREA_\" ((\"000_AREA_C02\" ((\"000_AREA_C02_MAIN_COLOR_1\" nil) (\"000_AREA_C02_HATCH_\" nil))) (\"000_AREA_C11\" ((\"000_AREA_C11_MAIN_COLOR_1\" nil) (\"000_AREA_C11_HATCH_\" nil))) (\"000_AREA_C03\" ((\"000_AREA_C03_MAIN_COLOR_1\" nil) (\"000_AREA_C03_HATCH_\" nil))) (\"000_AREA_C04\" ((\"000_AREA_C04_MAIN_COLOR_1\" nil) (\"000_AREA_C04_HATCH_\" nil))) (\"000_AREA_C05\" ((\"000_AREA_C05_MAIN_COLOR_1\" nil) (\"000_AREA_C05_HATCH_\" nil))) (\"000_AREA_C06\" ((\"000_AREA_C06_MAIN_COLOR_1\" nil) (\"000_AREA_C06_HATCH_\" nil))) (\"000_AREA_C07\" ((\"000_AREA_C07_MAIN_COLOR_1\" nil) (\"000_AREA_C07_HATCH_\" nil))) (\"000_AREA_C08\" ((\"000_AREA_C08_MAIN_COLOR_1\" nil) (\"000_AREA_C08_HATCH_\" nil))) (\"000_AREA_C09\" ((\"000_AREA_C09_MAIN_COLOR_1\" nil) (\"000_AREA_C09_HATCH_\" nil))) (\"000_AREA_C10\" ((\"000_AREA_C10_MAIN_COLOR_1\" nil) (\"000_AREA_C10_HATCH_\" nil))) (\"000_AREA_ASPG_AREA\" ((\"000_AREA_ASPG_AREA_MAIN_COLOR_1\" nil) (\"000_AREA_ASPG_AREA_HATCH_\" nil))))))))\r",
+        "truncated": false
+      },
+      {
+        "index": 15,
+        "text": "((\"sadsd\" ((\"TTTA\" nil) (\"Group Filter1\" nil))) (\"PPLINE-FAMELINE\" ((\"008 - LIGHT_\" ((\"008 - LIGHT_FLUORESCENT\" ((\"008 - LIGHT_FLUORESCENT_MAIN_COLOR_1\" nil) (\"008 - LIGHT_FLUORESCENT_SUB_COLOR_1\" nil) (\"008 - LIGHT_FLUORESCENT_HATCH_\" nil) (\"008 - LIGHT_FLUORESCENT_WIPEOUT_\" nil) (\"008 - LIGHT_FLUORESCENT_HIDDEN_\" nil) (\"008 - LIGHT_FLUORESCENT_SYMBOL_\" nil) (\"008 - LIGHT_FLUORESCENT_DEF_SUB\" nil) (\"008 - LIGHT_FLUORESCENT_TEXT\" nil))) (\"008 - LIGHT_DN\" ((\"008 - LIGHT_DN_MAIN_COLOR_1\" nil) (\"008 - LIGHT_DN_SUB_COLOR_1\" nil) (\"008 - LIGHT_DN_HATCH_\" nil) (\"008 - LIGHT_DN_WIPEOUT_\" nil) (\"008 - LIGHT_DN_HIDDEN_\" nil) (\"008 - LIGHT_DN_SYMBOL_\" nil) (\"008 - LIGHT_DN_DEF_SUB\" nil) (\"008 - LIGHT_DN_TEXT\" nil))))) (\"008 - AIR_\" ((\"008 - AIR_MASK\" ((\"008 - AIR_MASK_MAIN_COLOR_1\" nil) (\"008 - AIR_MASK_SUB_COLOR_1\" nil) (\"008 - AIR_MASK_HATCH_\" nil) (\"008 - AIR_MASK_WIPEOUT_\" nil) (\"008 - AIR_MASK_HIDDEN_\" nil) (\"008 - AIR_MASK_SYMBOL_\" nil) (\"008 - AIR_MASK_DEF_SUB\" nil))))) (\"000_AREA_\" ((\"000_AREA_C02\" ((\"000_AREA_C02_MAIN_COLOR_1\" nil) (\"000_AREA_C02_HATCH_\" nil))) (\"000_AREA_C06\" ((\"000_AREA_C06_MAIN_COLOR_1\" nil) (\"000_AREA_C06_HATCH_\" nil))) (\"000_AREA_C07\" ((\"000_AREA_C07_MAIN_COLOR_1\" nil) (\"000_AREA_C07_HATCH_\" nil))) (\"000_AREA_C08\" ((\"000_AREA_C08_MAIN_COLOR_1\" nil) (\"000_AREA_C08_HATCH_\" nil))) (\"000_AREA_C09\" ((\"000_AREA_C09_MAIN_COLOR_1\" nil) (\"000_AREA_C09_HATCH_\" nil))) (\"000_AREA_C10\" ((\"000_AREA_C10_MAIN_COLOR_1\" nil) (\"000_AREA_C10_HATCH_\" nil))) (\"000_AREA_ASPG_AREA\" ((\"000_AREA_ASPG_AREA_MAIN_COLOR_1\" nil) (\"000_AREA_ASPG_AREA_HATCH_\" nil))) (\"000_AREA_C11\" ((\"000_AREA_C11_MAIN_COLOR_1\" nil) (\"000_AREA_C11_HATCH_\" nil))) (\"000_AREA_C03\" ((\"000_AREA_C03_MAIN_COLOR_1\" nil) (\"000_AREA_C03_HATCH_\" nil))) (\"000_AREA_C04\" ((\"000_AREA_C04_MAIN_COLOR_1\" nil) (\"000_AREA_C04_HATCH_\" nil))) (\"000_AREA_C05\" ((\"000_AREA_C05_MAIN_COLOR_1\" nil) (\"000_AREA_C05_HATCH_\" nil))))))) (\"asd\" nil) (\"zzz\" nil) (\"bsd\" nil))\r",
+        "truncated": false
+      },
+      {
+        "index": 16,
+        "text": "คำสั่ง TA:read-filter-tree เรียงลำดับ main filter มั้ย",
+        "truncated": false
+      },
+      {
+        "index": 17,
+        "text": "จะเรียง filter floder ยังไง",
+        "truncated": false
+      },
+      {
+        "index": 18,
+        "text": "หมายถึง เรียงใน layer manager",
+        "truncated": false
+      },
+      {
+        "index": 19,
+        "text": "https://help.autodesk.com/view/ACD/2025/ENU/?guid=GUID-7AD30968-4982-4E1C-9847-69A5EAEB7C63 คืออะไร",
+        "truncated": false
+      }
+    ],
+    "019fc26f-4f25-77c3-8cb9-cf705f7b0a08": [
+      {
+        "index": 0,
+        "text": "```\n○   ○   ○      │ทางเดิน│      ○   ○   ○\n○   ○   ○      │      │      ○   ○   ○\n○   ○   ○      │      │      ○   ○   ○\n\nซ้ายขวา 15 โต๊ะ\n\n```",
+        "truncated": false
+      },
+      {
+        "index": 1,
+        "text": "ต้องเป็น 3X5",
+        "truncated": false
+      },
+      {
+        "index": 2,
+        "text": "ทำให้ text เป็น attribute ได้มั้ย",
+        "truncated": false
+      },
+      {
+        "index": 3,
+        "text": "ทำผ่าน code หรอ",
+        "truncated": false
+      },
+      {
+        "index": 4,
+        "text": "แก้ โค้ดที่ไฟล์ dxf ได้มั้ย",
+        "truncated": false
+      },
+      {
+        "index": 5,
+        "text": "ต้องมี library อะไร",
+        "truncated": false
+      },
+      {
+        "index": 6,
+        "text": "https://1drv.ms/x/c/d5d5c2c584bc177b/IQDJ3vJOJBCWRa2K0miqWDATASjFXwIUZ62sXnhfZ8gDzno?e=7eKF5W\nอ่าานไฟล์ได้มั้ย ",
+        "truncated": false
+      },
+      {
+        "index": 7,
+        "text": "on table (2)\\",
+        "truncated": false
+      },
+      {
+        "index": 8,
+        "text": "ไม่ๆ ทำเป็น xlsx",
+        "truncated": false
+      },
+      {
+        "index": 9,
+        "text": "เอาไฟล์นี้ไปอ่าน ช่อง on table (2) \nlist รายชื่อที่ตัวอัพษรเป็นสีเขียว",
+        "truncated": false
+      },
+      {
+        "index": 10,
+        "text": "ช่วยเรียงรายชื่อเป็น บรรทัดชื่อ",
+        "truncated": false
+      }
+    ],
+    "019fc8bd-0285-7d02-842c-f3d7a6889463": [
+      {
+        "index": 0,
+        "text": "อันนี้คือชื่อห้อง",
+        "truncated": false
+      }
+    ],
+    "019fcd7a-d3c2-7360-819c-f840e7a7667d": [
+      {
+        "index": 0,
+        "text": "ของสีจางกว่านี้หน่อย",
+        "truncated": false
+      },
+      {
+        "index": 1,
+        "text": "ที่ ตก ไม้เอก",
+        "truncated": false
+      },
+      {
+        "index": 2,
+        "text": "เห็นมั้ย",
+        "truncated": false
+      },
+      {
+        "index": 3,
+        "text": "แก้ไข",
+        "truncated": false
+      },
+      {
+        "index": 4,
+        "text": "ปรับตารางยังไงให้ดูดี",
+        "truncated": false
+      },
+      {
+        "index": 5,
+        "text": "ขอดูตัวอย่าง",
+        "truncated": false
+      },
+      {
+        "index": 6,
+        "text": "สวยเลยอันนี้\n\n",
+        "truncated": false
+      },
+      {
+        "index": 7,
+        "text": "แก้ข้อมูลนะ 1-6 คือฝั่ง เจ้าสาว เอาเจ้าสาวขึ้นก่อน\n7-18 คือฝั่งเจ้าบ่าว",
+        "truncated": false
+      },
+      {
+        "index": 8,
+        "text": "เชค ตัวหนังสือดีดีนะ ",
+        "truncated": false
+      },
+      {
+        "index": 9,
+        "text": "เชคสระ ไม่ให้จมด้วย",
+        "truncated": false
+      },
+      {
+        "index": 10,
+        "text": "ได้ยังอ่ะ",
+        "truncated": false
+      },
+      {
+        "index": 11,
+        "text": "จันทร์แรม ลบไปแล้วนิ",
+        "truncated": false
+      },
+      {
+        "index": 12,
+        "text": "ใช่",
+        "truncated": false
+      },
+      {
+        "index": 13,
+        "text": "เอาเลย",
+        "truncated": false
+      },
+      {
+        "index": 14,
+        "text": "ขอแพทเทิลแบบนี้",
+        "truncated": false
+      },
+      {
+        "index": 15,
+        "text": "คุณกิ๊ฟ\tคุณอ๊อฟ\tน้องโลมา\tคุณแมน\tเปีย\tคุณแสตมป์\tคุณพ่อภาพ\tคุณแม่บุษ\tน้องน้ำฝน\tคุณหมวย\n\nพิมชื่อเรียงบรรทัดให้หน่อย ",
+        "truncated": false
+      },
+      {
+        "index": 16,
+        "text": "อย่าคิดนาน มันแค่รายชื่อ โอเคนะ",
+        "truncated": false
+      },
+      {
+        "index": 17,
+        "text": "คุณอรศรี\tคุณมนชัย\tคุณออม\tคุณยุ้ย\tคุณตุ๊ก \tคุณนัท\tคุณเพชร\tคุณฝ้าย + ลูกสาว\r",
+        "truncated": false
+      },
+      {
+        "index": 18,
+        "text": "งานแต่ง ราบรื่นดีนะ",
+        "truncated": false
+      },
+      {
+        "index": 19,
+        "text": "มีนาย คอยข่วย เราอุ่นใจจริงๆ",
+        "truncated": false
+      }
+    ],
+    "019fd7c9-409a-7e43-80a9-ca976288653d": [
+      {
+        "index": 0,
+        "text": "เพิ่ม keyword automation เข้าไปด้วย",
+        "truncated": false
+      },
+      {
+        "index": 1,
+        "text": "เค",
+        "truncated": false
+      },
+      {
+        "index": 2,
+        "text": "เอา keyword นี่ไปค้นหางาน",
+        "truncated": false
+      },
+      {
+        "index": 3,
+        "text": " ทำไม resume ได้มั้ย",
+        "truncated": false
+      },
+      {
+        "index": 4,
+        "text": "อัพเดทหน่อย",
+        "truncated": false
+      }
+    ],
+    "01a016ae-b7c2-74f2-a3ab-d72fd414f3cb": [
+      {
+        "index": 0,
+        "text": "เก็บรูปนี้ไว้ก่อน",
+        "truncated": false
+      },
+      {
+        "index": 1,
+        "text": "ช่วยสรุป เป็น txt ที่คุยเรื่อง debug ของวันนีั้หน่อย จริงๆ คุยผิดช่้องแชท",
+        "truncated": false
+      },
+      {
+        "index": 2,
+        "text": "ช่วยมุมขวาล่างของหน้ากระดาษ จะตำแหน่งที่อยู่ไฟล์ ต้องการให้ช่วยอ่านว่า แต่ละ drawing no มีที่อยู่อะไรบ้าง",
+        "truncated": false
+      },
+      {
+        "index": 3,
+        "text": "ตรงนี้ อ่านแล้วlist ออกมา",
+        "truncated": false
+      },
+      {
+        "index": 4,
+        "text": "แต่ละหน้า ไม่เหมือนกันนะ&#x20;",
+        "truncated": false
+      },
+      {
+        "index": 5,
+        "text": "สรุปมา",
+        "truncated": false
+      },
+      {
+        "index": 6,
+        "text": "โฟลเดอร์เดียวกัน   จะรู้มั้ยว่าชื่ออะไร ทำไมไม่พิมทีั่อยู่มาเลย",
+        "truncated": false
+      },
+      {
+        "index": 7,
+        "text": "เห้ย อ่านข้อมูลจากหน้ากระดาษนะ",
+        "truncated": false
+      },
+      {
+        "index": 8,
+        "text": "&#x20;แก้ไขมา",
+        "truncated": false
+      },
+      {
+        "index": 9,
+        "text": "ใช่แต่ละ หน้า ไม่เหมือนกัน&#x20;",
+        "truncated": false
+      },
+      {
+        "index": 10,
+        "text": "อ่านแล้ว ตอบมา",
+        "truncated": false
+      },
+      {
+        "index": 11,
+        "text": "ไม่มี",
+        "truncated": false
+      },
+      {
+        "index": 12,
+        "text": "ถามใหม่อีกที ทำได้มั้ย",
+        "truncated": false
+      },
+      {
+        "index": 13,
+        "text": "เริ่ม",
+        "truncated": false
+      },
+      {
+        "index": 14,
+        "text": "รุ้ว่าที่ path ที่ลงท้าย dwg คืออะไร",
+        "truncated": false
+      },
+      {
+        "index": 15,
+        "text": "งั้นช่วยกรุปให้หน่อยว่า drawing no ไหนบ้างที่ อยู่ในกลุ่มเดยีวกัน",
+        "truncated": false
+      },
+      {
+        "index": 16,
+        "text": "\"C:\\TA\\PPLINE CKST\\C1-C2\\_Finishes-Reflected Ceiling Plan\\Generic\\NEW SUM C1\\C1 C06\\W-1-PP00-AR-2370-01-B.dwg\"\n\nกอปไว้แล้วเปลี่ยนเลข dwg no ตามนี้\n\n\"C:\\TA\\PPLINE CKST\\C1-C2\\_Finishes-Reflected Ceiling Plan\\Generic\\NEW SUM C1\\C1 C06\\W-1-PP00-AR-2370-01-A.pdf\"\r\n\"C:\\TA\\PPLINE CKST\\C1-C2\\_Finishes-Reflected Ceiling Plan\\Generic\\NEW SUM C1\\C1 C06\\W-1-PP00-AR-2370-02-A.pdf\"\r\n\"C:\\TA\\PPLINE CKST\\C1-C2\\_Finishes-Reflected Ceiling Plan\\Generic\\NEW SUM C1\\C1 C06\\W-1-PP00-AR-2370-03-A.pdf\"\r\n\"C:\\TA\\PPLINE CKST\\C1-C2\\_Finishes-Reflected Ceiling Plan\\Generic\\NEW SUM C1\\C1 C06\\W-1-PP00-AR-2371-01-A.pdf\"\r\n\"C:\\TA\\PPLINE CKST\\C1-C2\\_Finishes-Reflected Ceiling Plan\\Generic\\NEW SUM C1\\C1 C06\\W-1-PP00-AR-2371-02-A.pdf\"\r\n\"C:\\TA\\PPLINE CKST\\C1-C2\\_Finishes-Reflected Ceiling Plan\\Generic\\NEW SUM C1\\C1 C06\\W-1-PP00-AR-2371-03-A.pdf\"\r\n\"C:\\TA\\PPLINE CKST\\C1-C2\\_Finishes-Reflected Ceiling Plan\\Generic\\NEW SUM C1\\C1 C06\\W-1-PP00-AR-2373-01-A.pdf\"\r\n\"C:\\TA\\PPLINE CKST\\C1-C2\\_Finishes-Reflected Ceiling Plan\\Generic\\NEW SUM C1\\C1 C06\\W-1-PP00-AR-2373-02-A.pdf\"",
+        "truncated": false
+      },
+      {
+        "index": 17,
+        "text": "\"C:\\TA\\PPLINE CKST\\C1-C2\\_Finishes-Reflected Ceiling Plan\\Generic\\NEW SUM C1\\C1 C09\\W-1-PP00-AR-2415-01-B.dwg\"\n\n\"C:\\TA\\PPLINE CKST\\C1-C2\\_Finishes-Reflected Ceiling Plan\\Generic\\NEW SUM C1\\C1 C09\\W-1-PP00-AR-2415-01-A.pdf\"\r\n\"C:\\TA\\PPLINE CKST\\C1-C2\\_Finishes-Reflected Ceiling Plan\\Generic\\NEW SUM C1\\C1 C09\\W-1-PP00-AR-2416-01-A.pdf\"\r\n\"C:\\TA\\PPLINE CKST\\C1-C2\\_Finishes-Reflected Ceiling Plan\\Generic\\NEW SUM C1\\C1 C09\\W-1-PP00-AR-2417-01-A.pdf\"\r\n\"C:\\TA\\PPLINE CKST\\C1-C2\\_Finishes-Reflected Ceiling Plan\\Generic\\NEW SUM C1\\C1 C09\\W-1-PP00-AR-2418-01-A.pdf\"\r\n\"C:\\TA\\PPLINE CKST\\C1-C2\\_Finishes-Reflected Ceiling Plan\\Generic\\NEW SUM C1\\C1 C09\\W-1-PP00-AR-2419-01-A.pdf\"\r\n\"C:\\TA\\PPLINE CKST\\C1-C2\\_Finishes-Reflected Ceiling Plan\\Generic\\NEW SUM C1\\C1 C09\\W-1-PP00-AR-2420-01-A.pdf\"\r\n\"C:\\TA\\PPLINE CKST\\C1-C2\\_Finishes-Reflected Ceiling Plan\\Generic\\NEW SUM C1\\C1 C09\\W-1-PP00-AR-2421-01-A.pdf\"\r\n\"C:\\TA\\PPLINE CKST\\C1-C2\\_Finishes-Reflected Ceiling Plan\\Generic\\NEW SUM C1\\C1 C09\\W-1-PP00-AR-2422-01-A.pdf\"\r\n\"C:\\TA\\PPLINE CKST\\C1-C2\\_Finishes-Reflected Ceiling Plan\\Generic\\NEW SUM C1\\C1 C09\\W-1-PP00-AR-2423-01-A.pdf\"\r\n\"C:\\TA\\PPLINE CKST\\C1-C2\\_Finishes-Reflected Ceiling Plan\\Generic\\NEW SUM C1\\C1 C09\\W-1-PP00-AR-2424-01-A.pdf\"",
+        "truncated": false
+      },
+      {
+        "index": 18,
+        "text": "\"C:\\TA\\PPLINE CKST\\C1-C2\\_Finishes-Reflected Ceiling Plan\\Generic\\NEW SUM C1\\C1 C10\\CAD\\1-PP00-AR-[2430-2433]-01.dwg\"\n\nกอปชื่อออก แล้ว เปลี่ยน dwg no ตามนี้ [2430-2433]&#x20;\nโดยเก็บไว้ต้นไว้",
+        "truncated": false
+      },
+      {
+        "index": 19,
+        "text": "C:\\TA\\PPLINE CKST\\C1-C2\\_Finishes-Reflected Ceiling Plan\\Generic\\NEW SUM C1\\C1 C10\\CAD\n\"C:\\TA\\PPLINE CKST\\C1-C2\\_Finishes-Reflected Ceiling Plan\\Generic\\NEW SUM C1\\C1 C10\\CAD\\1-PP00-AR-[2438-2442]-01.dwg\"\n\nทำเหมือนกัน",
+        "truncated": false
+      }
+    ],
+    "01a01e4f-f470-7180-90ee-0f13143c8df9": [
+      {
+        "index": 0,
+        "text": "หมายถึง sol terra หรือ luna",
+        "truncated": false
+      },
+      {
+        "index": 1,
+        "text": "5.5 5.4 5.4mini ล่ะ",
+        "truncated": false
+      },
+      {
+        "index": 2,
+        "text": "ตรงคำว่า part code ให้เพิ่มคำว่า 300HK-A-NPF (FOR PP17)\nตรงคำว่า mill finish ให้เปลี่ยนคำเป็น  S2214V \nตรงคำว่า mill finish ให้เปลี่ยนคำเป็น  500",
+        "truncated": false
+      },
+      {
+        "index": 3,
+        "text": "รู้ชื่อโปรเจคมั้ย",
+        "truncated": false
+      },
+      {
+        "index": 4,
+        "text": "dwg no ล่ะ",
+        "truncated": false
+      },
+      {
+        "index": 5,
+        "text": "แผ่นแรก\n\nชื่อ project เปลี่ยนเป็น MRT PURPLE LINE  4STATION (PP17 - PP20) C10 MOCKUP PP17 19\n\nตรงคำว่า part code ให้เพิ่มคำว่า 300HK-A-NPF (FOR PP17)\nตรงคำว่า mill finish ให้เปลี่ยนคำเป็น  S2214V\nตรงคำว่า length ให้เปลี่ยนคำเป็น  500\n\nเลข dwg no เปลี่ยนเป็น FL-PJ-26-031-MCK-P-013\nSHEET No. = 13\nTOTAL = 14\n\nแผ่นสอง\n\nชื่อ project เปลี่ยนเป็น MRT PURPLE LINE  4STATION (PP17 - PP20) C10 MOCKUP PP17 19\n\nตรงคำว่า part code ให้เพิ่มคำว่า 300HK-A-NPF (FOR PP19)\nตรงคำว่า mill finish ให้เปลี่ยนคำเป็น  NS-1S-P0070\nตรงคำว่า length ให้เปลี่ยนคำเป็น  900\n\nเลข dwg no เปลี่ยนเป็น FL-PJ-26-031-MCK-P-014\nSHEET No. = 14\nTOTAL = 14",
+        "truncated": false
+      },
+      {
+        "index": 6,
+        "text": "หาย",
+        "truncated": false
+      },
+      {
+        "index": 7,
+        "text": "แก้ใหม่ ให้หมดเลย ทำแบบนี้ ไม่ได้ format ไม่เหมือนเดิม \nแล้วรู้ว่ามั้ยคำว่า length อยู่ตรงไหน",
+        "truncated": false
+      },
+      {
+        "index": 8,
+        "text": "ตรงนี้ด้วย",
+        "truncated": false
+      },
+      {
+        "index": 9,
+        "text": "ชื่อโปรเจคปรับให้อยู่ตรงกลางหน่อย",
+        "truncated": false
+      },
+      {
+        "index": 10,
+        "text": "ปรับให้พ้น กรอบดิ ปัดโธ่เอ่ย ดูความเหมาะสมเป็นหลัก",
+        "truncated": false
+      },
+      {
+        "index": 11,
+        "text": "เห็นมัี้ยว่า กรอบ title block ยังหายอยู่",
+        "truncated": false
+      }
+    ],
+    "01a027fd-cf80-7252-b98b-77faf9b39f17": [
+      {
+        "index": 0,
+        "text": "ปลั้กอิน skethup",
+        "truncated": false
+      },
+      {
+        "index": 1,
+        "text": "ที่อยากถาม คือ ruby ใน sketchup ทำผ่าน vs code ได้มั้ย",
+        "truncated": false
+      }
+    ],
+    "01a03f74-5b75-7822-864d-9f6ae953f5ea": [
+      {
+        "index": 0,
+        "text": "พวกกราฟฟิค อยากได้แบบนี้ มากกว่า",
+        "truncated": false
+      },
+      {
+        "index": 1,
+        "text": "จำนวนรูปต่อหน้าเยอะไป",
+        "truncated": false
+      },
+      {
+        "index": 2,
+        "text": "\"C:\\Users\\popul\\OneDrive\\เอกสาร\\Holiday Inn Resort Phuket Surin Beach.pptx\"\n\nแค่หน้า 1 ก่อน มีวิธีจัดเลย์เอ้าสวยๆมั้ย",
+        "truncated": false
+      },
+      {
+        "index": 3,
+        "text": "ข้อความ resort มันบังรูปเล็ก ขยับให้ไม่ทับกันหน่อย",
+        "truncated": false
+      },
+      {
+        "index": 4,
+        "text": "ตรงนี้ โอเคละ เอารูปละหน้าดีกว่า",
+        "truncated": false
+      },
+      {
+        "index": 5,
+        "text": "โอเคนะ ทีนี้ ลองทำกับรูปอื่นดู",
+        "truncated": false
+      },
+      {
+        "index": 6,
+        "text": "เลย์เอ้า ตัวหนังสือ อย่างที่บอก โอเคแล้ว จำนวนภาพแต่ละกลุ่ม ลองอยากมารวมกัน",
+        "truncated": false
+      },
+      {
+        "index": 7,
+        "text": "ไม่เอารูปที่กาบาท",
+        "truncated": false
+      },
+      {
+        "index": 8,
+        "text": "เอาเนื้อหาหน้านี้มาประกอบหน่อย",
+        "truncated": false
+      },
+      {
+        "index": 9,
+        "text": "ไม่ๆๆ หน้าหนึ่ง เนื่้อหา ดี แต่ทิศทางกราฟฟิค มันไม่ได้ไปทางเดียวกัน แก้กราฟฟิคหน้า 1",
+        "truncated": false
+      },
+      {
+        "index": 10,
+        "text": "ทั้งหมด พอจะเพิ่มลูกเล่น กราฟฟิกอะไรเข้าไปได้บ้าง",
+        "truncated": false
+      },
+      {
+        "index": 11,
+        "text": "ลองดู",
+        "truncated": false
+      },
+      {
+        "index": 12,
+        "text": "ลองสไตล์ canvas แบบ resort ทะเล",
+        "truncated": false
+      },
+      {
+        "index": 13,
+        "text": "ลองลดขนาดลง และเพิ่มรูปให้ใหญ้ขึ้น",
+        "truncated": false
+      },
+      {
+        "index": 14,
+        "text": "สองหน้าสุดท้าย&#x20;\n\n- หน้าผังแม่บท\n- โฉนดที่ดิน\n",
+        "truncated": false
+      },
+      {
+        "index": 15,
+        "text": "เพิ่มลูกเล่น กราฟฟิกแบบขั้นสุดยอด",
+        "truncated": false
+      },
+      {
+        "index": 16,
+        "text": "ทำให้ภาพชัดหน่อย",
+        "truncated": false
+      },
+      {
+        "index": 17,
+        "text": "รูปภาพ ชุดนี้ ทำข้อความเป็น ภาษาอังกฤษ",
+        "truncated": false
+      },
+      {
+        "index": 18,
+        "text": "ทำไมถึงใช้ คำว่า storey แทนที่จะเป็น floor",
+        "truncated": false
+      },
+      {
+        "index": 19,
+        "text": "รูปที่มีเบาะน้ำ คือรูปที่เอไอแต่งเองหรอ",
+        "truncated": false
+      }
+    ],
+    "01a04cfa-fb00-7710-b28a-43699c93e8d5": [
+      {
+        "index": 0,
+        "text": "เก็บตัวภาพนี้ไว้ เทียบเวอขั่น กับ เครื่องที่ทำงาน",
+        "truncated": false
+      },
+      {
+        "index": 1,
+        "text": "สมมุติ ถ้าอยากเครื่องนี้ debug แบบเป็นขั้นเป็นตอน",
+        "truncated": false
+      },
+      {
+        "index": 2,
+        "text": "ถ้า add breakpoint ไว้บรรทัด ที่ 500 กด start debug code จะ รันไปเรื่อยๆ และหยุดที่บรรทัด 500 ใช่มั้ย",
+        "truncated": false
+      },
+      {
+        "index": 3,
+        "text": "เครื่องนี้ไม่เป็นนะ&#x20;\nกด break ไป แล้วมากด start debug ก็ไม่เห็นมีอะไร",
+        "truncated": false
+      },
+      {
+        "index": 4,
+        "text": "\\\nInvalid break point position: line 62561, column 1 in C:/TA/TA\\_COMPELETE/Z00X\\_TA\\_STANDARD\\_SUN\\_FUNC\\_AND\\_MAIN.LSP &#x20;",
+        "truncated": false
+      },
+      {
+        "index": 5,
+        "text": "งั้นปัญหาก่อนหน้า แก้ยัวไงดี",
+        "truncated": false
+      }
+    ],
+    "01a04ef5-bc49-7d03-86fa-915b3ee9dcfd": [
+      {
+        "index": 0,
+        "text": "paper thone",
+        "truncated": false
+      },
+      {
+        "index": 1,
+        "text": "paper throne เพลง",
+        "truncated": false
+      },
+      {
+        "index": 2,
+        "text": "ไม่ใช่ๆๆ ความหมายเพลง",
+        "truncated": false
+      }
+    ],
+    "01a0591f-9459-7280-8f3a-eab9e95ad5e3": [
+      {
+        "index": 0,
+        "text": "ถ้าสมมุติว่า ดึงข้อมูลศุภภาลัย ทุกโครงการ ผ่าน google map ทำได้มั้ย",
+        "truncated": false
+      }
+    ],
+    "global": [
+      {
+        "index": 0,
+        "text": "workspace คือ โพลเดอไหน",
+        "truncated": false
+      },
+      {
+        "index": 1,
+        "text": "ห้อง 1",
+        "truncated": false
+      },
+      {
+        "index": 2,
+        "text": "ห้อง 2",
+        "truncated": false
+      },
+      {
+        "index": 3,
+        "text": "checking heading แบบ",
+        "truncated": false
+      },
+      {
+        "index": 4,
+        "text": "ลบลายเซ็ฯออกได้มั้ย",
+        "truncated": false
+      },
+      {
+        "index": 5,
+        "text": "C:\\TA\\TA_COMPELETE\\000 - FOR_CREATE_LAYER_.lsp \n\nลองศึกษาไฟล์นี้ก่อน",
+        "truncated": false
+      },
+      {
+        "index": 6,
+        "text": "REWORK DIM ",
+        "truncated": false
+      },
+      {
+        "index": 7,
+        "text": "ในไฟล์เป็นหน้ากระดาษ a5 ช่วยตั้งหน้ากระดาษ a4 ใน powerpoint แล้วใส่ทีละ 2 รูป",
+        "truncated": false
+      },
+      {
+        "index": 8,
+        "text": "หางานที่เกี่ยวกับ autolisp ในไทยให้หน่อย",
+        "truncated": false
+      },
+      {
+        "index": 9,
+        "text": "\"C:\\Users\\popul\\OneDrive\\เอกสาร\\BQ 2026-452 R.0 _Daiso_Standard Products_Threeppy @ Seacon square.xlsx\"\"C:\\Users\\popul\\OneDrive\\เอกสาร\\BQ 2026-452 R.0 _Daiso_Standard Products_Threeppy @ Seacon square.xlsx\"\n\nแกะรหัสให้ได้มั้ย",
+        "truncated": false
+      },
+      {
+        "index": 10,
+        "text": "ตรวจสอบชื่อ souce floder หน่อย",
+        "truncated": false
+      },
+      {
+        "index": 11,
+        "text": "ถ้าแก้ไข พวกไฟล์ pdf ควรใช้ เอไอ ตัวไหน",
+        "truncated": false
+      },
+      {
+        "index": 12,
+        "text": "คุยกันเรื่องของ ภาษา ruby",
+        "truncated": false
+      },
+      {
+        "index": 13,
+        "text": "เขียน html ที่ใช้ ทำลายน้ำไฟล์ pfg",
+        "truncated": false
+      },
+      {
+        "index": 14,
+        "text": "จัดเลย์เอ้า ใหม่ให้หน่อย มันดูเชยๆ&#x20;",
+        "truncated": false
+      },
+      {
+        "index": 15,
+        "text": "ตรวจไฟล์ข้อมูล",
+        "truncated": false
+      },
+      {
+        "index": 16,
+        "text": "อ่านไฟล์ตัวนี้",
+        "truncated": false
+      },
+      {
+        "index": 17,
+        "text": "อ่านไฟล์ตัวนี้",
+        "truncated": false
+      },
+      {
+        "index": 18,
+        "text": "อ่านไฟล์ตัวนี้",
+        "truncated": false
+      },
+      {
+        "index": 19,
+        "text": "ทำเอกสารทั่วๆไป",
+        "truncated": false
+      }
+    ],
+    "01a0b01d-c141-7463-a5e0-9b74360db683": [
+      {
+        "index": 0,
+        "text": "ทำเอกสารทั่วๆไป",
+        "truncated": false
+      },
+      {
+        "index": 1,
+        "text": "เดวเตรียมตัวกรอกที่อยู่ ตามที่กำหนด",
+        "truncated": false
+      },
+      {
+        "index": 2,
+        "text": "เขียนที่ ให้พิมว่า&#x20;\n82/105 ม.มาริสา แขวงบางชัน เขตคลองสามวา ถ.สุเหร่าคลองหนึ่ง 10510\nช่องข้อมูล ให้ติ้กถูกที่ หัวข้อไม่ประสงค์\n\nชื่อตัวบรรจง นางสาว สาละวิน คงกระพันธ์ วันที่ 17 กันยายน 2569",
+        "truncated": false
+      },
+      {
+        "index": 3,
+        "text": "ไฟล์นี้แหละ กรอก แล้วทำเป็นไฟล์ใหม่เลย",
+        "truncated": false
+      },
+      {
+        "index": 4,
+        "text": "โทษที ให้ทำผิดไฟล์ ต้องไฟล์นี้",
+        "truncated": false
+      }
+    ],
+    "01a04935-8139-79a0-9d88-612e816955c8": [
+      {
+        "index": 0,
+        "text": "เริ่ม process dxf ได้เลย",
+        "truncated": false
+      },
+      {
+        "index": 1,
+        "text": "ยังกด export dxf ไม่ได้",
+        "truncated": false
+      },
+      {
+        "index": 2,
+        "text": "แก้ให้พวกกลุ่ม fit sheet เป็น freeze row",
+        "truncated": false
+      },
+      {
+        "index": 3,
+        "text": "เส้นขอบแผ่นหายไหน",
+        "truncated": false
+      },
+      {
+        "index": 4,
+        "text": "ยังไง",
+        "truncated": false
+      },
+      {
+        "index": 5,
+        "text": "รอๆๆ",
+        "truncated": false
+      },
+      {
+        "index": 6,
+        "text": "ชื่อรไ",
+        "truncated": false
+      },
+      {
+        "index": 7,
+        "text": "ตัวที่ทำข้อมูลแบบ list ยังไม่สามารถปรับแต่งข้อมูล ตามรูได้เลย",
+        "truncated": false
+      },
+      {
+        "index": 8,
+        "text": "หน้าต่างปรับแต่ง ฝั่งซ้าย ต้องมี scollbar ของตัวเอง",
+        "truncated": false
+      },
+      {
+        "index": 9,
+        "text": "เพิ่มฟังชั่นปรับเปลี่ยนสี ของแผ่น กับ backgrond",
+        "truncated": false
+      },
+      {
+        "index": 10,
+        "text": "ตัวรู ต้องเปลี่ยนสีตาม background",
+        "truncated": false
+      },
+      {
+        "index": 11,
+        "text": "ต้องมี tab ที่ทำเรื่องการปรับแต่งภาพ",
+        "truncated": false
+      },
+      {
+        "index": 12,
+        "text": "เพิ่มโหมดเปิดปิดชีท&#x20;",
+        "truncated": false
+      },
+      {
+        "index": 13,
+        "text": "**Show sheet in preview**   ต้องปิด ทั้งชีท ทั้งรูเลย",
+        "truncated": false
+      },
+      {
+        "index": 14,
+        "text": "เพิ่ม tab เรื่องการปรับแต่งสีภาพ",
+        "truncated": false
+      },
+      {
+        "index": 15,
+        "text": "พวกคำสั่ง level cruve แบบ photoshop",
+        "truncated": false
+      },
+      {
+        "index": 16,
+        "text": "[https://github.com/NONGSAISUEARAI/TA-FAMELINE/blob/main/GPT%20CODEX%20IMAGE-TO-PUNCH/index.html](https://github.com/NONGSAISUEARAI/TA-FAMELINE/blob/main/GPT%20CODEX%20IMAGE-TO-PUNCH/index.html) หน้าแปลงลิ้งให้หน่อย",
+        "truncated": false
+      },
+      {
+        "index": 17,
+        "text": "[https://github.com/NONGSAISUEARAI/TA\\_COMPELETE/tree/main/GPT%20CODE/GPT%20CODEX%20IMAGE-TO-PUNCH](https://github.com/NONGSAISUEARAI/TA_COMPELETE/tree/main/GPT%20CODE/GPT%20CODEX%20IMAGE-TO-PUNCH)&#x20;",
+        "truncated": false
+      },
+      {
+        "index": 18,
+        "text": "ในรูป เขาว่ายังไง",
+        "truncated": false
+      },
+      {
+        "index": 19,
+        "text": "เราจะเอาหน้า html ขึ้นออนไลน์ได้ที่ไหนบ้าง",
+        "truncated": false
+      }
+    ],
+    "01a03f03-f42c-7a30-a2be-b00f420ae9ea": [
+      {
+        "index": 0,
+        "text": "เพิ่ืมกด esc เพื่อ deselect ออกจาก textbox",
+        "truncated": false
+      },
+      {
+        "index": 1,
+        "text": "deselect หมายถึง ไม่ต้องอยู่ในหน้า insert text ด้วย",
+        "truncated": false
+      },
+      {
+        "index": 2,
+        "text": "เพิ่มโหมด เซฟค่าไฟล์ไว้หน่อย",
+        "truncated": false
+      },
+      {
+        "index": 3,
+        "text": "เพิม scoll bar ฝั่ง editor",
+        "truncated": false
+      },
+      {
+        "index": 4,
+        "text": "มันบันทึกแบบไหนกัน",
+        "truncated": false
+      },
+      {
+        "index": 5,
+        "text": "มีแบบเซฟงานเหมือนไฟล์ word ใหม่",
+        "truncated": false
+      },
+      {
+        "index": 6,
+        "text": "C:\\TA\\TA\\_COMPELETE\\GPT CODE&#x20;\ncopy ข้อมูลทั้งหมดนีั้ไป&#x20;\nC:\\TA\\Yod-Khana-Sian-Sak-Haeng",
+        "truncated": false
+      },
+      {
+        "index": 7,
+        "text": "เพิ่ม text box แบบที่ใส่ลาย หรือ สี background ลงใน textbox ได้",
+        "truncated": false
+      },
+      {
+        "index": 8,
+        "text": "[https://github.com/NONGSAISUEARAI/Yod-Khana-Sian-Sak-Haeng/blob/main/index.html](https://github.com/NONGSAISUEARAI/Yod-Khana-Sian-Sak-Haeng/blob/main/index.html)\nแปลงลิ้งนี้ ให้เปิด on webb",
+        "truncated": false
+      },
+      {
+        "index": 9,
+        "text": "ถ้าไม่แปลงลิ้ง จะเปิดไฟล์ฺได้ที่ไหกน",
+        "truncated": false
+      },
+      {
+        "index": 10,
+        "text": "[https://nongsaisuearai.github.io/Yod-Khana-Sian-Sak-Haeng/](https://nongsaisuearai.github.io/Yod-Khana-Sian-Sak-Haeng/)\nไอลิ้งแบบนี้ อยู่ตรงไหนของ gtihub repo",
+        "truncated": false
+      },
+      {
+        "index": 11,
+        "text": "[https://nongsaisuearai.github.io/Yod-Khana-Sian-Sak-Haeng/](https://nongsaisuearai.github.io/Yod-Khana-Sian-Sak-Haeng/)&#x20;\nเพราะว่า index อยู่ในตรง path นี้พอดีหรอ เลยไม่ต้อง ชื่อ index ในลิ้ง",
+        "truncated": false
+      },
+      {
+        "index": 12,
+        "text": "C:\\TA\\TA\\_COMPELETE\\GPT CODE\\GPT CODEX HTML&#x20;\n\nตั้งโฟลเดอ html แต่ละตัวไปเลย&#x20;",
+        "truncated": false
+      },
+      {
+        "index": 13,
+        "text": "copy 2 files นี่ไป ยอดคะน้า",
+        "truncated": false
+      },
+      {
+        "index": 14,
+        "text": "ตอนเซฟ pdf ฟอนมันไม่ได้แก้ขนาดตาม",
+        "truncated": false
+      },
+      {
+        "index": 15,
+        "text": "ถ้าคลิกที่ช่อง text ให้ถือพร้อมคลิก insert",
+        "truncated": false
+      },
+      {
+        "index": 16,
+        "text": "เพิ่มฟังชั่น insert รูปภาพด้วย",
+        "truncated": false
+      },
+      {
+        "index": 17,
+        "text": "เพิ่มฟังชั่นลากรูปไปใส่ที่ ปุ่มที่ inert ได้&#x20;\nเวลาขยาย หด ยืด ขอให้กด shift เพื่อคุมสัดส่วนได้",
+        "truncated": false
+      },
+      {
+        "index": 18,
+        "text": "\"C:\\TA\\Yod-Khana-Sian-Sak-Haeng\\GPT CODEX HTML\\index.html\"\n\nทำสารบัญลิ้งด้วยการนำไปวาง&#x20;\nก่อนลงมือ ทวนความเข้าใจ",
+        "truncated": false
+      },
+      {
+        "index": 19,
+        "text": "ใช่",
+        "truncated": false
+      }
+    ],
+    "019f805c-2141-7c71-9e32-22670826110a": [
+      {
+        "index": 0,
+        "text": "\"C:\\TA\\TA\\_COMPELETE\\GPT CODE\\GPT CODE VBA\\A\\_FUNC\\_FORCSV.bas\"\n\nแก้ csv ให้สามารถ A1 หรือ A1:D1 ได้&#x20;",
+        "truncated": false
+      },
+      {
+        "index": 1,
+        "text": "```php\n=FORCSV(A1:D1,E1:G1,L1)\n```",
+        "truncated": false
+      },
+      {
+        "index": 2,
+        "text": "เขียน vba แบบ pubblic&#x20;\n\nโดยให้ค้นหา ตัวเลข ในแถว A&#x20;\n\nถ้ามีตัวเลข ต่อนี้ไป&#x20;\n\n\n\n|                                                                              | 3752 |\n| ---------------------------------------------------------------------------- | ---- |\n| 3749                                                                         |      |\n| 3782                                                                         |      |\n| 3779                                                                         |      |\n| 3776                                                                         |      |\n| 3773                                                                         |      |\n| 3764                                                                         |      |\n| 3761                                                                         |      |\n| 3758                                                                         |      |\n| 3755                                                                         |      |\n| 3728                                                                         |      |\n| 3725                                                                         |      |\n| 3674                                                                         |      |\n| 3671                                                                         |      |\n| 3638                                                                         |      |\n| 3635                                                                         |      |\n| 3644                                                                         |      |\n| 3641                                                                         |      |\n| 3656                                                                         |      |\n| 3653                                                                         |      |\n| 3662                                                                         |      |\n| 3659                                                                         |      |\n| 3692                                                                         |      |\n| 3689                                                                         |      |\n| 3770                                                                         |      |\n| 3767                                                                         |      |\n| 3734                                                                         |      |\n| 3731                                                                         |      |\n| 3746                                                                         |      |\n| 3743                                                                         |      |\n| 3722                                                                         |      |\n| 3719                                                                         |      |\n| 3716                                                                         |      |\n| 3713                                                                         |      |\n| 3710                                                                         |      |\n| 3707                                                                         |      |\n| 3704                                                                         |      |\n| 3701                                                                         |      |\n| 3698                                                                         |      |\n| 3695                                                                         |      |\n| 3680                                                                         |      |\n| 3677                                                                         |      |\n| 3686                                                                         |      |\n| 3683                                                                         |      |\n| 3650                                                                         |      |\n| 3647                                                                         |      |\n| 3614                                                                         |      |\n| 3611                                                                         |      |\n| 3578                                                                         |      |\n| 3575                                                                         |      |\n| 3584                                                                         |      |\n| 3581                                                                         |      |\n| 3620                                                                         |      |\n| 3617                                                                         |      |\n| 3572                                                                         |      |\n| 3569                                                                         |      |\n| 3590                                                                         |      |\n| 3587                                                                         |      |\n| 3554                                                                         |      |\n| 3551                                                                         |      |\n| 3560                                                                         |      |\n| 3557                                                                         |      |\n| 3548                                                                         |      |\n| 3545                                                                         |      |\n| 3542                                                                         |      |\n| 3539                                                                         |      |\n| 3482                                                                         |      |\n| 3479                                                                         |      |\n| 3518                                                                         |      |\n| 3515                                                                         |      |\n| 3524                                                                         |      |\n| 3521                                                                         |      |\n| 3488                                                                         |      |\n| 3485                                                                         |      |\n| 3512                                                                         |      |\n| 3509                                                                         |      |\n| 3530                                                                         |      |\n| 3527                                                                         |      |\n| 3608                                                                         |      |\n| 3605                                                                         |      |\n| 3602                                                                         |      |\n| 3599                                                                         |      |\n| 3566                                                                         |      |\n| 3563                                                                         |      |\n| 3626                                                                         |      |\n| 3623                                                                         |      |\n| 3632                                                                         |      |\n| 3629                                                                         |      |\n| 3596                                                                         |      |\n| 3593                                                                         |      |\n| 3536                                                                         |      |\n| 3533                                                                         |      |\n| 3500                                                                         |      |\n| 3497                                                                         |      |\n| 3494                                                                         |      |\n| 3491                                                                         |      |\n| 3476                                                                         |      |\n| 3473                                                                         |      |\n| 3470                                                                         |      |\n| 3467                                                                         |      |\n| 3506                                                                         |      |\n| 3503                                                                         |      |\n| 3458                                                                         |      |\n| 3455                                                                         |      |\n| 3464                                                                         |      |\n| 3461                                                                         |      |\n| 3434                                                                         |      |\n| 3431                                                                         |      |\n| 3410                                                                         |      |\n| 3407                                                                         |      |\n| 3440                                                                         |      |\n| 3437                                                                         |      |\n| 3446                                                                         |      |\n| 3443                                                                         |      |\n| 3374                                                                         |      |\n| 3371                                                                         |      |\n| 3344                                                                         |      |\n| 3341                                                                         |      |\n| 3338                                                                         |      |\n| 3335                                                                         |      |\n| 3326                                                                         |      |\n| 3323                                                                         |      |\n| 3320                                                                         |      |\n| 3317                                                                         |      |\n| 3356                                                                         |      |\n| 3353                                                                         |      |\n| 3452                                                                         |      |\n| 3449                                                                         |      |\n| 3416                                                                         |      |\n| 3413                                                                         |      |\n| 3428                                                                         |      |\n| 3425                                                                         |      |\n| 3398                                                                         |      |\n| 3395                                                                         |      |\n| 3394                                                                         |      |\n| 3393                                                                         |      |\n| 3392                                                                         |      |\n| 3389                                                                         |      |\n| 3404                                                                         |      |\n| 3401                                                                         |      |\n| 3386                                                                         |      |\n| 3383                                                                         |      |\n| 3380                                                                         |      |\n| 3377                                                                         |      |\n| 3376                                                                         |      |\n| 3368                                                                         |      |\n| 3365                                                                         |      |\n| 4088                                                                         |      |\n| 4087                                                                         |      |\n| 4067                                                                         |      |\n| 4066                                                                         |      |\n| 4043                                                                         |      |\n| 4042                                                                         |      |\n| 4019                                                                         |      |\n| 4018                                                                         |      |\n| 4313                                                                         |      |\n| 4312                                                                         |      |\n| 4294                                                                         |      |\n| 4293                                                                         |      |\n| 4273                                                                         |      |\n| 4272                                                                         |      |\n| 4548                                                                         |      |\n| 4547                                                                         |      |\n| 4974                                                                         |      |\n| 4973                                                                         |      |\n| 4953                                                                         |      |\n| 4952                                                                         |      |\n| 1144                                                                         |      |\n| 1143                             ",
+        "truncated": true
+      },
+      {
+        "index": 3,
+        "text": "ให้อ้างแค่ จาก ข้อมูลบรรทัดเดียว",
+        "truncated": false
+      },
+      {
+        "index": 4,
+        "text": "เปลี่ยนเป็น ให้ตัวเลข จาก ช่อง cell ที่กำลังเลือกอยู่แล้วกัน",
+        "truncated": false
+      },
+      {
+        "index": 5,
+        "text": "อธิบายการทำงานหน่อย",
+        "truncated": false
+      },
+      {
+        "index": 6,
+        "text": "copyallsheet_v3 อ้างอิง ชีทยังไงนะ",
+        "truncated": false
+      },
+      {
+        "index": 7,
+        "text": "ถ้าสลับลำดับชีท",
+        "truncated": false
+      },
+      {
+        "index": 8,
+        "text": "\n\n| PP18_MUL-1292                   |\n| ------------------------------- |\n| PP18_MUL-1301                   |\n| PP18_MUL-1311                   |\n| PP18_MUL-1314                   |\n| PP18_MUL-1597                   |\n| PP18_MUL-1598                   |\n| PP18_MUL-1603                   |\n| PP18_MUL-1610                   |\n| PP18_MUL-1617                   |\n| PP18_MUL-1618                   |\n| PP18_MUL-1619                   |\n| PP18_MUL-1628                   |\n| PP18_MUL-1637                   |\n| PP18_MUL-1638                   |\n| PP18_MUL-1639                   |\n| PP18_MUL-1646                   |\n| PP18_MUL-1655                   |\n| PP18_MUL-1657                   |\n| PP18_MUL-1658                   |\n| PP18_MUL-1662                   |\n| PP18_MUL-1673                   |\n| PP18_MUL-1678                   |\n| PP18_MUL-1679                   |\n| PP18_MUL-1695                   |\n| PP18_MUL-1696                   |\n| PP18_MUL-1766                   |\n| PP18_MUL-1768                   |\n| PP18_MUL-28                     |\n| PP18_MUL-319                    |\n| PP18_MUL-321                    |\n| PP18_MUL-614                    |\n| PP18_MUL-616                    |\n| PP18_MUL-803                    |\n| PP18_MUL-805                    |\n| PP18_MUL-876                    |\n| PP18_MUL-878<br>เรียงลำดับหน่อย |",
+        "truncated": false
+      },
+      {
+        "index": 9,
+        "text": "เขียน code ที่ใช้เปลี่ยน text เป็น เลข โดยเรียงลำดับจากบน ล่าง",
+        "truncated": false
+      },
+      {
+        "index": 10,
+        "text": "C09,875,1DL,SW255TH,standard_shape,317.5,(120) ต้องการ sort โดยอิงอ้างจากข้อมูลตรง คึถ",
+        "truncated": false
+      },
+      {
+        "index": 11,
+        "text": "ขอสูตร formula",
+        "truncated": false
+      },
+      {
+        "index": 12,
+        "text": "อยาาให้ครอบตั้งแต่ N111:N192 แล้วรู้ว่าบรรทัดนั้นคือลำดับที่เท่าไหร่ของที่ครอบ",
+        "truncated": false
+      },
+      {
+        "index": 13,
+        "text": "COUNTUNIQUE_V2C argument ที่ให้เรียง ลำดับ สามารถ เรียงแบบ ใส่ฟอมูล่า ด้วยได้&#x20;",
+        "truncated": false
+      },
+      {
+        "index": 14,
+        "text": "พัฒนามาจาก v2b เปล่า",
+        "truncated": false
+      },
+      {
+        "index": 15,
+        "text": "=COUNTUNIQUE_V2B(N3:N2500,0,A3:A2500,0,\"สรุป\") ประเด็นก็คือ  N3:N2500,0 ไอ 0 มันมี argument แค่ 0 1 ทีนี้ต้องแบบเวอชั้นที่ใส่สูตรเข้าไปได้&#x20;\nเช่น ถ้า ข้อมูลมีลักษณะ C08,1750,1DL,xxx,standard_varies_shape_500,(0) ถ้าอยากเรียงลำดับโดยอิง 1750 ก็ต้องใส่สูตรเข้าไปได้ ตัวอย่างสูตรที่ใส่เป็น อากิวเมน =IF(N111=\"\",\"\",LET(r,$N$111:$N$192,d,FILTER(r,r<>\"\"),p,FILTER(ROW(r),r<>\"\"),k,--TEXTBEFORE(TEXTAFTER(d,\",\"),\",\"),XMATCH(ROW(N111),SORTBY(p,k,1,p,1))))&#x20;\n\nได้แก้แบบนี้ยัง\n",
+        "truncated": false
+      },
+      {
+        "index": 16,
+        "text": "มีวิธี ทำให้ viewport ไม่โหลดหน้า จนกว่าจะ refresh มั้ย",
+        "truncated": false
+      },
+      {
+        "index": 17,
+        "text": "ขอเพิ่งเขียนโค้ด",
+        "truncated": false
+      },
+      {
+        "index": 18,
+        "text": "อย่าเพิ่งเขีนยน",
+        "truncated": false
+      },
+      {
+        "index": 19,
+        "text": "บนสุถด ล่างสุด มีอะไรไม่ตรงกัน",
+        "truncated": false
+      }
+    ],
+    "019f805b-a164-75e0-ad0a-be1c3b1aa9b1": [
+      {
+        "index": 0,
+        "text": "เชคอีกที",
+        "truncated": false
+      },
+      {
+        "index": 1,
+        "text": "เชคใหม่",
+        "truncated": false
+      },
+      {
+        "index": 2,
+        "text": "บรรทัด ที่ใช้ user input ตัวเลข",
+        "truncated": false
+      },
+      {
+        "index": 3,
+        "text": "แก้ getint&#x20;\nให้จำ val ตอน input ได้&#x20;\n\nตัวอย่าง&#x20;\n\n(setq user_input_width\\_ (cond ( (getint (strcat \"\\nspecify fllet_rec\\_<\" (rtos (setq user_input_width\\_ (cond (user_input_width\\_) (1.0) ) ) ) \"> : \" ) ) ) (user_input_width\\_) ) )",
+        "truncated": false
+      },
+      {
+        "index": 4,
+        "text": "(setq user_input_width\\_ (cond ( (getint (strcat \"\\nspecify fllet_rec\\_<\" (rtos (setq user_input_width\\_ (cond (user_input_width\\_) (1.0) ) ) ) \"> : \" ) ) ) (user_input_width\\_) ) ) &#x20;\n\nตัวอย่างใช้ไม่ได้หรอ",
+        "truncated": false
+      },
+      {
+        "index": 5,
+        "text": "แก้โค้ดมาใหม่ ทั้ง 2 คำสั่ง",
+        "truncated": false
+      },
+      {
+        "index": 6,
+        "text": "TA:ss_text_to_list&#x20;\nเรียงลำดับมั้ย",
+        "truncated": false
+      },
+      {
+        "index": 7,
+        "text": "เรียงลำดับ ตาม แกน จาก บน ลง ล่าง",
+        "truncated": false
+      },
+      {
+        "index": 8,
+        "text": "เขียน code ที่ใช้เปลี่ยน text เป็น เลข โดยเรียงลำดับจากบน ล่าง",
+        "truncated": false
+      },
+      {
+        "index": 9,
+        "text": "(\"C09,875,1DL,SW255TH,standard_shape,317.5,(120)\" \"C09,875,1DL,SW255TH,standard_shape,317.5,(-120)\" \"C04,950,SD,S5206TH,standard_shape,(0)\" \"C04,1125,SD,S5206TH,standard_shape,(0)\" \"C04,1200,SD,S5206TH,standard_shape,(0)\" \"C04,1350,SD,S5206TH,standard_shape,(0)\" \"C08,1400,SD,S5206TH,standard_shape,(0)\" \"C04,1575,SD,S5206TH,standard_shape,(0)\" \"C04,1600,SD,S5206TH,standard_shape,(0)\" \"C09,1725,2DL,010MT,standard_shape,312.5,312.5,(-550,550)\" \"C09,1725,2DL,SW255TH,standard_shape,312.5,312.5,(-550,550)\" \"C09,1725,2DL,SW255TH,standard_varies_shape,312.5,312.5,(-550,550)\" \"C09,1725,2DL,010MT,standard_varies_shape,312.5,312.5,(-550,550)\" \"C04,1750,SD,S5206TH,standard_shape,(0)\" \"C08,1750,2DL,S5206TH,standard_shape,300,300,(-575,575)\" \"C04,1750,1DL,S5206TH,standard_shape,(0)\" \"C08,1750,2DL,S5206TH,standard_shape,312.5,312.5,(-562.5,562.5)\" \"C09,1750,2DL,010MT,standard_shape,312.5,337.5,(-537.5,562.5)\" \"C09,1750,2DL,SW255TH,standard_shape,312.5,337.5,(-537.5,562.5)\" \"C09,1750,2DL,010MT,standard_shape,312.5,312.5,(-562.5,562.5)\" \"C09,1750,2DL,SW255TH,standard_shape,312.5,312.5,(-562.5,562.5)\" \"C04,1925,1DL,S5206TH,standard_shape,(0)\" \"C04,2900,2DL,S5206TH,standard_shape,950,950,(-500,500)\" \"C09,2900,SD,SW255TH,standard_shape,(0)\" \"C09,2900,3DL,SW255TH,standard_shape,300,300,(1150,0,-1150)\" \"C08,325,1DL,S5206TH,standard_shape,(0)\" \"C05,2000,SD,S5206TH,standard_shape,(0)\" \"C08,300,1DL,xxx,trapezoids_2,(0)\" \"C04,550,1DL,xxx,standard_shape,(0)\" \"C08,975,1DL,xxx,standard_shape,(0)\" \"C04,1000,1DL,xxx,standard_shape,(0)\" \"C08,1050,1DL,xxx,standard_shape,(0)\" \"C08,1225,1DL,xxx,standard_shape,(0)\" \"C08,1275,1DL,xxx,standard_shape,(0)\" \"C08,1275,1DL,xxx,standard_varies_shape,(0)\" \"C08,1300,1DL,xxx,standard_shape,(0)\" \"C08,1300,1DL,xxx,standard_varies_shape,(0)\" \"C04,1300,1DL,xxx,standard_shape,(0)\" \"C08,1400,2DL,xxx,standard_shape,400,400,(-300,300)\" \"C08,1725,SD,xxx,standard_shape,(0)\" \"C08,1725,2DL,xxx,standard_shape,400,400,(-462.5,462.5)\" \"C08,1730,2DL,xxx,standard_varies_shape,400,400,(-465,465)\" \"C04,1750,2DL,xxx,standard_shape,400,400,(-475,475)\" \"C04,1750,SD,xxx,standard_shape,(0)\" \"C08,1750,SD,xxx,standard_shape,(0)\" \"C08,1750,2DL,xxx,standard_shape,400,400,(-475,475)\" \"C10,1750,SD,xxx,standard_shape,(0)\" \"C08,1750,SD,xxx,standard_varies_shape,(0)\" \"C08,1775,2DL,xxx,standard_shape,400,400,(-487.5,487.5)\" \"C08,1775,SD,xxx,standard_shape,(0)\" \"C08,1825,2DL,xxx,standard_varies_shape,400,400,(-512.5,512.5)\" \"C08,1825,2DL,xxx,standard_shape,400,400,(-512.5,512.5)\" \"C08,1850,1DL,xxx,standard_shape,(0)\" \"C08,1900,1DL,xxx,standard_shape,(0)\" \"c08,2550,1DL,xxx,standard_shape,(0)\" \"NO BLOCK 300HK ORDER FROM CHINA REV.2-LOT 2_3002550HK-A-PF-S-ACOUS---------------C08,2550,1DL,xxx,trapezoids_1,525,(750)\" \"C08,425,1DL,xxx,standard_shape,(0)\" \"C08,550,1DL,xxx,standard_shape,(0)\" \"C08,675,1DL,xxx,standard_shape,(0)\" \"C08,875,1DL,xxx,standard_varies_shape,(0)\" \"C08,875,1DL,xxx,standard_shape,(0)\" \"C08,950,1DL,xxx,standard_shape,(0)\" \"C08,1000,SD,xxx,standard_shape,(0)\" \"C08,1075,1DL,xxx,standard_shape,(0)\" \"C08,1175,1DL,xxx,standard_varies_shape,400,(-187.5)\" \"C08,1325,1DL,xxx,standard_shape,(0)\" \"C08,1600,2DL,xxx,standard_shape,400,400,(-400,400)\" \"C08,1600,1DL,xxx,standard_shape,325,(475)\" \"C08,1600,SD,xxx,standard_shape,(0)\" \"C08,1630,2DL,xxx,standard_shape,400,400,(-415,415)\" \"C08,1630,1DL,xxx,standard_shape,400,(-415)\" \"C10,1630,SD,xxx,standard_shape,(0)\" \"C08,1630,SD,xxx,standard_shape,(0)\" \"C08,1650,1DL,xxx,standard_shape,(0)\" \"C08,1750,1DL,xxx,standard_shape,400,(-475)\" \"C08,1750,1DL,xxx,standard_varies_shape,(0)\" \"C08,2525,1DL,xxx,standard_shape,637.5,(625)\" \"C08,2525,1DL,xxx,standard_shape,250,(1012.5)\" \"C08,2525,SD,xxx,standard_shape,250,(1012.5)\" \"C08,600,1DL,xxx,standard_shape,(0)\" \"C08,1750,1DL,xxx,standard_shape,250,(-625)\" \"C08,1750,SD,xxx,standard_shape,250,(-625)\" \"C08,875,SD,xxx,standard_shape,(0)\" \"C08,1750,2DL,xxx,standard_varies_shape,400,400,(-475,475)\" \"C08,1150,1DL,xxx,standard_shape,(0)\" \"C08,2200,1DL,xxx,standard_shape,400,(-700)\" \"C08,1350,2DL,xxx,standard_shape,250,250,(-425,425)\" \"C08,1450,SD,xxx,standard_shape,(0)\" \"C08,1375,2DL,xxx,standard_shape,250,250,(-437.5,437.5)\" \"C08,1375,SD,xxx,standard_varies_shape,(0)\" \"C05,2050,2DL,xxx,standard_shape,250,250,(-775,775)\" \"C05,2050,SD,xxx,standard_shape,(0)\" \"C05,600,SD,xxx,standard_shape,(0)\" \"C05,600,1DL,xxx,standard_shape,(0)\" \"C05,2050,2DL,xxx,standard_varies_shape,250,250,(-775,775)\" \"C08,1600,1DL,xxx,standard_shape,(0)\" \"C08,1975,2DL,xxx,standard_shape,400,400,(-587.5,587.5)\" \"C08,1975,2DL,xxx,standard_varies_shape,400,400,(-587.5,587.5)\" \"C08,1250,2DL,xxx,standard_shape,400,400,(-225,225)\" \"C08,1225,1DL,xxx,standard_varies_shape,(0)\")\r\n\n\n\n\nC09,875,1DL,SW255TH,standard_shape,317.5,(120)\r\nC09,875,1DL,SW255TH,standard_shape,317.5,(-120)\r\nC04,950,SD,S5206TH,standard_shape,(0)\r\nC04,1125,SD,S5206TH,standard_shape,(0)\r\nC04,1350,SD,S5206TH,standard_shape,(0)\r\nC08,1400,SD,S5206TH,standard_shape,(0)\r\nC04,1575,SD,S5206TH,standard_shape,(0)\r\nC04,1600,SD,S5206TH,standard_shape,(0)\r\nC09,1725,2DL,SW255TH,standard_shape,312.5,312.5,(-550,550)\r\nC04,1750,SD,S5206TH,standard_shape,(0)\r\nC04,1750,1DL,S5206TH,standard_shape,(0)\r\nC04,1925,1DL,S5206TH,standard_shape,(0)\r\nC04,2900,2DL,S5206TH,standard_shape,950,950,(-500,500)\r\nC08,325,1DL,S5206TH,standard_shape,(0)\r\nC05,2000,SD,S5206TH,standard_shape,(0)\r\nC08,300,1DL,xxx,standard_shape,(0)\r\nC04,550,1DL,xxx,standard_shape,(0)\r\nC08,975,1DL,xxx,standard_shape,(0)\r\nC04,1000,1DL,xxx,standard_shape,(0)\r\nC08,1050,1DL,xxx,standard_shape,(0)\r\nC08,1225,1DL,xxx,standard_shape,(0)\r\nC08,1275,1DL,xxx,standard_shape,(0)\r\nC08,1275,1DL,xxx,standard_varies_shape,(0)\r\nC08,1300,1DL,xxx,standard_shape,(0)\r\nC08,1300,1DL,xxx,standard_varies_shape,(0)\r\nC04,1300,1DL,xxx,standard_shape,(0)\r\nC08,1400,2DL,xxx,standard_shape,400,400,(-300,300)\r\nC08,1725,SD,xxx,standard_shape,(0)\r\nC08,1725,2DL,xxx,standard_shape,400,400,(-462.5,462.5)\r\nC08,1730,2DL,xxx,standard_varies_shape,400,400,(-465,465)\r\nC08,1775,2DL,xxx,standard_shape,400,400,(-487.5,487.5)\r\nC08,1775,SD,xxx,standard_shape,(0)\r\nC08,1825,2DL,xxx,standard_varies_shape,400,400,(-512.5,512.5)\r\nC08,1825,2DL,xxx,standard_shape,400,400,(-512.5,512.5)\r\nC08,1850,1DL,xxx,standard_shape,(0)\r\nc08,2550,1DL,xxx,standard_shape,(0)\r\nC08,425,1DL,xxx,standard_shape,(0)\r\nC08,550,1DL,xxx,standard_shape,(0)\r\nC08,675,1DL,xxx,standard_shape,(0)\r\nC08,875,1DL,xxx,standard_shape,(0)\r\nC08,875,1DL,xxx,standard_varies_shape,(0)\r\nC08,950,1DL,xxx,standard_shape,(0)\r\nC08,1075,1DL,xxx,standard_shape,(0)\r\nC08,1175,1DL,xxx,standard_varies_shape,400,(-187.5)\r\nC08,1325,1DL,xxx,standard_shape,(0)\r\nC08,1600,2DL,xxx,standard_shape,400,400,(-400,400)\r\nC08,1600,1DL,xxx,standard_shape,325,(475)\r\nC08,1600,SD,xxx,standard_shape,(0)\r\nC08,1630,2DL,xxx,standard_shape,400,400,(-415,415)\r\nC08,1630,1DL,xxx,standard_shape,400,(-415)\r\nC10,1630,SD,xxx,standard_shape,(0)\r\nC08,1630,SD,xxx,standard_shape,(0)\r\nC08,1650,1DL,xxx,standard_shape,(0)\r\nC08,1750,SD,xxx,standard_shape,(0)\r\nC10,1750,SD,xxx,standard_shape,(0)\r\nC08,1750,1DL,xxx,standard_varies_shape,(0)\r\nC08,600,1DL,xxx,standard_shape,(0)\r\nC08,875,SD,xxx,standard_shape,(0)\r\nC08,2200,1DL,xxx,standard_shape,400,(-700)\r\nC08,1350,2DL,xxx,standard_shape,250,250,(-425,425)\r\nC08,1450,SD,xxx,standard_shape,(0)\r\nC08,1375,2DL,xxx,standard_shape,250,250,(-437.5,437.5)\r\nC05,2050,2DL,xxx,standard_shape,250,250,(-775,775)\r\nC05,2050,SD,xxx,standard_shape,(0)\r\nC05,600,SD,xxx,standard_shape,(0)\r\nC05,600,1DL,xxx,standard_shape,(0)\r\nC08,1975,2DL,xxx,standard_shape,400,400,(-587.5,587.5)\r\nC08,1250,2DL,xxx,standard_shape,400,400,(-225,225)\r\nC08,1750,2DL,xxx,standard_varies_shape,400,400,(-475,475)\r\nC08,1375,SD,xxx,standard_varies_shape,(0)\r\nC05,2050,2DL,xxx,standard_varies_shape,250,250,(-775,775)\r\n\nแต่ละชุดมีกี่ข้อมูล",
+        "truncated": false
+      },
+      {
+        "index": 10,
+        "text": "มีวิธี ทำให้ viewport ไม่โหลดหน้า จนกว่าจะ refresh มั้ย  เวลา แพนไปเจอ มันจะค้างตลอด อย่้าเพิ่งเขียนโค้่ด",
+        "truncated": false
+      },
+      {
+        "index": 11,
+        "text": "C:\\TA\\TA_COMPELETE\\GPT CODE\\TA_BLANK_FLANGE\\TA_BLANK_FLANGE.lsp อ่านไฟล์นี้",
+        "truncated": false
+      },
+      {
+        "index": 12,
+        "text": "อยากเขียนคำสั่งใหม่ที่อ้างอิง คำสั่งนี้ ปกติเดิมที เราเขียนคำสั่งนี้ ด้านนอกใช่มั้ย คราวนี้อยากให้พับด้านใน อย่าเพิ่งเขียนโค้ดจนกว่าจะบอกให้เขียน",
+        "truncated": false
+      },
+      {
+        "index": 13,
+        "text": "คำสั่งใหม่ที่คุณต้องการ ผมเข้าใจว่าให้เลือกขอบด้วยจุด 2 จุดเหมือนเดิม แล้วสร้างปีกกว้าง `X` **เข้าด้านในพื้นที่ Polyline** พร้อมกำหนดมุมปลายทั้งสองข้างได้เหมือนเดิม  : ใช่&#x20;\n\nขอแยกความหมายให้ตรงกันนิดหนึ่ง: คุณหมายถึง **ให้รูปเส้นที่สร้างอยู่ด้านใน Polyline ในแบบ 2D** ใช่ไหมครับ ไม่ใช่เพียงเปลี่ยนทิศพับขึ้น–ลงของชิ้นงานจริง?  : ปกติคำสั่งจะอยู่นอก outline ใช่ คราวนี้ต้องให้อยู่ด้านใน pline\n",
+        "truncated": false
+      },
+      {
+        "index": 14,
+        "text": "คิดว่าจะเขียนเร็วมั้ย เพราะมีคำสั่งเดิมอยู่แล้ว",
+        "truncated": false
+      },
+      {
+        "index": 15,
+        "text": "sub func อ้างอิงของเดิมมั้ย",
+        "truncated": false
+      },
+      {
+        "index": 16,
+        "text": "getreal ยังคงเก็บค่าอยู่ใช่ใมั้ย",
+        "truncated": false
+      },
+      {
+        "index": 17,
+        "text": "เริ่มเลย คำสั่งใหม่",
+        "truncated": false
+      },
+      {
+        "index": 18,
+        "text": "คำสั่ง FF1 ควรจะหยุดที่กลางได้ ระหว่างจุด สองจุด&#x20;",
+        "truncated": false
+      },
+      {
+        "index": 19,
+        "text": "ใช่&#x20;",
+        "truncated": false
+      }
+    ],
+    "chatgpt-global": [
+      {
+        "index": 0,
+        "text": "ถ้าอยาก fetch ต้อง git อะไร",
+        "truncated": false
+      },
+      {
+        "index": 1,
+        "text": "เขียน dxf ได้มั้ย",
+        "truncated": false
+      },
+      {
+        "index": 2,
+        "text": "usage remaining ของ chat gpt คือ",
+        "truncated": false
+      },
+      {
+        "index": 3,
+        "text": "[https://www.supalai.com/project?filter=nearby&sub\\_area|:|%E0%B8%81%E0%B8%A3%E0%B8%B8%E0%B8%87%E0%B9%80%E0%B8%97%E0%B8%9E%E0%B8%AF%20%E0%B9%81%E0%B8%A5%E0%B8%B0%E0%B8%9B%E0%B8%A3%E0%B8%B4%E0%B8%A1%E0%B8%93%E0%B8%91%E0%B8%A5=%E0%B8%A8%E0%B8%A3%E0%B8%B5%E0%B8%99%E0%B8%84%E0%B8%A3%E0%B8%B4%E0%B8%99%E0%B8%97%E0%B8%A3%E0%B9%8C|%E0%B8%9A%E0%B8%B2%E0%B8%87%E0%B8%99%E0%B8%B2-%E0%B8%A5%E0%B8%B2%E0%B8%94%E0%B8%81%E0%B8%A3%E0%B8%B0%E0%B8%9A%E0%B8%B1%E0%B8%87-%E0%B8%A3%E0%B8%B2%E0%B8%A1%E0%B8%AD%E0%B8%B4%E0%B8%99%E0%B8%97%E0%B8%A3%E0%B8%B2|%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%8A%E0%B8%B2%E0%B8%AD%E0%B8%B8%E0%B8%97%E0%B8%B4%E0%B8%A8-%E0%B8%9E%E0%B8%A3%E0%B8%B0%E0%B8%A3%E0%B8%B2%E0%B8%A1%202|%E0%B9%80%E0%B8%9E%E0%B8%8A%E0%B8%A3%E0%B9%80%E0%B8%81%E0%B8%A9%E0%B8%A1-%E0%B8%9E%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A1%E0%B8%93%E0%B8%91%E0%B8%A5|%E0%B8%AA%E0%B8%A3%E0%B8%87%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%A0%E0%B8%B2-%E0%B8%94%E0%B8%AD%E0%B8%99%E0%B9%80%E0%B8%A1%E0%B8%B7%E0%B8%AD%E0%B8%87](https://www.supalai.com/project?filter=nearby\\&sub_area|:|%E0%B8%81%E0%B8%A3%E0%B8%B8%E0%B8%87%E0%B9%80%E0%B8%97%E0%B8%9E%E0%B8%AF%20%E0%B9%81%E0%B8%A5%E0%B8%B0%E0%B8%9B%E0%B8%A3%E0%B8%B4%E0%B8%A1%E0%B8%93%E0%B8%91%E0%B8%A5=%E0%B8%A8%E0%B8%A3%E0%B8%B5%E0%B8%99%E0%B8%84%E0%B8%A3%E0%B8%B4%E0%B8%99%E0%B8%97%E0%B8%A3%E0%B9%8C|%E0%B8%9A%E0%B8%B2%E0%B8%87%E0%B8%99%E0%B8%B2-%E0%B8%A5%E0%B8%B2%E0%B8%94%E0%B8%81%E0%B8%A3%E0%B8%B0%E0%B8%9A%E0%B8%B1%E0%B8%87-%E0%B8%A3%E0%B8%B2%E0%B8%A1%E0%B8%AD%E0%B8%B4%E0%B8%99%E0%B8%97%E0%B8%A3%E0%B8%B2|%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%8A%E0%B8%B2%E0%B8%AD%E0%B8%B8%E0%B8%97%E0%B8%B4%E0%B8%A8-%E0%B8%9E%E0%B8%A3%E0%B8%B0%E0%B8%A3%E0%B8%B2%E0%B8%A1%202|%E0%B9%80%E0%B8%9E%E0%B8%8A%E0%B8%A3%E0%B9%80%E0%B8%81%E0%B8%A9%E0%B8%A1-%E0%B8%9E%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A1%E0%B8%93%E0%B8%91%E0%B8%A5|%E0%B8%AA%E0%B8%A3%E0%B8%87%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%A0%E0%B8%B2-%E0%B8%94%E0%B8%AD%E0%B8%99%E0%B9%80%E0%B8%A1%E0%B8%B7%E0%B8%AD%E0%B8%87)\n\nดึงพิกัดในแผ่นที่ได้มั้ย",
+        "truncated": false
+      },
+      {
+        "index": 4,
+        "text": "ตรวจข้อมูล excel ",
+        "truncated": false
+      },
+      {
+        "index": 5,
+        "text": "อ่านไฟล์นี้ ช่อง PRODUCT NAME / Dims  ",
+        "truncated": false
+      },
+      {
+        "index": 6,
+        "text": "gpt แต่ละโปร",
+        "truncated": false
+      },
+      {
+        "index": 7,
+        "text": "เราจะมาทำ port เพื่อลาออกกัน",
+        "truncated": false
+      }
+    ],
+    "01a0010b-3ccc-7f93-9227-4c5af7729606": [
+      {
+        "index": 0,
+        "text": "เอา sheet 0042 มาย่อยให้ราคารายการวัสดุ ต่ำกว่า 5000 ได้เลย ทำต่อจากเลขที่ใบยราคาล่าสุด",
+        "truncated": false
+      },
+      {
+        "index": 1,
+        "text": "แก้เลยดิ",
+        "truncated": false
+      },
+      {
+        "index": 2,
+        "text": "มี vba ที่ใช้ set print area และ หน้า กระดาษมั้ย",
+        "truncated": false
+      },
+      {
+        "index": 3,
+        "text": "เขียน vba \nกำนหด print area  ที่ a1:v45 \nset papaer A4 land \nnarrow margin \nfit sheet in one page ",
+        "truncated": false
+      },
+      {
+        "index": 4,
+        "text": "เขียน เป็น loop อีกคำสั่ง เพื่อ ให้ใช้กับ ทุกหน้า ชีท",
+        "truncated": false
+      },
+      {
+        "index": 5,
+        "text": "ทำไม ถึงเลือก print area ไม่ได้ มีคำว่า igrno print area ติ้กถูก",
+        "truncated": false
+      },
+      {
+        "index": 6,
+        "text": "เอาลายเซ็นของ \n\n\"C:\\TA\\PPLINE CKST\\C1-C2_Finishes-Reflected Ceiling Plan\\Generic\\Gen C10\\MCK C10 PP17 PP19\\PP18\\รวม\\IT3-M3-2026-0061-0069_ใบขอตัวอย่างสินค้าสั่งทำพิเศษ MRT PURPLE LINE 4STATION (PP17 - PP20) C10 MOCKUP PP18_.pdf\"\n\nมาใส่ \n\n\"C:\\TA\\PPLINE CKST\\C1-C2_Finishes-Reflected Ceiling Plan\\Generic\\Gen C10\\MCK C10 PP17 PP19\\PP18\\รวม\\IT3-M3-2026-0071-0074_ใบขอตัวอย่างสินค้าสั่งทำพิเศษ MRT PURPLE LINE 4STATION (PP17 - PP20) C10 MOCKUP PP18_.pdf\"",
+        "truncated": false
+      },
+      {
+        "index": 7,
+        "text": "ทำไฟล์ png",
+        "truncated": false
+      },
+      {
+        "index": 8,
+        "text": "ตัดสีเขียวกับฟ้า ออกไป",
+        "truncated": false
+      },
+      {
+        "index": 9,
+        "text": "ทำ png ตัดเส้นดำทิ้ง",
+        "truncated": false
+      },
+      {
+        "index": 10,
+        "text": "ไฟล์ ดึงลายเซ็นออกมาได้มั้ย",
+        "truncated": false
+      },
+      {
+        "index": 11,
+        "text": "ไฟล์ ps1 คือ",
+        "truncated": false
+      },
+      {
+        "index": 12,
+        "text": "ทำ png ตัดสีเขียว สีฟ้า ทิ้ง ",
+        "truncated": false
+      },
+      {
+        "index": 13,
+        "text": "อีกอัน",
+        "truncated": false
+      },
+      {
+        "index": 14,
+        "text": "เก็บข้อความไว้ด้วยดิ",
+        "truncated": false
+      },
+      {
+        "index": 15,
+        "text": "รู้มั้ย ลายเซ็นต้องใส่ตรงไหนบ้าง",
+        "truncated": false
+      },
+      {
+        "index": 16,
+        "text": "ทำเลย",
+        "truncated": false
+      },
+      {
+        "index": 17,
+        "text": "ลายเซ็น ekal id ขยับมาซ้าย 1 เท่า \nvudhichai ขยับขึ้น 0.5 เท่า",
+        "truncated": false
+      },
+      {
+        "index": 18,
+        "text": "ขอ eka id ขยับไปซ้ายอีกจนใกล้ ผู้อนุมัติ",
+        "truncated": false
+      },
+      {
+        "index": 19,
+        "text": "แก้ไข ตัวหนังสือ วงเขียวเป็น 572 วงแดง เป็น 14",
+        "truncated": false
+      }
+    ],
+    "01a11a81-bf41-7c33-97da-691cab2ca42a": [
+      {
+        "index": 0,
+        "text": "หน้าต่างรวมรายการ โอเค แล้ว&#x20;\nC:\\TA\\TA-PORTFOLIO\\Autolisp Collection อย่างที่คุยพกันไว้นะ นี่คือรายการหลัก&#x20;\n\nC:\\TA\\TA-PORTFOLIO\\Autolisp Collection",
+        "truncated": false
+      },
+      {
+        "index": 1,
+        "text": "ถ้าบอกว่าให้อัพะเดท ข้อมูล นั้นหมายความว่า แชทจะต้องไปดู ข้อมูล ตามโฟลเดอร์ แล้วมาอัพเดทรายการ \"C:\\TA\\TA-PORTFOLIO\\publish\\index.html\" นะ",
+        "truncated": false
+      },
+      {
+        "index": 2,
+        "text": "ขอดู คำสั่ง เกี่ยวกับ selection set หน่อย เขียนเยอะจัด จำไม่ได้",
+        "truncated": false
+      },
+      {
+        "index": 3,
+        "text": "เพิ่มหมวด INSERTION BLOCK เป็นหมวดใหม่&#x20;\n\nใน C:\\TA\\TA-PORTFOLIO\\Autolisp Collection&#x20;\n\nและ อัพเดทด้วย",
+        "truncated": false
+      },
+      {
+        "index": 4,
+        "text": "เพิ่มไปที่ หมวด 08",
+        "truncated": false
+      },
+      {
+        "index": 5,
+        "text": "ตัว คำสั่ง โค้ด ให้ดู เพื่อทำความเข้าใจเฉยๆ จะได้เขียนบรรยายถูก&#x20;",
+        "truncated": false
+      },
+      {
+        "index": 6,
+        "text": "ตัดทิ้งหมด เราจะไม่บอก ว่าเราใช้ sub func อะไร",
+        "truncated": false
+      },
+      {
+        "index": 7,
+        "text": "หน้ารวม ถามหน่อยว่า กด back หรือ refresh มันจะไปที่หน้า login ตลอดหรอ",
+        "truncated": false
+      },
+      {
+        "index": 8,
+        "text": "มีวิธี ให้กด ล็อคอิน แค่ครั้งเดียวมั้ย",
+        "truncated": false
+      },
+      {
+        "index": 9,
+        "text": "เอาแบบว่า ถ้ายังไม่ปิด หน้าต่าง จะกด back หรือ refresh ก็ไม่ต้อง login แบบนี้ทำได้เมั้ย&#x20;",
+        "truncated": false
+      },
+      {
+        "index": 10,
+        "text": "ปรับเลย",
+        "truncated": false
+      },
+      {
+        "index": 11,
+        "text": "ตรวจสอบหน่อย ไปหน้าอื่น กด back กลับมา ไม่แสดงข้อมูล",
+        "truncated": false
+      },
+      {
+        "index": 12,
+        "text": "แก้ยัง",
+        "truncated": false
+      },
+      {
+        "index": 13,
+        "text": "แก้เบน",
+        "truncated": false
+      },
+      {
+        "index": 14,
+        "text": "file:///C:/TA/TA-PORTFOLIO/Autolisp%20Collection/03_Selection_and_Inspection/Block_Name_Filter/index.html\n\nจะไม่โชวไป gif จนกว่าจะกดเล่น หรอ&#x20;",
+        "truncated": false
+      },
+      {
+        "index": 15,
+        "text": "ทำให้มันเล่นเลยได้มั้ย",
+        "truncated": false
+      },
+      {
+        "index": 16,
+        "text": "คำสั่งมีไว ้insert block ลงตาม vertex ของ pline",
+        "truncated": false
+      },
+      {
+        "index": 17,
+        "text": "ใช่",
+        "truncated": false
+      },
+      {
+        "index": 18,
+        "text": "insert block โดยอ้างอิงจาก center ของ boundary area",
+        "truncated": false
+      },
+      {
+        "index": 19,
+        "text": "คำสั่งย้อมสี บล็อก&#x20;",
+        "truncated": false
+      }
+    ]
+  },
+  "thread_descriptions": {
+    "019f7163-1cc8-7322-8860-8e3be334cec3": "ค้นหาช่องแชทเดิมที่มีการพูดคุยเรื่อง cutting length",
+    "019f73d7-0a9d-72b0-9e5b-aa079447eaf0": "แยกลายเซ็น พื้นหลังโปร่งใส ไฟล์ PNG",
+    "019f7958-3044-75d1-995d-a58dcee3351c": "โปรเจคออนไลน์ GitHub Workspace คอม 2 เครื่อง ซิงก์ไฟล์ VBA",
+    "019f7961-21ec-74f1-b2f3-b092a3cba95a": "Clarify the meaning of usage remain",
+    "019f7baa-5a40-7670-b66f-b29124798605": "copyallsheet_v2, Attribute VB_Name, StartSheet, CopySheetCount, เซลล์ว่าง \"\"",
+    "019f8046-d01b-7c20-98c3-25ef85e30cab": "Inspect PRs, triage issues, debug failing checks, and prepare review-ready code changes",
+    "019f804a-3ab4-7b82-b8f0-52a1892a4e64": "เชื่อมต่อ GitHub กับคอมอื่น gh auth login git clone TA_COMPELETE git pull git push",
+    "019f8059-a0a3-7d31-aa6b-a27918c29210": "Find the workspace folder location",
+    "019f805b-a164-75e0-ad0a-be1c3b1aa9b1": "กรอง Block ที่มี Attribute, (66 . 1), ssget, chat history",
+    "019f805c-2141-7c71-9e32-22670826110a": "ตั้ง workspace ห้อง 2 ที่ C:\\TA\\TA_COMPELETE\\GPT CODE\\GPT CODE VBA",
+    "019f8f8d-7c71-7f81-a9f0-f04d075434d9": "สรุปสิ่งทำกัน chat history ตั้งชื่อห้องแชท ตรวจแบบ Performance Louver",
+    "019faf22-1b88-7ea2-8406-5fad4f6978cc": "คำขอลบลายเซ็นออกจากเอกสารหรือไฟล์",
+    "019fb9a3-cb87-79c2-b109-a349204a0eb1": "ตรวจสอบไฟล์ AutoLISP FOR_CREATE_LAYER_.lsp ในโปรเจกต์ TA_COMPELETE",
+    "019fc26f-4f25-77c3-8cb9-cf705f7b0a08": "นำไฟล์ DXF เข้าสู่ Work mode พร้อมคงผังโต๊ะจีนตามสเก็ตช์ล่าสุด",
+    "019fc8bd-0285-7d02-842c-f3d7a6889463": "Update DIM implementation and related code areas",
+    "019fcd7a-d3c2-7360-819c-f840e7a7667d": "ปรับไฟล์ PowerPoint จากหน้ากระดาษ A5 เป็น A4 และจัดวางรูปภาพหน้าละ 2 รูป",
+    "019fd7c9-409a-7e43-80a9-ca976288653d": "ค้นหาตำแหน่งงาน AutoLISP ในประเทศไทย",
+    "01a0010b-3ccc-7f93-9227-4c5af7729606": "แยกรายการวัสดุ Excel 0035 0036 0041 PDF V28",
+    "01a016ae-b7c2-74f2-a3ab-d72fd414f3cb": "ตรวจสอบและยืนยันชื่อโฟลเดอร์ source ในโปรเจกต์",
+    "01a01e4f-f470-7180-90ee-0f13143c8df9": "เปรียบเทียบ AI สำหรับแก้ไขไฟล์ PDF",
+    "01a027fd-cf80-7252-b98b-77faf9b39f17": "สนทนาเกี่ยวกับภาษา Ruby",
+    "01a03f03-f42c-7a30-a2be-b00f420ae9ea": "สร้าง HTML สำหรับใส่ลายน้ำในไฟล์ PDF",
+    "01a03f74-5b75-7822-864d-9f6ae953f5ea": "ปรับ UI layout ให้ดูทันสมัยและใช้งานง่ายขึ้น",
+    "01a04935-8139-79a0-9d88-612e816955c8": "Create IMAGE_TO_PUNCH_PROJECT_CONTEXT.txt with complete project summary and Version 1 requirements",
+    "01a04cfa-fb00-7710-b28a-43699c93e8d5": "อ่าน CHAT_HISTORY และสรุป Paused on exception ERROR BREAK Step Over Step Into และความต่างสองเครื่อง",
+    "01a04ef5-bc49-7d03-86fa-915b3ee9dcfd": "สอบถามว่าเสียงเปลี่ยนเป็นผู้หญิงแล้วหรือยัง และวิธีตั้งค่าเสียงใน Codex",
+    "01a0591f-9459-7280-8f3a-eab9e95ad5e3": "ดึงชื่อโครงการ latitude longitude และข้อมูลหมุดจากหน้า Supalai เพื่อสร้าง CSV สำหรับ Google My Maps",
+    "01a06624-ed03-79b2-b5e0-4bac18e48ee1": "ตรวจสอบไฟล์ข้อมูลในโปรเจกต์",
+    "01a0b01d-c141-7463-a5e0-9b74360db683": "จัดทำเอกสารทั่วไป",
+    "01a11a81-bf41-7c33-97da-691cab2ca42a": "ตรวจ z_main_00 สรุปคำสั่งและความพร้อมทำพอร์ต CAD Automation ไทย-อังกฤษ"
+  },
+  "projects": {
+    "ff42a679-83d3-499a-9d5e-989338d9db3d": {
+      "id": "ff42a679-83d3-499a-9d5e-989338d9db3d",
+      "name": "TA_COMPELETE",
+      "rootPaths": [
+        "C:\\TA\\TA_COMPELETE"
+      ],
+      "createdAt": 1784564903621,
+      "updatedAt": 1784564903621
+    },
+    "feb48448-0fc6-4e22-9dcf-35d2b066014a": {
+      "id": "feb48448-0fc6-4e22-9dcf-35d2b066014a",
+      "name": "REWORK 000 - FOR_CREATE_LAYER_.lsp",
+      "rootPaths": [
+        "C:\\TA\\TA_COMPELETE",
+        "C:\\TA\\TA_COMPELETE\\GPT CODE\\GPT CODE AUTOLISP  FOR 000 - FOR_CREATE_LAYER_.lsp"
+      ],
+      "createdAt": 1785525868736,
+      "updatedAt": 1785525938968
+    },
+    "96b7e074-4fe9-4e80-8596-466047e407dd": {
+      "id": "96b7e074-4fe9-4e80-8596-466047e407dd",
+      "name": "งานแต่ง",
+      "rootPaths": [
+        "C:\\TA\\TA_COMPELETE\\GPT CODE\\GPT CODE wedding",
+        "C:\\TA\\TA_COMPELETE"
+      ],
+      "createdAt": 1785860307419,
+      "updatedAt": 1785860311562
+    },
+    "b64bc64f-93d2-4c1c-82cf-c9f4c627b39c": {
+      "id": "b64bc64f-93d2-4c1c-82cf-c9f4c627b39c",
+      "name": "หางานใหม่",
+      "rootPaths": [
+        "C:\\Users\\popul\\OneDrive\\เอกสาร\\ChatGPT\\หางานใหม่"
+      ],
+      "createdAt": 1786031707632,
+      "updatedAt": 1786031707632
+    },
+    "c2ab5937-33fc-46ad-9986-735e96db715b": {
+      "id": "c2ab5937-33fc-46ad-9986-735e96db715b",
+      "name": "ตรวจแบบ PERFORMANCE",
+      "rootPaths": [
+        "C:\\TA\\TA_COMPELETE\\GPT CODE\\GPT CODEX - ตรวจแบบ PERFORMANCE",
+        "C:\\TA\\TA_COMPELETE"
+      ],
+      "createdAt": 1787085281631,
+      "updatedAt": 1787086342817
+    },
+    "61dc5931-3912-4863-9c65-77c99e28dc44": {
+      "id": "61dc5931-3912-4863-9c65-77c99e28dc44",
+      "name": "SKETCH",
+      "rootPaths": [
+        "C:\\TA\\TA_COMPELETE\\GPT CODE\\GPT CODEX - SKETCHUP"
+      ],
+      "createdAt": 1787377329293,
+      "updatedAt": 1787377329293
+    },
+    "f0eb5ea2-ec6e-4d1a-80b3-c932eab83830": {
+      "id": "f0eb5ea2-ec6e-4d1a-80b3-c932eab83830",
+      "name": "HTML DEVELOP",
+      "rootPaths": [
+        "C:\\TA\\TA_COMPELETE\\GPT CODE\\GPT CODEX HTML"
+      ],
+      "createdAt": 1787763532444,
+      "updatedAt": 1787763585514
+    },
+    "d50a7fdf-374f-4f67-b470-548aad61b4f4": {
+      "id": "d50a7fdf-374f-4f67-b470-548aad61b4f4",
+      "name": "งานเมีย No.1",
+      "rootPaths": [
+        "C:\\Users\\popul\\OneDrive\\เอกสาร\\ChatGPT\\งานเมีย No.1"
+      ],
+      "createdAt": 1787770943611,
+      "updatedAt": 1787770943611
+    },
+    "50bc93f8-3727-4309-be76-5da8e172f6a6": {
+      "id": "50bc93f8-3727-4309-be76-5da8e172f6a6",
+      "name": "IMAGE-TO-PUNCH",
+      "rootPaths": [
+        "C:\\TA\\TA_COMPELETE\\GPT CODE\\GPT CODEX IMAGE-TO-PUNCH"
+      ],
+      "createdAt": 1787934780457,
+      "updatedAt": 1787934780457
+    },
+    "g-p-6a9920649c208191b9887cef1f940dd8": {
+      "id": "g-p-6a9920649c208191b9887cef1f940dd8",
+      "name": "ตรวจข้อมูลราคา Performance",
+      "rootPaths": [
+        "C:\\Users\\popul\\.codex\\.chatgpt-projects\\g-p-6a9920649c208191b9887cef1f940dd8"
+      ],
+      "createdAt": 1788420212546,
+      "updatedAt": 1788420212546
+    },
+    "9eb4bef3-bb35-4379-84e4-2b8ae684bb02": {
+      "id": "9eb4bef3-bb35-4379-84e4-2b8ae684bb02",
+      "name": "ทำ port เพื่อลาออกจากอเคเดมี่",
+      "rootPaths": [
+        "C:\\TA\\TA_COMPELETE\\GPT CODE\\GPT FOR NEXT",
+        "C:\\TA\\TA-PORTFOLIO"
+      ],
+      "createdAt": 1791445569651,
+      "updatedAt": 1791658862023
+    }
+  },
+  "workspace_context": {
+    "selected-project": {
+      "type": "local",
+      "projectId": "9eb4bef3-bb35-4379-84e4-2b8ae684bb02"
+    },
+    "thread-workspace-root-hints": {
+      "019f7163-1cc8-7322-8860-8e3be334cec3": "C:\\Users\\popul\\Documents\\Codex",
+      "019f73d7-0a9d-72b0-9e5b-aa079447eaf0": "C:\\Users\\popul\\Documents\\Codex",
+      "019f7961-21ec-74f1-b2f3-b092a3cba95a": "C:\\Users\\popul\\Documents\\Codex",
+      "019f8046-d01b-7c20-98c3-25ef85e30cab": "C:\\Users\\popul\\Documents\\Codex",
+      "019faf22-1b88-7ea2-8406-5fad4f6978cc": "C:\\Users\\popul\\Documents\\Codex",
+      "019fc26f-4f25-77c3-8cb9-cf705f7b0a08": "C:\\Users\\popul\\Documents\\Codex",
+      "01a03f0a-252d-79a2-9fad-32f330418e41": "C:\\Users\\popul\\Documents\\Codex",
+      "01a03f98-af6d-7e43-be24-cee3b92e561e": "C:\\Users\\popul\\Documents\\Codex",
+      "01a04935-8139-79a0-9d88-612e816955c8": "C:\\Users\\popul\\Documents\\Codex",
+      "01a04cfa-fb00-7710-b28a-43699c93e8d5": "C:\\Users\\popul\\Documents\\Codex",
+      "01a04ef4-3823-7370-877d-e5b7aa8f1a12": "C:\\Users\\popul\\Documents\\Codex",
+      "01a04ef4-c086-7660-901d-881f348e9ab9": "C:\\Users\\popul\\Documents\\Codex",
+      "01a04ef4-c649-7741-ab95-7496b82dcc82": "C:\\Users\\popul\\Documents\\Codex",
+      "01a04ef5-bc49-7d03-86fa-915b3ee9dcfd": "C:\\Users\\popul\\Documents\\Codex",
+      "01a0591f-9459-7280-8f3a-eab9e95ad5e3": "C:\\Users\\popul\\Documents\\Codex",
+      "01a11a81-bf41-7c33-97da-691cab2ca42a": "C:\\Users\\popul\\Documents\\Codex"
+    },
+    "thread-project-assignments": {
+      "019f7958-3044-75d1-995d-a58dcee3351c": {
+        "projectKind": "local",
+        "projectId": "581f31aa-a1e2-4d5f-942a-ffe1ff8dc466"
+      },
+      "019f7baa-5a40-7670-b66f-b29124798605": {
+        "projectKind": "local",
+        "projectId": "581f31aa-a1e2-4d5f-942a-ffe1ff8dc466"
+      },
+      "019f804a-3ab4-7b82-b8f0-52a1892a4e64": {
+        "projectKind": "local",
+        "projectId": "581f31aa-a1e2-4d5f-942a-ffe1ff8dc466"
+      },
+      "019f8059-a0a3-7d31-aa6b-a27918c29210": {
+        "projectKind": "local",
+        "projectId": "b9bbca2e-5fcf-4f3f-98e0-b798219a165d"
+      },
+      "019f805b-a164-75e0-ad0a-be1c3b1aa9b1": {
+        "projectKind": "local",
+        "projectId": "ff42a679-83d3-499a-9d5e-989338d9db3d"
+      },
+      "019f805c-2141-7c71-9e32-22670826110a": {
+        "projectKind": "local",
+        "projectId": "ff42a679-83d3-499a-9d5e-989338d9db3d"
+      },
+      "019f8f8d-7c71-7f81-a9f0-f04d075434d9": {
+        "projectKind": "local",
+        "projectId": "c2ab5937-33fc-46ad-9986-735e96db715b"
+      },
+      "019fb9a3-cb87-79c2-b109-a349204a0eb1": {
+        "projectKind": "local",
+        "projectId": "feb48448-0fc6-4e22-9dcf-35d2b066014a"
+      },
+      "019fc8bd-0285-7d02-842c-f3d7a6889463": {
+        "projectKind": "local",
+        "projectId": "ff42a679-83d3-499a-9d5e-989338d9db3d"
+      },
+      "019fcd7a-d3c2-7360-819c-f840e7a7667d": {
+        "projectKind": "local",
+        "projectId": "96b7e074-4fe9-4e80-8596-466047e407dd"
+      },
+      "019fd7c9-409a-7e43-80a9-ca976288653d": {
+        "projectKind": "local",
+        "projectId": "b64bc64f-93d2-4c1c-82cf-c9f4c627b39c"
+      },
+      "01a0010b-3ccc-7f93-9227-4c5af7729606": {
+        "projectKind": "local",
+        "projectId": "c2ab5937-33fc-46ad-9986-735e96db715b"
+      },
+      "01a016ae-b7c2-74f2-a3ab-d72fd414f3cb": {
+        "projectKind": "local",
+        "projectId": "c2ab5937-33fc-46ad-9986-735e96db715b"
+      },
+      "01a01e4f-f470-7180-90ee-0f13143c8df9": {
+        "projectKind": "local",
+        "projectId": "c2ab5937-33fc-46ad-9986-735e96db715b"
+      },
+      "01a027fd-cf80-7252-b98b-77faf9b39f17": {
+        "projectKind": "local",
+        "projectId": "61dc5931-3912-4863-9c65-77c99e28dc44"
+      },
+      "01a03f03-f42c-7a30-a2be-b00f420ae9ea": {
+        "projectKind": "local",
+        "projectId": "f0eb5ea2-ec6e-4d1a-80b3-c932eab83830"
+      },
+      "01a03f74-5b75-7822-864d-9f6ae953f5ea": {
+        "projectKind": "local",
+        "projectId": "d50a7fdf-374f-4f67-b470-548aad61b4f4"
+      },
+      "01a04935-8139-79a0-9d88-612e816955c8": {
+        "projectKind": "local",
+        "projectId": "50bc93f8-3727-4309-be76-5da8e172f6a6"
+      },
+      "01a06624-ed03-79b2-b5e0-4bac18e48ee1": {
+        "projectKind": "local",
+        "projectId": "c2ab5937-33fc-46ad-9986-735e96db715b"
+      },
+      "01a0b01d-c141-7463-a5e0-9b74360db683": {
+        "projectKind": "local",
+        "projectId": "d50a7fdf-374f-4f67-b470-548aad61b4f4"
+      },
+      "01a0c527-ee4a-7d72-b889-fba598597554": {
+        "projectKind": "local",
+        "projectId": "f0eb5ea2-ec6e-4d1a-80b3-c932eab83830"
+      },
+      "01a11a81-bf41-7c33-97da-691cab2ca42a": {
+        "projectKind": "local",
+        "projectId": "9eb4bef3-bb35-4379-84e4-2b8ae684bb02"
+      }
+    },
+    "thread-project-membership-host-ids": {
+      "01a11a81-bf41-7c33-97da-691cab2ca42a": "local"
+    }
+  },
+  "preference_keys": {
+    "fast-mode-personalized-estimate": {
+      "type": "dict",
+      "count": 3
+    },
+    "composer-prompt-drafts-v1": {
+      "type": "dict",
+      "count": 0
+    },
+    "prompt-history": {
+      "type": "dict",
+      "count": 30
+    },
+    "thread-descriptions-v1": {
+      "type": "dict",
+      "count": 30
+    },
+    "thread-workspace-state-v1:019fcd7a-d3c2-7360-819c-f840e7a7667d": {
+      "type": "dict",
+      "count": 4
+    },
+    "thread-workspace-state-v1:019f8f8d-7c71-7f81-a9f0-f04d075434d9": {
+      "type": "dict",
+      "count": 4
+    },
+    "thread-workspace-state-v1:01a0010b-3ccc-7f93-9227-4c5af7729606": {
+      "type": "dict",
+      "count": 4
+    },
+    "composer-prompt-drafts-v2": {
+      "type": "dict",
+      "count": 1
+    },
+    "thread-workspace-state-v1:01a04935-8139-79a0-9d88-612e816955c8": {
+      "type": "dict",
+      "count": 4
+    },
+    "recent-workspace-files-v3": {
+      "type": "dict",
+      "count": 95
+    },
+    "chatgpt-conversation-prompt-drafts-v2": {
+      "type": "dict",
+      "count": 1
+    },
+    "settings-workspace-owner-v1": {
+      "type": "dict",
+      "count": 1
+    },
+    "settings-workspace-tabs-v1": {
+      "type": "dict",
+      "count": 1
+    },
+    "thread-workspace-state-v1:01a11a81-bf41-7c33-97da-691cab2ca42a": {
+      "type": "dict",
+      "count": 4
+    }
+  }
+}

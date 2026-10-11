@@ -1,0 +1,1038 @@
+{
+  "source": "C:\\Users\\popul\\OneDrive\\เดสก์ท็อป\\.codex-global-state.json",
+  "top_level_keys": [
+    "desktop-first-seen-at-ms",
+    "electron-persisted-atom-state",
+    "electron-completed-local-data-migration-ids",
+    "local-projects",
+    "remote-project-connection-backfill-completed",
+    "electron-local-remote-control-installation-id",
+    "electron-remote-control-config-migration-completed",
+    "electron-internal-update-cdn-enabled",
+    "primary-runtime-update-jitter-ms",
+    "electron-openai-mcp-form-elicitations-enabled",
+    "electron-main-window-bounds",
+    "selected-project",
+    "projectless-thread-ids",
+    "thread-workspace-root-hints",
+    "thread-projectless-output-directories",
+    "queued-follow-ups",
+    "project-order",
+    "thread-project-assignments",
+    "thread-writable-roots",
+    "pinned-thread-ids",
+    "electron-local-remote-control-environment-id",
+    "codex-mobile-has-connected-device",
+    "electron-avatar-overlay-open",
+    "electron-avatar-overlay-bounds",
+    "electron-desktop-otraces-sample-rate",
+    "sidebar-project-thread-orders",
+    "app-server-migrated-pinned-thread-ids-by-host",
+    "app-server-project-id-by-legacy-project-id-by-host",
+    "app-server-projects-migration-by-host",
+    "electron-remote-hosted-pip-task-visibility-state",
+    "electron-initial-follow-up-queue-mode",
+    "electron-thread-read-state-v1",
+    "computer-use-bundled-plugin-auto-install-disabled",
+    "electron-windows-core-runtime-frameworks-enabled",
+    "electron-windows-primary-runtime-frameworks-enabled",
+    "electron-managed-worktree-archives",
+    "electron-prefer-mxc-enabled",
+    "environment-catalog-cache-v1",
+    "project-appearances",
+    "thread-project-membership-host-ids"
+  ],
+  "matched_string_count": 57,
+  "total_occurrences": 61,
+  "groups": [
+    [
+      "electron-persisted-atom-state / chatgpt-work-models-v1/user-bP0Mb9rESglzpXU0t5b0B6Tc/60954c66-acc4-4384-904b-bc901e0e082f / response",
+      8
+    ],
+    [
+      "electron-persisted-atom-state / prompt-history / 01a11a81-bf41-7c33-97da-691cab2ca42a",
+      7
+    ],
+    [
+      "electron-persisted-atom-state / prompt-history / global",
+      2
+    ],
+    [
+      "electron-persisted-atom-state / prompt-history / 019f805b-a164-75e0-ad0a-be1c3b1aa9b1",
+      2
+    ],
+    [
+      "queued-follow-ups / 01a11a81-bf41-7c33-97da-691cab2ca42a / 0",
+      2
+    ],
+    [
+      "electron-persisted-atom-state / prompt-history / 01a04cfa-fb00-7710-b28a-43699c93e8d5",
+      1
+    ],
+    [
+      "electron-persisted-atom-state / thread-descriptions-v1 / 019fb9a3-cb87-79c2-b109-a349204a0eb1",
+      1
+    ],
+    [
+      "electron-persisted-atom-state / thread-descriptions-v1 / 019fd7c9-409a-7e43-80a9-ca976288653d",
+      1
+    ],
+    [
+      "electron-persisted-atom-state / recent-workspace-files-v3 / [\"local\",\"client-new-thread:2ebe61fc-989b-4b1a-911b-06350e415688\",\"win32:/mnt/c/ta/ta_compelete/z00x_ta_standard_sun_func_and_main.lsp\"]",
+      1
+    ],
+    [
+      "electron-persisted-atom-state / recent-workspace-files-v3 / [\"local\",\"client-new-thread:2ebe61fc-989b-4b1a-911b-06350e415688\",\"win32:/mnt/c/ta/ta_compelete/gpt code/ta_blank_flange/tests/ta_blank_flange_in_command_tests.lsp\"]",
+      1
+    ],
+    [
+      "electron-persisted-atom-state / recent-workspace-files-v3 / [\"local\",\"client-new-thread:2ebe61fc-989b-4b1a-911b-06350e415688\",\"win32:/mnt/c/ta/ta_compelete/gpt code/ta_blank_flange/tests/ta_blank_flange_in_tests.lsp\"]",
+      1
+    ],
+    [
+      "electron-persisted-atom-state / recent-workspace-files-v3 / [\"local\",\"client-new-thread:2ebe61fc-989b-4b1a-911b-06350e415688\",\"win32:/mnt/c/ta/ta_compelete/gpt code/ta_blank_flange/ta_blank_flange.lsp\"]",
+      1
+    ],
+    [
+      "electron-persisted-atom-state / recent-workspace-files-v3 / [\"local\",\"client-new-thread:2ebe61fc-989b-4b1a-911b-06350e415688\",\"win32:/mnt/c/ta/ta_compelete/gpt code/ta_blank_flange/tests/ta_blank_flange_partial_tests.lsp\"]",
+      1
+    ],
+    [
+      "electron-persisted-atom-state / recent-workspace-files-v3 / [\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/users/popul/documents/codex/2026-10-08/referenced-chatgpt-conversation-this-is-an/work/catalog_lisp.py\"]",
+      1
+    ],
+    [
+      "electron-persisted-atom-state / recent-workspace-files-v3 / [\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/03_selection_and_inspection/block_name_filter/assets/page.css\"]",
+      1
+    ],
+    [
+      "electron-persisted-atom-state / recent-workspace-files-v3 / [\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/03_selection_and_inspection/block_name_filter/qa.md\"]",
+      1
+    ],
+    [
+      "electron-persisted-atom-state / recent-workspace-files-v3 / [\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/08_insertion_block/xline_intersection_insert/readme.md\"]",
+      1
+    ],
+    [
+      "electron-persisted-atom-state / recent-workspace-files-v3 / [\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/08_insertion_block/xline_intersection_insert/assets/page.css\"]",
+      1
+    ],
+    [
+      "electron-persisted-atom-state / recent-workspace-files-v3 / [\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/08_insertion_block/xline_intersection_insert/qa.md\"]",
+      1
+    ],
+    [
+      "electron-persisted-atom-state / recent-workspace-files-v3 / [\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/08_insertion_block/xline_intersection_insert/index.html\"]",
+      1
+    ],
+    [
+      "electron-persisted-atom-state / recent-workspace-files-v3 / [\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/08_insertion_block/xline_intersection_insert/assets/page.js\"]",
+      1
+    ],
+    [
+      "electron-persisted-atom-state / recent-workspace-files-v3 / [\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/03_selection_and_inspection/selection_slots/index.html\"]",
+      1
+    ],
+    [
+      "electron-persisted-atom-state / recent-workspace-files-v3 / [\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/03_selection_and_inspection/selection_slots/assets/template.js\"]",
+      1
+    ],
+    [
+      "electron-persisted-atom-state / recent-workspace-files-v3 / [\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/content-guide.md\"]",
+      1
+    ],
+    [
+      "electron-persisted-atom-state / recent-workspace-files-v3 / [\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/03_selection_and_inspection/block_name_filter/readme.md\"]",
+      1
+    ],
+    [
+      "electron-persisted-atom-state / recent-workspace-files-v3 / [\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/03_selection_and_inspection/block_name_filter/assets/page.js\"]",
+      1
+    ],
+    [
+      "electron-persisted-atom-state / recent-workspace-files-v3 / [\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/03_selection_and_inspection/block_name_filter/index.html\"]",
+      1
+    ],
+    [
+      "electron-persisted-atom-state / recent-workspace-files-v3 / [\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/08_insertion_block/polyline_vertex_block_placement/assets/page.js\"]",
+      1
+    ],
+    [
+      "electron-persisted-atom-state / recent-workspace-files-v3 / [\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/08_insertion_block/polyline_vertex_block_placement/readme.md\"]",
+      1
+    ],
+    [
+      "electron-persisted-atom-state / recent-workspace-files-v3 / [\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/08_insertion_block/polyline_vertex_block_placement/assets/page.css\"]",
+      1
+    ],
+    [
+      "electron-persisted-atom-state / recent-workspace-files-v3 / [\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/08_insertion_block/polyline_vertex_block_placement/qa.md\"]",
+      1
+    ],
+    [
+      "electron-persisted-atom-state / recent-workspace-files-v3 / [\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/08_insertion_block/polyline_vertex_block_placement/index.html\"]",
+      1
+    ],
+    [
+      "electron-persisted-atom-state / recent-workspace-files-v3 / [\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/08_insertion_block/boundary_center_block_placement/readme.md\"]",
+      1
+    ],
+    [
+      "electron-persisted-atom-state / recent-workspace-files-v3 / [\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/08_insertion_block/boundary_center_block_placement/assets/page.js\"]",
+      1
+    ],
+    [
+      "electron-persisted-atom-state / recent-workspace-files-v3 / [\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/08_insertion_block/readme.md\"]",
+      1
+    ],
+    [
+      "electron-persisted-atom-state / recent-workspace-files-v3 / [\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/08_insertion_block/boundary_center_block_placement/qa.md\"]",
+      1
+    ],
+    [
+      "electron-persisted-atom-state / recent-workspace-files-v3 / [\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/08_insertion_block/boundary_center_block_placement/index.html\"]",
+      1
+    ],
+    [
+      "electron-persisted-atom-state / thread-tab-routes-v1:01a11a81-bf41-7c33-97da-691cab2ca42a / routes",
+      1
+    ],
+    [
+      "local-projects / feb48448-0fc6-4e22-9dcf-35d2b066014a / name",
+      1
+    ],
+    [
+      "local-projects / feb48448-0fc6-4e22-9dcf-35d2b066014a / rootPaths",
+      1
+    ],
+    [
+      "thread-writable-roots / 019fb9a3-cb87-79c2-b109-a349204a0eb1 / 1",
+      1
+    ]
+  ],
+  "matches": [
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "prompt-history",
+        "01a04cfa-fb00-7710-b28a-43699c93e8d5",
+        "4"
+      ],
+      "length": 127,
+      "occurrences": 1,
+      "excerpts": [
+        "\\\nInvalid break point position: line 62561, column 1 in C:/TA/TA\\_COMPELETE/Z00X\\_TA\\_STANDARD\\_SUN\\_FUNC\\_AND\\_MAIN.LSP &#x20;"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "prompt-history",
+        "global",
+        "5"
+      ],
+      "length": 68,
+      "occurrences": 1,
+      "excerpts": [
+        "C:\\TA\\TA_COMPELETE\\000 - FOR_CREATE_LAYER_.lsp \n\nลองศึกษาไฟล์นี้ก่อน"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "prompt-history",
+        "global",
+        "8"
+      ],
+      "length": 40,
+      "occurrences": 1,
+      "excerpts": [
+        "หางานที่เกี่ยวกับ autolisp ในไทยให้หน่อย"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "prompt-history",
+        "019f805b-a164-75e0-ad0a-be1c3b1aa9b1",
+        "11",
+        "markdown"
+      ],
+      "length": 75,
+      "occurrences": 1,
+      "excerpts": [
+        "C:\\TA\\TA_COMPELETE\\GPT CODE\\TA_BLANK_FLANGE\\TA_BLANK_FLANGE.lsp อ่านไฟล์นี้"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "prompt-history",
+        "019f805b-a164-75e0-ad0a-be1c3b1aa9b1",
+        "11",
+        "document",
+        "content",
+        "0",
+        "content",
+        "0",
+        "text"
+      ],
+      "length": 63,
+      "occurrences": 1,
+      "excerpts": [
+        "C:\\TA\\TA_COMPELETE\\GPT CODE\\TA_BLANK_FLANGE\\TA_BLANK_FLANGE.lsp"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "prompt-history",
+        "01a11a81-bf41-7c33-97da-691cab2ca42a",
+        "0",
+        "markdown"
+      ],
+      "length": 156,
+      "occurrences": 2,
+      "excerpts": [
+        "หน้าต่างรวมรายการ โอเค แล้ว&#x20;\nC:\\TA\\TA-PORTFOLIO\\Autolisp Collection อย่างที่คุยพกันไว้นะ นี่คือรายการหลัก&#x20;\n\nC:\\TA\\TA-PORTFOLIO\\Autolisp Collection",
+        " โอเค แล้ว&#x20;\nC:\\TA\\TA-PORTFOLIO\\Autolisp Collection อย่างที่คุยพกันไว้นะ นี่คือรายการหลัก&#x20;\n\nC:\\TA\\TA-PORTFOLIO\\Autolisp Collection"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "prompt-history",
+        "01a11a81-bf41-7c33-97da-691cab2ca42a",
+        "0",
+        "document",
+        "content",
+        "1",
+        "content",
+        "0",
+        "text"
+      ],
+      "length": 38,
+      "occurrences": 1,
+      "excerpts": [
+        "C:\\TA\\TA-PORTFOLIO\\Autolisp Collection"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "prompt-history",
+        "01a11a81-bf41-7c33-97da-691cab2ca42a",
+        "0",
+        "document",
+        "content",
+        "3",
+        "content",
+        "0",
+        "text"
+      ],
+      "length": 38,
+      "occurrences": 1,
+      "excerpts": [
+        "C:\\TA\\TA-PORTFOLIO\\Autolisp Collection"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "prompt-history",
+        "01a11a81-bf41-7c33-97da-691cab2ca42a",
+        "3",
+        "markdown"
+      ],
+      "length": 109,
+      "occurrences": 1,
+      "excerpts": [
+        "เพิ่มหมวด INSERTION BLOCK เป็นหมวดใหม่&#x20;\n\nใน C:\\TA\\TA-PORTFOLIO\\Autolisp Collection&#x20;\n\nและ อัพเดทด้วย"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "prompt-history",
+        "01a11a81-bf41-7c33-97da-691cab2ca42a",
+        "3",
+        "document",
+        "content",
+        "2",
+        "content",
+        "1",
+        "text"
+      ],
+      "length": 38,
+      "occurrences": 1,
+      "excerpts": [
+        "C:\\TA\\TA-PORTFOLIO\\Autolisp Collection"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "prompt-history",
+        "01a11a81-bf41-7c33-97da-691cab2ca42a",
+        "14",
+        "markdown"
+      ],
+      "length": 146,
+      "occurrences": 1,
+      "excerpts": [
+        "file:///C:/TA/TA-PORTFOLIO/Autolisp%20Collection/03_Selection_and_Inspection/Block_Name_Filter/index.html\n\nจะไม่โชวไป gif จนกว่าจะกดเล่น หรอ&#x20;"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "prompt-history",
+        "01a11a81-bf41-7c33-97da-691cab2ca42a",
+        "14",
+        "document",
+        "content",
+        "0",
+        "content",
+        "0",
+        "text"
+      ],
+      "length": 105,
+      "occurrences": 1,
+      "excerpts": [
+        "file:///C:/TA/TA-PORTFOLIO/Autolisp%20Collection/03_Selection_and_Inspection/Block_Name_Filter/index.html"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "thread-descriptions-v1",
+        "019fb9a3-cb87-79c2-b109-a349204a0eb1"
+      ],
+      "length": 66,
+      "occurrences": 2,
+      "excerpts": [
+        "ตรวจสอบไฟล์ AutoLISP FOR_CREATE_LAYER_.lsp ในโปรเจกต์ TA_COMPELETE",
+        "ตรวจสอบไฟล์ AutoLISP FOR_CREATE_LAYER_.lsp ในโปรเจกต์ TA_COMPELETE"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "thread-descriptions-v1",
+        "019fd7c9-409a-7e43-80a9-ca976288653d"
+      ],
+      "length": 36,
+      "occurrences": 1,
+      "excerpts": [
+        "ค้นหาตำแหน่งงาน AutoLISP ในประเทศไทย"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "chatgpt-work-models-v1/user-bP0Mb9rESglzpXU0t5b0B6Tc/60954c66-acc4-4384-904b-bc901e0e082f",
+        "response",
+        "models",
+        "0",
+        "product_features",
+        "attachments",
+        "accepted_mime_types",
+        "45"
+      ],
+      "length": 11,
+      "occurrences": 1,
+      "excerpts": [
+        "text/x-lisp"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "chatgpt-work-models-v1/user-bP0Mb9rESglzpXU0t5b0B6Tc/60954c66-acc4-4384-904b-bc901e0e082f",
+        "response",
+        "models",
+        "1",
+        "product_features",
+        "attachments",
+        "accepted_mime_types",
+        "45"
+      ],
+      "length": 11,
+      "occurrences": 1,
+      "excerpts": [
+        "text/x-lisp"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "chatgpt-work-models-v1/user-bP0Mb9rESglzpXU0t5b0B6Tc/60954c66-acc4-4384-904b-bc901e0e082f",
+        "response",
+        "models",
+        "2",
+        "product_features",
+        "attachments",
+        "accepted_mime_types",
+        "45"
+      ],
+      "length": 11,
+      "occurrences": 1,
+      "excerpts": [
+        "text/x-lisp"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "chatgpt-work-models-v1/user-bP0Mb9rESglzpXU0t5b0B6Tc/60954c66-acc4-4384-904b-bc901e0e082f",
+        "response",
+        "models",
+        "3",
+        "product_features",
+        "attachments",
+        "accepted_mime_types",
+        "44"
+      ],
+      "length": 11,
+      "occurrences": 1,
+      "excerpts": [
+        "text/x-lisp"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "chatgpt-work-models-v1/user-bP0Mb9rESglzpXU0t5b0B6Tc/60954c66-acc4-4384-904b-bc901e0e082f",
+        "response",
+        "models",
+        "4",
+        "product_features",
+        "attachments",
+        "accepted_mime_types",
+        "45"
+      ],
+      "length": 11,
+      "occurrences": 1,
+      "excerpts": [
+        "text/x-lisp"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "chatgpt-work-models-v1/user-bP0Mb9rESglzpXU0t5b0B6Tc/60954c66-acc4-4384-904b-bc901e0e082f",
+        "response",
+        "models",
+        "5",
+        "product_features",
+        "attachments",
+        "accepted_mime_types",
+        "45"
+      ],
+      "length": 11,
+      "occurrences": 1,
+      "excerpts": [
+        "text/x-lisp"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "chatgpt-work-models-v1/user-bP0Mb9rESglzpXU0t5b0B6Tc/60954c66-acc4-4384-904b-bc901e0e082f",
+        "response",
+        "models",
+        "6",
+        "product_features",
+        "attachments",
+        "accepted_mime_types",
+        "45"
+      ],
+      "length": 11,
+      "occurrences": 1,
+      "excerpts": [
+        "text/x-lisp"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "chatgpt-work-models-v1/user-bP0Mb9rESglzpXU0t5b0B6Tc/60954c66-acc4-4384-904b-bc901e0e082f",
+        "response",
+        "models",
+        "7",
+        "product_features",
+        "attachments",
+        "accepted_mime_types",
+        "45"
+      ],
+      "length": 11,
+      "occurrences": 1,
+      "excerpts": [
+        "text/x-lisp"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "recent-workspace-files-v3",
+        "[\"local\",\"client-new-thread:2ebe61fc-989b-4b1a-911b-06350e415688\",\"win32:/mnt/c/ta/ta_compelete/z00x_ta_standard_sun_func_and_main.lsp\"]",
+        "path"
+      ],
+      "length": 58,
+      "occurrences": 1,
+      "excerpts": [
+        "/C:/TA/TA_COMPELETE/z00x_TA_standard_sun_func_and_MAIN.lsp"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "recent-workspace-files-v3",
+        "[\"local\",\"client-new-thread:2ebe61fc-989b-4b1a-911b-06350e415688\",\"win32:/mnt/c/ta/ta_compelete/gpt code/ta_blank_flange/tests/ta_blank_flange_in_command_tests.lsp\"]",
+        "path"
+      ],
+      "length": 87,
+      "occurrences": 1,
+      "excerpts": [
+        "/C:/TA/TA_COMPELETE/GPT CODE/TA_BLANK_FLANGE/tests/TA_BLANK_FLANGE_IN_command_tests.lsp"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "recent-workspace-files-v3",
+        "[\"local\",\"client-new-thread:2ebe61fc-989b-4b1a-911b-06350e415688\",\"win32:/mnt/c/ta/ta_compelete/gpt code/ta_blank_flange/tests/ta_blank_flange_in_tests.lsp\"]",
+        "path"
+      ],
+      "length": 79,
+      "occurrences": 1,
+      "excerpts": [
+        "/C:/TA/TA_COMPELETE/GPT CODE/TA_BLANK_FLANGE/tests/TA_BLANK_FLANGE_IN_tests.lsp"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "recent-workspace-files-v3",
+        "[\"local\",\"client-new-thread:2ebe61fc-989b-4b1a-911b-06350e415688\",\"win32:/mnt/c/ta/ta_compelete/gpt code/ta_blank_flange/ta_blank_flange.lsp\"]",
+        "path"
+      ],
+      "length": 64,
+      "occurrences": 1,
+      "excerpts": [
+        "/C:/TA/TA_COMPELETE/GPT CODE/TA_BLANK_FLANGE/TA_BLANK_FLANGE.lsp"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "recent-workspace-files-v3",
+        "[\"local\",\"client-new-thread:2ebe61fc-989b-4b1a-911b-06350e415688\",\"win32:/mnt/c/ta/ta_compelete/gpt code/ta_blank_flange/tests/ta_blank_flange_partial_tests.lsp\"]",
+        "path"
+      ],
+      "length": 84,
+      "occurrences": 1,
+      "excerpts": [
+        "/C:/TA/TA_COMPELETE/GPT CODE/TA_BLANK_FLANGE/tests/TA_BLANK_FLANGE_PARTIAL_tests.lsp"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "recent-workspace-files-v3",
+        "[\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/users/popul/documents/codex/2026-10-08/referenced-chatgpt-conversation-this-is-an/work/catalog_lisp.py\"]",
+        "path"
+      ],
+      "length": 106,
+      "occurrences": 1,
+      "excerpts": [
+        "/C:/Users/popul/Documents/Codex/2026-10-08/referenced-chatgpt-conversation-this-is-an/work/catalog_lisp.py"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "recent-workspace-files-v3",
+        "[\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/03_selection_and_inspection/block_name_filter/assets/page.css\"]",
+        "path"
+      ],
+      "length": 101,
+      "occurrences": 1,
+      "excerpts": [
+        "/C:/TA/TA-PORTFOLIO/Autolisp Collection/03_Selection_and_Inspection/Block_Name_Filter/assets/page.css"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "recent-workspace-files-v3",
+        "[\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/03_selection_and_inspection/block_name_filter/qa.md\"]",
+        "path"
+      ],
+      "length": 91,
+      "occurrences": 1,
+      "excerpts": [
+        "/C:/TA/TA-PORTFOLIO/Autolisp Collection/03_Selection_and_Inspection/Block_Name_Filter/QA.md"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "recent-workspace-files-v3",
+        "[\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/08_insertion_block/xline_intersection_insert/readme.md\"]",
+        "path"
+      ],
+      "length": 94,
+      "occurrences": 1,
+      "excerpts": [
+        "/C:/TA/TA-PORTFOLIO/Autolisp Collection/08_Insertion_Block/Xline_Intersection_Insert/README.md"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "recent-workspace-files-v3",
+        "[\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/08_insertion_block/xline_intersection_insert/assets/page.css\"]",
+        "path"
+      ],
+      "length": 100,
+      "occurrences": 1,
+      "excerpts": [
+        "/C:/TA/TA-PORTFOLIO/Autolisp Collection/08_Insertion_Block/Xline_Intersection_Insert/assets/page.css"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "recent-workspace-files-v3",
+        "[\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/08_insertion_block/xline_intersection_insert/qa.md\"]",
+        "path"
+      ],
+      "length": 90,
+      "occurrences": 1,
+      "excerpts": [
+        "/C:/TA/TA-PORTFOLIO/Autolisp Collection/08_Insertion_Block/Xline_Intersection_Insert/QA.md"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "recent-workspace-files-v3",
+        "[\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/08_insertion_block/xline_intersection_insert/index.html\"]",
+        "path"
+      ],
+      "length": 95,
+      "occurrences": 1,
+      "excerpts": [
+        "/C:/TA/TA-PORTFOLIO/Autolisp Collection/08_Insertion_Block/Xline_Intersection_Insert/index.html"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "recent-workspace-files-v3",
+        "[\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/08_insertion_block/xline_intersection_insert/assets/page.js\"]",
+        "path"
+      ],
+      "length": 99,
+      "occurrences": 1,
+      "excerpts": [
+        "/C:/TA/TA-PORTFOLIO/Autolisp Collection/08_Insertion_Block/Xline_Intersection_Insert/assets/page.js"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "recent-workspace-files-v3",
+        "[\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/03_selection_and_inspection/selection_slots/index.html\"]",
+        "path"
+      ],
+      "length": 94,
+      "occurrences": 1,
+      "excerpts": [
+        "/C:/TA/TA-PORTFOLIO/Autolisp Collection/03_Selection_and_Inspection/Selection_Slots/index.html"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "recent-workspace-files-v3",
+        "[\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/03_selection_and_inspection/selection_slots/assets/template.js\"]",
+        "path"
+      ],
+      "length": 102,
+      "occurrences": 1,
+      "excerpts": [
+        "/C:/TA/TA-PORTFOLIO/Autolisp Collection/03_Selection_and_Inspection/Selection_Slots/assets/template.js"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "recent-workspace-files-v3",
+        "[\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/content-guide.md\"]",
+        "path"
+      ],
+      "length": 56,
+      "occurrences": 1,
+      "excerpts": [
+        "/C:/TA/TA-PORTFOLIO/Autolisp Collection/CONTENT-GUIDE.md"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "recent-workspace-files-v3",
+        "[\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/03_selection_and_inspection/block_name_filter/readme.md\"]",
+        "path"
+      ],
+      "length": 95,
+      "occurrences": 1,
+      "excerpts": [
+        "/C:/TA/TA-PORTFOLIO/Autolisp Collection/03_Selection_and_Inspection/Block_Name_Filter/README.md"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "recent-workspace-files-v3",
+        "[\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/03_selection_and_inspection/block_name_filter/assets/page.js\"]",
+        "path"
+      ],
+      "length": 100,
+      "occurrences": 1,
+      "excerpts": [
+        "/C:/TA/TA-PORTFOLIO/Autolisp Collection/03_Selection_and_Inspection/Block_Name_Filter/assets/page.js"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "recent-workspace-files-v3",
+        "[\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/03_selection_and_inspection/block_name_filter/index.html\"]",
+        "path"
+      ],
+      "length": 96,
+      "occurrences": 1,
+      "excerpts": [
+        "/C:/TA/TA-PORTFOLIO/Autolisp Collection/03_Selection_and_Inspection/Block_Name_Filter/index.html"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "recent-workspace-files-v3",
+        "[\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/08_insertion_block/polyline_vertex_block_placement/assets/page.js\"]",
+        "path"
+      ],
+      "length": 105,
+      "occurrences": 1,
+      "excerpts": [
+        "/C:/TA/TA-PORTFOLIO/Autolisp Collection/08_Insertion_Block/Polyline_Vertex_Block_Placement/assets/page.js"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "recent-workspace-files-v3",
+        "[\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/08_insertion_block/polyline_vertex_block_placement/readme.md\"]",
+        "path"
+      ],
+      "length": 100,
+      "occurrences": 1,
+      "excerpts": [
+        "/C:/TA/TA-PORTFOLIO/Autolisp Collection/08_Insertion_Block/Polyline_Vertex_Block_Placement/README.md"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "recent-workspace-files-v3",
+        "[\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/08_insertion_block/polyline_vertex_block_placement/assets/page.css\"]",
+        "path"
+      ],
+      "length": 106,
+      "occurrences": 1,
+      "excerpts": [
+        "/C:/TA/TA-PORTFOLIO/Autolisp Collection/08_Insertion_Block/Polyline_Vertex_Block_Placement/assets/page.css"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "recent-workspace-files-v3",
+        "[\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/08_insertion_block/polyline_vertex_block_placement/qa.md\"]",
+        "path"
+      ],
+      "length": 96,
+      "occurrences": 1,
+      "excerpts": [
+        "/C:/TA/TA-PORTFOLIO/Autolisp Collection/08_Insertion_Block/Polyline_Vertex_Block_Placement/QA.md"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "recent-workspace-files-v3",
+        "[\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/08_insertion_block/polyline_vertex_block_placement/index.html\"]",
+        "path"
+      ],
+      "length": 101,
+      "occurrences": 1,
+      "excerpts": [
+        "/C:/TA/TA-PORTFOLIO/Autolisp Collection/08_Insertion_Block/Polyline_Vertex_Block_Placement/index.html"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "recent-workspace-files-v3",
+        "[\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/08_insertion_block/boundary_center_block_placement/readme.md\"]",
+        "path"
+      ],
+      "length": 100,
+      "occurrences": 1,
+      "excerpts": [
+        "/C:/TA/TA-PORTFOLIO/Autolisp Collection/08_Insertion_Block/Boundary_Center_Block_Placement/README.md"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "recent-workspace-files-v3",
+        "[\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/08_insertion_block/boundary_center_block_placement/assets/page.js\"]",
+        "path"
+      ],
+      "length": 105,
+      "occurrences": 1,
+      "excerpts": [
+        "/C:/TA/TA-PORTFOLIO/Autolisp Collection/08_Insertion_Block/Boundary_Center_Block_Placement/assets/page.js"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "recent-workspace-files-v3",
+        "[\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/08_insertion_block/readme.md\"]",
+        "path"
+      ],
+      "length": 68,
+      "occurrences": 1,
+      "excerpts": [
+        "/C:/TA/TA-PORTFOLIO/Autolisp Collection/08_Insertion_Block/README.md"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "recent-workspace-files-v3",
+        "[\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/08_insertion_block/boundary_center_block_placement/qa.md\"]",
+        "path"
+      ],
+      "length": 96,
+      "occurrences": 1,
+      "excerpts": [
+        "/C:/TA/TA-PORTFOLIO/Autolisp Collection/08_Insertion_Block/Boundary_Center_Block_Placement/QA.md"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "recent-workspace-files-v3",
+        "[\"local\",\"local:01a11a81-bf41-7c33-97da-691cab2ca42a\",\"win32:/mnt/c/ta/ta-portfolio/autolisp collection/08_insertion_block/boundary_center_block_placement/index.html\"]",
+        "path"
+      ],
+      "length": 101,
+      "occurrences": 1,
+      "excerpts": [
+        "/C:/TA/TA-PORTFOLIO/Autolisp Collection/08_Insertion_Block/Boundary_Center_Block_Placement/index.html"
+      ]
+    },
+    {
+      "path": [
+        "electron-persisted-atom-state",
+        "thread-tab-routes-v1:01a11a81-bf41-7c33-97da-691cab2ca42a",
+        "routes",
+        "0",
+        "params",
+        "restoreUrl"
+      ],
+      "length": 103,
+      "occurrences": 1,
+      "excerpts": [
+        "file:///C:/TA/TA-PORTFOLIO/Autolisp%20Collection/03_Selection_and_Inspection/Selection_Slots/index.html"
+      ]
+    },
+    {
+      "path": [
+        "local-projects",
+        "feb48448-0fc6-4e22-9dcf-35d2b066014a",
+        "name"
+      ],
+      "length": 34,
+      "occurrences": 1,
+      "excerpts": [
+        "REWORK 000 - FOR_CREATE_LAYER_.lsp"
+      ]
+    },
+    {
+      "path": [
+        "local-projects",
+        "feb48448-0fc6-4e22-9dcf-35d2b066014a",
+        "rootPaths",
+        "1"
+      ],
+      "length": 78,
+      "occurrences": 2,
+      "excerpts": [
+        "C:\\TA\\TA_COMPELETE\\GPT CODE\\GPT CODE AUTOLISP  FOR 000 - FOR_CREATE_LAYER_.lsp",
+        "C:\\TA\\TA_COMPELETE\\GPT CODE\\GPT CODE AUTOLISP  FOR 000 - FOR_CREATE_LAYER_.lsp"
+      ]
+    },
+    {
+      "path": [
+        "queued-follow-ups",
+        "01a11a81-bf41-7c33-97da-691cab2ca42a",
+        "0",
+        "context",
+        "imageAttachments",
+        "0",
+        "src"
+      ],
+      "length": 136255594,
+      "occurrences": 1,
+      "excerpts": [
+        "ZYAk9IIf0lL2vEGiKapbBfbisA0OaNpyrQUlHAEO9EAH7HjBndkYf0AG2KNZDC84cUGQ79uQ/4wGxMDvcKqnPnkMWIAii0kGdAfnJBRGm4EWyOlEvd7l6Ir3LISP/F9BWA2M1US1WAsACQIZKMTjIQvV0RaOXOQqdeMrCcAPrMAMsJnAjucUDJwFVEJEzIgOsMAPkIAvYw5P9o20GgddtMFB7STQtAEMaAcCBMtvhKpeQChu4KskrwU2a/NceICE//d9hi8U70U5byO0MWz/EkDpYEkAMWmAofyBHkRFP+3BGqgbzKAAAOIuxMUFuunzTD6uGpl6Tga0yUl3cml2H2dA"
+      ]
+    },
+    {
+      "path": [
+        "queued-follow-ups",
+        "01a11a81-bf41-7c33-97da-691cab2ca42a",
+        "0",
+        "context",
+        "inAppBrowserContext",
+        "currentUrls",
+        "0"
+      ],
+      "length": 110,
+      "occurrences": 1,
+      "excerpts": [
+        "file:///C:/TA/TA-PORTFOLIO/Autolisp%20Collection/08_Insertion_Block/Boundary_Center_Block_Placement/index.html"
+      ]
+    },
+    {
+      "path": [
+        "thread-writable-roots",
+        "019fb9a3-cb87-79c2-b109-a349204a0eb1",
+        "1"
+      ],
+      "length": 78,
+      "occurrences": 2,
+      "excerpts": [
+        "C:\\TA\\TA_COMPELETE\\GPT CODE\\GPT CODE AUTOLISP  FOR 000 - FOR_CREATE_LAYER_.lsp",
+        "C:\\TA\\TA_COMPELETE\\GPT CODE\\GPT CODE AUTOLISP  FOR 000 - FOR_CREATE_LAYER_.lsp"
+      ]
+    }
+  ]
+}
