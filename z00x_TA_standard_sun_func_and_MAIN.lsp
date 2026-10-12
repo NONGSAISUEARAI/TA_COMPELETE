@@ -22072,7 +22072,8 @@
     
   ;
   ;LAYOUT_FUNC
-    (defun c:F78 ()
+    
+(defun c:F78 ()
       ;return
         (command "ucs" "world")
       ;
@@ -22146,7 +22147,7 @@
                                     )
         )   
         ;preloop_and_while
-          (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "Title Block_Under Ground_C1 v3"))
+          (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "Title Block_Under Ground_C1 v3" "Title Block_Under Ground_C2 v3" )))
           (setq ss_pre_filter_set_xx_i 0)
           (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
             (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))

@@ -19459,9 +19459,21 @@
     (setq dimred_ename_ (car (entsel "specify Object")))
     (setq dimred_obj_ (vlax-ename->vla-object dimred_ename_))
     (vla-put-layer dimred_obj_ "009_ALTRAY_DIMS_MAIN_COLOR_1")
-    (vla-put-lineweight  dimred_obj_ 20 )
-    (vla-put-textcolor  dimred_obj_ 256 )
+    (vla-put-lineweight  dimred_obj_ 50 )
+    
+    
+    
+    
+    
+    (if (= (vla-get-objectname dimred_obj_ )  "AcDbRotatedDimension")
+      (progn
+        (vla-put-textcolor  dimred_obj_ 256 )
+        (vla-put-dimensionlineweight  dimred_obj_ 50)
+        (vla-put-extensionlineweight dimred_obj_ 50)
+      )
+    )
 
+ 
     
     
   )
