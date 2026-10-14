@@ -1,0 +1,170 @@
+C08,200,1DL,NS-1S-E0114,standard_shape,(0)SUM-1
+C08,325,1DL,S5206TH,standard_shape,(0)SUM-4
+C08,350,1DL,NS-1S-P0070,standard_shape,(0)SUM-9
+C08,425,1DL,Fameline SD-9103 PC,standard_shape,(0)SUM-4
+C08,425,1DL,NS-1S-E0114,standard_shape,(0)SUM-2
+C04,425,1DL,NS-1S-P0070,standard_shape,(0)SUM-1
+C04,425,1DL,NS-1S-P0070,standard_varies_shape,(0)SUM-1
+C09,425,1DL,NS-1S-P0070,standard_shape,(0)SUM-2
+C08,450,1DL,NS-1S-P0070,standard_shape,(0)SUM-7
+C08,475,1DL,NS-1S-P0070,standard_shape,(0)SUM-2
+C08,525,1DL,NS-1S-E0114,standard_shape,(0)SUM-1
+C04,550,1DL,Fameline SD-9103 PC,standard_shape,(0)SUM-4
+C08,550,1DL,Fameline SD-9103 PC,standard_shape,(0)SUM-5
+C04,550,1DL,NS-1S-P0070,standard_shape,(0)SUM-1
+C04,550,1DL,NS-1S-P0070,standard_varies_shape,(0)SUM-1
+C08,575,1DL,NS-1S-E0114,standard_shape,(0)SUM-7
+C08,600,1DL,Fameline SD-9103 PC,standard_shape,(0)SUM-2
+C05,600,SD,Fameline SD-9103 PC,standard_shape,(0)SUM-1
+C05,600,1DL,Fameline SD-9103 PC,standard_shape,(0)SUM-1
+C08,600,1DL,NS-1S-E0114,standard_shape,(0)SUM-6
+C04,600,1DL,NS-1S-P0070,standard_varies_shape,(0)SUM-1
+C04,625,1DL,NS-1S-P0070,standard_shape,(0)SUM-1
+C04,625,1DL,NS-1S-P0070,standard_varies_shape,(0)SUM-1
+C08,675,1DL,Fameline SD-9103 PC,standard_shape,(0)SUM-10
+C08,700,1DL,NS-1S-E0114,standard_varies_shape,(0)SUM-1
+C04,700,1DL,NS-1S-P0070,standard_shape,(0)SUM-2
+C04,700,1DL,NS-1S-P0070,standard_varies_shape,(0)SUM-1
+C08,725,1DL,NS-1S-E0114,standard_shape,(0)SUM-8
+C08,775,1DL,NS-1S-E0114,standard_shape,(0)SUM-3
+C08,775,1DL,NS-1S-E0114,standard_varies_shape,(0)SUM-1
+C04,775,1DL,NS-1S-P0070,standard_shape,(0)SUM-2
+C04,800,SD,NS-1S-E0114 ,standard_shape,(0)SUM-1
+C08,825,1DL,NS-1S-P0070,standard_shape,(0)SUM-6
+C08,825,SD,NS-1S-P0070,standard_shape,(0)SUM-2
+C08,850,1DL,NS-1S-P0070,standard_shape,(0)SUM-7
+C09,875,1DL,SW255TH,standard_shape,317.5,(120)SUM-6
+C09,875,1DL,SW255TH,standard_shape,317.5,(-120)SUM-2
+C08,875,1DL,Fameline SD-9103 PC,standard_shape,(0)SUM-7
+C08,875,1DL,Fameline SD-9103 PC,standard_varies_shape_300,(0)SUM-1
+C08,875,SD,Fameline SD-9103 PC,standard_shape,(0)SUM-1
+C08,875,1DL,NS-1S-P0070,standard_shape,(0)SUM-10
+C08,900,1DL,NS-1S-E0114,standard_shape,(0)SUM-3
+C08,925,1DL,NS-1S-E0114,standard_shape,(0)SUM-14
+C08,925,2DL,NS-1S-E0114,standard_shape,225,225,(-237.5,237.5)SUM-1
+C08,925,SD,NS-1S-E0114,standard_shape,(0)SUM-1
+C08,925,1DL,NS-1S-P0070,standard_shape,(0)SUM-11
+C04,950,SD,S5206TH,standard_shape,(0)SUM-2
+C08,950,1DL,Fameline SD-9103 PC,standard_shape,(0)SUM-7
+C08,975,1DL,Fameline SD-9103 PC,standard_shape,(0)SUM-1
+C04,1000,1DL,Fameline SD-9103 PC,standard_shape,(0)SUM-4
+C08,1025,1DL,NS-1S-E0114,standard_shape,(0)SUM-2
+C08,1050,1DL,Fameline SD-9103 PC,standard_shape,(0)SUM-1
+C04,1050,1DL,NS-1S-P0070,standard_shape,(0)SUM-2
+C04,1050,1DL,NS-1S-P0070,standard_varies_shape,(0)SUM-1
+C08,1075,1DL,Fameline SD-9103 PC,standard_shape,(0)SUM-7
+C08,1075,1DL,NS-1S-P0070,standard_varies_shape,(0)SUM-1
+C08,1075,1DL,NS-1S-P0070,standard_shape,(0)SUM-3
+C08,1075,SD,NS-1S-P0070,standard_shape,(0)SUM-2
+C04,1100,1DL,NS-1S-P0070,standard_varies_shape,(0)SUM-1
+C08,1100,1DL,NS-1S-P0070,standard_shape,(0)SUM-3
+C04,1125,SD,S5206TH,standard_shape,(0)SUM-8
+C04,1125,1DL,NS-1S-P0070,standard_shape,(0)SUM-6
+C04,1125,1DL,NS-1S-P0070,standard_varies_shape,(0)SUM-2
+C04,1150,1DL,NS-1S-P0070,standard_shape,(0)SUM-1
+C08,1175,1DL,Fameline SD-9103 PC,standard_varies_shape,400,(-187.5)SUM-1
+C04,1200,1DL,NS-1S-E0114 ,standard_shape,(0)SUM-2
+C08,1200,1DL,NS-1S-E0114,standard_shape,(0)SUM-4
+C08,1225,1DL,Fameline SD-9103 PC,standard_shape,(0)SUM-2
+C08,1225,1DL,Fameline SD-9103 PC,standard_varies_shape,(0)SUM-1
+C08,1225,1DL,NS-1S-E0114,standard_shape,(0)SUM-1
+C08,1225,1DL,NS-1S-E0114,standard_varies_shape,(0)SUM-1
+C08,1250,2DL,Fameline SD-9103 PC,standard_shape,400,400,(-225,225)SUM-2
+C04,1250,1DL,NS-1S-E0114 ,standard_shape,(0)SUM-2
+C04,1250,2DL,NS-1S-E0114 ,standard_shape,175,175,(-450,450)SUM-2
+C08,1250,1DL,NS-1S-E0114,standard_shape,(0)SUM-11
+C08,1250,2DL,NS-1S-E0114,standard_varies_shape,275,275,(-350,350)SUM-1
+C08,1275,1DL,Fameline SD-9103 PC,standard_shape,(0)SUM-1
+C08,1275,1DL,Fameline SD-9103 PC,standard_varies_shape_300,(0)SUM-1
+C08,1300,1DL,Fameline SD-9103 PC,standard_shape,(0)SUM-1
+C08,1300,1DL,Fameline SD-9103 PC,standard_varies_shape_300,(0)SUM-1
+C04,1300,1DL,Fameline SD-9103 PC,standard_shape,(0)SUM-3
+C08,1325,1DL,Fameline SD-9103 PC,standard_shape,(0)SUM-1
+C04,1350,SD,S5206TH,standard_shape,(0)SUM-2
+C08,1350,2DL,Fameline SD-9103 PC,standard_shape,250,250,(-425,425)SUM-2
+C08,1375,2DL,Fameline SD-9103 PC,standard_shape,250,250,(-437.5,437.5)SUM-2
+C08,1375,SD,Fameline SD-9103 PC,standard_varies_shape,(0)SUM-1
+C08,1400,SD,S5206TH,standard_shape,(0)SUM-2
+C08,1400,2DL,Fameline SD-9103 PC,standard_shape,400,400,(-300,300)SUM-3
+C08,1425,1DL,NS-1S-P0070,standard_shape,(0)SUM-4
+C08,1450,SD,Fameline SD-9103 PC,standard_shape,(0)SUM-2
+C04,1450,1DL,NS-1S-P0070,standard_shape,(0)SUM-3
+C08,1475,1DL,NS-1S-P0070,standard_shape,(0)SUM-10
+C08,1475,2DL,NS-1S-P0070,standard_shape,325,325,(-412.5,412.5)SUM-7
+C08,1500,1DL,NS-1S-E0114,standard_shape,(0)SUM-2
+C08,1500,1DL,NS-1S-P0070,standard_shape,(0)SUM-3
+C04,1525,2DL,NS-1S-E0114 ,standard_shape,175,175,(-587.5,587.5)SUM-2
+C04,1550,SD,NS-1S-E0114 ,standard_shape,(0)SUM-12
+C04,1550,1DL,NS-1S-E0114 ,standard_shape,(0)SUM-9
+C04,1575,SD,S5206TH,standard_shape,(0)SUM-1
+C04,1575,2DL,NS-1S-E0114 ,standard_shape,175,175,(-612.5,612.5)SUM-2
+C04,1600,SD,S5206TH,standard_shape,(0)SUM-2
+C08,1600,2DL,Fameline SD-9103 PC,standard_shape,400,400,(-400,400)SUM-6
+C08,1600,1DL,Fameline SD-9103 PC,standard_shape,325,(475)SUM-1
+C08,1600,SD,Fameline SD-9103 PC,standard_shape,(0)SUM-1
+C04,1625,2DL,NS-1S-E0114 ,standard_shape,175,175,(-637.5,637.5)SUM-2
+C08,1630,2DL,Fameline SD-9103 PC,standard_shape,400,400,(-415,415)SUM-4
+C08,1630,1DL,Fameline SD-9103 PC,standard_shape,400,(-415)SUM-11
+C10,1630,SD,Fameline SD-9103 PC,standard_shape,(0)SUM-1
+C08,1630,SD,Fameline SD-9103 PC,standard_shape,(0)SUM-2
+C08,1650,1DL,Fameline SD-9103 PC,standard_shape,(0)SUM-2
+C04,1675,2DL,NS-1S-E0114 ,standard_shape,175,175,(-662.5,662.5)SUM-2
+C04,1675,1DL,NS-1S-P0070,standard_varies_shape,325,(-512.5)SUM-1
+C04,1675,1DL,NS-1S-P0070,standard_shape,325,(-512.5)SUM-11
+C09,1725,2DL,SW255TH,standard_shape,312.5,312.5,(-550,550)SUM-2
+C08,1725,SD,Fameline SD-9103 PC,standard_shape,(0)SUM-1
+C08,1725,2DL,Fameline SD-9103 PC,standard_shape,400,400,(-462.5,462.5)SUM-2
+C08,1730,2DL,Fameline SD-9103 PC,standard_varies_shape_300,400,400,(-465,465)SUM-1
+C04,1750,SD,S5206TH,standard_shape,(0)SUM-4
+C04,1750,1DL,S5206TH,standard_shape_varies_275,(0)SUM-3
+C04,1750,1DL,S5206TH,standard_shape_varies_350,(0)SUM-3
+C08,1750,SD,Fameline SD-9103 PC,standard_shape,(0)SUM-3
+C10,1750,SD,Fameline SD-9103 PC,standard_shape,(0)SUM-2
+C08,1750,1DL,Fameline SD-9103 PC,standard_varies_shape,(0)SUM-2
+C08,1750,2DL,Fameline SD-9103 PC,standard_varies_shape,400,400,(-475,475)SUM-1
+C04,1750,1DL,NS-1S-P0070,standard_shape,(0)SUM-1
+C04,1750,2DL,NS-1S-P0070,standard_varies_shape,325,325,(-550,550)SUM-3
+C08,1750,1DL,NS-1S-P0070,standard_shape,310,(-565)SUM-1
+C08,1750,1DL,NS-1S-P0070,standard_shape,(0)SUM-7
+C08,1750,1DL,NS-1S-P0070,standard_varies_shape_500,(0)SUM-1
+C08,1750,2DL,NS-1S-P0070,standard_shape,750,750,(-125,125)SUM-2
+C08,1750,1DL,NS-1S-P0070,standard_varies_shape_127,(0)SUM-1
+C08,1750,SD,NS-1S-P0070,standard_shape,(0)SUM-2
+C08,1750,2DL,NS-1S-P0070,standard_varies_shape_375,300,300,(-575,575)SUM-1
+C08,1750,2DL,NS-1S-P0070,standard_varies_shape_400,300,300,(-575,575)SUM-1
+C08,1750,2DL,NS-1S-P0070,standard_varies_shape_212,300,300,(-575,575)SUM-1
+C08,1750,2DL,NS-1S-P0070,standard_varies_shape_200,300,300,(-575,575)SUM-1
+C08,1775,2DL,Fameline SD-9103 PC,standard_shape,400,400,(-487.5,487.5)SUM-2
+C08,1775,SD,Fameline SD-9103 PC,standard_shape,(0)SUM-1
+C04,1775,2DL,NS-1S-P0070,standard_varies_shape,325,325,(-562.5,562.5)SUM-2
+C08,1800,2DL,NS-1S-E0114,standard_varies_shape,275,275,(-625,625)SUM-2
+C08,1825,2DL,Fameline SD-9103 PC,standard_varies_shape_300,400,400,(-512.5,512.5)SUM-1
+C08,1825,2DL,Fameline SD-9103 PC,standard_shape,400,400,(-512.5,512.5)SUM-4
+C08,1850,1DL,Fameline SD-9103 PC,standard_shape,(0)SUM-3
+C04,1850,2DL,NS-1S-P0070,standard_varies_shape,325,325,(-600,600)SUM-1
+C04,1850,1DL,NS-1S-P0070,standard_shape,325,(-600)SUM-10
+C04,1875,1DL,NS-1S-P0070,standard_shape,450,(-487.5)SUM-4
+C04,1875,2DL,NS-1S-P0070,standard_shape,325,325,(-612.5,612.5)SUM-1
+C04,1925,1DL,S5206TH,standard_varies_shape_250,(0)SUM-1
+C04,1925,1DL,S5206TH,standard_shape,(0)SUM-2
+C08,1975,2DL,Fameline SD-9103 PC,standard_shape,400,400,(-587.5,587.5)SUM-1
+C08,1975,2DL,Fameline SD-9103 PC,standard_varies_shape,400,400,(-587.5,587.5)SUM-1
+C05,2000,SD,S5206TH,standard_shape,(0)SUM-65
+C05,2000,SD,NS-1S-E0114,standard_shape,(0)SUM-32
+C05,2000,1DL,NS-1S-E0114,standard_shape,(0)SUM-2
+C05,2000,2DL,NS-1S-E0114,standard_varies_shape,300,300,(-700,700)SUM-1
+C08,2000,2DL,NS-1S-E0114,standard_varies_shape,300,300,(-700,700)SUM-1
+C05,2050,2DL,Fameline SD-9103 PC,standard_shape,250,250,(-775,775)SUM-1
+C05,2050,SD,Fameline SD-9103 PC,standard_shape,(0)SUM-34
+C05,2050,2DL,Fameline SD-9103 PC,standard_varies_shape,250,250,(-775,775)SUM-2
+C05,2075,SD,NS-1S-E0114,standard_shape,(0)SUM-34
+C08,2075,2DL,NS-1S-E0114,standard_varies_shape,300,300,(-737.5,737.5)SUM-2
+C05,2100,2DL,NS-1S-P0070,standard_shape,300,300,(-750,750)SUM-2
+C05,2100,SD,NS-1S-P0070,standard_shape,(0)SUM-34
+C08,2100,2DL,NS-1S-P0070,standard_varies_shape,300,300,(-750,750)SUM-2
+C08,2100,SD,NS-1S-P0070,standard_shape,(0)SUM-34
+C08,2100,2DL,NS-1S-P0070,standard_shape,300,300,(-750,750)SUM-1
+C08,2200,1DL,Fameline SD-9103 PC,standard_shape,400,(-700)SUM-7
+c08,2550,1DL,Fameline SD-9103 PC,standard_shape,(0)SUM-8
+C04,2900,2DL,S5206TH,standard_shape_varies_275,950,950,(-500,500)SUM-1
+C04,2900,2DL,S5206TH,standard_shape_varies_350,950,950,(-500,500)SUM-1
