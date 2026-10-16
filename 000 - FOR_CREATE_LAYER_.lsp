@@ -842,6 +842,38 @@
                                   )
         )
       )
+      (TA:generate_filter_list
+        (setq 1st_filter_ "000 - ") ;1s_filter
+        (setq 2nd_filter_val_main "FAMELINE-COMMENT_") ;2nd_filter
+        (setq 3rd_filter_val_main (list ;3rd_filter
+                                    "PART-REVISION" ;
+                                  )
+        )
+        (setq 4th_filter_val_main (list  ;4th_filter
+                                        (list "MAIN_COLOR_1" 255 0 0) ;
+                                        (list "MAIN_COLOR_2" 255 255 0) ;
+                                        (list "MAIN_COLOR_3" 0 255 0) ;
+                                        (list "MAIN_COLOR_4" 0 255 255) ;
+                                        (list "MAIN_COLOR_5" 0 0 255) ;
+                                        (list "SUB_COLOR_1" 255 0 0) ;
+                                        (list "SUB_COLOR_2" 255 255 0) ;
+                                        (list "SUB_COLOR_3" 0 255 0) ;
+                                        (list "SUB_COLOR_4" 0 255 255) ;
+                                        (list "SUB_COLOR_4" 0 127 255) ;
+                                        (list "HATCH_" 251) ;
+                                        (list "WIPEOUT_" 250) ;
+                                        (list "HIDDEN_" 251) ;
+                                        (list "SYMBOL_" 255 0 0) ;
+                                        (list "DEF_SUB" 250) ;
+                                        (list "TEXT_COLOR_1" 255 0 0) ;
+                                        (list "TEXT_COLOR_2" 255 255 0) ;
+                                        (list "TEXT_COLOR_3" 0 255 0) ;
+                                        (list "TEXT_COLOR_4" 0 255 255) ;
+                                        (list "TEXT_COLOR_5" 0 0 255) ;
+                                        (list "DIMS" 0 0 255) ;
+                                  )
+        )
+      )
     )
   ;
   ;ASBUILT_FUNC

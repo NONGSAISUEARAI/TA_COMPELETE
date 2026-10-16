@@ -9675,6 +9675,15 @@
             (progn
               (setq main_bol (LM:boundingbox ss_pre_filter_set_xx_obj_))
               (setq pre-name_ (TA:Mtext_format_to_text_ (strcat (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "DWG-NO") )) )
+              (if (and
+                   (= (type (atoi (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "REV_VAL"))) 'INT )
+                   (/= (atoi (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "REV_VAL")) 0 )
+                  )
+                (progn
+                  (setq pre-name_ (strcat (TA:Mtext_format_to_text_ (strcat (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "DWG-NO") )) "-REV" (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "REV_VAL") ) )
+                )
+                (setq pre-name_ (TA:Mtext_format_to_text_ (strcat (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "DWG-NO") )) )
+              )
               ; (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "REV_DATE_01" "27-10-2025")
               ; (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DESIGNED_BY_DATE_val" DESIGNED_BY_DATE_val )
               ;plot process
