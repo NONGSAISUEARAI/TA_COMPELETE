@@ -1,0 +1,12 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {selectAreaIds,selectAreaRange,editAreaGroup} from '../area-selection.js';import {demoAreas} from '../geometry.js';
+test('selection add/remove, primary and single selection',()=>{let s=selectAreaIds(new Set(['a']),'a','b',true);assert.deepEqual([...s.ids],['a','b']);assert.equal(s.primary,'b');s=selectAreaIds(s.ids,s.primary,'b',true);assert.deepEqual([...s.ids],['a']);assert.equal(s.primary,'a');s=selectAreaIds(s.ids,s.primary,'a',true);assert.equal(s.ids.size,0);assert.equal(s.primary,null);s=selectAreaIds(new Set(['a','b']),'b','c');assert.deepEqual([...s.ids],['c'])});
+test('batch changes selected Areas only; no partial changes on error',()=>{const a=demoAreas(),before=JSON.stringify(a),ids=new Set([a[0].id,a[1].id]);const next=editAreaGroup(a,ids,area=>area.curtain={enabled:true,spacingX:1600},()=>{});assert.equal(next[0].curtain.spacingX,1600);assert.equal(next[1].curtain.spacingX,1600);assert.equal(next[2],a[2]);assert.equal(JSON.stringify(a),before);assert.throws(()=>editAreaGroup(a,ids,area=>area.curtain={spacingX:area.id===a[0].id?1600:1},()=>{}));assert.equal(JSON.stringify(a),before);assert.throws(()=>editAreaGroup(a,ids,area=>area.curtain={enabled:true},()=>{throw Error('scene limit')}));assert.equal(JSON.stringify(a),before)});
+
+test('list range is inclusive in both directions, keeps its anchor, shrinks and supports additive selection',()=>{
+ const order=['a','b','c','d','e'];let s=selectAreaRange(order,'a','d');assert.deepEqual([...s.ids],['a','b','c','d']);assert.equal(s.primary,'d');assert.equal(s.anchor,'a');
+ s=selectAreaRange(order,s.anchor,'b',s.ids);assert.deepEqual([...s.ids],['a','b']);
+ s=selectAreaRange(order,'d','a');assert.deepEqual([...s.ids],['a','b','c','d']);assert.equal(s.anchor,'d');
+ s=selectAreaRange(order,'c','d',new Set(['a']),true);assert.deepEqual([...s.ids],['a','c','d']);
+ s=selectAreaRange(order,'deleted','e');assert.deepEqual([...s.ids],['e']);assert.equal(s.anchor,'e');
+});
