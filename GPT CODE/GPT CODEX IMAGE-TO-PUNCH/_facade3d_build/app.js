@@ -1,0 +1,305 @@
+import {selectionDimensions} from './dimensions.js';
+import {installNumericExpressions,enableNumericExpressions} from './numeric-inputs.js';
+import {panelDimensions,resizePanel,resizePanelEdge} from './panel-resize.js';
+import {resetPanelDimensions} from './panel-size-reset.js';
+import {foldedPanelSize} from './folded-panel-size.js';
+import {originPanelSelection} from './origin-panel-selection.js';
+import {resetCurtainAreas} from './curtain-reset.js';
+import {foldedFaceMetrics,resizeFoldedPanel,validateFoldedSheetLimits} from './folded-panel-resize.js';
+import {panelRef,parsePanelRef,foldedAssemblies,joinFoldedPanels,unjoinFoldedPanels,remapFoldGroups} from './panel-folds.js';
+import {originHelperWorldSize} from './origin-helper-size.js';
+import {applyPatternOriginLinks} from './pattern-origin-link.js';
+import {createOriginSnap} from './origin-snap.js';
+import {originSnapScreen} from './origin-snap-screen.js';
+import {setupPatternOrigin} from './pattern-origin-ui.js';
+import {createAreaThumbnail} from './area-thumbnail.js';
+import {setupWorldUcs} from './world-ucs-ui.js';
+import {joinCurtainAreas,unjoinCurtainAreas,propagateCurtainJoinChanges,remapImportedCurtainJoins} from './curtain-join.js';
+import {setupSelectionDimensions} from './dimensions-ui.js';
+import {setupLiveDxf} from './live-dxf.js';
+import {mergeDxfUpdate} from './dxf-update.js';
+import {areaSize,resizeArea} from './area-size.js';
+import {hitPanelKey} from './curtain-batch.js';
+import {setupObjectSnap} from './osnap-ui.js';
+import * as THREE from 'three';
+import {OrbitControls} from './vendor/OrbitControls.js';
+import {add,sub,mul,dot,cross,length,worldPoint,localPoint,inside,netArea,validateArea,rectangle,demoAreas} from './geometry.js';
+import {parseDxf,buildFacadeDxf} from './dxf.js';
+import {createCommandLine} from './commands.js';
+import {configureNavigation,installSurfaceZoom} from './navigation.js';
+import {setupPropertiesPanel} from './properties-ui.js';
+import {mountCurtainProperties,updateCurtainProperties,bindCurtainProperties} from './curtain-ui.js';
+import {buildCurtainLayout,curtainFrame} from './curtain.js';
+import {renderCurtain} from './curtain-render.js';
+import {curtainSettings,curtainOrigin} from './curtain-settings.js';
+import {selectAreaIds,selectAreaRange,editAreaGroup} from './area-selection.js';
+
+const $=s=>document.querySelector(s),v3=a=>new THREE.Vector3(...a),clone=a=>structuredClone(a);
+mountCurtainProperties();setupPropertiesPanel();installNumericExpressions();
+const storageKey='facade-studio-areas-v1';
+let areas=[],selectedId=null,history=[],pickMode=null,planeView=false,pendingImport=null,toastTimer,projectName='Untitled facade';
+let commandLine=null,liveDxf=null;
+const osnap=setupObjectSnap(()=>commandLine?.refresh());
+let selectedIds=new Set(),areaSelectionAnchor=null,selectedPanels=new Set(),selectionMode='area';
+const selectionModeSelect=document.createElement('select');selectionModeSelect.id='selection-mode';selectionModeSelect.setAttribute('aria-label','Selection mode');selectionModeSelect.innerHTML='<option value="area">Select Areas</option><option value="panel">Select Panels</option>';$('.view-switch').append(selectionModeSelect);
+const selectionBar=document.createElement('div');selectionBar.className='area-selection-tools';selectionBar.innerHTML='<span id="selected-area-count">0 selected</span><button id="select-all-areas">All</button><button id="clear-area-selection">Clear</button>';$('#area-list').before(selectionBar);
+const selectionNote=document.createElement('div');selectionNote.id='multi-area-note';selectionNote.hidden=true;$('#inspector').prepend(selectionNote);
+let standardView=null;
+const worldViews={top:{normal:[0,0,1],up:[0,1,0]},left:{normal:[-1,0,0],up:[0,0,1]},right:{normal:[1,0,0],up:[0,0,1]},front:{normal:[0,-1,0],up:[0,0,1]},back:{normal:[0,1,0],up:[0,0,1]}};
+let selectedPanelKey=null;
+const curtainCache=new Map(),originSnapCache=new Map();
+function snapOrigin(point,a,tolerance){const key=JSON.stringify([a.base,a.u,a.v,a.outer,a.holes,a.pattern,a.curtain]);if(originSnapCache.get(a.id)?.key!==key){const layout=getCurtainLayout(a);originSnapCache.set(a.id,{key,snap:createOriginSnap(a,layout?.settings.showPanels?layout.panels:[])})}const rect=renderer.domElement.getBoundingClientRect(),screen=originSnapScreen(a,camera,rect,rect.left+(pointer.x+1)*rect.width/2,rect.top+(1-pointer.y)*rect.height/2);return originSnapCache.get(a.id).snap(point,tolerance,osnap.get(),a.pattern.origin,screen)}
+function getCurtainLayout(a){const key=JSON.stringify([a.base,a.u,a.v,a.outer,a.holes,a.pattern,a.curtain]);const cached=curtainCache.get(a.id);if(cached?.key===key)return cached.layout;const layout=buildCurtainLayout(a);curtainCache.set(a.id,{key,layout});return layout}
+function validateCurtainAreas(list){validateFoldedSheetLimits(foldedAssemblies(list,getCurtainLayout));let panels=0,members=0;for(const a of list){const layout=getCurtainLayout(a);if(layout){panels+=layout.panels.length;members+=layout.mullions.length}if(panels>150000||members>200000)throw Error('Curtain Wall รวมเกิน 150,000 panels / 200,000 members กรุณาแบ่งโปรเจกต์หรือเพิ่ม spacing')}}
+function interactionPoint(hit){const a=areas.find(a=>a.id===hit.object.userData.areaId);return a&&hitPanelKey(hit)?worldPoint(a,localPoint(a,hit.point.toArray())):hit.point.toArray()}
+const view=$('#viewport'),scene=new THREE.Scene();scene.background=new THREE.Color('#171e1b');
+let renderer;
+try{renderer=new THREE.WebGLRenderer({antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.domElement.setAttribute('aria-label','Interactive 3D facade areas');renderer.domElement.tabIndex=0;view.prepend(renderer.domElement)}catch(e){$('#webgl-error').hidden=false;$('#webgl-error').textContent='3D requires WebGL. Enable hardware acceleration and reopen this page.';throw e}
+const perspectiveCamera=new THREE.PerspectiveCamera(40,1,1,1e8),orthographicCamera=new THREE.OrthographicCamera(-5000,5000,5000,-5000,.1,1e8);
+let camera=perspectiveCamera;camera.up.set(0,0,1);
+const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.dampingFactor=.12;configureNavigation(controls,()=>planeView||!!standardView);
+const surfaces=new THREE.Group(),outlines=new THREE.Group(),originHelpers=new THREE.Group();scene.add(surfaces,outlines,originHelpers);
+const curtainMembers=new THREE.Group();scene.add(curtainMembers);scene.add(new THREE.HemisphereLight(0xe5f0e8,0x51665b,2.2));const curtainSun=new THREE.DirectionalLight(0xfff1d9,2.2);curtainSun.position.set(5000,-10000,12000);scene.add(curtainSun);
+const ground=new THREE.GridHelper(60000,60,0x495b4f,0x29382f);ground.rotation.x=Math.PI/2;ground.position.z=-20;scene.add(ground);
+const raycaster=new THREE.Raycaster(),pointer=new THREE.Vector2();let pointerDown=null;
+installSurfaceZoom(controls,event=>{const rect=renderer.domElement.getBoundingClientRect();pointer.set((event.clientX-rect.left)/rect.width*2-1,-(event.clientY-rect.top)/rect.height*2+1);camera.updateMatrixWorld();surfaces.updateMatrixWorld(true);raycaster.setFromCamera(pointer,camera);const hit=raycaster.intersectObjects([...surfaces.children,...curtainMembers.children]).find(h=>h.object.isMesh&&h.object.material.visible!==false);return hit?.point.toArray()});
+const commandMarker=new THREE.Mesh(new THREE.SphereGeometry(1,12,8),new THREE.MeshBasicMaterial({color:0xf3cb8a,depthTest:false}));commandMarker.visible=false;commandMarker.renderOrder=10;scene.add(commandMarker);
+const selected=()=>areas.find(a=>a.id===selectedId);
+const dimensions=setupSelectionDimensions(view),worldUcs=setupWorldUcs(view);
+let originDragControlsEnabled=true,originPreviewPending=null,originPreviewRendered=false,originPreviewLast=0;
+const patternPointUI=setupPatternOrigin(view,{
+ panels:id=>{const a=areas.find(a=>a.id===id),layout=a&&getCurtainLayout(a);return layout&&layout.settings.showPanels?layout.panels:[]},camera:()=>camera,canDrag:()=>!pickMode&&!commandLine?.active,pixelWorldSize,osmode:()=>osnap.get(),feedback:type=>osnap.feedback(type),notify,
+ start(){commandLine?.cancel(false);cancelPick();originDragControlsEnabled=controls.enabled;controls.enabled=false;notify('Drag Pattern Origin on Area · Snap F3 · Esc to cancel')},
+ end(){controls.enabled=originDragControlsEnabled;pointerDown=null;originPreviewPending=null;if(originPreviewRendered){originPreviewRendered=false;rebuildScene()}},
+ preview(point,id){const a=areas.find(a=>a.id===id);if(!a)return;if(selectedId===id){$('#origin-x').value=point[0];$('#origin-y').value=point[1]}for(const mesh of surfaces.children)if(mesh.userData.areaId===id&&mesh.material?.uniforms?.origin)mesh.material.uniforms.origin.value.set(...point);if(a.curtain?.enabled&&a.curtain.followPatternOrigin&&(length(sub(point,a.pattern.origin))>1e-7||originPreviewRendered||originPreviewPending))originPreviewPending={point:[...point],id}},
+ commit(id,point){return selectedId===id&&commitArea(a=>a.pattern.origin=[...point],'Pattern Origin moved · Undo ได้')}
+});
+const fmt=n=>Number(n.toFixed(2)).toLocaleString('en-US',{maximumFractionDigits:2});
+function notify(message,error=false){$('#status').textContent=message;if(error){clearTimeout(toastTimer);$('#toast').textContent=message;$('#toast').hidden=false;toastTimer=setTimeout(()=>$('#toast').hidden=true,6500)}}
+function snapshot(){return {format:'facade-studio',version:1,units:'mm',name:projectName,areas:clone(areas),selectedId,selectedIds:[...selectedIds],selectionMode,selectedPanels:[...selectedPanels]}}
+function saveLocal(){try{localStorage.setItem(storageKey,JSON.stringify(snapshot()))}catch{notify('Local auto-save unavailable — use Save project',true)}}
+function checkpoint(){history.push(snapshot());if(history.length>40)history.shift();$('#undo').disabled=false}
+function validProject(p){if(p?.format!=='facade-studio'||p.version!==1||p.units!=='mm'||!Array.isArray(p.areas)||p.areas.length>200)throw Error('ไฟล์นี้ไม่ใช่ Facade Studio project รุ่นที่รองรับ');const ids=new Set();for(const a of p.areas){validateArea(a);if(typeof a.id!=='string'||ids.has(a.id))throw Error('Area ID ไม่ถูกต้อง');ids.add(a.id)}validateCurtainAreas(p.areas);return p}
+function loadProject(p){validProject(p);selectedPanels=new Set((Array.isArray(p.selectedPanels)?p.selectedPanels:[]).filter(ref=>{try{const r=parsePanelRef(ref);return p.areas.some(a=>a.id===r.areaId&&getCurtainLayout(a)?.panels.some(x=>x.key===r.key))}catch{return false}}));selectionMode=p.selectionMode==='panel'?'panel':'area';selectionModeSelect.value=selectionMode;areaSelectionAnchor=null;liveDxf?.pause();commandLine?.cancel(false);areas=clone(p.areas);selectedId=p.selectedId===null?null:areas.some(a=>a.id===p.selectedId)?p.selectedId:areas[0]?.id;selectedIds=new Set(Array.isArray(p.selectedIds)?p.selectedIds.filter(id=>areas.some(a=>a.id===id)):[selectedId].filter(Boolean));selectedPanelKey=selectedPanelRefs().find(r=>r.areaId===selectedId)?.key||null;projectName=typeof p.name==='string'?p.name:'Untitled facade';cancelPick();planeView=false;sync();fitAll()}
+function commitArea(mutator,message){const current=selected();if(!current)return false;try{const next=clone(current);mutator(next);validateArea(next);const list=propagateCurtainJoinChanges(areas,applyPatternOriginLinks(areas,areas.map(a=>a.id===next.id?next:a),selectedId));validateCurtainAreas(list);const movingOrigin=areas.some((a,i)=>JSON.stringify(a.pattern.origin)!==JSON.stringify(list[i].pattern.origin)),selection=movingOrigin?originPanelSelection(areas,list,selectedPanels,selectedPanelKey?{areaId:selectedId,key:selectedPanelKey}:null,getCurtainLayout):null;checkpoint();areas=list;if(selection){selectedPanels=selection.refs;selectedPanelKey=selection.active?.key||null}sync();notify(message);return true}catch(e){notify(e.message,true);updateInspector();return false}}
+function commitCurtainGroup(mutator,message){if(!selectedIds.size)return false;try{const next=propagateCurtainJoinChanges(areas,applyPatternOriginLinks(areas,editAreaGroup(areas,selectedIds,mutator,()=>{}),selectedId));validateCurtainAreas(next);const affected=next.filter((a,i)=>a!==areas[i]).length;checkpoint();areas=next;sync();notify(`${message} · ${affected} area(s)`);return true}catch(e){notify(e.message,true);updateInspector();return false}}
+function clearGroup(group){while(group.children.length){const child=group.children[0];child.traverse(o=>{if(o.isInstancedMesh)o.dispose();o.geometry?.dispose();if(Array.isArray(o.material))o.material.forEach(m=>m.dispose());else o.material?.dispose()});group.remove(child)}}
+function frameMatrix(a){const m=new THREE.Matrix4().makeBasis(v3(a.u),v3(a.v),v3(cross(a.u,a.v)));m.setPosition(v3(a.base));return m}
+function material(a,active){return new THREE.ShaderMaterial({side:THREE.DoubleSide,uniforms:{color:{value:new THREE.Color(active?'#aac6ae':'#80938a')},origin:{value:new THREE.Vector2(...a.pattern.origin)},angle:{value:a.pattern.angle*Math.PI/180},spacing:{value:a.pattern.spacing},gridOn:{value:$('#grid-toggle').checked?1:0},selected:{value:active?1:0}},vertexShader:`varying vec2 areaUV; varying vec3 normalWorld; void main(){areaUV=position.xy;normalWorld=normalize(mat3(modelMatrix)*normal);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,fragmentShader:`uniform vec3 color;uniform vec2 origin;uniform float angle;uniform float spacing;uniform float gridOn;uniform float selected;varying vec2 areaUV;varying vec3 normalWorld;void main(){vec2 d=areaUV-origin;vec2 q=vec2(cos(angle)*d.x+sin(angle)*d.y,-sin(angle)*d.x+cos(angle)*d.y)/spacing;vec2 aa=max(fwidth(q),vec2(0.00001));vec2 edge=abs(fract(q+0.5)-0.5)/aa;float grid=1.0-min(min(edge.x,edge.y),1.0);float fade=1.0-smoothstep(0.2,0.6,max(aa.x,aa.y));float shade=.73+.27*abs(dot(normalize(normalWorld),normalize(vec3(-.3,-.7,1.0))));vec3 c=color*shade;c=mix(c,c*.65,grid*gridOn*fade*.65);gl_FragColor=vec4(c,1.0);}`})}
+function rebuildScene(displayAreas=areas,preview=false){const selection=preview?originPanelSelection(areas,displayAreas,selectedPanels,selectedPanelKey?{areaId:selectedId,key:selectedPanelKey}:null,getCurtainLayout):{refs:selectedPanels,active:selectedPanelKey?{areaId:selectedId,key:selectedPanelKey}:null};clearGroup(surfaces);clearGroup(outlines);clearGroup(originHelpers);clearGroup(curtainMembers);$('#scene-labels').replaceChildren();
+  ground.visible=!planeView&&$('#grid-toggle').checked;
+  for(const a of displayAreas){if(a.visible===false||(planeView&&a.id!==selectedId))continue;const curtain=getCurtainLayout(a);
+    if(curtain)renderCurtain(a,curtain,{surfaces,frames:curtainMembers,outlines,matrix:frameMatrix(a),selectedPanelKey:selection.active?.areaId===a.id?selection.active.key:null,selectedPanelKeys:new Set([...selection.refs].map(parsePanelRef).filter(r=>r.areaId===a.id).map(r=>r.key))});
+    else{const shape=new THREE.Shape(a.outer.map(p=>new THREE.Vector2(...p)));shape.holes=a.holes.map(h=>new THREE.Path(h.map(p=>new THREE.Vector2(...p))));const mesh=new THREE.Mesh(new THREE.ShapeGeometry(shape),material(a,selectedIds.has(a.id)));mesh.applyMatrix4(frameMatrix(a));mesh.userData.areaId=a.id;surfaces.add(mesh)}
+    for(const loop of [a.outer,...a.holes]){const points=[...loop,loop[0]].map(p=>v3(worldPoint(a,p)));const edge=new THREE.Line(new THREE.BufferGeometry().setFromPoints(points),new THREE.LineBasicMaterial({color:selectedIds.has(a.id)?0xd2ebd0:0x536b5b}));outlines.add(edge)}
+    const label=document.createElement('div');label.className='scene-label';label.textContent=a.name;label.dataset.id=a.id;$('#scene-labels').append(label);
+  }
+  const a=displayAreas.find(a=>a.id===selectedId);if(a&&a.visible!==false){const bounds=new THREE.Box3().setFromPoints(a.outer.map(p=>v3(worldPoint(a,p)))),size=Math.max(100,bounds.getSize(new THREE.Vector3()).length()*.12);
+    // Pattern is a point on the Area, not its coordinate system. World axes live in the WCS indicator.
+    // Pattern Origin is a fixed-size screen grip; no world-sized sphere at close zoom.
+    if(a.curtain?.enabled){const f=curtainFrame(a),point=v3(worldPoint(a,f.from([0,0]))),gizmo=new THREE.Group();gizmo.position.copy(point);gizmo.userData.nominalSize=size;gizmo.userData.axisLabels=[];originHelpers.add(gizmo);
+      for(const [axis,name] of [[[1,0],'U'],[[0,1],'V']]){const direction=v3(worldPoint(a,f.from(axis))).sub(point).normalize();const arrow=new THREE.ArrowHelper(direction,new THREE.Vector3(),.75,0x6ad8ea,.09,.04);arrow.traverse(o=>{if(o.material){o.material.depthTest=false;o.material.depthWrite=false}o.renderOrder=6});gizmo.add(arrow);const label=document.createElement('div');label.className='scene-axis-label';label.textContent=name;label.dataset.worldPoint=point.toArray().join(',');$('#scene-labels').append(label);gizmo.userData.axisLabels.push({label,direction})}
+      const box=new THREE.BoxGeometry(.045,.045,.045),marker=new THREE.LineSegments(new THREE.EdgesGeometry(box),new THREE.LineBasicMaterial({color:0x6ad8ea,depthTest:false,depthWrite:false}));box.dispose();marker.renderOrder=7;gizmo.add(marker);
+    }
+  }
+  const active=a,panel=active&&selection.active?getCurtainLayout(active)?.panels.find(p=>p.key===selection.active.key):null;drawFoldedBends(displayAreas,selection.refs);dimensions.select(active,panel,{onEdit:!preview?foldDimensionEditor(active,panel):null});updateOriginHelpers();if(!preview)patternPointUI.select(active);
+}
+function drawFoldedBends(list,refs=selectedPanels){
+ for(const [index,assembly]of foldedAssemblies(list,getCurtainLayout).entries()){
+  if(!assembly.members.some(m=>m.a.visible!==false&&(!planeView||m.a.id===selectedId)))continue;
+  const active=assembly.members.some(m=>refs.has(panelRef(m.a.id,m.panel.key)));
+  for(const bend of assembly.bends){const line=new THREE.Line(new THREE.BufferGeometry().setFromPoints([v3(bend.p),v3(bend.q)]),new THREE.LineDashedMaterial({color:active?0xffd398:0x80d6c0,dashSize:40,gapSize:25,depthTest:false,depthWrite:false}));line.computeLineDistances();line.renderOrder=5;outlines.add(line);const label=document.createElement('div');label.className='scene-label fold-label';label.textContent=`F${index+1} · Bend`;label.dataset.worldPoint=bend.p.map((n,i)=>(n+bend.q[i])/2).join(',');$('#scene-labels').append(label)}
+ }
+}
+function selectedPanelRefs(){return [...selectedPanels].map(parsePanelRef)}
+function updatePanelSelectionUI(){
+ updateFoldSizeProperties();updatePanelSizeProperties();
+ const refs=selectedPanelRefs(),groups=new Set(refs.map(r=>areas.find(a=>a.id===r.areaId)?.curtain?.panelJoins?.[r.key]?.group).filter(Boolean));
+ $('#join-folded-panels').disabled=refs.length<2;$('#unjoin-folded-panels').disabled=!groups.size;$('#reset-panel-size').disabled=!refs.length;
+ $('#fold-panel-info').textContent=groups.size?`${refs.length} selected faces · ${groups.size} folded pieces · คลิกชิ้นที่ Join จะเลือกทุกด้าน · Unjoin เพื่อแยกกลับ`:refs.length>1?`${refs.length} Panels / ${new Set(refs.map(r=>r.areaId)).size} Areas · Join เพื่อรวมขอบมุมที่ตรงกันเป็นแผ่นพับ`: 'Select Panels → Shift+คลิกแผ่นสองด้านใน 3D scene → Join folded panel · ขอบต้องตรงกัน ความหนาเท่ากัน';
+ if(refs.length>1){$('#cw-panel-override').disabled=true;$('#cw-selected-info').textContent=`${refs.length} selected panel faces${groups.size?' · Folded panel':''} · DIM แสดงด้านที่คลิกล่าสุด`}
+}
+function selectedFoldAssembly(){const ids=new Set(selectedPanelRefs().map(r=>areas.find(a=>a.id===r.areaId)?.curtain?.panelJoins?.[r.key]?.group).filter(Boolean));if(ids.size!==1)return null;return foldedAssemblies(areas,getCurtainLayout).find(g=>g.group===[...ids][0])}
+function updateFoldSizeProperties(){
+ const assembly=selectedFoldAssembly(),section=$('#fold-size-properties');section.hidden=!assembly;if(!assembly)return;
+ try{const size=foldedPanelSize(assembly),metrics=foldedFaceMetrics(assembly),first=assembly.members[0],sheet=first.a.curtain.panelJoins[first.panel.key].sheet||{width:size.width,height:size.height},values={'fold-sheet-width':sheet.width,'fold-sheet-height':sheet.height,'fold-wing0':metrics[0].width,'fold-wing1':metrics[1].width,'fold-panel-height':size.height};
+  for(const [id,value]of Object.entries(values)){const input=$('#'+id);input.disabled=false;input.dataset.committed=String(Number(value.toFixed(3)));if(document.activeElement!==input)input.value=Number(value.toFixed(3))}
+  metrics.forEach((m,i)=>$('#fold-wing'+i+'-label').textContent=`Side ${i+1} · ${m.a.name} · mm`);
+  $('#fold-size-summary').textContent=`Unfolded ${fmt(size.width)} × ${fmt(size.height)} mm · ${fmt(metrics[0].width)} + ${fmt(metrics[1].width)} = ${fmt(size.width)} mm · within sheet ${fmt(sheet.width)} × ${fmt(sheet.height)} mm`;
+ }catch(e){for(const input of section.querySelectorAll('input'))input.disabled=true;$('#fold-size-summary').textContent=e.message}
+}
+function editFoldSize(property,value,group=null){
+ const assembly=selectedFoldAssembly();if(!assembly||group&&assembly.group!==group)return false;
+ try{const next=resizeFoldedPanel(areas,assembly.group,property,value);validateCurtainAreas(next);checkpoint();areas=next;selectedPanels=new Set(areas.flatMap(a=>Object.entries(a.curtain?.panelJoins||{}).filter(([,j])=>j.group===assembly.group).map(([key])=>panelRef(a.id,key))));selectedPanelKey=selectedPanelRefs().find(r=>r.areaId===selectedId)?.key||null;cancelPick();sync();$('#fold-size-error').textContent='';notify('Folded panel dimensions updated · ไล่ Start แผ่นถัดไปใหม่ตาม Grid · Undo ได้');return true}catch(e){$('#fold-size-error').textContent=e.message;notify(e.message,true);updateInspector();return false}
+}
+function foldDimensionEditor(a,panel){
+ if(!a||!panel)return null;if(!panel.foldGroup){try{panelDimensions(a,panel);return (spec,value)=>editPanelSize(spec.axis,value)}catch{return (spec,value)=>editPanelEdge(spec.edgeIndex,value)}}try{const g=foldedAssemblies(areas,getCurtainLayout).find(g=>g.group===panel.foldGroup),metrics=foldedFaceMetrics(g),index=metrics.findIndex(m=>m.a.id===a.id&&m.panel.key===panel.key);if(index<0)return null;return (spec,value)=>{const direction=mul(sub(spec.end,spec.start),1/spec.value),across=Math.abs(dot(direction,metrics[index].inward))>.99;return editFoldSize(across?'wing'+index:'height',value,g.group)}}catch{return null}
+}
+function updatePanelSizeProperties(){
+ const a=selected(),panel=a&&selectedPanelKey?getCurtainLayout(a)?.panels.find(p=>p.key===selectedPanelKey):null,section=$('#panel-size-properties'),edges=$('#panel-edge-properties'),fields=section.querySelector('.fields');section.hidden=!panel||!!panel.foldGroup;if(section.hidden)return;
+ try{const m=panelDimensions(a,panel);section.querySelector('.curtain-subheading').textContent='PANEL · WIDTH / HEIGHT';fields.hidden=false;edges.hidden=true;edges.replaceChildren();for(const property of ['width','height']){const input=$('#panel-'+property);input.disabled=false;input.dataset.committed=String(Number(m[property].toFixed(3)));if(input!==document.activeElement)input.value=input.dataset.committed}$('#panel-size-error').textContent=''}
+ catch{section.querySelector('.curtain-subheading').textContent='PANEL · EDGE LENGTHS';fields.hidden=true;edges.hidden=false;edges.replaceChildren();for(const spec of selectionDimensions(a,panel)){const label=document.createElement('label');label.textContent=`${spec.label} · actual edge · mm`;const input=document.createElement('input');input.type='number';input.min='1';input.step='any';input.id='panel-edge-'+(spec.edgeIndex+1);input.setAttribute('aria-label',spec.label+' edge length');input.value=Number(spec.value.toFixed(3));input.dataset.committed=input.value;input.addEventListener('change',()=>{if(input.value!==input.dataset.committed)editPanelEdge(spec.edgeIndex,Number(input.value))});input.addEventListener('keydown',e=>{if(e.key==='Escape'){input.value=input.dataset.committed;input.blur()}});label.append(input);edges.append(label)}enableNumericExpressions(edges);$('#panel-size-error').textContent='ยึดปลายขอบใกล้ Origin · ปรับระยะจริงตามแนวขอบเอียง'}
+}
+function editPanelEdge(edgeIndex,value){const a=selected();if(!a||!selectedPanelKey)return false;try{const result=resizePanelEdge(areas,a.id,selectedPanelKey,edgeIndex,value);if(result.areas===areas)return true;validateCurtainAreas(result.areas);checkpoint();areas=result.areas;selectedPanels=new Set([panelRef(a.id,result.key)]);selectedPanelKey=result.key;selectedIds=new Set([a.id]);cancelPick();sync();notify('Panel edge resized · ยึด Origin และปลายขอบเดิม · Undo ได้');return true}catch(e){notify(e.message,true);$('#panel-size-error').textContent=e.message;return false}}
+function editPanelSize(property,value){const a=selected();if(!a||!selectedPanelKey)return false;try{const result=resizePanel(areas,a.id,selectedPanelKey,property,value);if(result.areas===areas)return true;validateCurtainAreas(result.areas);checkpoint();areas=result.areas;selectedPanels=new Set([panelRef(a.id,result.key)]);selectedPanelKey=result.key;selectedIds=new Set([a.id]);cancelPick();sync();notify('Panel resized · Origin คงเดิม · แผ่นถัดไปเลื่อนต่อเนื่อง · Undo ได้');return true}catch(e){notify(e.message,true);$('#panel-size-error').textContent=e.message;return false}}
+for(const input of document.querySelectorAll('[data-panel-size]')){input.addEventListener('change',()=>{if(input.value!==input.dataset.committed)editPanelSize(input.dataset.panelSize,Number(input.value))});input.addEventListener('keydown',e=>{if(e.key==='Escape'){input.value=input.dataset.committed;input.blur()}})}
+for(const input of document.querySelectorAll('[data-fold-size]')){const apply=()=>{if(input.value===input.dataset.committed){const g=selectedFoldAssembly();if(g?.members[0].a.curtain.panelJoins[g.members[0].panel.key].sizeReset)return}editFoldSize(input.dataset.foldSize,input.value.trim()===''?NaN:Number(input.value))};input.addEventListener('change',apply);input.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();apply()}else if(e.key==='Escape'){input.value=input.dataset.committed||'';input.blur();updateFoldSizeProperties()}})}
+function selectPanel(areaId,key,toggle=false){
+ cancelPick();commandLine?.cancel(false);const group=areas.find(a=>a.id===areaId)?.curtain?.panelJoins?.[key]?.group;
+ const refs=group?areas.flatMap(a=>Object.entries(a.curtain?.panelJoins||{}).filter(([,j])=>j.group===group).map(([key])=>panelRef(a.id,key))):[panelRef(areaId,key)];
+ const next=new Set(toggle?selectedPanels:[]),remove=toggle&&refs.every(ref=>next.has(ref));for(const ref of refs){if(remove)next.delete(ref);else next.add(ref)}selectedPanels=next;
+ const active=next.has(panelRef(areaId,key))?{areaId,key}:next.size?parsePanelRef([...next].at(-1)):null;selectedId=active?.areaId||null;selectedPanelKey=active?.key||null;selectedIds=new Set([...next].map(ref=>parsePanelRef(ref).areaId));sync();notify(`${next.size} panel faces selected${group?' · Folded piece':''}`);
+}
+function editFoldedPanels(join){
+ try{const refs=selectedPanelRefs(),next=join?joinFoldedPanels(areas,refs):unjoinFoldedPanels(areas,refs);validateCurtainAreas(next);checkpoint();areas=next;cancelPick();sync();notify(join?'Joined as folded panel · ขอบมุมต่อเป็นแผ่นพับชิ้นเดียว · Undo ได้':'Panels unjoined · แยกแผ่นและคืน gap เดิม · Undo ได้')}catch(e){notify(e.message,true);updateInspector()}
+}
+selectionModeSelect.onchange=()=>{cancelPick();commandLine?.cancel(false);selectionMode=selectionModeSelect.value;selectedPanels.clear();selectedPanelKey=null;sync();if(selectionMode==='panel'){const header=$('#curtain-panel-section .property-section-toggle');if(header?.getAttribute('aria-expanded')==='false')header.click()}notify(selectionMode==='panel'?'Select Panels · Shift+click to add/remove · Join folded panel for corner pieces':'Select Areas · Shift+click to multi-select')};
+$('#join-folded-panels').onclick=()=>editFoldedPanels(true);$('#unjoin-folded-panels').onclick=()=>editFoldedPanels(false);
+$('#reset-panel-size').onclick=()=>{try{const result=resetPanelDimensions(areas,selectedPanelRefs());validateCurtainAreas(result.areas);if(JSON.stringify(result.areas)===JSON.stringify(areas)){notify('Panel ใช้ขนาดจากกริดเดิมอยู่แล้ว');return}checkpoint();areas=result.areas;selectedPanels=result.refs;selectedPanelKey=selectedPanelRefs().find(r=>r.areaId===selectedId)?.key||null;commandLine?.cancel(false);cancelPick();sync();$('#fold-size-error').textContent='';notify('Panel width / height reset · คืนขนาดตามกริดเดิม · Undo ได้')}catch(e){notify(e.message,true)}};
+function renderList(){const list=$('#area-list');list.replaceChildren();$('#area-count').textContent=areas.length;for(const a of areas){const row=document.createElement('div');row.className='area-row'+(selectedIds.has(a.id)?' selected':'');const select=document.createElement('button');select.className='area-select';select.setAttribute('aria-pressed',String(selectedIds.has(a.id)));select.title='Click to select · Shift+click for range · Ctrl+click to add/remove';const icon=document.createElement('span');icon.className='area-icon';icon.append(createAreaThumbnail(a,areas.indexOf(a)+1));const order=document.createElement('span');order.className='area-order';order.textContent=String(areas.indexOf(a)+1).padStart(2,'0');icon.append(order);const name=document.createElement('b');name.textContent=a.name;const small=document.createElement('small');small.textContent=`${fmt(netArea(a))} m² · ${a.holes.length} openings`;select.append(icon,name,small);select.onclick=e=>selectArea(a.id,null,e.ctrlKey||e.metaKey,e.shiftKey);const visibility=document.createElement('button');visibility.className='visibility';visibility.textContent=a.visible===false?'○':'◉';visibility.title=a.visible===false?'Show area':'Hide area';visibility.setAttribute('aria-label',visibility.title+' '+a.name);visibility.onclick=()=>{checkpoint();a.visible=a.visible===false;sync()};row.append(select,visibility);list.append(row)}}
+function updateBaseInspector(){const a=selected();$('#inspector').hidden=!a;$('#no-selection').hidden=!!a;if(!a)return;$('#area-name').value=a.name;const dimensions=areaSize(a);$('#area-width').value=Number(dimensions.width.toFixed(3));$('#area-height').value=Number(dimensions.height.toFixed(3));$('#area-visible').checked=a.visible!==false;['x','y','z'].forEach((key,i)=>$('#world-'+key).value=Number(a.base[i].toFixed(3)));$('#world-rotation').value=0;$('#origin-x').value=Number(a.pattern.origin[0].toFixed(3));$('#origin-y').value=Number(a.pattern.origin[1].toFixed(3));$('#origin-angle').value=Number(a.pattern.angle.toFixed(3));$('#grid-spacing').value=a.pattern.spacing;$('#net-area').textContent=fmt(netArea(a))+' m²';$('#opening-count').textContent=String(a.holes.length).padStart(2,'0');$('#origin-world').textContent='World: '+worldPoint(a,a.pattern.origin).map(fmt).join(' / ')+' mm';$('#opening-list').replaceChildren();a.holes.forEach((h,i)=>{const row=document.createElement('div');row.className='opening-item';const label=document.createElement('span');label.textContent=`Opening ${i+1} · ${h.length} vertices`;const remove=document.createElement('button');remove.textContent='×';remove.setAttribute('aria-label',`Remove opening ${i+1}`);remove.onclick=()=>commitArea(a=>a.holes.splice(i,1),'Opening removed');row.append(label,remove);$('#opening-list').append(row)})}
+function updateInspector(){updateBaseInspector();const a=selected(),group=areas.filter(a=>selectedIds.has(a.id));selectionNote.hidden=group.length<2;selectionNote.textContent=`${group.length} Areas selected — Curtain Wall changes apply to all. Other properties show active area: ${a?.name||''}`;$('#selected-area-count').textContent=selectionMode==='panel'?`${selectedPanels.size} panels · ${group.length} areas`:`${group.length} selected`;if(a){const layout=getCurtainLayout(a);if(selectedPanelKey&&!layout?.panels.some(p=>p.key===selectedPanelKey))selectedPanelKey=null;updateCurtainProperties(a,layout,selectedPanelKey,{areas:group,layouts:group.map(getCurtainLayout)})}updatePanelSelectionUI()}
+function sync(){for(const id of curtainCache.keys())if(!areas.some(a=>a.id===id))curtainCache.delete(id);selectedIds=new Set([...selectedIds].filter(id=>areas.some(a=>a.id===id)));if(selectedId&&areas.some(a=>a.id===selectedId))selectedIds.add(selectedId);else selectedId=[...selectedIds].at(-1)||null;if(!selectedIds.has(areaSelectionAnchor))areaSelectionAnchor=selectedId;selectedPanels=new Set([...selectedPanels].filter(ref=>{const r=parsePanelRef(ref),a=areas.find(a=>a.id===r.areaId);return a&&getCurtainLayout(a)?.panels.some(p=>p.key===r.key)}));renderList();updateInspector();rebuildScene();$('#project-label').textContent=projectName;$('#total-area').textContent=`${areas.length} areas · ${fmt(areas.reduce((s,a)=>s+netArea(a),0))} m²`;$('#undo').disabled=!history.length;$('#fit-selected').disabled=!selected();$('#view-area').disabled=!selected();updateViewButtons();saveLocal()}
+function selectArea(id,panelKey=null,toggle=false,range=false){selectedPanels.clear();if(panelKey&&!toggle)selectedPanels.add(panelRef(id,panelKey));cancelPick();const selection=range?selectAreaRange(areas.map(a=>a.id),areaSelectionAnchor??selectedId,id,selectedIds,toggle):selectAreaIds(selectedIds,selectedId,id,toggle);if(range)areaSelectionAnchor=selection.anchor;else areaSelectionAnchor=selection.primary;selectedIds=selection.ids;selectedId=selection.primary;selectedPanelKey=selectedIds.size===1?panelKey:null;if(selectedId)commandLine?.selectionChanged(selectedId);else commandLine?.cancel(false);sync();if(planeView)focusArea();notify(selectedIds.size>1?`${selectedIds.size} Areas selected`:selected()?'Selected '+selected().name:'No area selected')}
+function updateViewButtons(){$('#view-area').classList.toggle('active',planeView);$('#view-3d').classList.toggle('active',!planeView&&!standardView);$('#view-preset').value=standardView||'';$('#view-label').textContent=standardView?standardView.toUpperCase()+' · ORTHO':planeView?'AREA PLANE':'PERSPECTIVE';$('#navigation-help').textContent=pickMode?(pickMode==='curtain-origin'?'Click surface to set Curtain Origin · Esc to cancel':pickMode==='origin'?'Click surface to set origin · Esc to cancel':'Click near a boundary edge · Esc to cancel'):(planeView||standardView?'Shift + click to select areas · Middle-drag to pan · Scroll to zoom':'Shift + click to select areas · Shift + Middle-drag to orbit · Middle-drag to pan · Scroll to zoom');controls.enableRotate=!planeView&&!standardView;controls.mouseButtons.LEFT=-1;if(!pickMode&&selectionMode==='panel')$('#navigation-help').textContent=$('#navigation-help').textContent.replace('select areas','select panels')}
+function setCamera(target,normal,radius,up=[0,0,1]){
+  const aspect=Math.max(.1,view.clientWidth/view.clientHeight),ortho=camera.isOrthographicCamera,distance=ortho?radius*3:radius/Math.sin(THREE.MathUtils.degToRad(camera.fov/2))/Math.min(1,aspect)*1.15;
+  camera.up.copy(v3(up));camera.position.copy(target).addScaledVector(v3(normal).normalize(),distance);camera.zoom=1;
+  if(ortho){const half=radius*1.15/Math.min(1,aspect);camera.top=half;camera.bottom=-half;camera.left=-half*aspect;camera.right=half*aspect}else camera.aspect=aspect;
+  controls.object=camera;controls._quat.setFromUnitVectors(camera.up,new THREE.Vector3(0,1,0));controls._quatInverse.copy(controls._quat).invert();controls._sphericalDelta.set(0,0,0);controls._panOffset.set(0,0,0);
+  controls.target.copy(target);camera.near=Math.max(.1,distance/10000);camera.far=Math.max(100000,distance*30);camera.updateProjectionMatrix();controls.minDistance=1;controls.maxDistance=distance*20;controls.update();updateOriginHelpers();
+}
+function updateOriginHelpers(){camera.updateMatrixWorld();for(const gizmo of originHelpers.children){if(!gizmo.userData.nominalSize)continue;const depth=-gizmo.position.clone().applyMatrix4(camera.matrixWorldInverse).z,unit=pixelWorldSize(Math.max(camera.near,depth),Math.max(1,view.clientHeight)),size=originHelperWorldSize(gizmo.userData.nominalSize,unit);gizmo.visible=depth>camera.near;gizmo.scale.setScalar(size);for(const {label,direction} of gizmo.userData.axisLabels)label.dataset.worldPoint=gizmo.position.clone().addScaledVector(direction,size*.85).toArray().join(',')}}
+function modelBounds(onlySelected=false){const list=onlySelected&&selected()?[selected()]:areas.filter(a=>a.visible!==false),points=list.flatMap(a=>a.outer.map(p=>v3(worldPoint(a,p))));return new THREE.Box3().setFromPoints(points.length?points:[new THREE.Vector3(0,0,0),new THREE.Vector3(8000,4000,4000)])}
+function setStandardView(name,onlySelected=false){if(!worldViews[name])return;cancelPick();planeView=false;standardView=name;camera=orthographicCamera;rebuildScene();const box=modelBounds(onlySelected),preset=worldViews[name];setCamera(box.getCenter(new THREE.Vector3()),preset.normal,Math.max(100,box.getSize(new THREE.Vector3()).length()/2),preset.up);updateViewButtons();notify(name.toUpperCase()+' view · World axes')}
+function fitAll(reset=true){if(!reset&&standardView){setStandardView(standardView);return}if(!reset&&planeView){focusArea();return}planeView=false;standardView=null;camera=perspectiveCamera;rebuildScene();const box=modelBounds();setCamera(box.getCenter(new THREE.Vector3()),[1,-1.8,1.1],Math.max(100,box.getSize(new THREE.Vector3()).length()/2));updateViewButtons()}
+function focusArea(){const a=selected();if(!a)return;if(standardView){setStandardView(standardView,true);return}if(planeView)camera=orthographicCamera;const box=modelBounds(true);setCamera(box.getCenter(new THREE.Vector3()),cross(a.u,a.v),Math.max(100,box.getSize(new THREE.Vector3()).length()/2),a.v);updateViewButtons()}
+function pixelWorldSize(distance,height){return camera.isOrthographicCamera?(camera.top-camera.bottom)/camera.zoom/height:distance*2*Math.tan(THREE.MathUtils.degToRad(camera.fov/2))/height}
+function cancelPick(){originSnapCache.clear();patternPointUI?.cancel();pickMode=null;commandMarker.visible=false;osnap.feedback(null);$('#pick-origin').classList.remove('picking');$('#align-edge').classList.remove('picking');$('#cw-pick-origin').classList.remove('picking');renderer.domElement.style.cursor='';updateViewButtons()}
+function startPick(mode){commandLine?.cancel(false);if(mode==='curtain-origin'?!areas.some(a=>selectedIds.has(a.id)&&a.visible!==false):!selected()||selected().visible===false){notify('เลือก Area ที่แสดงอยู่ก่อน',true);return}if(pickMode===mode){cancelPick();return}pickMode=mode;$('#pick-origin').classList.toggle('picking',mode==='origin');$('#cw-pick-origin').classList.toggle('picking',mode==='curtain-origin');$('#align-edge').classList.toggle('picking',mode==='edge');renderer.domElement.style.cursor='crosshair';updateViewButtons();notify(mode==='curtain-origin'?'Pick shared Curtain Origin on any selected area · Snap enabled with F3':mode==='origin'?'Click a point on selected area — snaps to nearby vertices and edges':'Click an edge on the selected area to set local pattern X')}
+// Origin picking uses the installation plane so gaps between panels remain pickable.
+function originPlaneHit(){let closest=null;for(const a of areas){if(a.visible===false||(pickMode==='curtain-origin'?!selectedIds.has(a.id):a.id!==selectedId))continue;const plane=new THREE.Plane().setFromNormalAndCoplanarPoint(v3(cross(a.u,a.v)),v3(a.base)),point=raycaster.ray.intersectPlane(plane,new THREE.Vector3());if(!point)continue;const local=localPoint(a,point.toArray());if(!inside(local,a.outer)||a.holes.some(h=>inside(local,h)))continue;const distance=raycaster.ray.origin.distanceTo(point);if(!closest||distance<closest.distance)closest={point,distance,object:{userData:{areaId:a.id}}}}return closest}
+renderer.domElement.addEventListener('pointerdown',e=>pointerDown={x:e.clientX,y:e.clientY,button:e.button});
+renderer.domElement.addEventListener('pointerup',e=>{if(!pointerDown||pointerDown.button!==0||Math.hypot(e.clientX-pointerDown.x,e.clientY-pointerDown.y)>5)return;pointerDown=null;const rect=renderer.domElement.getBoundingClientRect();pointer.set((e.clientX-rect.left)/rect.width*2-1,-(e.clientY-rect.top)/rect.height*2+1);camera.updateMatrixWorld();surfaces.updateMatrixWorld(true);raycaster.setFromCamera(pointer,camera);const hits=raycaster.intersectObjects(surfaces.children);if(commandLine?.active){const distance=hits[0]?.distance||camera.position.distanceTo(controls.target);commandLine.handleRay({origin:raycaster.ray.origin.toArray(),direction:raycaster.ray.direction.toArray()},hits.map(h=>({areaId:h.object.userData.areaId,point:interactionPoint(h)})),pixelWorldSize(distance,rect.height)*14,true);return}const hit=['origin','curtain-origin'].includes(pickMode)?originPlaneHit():pickMode?hits.find(h=>h.object.userData.areaId===selectedId):hits[0];if(!hit)return;if(!pickMode){const key=hitPanelKey(hit);if(selectionMode==='panel'&&key)selectPanel(hit.object.userData.areaId,key,e.shiftKey||e.ctrlKey||e.metaKey);else selectArea(hit.object.userData.areaId,key,e.shiftKey||e.ctrlKey||e.metaKey);return}const a=pickMode==='curtain-origin'?areas.find(a=>a.id===hit.object.userData.areaId):selected(),p=localPoint(a,hit.point.toArray()),tolerance=pixelWorldSize(hit.distance,rect.height)*14;
+  if(pickMode==='origin'||pickMode==='curtain-origin'){const pos=snapOrigin(p,a,tolerance).point.map(n=>Math.round(n*1000)/1000),curtain=pickMode==='curtain-origin';const sharedPoint=worldPoint(a,pos);const ok=curtain?commitCurtainGroup(target=>{const c=curtainSettings(target);target.curtain=c.reference==='world'?{...c,worldOrigin:[...sharedPoint],...(c.join&&a.curtain?.join?.group===c.join.group?{join:{...c.join,anchorId:a.id}}:{})}:{...c,origin:localPoint(target,sharedPoint).map(n=>Math.round(n*1000)/1000),angle:curtainOrigin(target).angle}},'Curtain origin updated'):commitArea(target=>{target.pattern.origin=pos},'Pattern origin updated');if(ok)cancelPick()}
+  else{let best=null,dist=Infinity;for(const loop of [a.outer,...a.holes])for(let i=0;i<loop.length;i++){const v=loop[i],w=loop[(i+1)%loop.length],d=sub(w,v),t=Math.max(0,Math.min(1,dot(sub(p,v),d)/dot(d,d))),q=add(v,mul(d,t)),gap=length(sub(p,q));if(gap<dist){dist=gap;best=d}}if(dist>tolerance*2){notify('คลิกใกล้ขอบ Area เพื่อเลือกแนวแกน',true);return}commitArea(a=>a.pattern.angle=Math.atan2(best[1],best[0])*180/Math.PI,'Pattern X aligned to edge');cancelPick()}
+});
+renderer.domElement.addEventListener('pointercancel',()=>pointerDown=null);
+renderer.domElement.addEventListener('pointermove',e=>{
+  if((!commandLine?.active&&!['origin','curtain-origin'].includes(pickMode))||e.buttons)return;
+  const rect=renderer.domElement.getBoundingClientRect();pointer.set((e.clientX-rect.left)/rect.width*2-1,-(e.clientY-rect.top)/rect.height*2+1);camera.updateMatrixWorld();surfaces.updateMatrixWorld(true);raycaster.setFromCamera(pointer,camera);
+  const hits=raycaster.intersectObjects(surfaces.children),distance=hits[0]?.distance||camera.position.distanceTo(controls.target);
+  if(pickMode==='origin'||pickMode==='curtain-origin'){
+    const hit=originPlaneHit();
+    commandMarker.visible=false;osnap.feedback(null);if(!hit)return;
+    const a=areas.find(a=>a.id===hit.object.userData.areaId),tolerance=pixelWorldSize(hit.distance,rect.height)*14,result=snapOrigin(localPoint(a,hit.point.toArray()),a,tolerance);
+    if(result.type){commandMarker.visible=true;commandMarker.position.copy(v3(worldPoint(a,result.point)));commandMarker.scale.setScalar(Math.max(1,tolerance*.3));commandMarker.material.color.set(0x9fe6b6);osnap.feedback(result.type)}
+    return;
+  }
+  commandLine.handleRay({origin:raycaster.ray.origin.toArray(),direction:raycaster.ray.direction.toArray()},hits.map(h=>({areaId:h.object.userData.areaId,point:interactionPoint(h)})),pixelWorldSize(distance,rect.height)*14);
+});
+function resize(){const w=view.clientWidth,h=view.clientHeight;renderer.setSize(w,h);if(camera.isOrthographicCamera){const half=(camera.top-camera.bottom)/2;camera.left=-half*w/h;camera.right=half*w/h}else camera.aspect=w/h;camera.updateProjectionMatrix()}
+new ResizeObserver(resize).observe(view);
+function animate(){requestAnimationFrame(animate);if(originPreviewPending&&performance.now()-originPreviewLast>80){const pending=originPreviewPending;originPreviewPending=null;originPreviewLast=performance.now();try{const proposed=areas.map(a=>a.id===pending.id?{...a,pattern:{...a.pattern,origin:pending.point}}:a),next=propagateCurtainJoinChanges(areas,applyPatternOriginLinks(areas,proposed,pending.id));validateCurtainAreas(next);originPreviewRendered=true;rebuildScene(next,true)}catch(e){notify(e.message,true)}}controls.update();updateOriginHelpers();renderer.render(scene,camera);worldUcs.update(camera);dimensions.update(camera,view.clientWidth,view.clientHeight);patternPointUI.update(camera,view.clientWidth,view.clientHeight);for(const label of $('#scene-labels').children){const a=areas.find(a=>a.id===label.dataset.id);if(!a&&!label.dataset.worldPoint)continue;const p=(label.dataset.worldPoint?v3(label.dataset.worldPoint.split(',').map(Number)):new THREE.Box3().setFromPoints(a.outer.map(p=>v3(worldPoint(a,p)))).getCenter(new THREE.Vector3())).project(camera);label.hidden=p.z>1||p.z< -1||Math.abs(p.x)>1||Math.abs(p.y)>1;label.style.left=(p.x+1)/2*view.clientWidth+'px';label.style.top=(-p.y+1)/2*view.clientHeight+'px'}}
+function download(name,text,type='application/json'){const url=URL.createObjectURL(new Blob([text],{type})),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+function confirmAction(title,message,action){$('#confirm-title').textContent=title;$('#confirm-message').textContent=message;$('#confirm-action').onclick=()=>{$('#confirm-dialog').close();action()};$('#confirm-dialog').showModal()}
+document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>b.closest('dialog').close());
+function newProject(){
+  const create=()=>{liveDxf?.disconnect();checkpoint();pendingImport=null;selectedPanelKey=null;selectedPanels.clear();loadProject({format:'facade-studio',version:1,units:'mm',name:'Untitled facade',areas:[],selectedId:null,selectedIds:[]});notify('New project ready · สร้าง New area หรือ Import DXF เพื่อเริ่มงาน')};
+  if(areas.length)confirmAction('New project?','เริ่มโปรเจกต์ว่างแทนงานปัจจุบัน · หากต้องการเก็บงานให้กด Cancel แล้ว Save project ก่อน (Undo กลับได้)',create);
+  else create();
+}
+$('#new-project').onclick=newProject;
+$('#resize-area').onclick=()=>commitArea(a=>resizeArea(a,Number($('#area-width').value),Number($('#area-height').value)),'Area dimensions updated');
+$('#add-area').onclick=()=>$('#new-dialog').showModal();
+$('#new-form').onsubmit=e=>{e.preventDefault();try{if(areas.length>=200)throw Error('รองรับสูงสุด 200 Areas');const f=Object.fromEntries(new FormData(e.target));for(const k of ['width','height','x','y','z','angle'])f[k]=Number(f[k]);const a=rectangle(f);checkpoint();areas.push(a);selectedId=a.id;$('#new-dialog').close();sync();fitAll();notify('Area created')}catch(e){notify(e.message,true)}};
+$('#area-name').onchange=e=>commitArea(a=>a.name=e.target.value.trim()||'Area','Area renamed');
+$('#area-visible').onchange=e=>commitArea(a=>a.visible=e.target.checked,'Visibility updated');
+['x','y','z'].forEach((key,i)=>$('#world-'+key).onchange=e=>commitArea(a=>a.base[i]=e.target.value===''?NaN:Number(e.target.value),'Area position updated'));
+$('#rotate-area').onclick=()=>commitArea(a=>{const r=Number($('#world-rotation').value)*Math.PI/180,c=Math.cos(r),s=Math.sin(r),rotate=v=>[c*v[0]-s*v[1],s*v[0]+c*v[1],v[2]];a.u=rotate(a.u);a.v=rotate(a.v)},'Area rotated around its base');
+for(const [id,update]of[['origin-x',(a,n)=>a.pattern.origin[0]=n],['origin-y',(a,n)=>a.pattern.origin[1]=n],['origin-angle',(a,n)=>a.pattern.angle=n],['grid-spacing',(a,n)=>a.pattern.spacing=n]])$('#'+id).onchange=e=>commitArea(a=>update(a,e.target.value===''?NaN:Number(e.target.value)),'Reference coordinates updated');
+$('#pick-origin').onclick=()=>startPick('origin');$('#align-edge').onclick=()=>startPick('edge');$('#reset-origin').onclick=()=>commitArea(a=>{a.pattern.origin=[0,0];a.pattern.angle=0},'Pattern origin reset');
+$('#grid-toggle').onchange=()=>rebuildScene();
+$('#view-3d').onclick=()=>fitAll();$('#view-area').onclick=()=>{standardView=null;planeView=true;rebuildScene();focusArea()};$('#view-preset').onchange=e=>{if(e.target.value)setStandardView(e.target.value)};$('#fit-all').onclick=()=>fitAll(false);$('#fit-selected').onclick=focusArea;
+$('#edit-boundary').onclick=()=>{if(!selected())return;$('#boundary-points').value=selected().outer.map(p=>p.map(n=>Number(n.toFixed(4))).join(', ')).join('\n');$('#boundary-dialog').showModal()};
+$('#boundary-form').onsubmit=e=>{e.preventDefault();const points=$('#boundary-points').value.trim().split(/\n/).map(l=>l.trim().split(/[\s,]+/).map(Number));const before=history.length;commitArea(a=>a.outer=points,'Boundary updated');if(history.length!==before||history.length===40&&JSON.stringify(selected().outer)===JSON.stringify(points))$('#boundary-dialog').close()};
+$('#add-opening').onclick=()=>selected()&&$('#opening-dialog').showModal();
+$('#opening-form').onsubmit=e=>{e.preventDefault();const f=Object.fromEntries(new FormData(e.target));const {x,y,width:w,height:h}=Object.fromEntries(Object.entries(f).map(([k,v])=>[k,Number(v)]));const count=selected().holes.length;commitArea(a=>a.holes.push([[x,y],[x+w,y],[x+w,y+h],[x,y+h]]),'Opening added');if(selected().holes.length>count)$('#opening-dialog').close()};
+$('#delete-area').onclick=()=>{const a=selected();if(!a)return;confirmAction('Delete area?',`ลบ ${a.name} พร้อมช่องเปิดและค่าที่ตั้งไว้ (Undo ได้)`,()=>{checkpoint();areas=unjoinFoldedPanels(unjoinCurtainAreas(areas,new Set([a.id])),Object.keys(a.curtain?.panelJoins||{}).map(key=>({areaId:a.id,key}))).filter(x=>x.id!==a.id);selectedId=areas[0]?.id;selectedPanelKey=null;selectedPanels.clear();sync();notify(a.curtain?.join?'Area deleted · ยกเลิก Join ของกลุ่มเดิม (Undo ได้)':'Area deleted')})};
+$('#duplicate-area').onclick=()=>{const a=selected();if(!a||areas.length>=200)return;checkpoint();const copy=clone(a);copy.id=crypto.randomUUID();copy.name=a.name+' copy';copy.base=add(copy.base,mul(copy.u,500));if(copy.curtain){delete copy.curtain.join;copy.curtain.panelJoins={}}areas.push(copy);selectedId=copy.id;selectedPanelKey=null;selectedPanels.clear();selectedIds=new Set([copy.id]);sync();notify(a.curtain?.join?'Area duplicated with 500 mm offset · สำเนาแยกจากกลุ่ม Join':'Area duplicated with 500 mm offset')};
+$('#undo').onclick=()=>{const p=history.pop();if(!p)return;loadProject(p);notify('Undone')};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')cancelPick();if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'&&!['INPUT','TEXTAREA'].includes(document.activeElement.tagName)&&!document.querySelector('dialog[open]')){e.preventDefault();$('#undo').click()}});
+$('#save-project').onclick=()=>{download('facade-studio.json',JSON.stringify(snapshot(),null,2));notify('Project saved — all area geometry and origins included')};
+$('#export-dxf').onclick=()=>{try{download('facade-studio-'+new Date().toISOString().slice(0,10)+'.dxf',buildFacadeDxf(areas),'application/dxf');notify(`Exported ${areas.length} areas and openings · DXF in mm (includes hidden areas)`)}catch(e){notify(e.message,true)}};
+$('#open-project').onclick=()=>$('#project-file').click();
+$('#project-file').onchange=async e=>{const file=e.target.files[0];e.target.value='';if(!file)return;try{if(file.size>20e6)throw Error('ขนาดไฟล์เกิน 20 MB');const p=validProject(JSON.parse(await file.text()));confirmAction('Open project?', 'แทนที่งานปัจจุบันด้วยโปรเจกต์ที่เลือก (Undo ได้)',()=>{liveDxf?.disconnect();checkpoint();loadProject(p);notify('Opened '+file.name)})}catch(e){notify(e.message,true)}};
+$('#load-demo').onclick=()=>confirmAction('Load sample facade?','เปิดตัวอย่างฟาสาด 3 ด้านแทนงานปัจจุบัน (Undo ได้)',()=>{liveDxf?.disconnect();checkpoint();areas=demoAreas();selectedId=areas[0].id;selectedIds=new Set([selectedId]);projectName='Sample · Corner facade';cancelPick();sync();fitAll();notify('Sample facade loaded')});
+let selectedDxfFile=null,importBusy=false,dragDepth=0;
+function chooseDxf(file){
+  if(!file)return;
+  if(importBusy){notify('กำลังอ่าน DXF กรุณารอสักครู่',true);return}
+  if(!/\.dxf$/i.test(file.name)){notify('กรุณาเลือกไฟล์ .dxf',true);return}
+  if(file.size>20e6){notify('ขนาด DXF เกิน 20 MB',true);return}
+  const openDialog=document.querySelector('dialog[open]');
+  if(openDialog&&openDialog.id!=='import-dialog'){notify('ปิดหน้าต่างปัจจุบันก่อนนำเข้า DXF',true);return}
+  selectedDxfFile=file;$('#selected-dxf-name').textContent=file.name;
+  if(!$('#import-dialog').open)$('#import-dialog').showModal();
+}
+$('#import-dxf').onclick=()=>$('#dxf-file').click();
+$('#change-dxf').onclick=()=>$('#dxf-file').click();
+$('#dxf-file').onchange=e=>{const file=e.target.files[0];e.target.value='';chooseDxf(file)};
+$('#import-form').onsubmit=async e=>{
+  e.preventDefault();if(!selectedDxfFile||importBusy)return;
+  const file=selectedDxfFile,button=$('#process-dxf');importBusy=true;button.disabled=true;button.textContent='Reading DXF…';
+  try{const result=parseDxf(await file.text(),$('#dxf-units').value);for(const a of result.areas)a.dxfSource={...a.dxfSource,file:file.name};if(areas.length+result.areas.length>200)throw Error('รวมแล้วเกิน 200 Areas');validateCurtainAreas([...areas,...remapFoldGroups(remapImportedCurtainJoins(result.areas,areas))]);
+    pendingImport=result;$('#import-dialog').close();$('#import-summary').textContent=`${file.name} · ${result.areas.length} areas · Scale ×${result.scale} to mm`;$('#import-warnings').textContent=result.warnings.length?'รายการที่ไม่ได้ใช้ / ต้องตรวจสอบ:\n'+result.warnings.join('\n'):'All boundaries imported successfully.';$('#report-dialog').showModal();
+  }catch(e){notify(e.message,true)}finally{importBusy=false;button.disabled=false;button.textContent='Read DXF boundaries'}
+};
+const isFileDrag=e=>Array.from(e.dataTransfer?.types||[]).includes('Files');
+function clearDropHint(){dragDepth=0;$('#dxf-drop-overlay').hidden=true}
+window.addEventListener('dragenter',e=>{if(!isFileDrag(e))return;e.preventDefault();dragDepth++;$('#dxf-drop-overlay').hidden=false});
+window.addEventListener('dragover',e=>{if(!isFileDrag(e))return;e.preventDefault();e.dataTransfer.dropEffect='copy'});
+window.addEventListener('dragleave',e=>{if(!isFileDrag(e))return;e.preventDefault();if(--dragDepth<=0)clearDropHint()});
+window.addEventListener('drop',e=>{if(!isFileDrag(e))return;e.preventDefault();clearDropHint();const files=Array.from(e.dataTransfer.files);if(files.length!==1){notify('ลากไฟล์ DXF ครั้งละ 1 ไฟล์',true);return}chooseDxf(files[0])});
+window.addEventListener('dragend',clearDropHint);window.addEventListener('blur',clearDropHint);
+$('#confirm-import').onclick=()=>{if(!pendingImport)return;checkpoint();pendingImport.areas=remapFoldGroups(remapImportedCurtainJoins(pendingImport.areas,areas));const ids=new Set(areas.map(a=>a.id));for(const a of pendingImport.areas){if(ids.has(a.id))a.id=crypto.randomUUID();ids.add(a.id);areas.push(a)}selectedId=pendingImport.areas[0].id;selectedPanelKey=null;selectedPanels.clear();selectedIds=new Set(pendingImport.areas.map(a=>a.id));const count=pendingImport.areas.length;pendingImport=null;$('#report-dialog').close();cancelPick();sync();fitAll();notify(`Imported ${count} areas`)};
+commandLine=createCommandLine({
+  areas:()=>areas,selected,select:selectArea,cancelPick,
+  commit:(id,mutator,message)=>{if(selectedId!==id){notify('Area selection changed — restart command',true);return false}return commitArea(mutator,message)},
+  snap:osnap.enabled,setSnap:osnap.setEnabled,osmode:osnap.get,setOsmode:osnap.set,
+  action:id=>{if(id==='curtain-wall'){if(!selected()){notify('เลือก Area ก่อนใช้ CURTAIN',true);return}commitCurtainGroup(a=>a.curtain={...a.curtain,enabled:true},'Curtain Wall enabled');if($('.right-panel').hidden)$('#toggle-properties').click();const header=$('#curtain-section .property-section-toggle');if(header.getAttribute('aria-expanded')==='false')header.click();$('#curtain-section').scrollIntoView({block:'start'});return}const button=$('#'+id);if(button&&!button.disabled)button.click()},message:text=>notify(text,true),
+  changed:active=>{updateViewButtons();controls.mouseButtons.LEFT=-1;renderer.domElement.style.cursor=active?'crosshair':pickMode?'crosshair':''},
+  marker:(p,snapped=false,tolerance=30)=>{osnap.feedback(typeof snapped==='string'?snapped:null);commandMarker.visible=!!p;if(p){commandMarker.position.copy(v3(p));commandMarker.scale.setScalar(Math.max(1,tolerance*.3));commandMarker.material.color.set(snapped?0x9fe6b6:0xf3cb8a)}}
+});
+document.addEventListener('click',e=>{if(e.target.closest('dialog'))commandLine.cancel(false)});
+function editCurtainJoin(join){try{const next=join?joinCurtainAreas(areas,selectedIds,selectedId):unjoinCurtainAreas(areas,selectedIds);validateCurtainAreas(next);checkpoint();areas=next;selectedPanelKey=null;selectedPanels.clear();commandLine?.cancel(false);cancelPick();sync();notify(join?'Curtain group joined · '+(curtainSettings(selected()).joinMode==='unfold'?'Unfold around corners':'World UCS fixed reference')+' · Undo ได้':'Curtain group unjoined (Undo ได้)')}catch(e){notify(e.message,true);updateInspector()}}
+function resetCurtainWall(){if(!selectedIds.size)return;try{commandLine?.cancel(false);cancelPick();const next=resetCurtainAreas(areas,selectedIds);validateCurtainAreas(next);checkpoint();areas=next;selectedPanelKey=null;selectedPanels.clear();sync();notify(`Curtain Wall reset · ${selectedIds.size} area(s) · Undo ได้`)}catch(e){notify(e.message,true)}}
+bindCurtainProperties({selected,reset:resetCurtainWall,join:()=>editCurtainJoin(true),unjoin:()=>editCurtainJoin(false),panelKey:()=>selectedIds.size===1?selectedPanelKey:null,commit:commitCurtainGroup,commitPanel:commitArea,selectionToken:()=>[...selectedIds].sort().join('|'),pickOrigin:()=>startPick('curtain-origin')});
+function selectAllAreas(){cancelPick();commandLine?.cancel(false);selectedIds=new Set(areas.map(a=>a.id));selectedId=selectedId&&selectedIds.has(selectedId)?selectedId:areas[0]?.id;selectedPanelKey=null;selectedPanels.clear();sync();notify(`${selectedIds.size} Areas selected`)}
+$('#select-all-areas').onclick=selectAllAreas;
+$('#clear-area-selection').onclick=()=>{cancelPick();commandLine?.cancel(false);selectedIds.clear();selectedId=null;selectedPanelKey=null;selectedPanels.clear();sync();notify('Selection cleared')};
+document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='a'&&!e.target.matches('input,textarea,select,[contenteditable=true]')&&!document.querySelector('dialog[open]')){e.preventDefault();selectAllAreas()}});
+$('#snap-toggle').addEventListener('change',()=>commandLine.refresh());
+liveDxf=setupLiveDxf({
+  canUpdate:()=>!document.querySelector('dialog[open]')&&!commandLine?.active&&!pickMode&&!pointerDown&&!document.activeElement.matches('input:not([type=checkbox]):not([type=file]),textarea,[contenteditable=true]'),
+  apply:(incoming,fileName)=>{
+    const result=mergeDxfUpdate(areas,incoming,fileName);validateCurtainAreas(result.areas);
+    if(result.changed){const wasEmpty=!areas.length;checkpoint();areas=result.areas;selectedPanelKey=null;selectedPanels.clear();cancelPick();if(wasEmpty){selectedId=areas[0]?.id;selectedIds=new Set([selectedId].filter(Boolean))}sync();if(wasEmpty)fitAll();notify(`Updated ${fileName} · ${result.updated} updated / ${result.added} added (Undo ได้)`)}
+    return result;
+  }
+});
+resize();
+try{const saved=localStorage.getItem(storageKey);if(saved)loadProject(JSON.parse(saved));else{areas=demoAreas();selectedId=areas[0].id;selectedIds=new Set([selectedId]);projectName='Sample · Corner facade';sync();fitAll()}}catch(e){areas=[];selectedId=null;sync();fitAll();notify('Could not restore previous session: '+e.message,true)}
+animate();
+
+
+
+
+
+
+
+
+
+
+
+

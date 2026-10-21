@@ -1,0 +1,26 @@
+const {chromium}=require(process.env.PLAYWRIGHT_PATH||'playwright'),assert=require('node:assert/strict'),path=require('node:path'),fs=require('node:fs'),{spawn}=require('node:child_process'),{pathToFileURL}=require('node:url');
+(async()=>{let browser;const fixture=path.join(__dirname,'qa-live-source.dxf'),server=spawn(process.execPath,[path.join(__dirname,'../server.mjs')],{env:{...process.env,PORT:'4174'},stdio:['ignore','pipe','pipe'],windowsHide:true});try{
+ await new Promise((r,j)=>{server.stdout.once('data',r);server.once('error',j)});
+ const {rectangle}=await import(pathToFileURL(path.join(__dirname,'../geometry.js'))),{buildFacadeDxf}=await import(pathToFileURL(path.join(__dirname,'../dxf.js')));
+ const source=rectangle({name:'Live facade'});let revision=1000;
+ const save=width=>{source.outer=[[0,0],[width,0],[width,3600],[0,3600]];fs.writeFileSync(fixture,buildFacadeDxf([source]));revision++};save(6000);
+ browser=await chromium.launch({channel:'chrome',headless:true,args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']});const page=await browser.newPage({viewport:{width:1500,height:1100}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.exposeFunction('readLiveFixture',()=>({text:fs.readFileSync(fixture,'utf8'),revision}));
+ await page.addInitScript(()=>{window.showOpenFilePicker=async()=>[{name:'qa-live-source.dxf',getFile:async()=>{const f=await window.readLiveFixture();return new File([f.text],'qa-live-source.dxf',{lastModified:f.revision})}}]});
+ await page.goto('http://127.0.0.1:4174');await page.locator('#new-project').click();await page.locator('#confirm-action').click();await page.locator('#live-dxf-link').click();
+ const project=()=>page.evaluate(()=>JSON.parse(localStorage.getItem('facade-studio-areas-v1')));
+ const waitWidth=width=>page.waitForFunction(value=>{const p=JSON.parse(localStorage.getItem('facade-studio-areas-v1'));return p.areas.length===1&&Math.abs(p.areas[0].outer[1][0]-value)<.001},width);
+ await waitWidth(6000);const id=(await project()).areas[0].id;assert.match(await page.locator('#live-dxf-status').textContent(),/Live/);
+ await page.locator('#cw-enabled').check();await page.locator('#cw-spacingX').fill('1600');await page.locator('#cw-spacingX').press('Enter');save(9000);
+ await page.waitForTimeout(2300);assert.equal((await project()).areas[0].outer[1][0],6000);await page.locator('#fit-all').click();await waitWidth(9000);assert.equal((await project()).areas[0].id,id);assert.equal((await project()).areas[0].curtain.spacingX,1600);
+ fs.writeFileSync(fixture,'0\nSECTION\n2\nENTITIES\n');revision++;await page.waitForFunction(()=>document.querySelector('#live-dxf-status').textContent.includes('เก็บงานเดิม'));assert.equal((await project()).areas[0].outer[1][0],9000);
+ save(10000);await waitWidth(10000);
+ await page.locator('#live-dxf-pause').click();save(12000);await page.waitForTimeout(2300);assert.equal((await project()).areas[0].outer[1][0],10000);await page.locator('#live-dxf-pause').click();await waitWidth(12000);
+ await page.locator('#undo').click();await waitWidth(10000);assert.equal(await page.locator('#live-dxf-pause').textContent(),'Resume');await page.waitForTimeout(2300);await waitWidth(10000);
+ await page.locator('#live-dxf-pause').click();await waitWidth(12000);await page.locator('#live-dxf-disconnect').click();assert.equal(await page.locator('#live-dxf-update').isDisabled(),true);
+ await page.reload();await page.waitForSelector('#live-dxf-link');assert.equal((await project()).areas[0].curtain.spacingX,1600);assert.equal(await page.locator('#live-dxf-update').isDisabled(),true);
+ const manual=await browser.newPage({viewport:{width:1500,height:1100}});manual.on('pageerror',e=>errors.push(e.message));await manual.addInitScript(()=>window.showOpenFilePicker=undefined);await manual.goto('http://127.0.0.1:4174');await manual.locator('#new-project').click();await manual.locator('#confirm-action').click();
+ const pick=manual.waitForEvent('filechooser');await manual.locator('#live-dxf-link').click();await(await pick).setFiles(fixture);await manual.waitForFunction(()=>JSON.parse(localStorage.getItem('facade-studio-areas-v1')).areas.length===1);assert.match(await manual.locator('#live-dxf-status').textContent(),/Manual/);assert.equal(await manual.locator('#live-dxf-pause').isDisabled(),true);
+ save(14000);const repick=manual.waitForEvent('filechooser');await manual.locator('#live-dxf-update').click();await(await repick).setFiles(fixture);await manual.waitForFunction(()=>JSON.parse(localStorage.getItem('facade-studio-areas-v1')).areas[0].outer[1][0]===14000);
+ assert.deepEqual(errors,[]);console.log('PASS: linked disk-file polling, defer during edits, stable Area/settings, incomplete-save recovery, Pause/Resume, Undo pauses live updates, reconnect after reload and manual fallback.');
+}finally{await browser?.close();server.kill();if(fs.existsSync(fixture))fs.unlinkSync(fixture)}})().catch(e=>{console.error(e);process.exitCode=1});

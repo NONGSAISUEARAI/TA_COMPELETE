@@ -1,0 +1,236 @@
+{
+  "format": "facade-studio",
+  "version": 1,
+  "units": "mm",
+  "name": "Sample · Corner facade",
+  "areas": [
+    {
+      "id": "85257ad0-2509-41c5-a84e-144936e17d1b",
+      "name": "01 · FRONT",
+      "base": [
+        0,
+        0,
+        0
+      ],
+      "u": [
+        1,
+        0,
+        0
+      ],
+      "v": [
+        0,
+        0,
+        1
+      ],
+      "outer": [
+        [
+          0,
+          0
+        ],
+        [
+          8000,
+          0
+        ],
+        [
+          8000,
+          4200
+        ],
+        [
+          0,
+          4200
+        ]
+      ],
+      "holes": [
+        [
+          [
+            1100,
+            1100
+          ],
+          [
+            2900,
+            1100
+          ],
+          [
+            2900,
+            2900
+          ],
+          [
+            1100,
+            2900
+          ]
+        ],
+        [
+          [
+            4700,
+            1100
+          ],
+          [
+            6500,
+            1100
+          ],
+          [
+            6500,
+            2900
+          ],
+          [
+            4700,
+            2900
+          ]
+        ]
+      ],
+      "visible": true,
+      "pattern": {
+        "origin": [
+          4140.99893929065,
+          1996.091594501435
+        ],
+        "angle": 0,
+        "spacing": 500
+      },
+      "curtain": {
+        "enabled": true,
+        "origin": null,
+        "angle": null,
+        "spacingX": 2000,
+        "spacingY": 1200,
+        "gap": 12,
+        "gapAtBoundary": false,
+        "panelThickness": 4,
+        "panelType": "solid",
+        "panelColor": "#aeb8ae",
+        "showPanels": true,
+        "showGrid": true,
+        "showMullions": true,
+        "mullionWidth": 50,
+        "mullionDepth": 150,
+        "mullionOffset": -55,
+        "flipMullionSide": false,
+        "boundary": true,
+        "openings": true,
+        "customX": [
+          750,
+          2500
+        ],
+        "customY": [],
+        "overrides": {}
+      }
+    },
+    {
+      "id": "bbff36a6-3c5a-464f-aa91-359bee6a519b",
+      "name": "02 · RETURN",
+      "base": [
+        8000,
+        0,
+        0
+      ],
+      "u": [
+        0,
+        1,
+        0
+      ],
+      "v": [
+        0,
+        0,
+        1
+      ],
+      "outer": [
+        [
+          0,
+          0
+        ],
+        [
+          5000,
+          0
+        ],
+        [
+          5000,
+          4200
+        ],
+        [
+          0,
+          4200
+        ]
+      ],
+      "holes": [
+        [
+          [
+            1500,
+            0.1
+          ],
+          [
+            3000,
+            0.1
+          ],
+          [
+            3000,
+            2600
+          ],
+          [
+            1500,
+            2600
+          ]
+        ]
+      ],
+      "visible": true,
+      "pattern": {
+        "origin": [
+          0,
+          0
+        ],
+        "angle": 0,
+        "spacing": 500
+      }
+    },
+    {
+      "id": "b36462ef-338d-4c7e-b6f4-fd246ef66419",
+      "name": "03 · ANGLED WING",
+      "base": [
+        0,
+        0,
+        0
+      ],
+      "u": [
+        -0.5735764363510458,
+        0.8191520442889921,
+        0
+      ],
+      "v": [
+        0,
+        0,
+        1
+      ],
+      "outer": [
+        [
+          0,
+          0
+        ],
+        [
+          3500.000000000001,
+          0
+        ],
+        [
+          3500.000000000001,
+          4200
+        ],
+        [
+          0,
+          4200
+        ]
+      ],
+      "holes": [],
+      "visible": true,
+      "pattern": {
+        "origin": [
+          0,
+          0
+        ],
+        "angle": 0,
+        "spacing": 500
+      }
+    }
+  ],
+  "selectedId": "85257ad0-2509-41c5-a84e-144936e17d1b",
+  "selectedIds": [
+    "85257ad0-2509-41c5-a84e-144936e17d1b"
+  ]
+}
