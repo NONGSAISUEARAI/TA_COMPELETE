@@ -15018,11 +15018,11 @@
         (setq ss_i_zoom_obj_ (vla-getboundingbox (vlax-ename->vla-object ss_i_zoom_ename_) 'min_ 'max_)) 
         (setq rec_min_ (vlax-safearray->list min_)) 
         (setq rec_max_ (vlax-safearray->list max_))   
-      (vla-zoomcenter 
-        (vlax-get-acad-object)
-        (vlax-3d-point rec_max_ )
-        10000
-      )
+        (vla-zoomcenter 
+          (vlax-get-acad-object)
+          (vlax-3d-point rec_max_ )
+          400
+        )
     )
     (defun c:current_zoom_curzoom ()
       (if (= cur-zoom_stopper_val nil)
@@ -21226,6 +21226,7 @@
                          "010 - C10_PANEL_PANEL_GREEN_PLATE_SET-A-BOT-VIEW"
                          "010 - C10_PANEL_PANEL_GREEN_PLATE_SET-B-BOT-VIEW"
                          "010 - C10_PANEL_PANEL_GREEN_PLATE_SET-C-BOT-VIEW"
+                         "A$C7f42c79f"
                        )
       )
       (setq blocklayer_ (list 
@@ -21302,27 +21303,26 @@
                       (sslength ss_pre_filter_set_xx_)
                     )
                   ;
-                  (setq ssbol_vertex_list_ (nth vertext_seq_ (TA:assembly_coordinate_coner (TA:ss_vla-getboundingbox ss_pre_filter_set_xx_))))
+                  (setq ssbol_vertex_list_0 (nth 0 (TA:assembly_coordinate_coner (TA:ss_vla-getboundingbox ss_pre_filter_set_xx_))))
+                  (setq ssbol_vertex_list_1 (nth 1 (TA:assembly_coordinate_coner (TA:ss_vla-getboundingbox ss_pre_filter_set_xx_))))
                   (TA:vla-insertblock 
                     blocklist_name_
-                    ssbol_vertex_list_
+                    (TA:midpoint ssbol_vertex_list_0 ssbol_vertex_list_1)
                     1
                     (deg-to-rad 0)
                   )
                   (command "pselect"   "" )
                   
                   ;
-                    ; ;new_blk_entlast object
-                    ;   (setq vx_list (TA:assembly_coordinate_coner (TA:ss_vla-getboundingbox ss_pre_filter_set_xx_)))
-                    ;   (setq vx_H ( distance (nth 0 vx_list) (nth 3 vx_list) ) )
-                    ;   (setq vx_W ( distance (nth 0 vx_list) (nth 1 vx_list) ) )
-                    ;   (setq newinsert_ename (entlast))
-                    ;   (setq newinsert_obj (vlax-ename->vla-object newinsert_ename))
-                    ;   (vla-put-layer newinsert_obj blocklayer_number)
-                    ;   (vla-put-color newinsert_obj 256)
-                    ;   (LM:setdynpropvalue newinsert_obj "Y" vx_H)
-                    ;   (LM:setdynpropvalue newinsert_obj "X" vx_W)
-                    ; ;
+                    ;new_blk_entlast object
+                      ; (setq vx_list (TA:assembly_coordinate_coner (TA:ss_vla-getboundingbox ss_pre_filter_set_xx_)))
+                      (setq newinsert_ename (entlast))
+                      (setq newinsert_obj (vlax-ename->vla-object newinsert_ename))
+                      ; (vla-put-layer newinsert_obj blocklayer_number)
+                      ; (vla-put-color newinsert_obj 256)
+                      (LM:setdynpropvalue newinsert_obj "distance1" (distance ssbol_vertex_list_0 ssbol_vertex_list_1))
+
+                    ;
 
 
                   ;
@@ -66103,3 +66103,45 @@
     )
   ;                                                                                                                         
 )
+
+
+
+(defun c:temp_1 ()
+  ;selection_set_for_fillter_blk_name
+    (if  ;pre_select_ssget_or_post_select_ssget
+      (=
+        (setq ss_pre_filter_set_xx_ (ssget "i"
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+        nil
+      )
+      (progn
+        (setq ss_pre_filter_set_xx_ (ssget
+                                          (list
+                                            (cons 0 "INSERT") ;type of object
+                                            ; (cons 8 "000 - GRID")   ;kind of layer
+                                            ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                            ; (cons 62 1)           ;kind of color call sign with color code index
+                                          )
+                                    )
+        )
+      )
+      (sslength ss_pre_filter_set_xx_)
+    )
+  ;
+  ;preloop_and_while
+    (setq ss_pre_filter_set_xx_i 0)
+    (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+      (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+      (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+      (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "distance2"  (/ (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "OVL-L" ) 2))
+      (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+    )
+  ;
+) 

@@ -1,0 +1,516 @@
+{
+  "1": {
+    "cross_section_dim": 387,
+    "plan_chain_dim": 153
+  },
+  "2": {
+    "cross_section_dim": 399,
+    "long_section_dim": 741,
+    "overall_length_dim": 703
+  },
+  "3": {
+    "cross_section_dim": 79
+  },
+  "8": {},
+  "9": {
+    "cross_section_dim": 81,
+    "long_section_dim": 105
+  },
+  "10": {
+    "long_section_dim": 108
+  },
+  "11": {
+    "cross_section_dim": 136
+  },
+  "4": {},
+  "5": {},
+  "6": {
+    "cross_section_dim": 171
+  },
+  "7": {
+    "cross_section_dim": 164,
+    "plan_chain_dim": 433
+  },
+  "13": {},
+  "12": {
+    "cross_section_dim": 198
+  },
+  "14": {
+    "long_section_dim": 177
+  },
+  "15": {
+    "long_section_dim": 33
+  },
+  "16": {
+    "long_section_dim": 132
+  },
+  "17": {
+    "cross_section_dim": 93,
+    "long_section_dim": 60
+  },
+  "18": {
+    "cross_section_dim": 88,
+    "long_section_dim": 142
+  },
+  "19": {
+    "long_section_dim": 55
+  },
+  "20": {
+    "cross_section_dim": 164
+  },
+  "21": {
+    "cross_section_dim": 145
+  },
+  "22": {
+    "cross_section_dim": 381,
+    "long_section_dim": 146,
+    "overall_length_dim": 90
+  },
+  "23": {
+    "cross_section_dim": 120
+  },
+  "24": {
+    "cross_section_dim": 102
+  },
+  "25": {},
+  "26": {
+    "cross_section_dim": 120
+  },
+  "27": {},
+  "28": {},
+  "29": {
+    "cross_section_dim": 232,
+    "long_section_dim": 116
+  },
+  "30": {
+    "cross_section_dim": 284,
+    "long_section_dim": 109
+  },
+  "31": {
+    "cross_section_dim": 112,
+    "long_section_dim": 132
+  },
+  "32": {
+    "cross_section_dim": 95
+  },
+  "33": {
+    "cross_section_dim": 186
+  },
+  "34": {
+    "cross_section_dim": 61
+  },
+  "35": {
+    "long_section_dim": 165
+  },
+  "36": {
+    "cross_section_dim": 153
+  },
+  "37": {},
+  "38": {
+    "cross_section_dim": 126
+  },
+  "39": {
+    "cross_section_dim": 134
+  },
+  "40": {
+    "cross_section_dim": 153
+  },
+  "41": {
+    "cross_section_dim": 146
+  },
+  "42": {
+    "cross_section_dim": 231,
+    "other": 61,
+    "overall_length_dim": 84
+  },
+  "43": {},
+  "44": {
+    "cross_section_dim": 77,
+    "other": 144,
+    "plan_chain_dim": 19
+  },
+  "45": {},
+  "46": {
+    "cross_section_dim": 95
+  },
+  "47": {},
+  "48": {
+    "plan_chain_dim": 484
+  },
+  "49": {
+    "cross_section_dim": 101,
+    "plan_chain_dim": 351
+  },
+  "50": {
+    "cross_section_dim": 168
+  },
+  "51": {
+    "cross_section_dim": 41,
+    "other": 375,
+    "plan_chain_dim": 415
+  },
+  "52": {
+    "cross_section_dim": 120
+  },
+  "53": {
+    "cross_section_dim": 87
+  },
+  "54": {},
+  "55": {
+    "cross_section_dim": 135
+  },
+  "56": {
+    "cross_section_dim": 231,
+    "plan_chain_dim": 1317
+  },
+  "57": {
+    "cross_section_dim": 100
+  },
+  "58": {
+    "cross_section_dim": 217,
+    "plan_chain_dim": 440
+  },
+  "59": {
+    "cross_section_dim": 272
+  },
+  "60": {
+    "cross_section_dim": 282
+  },
+  "61": {
+    "cross_section_dim": 206,
+    "plan_chain_dim": 367
+  },
+  "62": {
+    "cross_section_dim": 198,
+    "plan_chain_dim": 388
+  },
+  "63": {
+    "cross_section_dim": 224
+  },
+  "64": {
+    "cross_section_dim": 159
+  },
+  "65": {
+    "cross_section_dim": 148,
+    "long_section_dim": 153,
+    "other": 66,
+    "overall_length_dim": 344,
+    "plan_chain_dim": 359
+  },
+  "66": {
+    "cross_section_dim": 139,
+    "plan_chain_dim": 386
+  },
+  "67": {
+    "cross_section_dim": 135
+  },
+  "68": {
+    "cross_section_dim": 200
+  },
+  "69": {
+    "cross_section_dim": 188
+  },
+  "70": {
+    "cross_section_dim": 30
+  },
+  "71": {
+    "cross_section_dim": 129
+  },
+  "72": {
+    "cross_section_dim": 88
+  },
+  "73": {
+    "cross_section_dim": 262
+  },
+  "74": {
+    "cross_section_dim": 349
+  },
+  "75": {
+    "cross_section_dim": 292
+  },
+  "76": {},
+  "77": {
+    "cross_section_dim": 100
+  },
+  "78": {},
+  "79": {
+    "cross_section_dim": 82
+  },
+  "80": {
+    "cross_section_dim": 128
+  },
+  "81": {},
+  "82": {},
+  "83": {},
+  "84": {
+    "cross_section_dim": 90
+  },
+  "85": {},
+  "86": {},
+  "87": {},
+  "88": {
+    "overall_length_dim": 40
+  },
+  "89": {},
+  "90": {
+    "cross_section_dim": 71
+  },
+  "91": {
+    "cross_section_dim": 20
+  },
+  "92": {
+    "cross_section_dim": 233
+  },
+  "93": {
+    "cross_section_dim": 190
+  },
+  "94": {
+    "cross_section_dim": 284
+  },
+  "95": {
+    "cross_section_dim": 166
+  },
+  "96": {
+    "cross_section_dim": 198
+  },
+  "97": {
+    "cross_section_dim": 90
+  },
+  "98": {
+    "cross_section_dim": 163
+  },
+  "99": {
+    "cross_section_dim": 186
+  },
+  "100": {
+    "cross_section_dim": 153
+  },
+  "101": {
+    "cross_section_dim": 119
+  },
+  "102": {},
+  "103": {
+    "cross_section_dim": 140
+  },
+  "104": {
+    "cross_section_dim": 156
+  },
+  "105": {
+    "cross_section_dim": 181
+  },
+  "106": {
+    "plan_chain_dim": 331
+  },
+  "107": {
+    "cross_section_dim": 126,
+    "plan_chain_dim": 569
+  },
+  "108": {
+    "cross_section_dim": 208,
+    "plan_chain_dim": 511
+  },
+  "109": {
+    "cross_section_dim": 162,
+    "plan_chain_dim": 403
+  },
+  "110": {
+    "cross_section_dim": 323
+  },
+  "111": {},
+  "112": {
+    "cross_section_dim": 257
+  },
+  "113": {
+    "cross_section_dim": 302
+  },
+  "114": {
+    "other": 101,
+    "plan_chain_dim": 1537
+  },
+  "115": {
+    "cross_section_dim": 209
+  },
+  "116": {
+    "cross_section_dim": 184
+  },
+  "117": {
+    "cross_section_dim": 216,
+    "other": 62,
+    "plan_chain_dim": 345
+  },
+  "118": {
+    "cross_section_dim": 115
+  },
+  "119": {
+    "cross_section_dim": 296
+  },
+  "120": {
+    "cross_section_dim": 204
+  },
+  "121": {
+    "cross_section_dim": 322
+  },
+  "122": {
+    "cross_section_dim": 456
+  },
+  "123": {
+    "cross_section_dim": 433
+  },
+  "124": {
+    "cross_section_dim": 548
+  },
+  "125": {
+    "cross_section_dim": 286
+  },
+  "126": {
+    "cross_section_dim": 295
+  },
+  "127": {
+    "cross_section_dim": 358
+  },
+  "128": {},
+  "129": {
+    "cross_section_dim": 346,
+    "other": 450,
+    "plan_chain_dim": 196
+  },
+  "130": {},
+  "131": {
+    "cross_section_dim": 437,
+    "other": 367,
+    "plan_chain_dim": 201
+  },
+  "132": {
+    "cross_section_dim": 212
+  },
+  "133": {
+    "cross_section_dim": 270,
+    "long_section_dim": 170,
+    "other": 152,
+    "plan_chain_dim": 130
+  },
+  "134": {
+    "cross_section_dim": 399,
+    "long_section_dim": 138,
+    "other": 278,
+    "plan_chain_dim": 225
+  },
+  "135": {
+    "other": 486,
+    "plan_chain_dim": 169
+  },
+  "136": {
+    "cross_section_dim": 301,
+    "long_section_dim": 19,
+    "other": 299,
+    "plan_chain_dim": 109
+  },
+  "137": {
+    "cross_section_dim": 194
+  },
+  "138": {
+    "cross_section_dim": 213
+  },
+  "139": {
+    "cross_section_dim": 202,
+    "other": 251,
+    "plan_chain_dim": 349
+  },
+  "140": {},
+  "141": {
+    "cross_section_dim": 359
+  },
+  "142": {
+    "cross_section_dim": 564
+  },
+  "143": {
+    "cross_section_dim": 309,
+    "long_section_dim": 253,
+    "overall_length_dim": 168
+  },
+  "144": {
+    "cross_section_dim": 299,
+    "plan_chain_dim": 348
+  },
+  "145": {
+    "long_section_dim": 173,
+    "overall_length_dim": 209
+  },
+  "146": {
+    "cross_section_dim": 206
+  },
+  "147": {
+    "cross_section_dim": 272
+  },
+  "148": {
+    "cross_section_dim": 216
+  },
+  "149": {
+    "cross_section_dim": 305
+  },
+  "150": {
+    "cross_section_dim": 272
+  },
+  "151": {
+    "cross_section_dim": 294
+  },
+  "152": {
+    "cross_section_dim": 236
+  },
+  "153": {
+    "cross_section_dim": 233
+  },
+  "154": {
+    "cross_section_dim": 314
+  },
+  "155": {
+    "cross_section_dim": 201
+  },
+  "156": {
+    "cross_section_dim": 276
+  },
+  "157": {
+    "cross_section_dim": 335
+  },
+  "158": {
+    "cross_section_dim": 198
+  },
+  "159": {
+    "cross_section_dim": 426
+  },
+  "160": {
+    "cross_section_dim": 240
+  },
+  "161": {
+    "cross_section_dim": 455
+  },
+  "162": {
+    "cross_section_dim": 425
+  },
+  "163": {
+    "cross_section_dim": 337
+  },
+  "164": {
+    "cross_section_dim": 425
+  },
+  "165": {
+    "cross_section_dim": 487
+  },
+  "166": {
+    "cross_section_dim": 288
+  },
+  "167": {
+    "cross_section_dim": 235,
+    "plan_chain_dim": 632
+  },
+  "168": {
+    "cross_section_dim": 365,
+    "plan_chain_dim": 431
+  },
+  "169": {
+    "plan_chain_dim": 523
+  },
+  "170": {
+    "plan_chain_dim": 495
+  }
+}

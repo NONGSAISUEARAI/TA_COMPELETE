@@ -1,0 +1,3839 @@
+[
+  {
+    "drawing": 1,
+    "part_code": "300200",
+    "expected_width": 300,
+    "expected_length": 200,
+    "long_values": [
+      200.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 2,
+    "part_code": "300325",
+    "expected_width": 300,
+    "expected_length": 325,
+    "long_values": [
+      325.0
+    ],
+    "cross_values": [
+      300.0,
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 3,
+    "part_code": "300350",
+    "expected_width": 300,
+    "expected_length": 350,
+    "long_values": [
+      350.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 4,
+    "part_code": "300425",
+    "expected_width": 300,
+    "expected_length": 425,
+    "long_values": [
+      425.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 5,
+    "part_code": "300425",
+    "expected_width": 300,
+    "expected_length": 425,
+    "long_values": [
+      425.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 6,
+    "part_code": "300425",
+    "expected_width": 300,
+    "expected_length": 425,
+    "long_values": [
+      425.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 7,
+    "part_code": "300425",
+    "expected_width": 300,
+    "expected_length": 425,
+    "long_values": [
+      425.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 8,
+    "part_code": "300425",
+    "expected_width": 300,
+    "expected_length": 425,
+    "long_values": [
+      425.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 9,
+    "part_code": "300450",
+    "expected_width": 300,
+    "expected_length": 450,
+    "long_values": [
+      450.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 10,
+    "part_code": "300475",
+    "expected_width": 300,
+    "expected_length": 475,
+    "long_values": [
+      475.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 11,
+    "part_code": "300525",
+    "expected_width": 300,
+    "expected_length": 525,
+    "long_values": [
+      525.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 12,
+    "part_code": "300550",
+    "expected_width": 300,
+    "expected_length": 550,
+    "long_values": [
+      550.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 13,
+    "part_code": "300550",
+    "expected_width": 300,
+    "expected_length": 550,
+    "long_values": [
+      550.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 14,
+    "part_code": "300550",
+    "expected_width": 300,
+    "expected_length": 550,
+    "long_values": [
+      550.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 15,
+    "part_code": "300550",
+    "expected_width": 300,
+    "expected_length": 550,
+    "long_values": [
+      550.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 16,
+    "part_code": "300575",
+    "expected_width": 300,
+    "expected_length": 575,
+    "long_values": [
+      575.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 17,
+    "part_code": "300600",
+    "expected_width": 300,
+    "expected_length": 600,
+    "long_values": [
+      600.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 18,
+    "part_code": "300600",
+    "expected_width": 300,
+    "expected_length": 600,
+    "long_values": [
+      600.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 19,
+    "part_code": "300600",
+    "expected_width": 300,
+    "expected_length": 600,
+    "long_values": [
+      600.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 20,
+    "part_code": "300600",
+    "expected_width": 300,
+    "expected_length": 600,
+    "long_values": [
+      600.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 21,
+    "part_code": "300600",
+    "expected_width": 300,
+    "expected_length": 600,
+    "long_values": [
+      600.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 22,
+    "part_code": "300625",
+    "expected_width": 300,
+    "expected_length": 625,
+    "long_values": [
+      625.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 23,
+    "part_code": "300625",
+    "expected_width": 300,
+    "expected_length": 625,
+    "long_values": [
+      625.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 24,
+    "part_code": "300675",
+    "expected_width": 300,
+    "expected_length": 675,
+    "long_values": [
+      675.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 25,
+    "part_code": "300700",
+    "expected_width": 300,
+    "expected_length": 700,
+    "long_values": [
+      700.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 26,
+    "part_code": "300700",
+    "expected_width": 300,
+    "expected_length": 700,
+    "long_values": [
+      700.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 27,
+    "part_code": "300700",
+    "expected_width": 300,
+    "expected_length": 700,
+    "long_values": [
+      700.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 28,
+    "part_code": "300725",
+    "expected_width": 300,
+    "expected_length": 725,
+    "long_values": [
+      725.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 29,
+    "part_code": "300775",
+    "expected_width": 300,
+    "expected_length": 775,
+    "long_values": [
+      775.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 30,
+    "part_code": "300775",
+    "expected_width": 300,
+    "expected_length": 775,
+    "long_values": [
+      775.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 31,
+    "part_code": "300775",
+    "expected_width": 300,
+    "expected_length": 775,
+    "long_values": [
+      775.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 32,
+    "part_code": "300800",
+    "expected_width": 300,
+    "expected_length": 800,
+    "long_values": [
+      800.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 33,
+    "part_code": "300825",
+    "expected_width": 300,
+    "expected_length": 825,
+    "long_values": [
+      825.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 34,
+    "part_code": "300825",
+    "expected_width": 300,
+    "expected_length": 825,
+    "long_values": [
+      825.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 35,
+    "part_code": "300850",
+    "expected_width": 300,
+    "expected_length": 850,
+    "long_values": [
+      850.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 36,
+    "part_code": "300875",
+    "expected_width": 300,
+    "expected_length": 875,
+    "long_values": [
+      875.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 37,
+    "part_code": "300875",
+    "expected_width": 300,
+    "expected_length": 875,
+    "long_values": [
+      875.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 38,
+    "part_code": "300875",
+    "expected_width": 300,
+    "expected_length": 875,
+    "long_values": [
+      875.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 39,
+    "part_code": "300875",
+    "expected_width": 300,
+    "expected_length": 875,
+    "long_values": [
+      875.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 40,
+    "part_code": "300875",
+    "expected_width": 300,
+    "expected_length": 875,
+    "long_values": [
+      875.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 41,
+    "part_code": "300875",
+    "expected_width": 300,
+    "expected_length": 875,
+    "long_values": [
+      875.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": null,
+    "issues": []
+  },
+  {
+    "drawing": 42,
+    "part_code": "300900",
+    "expected_width": 300,
+    "expected_length": 900,
+    "long_values": [
+      900.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        253.5,
+        136.5,
+        117.0,
+        136.5,
+        256.5
+      ],
+      "sum": 900.0,
+      "span": 560.8
+    },
+    "issues": []
+  },
+  {
+    "drawing": 43,
+    "part_code": "300925",
+    "expected_width": 300,
+    "expected_length": 925,
+    "long_values": [
+      925.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        254.5,
+        149.5,
+        117.0,
+        149.5,
+        254.5
+      ],
+      "sum": 925.0,
+      "span": 581.7
+    },
+    "issues": []
+  },
+  {
+    "drawing": 44,
+    "part_code": "300925",
+    "expected_width": 300,
+    "expected_length": 925,
+    "long_values": [
+      950.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        254.5,
+        32.5,
+        357.5,
+        26.0,
+        254.5
+      ],
+      "sum": 925.0,
+      "span": 581.7
+    },
+    "issues": [
+      "long_overall_mismatch"
+    ]
+  },
+  {
+    "drawing": 45,
+    "part_code": "300925",
+    "expected_width": 300,
+    "expected_length": 925,
+    "long_values": [
+      925.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        254.0,
+        137.0,
+        142.5,
+        137.0,
+        254.5
+      ],
+      "sum": 925.0,
+      "span": 582.0
+    },
+    "issues": []
+  },
+  {
+    "drawing": 46,
+    "part_code": "300925",
+    "expected_width": 300,
+    "expected_length": 925,
+    "long_values": [
+      925.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        254.5,
+        149.5,
+        117.0,
+        149.5,
+        254.5
+      ],
+      "sum": 925.0,
+      "span": 581.7
+    },
+    "issues": []
+  },
+  {
+    "drawing": 47,
+    "part_code": "300950",
+    "expected_width": 300,
+    "expected_length": 950,
+    "long_values": [
+      950.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        254.0,
+        149.5,
+        143.0,
+        149.5,
+        254.0
+      ],
+      "sum": 950.0,
+      "span": 602.4
+    },
+    "issues": []
+  },
+  {
+    "drawing": 48,
+    "part_code": "300950",
+    "expected_width": 300,
+    "expected_length": 950,
+    "long_values": [
+      950.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        254.0,
+        162.5,
+        117.0,
+        162.5,
+        254.0
+      ],
+      "sum": 950.0,
+      "span": 602.4
+    },
+    "issues": []
+  },
+  {
+    "drawing": 49,
+    "part_code": "300975",
+    "expected_width": 300,
+    "expected_length": 975,
+    "long_values": [
+      975.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        254.0,
+        175.0,
+        117.0,
+        175.5,
+        253.5
+      ],
+      "sum": 975.0,
+      "span": 623.1
+    },
+    "issues": []
+  },
+  {
+    "drawing": 50,
+    "part_code": "3001000",
+    "expected_width": 300,
+    "expected_length": 1000,
+    "long_values": [
+      1000.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        253.0,
+        188.5,
+        117.0,
+        188.5,
+        253.0
+      ],
+      "sum": 1000.0,
+      "span": 644.1
+    },
+    "issues": []
+  },
+  {
+    "drawing": 51,
+    "part_code": "3001025",
+    "expected_width": 300,
+    "expected_length": 1025,
+    "long_values": [
+      1025.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        252.5,
+        201.5,
+        117.0,
+        201.5,
+        252.5
+      ],
+      "sum": 1025.0,
+      "span": 664.9
+    },
+    "issues": []
+  },
+  {
+    "drawing": 52,
+    "part_code": "3001050",
+    "expected_width": 300,
+    "expected_length": 1050,
+    "long_values": [
+      1050.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        252.0,
+        214.5,
+        117.0,
+        214.5,
+        252.0
+      ],
+      "sum": 1050.0,
+      "span": 685.6
+    },
+    "issues": []
+  },
+  {
+    "drawing": 53,
+    "part_code": "3001050",
+    "expected_width": 300,
+    "expected_length": 1050,
+    "long_values": [
+      1050.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        252.0,
+        214.5,
+        117.0,
+        214.5,
+        252.0
+      ],
+      "sum": 1050.0,
+      "span": 685.6
+    },
+    "issues": []
+  },
+  {
+    "drawing": 54,
+    "part_code": "3001050",
+    "expected_width": 300,
+    "expected_length": 1050,
+    "long_values": [
+      1050.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        252.0,
+        214.5,
+        117.0,
+        214.5,
+        252.0
+      ],
+      "sum": 1050.0,
+      "span": 685.6
+    },
+    "issues": []
+  },
+  {
+    "drawing": 55,
+    "part_code": "3001075",
+    "expected_width": 300,
+    "expected_length": 1075,
+    "long_values": [
+      1075.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        251.5,
+        227.5,
+        117.0,
+        227.5,
+        251.5
+      ],
+      "sum": 1075.0,
+      "span": 706.5
+    },
+    "issues": []
+  },
+  {
+    "drawing": 56,
+    "part_code": "3001075",
+    "expected_width": 300,
+    "expected_length": 1075,
+    "long_values": [
+      1075.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        251.5,
+        227.5,
+        117.0,
+        227.5,
+        251.5
+      ],
+      "sum": 1075.0,
+      "span": 706.5
+    },
+    "issues": []
+  },
+  {
+    "drawing": 57,
+    "part_code": "3001075",
+    "expected_width": 300,
+    "expected_length": 1075,
+    "long_values": [
+      1075.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        251.5,
+        227.5,
+        117.0,
+        227.5,
+        251.5
+      ],
+      "sum": 1075.0,
+      "span": 706.5
+    },
+    "issues": []
+  },
+  {
+    "drawing": 58,
+    "part_code": "3001075",
+    "expected_width": 300,
+    "expected_length": 1075,
+    "long_values": [
+      1100.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        251.5,
+        214.5,
+        143.0,
+        214.5,
+        251.5
+      ],
+      "sum": 1075.0,
+      "span": 706.5
+    },
+    "issues": [
+      "long_overall_mismatch"
+    ]
+  },
+  {
+    "drawing": 59,
+    "part_code": "3001100",
+    "expected_width": 300,
+    "expected_length": 1100,
+    "long_values": [
+      1100.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        251.0,
+        240.5,
+        117.0,
+        240.5,
+        251.0
+      ],
+      "sum": 1100.0,
+      "span": 727.4
+    },
+    "issues": []
+  },
+  {
+    "drawing": 60,
+    "part_code": "3001100",
+    "expected_width": 300,
+    "expected_length": 1100,
+    "long_values": [
+      1100.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        251.0,
+        240.5,
+        117.0,
+        240.5,
+        251.0
+      ],
+      "sum": 1100.0,
+      "span": 727.4
+    },
+    "issues": []
+  },
+  {
+    "drawing": 61,
+    "part_code": "3001125",
+    "expected_width": 300,
+    "expected_length": 1125,
+    "long_values": [
+      1125.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        250.5,
+        240.5,
+        143.0,
+        240.5,
+        250.5
+      ],
+      "sum": 1125.0,
+      "span": 748.2
+    },
+    "issues": []
+  },
+  {
+    "drawing": 62,
+    "part_code": "3001125",
+    "expected_width": 300,
+    "expected_length": 1125,
+    "long_values": [
+      1125.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        250.5,
+        253.5,
+        117.0,
+        253.5,
+        250.5
+      ],
+      "sum": 1125.0,
+      "span": 748.2
+    },
+    "issues": []
+  },
+  {
+    "drawing": 63,
+    "part_code": "3001125",
+    "expected_width": 300,
+    "expected_length": 1125,
+    "long_values": [
+      1125.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        250.5,
+        253.5,
+        117.0,
+        253.5,
+        250.5
+      ],
+      "sum": 1125.0,
+      "span": 748.2
+    },
+    "issues": []
+  },
+  {
+    "drawing": 64,
+    "part_code": "3001150",
+    "expected_width": 300,
+    "expected_length": 1150,
+    "long_values": [
+      1150.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        256.5,
+        260.0,
+        117.0,
+        260.0,
+        256.5
+      ],
+      "sum": 1150.0,
+      "span": 763.6
+    },
+    "issues": []
+  },
+  {
+    "drawing": 65,
+    "part_code": "3001175",
+    "expected_width": 300,
+    "expected_length": 1175,
+    "long_values": [
+      1175.0
+    ],
+    "cross_values": [],
+    "main_chain": {
+      "top": 129,
+      "values": [
+        256.0,
+        84.5,
+        117.0,
+        461.5,
+        256.0
+      ],
+      "sum": 1175.0,
+      "span": 784.5
+    },
+    "issues": [
+      "cross_width_missing"
+    ]
+  },
+  {
+    "drawing": 66,
+    "part_code": "3001200",
+    "expected_width": 300,
+    "expected_length": 1200,
+    "long_values": [
+      1200.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        255.5,
+        286.0,
+        117.0,
+        286.0,
+        255.5
+      ],
+      "sum": 1200.0,
+      "span": 805.4
+    },
+    "issues": []
+  },
+  {
+    "drawing": 67,
+    "part_code": "3001200",
+    "expected_width": 300,
+    "expected_length": 1200,
+    "long_values": [
+      1200.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        255.5,
+        286.0,
+        117.0,
+        286.0,
+        255.5
+      ],
+      "sum": 1200.0,
+      "span": 805.4
+    },
+    "issues": []
+  },
+  {
+    "drawing": 68,
+    "part_code": "3001225",
+    "expected_width": 300,
+    "expected_length": 1225,
+    "long_values": [
+      1225.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        255.0,
+        299.0,
+        117.0,
+        299.0,
+        255.0
+      ],
+      "sum": 1225.0,
+      "span": 826.2
+    },
+    "issues": []
+  },
+  {
+    "drawing": 69,
+    "part_code": "3001225",
+    "expected_width": 300,
+    "expected_length": 1225,
+    "long_values": [
+      1225.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        255.0,
+        299.0,
+        117.0,
+        299.0,
+        255.0
+      ],
+      "sum": 1225.0,
+      "span": 826.2
+    },
+    "issues": []
+  },
+  {
+    "drawing": 70,
+    "part_code": "3001225",
+    "expected_width": 300,
+    "expected_length": 1225,
+    "long_values": [
+      1225.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        254.5,
+        299.5,
+        117.0,
+        299.0,
+        255.0
+      ],
+      "sum": 1225.0,
+      "span": 826.3
+    },
+    "issues": []
+  },
+  {
+    "drawing": 71,
+    "part_code": "3001225",
+    "expected_width": 300,
+    "expected_length": 1225,
+    "long_values": [
+      1225.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        254.5,
+        299.5,
+        117.0,
+        299.0,
+        255.0
+      ],
+      "sum": 1225.0,
+      "span": 826.3
+    },
+    "issues": []
+  },
+  {
+    "drawing": 72,
+    "part_code": "3001250",
+    "expected_width": 300,
+    "expected_length": 1250,
+    "long_values": [
+      1250.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        254.0,
+        85.0,
+        123.5,
+        325.0,
+        123.5,
+        84.5,
+        254.5
+      ],
+      "sum": 1250.0,
+      "span": 847.3
+    },
+    "issues": []
+  },
+  {
+    "drawing": 73,
+    "part_code": "3001250",
+    "expected_width": 300,
+    "expected_length": 1250,
+    "long_values": [
+      1250.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        254.5,
+        312.0,
+        117.0,
+        312.0,
+        254.5
+      ],
+      "sum": 1250.0,
+      "span": 846.9
+    },
+    "issues": []
+  },
+  {
+    "drawing": 74,
+    "part_code": "3001250",
+    "expected_width": 300,
+    "expected_length": 1250,
+    "long_values": [
+      1250.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        254.0,
+        741.5,
+        254.5
+      ],
+      "sum": 1250.0,
+      "span": 847.3
+    },
+    "issues": []
+  },
+  {
+    "drawing": 75,
+    "part_code": "3001250",
+    "expected_width": 300,
+    "expected_length": 1250,
+    "long_values": [
+      1250.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        254.5,
+        312.0,
+        117.0,
+        312.0,
+        254.5
+      ],
+      "sum": 1250.0,
+      "span": 846.9
+    },
+    "issues": []
+  },
+  {
+    "drawing": 76,
+    "part_code": "3001250",
+    "expected_width": 300,
+    "expected_length": 1250,
+    "long_values": [
+      1250.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        254.5,
+        78.0,
+        585.0,
+        78.0,
+        254.5
+      ],
+      "sum": 1250.0,
+      "span": 846.9
+    },
+    "issues": []
+  },
+  {
+    "drawing": 77,
+    "part_code": "3001275",
+    "expected_width": 300,
+    "expected_length": 1275,
+    "long_values": [
+      1275.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        254.0,
+        325.0,
+        117.0,
+        325.0,
+        254.0
+      ],
+      "sum": 1275.0,
+      "span": 867.8
+    },
+    "issues": []
+  },
+  {
+    "drawing": 78,
+    "part_code": "3001275",
+    "expected_width": 300,
+    "expected_length": 1275,
+    "long_values": [
+      1275.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        254.0,
+        325.0,
+        117.0,
+        325.0,
+        254.0
+      ],
+      "sum": 1275.0,
+      "span": 867.8
+    },
+    "issues": []
+  },
+  {
+    "drawing": 79,
+    "part_code": "3001300",
+    "expected_width": 300,
+    "expected_length": 1300,
+    "long_values": [
+      1300.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        253.5,
+        338.0,
+        117.0,
+        338.0,
+        253.5
+      ],
+      "sum": 1300.0,
+      "span": 888.7
+    },
+    "issues": []
+  },
+  {
+    "drawing": 80,
+    "part_code": "3001300",
+    "expected_width": 300,
+    "expected_length": 1300,
+    "long_values": [
+      1300.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        253.5,
+        338.0,
+        117.0,
+        338.0,
+        253.5
+      ],
+      "sum": 1300.0,
+      "span": 888.7
+    },
+    "issues": []
+  },
+  {
+    "drawing": 81,
+    "part_code": "3001300",
+    "expected_width": 300,
+    "expected_length": 1300,
+    "long_values": [
+      1300.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        253.5,
+        338.0,
+        117.0,
+        338.0,
+        253.5
+      ],
+      "sum": 1300.0,
+      "span": 888.7
+    },
+    "issues": []
+  },
+  {
+    "drawing": 82,
+    "part_code": "3001325",
+    "expected_width": 300,
+    "expected_length": 1325,
+    "long_values": [
+      1325.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        253.0,
+        351.0,
+        117.0,
+        351.0,
+        253.0
+      ],
+      "sum": 1325.0,
+      "span": 909.4
+    },
+    "issues": []
+  },
+  {
+    "drawing": 83,
+    "part_code": "3001350",
+    "expected_width": 300,
+    "expected_length": 1350,
+    "long_values": [
+      1350.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        252.5,
+        351.0,
+        143.0,
+        351.0,
+        252.5
+      ],
+      "sum": 1350.0,
+      "span": 930.2
+    },
+    "issues": []
+  },
+  {
+    "drawing": 84,
+    "part_code": "3001350",
+    "expected_width": 300,
+    "expected_length": 1350,
+    "long_values": [
+      1350.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        252.5,
+        58.5,
+        728.0,
+        58.5,
+        252.5
+      ],
+      "sum": 1350.0,
+      "span": 930.2
+    },
+    "issues": []
+  },
+  {
+    "drawing": 85,
+    "part_code": "3001375",
+    "expected_width": 300,
+    "expected_length": 1375,
+    "long_values": [
+      1375.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        252.0,
+        58.5,
+        754.0,
+        58.5,
+        252.0
+      ],
+      "sum": 1375.0,
+      "span": 951.1
+    },
+    "issues": []
+  },
+  {
+    "drawing": 86,
+    "part_code": "3001375",
+    "expected_width": 300,
+    "expected_length": 1375,
+    "long_values": [
+      1375.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        252.0,
+        364.0,
+        143.0,
+        364.0,
+        252.0
+      ],
+      "sum": 1375.0,
+      "span": 951.1
+    },
+    "issues": []
+  },
+  {
+    "drawing": 87,
+    "part_code": "3001400",
+    "expected_width": 300,
+    "expected_length": 1400,
+    "long_values": [
+      1400.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        251.5,
+        377.0,
+        143.0,
+        377.0,
+        251.5
+      ],
+      "sum": 1400.0,
+      "span": 972.0
+    },
+    "issues": []
+  },
+  {
+    "drawing": 88,
+    "part_code": "3001400",
+    "expected_width": 300,
+    "expected_length": 1400,
+    "long_values": [
+      1400.0,
+      1400.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        251.5,
+        91.0,
+        117.0,
+        481.0,
+        117.0,
+        91.0,
+        251.5
+      ],
+      "sum": 1400.0,
+      "span": 972.0
+    },
+    "issues": []
+  },
+  {
+    "drawing": 89,
+    "part_code": "3001425",
+    "expected_width": 300,
+    "expected_length": 1425,
+    "long_values": [
+      1425.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        257.5,
+        396.5,
+        117.0,
+        396.5,
+        257.5
+      ],
+      "sum": 1425.0,
+      "span": 987.3
+    },
+    "issues": []
+  },
+  {
+    "drawing": 90,
+    "part_code": "3001450",
+    "expected_width": 300,
+    "expected_length": 1450,
+    "long_values": [
+      1450.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        250.5,
+        403.0,
+        143.0,
+        403.0,
+        250.5
+      ],
+      "sum": 1450.0,
+      "span": 1013.5
+    },
+    "issues": []
+  },
+  {
+    "drawing": 91,
+    "part_code": "3001450",
+    "expected_width": 300,
+    "expected_length": 1450,
+    "long_values": [
+      1450.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        250.5,
+        416.0,
+        117.0,
+        416.0,
+        250.5
+      ],
+      "sum": 1450.0,
+      "span": 1013.5
+    },
+    "issues": []
+  },
+  {
+    "drawing": 92,
+    "part_code": "3001475",
+    "expected_width": 300,
+    "expected_length": 1475,
+    "long_values": [
+      1475.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        250.0,
+        429.0,
+        117.0,
+        429.0,
+        250.0
+      ],
+      "sum": 1475.0,
+      "span": 1034.4
+    },
+    "issues": []
+  },
+  {
+    "drawing": 93,
+    "part_code": "3001475",
+    "expected_width": 300,
+    "expected_length": 1475,
+    "long_values": [
+      1475.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        250.0,
+        13.0,
+        123.5,
+        702.0,
+        123.5,
+        13.0,
+        250.0
+      ],
+      "sum": 1475.0,
+      "span": 1034.4
+    },
+    "issues": []
+  },
+  {
+    "drawing": 94,
+    "part_code": "3001500",
+    "expected_width": 300,
+    "expected_length": 1500,
+    "long_values": [
+      1500.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        256.0,
+        435.5,
+        117.0,
+        435.5,
+        256.0
+      ],
+      "sum": 1500.0,
+      "span": 1049.8
+    },
+    "issues": []
+  },
+  {
+    "drawing": 95,
+    "part_code": "3001500",
+    "expected_width": 300,
+    "expected_length": 1500,
+    "long_values": [
+      1500.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        256.0,
+        435.5,
+        117.0,
+        435.5,
+        256.0
+      ],
+      "sum": 1500.0,
+      "span": 1049.8
+    },
+    "issues": []
+  },
+  {
+    "drawing": 96,
+    "part_code": "3001525",
+    "expected_width": 300,
+    "expected_length": 1525,
+    "long_values": [
+      1525.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        255.5,
+        1014.0,
+        255.5
+      ],
+      "sum": 1525.0,
+      "span": 1070.6
+    },
+    "issues": []
+  },
+  {
+    "drawing": 97,
+    "part_code": "3001550",
+    "expected_width": 300,
+    "expected_length": 1550,
+    "long_values": [
+      1550.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        255.0,
+        448.5,
+        143.0,
+        448.5,
+        255.0
+      ],
+      "sum": 1550.0,
+      "span": 1091.5
+    },
+    "issues": []
+  },
+  {
+    "drawing": 98,
+    "part_code": "3001550",
+    "expected_width": 300,
+    "expected_length": 1550,
+    "long_values": [
+      1550.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        255.0,
+        461.5,
+        117.0,
+        461.5,
+        255.0
+      ],
+      "sum": 1550.0,
+      "span": 1091.5
+    },
+    "issues": []
+  },
+  {
+    "drawing": 99,
+    "part_code": "3001575",
+    "expected_width": 300,
+    "expected_length": 1575,
+    "long_values": [
+      1575.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        254.5,
+        461.5,
+        143.0,
+        461.5,
+        254.5
+      ],
+      "sum": 1575.0,
+      "span": 1112.4
+    },
+    "issues": []
+  },
+  {
+    "drawing": 100,
+    "part_code": "3001575",
+    "expected_width": 300,
+    "expected_length": 1575,
+    "long_values": [
+      1575.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        254.5,
+        1066.0,
+        254.5
+      ],
+      "sum": 1575.0,
+      "span": 1112.4
+    },
+    "issues": []
+  },
+  {
+    "drawing": 101,
+    "part_code": "3001600",
+    "expected_width": 300,
+    "expected_length": 1600,
+    "long_values": [
+      1600.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        254.0,
+        474.5,
+        143.0,
+        474.5,
+        254.0
+      ],
+      "sum": 1600.0,
+      "span": 1133.1
+    },
+    "issues": []
+  },
+  {
+    "drawing": 102,
+    "part_code": "3001600",
+    "expected_width": 300,
+    "expected_length": 1600,
+    "long_values": [
+      1600.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        254.0,
+        84.5,
+        123.5,
+        676.0,
+        123.5,
+        84.5,
+        254.0
+      ],
+      "sum": 1600.0,
+      "span": 1133.1
+    },
+    "issues": []
+  },
+  {
+    "drawing": 103,
+    "part_code": "3001600",
+    "expected_width": 300,
+    "expected_length": 1600,
+    "long_values": [
+      1600.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        254.0,
+        962.0,
+        130.0,
+        254.0
+      ],
+      "sum": 1600.0,
+      "span": 1133.1
+    },
+    "issues": []
+  },
+  {
+    "drawing": 104,
+    "part_code": "3001600",
+    "expected_width": 300,
+    "expected_length": 1600,
+    "long_values": [
+      1600.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        254.0,
+        474.5,
+        143.0,
+        474.5,
+        254.0
+      ],
+      "sum": 1600.0,
+      "span": 1133.1
+    },
+    "issues": []
+  },
+  {
+    "drawing": 105,
+    "part_code": "3001625",
+    "expected_width": 300,
+    "expected_length": 1625,
+    "long_values": [
+      1625.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        253.5,
+        1118.0,
+        253.5
+      ],
+      "sum": 1625.0,
+      "span": 1153.9
+    },
+    "issues": []
+  },
+  {
+    "drawing": 106,
+    "part_code": "3001625",
+    "expected_width": 300,
+    "expected_length": 1625,
+    "long_values": [
+      1625.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        253.5,
+        84.5,
+        117.0,
+        715.0,
+        117.0,
+        84.5,
+        253.5
+      ],
+      "sum": 1625.0,
+      "span": 1153.9
+    },
+    "issues": []
+  },
+  {
+    "drawing": 107,
+    "part_code": "3001625",
+    "expected_width": 300,
+    "expected_length": 1625,
+    "long_values": [
+      1625.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        253.5,
+        84.5,
+        117.0,
+        916.5,
+        253.5
+      ],
+      "sum": 1625.0,
+      "span": 1153.9
+    },
+    "issues": []
+  },
+  {
+    "drawing": 108,
+    "part_code": "3001625",
+    "expected_width": 300,
+    "expected_length": 1625,
+    "long_values": [
+      1625.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        253.5,
+        487.5,
+        143.0,
+        487.5,
+        253.5
+      ],
+      "sum": 1625.0,
+      "span": 1153.9
+    },
+    "issues": []
+  },
+  {
+    "drawing": 109,
+    "part_code": "3001625",
+    "expected_width": 300,
+    "expected_length": 1625,
+    "long_values": [
+      1625.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        253.5,
+        487.5,
+        143.0,
+        487.5,
+        253.5
+      ],
+      "sum": 1625.0,
+      "span": 1153.9
+    },
+    "issues": []
+  },
+  {
+    "drawing": 110,
+    "part_code": "3001650",
+    "expected_width": 300,
+    "expected_length": 1650,
+    "long_values": [
+      1650.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        253.0,
+        513.5,
+        117.0,
+        513.5,
+        253.0
+      ],
+      "sum": 1650.0,
+      "span": 1174.8
+    },
+    "issues": []
+  },
+  {
+    "drawing": 111,
+    "part_code": "3001675",
+    "expected_width": 300,
+    "expected_length": 1675,
+    "long_values": [
+      1675.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        252.5,
+        1170.0,
+        252.5
+      ],
+      "sum": 1675.0,
+      "span": 1195.6
+    },
+    "issues": []
+  },
+  {
+    "drawing": 112,
+    "part_code": "3001675",
+    "expected_width": 300,
+    "expected_length": 1675,
+    "long_values": [
+      1675.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        252.5,
+        13.0,
+        117.0,
+        1040.0,
+        252.5
+      ],
+      "sum": 1675.0,
+      "span": 1195.6
+    },
+    "issues": []
+  },
+  {
+    "drawing": 113,
+    "part_code": "3001675",
+    "expected_width": 300,
+    "expected_length": 1675,
+    "long_values": [
+      1675.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        252.5,
+        13.0,
+        117.0,
+        1040.0,
+        252.5
+      ],
+      "sum": 1675.0,
+      "span": 1195.6
+    },
+    "issues": []
+  },
+  {
+    "drawing": 114,
+    "part_code": "3001725",
+    "expected_width": 300,
+    "expected_length": 1725,
+    "long_values": [
+      1725.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        251.5,
+        123.5,
+        975.0,
+        123.5,
+        251.5
+      ],
+      "sum": 1725.0,
+      "span": 1237.2
+    },
+    "issues": []
+  },
+  {
+    "drawing": 115,
+    "part_code": "3001725",
+    "expected_width": 300,
+    "expected_length": 1725,
+    "long_values": [
+      1725.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        251.5,
+        539.5,
+        143.0,
+        539.5,
+        251.5
+      ],
+      "sum": 1725.0,
+      "span": 1237.2
+    },
+    "issues": []
+  },
+  {
+    "drawing": 116,
+    "part_code": "3001725",
+    "expected_width": 300,
+    "expected_length": 1725,
+    "long_values": [
+      1725.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        251.5,
+        91.0,
+        117.0,
+        806.0,
+        117.0,
+        91.0,
+        251.5
+      ],
+      "sum": 1725.0,
+      "span": 1237.2
+    },
+    "issues": []
+  },
+  {
+    "drawing": 117,
+    "part_code": "3001725",
+    "expected_width": 300,
+    "expected_length": 1725,
+    "long_values": [
+      1725.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        251.5,
+        84.5,
+        123.5,
+        806.0,
+        123.5,
+        84.5,
+        251.5
+      ],
+      "sum": 1725.0,
+      "span": 1237.2
+    },
+    "issues": []
+  },
+  {
+    "drawing": 118,
+    "part_code": "3001750",
+    "expected_width": 300,
+    "expected_length": 1750,
+    "long_values": [
+      1750.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        251.0,
+        552.5,
+        143.0,
+        552.5,
+        251.0
+      ],
+      "sum": 1750.0,
+      "span": 1258.0
+    },
+    "issues": []
+  },
+  {
+    "drawing": 119,
+    "part_code": "3001750",
+    "expected_width": 300,
+    "expected_length": 1750,
+    "long_values": [
+      1750.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        251.0,
+        565.5,
+        117.0,
+        565.5,
+        251.0
+      ],
+      "sum": 1750.0,
+      "span": 1258.0
+    },
+    "issues": []
+  },
+  {
+    "drawing": 120,
+    "part_code": "3001750",
+    "expected_width": 300,
+    "expected_length": 1750,
+    "long_values": [
+      1750.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        251.0,
+        565.5,
+        117.0,
+        565.5,
+        251.0
+      ],
+      "sum": 1750.0,
+      "span": 1258.0
+    },
+    "issues": []
+  },
+  {
+    "drawing": 121,
+    "part_code": "3001750",
+    "expected_width": 300,
+    "expected_length": 1750,
+    "long_values": [
+      1750.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        251.0,
+        552.5,
+        143.0,
+        552.5,
+        251.0
+      ],
+      "sum": 1750.0,
+      "span": 1258.0
+    },
+    "issues": []
+  },
+  {
+    "drawing": 122,
+    "part_code": "3001750",
+    "expected_width": 300,
+    "expected_length": 1750,
+    "long_values": [
+      1750.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        251.0,
+        552.5,
+        143.0,
+        552.5,
+        251.0
+      ],
+      "sum": 1750.0,
+      "span": 1258.0
+    },
+    "issues": []
+  },
+  {
+    "drawing": 123,
+    "part_code": "3001750",
+    "expected_width": 300,
+    "expected_length": 1750,
+    "long_values": [
+      1750.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        251.0,
+        565.5,
+        117.0,
+        565.5,
+        251.0
+      ],
+      "sum": 1750.0,
+      "span": 1258.0
+    },
+    "issues": []
+  },
+  {
+    "drawing": 124,
+    "part_code": "3001750",
+    "expected_width": 300,
+    "expected_length": 1750,
+    "long_values": [
+      1750.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        251.0,
+        91.0,
+        117.0,
+        832.0,
+        117.0,
+        91.0,
+        251.0
+      ],
+      "sum": 1750.0,
+      "span": 1258.0
+    },
+    "issues": []
+  },
+  {
+    "drawing": 125,
+    "part_code": "3001750",
+    "expected_width": 300,
+    "expected_length": 1750,
+    "long_values": [
+      1750.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        251.0,
+        565.5,
+        117.0,
+        565.5,
+        251.0
+      ],
+      "sum": 1750.0,
+      "span": 1258.0
+    },
+    "issues": []
+  },
+  {
+    "drawing": 126,
+    "part_code": "3001750",
+    "expected_width": 300,
+    "expected_length": 1750,
+    "long_values": [
+      1750.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        251.0,
+        13.0,
+        123.5,
+        975.0,
+        123.5,
+        13.0,
+        251.0
+      ],
+      "sum": 1750.0,
+      "span": 1258.0
+    },
+    "issues": []
+  },
+  {
+    "drawing": 127,
+    "part_code": "3001750",
+    "expected_width": 300,
+    "expected_length": 1750,
+    "long_values": [
+      1750.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        251.0,
+        117.0,
+        1131.0,
+        251.0
+      ],
+      "sum": 1750.0,
+      "span": 1258.0
+    },
+    "issues": []
+  },
+  {
+    "drawing": 128,
+    "part_code": "3001750",
+    "expected_width": 300,
+    "expected_length": 1750,
+    "long_values": [
+      1750.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        251.0,
+        565.5,
+        117.0,
+        565.5,
+        251.0
+      ],
+      "sum": 1750.0,
+      "span": 1258.0
+    },
+    "issues": []
+  },
+  {
+    "drawing": 129,
+    "part_code": "5001750",
+    "expected_width": 500,
+    "expected_length": 1750,
+    "long_values": [
+      1750.0
+    ],
+    "cross_values": [],
+    "main_chain": {
+      "top": 108,
+      "values": [
+        251.0,
+        566.0,
+        117.0,
+        566.0,
+        251.0
+      ],
+      "sum": 1751.0,
+      "span": 1241.7
+    },
+    "issues": [
+      "cross_width_missing",
+      "chain_sum_mismatch"
+    ]
+  },
+  {
+    "drawing": 130,
+    "part_code": "3001750",
+    "expected_width": 300,
+    "expected_length": 1750,
+    "long_values": [
+      1750.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        251.0,
+        442.0,
+        117.0,
+        130.0,
+        117.0,
+        442.0,
+        251.0
+      ],
+      "sum": 1750.0,
+      "span": 1258.0
+    },
+    "issues": []
+  },
+  {
+    "drawing": 131,
+    "part_code": "1251750",
+    "expected_width": 125,
+    "expected_length": 1750,
+    "long_values": [
+      1750.0
+    ],
+    "cross_values": [],
+    "main_chain": {
+      "top": 210,
+      "values": [
+        251.0,
+        566.0,
+        117.0,
+        566.0,
+        251.0
+      ],
+      "sum": 1751.0,
+      "span": 1241.7
+    },
+    "issues": [
+      "cross_width_missing",
+      "chain_sum_mismatch"
+    ]
+  },
+  {
+    "drawing": 132,
+    "part_code": "3001750",
+    "expected_width": 300,
+    "expected_length": 1750,
+    "long_values": [
+      1750.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        251.0,
+        552.5,
+        143.0,
+        552.5,
+        251.0
+      ],
+      "sum": 1750.0,
+      "span": 1258.0
+    },
+    "issues": []
+  },
+  {
+    "drawing": 133,
+    "part_code": "3751750",
+    "expected_width": 375,
+    "expected_length": 1750,
+    "long_values": [
+      1750.0
+    ],
+    "cross_values": [],
+    "main_chain": {
+      "top": 132,
+      "values": [
+        251.0,
+        1027.0,
+        110.0,
+        251.0
+      ],
+      "sum": 1639.0,
+      "span": 1241.7
+    },
+    "issues": [
+      "cross_width_missing",
+      "chain_sum_mismatch"
+    ]
+  },
+  {
+    "drawing": 134,
+    "part_code": "4001750",
+    "expected_width": 400,
+    "expected_length": 1750,
+    "long_values": [
+      1750.0
+    ],
+    "cross_values": [
+      400.0
+    ],
+    "main_chain": {
+      "top": 123,
+      "values": [
+        251.0,
+        111.0,
+        1027.0,
+        110.0,
+        251.0
+      ],
+      "sum": 1750.0,
+      "span": 1241.7
+    },
+    "issues": []
+  },
+  {
+    "drawing": 135,
+    "part_code": "2121750",
+    "expected_width": 212,
+    "expected_length": 1750,
+    "long_values": [
+      1750.0
+    ],
+    "cross_values": [],
+    "main_chain": {
+      "top": 174,
+      "values": [
+        251.0,
+        1027.0,
+        110.0,
+        251.0
+      ],
+      "sum": 1639.0,
+      "span": 1241.7
+    },
+    "issues": [
+      "cross_width_missing",
+      "chain_sum_mismatch"
+    ]
+  },
+  {
+    "drawing": 136,
+    "part_code": "3001750",
+    "expected_width": 300,
+    "expected_length": 1750,
+    "long_values": [
+      1750.0
+    ],
+    "cross_values": [],
+    "main_chain": {
+      "top": 180,
+      "values": [
+        251.0,
+        111.0,
+        1027.0,
+        110.0,
+        251.0
+      ],
+      "sum": 1750.0,
+      "span": 1241.7
+    },
+    "issues": [
+      "cross_width_missing"
+    ]
+  },
+  {
+    "drawing": 137,
+    "part_code": "3001775",
+    "expected_width": 300,
+    "expected_length": 1775,
+    "long_values": [
+      1775.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        257.0,
+        84.5,
+        117.0,
+        858.0,
+        117.0,
+        84.5,
+        257.0
+      ],
+      "sum": 1775.0,
+      "span": 1273.5
+    },
+    "issues": []
+  },
+  {
+    "drawing": 138,
+    "part_code": "3001775",
+    "expected_width": 300,
+    "expected_length": 1775,
+    "long_values": [
+      1775.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        257.0,
+        559.0,
+        143.0,
+        559.0,
+        257.0
+      ],
+      "sum": 1775.0,
+      "span": 1273.5
+    },
+    "issues": []
+  },
+  {
+    "drawing": 139,
+    "part_code": "3001775",
+    "expected_width": 300,
+    "expected_length": 1775,
+    "long_values": [
+      1775.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        257.0,
+        6.5,
+        123.5,
+        1001.0,
+        123.5,
+        6.5,
+        257.0
+      ],
+      "sum": 1775.0,
+      "span": 1273.5
+    },
+    "issues": []
+  },
+  {
+    "drawing": 140,
+    "part_code": "3001800",
+    "expected_width": 300,
+    "expected_length": 1800,
+    "long_values": [
+      1800.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        256.5,
+        78.0,
+        1131.0,
+        78.0,
+        256.5
+      ],
+      "sum": 1800.0,
+      "span": 1294.3
+    },
+    "issues": []
+  },
+  {
+    "drawing": 141,
+    "part_code": "3001825",
+    "expected_width": 300,
+    "expected_length": 1825,
+    "long_values": [
+      1825.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        256.0,
+        84.5,
+        117.0,
+        910.0,
+        117.0,
+        84.5,
+        256.0
+      ],
+      "sum": 1825.0,
+      "span": 1315.2
+    },
+    "issues": []
+  },
+  {
+    "drawing": 142,
+    "part_code": "3001825",
+    "expected_width": 300,
+    "expected_length": 1825,
+    "long_values": [
+      1825.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        256.0,
+        84.5,
+        117.0,
+        910.0,
+        117.0,
+        84.5,
+        256.0
+      ],
+      "sum": 1825.0,
+      "span": 1315.2
+    },
+    "issues": []
+  },
+  {
+    "drawing": 143,
+    "part_code": "3001850",
+    "expected_width": 300,
+    "expected_length": 1850,
+    "long_values": [
+      1850.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        255.5,
+        611.0,
+        117.0,
+        611.0,
+        255.5
+      ],
+      "sum": 1850.0,
+      "span": 1336.0
+    },
+    "issues": []
+  },
+  {
+    "drawing": 144,
+    "part_code": "3001850",
+    "expected_width": 300,
+    "expected_length": 1850,
+    "long_values": [
+      1850.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        255.5,
+        13.0,
+        117.0,
+        1079.0,
+        117.0,
+        13.0,
+        255.5
+      ],
+      "sum": 1850.0,
+      "span": 1336.0
+    },
+    "issues": []
+  },
+  {
+    "drawing": 145,
+    "part_code": "3001850",
+    "expected_width": 300,
+    "expected_length": 1850,
+    "long_values": [
+      1850.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        255.5,
+        13.0,
+        117.0,
+        1209.0,
+        255.5
+      ],
+      "sum": 1850.0,
+      "span": 1336.0
+    },
+    "issues": []
+  },
+  {
+    "drawing": 146,
+    "part_code": "3001875",
+    "expected_width": 300,
+    "expected_length": 1875,
+    "long_values": [
+      1875.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        255.0,
+        136.5,
+        117.0,
+        1111.5,
+        255.0
+      ],
+      "sum": 1875.0,
+      "span": 1356.8
+    },
+    "issues": []
+  },
+  {
+    "drawing": 147,
+    "part_code": "3001875",
+    "expected_width": 300,
+    "expected_length": 1875,
+    "long_values": [
+      1875.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        255.0,
+        13.0,
+        117.0,
+        1105.0,
+        117.0,
+        13.0,
+        255.0
+      ],
+      "sum": 1875.0,
+      "span": 1356.8
+    },
+    "issues": []
+  },
+  {
+    "drawing": 148,
+    "part_code": "3001925",
+    "expected_width": 300,
+    "expected_length": 1925,
+    "long_values": [
+      1925.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 159,
+      "values": [
+        251.0,
+        650.0,
+        123.0,
+        650.0,
+        251.0
+      ],
+      "sum": 1925.0,
+      "span": 1384.8
+    },
+    "issues": []
+  },
+  {
+    "drawing": 149,
+    "part_code": "3001925",
+    "expected_width": 300,
+    "expected_length": 1925,
+    "long_values": [
+      1925.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        250.7,
+        650.0,
+        123.5,
+        650.0,
+        250.8
+      ],
+      "sum": 1925.0,
+      "span": 1401.2
+    },
+    "issues": []
+  },
+  {
+    "drawing": 150,
+    "part_code": "3001975",
+    "expected_width": 300,
+    "expected_length": 1975,
+    "long_values": [
+      1975.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        253.0,
+        84.5,
+        123.5,
+        1053.0,
+        123.5,
+        84.5,
+        253.0
+      ],
+      "sum": 1975.0,
+      "span": 1440.1
+    },
+    "issues": []
+  },
+  {
+    "drawing": 151,
+    "part_code": "3001975",
+    "expected_width": 300,
+    "expected_length": 1975,
+    "long_values": [
+      1975.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        253.0,
+        84.5,
+        123.5,
+        1053.0,
+        123.5,
+        84.5,
+        253.0
+      ],
+      "sum": 1975.0,
+      "span": 1440.1
+    },
+    "issues": []
+  },
+  {
+    "drawing": 152,
+    "part_code": "3002000",
+    "expected_width": 300,
+    "expected_length": 2000,
+    "long_values": [
+      2000.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        252.5,
+        676.0,
+        143.0,
+        676.0,
+        252.5
+      ],
+      "sum": 2000.0,
+      "span": 1460.8
+    },
+    "issues": []
+  },
+  {
+    "drawing": 153,
+    "part_code": "3002000",
+    "expected_width": 300,
+    "expected_length": 2000,
+    "long_values": [
+      2000.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        252.5,
+        676.0,
+        143.0,
+        676.0,
+        252.5
+      ],
+      "sum": 2000.0,
+      "span": 1460.8
+    },
+    "issues": []
+  },
+  {
+    "drawing": 154,
+    "part_code": "3002000",
+    "expected_width": 300,
+    "expected_length": 2000,
+    "long_values": [
+      2000.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        252.5,
+        689.0,
+        117.0,
+        689.0,
+        252.5
+      ],
+      "sum": 2000.0,
+      "span": 1460.8
+    },
+    "issues": []
+  },
+  {
+    "drawing": 155,
+    "part_code": "3002000",
+    "expected_width": 300,
+    "expected_length": 2000,
+    "long_values": [
+      2000.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        252.5,
+        104.0,
+        1287.0,
+        104.0,
+        252.5
+      ],
+      "sum": 2000.0,
+      "span": 1460.8
+    },
+    "issues": []
+  },
+  {
+    "drawing": 156,
+    "part_code": "3002000",
+    "expected_width": 300,
+    "expected_length": 2000,
+    "long_values": [
+      2000.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        252.5,
+        104.0,
+        1287.0,
+        104.0,
+        252.5
+      ],
+      "sum": 2000.0,
+      "span": 1460.8
+    },
+    "issues": []
+  },
+  {
+    "drawing": 157,
+    "part_code": "3002050",
+    "expected_width": 300,
+    "expected_length": 2050,
+    "long_values": [
+      2050.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        251.5,
+        58.5,
+        1430.0,
+        58.5,
+        251.5
+      ],
+      "sum": 2050.0,
+      "span": 1502.6
+    },
+    "issues": []
+  },
+  {
+    "drawing": 158,
+    "part_code": "3002050",
+    "expected_width": 300,
+    "expected_length": 2050,
+    "long_values": [
+      2050.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        251.5,
+        702.0,
+        143.0,
+        702.0,
+        251.5
+      ],
+      "sum": 2050.0,
+      "span": 1502.6
+    },
+    "issues": []
+  },
+  {
+    "drawing": 159,
+    "part_code": "3002050",
+    "expected_width": 300,
+    "expected_length": 2050,
+    "long_values": [
+      2050.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        251.5,
+        58.5,
+        1430.0,
+        58.5,
+        251.5
+      ],
+      "sum": 2050.0,
+      "span": 1502.6
+    },
+    "issues": []
+  },
+  {
+    "drawing": 160,
+    "part_code": "3002075",
+    "expected_width": 300,
+    "expected_length": 2075,
+    "long_values": [
+      2075.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        251.0,
+        715.0,
+        143.0,
+        715.0,
+        251.0
+      ],
+      "sum": 2075.0,
+      "span": 1523.4
+    },
+    "issues": []
+  },
+  {
+    "drawing": 161,
+    "part_code": "3002075",
+    "expected_width": 300,
+    "expected_length": 2075,
+    "long_values": [
+      2075.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        251.0,
+        110.5,
+        1352.0,
+        110.5,
+        251.0
+      ],
+      "sum": 2075.0,
+      "span": 1523.4
+    },
+    "issues": []
+  },
+  {
+    "drawing": 162,
+    "part_code": "3002100",
+    "expected_width": 300,
+    "expected_length": 2100,
+    "long_values": [
+      2100.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        257.0,
+        104.0,
+        1378.0,
+        104.0,
+        257.0
+      ],
+      "sum": 2100.0,
+      "span": 1538.8
+    },
+    "issues": []
+  },
+  {
+    "drawing": 163,
+    "part_code": "3002100",
+    "expected_width": 300,
+    "expected_length": 2100,
+    "long_values": [
+      2100.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        257.0,
+        721.5,
+        143.0,
+        721.5,
+        257.0
+      ],
+      "sum": 2100.0,
+      "span": 1538.8
+    },
+    "issues": []
+  },
+  {
+    "drawing": 164,
+    "part_code": "3002100",
+    "expected_width": 300,
+    "expected_length": 2100,
+    "long_values": [
+      2100.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        257.0,
+        104.0,
+        1378.0,
+        104.0,
+        257.0
+      ],
+      "sum": 2100.0,
+      "span": 1538.8
+    },
+    "issues": []
+  },
+  {
+    "drawing": 165,
+    "part_code": "3002100",
+    "expected_width": 300,
+    "expected_length": 2100,
+    "long_values": [
+      2100.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        257.0,
+        721.5,
+        143.0,
+        721.5,
+        257.0
+      ],
+      "sum": 2100.0,
+      "span": 1538.8
+    },
+    "issues": []
+  },
+  {
+    "drawing": 166,
+    "part_code": "3002100",
+    "expected_width": 300,
+    "expected_length": 2100,
+    "long_values": [
+      2100.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        257.0,
+        104.0,
+        1378.0,
+        104.0,
+        257.0
+      ],
+      "sum": 2100.0,
+      "span": 1538.8
+    },
+    "issues": []
+  },
+  {
+    "drawing": 167,
+    "part_code": "3002200",
+    "expected_width": 300,
+    "expected_length": 2200,
+    "long_values": [
+      2200.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        255.0,
+        84.5,
+        117.0,
+        1488.5,
+        255.0
+      ],
+      "sum": 2200.0,
+      "span": 1622.1
+    },
+    "issues": []
+  },
+  {
+    "drawing": 168,
+    "part_code": "3002550",
+    "expected_width": 300,
+    "expected_length": 2550,
+    "long_values": [
+      2550.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 147,
+      "values": [
+        254.5,
+        692.0,
+        117.0,
+        692.0,
+        254.5
+      ],
+      "sum": 2010.0,
+      "span": 1336.8
+    },
+    "issues": [
+      "chain_sum_mismatch"
+    ]
+  },
+  {
+    "drawing": 169,
+    "part_code": "3002900",
+    "expected_width": 300,
+    "expected_length": 2900,
+    "long_values": [
+      2900.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 168,
+      "values": [
+        250.7,
+        637.0,
+        123.5,
+        877.5,
+        123.5,
+        637.0,
+        250.8
+      ],
+      "sum": 2900.0,
+      "span": 1339.9
+    },
+    "issues": []
+  },
+  {
+    "drawing": 170,
+    "part_code": "3002900",
+    "expected_width": 300,
+    "expected_length": 2900,
+    "long_values": [
+      2900.0
+    ],
+    "cross_values": [
+      300.0
+    ],
+    "main_chain": {
+      "top": 126,
+      "values": [
+        250.7,
+        637.0,
+        123.5,
+        877.5,
+        123.5,
+        637.0,
+        250.8
+      ],
+      "sum": 2900.0,
+      "span": 1339.9
+    },
+    "issues": []
+  }
+]
