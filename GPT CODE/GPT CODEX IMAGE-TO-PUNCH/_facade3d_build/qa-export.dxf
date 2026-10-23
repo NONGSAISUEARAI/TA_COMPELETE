@@ -179,7 +179,7 @@ AcDb3dPolyline
 1001
 FACADE_STUDIO
 1000
-{"version":1,"id":"84dea284-724f-4c46-941f-da8dba7f8f57","name":"01 \u00b7 FRONT","pattern":{"origin":[0,0],"angle":0,"spacing":500}}
+{"version":1,"id":"dd40dbae-99a0-419b-8ff3-ad2a5a6b8b27","name":"01 \u00b7 FRONT","pattern":{"origin":[0,0],"angle":0,"spacing":500}}
 0
 VERTEX
 5
@@ -507,7 +507,7 @@ AcDb3dPolyline
 1001
 FACADE_STUDIO
 1000
-{"version":1,"id":"f50edc0f-cf20-4ab6-9988-cbe925dc8ad6","name":"\u0e1f\u0e32\u0e2a\u0e32\u0e14 \u0e14\u0e49\u0e32\u0e19\u0e02\u0e49\u0e32\u0e07","pattern":{"origin":[600,900],"angle":32,"spacing":300}}
+{"version":1,"id":"74eaa880-bc0a-480f-9ce8-c5195f1e0dcb","name":"\u0e1f\u0e32\u0e2a\u0e32\u0e14 \u0e14\u0e49\u0e32\u0e19\u0e02\u0e49\u0e32\u0e07","pattern":{"origin":[600,900],"angle":32,"spacing":300}}
 0
 VERTEX
 5
@@ -727,7 +727,7 @@ AcDb3dPolyline
 1001
 FACADE_STUDIO
 1000
-{"version":1,"id":"96c8fc96-b256-4d1d-91ad-8b8a1bad4c68","name":"03 \u00b7 ANGLED WING","pattern":{"origin":[0,0],"angle":0,"spacing":500}}
+{"version":1,"id":"56a1febd-ee3d-450e-aa6d-e38c74fb6008","name":"03 \u00b7 ANGLED WING","pattern":{"origin":[0,0],"angle":0,"spacing":500}}
 0
 VERTEX
 5

@@ -1,3 +1,4 @@
+import {panelBendFaceRings,joinedPanelBendEdges} from './panel-bends.js';
 import {panelCells,panelGrid} from './panel-tiling.js';
 import './vendor/polygon-clipping.umd.js';
 import {signedArea,inside,sub,dot,mul,add,length} from './geometry.js';
@@ -60,5 +61,7 @@ export function buildCurtainLayout(a){
  }
  if(c.boundary)outer.forEach((p,i)=>addMember(p,outer[(i+1)%outer.length],'boundary'));
  if(c.openings)holes.forEach(h=>h.forEach((p,i)=>addMember(p,h[(i+1)%h.length],'opening')));
+ for(const panel of panels)if(panel.foldEdges)panel.joinedEdges=joinedPanelBendEdges(a,panel);
+ for(const panel of panels)if(c.panelBends[panel.key])panelBendFaceRings(panel,c.panelBends[panel.key],c.panelThickness);
  return {panels,grid,mullions,cells,bounds,settings:c,panelArea:panels.filter(p=>p.type!=='open').reduce((s,p)=>s+p.area,0),mullionLength:mullions.reduce((s,m)=>s+m.length,0)/1000};
 }

@@ -1,0 +1,10 @@
+(setq mavp-old-trusted (getvar "TRUSTEDPATHS"))
+(setvar "TRUSTEDPATHS" (strcat mavp-old-trusted ";C:/TA/TA_COMPELETE/GPT CODE/TA_LAYER_TRANSFER/tests/bin"))
+FILEDIA
+0
+NETLOAD
+"C:/TA/TA_COMPELETE/GPT CODE/TA_LAYER_TRANSFER/tests/bin/TA_LAYER_TRANSFER.dll"
+MAVPTEST
+(setvar "TRUSTEDPATHS" mavp-old-trusted)
+QUIT
+_Y

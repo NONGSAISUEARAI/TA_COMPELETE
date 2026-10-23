@@ -25,13 +25,13 @@ export function resizePanel(areas,areaId,key,property,value){
  const selected=oldLayout.cells.find(cell=>cell.bounds.every((v,i)=>Math.abs(v-panel.cell[i])<eps));
  const patch=resizedStrip(oldLayout.cells,selected,axis,rawLow,rawHigh,extent,c[axis?'spacingY':'spacingX']),mapping=new Map(patch.cells.filter(cell=>cell.source).map(cell=>[cell.source,cellKey(cell.bounds)]));
  for(const cell of patch.cells){if(cell.source&&c.overrides[cell.source])cell.override=c.overrides[cell.source];delete cell.source}
- for(const field of ['panelJoins','overrides','panelSizes']){const out={};for(const [key,v]of Object.entries(c[field]||{})){const source=oldLayout.cells.find(cell=>cellKey(cell.bounds)===key),other=1-axis;if(field==='overrides'&&source&&(source.bounds[other]<patch.bounds[other]-.001||source.bounds[other+2]>patch.bounds[other+2]+.001))out[key]=v;out[mapping.get(key)??key]=v}c[field]=out}
+ for(const field of ['panelJoins','overrides','panelSizes','panelBends']){const out={};for(const [key,v]of Object.entries(c[field]||{})){const source=oldLayout.cells.find(cell=>cellKey(cell.bounds)===key),other=1-axis;if(field==='overrides'&&source&&(source.bounds[other]<patch.bounds[other]-.001||source.bounds[other+2]>patch.bounds[other+2]+.001))out[key]=v;out[mapping.get(key)??key]=v}c[field]=out}
  c.panelPatches=[...(c.panelPatches||[]),patch];
  a.curtain=c;const sample=[(m.low[0]+m.high[0])/2,(m.low[1]+m.high[1])/2];sample[axis]=(low+high)/2;
  const desired=m.frame.from(sample),layout=buildCurtainLayout(a),pointInside=(p,ring)=>{let result=false;for(let i=0,j=ring.length-1;i<ring.length;j=i++){const q=ring[i],r=ring[j];if((q[1]>p[1])!==(r[1]>p[1])&&p[0]<(r[0]-q[0])*(p[1]-q[1])/(r[1]-q[1])+q[0])result=!result}return result};
  const selectedPanel=layout.panels.find(p=>pointInside(desired,p.rings[0]));if(!selectedPanel)throw Error('ขนาดที่กรอกไม่อยู่ใน Area');const actual=panelDimensions(a,selectedPanel);
  if(Math.abs(actual[property]-value)>eps)throw Error('ขนาดที่กรอกเกินขอบ Area หรือช่องเปิด');
- c.panelSizes[selectedPanel.key]={patchReset:{before,after:structuredClone(c.panelPatches),key:saved?.key??key}};
+ c.panelSizes[selectedPanel.key]={patchReset:{before,after:structuredClone(c.panelPatches),key:saved?.key??key,mapBack:{...saved?.mapBack,...Object.fromEntries([...mapping].map(([from,to])=>[to,saved?.mapBack?.[from]??from]))}}};
  const next=areas.map(item=>item.id===areaId?a:item);validateFoldedSheetLimits(foldedAssemblies(next));return {areas:next,key:selectedPanel.key};
 }
 
@@ -49,11 +49,11 @@ export function resizePanelEdge(areas,areaId,key,edgeIndex,value){
    const raw=Math.abs(target[axis]-finished)<eps?(sign>0?extent[axis+2]:extent[axis]):target[axis]+sign*c.gap/2,low=sign<0?raw:panel.cell[axis],high=sign>0?raw:panel.cell[axis+2];if(high-low<c.gap+.001)continue;
    const patch=resizedStrip(oldLayout.cells,selected,axis,low,high,extent,c[axis?'spacingY':'spacingX']),mapping=new Map(patch.cells.filter(cell=>cell.source).map(cell=>[cell.source,cellKey(cell.bounds)]));
    for(const cell of patch.cells){if(cell.source&&c.overrides[cell.source])cell.override=c.overrides[cell.source];delete cell.source}
-   for(const field of ['panelJoins','overrides','panelSizes']){const out={};for(const [oldKey,v]of Object.entries(c[field]||{})){const source=oldLayout.cells.find(cell=>cellKey(cell.bounds)===oldKey),other=1-axis;if(field==='overrides'&&source&&(source.bounds[other]<patch.bounds[other]-.001||source.bounds[other+2]>patch.bounds[other+2]+.001))out[oldKey]=v;out[mapping.get(oldKey)??oldKey]=v}c[field]=out}
+   for(const field of ['panelJoins','overrides','panelSizes','panelBends']){const out={};for(const [oldKey,v]of Object.entries(c[field]||{})){const source=oldLayout.cells.find(cell=>cellKey(cell.bounds)===oldKey),other=1-axis;if(field==='overrides'&&source&&(source.bounds[other]<patch.bounds[other]-.001||source.bounds[other+2]>patch.bounds[other+2]+.001))out[oldKey]=v;out[mapping.get(oldKey)??oldKey]=v}c[field]=out}
    c.panelPatches=[...(c.panelPatches||[]),patch];a.curtain=c;const layout=buildCurtainLayout(a),desired=[...panel.cell];desired[axis]=low;desired[axis+2]=high;
    const result=layout.panels.find(candidate=>candidate.cell.every((v,i)=>Math.abs(v-desired[i])<eps)&&boundaryCorners(candidate.rings[0]).some((point,i,ring)=>{const start=frame.to(point),end=frame.to(ring[(i+1)%ring.length]);return (length(sub(start,fixed))<eps&&length(sub(end,target))<eps)||(length(sub(end,fixed))<eps&&length(sub(start,target))<eps)}));
    if(!result)throw Error('ขอบที่เลือกติดขอบ Area หรือช่องเปิด · ไม่สามารถปรับถึงระยะนี้โดยคงจุดยึดเดิม');
-   c.panelSizes[result.key]={patchReset:{before,after:structuredClone(c.panelPatches),key:saved?.key??key}};
+   c.panelSizes[result.key]={patchReset:{before,after:structuredClone(c.panelPatches),key:saved?.key??key,mapBack:{...saved?.mapBack,...Object.fromEntries([...mapping].map(([from,to])=>[to,saved?.mapBack?.[from]??from]))}}};
    const next=areas.map(item=>item.id===areaId?a:item);validateFoldedSheetLimits(foldedAssemblies(next));return {areas:next,key:result.key};
   }catch(error){failure=error}
  }

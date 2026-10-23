@@ -1,0 +1,10 @@
+(setq mavp-name-test-trusted (getvar "TRUSTEDPATHS"))
+(setvar "TRUSTEDPATHS" (strcat mavp-name-test-trusted ";C:/TA/TA_COMPELETE/GPT CODE/TA_LAYER_TRANSFER/bin"))
+NETLOAD
+"C:/TA/TA_COMPELETE/GPT CODE/TA_LAYER_TRANSFER/bin/TA_LAYER_TRANSFER_v2.dll"
+MAVPEXPORT
+None
+
+(setvar "TRUSTEDPATHS" mavp-name-test-trusted)
+QUIT
+_Y

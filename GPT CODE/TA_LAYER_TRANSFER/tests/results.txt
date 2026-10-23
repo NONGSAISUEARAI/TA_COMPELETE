@@ -1,0 +1,36 @@
+PASS: CSV Unicode, comma, quotes, multiline description round trip
+PASS: Description fixture contains actual Thai, quotes and newlines
+PASS: NewVPFreeze 1 means frozen in new viewports
+PASS: Explicit override equal to base value is still an override
+PASS: Nested property/group filters and membership exported
+PASS: Distinct viewport snapshots captured
+PASS: Absent override exported explicitly
+PASS: Malformed CSV quote rejected
+PASS: Semicolon CSV dialect
+PASS: Cyclic filter tree rejected
+PASS: Invalid booleans rejected before import
+PASS: INHERIT is only allowed for viewport overrides
+PASS: All 256 transparency alpha values round trip
+PASS: Missing layer created
+PASS: Global layer settings transferred across DWGs
+PASS: New layer keeps plot, lock, transparency, New VP Freeze
+PASS: VP freeze and explicit overrides round trip
+PASS: INHERIT removes old target override without losing other VP data
+PASS: Nested filter order, names, expressions round trip
+PASS: Group membership round trip
+PASS: Viewport-only leaves existing drawing-wide properties unchanged
+PASS: Unselected viewport unchanged
+PASS: Missing-layer Skip does not create layers
+PASS: Viewport-only preserves filters
+PASS: Keep preserves existing global and VP properties
+PASS: Keep still permits missing-layer creation
+PASS: Unavailable resource aborts import
+PASS: Failure rolls back earlier changes and newly created layers
+PASS: Conflicting source-to-target VP mapping rejected
+PASS: Filter Merge preserves unrelated folders
+PASS: Drawing-only leaves VP overrides unchanged
+PASS: Late filter-type conflict aborts import
+PASS: Late failure restores layers and viewport overrides
+PASS: Late failure also rolls back cloned resources
+PASS: Import refuses a database with Undo disabled
+ALL TESTS PASSED

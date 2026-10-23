@@ -1,0 +1,18 @@
+(setq mavp-move-trusted (getvar "TRUSTEDPATHS"))
+(setvar "TRUSTEDPATHS" (strcat mavp-move-trusted ";C:/TA/TA_COMPELETE/GPT CODE/TA_LAYER_TRANSFER;C:/TA/TA_COMPELETE/GPT CODE/TA_LAYER_TRANSFER/bin"))
+(setq *MAVP-ROOT* nil)
+(load "C:/TA/TA_COMPELETE/GPT CODE/TA_LAYER_TRANSFER/Maviewport.lsp")
+(princ (strcat "\nMOVED_ROOT=" *MAVP-ROOT*))
+(princ (strcat "\nMOVED_DLL=" *MAVP-DLL*))
+MAVPEXPORT
+None
+"C:/TA/TA_COMPELETE/GPT CODE/TA_LAYER_TRANSFER/tests/moved-loader-smoke.csv"
+MAVPIMPORT
+"C:/TA/TA_COMPELETE/GPT CODE/TA_LAYER_TRANSFER/tests/moved-loader-smoke.csv"
+Drawing
+Create
+Overwrite
+Skip
+(setvar "TRUSTEDPATHS" mavp-move-trusted)
+QUIT
+_Y

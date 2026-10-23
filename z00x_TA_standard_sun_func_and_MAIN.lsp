@@ -15018,11 +15018,11 @@
         (setq ss_i_zoom_obj_ (vla-getboundingbox (vlax-ename->vla-object ss_i_zoom_ename_) 'min_ 'max_)) 
         (setq rec_min_ (vlax-safearray->list min_)) 
         (setq rec_max_ (vlax-safearray->list max_))   
-        (vla-zoomcenter 
-          (vlax-get-acad-object)
-          (vlax-3d-point rec_max_ )
+      (vla-zoomcenter 
+        (vlax-get-acad-object)
+        (vlax-3d-point rec_max_ )
           400
-        )
+      )
     )
     (defun c:current_zoom_curzoom ()
       (if (= cur-zoom_stopper_val nil)
@@ -18198,7 +18198,7 @@
           )
           (if (= (vl-catch-all-error-p ERR_) nil)
             (progn
-              (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ p1_obj_efname))
+              ; (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ p1_obj_efname))
               ;preloop_and_while
                 (setq ss_pre_filter_set_xx_i 0)
                 (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
@@ -18272,7 +18272,7 @@
           )
           (if (= (vl-catch-all-error-p ERR_) nil)
             (progn
-              (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ p1_obj_efname))
+              ; (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ p1_obj_efname))
               ;preloop_and_while
                 (setq ss_pre_filter_set_xx_i 0)
                 (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
@@ -22073,7 +22073,7 @@
   ;
   ;LAYOUT_FUNC
     
-(defun c:F78 ()
+    (defun c:F78 ()
       ;return
         (command "ucs" "world")
       ;
@@ -66143,5 +66143,5 @@
       (LM:setdynpropvalue ss_pre_filter_set_xx_obj_ "distance2"  (/ (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "OVL-L" ) 2))
       (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
     )
-  ;
-) 
+  ;                                                                                                                         
+)

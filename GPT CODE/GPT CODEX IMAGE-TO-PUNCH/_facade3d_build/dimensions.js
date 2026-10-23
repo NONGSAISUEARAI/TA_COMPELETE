@@ -7,6 +7,12 @@ export function boundaryCorners(ring){
  return points.filter((p,i)=>{const a=sub(p,points[(i+points.length-1)%points.length]),b=sub(points[(i+1)%points.length],p),la=length(a),lb=length(b);return la>1e-6&&lb>1e-6&&(Math.abs(a[0]*b[1]-a[1]*b[0])>la*lb*1e-8||dot(a,b)<0)});
 }
 
+// Use exactly the same cleaned corner order as the panel fold table.
+export function panelEdgeLabels(area,panel){
+ if(!area||area.visible===false||!panel)return [];const points=boundaryCorners(panel.rings[0]);if(points.length<3)return [];const winding=Math.sign(signedArea(points)),basis=worldCurtainBasis(area);
+ return points.map((p,i)=>{const q=points[(i+1)%points.length],edge=sub(q,p),size=length(edge),mid=mul(add(p,q),.5),delta=sub(worldPoint(area,q),worldPoint(area,p)),dx=dot(delta,basis.x),dy=dot(delta,basis.y),trimReversed=(Math.abs(dx)>=Math.abs(dy)?dx:dy)<0;return {trimReversed,label:`E${i+1}`,edgeIndex:i,start:worldPoint(area,p),end:worldPoint(area,q),mid:worldPoint(area,mid),inward:worldPoint(area,add(mid,mul([-edge[1],edge[0]],winding/size))),panelKey:panel.key,areaId:area.id}});
+}
+
 // Use real edges: a local bounding box invents corners on triangles and on
 // rectangular geometry whose imported Local UCS does not follow its sides.
 export function selectionDimensions(area,panel=null){

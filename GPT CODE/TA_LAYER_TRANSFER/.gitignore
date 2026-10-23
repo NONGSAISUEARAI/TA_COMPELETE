@@ -1,0 +1,15 @@
+tests/bin/
+tests/*.dwg
+tests/*.bak
+tests/*.dwl
+tests/*.dwl2
+tests/*.log
+tests/api.txt
+tests/probe.scr
+bin/*.pdb
+obj/
+tests/smoke*.csv
+tests/*-smoke.csv
+tests/source_export_layer_*.csv
+tests/*_exlay_*.csv
+!README.md

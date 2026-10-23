@@ -31,5 +31,7 @@ export function worldCurtainFrame(area,settings){
 
 export function curtainMullionOffset(area,settings){
  const sign=settings.reference==='world'&&dot(cross(area.u,area.v),worldCurtainBasis(area).normal)<0?-1:1;
- return settings.mullionOffset*(settings.flipMullionSide?-1:1)*sign;
+ return mullionCenterOffset(settings)*sign;
 }
+
+export function mullionCenterOffset(settings){const center=settings.mullionOffsetReference==='face'?-(settings.mullionOffset+settings.mullionDepth/2):settings.mullionOffset;return center*(settings.flipMullionSide?-1:1)}

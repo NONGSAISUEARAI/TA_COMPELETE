@@ -1,0 +1,10 @@
+(setq mavp-path-test-trusted (getvar "TRUSTEDPATHS"))
+(setvar "TRUSTEDPATHS" (strcat mavp-path-test-trusted ";C:/TA/TA_COMPELETE;C:/TA/TA_COMPELETE/GPT CODE/TA_LAYER_TRANSFER/bin"))
+(load "C:/TA/TA_COMPELETE/Maviewport.lsp")
+(setvar "CTAB" "Layout1")
+MAVPEXPORT
+None
+
+(setvar "TRUSTEDPATHS" mavp-path-test-trusted)
+QUIT
+_Y

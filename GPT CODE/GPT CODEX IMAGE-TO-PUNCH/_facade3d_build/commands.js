@@ -13,17 +13,17 @@ export function readPoint(text,{area,local=false,reference=null}={}){
 
 export function createCommandLine(api){
   const host=document.createElement('section');host.className='command-console';host.setAttribute('aria-label','CAD command line');
-  host.innerHTML=`<div class="command-top"><b>COMMAND LINE</b><div><button id="cmd-ucs" type="button" title="Switch World / Area Local coordinates">WORLD</button><button id="cmd-snap" type="button">OSNAP · F3</button><button id="cmd-ortho" type="button">ORTHO · F8</button><button id="cmd-help" type="button">? Help</button></div></div><div id="command-log" role="log" aria-live="polite"></div><form id="command-form" autocomplete="off"><label id="command-prompt" for="command-input">Command:</label><input id="command-input" spellcheck="false" aria-label="Command or coordinates" placeholder="HELP · SELECT · M · ORIGIN · DI · RO · Z"><button type="submit" aria-label="Execute command">↵</button></form><div id="command-hint">Enter to execute / repeat · Esc to cancel · Shift + Middle-drag to orbit · Middle-drag to pan</div>`;
+  host.innerHTML=`<div class="command-top"><b>COMMAND LINE</b><div><button id="cmd-ucs" type="button" title="Switch World / Area Local coordinates">WORLD</button><button id="cmd-snap" type="button">OSNAP · F3</button><button id="cmd-ortho" type="button">ORTHO · F8</button><button id="cmd-help" type="button">? Help</button></div></div><div id="command-log" role="log" aria-live="polite"></div><form id="command-form" autocomplete="off"><label id="command-prompt" for="command-input">Command:</label><input id="command-input" spellcheck="false" aria-label="Command or coordinates" placeholder="HELP · SELECT · MP · M · ORIGIN · DI · Z"><button type="submit" aria-label="Execute command">↵</button></form><div id="command-hint">Enter to execute / repeat · Esc to cancel · Shift + Middle-drag to orbit · Middle-drag to pan</div>`;
   document.querySelector('main').insertBefore(host,document.querySelector('main footer'));
   const $=s=>host.querySelector(s),input=$('#command-input'),log=$('#command-log');
   let state=null,lastCommand='',local=false,ortho=false,lastPoint=null,hoverPoint=null,commandHistory=[],historyIndex=0;
-  const aliases={M:'MOVE',O:'ORIGIN',DI:'DIST',RO:'ROTATE',U:'UNDO',Z:'ZOOM',S:'SELECT',I:'IMPORT',A:'AREA',CW:'CURTAIN','?':'HELP'};
-  const known=['NEW','MOVE','ORIGIN','DIST','ROTATE','SELECT','UNDO','ZOOM','IMPORT','AREA','ALIGN','SAVE','EXPORT','DXF','CURTAIN','UCS','OSNAP','OSMODE','ORTHO','HELP'];
+  const aliases={M:'MOVE',O:'ORIGIN',DI:'DIST',RO:'ROTATE',U:'UNDO',Z:'ZOOM',S:'SELECT',I:'IMPORT',A:'AREA',CW:'CURTAIN',MP:'MATCHPANEL','?':'HELP'};
+  const known=['MATCHPANEL','NEW','MOVE','ORIGIN','DIST','ROTATE','SELECT','UNDO','ZOOM','IMPORT','AREA','ALIGN','SAVE','EXPORT','DXF','CURTAIN','UCS','OSNAP','OSMODE','ORTHO','HELP'];
   const pretty=p=>p.map(n=>Number(n.toFixed(3))).join(', ');
   function write(text,error=false){const line=document.createElement('div');line.textContent=text;if(error)line.className='command-error';log.append(line);while(log.children.length>70)log.firstChild.remove();log.scrollTop=log.scrollHeight}
   function refresh(){
     let prompt='Command:';
-    if(state){if(state.step==='select')prompt='Select area [number / name / click]:';
+    if(state){if(state.step==='panel-source')prompt='MATCHPANEL · Select source panel:';if(state.step==='panel-target')prompt='MATCHPANEL · Select destination panels ('+(state.targets?.size||0)+') [Enter = apply]:';if(state.step==='select')prompt='Select area [number / name / click]:';
       if(state.step==='base')prompt=state.type==='ROTATE'?'Specify pivot [Enter = area base]:':'Specify base point [Enter = area base]:';
       if(state.step==='target')prompt='Specify second point:';
       if(state.step==='origin')prompt='Specify pattern origin [Local X,Y]:';
@@ -34,10 +34,10 @@ export function createCommandLine(api){
       if(state.step==='osmode')prompt='OSMODE <'+api.osmode()+'>:';
       if(state.step==='ucs')prompt='UCS [World / Local]:';
     }
-    $('#command-prompt').textContent=prompt;input.placeholder=state?'Type coordinates or pick a point in the viewport':'HELP · SELECT · M · ORIGIN · DI · RO · Z';
+    $('#command-prompt').textContent=prompt;input.placeholder=state?'Type coordinates or pick a point in the viewport':'HELP · SELECT · MP · M · ORIGIN · DI · Z';
     $('#cmd-ucs').textContent=state?.type==='ORIGIN'?'AREA LOCAL':local?'AREA LOCAL':'WORLD';
     $('#cmd-snap').classList.toggle('active',api.snap());$('#cmd-ortho').classList.toggle('active',ortho);
-    if(!state)$('#command-hint').textContent='Enter to execute / repeat · Esc to cancel · Shift + Middle-drag to orbit · Middle-drag to pan';
+    if(state?.type==='MATCHPANEL')$('#command-hint').textContent='Click / drag = add · Ctrl + click / drag = remove · Enter = apply · Esc = cancel';else if(!state)$('#command-hint').textContent='Enter to execute / repeat · Esc to cancel · Shift + Middle-drag to orbit · Middle-drag to pan';
     host.classList.toggle('command-running',!!state);api.changed(!!state);
   }
   function cancel(message=true){if(state&&message)write('*Cancel*');state=null;hoverPoint=null;input.value='';api.marker(null);refresh()}
@@ -60,6 +60,7 @@ export function createCommandLine(api){
     if(!known.includes(cmd))throw Error('Unknown command: '+head+' · พิมพ์ HELP เพื่อดูคำสั่ง');
     cancel(false);api.cancelPick();lastCommand=cmd;write('Command: '+text);
     if(['MOVE','ORIGIN','ROTATE','SELECT'].includes(cmd)){requireArea(cmd);if(args){if(state?.step==='select')selectValue(args);else submit(args)}return}
+    if(cmd==='MATCHPANEL'){state={type:cmd,step:'panel-source',matched:0};write('เลือก Panel ต้นแบบ → คลิก / ลากเลือกปลายทาง · Ctrl+คลิก / ลาก = เอาออก · Enter ยืนยัน / Esc ยกเลิก');refresh();return}
     if(cmd==='DIST'){state={type:cmd,step:'first',areaId:api.selected()?.id};refresh();return}
     if(cmd==='UCS'){state={type:cmd,step:'ucs'};refresh();if(args)submit(args);return}
     if(cmd==='ZOOM'){state={type:cmd,step:'zoom'};refresh();if(args)submit(args);return}
@@ -67,12 +68,13 @@ export function createCommandLine(api){
     if(cmd==='OSNAP'){api.setSnap(!api.snap());complete('OSNAP '+(api.snap()?'ON':'OFF'));return}
     if(cmd==='ORTHO'){ortho=!ortho;complete('ORTHO '+(ortho?'ON':'OFF'));return}
     if(cmd==='UNDO'){api.action('undo');complete('Undo');return}
-    if(cmd==='HELP'){write('SELECT / S → เลือก Area ด้วยเลข ชื่อ หรือคลิก');write('MOVE / M → จุดฐาน → จุดปลาย | ORIGIN / O → Local X,Y');write('ROTATE / RO → จุดหมุน → มุมรอบ World Z | DIST / DI → วัดระยะ');write('UCS WORLD / LOCAL · พิกัด X,Y,Z · @X,Y,Z = ระยะจากจุดก่อนหน้า');write('NEW = โปรเจกต์ว่าง · AREA / A · IMPORT / I · CURTAIN / CW · ALIGN · SAVE · EXPORT / DXF · UNDO / U · ZOOM / Z → E / S');write('OSMODE [value] · 1 END / 2 MID / 128 PER / 512 NEA / 1024 GCEN · รวมค่าเพื่อเลือกหลายโหมด');write('F3 = เปิด/พัก OSNAP · F8 = ORTHO (เมื่อคลิกจุด) · ↑/↓ ประวัติคำสั่ง');complete();return}
+    if(cmd==='HELP'){write('MATCHPANEL / MP → เลือกแผ่นต้นแบบ → คลิก / ลากเลือกปลายทาง · Ctrl+คลิก/ลากเอาออก · Enter ยืนยัน');write('SELECT / S → เลือก Area ด้วยเลข ชื่อ หรือคลิก');write('MOVE / M → จุดฐาน → จุดปลาย | ORIGIN / O → Local X,Y');write('ROTATE / RO → จุดหมุน → มุมรอบ World Z | DIST / DI → วัดระยะ');write('UCS WORLD / LOCAL · พิกัด X,Y,Z · @X,Y,Z = ระยะจากจุดก่อนหน้า');write('NEW = โปรเจกต์ว่าง · AREA / A · IMPORT / I · CURTAIN / CW · ALIGN · SAVE · EXPORT / DXF · UNDO / U · ZOOM / Z → E / S');write('OSMODE [value] · 1 END / 2 MID / 128 PER / 512 NEA / 1024 GCEN · รวมค่าเพื่อเลือกหลายโหมด');write('F3 = เปิด/พัก OSNAP · F8 = ORTHO (เมื่อคลิกจุด) · ↑/↓ ประวัติคำสั่ง');complete();return}
     api.action({NEW:'new-project',AREA:'add-area',IMPORT:'import-dxf',ALIGN:'align-edge',SAVE:'save-project',EXPORT:'export-dxf',DXF:'export-dxf',CURTAIN:'curtain-wall'}[cmd]);complete();
   }
   function submit(text){try{
     text=text.trim();if(!state){if(text)run(text);else if(lastCommand)run(lastCommand);return}
     const word=text.split(/\s/)[0].toUpperCase();if(text&&!text.includes(',')&&(known.includes(aliases[word]||word))){run(text);return}
+    if(state.type==='MATCHPANEL'){if(!text){if(state.step==='panel-source'){cancel();return}const count=api.matchPanels(state.properties,[...state.targets.values()]);complete('MATCHPANEL · '+count+' panel(s) matched');return}throw Error('คลิก Panel ในฉาก · Enter เพื่อจบ')}
     if(state.step==='osmode'){if(text)api.setOsmode(text);complete('OSMODE = '+api.osmode());return}
     if(state.step==='select'){if(!text)throw Error('เลือก Area ด้วยเลข ชื่อ หรือคลิก');selectValue(text);return}
     if(state.step==='ucs'){if(!/^(W|WORLD|L|LOCAL)$/i.test(text))throw Error('ใช้ WORLD หรือ LOCAL');if(/^L/i.test(text)&&!api.selected())throw Error('เลือก Area ก่อนใช้ Local coordinates');local=/^L/i.test(text);complete('Coordinates: '+(local?'AREA LOCAL':'WORLD'));return}
@@ -96,7 +98,13 @@ export function createCommandLine(api){
     if(ortho&&state?.base&&!snapped){const delta=sub(p,state.base),axes=local&&a?[a.u,a.v,cross(a.u,a.v)]:[[1,0,0],[0,1,0],[0,0,1]];const axis=axes.reduce((best,axis)=>Math.abs(dot(delta,axis))>Math.abs(dot(delta,best))?axis:best,axes[0]);p=add(state.base,mul(axis,dot(delta,axis)))}
     return {p,snapped};
   }
-  function handleRay(ray,hits,tolerance,click=false){if(!state||['angle','ucs','zoom','osmode'].includes(state.step))return !!state;
+  function selectMatchTargets(refs,remove=false){
+    if(state?.type!=='MATCHPANEL'||state.step!=='panel-target')return false;
+    const next=new Map(state.targets);for(const ref of refs){if(ref.areaId===state.properties.source.areaId&&ref.key===state.properties.source.key)continue;const key=JSON.stringify([ref.areaId,ref.key]);if(remove)next.delete(key);else next.set(key,{...ref})}
+    api.showMatchTargets(state.properties.source,[...next.values()]);state.targets=next;write((remove?'Remove':'Select')+' · รวม '+next.size+' panel');refresh();return true;
+  }
+  function handleRay(ray,hits,tolerance,click=false,modifiers={}){if(!state||['angle','ucs','zoom','osmode'].includes(state.step))return !!state;
+    if(state.type==='MATCHPANEL'){if(!click)return true;const hit=hits.find(h=>h.panelKey);if(!hit){write('คลิกบน Panel ที่แสดงอยู่',true);return true}try{const ref={areaId:hit.areaId,key:hit.panelKey};if(state.step==='panel-source'){state.properties=api.capturePanel(ref);state.step='panel-target';state.targets=new Map();write('Source: '+state.properties.name);api.showMatchPanel(ref);refresh()}else{selectMatchTargets([ref],!!modifiers.remove)}}catch(e){write(e.message,true)}return true}
     if(state.step==='select'){if(click&&hits[0]){api.select(hits[0].areaId);if(state)advanceSelection(api.selected())}return true}
     const result=pointFromRay(ray,hits,tolerance);if(!result){api.marker(null);return true}hoverPoint=result.p;api.marker(result.p,result.snapped,tolerance);
     $('#command-hint').textContent=(state.type==='ORIGIN'?'LOCAL '+pretty(localPoint(pointArea(),result.p)):'WORLD '+pretty(result.p))+' mm'+(result.snapped?' · '+result.snapped:'')+' · Esc to cancel';
@@ -117,7 +125,7 @@ export function createCommandLine(api){
     if(e.key.length===1&&/^[a-zA-Z0-9@?.+,-]$/.test(e.key)){e.preventDefault();input.focus();input.value+=e.key}
   });
   write('Facade Studio command line · HELP for commands');refresh();
-  return {get active(){return !!state},handleRay,cancel,selectionChanged(id){if(!state)return;if(state.step==='select')advanceSelection(api.selected());else if(state.areaId&&state.areaId!==id)cancel()},externalChange(){if(state)cancel()},refresh};
+  return {get active(){return !!state},get matchingTargets(){return state?.type==='MATCHPANEL'&&state.step==='panel-target'},selectMatchTargets,handleRay,cancel,selectionChanged(id){if(!state)return;if(state.step==='select')advanceSelection(api.selected());else if(state.areaId&&state.areaId!==id)cancel()},externalChange(){if(state)cancel()},refresh};
 }
 
 
