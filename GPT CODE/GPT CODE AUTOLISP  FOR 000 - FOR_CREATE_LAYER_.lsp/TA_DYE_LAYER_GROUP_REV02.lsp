@@ -18,7 +18,8 @@
 ;;; Requires TA_LAYER_FILTER_TREE.lsp.  REV02 tries to load that file when the
 ;;; public filter-tree function is not already available.
 ;;;
-;;; Command: TADYE2
+;;; Selection modes: Objects (standalone), Blocks (including contents), Both.
+;;; Command: DYING_OBJECT_LAYER_dyeobjlayer_
 
 (vl-load-com)
 
@@ -27,6 +28,9 @@
 )
 (if (not (boundp 'TA-DYE2:choice-memory))
   (setq TA-DYE2:choice-memory nil)
+)
+(if (not (boundp 'TA-DYE2:selection-mode))
+  (setq TA-DYE2:selection-mode "Both")
 )
 
 ;;; Edit this list to assign additional entity types in AUTO mode.
@@ -642,8 +646,42 @@
   )
   (list TA-DYE2:moved TA-DYE2:skipped (reverse TA-DYE2:reasons))
 )
+<<<<<<< Updated upstream
  
 (defun c:TADYE2 (/ *error* doc component members role selection result undo-open)
+=======
+
+(defun TA-DYE2:select-objects (/ mode)
+  ;; Keep the original mixed selection as the initial default. Remember a
+  ;; subsequent choice for the rest of this AutoCAD session, including reloads.
+  (if (not (member TA-DYE2:selection-mode '("Objects" "Blocks" "Both")))
+    (setq TA-DYE2:selection-mode "Both")
+  )
+  (initget "Objects Blocks Both")
+  (setq mode
+    (getkword
+      (strcat "\nSelection [Objects/Blocks/Both] <" TA-DYE2:selection-mode ">: ")
+    )
+  )
+  (if mode (setq TA-DYE2:selection-mode mode))
+  (cond
+    ((= TA-DYE2:selection-mode "Objects")
+      (princ "\nSelect standalone objects to dye (blocks excluded): ")
+      (ssget '((0 . "~INSERT")))
+    )
+    ((= TA-DYE2:selection-mode "Blocks")
+      (princ "\nSelect block references to dye their contents: ")
+      (ssget '((0 . "INSERT")))
+    )
+    (T
+      (princ "\nSelect objects or block references to dye: ")
+      (ssget)
+    )
+  )
+)
+
+(defun c:DYING_OBJECT_LAYER_dyeobjlayer_ (/ *error* doc component members role selection result undo-open)
+>>>>>>> Stashed changes
   (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
   (defun *error* (message)
     (if undo-open (vla-EndUndoMark doc))
@@ -679,8 +717,7 @@
       )
       (if (not role) (setq role "Auto"))
       (setq role (strcase role))
-      (princ "\nSelect objects or block references to dye: ")
-      (if (setq selection (ssget))
+      (if (setq selection (TA-DYE2:select-objects))
         (progn
           (vla-StartUndoMark doc)
           (setq undo-open T)
@@ -697,8 +734,10 @@
           (foreach reason (caddr result)
             (princ (strcat "\n  " reason))
           )
-          (princ
-            "\nBlock definitions are shared by all references. UNDO reverses this command."
+          (if (/= TA-DYE2:selection-mode "Objects")
+            (princ
+              "\nBlock definitions are shared by all references. UNDO reverses this command."
+            )
           )
         )
       )
@@ -708,6 +747,6 @@
 )
 
 (princ
-  "\nTADYE2 loaded. Type TADYE2 to choose a root filter and dye selected objects."
+  "\nDYING_OBJECT_LAYER_dyeobjlayer_ loaded. Type DYING_OBJECT_LAYER_dyeobjlayer_; choose Objects, Blocks or Both when selecting."
 )
 (princ)

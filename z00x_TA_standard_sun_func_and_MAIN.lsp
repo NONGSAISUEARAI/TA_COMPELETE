@@ -14839,6 +14839,7 @@
                                     (list "Detail 19" "Detail 20")
                                     (list "A-1" "A-2" "B-1" "B-2" "D-1") ;6
                                     (list "B-3" "C-1" ) ;7
+                                    (list "TYPE 26" "TYPE 2" "TYPE 28" ) ;7
                                   )
       )
       (cond
@@ -52318,6 +52319,8 @@
         (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA/TA_COMPELETE/COMPELETE IN COMPELETE/SFB_FINDING_SPECFILY_NAME_BLOCK.lsp") ) ) ) )
         (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA/TA_COMPELETE/000 - automation_cad.lsp") ) ) ) )
         (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA/TA_COMPELETE/000 - FOR_CREATE_LAYER_.lsp") ) ) ) )
+        (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA/TA_COMPELETE/GPT CODE/TA_LAYER_TRANSFER/Maviewport.lsp") ) ) ) )
+        (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA/TA_COMPELETE/GPT CODE/TA_LAYER_TRANSFER/Maviewport.lsp") ) ) ) )
       )
     )
     ((and 
@@ -52357,6 +52360,8 @@
         (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/000 - FOR_CREATE_LAYER_.lsp") ) ) ) )
         (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/000 - automation_cad.lsp") ) ) ) )
         (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/COMPELETE IN COMPELETE/PPLINE TEST AUTOPLOT.lsp") ) ) ) )
+        (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/GPT CODE/TA_LAYER_TRANSFER/Maviewport.lsp") ) ) ) )
+        (setq Er-msg_1 (vl-catch-all-apply (function (lambda () (load "C:/TA compelete github/TA_COMPELETE/GPT CODE/TA_LAYER_TRANSFER/Maviewport.lsp") ) ) ) )
         
         
         
