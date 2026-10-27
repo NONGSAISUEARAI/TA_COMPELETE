@@ -1,0 +1,25 @@
+BUILD Auto: OK count=1 length=6
+PASS mixed masks use only actual WIPEOUT, excluding unrelated material hatch
+BUILD Wipeout: No WIPEOUT found. Select the covering block too, or use SHWHATCH for a hatch mask. count=0 length=0
+PASS SHW refuses hatch-only blockers instead of creating wrong short fragments
+BUILD Hatch: OK count=1 length=1
+PASS explicit hatch mode still supports hatch-only overlaps
+BUILD Wipeout: OK count=1 length=6
+PASS one assembly selection finds nested WIPEOUT and reveals the complete covered line
+PASS mixed assembly keeps definition and insertion unchanged; no working geometry remains
+BUILD Wipeout: OK count=1 length=12
+PASS nested mirrored rotated nonuniform assembly preserves full wipeout coverage
+BUILD Wipeout: OK count=1 length=6
+PASS auto linetype scale fits at least four full dash periods
+PASS auto linetype calculation preserves the drawing LTSCALE
+BUILD Wipeout: OK count=1 length=6
+PASS manual linetype scale remains exact
+BUILD Hatch: OK count=1 length=2
+PASS nonuniform mixed assembly still supports explicit material-hatch mode
+BUILD Auto: OK count=1 length=12
+PASS nonuniform Auto mode prefers WIPEOUT over transformed material hatch
+BUILD Wipeout: OK count=1 length=6.41864581
+PASS nonuniform reflected fillet retains correct quarter-ellipse length
+PASS nonzero block base point and rotation map fillet endpoints correctly
+PASS fillet fallback preserves original block and cleans all intermediate copies
+TOTAL 14 passed, 0 failed

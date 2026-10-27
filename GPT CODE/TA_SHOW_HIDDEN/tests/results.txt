@@ -1,0 +1,61 @@
+BUILD: OK count=1 length=10
+PASS line clips to hatch: one exact 10-unit segment
+PASS source unchanged
+PASS temporary objects removed
+PASS overlay layer and hidden linetype
+BUILD: OK count=2 length=10
+PASS user example: only two covered rectangle sides
+BUILD: OK count=2 length=6
+PASS hatch island remains empty
+BUILD: OK count=1 length=10
+PASS overlapping masks form union without duplicate segments
+BUILD: OK count=1 length=10
+PASS ignore-islands hatch style
+BUILD: OK count=0 length=0
+PASS no overlap creates nothing and cleans up
+BUILD: OK count=0 length=0
+PASS coincident mask edge is not an interior segment
+BUILD: OK count=0 length=0
+PASS circle outside square produces no overlays
+BUILD: OK count=1 length=18.84955592
+PASS fully covered circle remains an exact circle
+BUILD: OK count=1 length=9.42477796
+PASS half circle clips to exact arc
+BUILD: OK count=1 length=6
+PASS circular hatch boundary uses exact intersections
+BUILD: OK count=1 length=10
+PASS plan overlap preserves original source elevation
+BUILD: OK count=1 length=10
+PASS block generates overlay in model space outside definition
+BUILD: OK count=1 length=10
+PASS rotated block clips in world coordinates
+BUILD: OK count=1 length=10
+PASS nonuniformly scaled block
+BUILD: OK count=1 length=10
+PASS mirrored block
+BUILD: OK count=1 length=10
+PASS nested block retains its transform
+BUILD: OK count=1 length=10
+PASS native WIPEOUT boundary and half-pixel correction
+BUILD: This version supports 2D geometry parallel to WCS XY only. count=0 length=0
+PASS failure rolls back and removes working objects
+BUILD: OK count=1 length=10
+PASS hatch inside translated block acts as mask
+BUILD: OK count=1 length=10
+PASS locked source layer is restored and temporary copies removed
+PASS original hatch remains unchanged
+BUILD: OK count=1 length=10
+PASS rotated UCS does not alter world-coordinate clipping
+BUILD: OK count=1 length=14.47514632
+PASS ellipse produces a bounded-tolerance polyline
+BUILD: OK count=1 length=14.75225938
+PASS S-shaped spline sampling preserves curvature
+BUILD: OK count=0 length=0
+PASS tangent to curved hatch does not create hidden geometry
+BUILD: OK count=2 length=6
+PASS outer hatch style excludes inner nested island
+BUILD: OK count=3 length=8
+PASS normal hatch style fills nested island
+BUILD: OK count=1 length=10
+PASS paper space output belongs to active layout
+TOTAL 32 passed, 0 failed

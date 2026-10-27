@@ -642,7 +642,7 @@
   )
   (list TA-DYE2:moved TA-DYE2:skipped (reverse TA-DYE2:reasons))
 )
-
+ 
 (defun c:TADYE2 (/ *error* doc component members role selection result undo-open)
   (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
   (defun *error* (message)

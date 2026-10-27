@@ -10922,8 +10922,11 @@
       (setq _global-dim_E-E_ (TA:preset_FAMELINE_E-E))
       (setq _global-dim_E-C_ (TA:preset_FAMELINE_E-C))
       (setq _global-dim_C-E_ (TA:preset_FAMELINE_C-E))
+      (setq preset_layer "000 - 0_SYM_DWG_DIMS_MAIN_COLOR_251")
     )
-    
+    (defun c:dimpreset_layer ()
+      (princ (strcat "dim layer is " (setq preset_layer_ (TA:GetClipboardText) )))
+    )
   ; (defun c:dimsetting-CKST_DIM_PRESET ()
     ;   ;example of setting dimension variables by setvar
     ;     ; (list 
@@ -11701,6 +11704,7 @@
               ;new_blk_entlast object
                 (setq dim_ename (entlast))
                 (setq dim_obj_ (vlax-ename->vla-object dim_ename))
+
                 (cond
                   ((= ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 0)
                     (progn
@@ -11730,6 +11734,12 @@
                 (vla-put-ScaleFactor  dim_obj_ sc )
                 (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
                 (command "_AIDIMPREC" dimprec dim_ename "" )
+                (if (= (TA:if_found_layer_ preset_layer_) T)
+                  (progn
+                    (vla-put-layer dim_obj_ preset_layer_)
+                  )
+                  (vla-put-layer dim_obj_ "0")
+                )
                 (setq new_ss_dim_ (ssadd dim_ename  new_ss_dim_))
               ;
               (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_i (+ ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 1))
@@ -12039,6 +12049,7 @@
                 (setq dim_ename (entlast))
                 (setq dim_obj_ (vlax-ename->vla-object dim_ename))
                 (setq new_ss_dim_ (ssadd dim_ename  new_ss_dim_))
+
                 (cond
                   ((= ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 0)
                     (progn
@@ -12068,6 +12079,12 @@
                 (vla-put-ScaleFactor  dim_obj_ sc )
                 (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
                 (command "_AIDIMPREC" dimprec dim_ename "" )
+                (if (= (TA:if_found_layer_ preset_layer_) T)
+                  (progn
+                    (vla-put-layer dim_obj_ preset_layer_)
+                  )
+                  (vla-put-layer dim_obj_ "0")
+                )
               ;
               (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_i (+ ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 1))
               
@@ -12405,6 +12422,12 @@
                 (vla-put-ScaleFactor  dim_obj_ sc )
                 (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
                 (command "_AIDIMPREC" dimprec dim_ename "" )
+                (if (= (TA:if_found_layer_ preset_layer_) T)
+                  (progn
+                    (vla-put-layer dim_obj_ preset_layer_)
+                  )
+                  (vla-put-layer dim_obj_ "0")
+                )
               ;
               (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_i (+ ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 1))
               
@@ -12793,6 +12816,12 @@
                 (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
                 ; (command "dimreassociate" dim_ename "" ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_cur-ins_ ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_next-ins_)
                 (command "_AIDIMPREC" dimprec dim_ename "" )
+                (if (= (TA:if_found_layer_ preset_layer_) T)
+                  (progn
+                    (vla-put-layer dim_obj_ preset_layer_)
+                  )
+                  (vla-put-layer dim_obj_ "0")
+                )
                 (setq new_ss_dim_ (ssadd dim_ename  new_ss_dim_))
               ;
               (setq ss_pre_filter_set_xx_inslist_sorted_highest_Y_i (+ ss_pre_filter_set_xx_inslist_sorted_highest_Y_i 1))

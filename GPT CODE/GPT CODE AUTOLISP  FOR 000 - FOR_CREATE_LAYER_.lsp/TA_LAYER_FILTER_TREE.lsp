@@ -252,6 +252,6 @@
   )
   (princ)
 )
-
+(c:TAFILTERTREE)
 (princ "\nTA_LAYER_FILTER_TREE loaded. Type TAFILTERTREE to inspect the hierarchy.")
 (princ)

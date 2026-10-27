@@ -1,0 +1,14 @@
+PASS square mask remains unchanged
+PASS wide rectangular mask stays at its original elevation in XY
+PASS tall rectangle remains correct
+PASS sloped mask matches drawn polygon, without vertical reflection or shift
+PASS lower horizontal source starts at x=2.8, not the mirrored edge
+PASS upper horizontal source starts at x=5.2
+PASS no hidden segment is generated above the actual mask
+PASS clockwise sloped mask
+PASS concave masking boundary
+PASS native rotated WIPEOUT follows its U/V vectors
+PASS native mirrored WIPEOUT preserves its handedness
+PASS large drawing coordinates match the real project coordinate range
+PASS rectangular clip uses the actual image height
+TOTAL 13 passed, 0 failed

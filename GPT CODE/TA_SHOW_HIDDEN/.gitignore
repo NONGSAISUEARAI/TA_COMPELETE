@@ -1,0 +1,8 @@
+*.log
+acad.err
+Drawing*.dwg
+Drawing*.bak
+*.dwl
+*.dwl2
+tests/private/
+tests/core-production-generated.lsp

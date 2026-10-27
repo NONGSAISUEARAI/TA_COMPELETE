@@ -1,0 +1,9 @@
+(setq sht-root "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/GPT CODE/TA_SHOW_HIDDEN/")
+(setq sht-secure (getvar "SECURELOAD"))
+(setvar "SECURELOAD" 0)
+(load (strcat sht-root "tests/core-production-generated.lsp"))
+(load (strcat sht-root "tests/TA_SHOW_HIDDEN_v21_tests.lsp"))
+(setvar "SECURELOAD" sht-secure)
+_.QUIT
+_Yes
+

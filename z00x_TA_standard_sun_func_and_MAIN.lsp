@@ -21385,6 +21385,7 @@
                           "010 - C10_PANEL_PANEL_GREEN_PLATE_SET-A-BOT-VIEW"
                           "010 - C10_PANEL_PANEL_GREEN_PLATE_SET-B-BOT-VIEW"
                           "010 - C10_PANEL_PANEL_GREEN_PLATE_SET-C-BOT-VIEW"
+                          "300HK ORDER FROM CHINA REV.2-LOT 2_C10_3001750HK-A-PF-S-ACOUS"
                         )
         )
         (setq blocklayer_ (list 
@@ -21407,7 +21408,7 @@
       ;preloop_and_while
         (setq ss_pre_filter_set_xx_i 0)
         (while (and 
-                 (= (vla-get-objectname blocklist_input_obj_) "AcDbBlockReference")
+                ;  (= (vla-get-objectname blocklist_input_obj_) "AcDbBlockReference")
                  (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
                )
           (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
@@ -21420,23 +21421,23 @@
           (setq ssbol_vertex_list_3 (nth 3 (TA:assembly_coordinate_coner (list ss_pre_filter_set_xx_min_ ss_pre_filter_set_xx_max_ ))))
           (TA:vla-insertblock
             blocklist_input_obj_efname_
-            (nth vertext_seq_ (TA:assembly_coordinate_coner (list ss_pre_filter_set_xx_min_ ss_pre_filter_set_xx_max_ )))
+            (nth 4 (TA:assembly_coordinate_coner (list ss_pre_filter_set_xx_min_ ss_pre_filter_set_xx_max_ )))
             1
-            (deg-to-rad 0)
+            (deg-to-rad 90)
           )
           (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
         )
       ;
-      (setq bypass-for-kill_ss_
-        (vl-catch-all-apply
-          (function
-            (lambda ()
-              (getstring "\nHit [ENTER] to kill selection set ...")
-              (TA:ss-erase ss_pre_filter_set_xx_)
-            )
-          )
-        )
-      )
+      ; (setq bypass-for-kill_ss_
+      ;   (vl-catch-all-apply
+      ;     (function
+      ;       (lambda ()
+      ;         (getstring "\nHit [ENTER] to kill selection set ...")
+      ;         (TA:ss-erase ss_pre_filter_set_xx_)
+      ;       )
+      ;     )
+      ;   )
+      ; )
       
     )
     (defun c:insert_array_insarray ()
