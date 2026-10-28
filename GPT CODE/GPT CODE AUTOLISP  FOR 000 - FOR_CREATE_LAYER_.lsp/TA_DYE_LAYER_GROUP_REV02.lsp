@@ -646,10 +646,6 @@
   )
   (list TA-DYE2:moved TA-DYE2:skipped (reverse TA-DYE2:reasons))
 )
-<<<<<<< Updated upstream
- 
-(defun c:TADYE2 (/ *error* doc component members role selection result undo-open)
-=======
 
 (defun TA-DYE2:select-objects (/ mode)
   ;; Keep the original mixed selection as the initial default. Remember a
@@ -681,7 +677,6 @@
 )
 
 (defun c:DYING_OBJECT_LAYER_dyeobjlayer_ (/ *error* doc component members role selection result undo-open)
->>>>>>> Stashed changes
   (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
   (defun *error* (message)
     (if undo-open (vla-EndUndoMark doc))

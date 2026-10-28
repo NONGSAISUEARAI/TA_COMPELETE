@@ -6035,6 +6035,7 @@
                            "FL-PJ-26-008-PL1065V-\\PLOT-2-PART-"
                            "FL-PJ-26-031-HK-\\PMEP-PART-"
                            "FL-PJ-26-031-\\PALU-PANEL-PART-"
+                           "FL-PJ-26-031-HK-\\PC10-PART-"
                          )
       )
       (setq prefix-str_sort_mode
@@ -21422,7 +21423,7 @@
           (setq ssbol_vertex_list_3 (nth 3 (TA:assembly_coordinate_coner (list ss_pre_filter_set_xx_min_ ss_pre_filter_set_xx_max_ ))))
           (TA:vla-insertblock
             blocklist_input_obj_efname_
-            (nth 4 (TA:assembly_coordinate_coner (list ss_pre_filter_set_xx_min_ ss_pre_filter_set_xx_max_ )))
+            (nth 0 (TA:assembly_coordinate_coner (list ss_pre_filter_set_xx_min_ ss_pre_filter_set_xx_max_ )))
             1
             (deg-to-rad 90)
           )
