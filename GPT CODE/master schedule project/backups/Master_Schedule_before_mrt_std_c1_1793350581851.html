@@ -1,0 +1,2486 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Master Schedule งานตกแต่งและฝ้าเพดาน พร้อม Gantt Chart และบันทึกข้อมูลใน HTML">
+<title>Master Schedule · PP-LINE</title>
+<style>
+:root{--ink:#153331;--muted:#6b7c79;--green:#176d5c;--line:#dce5e0;--paper:#fff;--bg:#f2f5f1;--orange:#c2772d;--red:#b24d40;--blue:#4b7aaf;font-family:Tahoma,"Leelawadee UI",sans-serif;color:var(--ink);background:var(--bg);font-size:14px}*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer;border:1px solid var(--line);border-radius:8px;padding:10px 15px;background:white;color:var(--ink);white-space:nowrap}button:hover{background:#eaf2ed}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #91c8b6;outline-offset:2px}button.primary{background:var(--green);color:white;border-color:var(--green)}button:disabled{opacity:.55;cursor:wait}.top{background:#123c34;color:white;padding:18px 32px;display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{display:flex;align-items:center;gap:12px;font-weight:700;letter-spacing:1px}.mark{width:34px;height:34px;border:1px solid #79a89a;border-radius:9px;display:grid;place-items:center;color:#b9e3be}.top small{color:#bbd0c7;font-weight:normal;letter-spacing:0}.top-right{font-size:12px;color:#bdd1c9}main{max-width:1680px;margin:auto;padding:30px 32px 40px}.hero{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-bottom:22px}.eyebrow{font-size:11px;letter-spacing:2px;color:var(--green);font-weight:bold;margin-bottom:8px}h1{font-size:29px;letter-spacing:-.7px;margin:0 0 9px}.subtitle{color:var(--muted);line-height:1.7;margin:0}.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.save-panel{background:#e8f0e8;border:1px solid #d4e3d5;border-radius:12px;padding:13px 16px;margin-bottom:22px;display:flex;align-items:center;justify-content:space-between;gap:14px}.save-text{font-size:12px;color:#4f6861;line-height:1.7}.save-text strong{color:var(--ink)}.save-options{display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:12px}.save-options label{display:flex;gap:7px;align-items:center;white-space:nowrap}input[type=checkbox]{accent-color:var(--green);width:16px;height:16px}.badge{font-size:11px;border:1px solid #c9d6cf;background:white;padding:5px 9px;border-radius:20px;white-space:nowrap}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}.metric{background:white;border:1px solid var(--line);padding:18px 20px;border-radius:12px}.metric .label{font-size:12px;color:var(--muted)}.metric .value{font-size:29px;font-weight:bold;margin:10px 0 5px;letter-spacing:-1px}.metric small{font-size:11px;color:var(--muted)}.metric .track{height:4px;border-radius:4px;background:#edf1ec;margin-top:12px;overflow:hidden}.metric .track i{display:block;background:var(--green);height:100%}.section{background:white;border:1px solid var(--line);border-radius:13px;overflow:hidden}.toolbar{padding:18px 20px;display:flex;justify-content:space-between;gap:15px;align-items:center;border-bottom:1px solid var(--line)}.toolbar h2{margin:0;font-size:16px}.toolbar p{font-size:11px;color:var(--muted);margin:7px 0 0}.filters{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.filters input,.filters select{padding:9px 10px;border:1px solid var(--line);border-radius:7px;background:white;color:var(--ink)}.filters input{width:190px}.legend{display:flex;gap:16px;align-items:center;padding:12px 20px;font-size:11px;color:var(--muted);border-bottom:1px solid var(--line);flex-wrap:wrap}.legend span{display:flex;align-items:center;gap:6px}.dot{display:inline-block;width:9px;height:9px;border-radius:3px;background:#b4ccbf}.dot.done{background:var(--green)}.dot.late{background:var(--red)}.dot.today{background:var(--orange);width:2px;height:12px}.schedule-scroll{overflow:auto;max-height:620px}.schedule{width:100%;border-collapse:separate;border-spacing:0;font-size:12px;table-layout:fixed;min-width:1260px}.schedule th{position:sticky;top:0;background:#f6f8f4;z-index:3;height:54px;color:#60766b;font-weight:normal;border-bottom:1px solid var(--line);text-align:left;padding:10px}.schedule td{height:63px;border-bottom:1px solid #edf1ec;padding:10px;vertical-align:middle}.schedule tr:last-child td{border-bottom:0}.schedule tbody tr:hover td{background-color:#fafcf9}.schedule .taskname{font-weight:bold;font-size:12px;line-height:1.5}.schedule .tasksub{font-size:10px;color:var(--muted);margin-top:4px}.schedule .code{color:#90a099;font-size:11px}.schedule .num{font-variant-numeric:tabular-nums;font-size:11px;color:#5b7167}.pill{font-size:10px;border-radius:5px;padding:4px 6px;display:inline-block}.pill.complete{background:#e2f1e8;color:var(--green)}.pill.active{background:#e6edf7;color:#426d9b}.pill.late{background:#fae9e3;color:var(--red)}.pill.pending{background:#f0f2ee;color:#708077}.pct{display:flex;align-items:center;gap:6px;font-size:11px}.pct-line{width:46px;height:4px;background:#e9eeea;border-radius:3px;overflow:hidden}.pct-line i{height:100%;display:block;background:var(--green)}.edit{border:0;padding:6px 8px;color:var(--green);background:#eef4ee;font-size:11px}.timeline-th{padding:0!important;overflow:hidden}.weeks{height:54px;display:flex}.week{flex:none;border-left:1px solid #e1e8df;padding:10px 8px;font-size:10px;line-height:1.6}.week b{display:block;font-weight:normal;font-size:9px;color:#8b9a90}.timeline-cell{padding:0!important;position:relative;background-image:linear-gradient(to right,#eaf0e8 1px,transparent 1px);background-size:var(--week-width) 100%;overflow:hidden}.bar{position:absolute;top:20px;height:22px;border-radius:5px;background:#bfd4c6;overflow:hidden;min-width:4px}.bar i{height:100%;display:block;background:var(--green)}.bar.late{background:#efd2c8}.bar.late i{background:var(--red)}.bar-label{position:absolute;top:25px;font-size:9px;color:#456c57;white-space:nowrap;pointer-events:none}.today-line{position:absolute;top:0;bottom:0;width:1px;background:var(--orange);z-index:1;pointer-events:none}.empty{text-align:center;padding:50px!important;color:var(--muted)}.foot{padding:13px 20px;background:#fafbf8;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;font-size:11px;color:var(--muted);line-height:1.7}.help{font-size:12px;color:var(--muted);line-height:1.8;margin-top:18px}.help strong{color:#4d655a}.help details{background:#eaf0e8;border-radius:8px;padding:12px 16px}.help summary{cursor:pointer;color:var(--ink)}.help p{margin:8px 0 0}.restore{background:#fff2d5;padding:14px 18px;border-radius:9px;margin-bottom:18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:12px}.restore[hidden]{display:none}.restore span{flex:1}dialog{border:1px solid var(--line);border-radius:16px;padding:0;max-width:600px;width:calc(100% - 32px);box-shadow:0 28px 90px #123c3426;color:var(--ink)}dialog::backdrop{background:#143b3555;backdrop-filter:blur(3px)}.dialog-head{padding:22px 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}.dialog-head h2{margin:0;font-size:20px}.close{border:0;font-size:22px;padding:0 6px;background:transparent}.form-body{padding:22px 24px;display:grid;grid-template-columns:1fr 1fr;gap:17px}.field{display:flex;flex-direction:column;gap:7px;font-size:12px}.field.full{grid-column:1/-1}.field input,.field select{width:100%;border:1px solid #cfdbd2;border-radius:7px;padding:11px;background:white;color:var(--ink)}.dialog-footer{padding:16px 24px;border-top:1px solid var(--line);display:flex;gap:8px;justify-content:flex-end}.danger{color:var(--red);margin-right:auto}.error{grid-column:1/-1;color:var(--red);font-size:12px;min-height:16px;margin:0}#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#143e34;color:white;padding:13px 22px;border-radius:9px;box-shadow:0 6px 30px #173d3326;font-size:13px;z-index:20;max-width:90%;line-height:1.6}#toast[hidden]{display:none}.project-link{background:none;border:0;padding:0;color:var(--muted);text-decoration:underline;text-underline-offset:3px;font-size:12px}.sample{font-size:10px;color:#426b55;background:#dfeada;border-radius:4px;padding:4px 7px;margin-left:8px;vertical-align:middle;letter-spacing:0}
+@media(max-width:1000px){.hero{flex-direction:column}.actions{justify-content:flex-start}.save-panel{align-items:flex-start;flex-direction:column}.toolbar{align-items:flex-start;flex-direction:column}.metrics{gap:8px}.metric{padding:14px}.metric .value{font-size:25px}}@media(max-width:600px){main{padding:22px 14px}.top{padding:16px}.top-right{display:none}h1{font-size:25px}.metrics{grid-template-columns:repeat(2,1fr)}.actions{gap:6px}.actions button{font-size:12px;padding:10px}.filters{width:100%}.filters input{width:100%}.filters select{flex:1}.form-body{grid-template-columns:1fr}.field.full{grid-column:auto}.foot{flex-direction:column;gap:3px}.toolbar{padding:16px}.save-options{gap:10px}}
+@media print{@page{size:A3 landscape;margin:10mm}body{background:white}.top{padding:10px 0;background:white;color:var(--ink);border-bottom:2px solid var(--green)}.top small{color:var(--muted)}main{padding:15px 0}.actions,.save-panel,.filters,.help,.edit,.restore,.project-link,#toast{display:none!important}.hero{margin-bottom:12px}.metrics{margin-bottom:15px}.metric{padding:10px}.metric .value{font-size:22px}.schedule-scroll{overflow:visible;max-height:none}.schedule{min-width:0!important;width:100%!important;font-size:10px}.schedule th{position:static}.schedule th,.schedule td{padding:5px;height:46px}.timeline-cell{print-color-adjust:exact;-webkit-print-color-adjust:exact}.bar,.bar i,.pill,.track i{print-color-adjust:exact;-webkit-print-color-adjust:exact}.section{overflow:visible}.schedule tr{break-inside:avoid}.top-right{color:var(--muted)}}
+[hidden]{display:none!important}.access-panel{display:flex;align-items:center;justify-content:space-between;gap:16px;background:#fff;border:1px solid var(--line);border-radius:11px;padding:13px 16px;margin-bottom:20px}.access-info{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.access-mode{font-size:12px;font-weight:bold;background:#edf2ed;color:#547065;padding:7px 11px;border-radius:7px}.access-mode.editor{color:#176d5c;background:#dff1e5}.access-description{font-size:12px;color:var(--muted);line-height:1.7}.access-actions{display:flex;align-items:center;gap:8px}.unlock-note{font-size:12px;color:var(--muted);line-height:1.8;margin:0}body[data-role="viewer"] [data-editor-only],body[data-role="viewer"] .edit,body[data-role="viewer"] #restore{display:none!important}@media(max-width:600px){.access-panel{align-items:flex-start;flex-direction:column}.access-actions{width:100%}.access-actions button{flex:1}}@media print{.access-panel{display:none!important}}
+.schedule th{height:90px}.weeks{height:90px;width:100%}.week{padding:0;display:flex;flex-direction:column;overflow:hidden}.week-label{height:32px;display:grid;place-items:center;background:#eaf1e9;color:#3d6353;font-size:11px;white-space:nowrap;border-bottom:1px solid #d8e3d7}.week-days{display:flex;height:58px}.day-head{width:14.285714%;flex:none;text-align:center;border-left:1px solid #e0e8df;display:flex;flex-direction:column;justify-content:center;gap:6px;font-size:10px;background:#f8faf6;overflow:hidden}.day-head:first-child{border-left:0}.day-head b{font-size:12px;color:#405e50}.day-head.saturday{background:#f6efdf;color:#8b6730}.day-head.sunday{background:#f8e7e6;color:#a25950}.day-head.sunday b{color:#a25950}.timeline-cell{background-image:linear-gradient(to right,#e0e8de 1px,transparent 1px),linear-gradient(to right,transparent 0%,transparent 71.428571%,#f6efdf 71.428571%,#f6efdf 85.714286%,#f8e7e6 85.714286%,#f8e7e6 100%);background-size:calc(100% / var(--total-days)) 100%,calc(100% / var(--week-count)) 100%;background-repeat:repeat}.dot.saturday{background:#f6efdf;border:1px solid #d9bd8c}.dot.sunday{background:#f8e7e6;border:1px solid #d8a6a1}.calendar-note{grid-column:1/-1;font-size:12px;color:#61786a;line-height:1.8;margin:0;padding:10px 12px;background:#edf4eb;border-radius:7px}.calendar-note strong{color:var(--green)}.schedule th:nth-child(1),.schedule td:nth-child(1){position:sticky;left:0;background:#fff;z-index:2}.schedule th:nth-child(2),.schedule td:nth-child(2){position:sticky;left:46px;background:#fff;z-index:2;box-shadow:2px 0 0 #e1e8df}.schedule th:nth-child(1),.schedule th:nth-child(2){top:0;background:#f6f8f4;z-index:5}@media print{.schedule col{width:auto!important}.schedule col:nth-child(1){width:3%!important}.schedule col:nth-child(2){width:17%!important}.schedule col:nth-child(3){width:9%!important}.schedule col:nth-child(4){width:8%!important}.schedule col:nth-child(5){width:4%!important}.schedule col:nth-child(6){width:6%!important}.schedule col:nth-child(7){width:6%!important}.schedule col:nth-child(8){width:0%!important}.schedule col:nth-child(9){width:47%!important}.schedule th:nth-child(1),.schedule td:nth-child(1),.schedule th:nth-child(2),.schedule td:nth-child(2){position:static;box-shadow:none}.schedule th:nth-child(8),.schedule td:nth-child(8){padding:0}.week-label{font-size:7px}.day-head{font-size:6px}.day-head b{font-size:8px}.day-head,.week-label{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+body.table-expanded{overflow:hidden}.section.table-expanded{position:fixed;inset:0;z-index:10;width:100%;height:100vh;height:100dvh;border:0;border-radius:0;display:flex;flex-direction:column;background:white}.section.table-expanded>.toolbar,.section.table-expanded>.legend,.section.table-expanded>.foot{flex-shrink:0}.section.table-expanded>.schedule-scroll{flex:1;min-height:0;max-height:none;overscroll-behavior:contain}#table-fullsize[aria-expanded="true"]{background:#e2efe5;border-color:#8db59a;color:#176d5c}@media print{body.table-expanded{overflow:visible}.section.table-expanded{position:static;inset:auto;display:block;width:auto;height:auto;overflow:visible}.section.table-expanded>.schedule-scroll{overflow:visible;max-height:none}#table-fullsize{display:none!important}}
+.group-toggle{border:0;background:transparent;padding:0;display:flex;align-items:flex-start;gap:7px;text-align:left;white-space:normal;font-weight:bold;width:100%;font-size:12px;line-height:1.7}.group-toggle:hover{background:transparent;color:var(--green)}.group-arrow{flex:none;width:12px;color:var(--green)}.schedule tbody .main-row td{background-color:#eaf2e9;font-weight:bold;border-top:1px solid #cedfce;border-bottom:1px solid #d8e5d7}.main-row .tasksub{font-weight:normal;padding-left:19px}.task-child{padding-left:20px;border-left:2px solid #dce7d9;margin-left:5px}.task-child .tasksub{line-height:1.6}.main-row .bar{height:12px;top:25px;border-radius:2px;background:#a3c1ad}.main-row .bar i{background:#315f49}.main-row .bar.late i{background:var(--red)}.main-row .bar.late{background:#e8c6b9}.group-actions{display:flex;gap:4px;align-items:center;flex-wrap:wrap}.group-actions .edit{padding:6px;font-size:10px}.field textarea{width:100%;border:1px solid #cfdbd2;border-radius:7px;padding:11px;background:white;color:var(--ink);font:inherit;resize:vertical;min-height:78px}.outline-note{color:#64806b}.group-toggle-all{font-size:11px;padding:7px 10px}.group-note{font-size:10px;font-weight:normal;color:#647966;line-height:1.6;margin:5px 0 0 19px}@media print{.group-actions,.group-toggle-all{display:none!important}.main-row td{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+.schedule th:nth-child(2),.schedule td:nth-child(2){left:96px}.wbs-code{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;font-variant-numeric:tabular-nums}.schedule tbody .nested-summary-row td{background-color:#f2f6ee;font-weight:bold}.nested-summary-row .bar{height:14px;top:24px;border-radius:3px;background:#b2cab5}.nested-summary-row .bar i{background:#447555}.nested-summary-row .bar.late i{background:var(--red)}.task-summary-note{grid-column:1/-1;font-size:12px;line-height:1.8;margin:0;padding:10px 12px;border-radius:7px;background:#e8f1df;color:#4b6a39}.field input[readonly]{background:#edf2e9;color:#536a55;cursor:default}.group-actions{flex-wrap:nowrap}.group-actions .edit{white-space:nowrap}@media print{.schedule th:nth-child(2),.schedule td:nth-child(2){left:auto}.nested-summary-row td{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+.pill.unscheduled{background:#edf0f4;color:#63758a}.plan-note{font-size:10px;color:#7b8795}
+
+/* Continuous outline connectors, aligned to the first line of each task. */
+:root{--tree-line:#76968b;--tree-step:22px;--tree-anchor:25px}
+.schedule td.tree-cell{padding:0 12px!important}.tree-content{position:relative;z-index:1;min-height:68px;padding:14px 0 14px calc(var(--tree-depth)*var(--tree-step));line-height:22px}.tree-content .group-toggle,.tree-content .leaf-name{display:flex;align-items:flex-start;gap:8px;font-size:13px;line-height:22px;font-weight:bold;margin:0}.tree-content .group-arrow{flex:0 0 16px;width:16px;line-height:22px;text-align:center;background:var(--row-bg,#fff);border-radius:4px}.tree-content .tasksub{padding-left:24px!important;margin:0;line-height:18px;font-size:10px;font-weight:normal;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tree-content .group-note{margin-left:24px;line-height:18px}.tree-leaf-icon{position:relative;width:16px;height:22px;flex:0 0 16px}.tree-leaf-icon::after{content:'';position:absolute;left:6px;top:9px;width:5px;height:5px;border-radius:50%;background:var(--tree-line)}.tree-lines{position:absolute;inset:0 12px;pointer-events:none;z-index:0}.tree-svg{display:block;position:absolute;top:-1px;left:0;width:100%;height:calc(100% + 2px);overflow:visible;color:var(--tree-line);shape-rendering:crispEdges}.tree-svg line{vector-effect:non-scaling-stroke;shape-rendering:crispEdges;stroke-linecap:butt}.schedule td.tree-cell .task-child{padding:0;border:0;margin:0}.schedule .code{font-size:12px}
+/* A tree picker replaces the operating-system parent dropdown. */
+dialog{max-height:calc(100dvh - 32px)}.parent-field{position:relative}.parent-trigger{display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;width:100%;padding:11px;white-space:normal}.parent-trigger-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.parent-picker{position:absolute;top:100%;left:0;right:0;margin-top:6px;padding:10px;background:var(--paper);border:1px solid var(--line);border-radius:10px;z-index:6;box-shadow:0 18px 50px #0005}.parent-picker input{margin-bottom:8px}.parent-picker-list{max-height:280px;overflow:auto;border:1px solid var(--line);border-radius:6px}.parent-option{display:flex;align-items:center;gap:8px;position:relative;width:100%;min-height:44px;padding:8px 10px 8px calc(12px + var(--tree-depth)*22px);border:0;border-bottom:1px solid var(--line);border-radius:0;text-align:left;font-size:12px;white-space:nowrap;--tree-anchor:21px}.parent-option:last-child{border-bottom:0}.parent-option>.tree-lines{inset:0 12px;z-index:0}.parent-option>.picker-code,.parent-option>.picker-name{position:relative;z-index:1}.parent-option>.picker-code{padding-left:16px}.parent-option::after{content:"";position:absolute;left:calc(18px + var(--tree-depth)*22px);top:20px;width:5px;height:5px;border-radius:50%;background:var(--tree-line);z-index:1}.picker-code{font-size:10px;color:var(--muted);flex:none}.picker-name{overflow:hidden;text-overflow:ellipsis}.parent-option[aria-selected="true"]{background:#deeee0;color:#185f4d;font-weight:bold}.parent-picker-empty{padding:18px;color:var(--muted);text-align:center;font-size:12px}
+@media screen{
+:root{color-scheme:dark;--bg:#0d141c;--paper:#15212d;--ink:#e0eaf2;--muted:#9dafbf;--line:#2e4150;--green:#78d4b3;--red:#f0a092;--orange:#e3b373;--blue:#9bbde9;--tree-line:#658f9a}
+body{background:var(--bg);color:var(--ink)}button{background:#1b2b38;color:var(--ink);border-color:#354a5b}button:hover{background:#263d4b}button.primary{background:#227b68;border-color:#368f7b;color:#f4fff9}button.primary:hover{background:#2a9078}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid #7dcdbb;outline-offset:2px}a{color:#8bd6c7}
+.top{background:#10282b;border-bottom:1px solid #2a4548}.top small,.top-right{color:#a2bdc1}.mark{color:#a3e1cb;border-color:#527e77}.section,.metric,.access-panel,.section.table-expanded,dialog{background:var(--paper);border-color:var(--line)}.subtitle,.metric .label,.metric small,.toolbar p,.legend,.help,.save-text{color:var(--muted)}.sample{background:#234236;color:#a3dfbc}.access-mode,.badge{background:#223644;border-color:#3a5261;color:#c2d5e0}.access-mode.editor{background:#214538;color:#a2e5bf}.access-description{color:#a6b8c8}.save-panel{background:#142d2b;border-color:#31534a}.save-text strong{color:#d3e8df}.save-text{color:#aec6ba}.restore{background:#352d20;border:1px solid #64563c;color:#efdcb3}.metric .track,.pct-line{background:#293e4a}.metric .track i,.pct-line i{background:#76cdb0}
+.filters input,.filters select,.field input,.field select,.field textarea,.parent-trigger,.parent-picker input{background:#111c27;color:var(--ink);border-color:#3b5162}.field input[readonly]{background:#1b2e39;color:#abc0cb}.field input::placeholder,.filters input::placeholder,.field textarea::placeholder{color:#859aaa}input[type=checkbox]{accent-color:#59bc9d}.dialog-head,.dialog-footer{border-color:var(--line)}dialog::backdrop{background:#030b14ad}.close{background:transparent;color:#c0d1db}.calendar-note,.task-summary-note{background:#20382e;color:#b5cfb8}.calendar-note strong{color:#94d6af}.unlock-note,.group-note{color:#9fb6c2}.help details{background:#182a36}.help strong{color:#d0dfeb}.project-link{color:#acc0cb}.danger,.error{color:#efa799}
+.schedule th{background:#1b2e3b;color:#b7cbd7;border-color:#344b59}.schedule th:nth-child(1),.schedule th:nth-child(2){background:#1b2e3b}.schedule tbody tr{--row-bg:#15212d}.schedule tbody tr:hover{--row-bg:#1d3341}.schedule tbody tr.main-row{--row-bg:#1b383c}.schedule tbody tr.main-row:hover{--row-bg:#24464a}.schedule tbody tr.nested-summary-row{--row-bg:#1c2e3d}.schedule tbody tr.nested-summary-row:hover{--row-bg:#253f4e}.schedule tbody td,.schedule td:nth-child(1),.schedule td:nth-child(2),.schedule tbody .main-row td,.schedule tbody .nested-summary-row td,.schedule tbody tr:hover td{background-color:var(--row-bg);border-color:#2b4050;color:var(--ink)}.schedule td:nth-child(2){box-shadow:2px 0 0 #344c5b}.schedule tbody .main-row td{border-top-color:#406064}.schedule .code,.schedule .num{color:#a5bac8}.schedule .tasksub{color:#9db2c3}.group-toggle{color:#d4e9ed}.group-toggle:hover{color:#a8edd5}.group-arrow{color:#95d6c9}.edit{background:#243e43;color:#a4dfcf}.edit:hover{background:#31585a}.empty{color:#a5bac8}
+.week{border-left-color:#395362}.week-label{background:#203b49;color:#bfdae3;border-color:#3b5261}.day-head{background:#182a38;color:#a9bdcc;border-color:#304653}.day-head b{color:#dae8ef}.day-head.saturday{background:#353025;color:#e1c58f}.day-head.saturday b{color:#e1c58f}.day-head.sunday{background:#382935;color:#e2b3c7}.day-head.sunday b{color:#e2b3c7}.timeline-cell{background-image:linear-gradient(to right,#314755 1px,transparent 1px),linear-gradient(to right,transparent 0%,transparent 71.428571%,#2e2d26 71.428571%,#2e2d26 85.714286%,#312632 85.714286%,#312632 100%)}.dot{background:#42665f}.dot.done{background:#79cfaf}.dot.late{background:#df9a89}.dot.saturday{background:#353025;border-color:#bba373}.dot.sunday{background:#382935;border-color:#b487a3}.bar{background:#355a55}.bar i{background:#72cdae}.main-row .bar{background:#41636a}.main-row .bar i{background:#9bc7c4}.nested-summary-row .bar{background:#39596a}.nested-summary-row .bar i{background:#88b5cf}.schedule .bar.late,.schedule .main-row .bar.late,.schedule .nested-summary-row .bar.late{background:#613b40}.schedule .bar.late i{background:#e69e8e}.pill.complete{background:#22483a;color:#aae5bf}.pill.active{background:#264058;color:#bfd9ff}.pill.late{background:#4d3238;color:#f2b4aa}.pill.pending{background:#2a3b49;color:#bfced9}.pill.unscheduled{background:#293c50;color:#c2d2e9}.foot{background:#101c27;color:#a0b3c2;border-color:#304452}.plan-note{color:#9daebe}#table-fullsize[aria-expanded="true"]{background:#284a45;border-color:#5a9182;color:#b5ebd7}#toast{background:#284f48;color:#effff6;border:1px solid #4e8276}
+.parent-picker{background:#172a38;border-color:#476071}.parent-option{background:#152633;color:#dceaf0}.parent-option:hover{background:#26404e}.parent-option[aria-selected="true"]{background:#234c48;color:#c8f2e2}.parent-option[aria-selected="true"] .picker-code{color:#b3e2d1}.parent-picker-list{scrollbar-color:#526c7b #101c27}::-webkit-scrollbar{width:11px;height:11px}::-webkit-scrollbar-track{background:#101c27}::-webkit-scrollbar-thumb{background:#435b6b;border:2px solid #101c27;border-radius:8px}::-webkit-scrollbar-thumb:hover{background:#64808f}::-webkit-scrollbar-corner{background:#101c27}
+}
+@media print{.parent-picker{display:none!important}.tree-content{min-height:56px;padding-top:14px;padding-bottom:8px}.tree-content .tasksub{font-size:8px}.tree-content .group-arrow{background:transparent}.tree-lines{--tree-line:#7d9187;print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+.dialog-outline{grid-column:1/-1;border:1px solid var(--line);border-radius:8px;overflow:hidden}.dialog-outline-title{padding:9px 12px;font-size:11px;font-weight:bold;color:var(--muted);border-bottom:1px solid var(--line)}.dialog-outline-tree{max-height:230px;overflow:auto}.outline-row{position:relative;min-height:44px;padding:10px 12px 10px calc(28px + var(--tree-depth)*22px);display:flex;align-items:center;gap:9px;border-bottom:1px solid var(--line);font-size:12px}.outline-row:last-child{border-bottom:0}.outline-row::after{content:'';position:absolute;left:calc(18px + var(--tree-depth)*22px);top:20px;width:5px;height:5px;border-radius:50%;background:var(--tree-line)}.outline-row .tree-lines{inset:0 12px}.outline-code,.outline-label{position:relative;z-index:1}.outline-code{font-size:10px;color:var(--muted);flex:none}.outline-label{line-height:20px;overflow-wrap:anywhere}.outline-row.is-target{background:#e5efe4;font-weight:bold}.delete-body{padding:20px 24px;display:grid;gap:15px}.delete-body p{margin:0;color:var(--muted);font-size:13px;line-height:1.8}.danger-solid{color:#fff;background:#a34e47;border:1px solid #bb6960}.danger-solid:hover{background:#b15c54}.delete-outline .outline-row.is-target{background:#f5e7e4}.delete-body .error{color:var(--red)}dialog .field input,dialog .field select,dialog .field textarea,dialog .parent-trigger,dialog .parent-picker,dialog .parent-picker-list{border-width:1px;border-style:solid}@media screen{.dialog-outline{background:#13232f;border-color:#3b5261}.dialog-outline-title{background:#1b303d;border-color:#3b5261;color:#b0c8d6}.outline-row{border-color:#304553;color:#c9dce6}.outline-row.is-target{background:#244447;color:#d7f4e9}.delete-outline .outline-row.is-target{background:#422e39;color:#f4c8c0}.danger-solid{background:#8e494b;border-color:#b86b69;color:#fff3ed}.danger-solid:hover{background:#ab5b5b}}@media print{.dialog-outline{display:none!important}}
+.date-plan-controls{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 12px;border:1px solid var(--line);border-radius:7px;font-size:11px;color:var(--muted)}.date-plan-controls button{font-size:11px;padding:7px 9px}.date-plan-controls.manual{border-color:#6b9983}.date-plan-controls.manual span{color:var(--green)}@media(max-width:600px){.date-plan-controls{align-items:flex-start;flex-direction:column}}@media print{.date-plan-controls{display:none!important}}
+.bar.custom-color{background:var(--custom-plan)!important}.bar.custom-color>i{background:var(--custom-done)!important}.bar-color-editor{grid-column:1/-1;min-width:0;margin:0;padding:12px 14px;border:1px solid var(--line);border-radius:8px}.bar-color-editor legend{font-size:12px;padding:0 6px}.bar-color-tools{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.bar-color-tools input[type=color]{width:46px;height:36px;padding:3px;border:1px solid var(--line);border-radius:6px;background:transparent;cursor:pointer}.bar-color-name{font-size:11px;color:var(--muted);min-width:92px}.bar-color-tools button{font-size:11px;padding:8px 10px}.bar-color-presets{display:flex;gap:7px;margin-top:12px;flex-wrap:wrap}.bar-color-presets button{width:25px;height:25px;padding:0;border:1px solid #9bafbc;border-radius:50%;background:var(--preset-color)}.bar-color-presets button:hover{outline:2px solid var(--ink);outline-offset:2px}.bar-color-preview{height:16px;margin-top:12px;border:1px solid var(--line);border-radius:5px;overflow:hidden}.bar-color-preview i{height:100%;width:50%;display:block}.bar-color-caption{font-size:10px;color:var(--muted);margin:7px 0 0;line-height:1.6}@media print{.bar.custom-color,.bar.custom-color>i{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+
+.file-section{margin-top:24px}.file-controls{padding:16px 20px;display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;border-bottom:1px solid var(--line)}.file-controls label{font-size:12px;display:flex;flex-direction:column;gap:7px;min-width:0}.file-controls .file-address{grid-column:1/-1}.file-controls input,.file-controls select{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:7px;background:var(--paper);color:var(--ink);font:inherit}.file-controls .file-recursive{flex-direction:row;align-items:center;grid-column:1/-1}.file-controls input[type=checkbox]{width:16px}.file-note{font-size:12px;line-height:1.8;color:var(--muted);margin:0;padding:12px 20px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}.file-scroll{overflow:auto;max-height:390px}.file-table{border-collapse:collapse;width:100%;font-size:12px;text-align:left}.file-table th{position:sticky;top:0;background:var(--paper);z-index:1;color:var(--muted)}.file-table th,.file-table td{padding:11px 16px;border-bottom:1px solid var(--line)}.file-table td:first-child{min-width:210px;overflow-wrap:anywhere}.file-table td:nth-child(2){min-width:180px;overflow-wrap:anywhere}.file-table td:nth-child(n+3){white-space:nowrap}.file-paging{display:flex;align-items:center;gap:8px}.file-section .toolbar{align-items:flex-start}.file-section .filters button{font-size:12px}.file-section .foot{align-items:center}.file-empty{text-align:center;color:var(--muted);padding:28px!important}.file-note strong{color:var(--ink)}@media(max-width:700px){.file-controls{grid-template-columns:1fr}.file-controls .file-address,.file-controls .file-recursive{grid-column:auto}.file-section .foot{align-items:flex-start}}@media print{.file-section{display:none!important}}
+
+
+.task-file-editor{grid-column:1/-1;min-width:0;padding:12px 14px;margin:0;border:1px solid var(--line);border-radius:8px}.task-file-editor legend{font-size:12px;padding:0 6px}.task-file-summary{display:flex;justify-content:space-between;gap:12px;margin:12px 0;font-size:12px;overflow-wrap:anywhere}.task-file-summary strong{white-space:nowrap;color:var(--green)}.task-file-buttons{display:flex;gap:7px;flex-wrap:wrap}.task-file-buttons button{font-size:11px;padding:8px 10px}.task-file-editor p{font-size:11px;line-height:1.8;color:var(--muted);margin:10px 0 0}.task-files-badge{position:relative;z-index:1;display:inline-block;font-size:10px;line-height:1.4;padding:3px 7px;margin-top:5px;border-radius:5px;background:#203c45;color:#b8dfdf;border:1px solid #40606b}.task-files-badge:hover{background:#2b5158}.file-dialog-path{font-size:11px;color:var(--muted);line-height:1.8;margin:6px 0 0;overflow-wrap:anywhere}#file-dialog{max-width:1050px;max-height:calc(100dvh - 32px)}#file-dialog .file-section{margin-top:0}#file-dialog .toolbar h3{font-size:14px;margin:0}#file-dialog .file-scroll{max-height:35vh}#file-dialog .file-note{font-size:11px}#file-dialog .file-controls{gap:10px}@media print{.task-files-badge{background:transparent;color:#31564c;border-color:#b4c6bc}.task-file-editor,#file-dialog{display:none!important}}
+
+.wbs-reorder{border-radius:5px;padding:6px 4px;min-height:28px;line-height:1.4}body[data-role="editor"] .wbs-reorder{cursor:pointer}body[data-role="editor"] .wbs-reorder:hover{background:#27434c;color:#b9ebdd}.wbs-reorder:focus-visible{outline:2px solid #a3e2cd;outline-offset:2px}.wbs-reorder.is-order-picked{background:#356455;color:#e3fff3;box-shadow:inset 0 0 0 1px #83c5ab}.wbs-reorder.is-order-peer{box-shadow:inset 0 0 0 1px #496b76}.reorder-hint{padding:11px 20px;border-bottom:1px solid #43645f;background:#183b36;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:12px;line-height:1.7}.reorder-hint button{font-size:11px;padding:7px 10px}.section.table-expanded>.reorder-hint{flex-shrink:0}.order-body{display:grid;gap:16px;padding:20px 24px}.order-item{display:grid;gap:7px;padding:12px;border:1px solid var(--line);border-radius:7px;overflow-wrap:anywhere}.order-item>span{font-size:11px;color:var(--muted)}.order-item strong{font-size:13px;line-height:1.7}.order-placement{border:1px solid var(--line);border-radius:7px;padding:12px;display:grid;gap:14px;margin:0}.order-placement legend{font-size:12px;padding:0 5px}.order-placement label{display:flex;align-items:center;gap:8px;font-size:13px}.order-placement input{accent-color:var(--green)}@media(max-width:600px){.reorder-hint{align-items:flex-start;flex-direction:column}}@media print{.reorder-hint,#order-dialog{display:none!important}.wbs-reorder{padding:0;min-height:0;background:transparent!important;box-shadow:none!important;color:inherit!important}}
+
+
+.file-selection-tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 20px;border-bottom:1px solid var(--line);font-size:12px}.file-selection-tools span{margin-right:auto;color:var(--green)}.file-selection-tools button{padding:7px 10px;font-size:11px}.file-table .file-check-cell{width:65px;min-width:65px;white-space:nowrap}.file-check-cell label{display:flex;align-items:center;gap:5px;font-size:10px}.file-check-cell input[type=checkbox]{width:17px;height:17px;cursor:pointer}.file-check-cell input:disabled{cursor:default;opacity:.65}.file-table td:nth-child(2){min-width:210px;white-space:normal}.file-table td:nth-child(3){min-width:170px;white-space:normal}.file-is-selected td{background:#1e383b}.task-file-preview{padding:0 0 0 13px;margin:6px 0 0;font-size:10px;font-weight:normal;line-height:1.7;color:#b6d6de;list-style:disc}.task-file-preview li{overflow-wrap:anywhere}.task-selected-more{position:relative;z-index:1;margin-top:4px;padding:3px 6px;font-size:10px;color:var(--green);background:transparent;border:1px solid var(--line);border-radius:5px}@media print{.task-file-preview{color:#31564c;font-size:8px}.task-selected-more{color:#31564c}}
+</style>
+</head>
+<body data-role="viewer">
+<header class="top"><div class="brand"><span class="mark">P/</span><span>PP-LINE <small> / PROJECT CONTROL</small></span></div><div class="top-right">MASTER SCHEDULE · LOCAL EDITION</div></header>
+<main>
+<div id="restore" class="restore" hidden><span>พบฉบับร่างในเบราว์เซอร์ที่ใหม่กว่าข้อมูลในไฟล์นี้</span><button id="restore-draft" data-editor-only>กู้คืนฉบับร่าง</button><button id="discard-draft" data-editor-only>ใช้ข้อมูลในไฟล์</button></div>
+<section class="access-panel" aria-label="โหมดการใช้งาน"><div class="access-info"><span id="access-mode" class="access-mode" role="status">Viewer · ดูอย่างเดียว</span><span id="access-description" class="access-description">ดูแผนงาน ค้นหา กรองข้อมูล พิมพ์ และบันทึกสำเนาได้</span></div><div class="access-actions"><button class="primary" id="unlock-editor">ปลดล็อก Editor</button><button id="lock-viewer" hidden>ล็อกกลับเป็น Viewer</button></div></section>
+<section class="hero"><div><div class="eyebrow">PLAN / TRACK / DELIVER <span class="sample">แผนงาน · แก้ไขได้</span></div><h1 id="project-title"></h1><p class="subtitle" id="project-subtitle"></p><button class="project-link" id="project-edit" data-editor-only>แก้ไขข้อมูลโครงการ</button></div><div class="actions"><button id="download">↓ บันทึกสำเนา HTML</button><button id="print">พิมพ์ / PDF</button><button class="primary" id="save" data-editor-only>บันทึก HTML</button></div></section>
+<section class="save-panel" aria-label="สถานะการบันทึก"><div class="save-text"><strong id="save-status" role="status">ข้อมูลจากไฟล์ HTML</strong><br><span id="save-detail">เลือกปลายทางด้วย “บันทึก HTML” หรือเชื่อมไฟล์เดิมก่อนเปิด Auto-save</span></div><div class="save-options"><span class="badge" id="draft-status">ฉบับร่างในเบราว์เซอร์: พร้อมใช้งาน</span><button id="connect" data-editor-only>เชื่อมไฟล์เดิม</button><label data-editor-only><input type="checkbox" id="autosave">Auto-save ลงไฟล์</label></div></section>
+<section class="metrics" aria-label="ภาพรวมโครงการ"><div class="metric"><div class="label">ความก้าวหน้ารวม</div><div class="value" id="overall">0%</div><small>ถ่วงน้ำหนักตามวันทำงานของงานระดับสุดท้าย</small><div class="track"><i id="overall-bar"></i></div></div><div class="metric"><div class="label">งานเสร็จแล้ว</div><div class="value" id="completed">0 / 0</div><small id="active-count"></small></div><div class="metric"><div class="label">งานเลยกำหนด</div><div class="value" id="late-count" style="color:var(--red)">0</div><small>วันจบก่อนวันรายงาน และยังไม่ครบ 100%</small></div><div class="metric"><div class="label">กำหนดส่งมอบ</div><div class="value" id="handover" style="font-size:23px"></div><small id="range"></small></div></section>
+<section class="section" id="table-section" aria-labelledby="schedule-title"><div class="toolbar"><div><h2 id="schedule-title">แผนงานหลัก / Master Schedule</h2><p>คลิกเลข WBS ต้นทาง แล้วคลิกเลข WBS ปลายทางเพื่อย้ายลำดับ · กดลูกศรข้างชื่อเพื่อยุบ–ขยาย</p></div><div class="filters"><input id="search" type="search" placeholder="ค้นหางาน / ผู้รับผิดชอบ" aria-label="ค้นหางาน"><select id="area-filter" aria-label="กรองพื้นที่"></select><select id="status-filter" aria-label="กรองสถานะ"><option value="all">ทุกสถานะ</option><option value="unscheduled">รอข้อมูล / วันที่</option><option value="late">เลยกำหนด</option><option value="active">กำลังทำ</option><option value="pending">ยังไม่เริ่ม</option><option value="complete">เสร็จแล้ว</option></select><button id="table-fullsize" type="button" aria-controls="table-section" aria-expanded="false" title="ขยายตารางให้เต็มพื้นที่หน้าต่าง">⛶ ดูตารางเต็มจอ</button><button class="group-toggle-all" id="expand-groups" type="button">ขยายทั้งหมด</button><button class="group-toggle-all" id="collapse-groups" type="button">ยุบทั้งหมด</button><button id="add-group" data-editor-only>+ งานหลัก</button><button class="primary" id="add" data-editor-only>+ งานย่อย</button></div></div><div class="legend"><span><i class="dot"></i>ช่วงเวลาตามแผน</span><span><i class="dot done"></i>สัดส่วนผลงานจริง</span><span><i class="dot late"></i>งานเลยกำหนด</span><span><i class="dot saturday"></i>เสาร์ · วันทำงาน</span><span><i class="dot sunday"></i>อาทิตย์ · วันหยุด</span><span><i class="dot today"></i><span id="report-label"></span></span></div><div class="reorder-hint" id="reorder-hint" hidden><span id="reorder-message" role="status" aria-live="polite"></span><button type="button" id="cancel-reorder">ยกเลิกการย้าย (Esc)</button></div><div class="schedule-scroll"><table class="schedule" id="schedule"><colgroup id="cols"></colgroup><thead><tr><th>WBS</th><th>รายการงาน / พื้นที่</th><th>ผู้รับผิดชอบ</th><th>เริ่ม – จบ</th><th>วันทำงาน</th><th>ผลงาน</th><th>สถานะ</th><th aria-label="แก้ไข"></th><th class="timeline-th"><div class="weeks" id="weeks"></div></th></tr></thead><tbody id="tasks"></tbody></table></div><div class="foot"><span id="row-count"></span><span>นับวันทำงานจันทร์–เสาร์ · ไม่นับวันอาทิตย์ · เลื่อนตารางแนวนอนเพื่อดูวันถัดไป</span></div></section>
+
+
+
+<section class="help"><details><summary>วิธีเซฟไฟล์นี้ และใช้งานครั้งถัดไป</summary><p><strong>1.</strong> เปิดด้วย Chrome หรือ Edge แล้วกด <strong>บันทึก HTML</strong> เพื่อเลือกชื่อและปลายทาง ครั้งถัดไปจะบันทึกทับปลายทางนี้ได้<br><strong>2.</strong> หากต้องการเซฟทับไฟล์ที่เปิดอยู่ กด <strong>เชื่อมไฟล์เดิม</strong> แล้วเลือกไฟล์ HTML ของโครงการนี้<br><strong>3.</strong> เปิด <strong>Auto-save ลงไฟล์</strong> เพื่อบันทึกหลังแก้ไขประมาณ 1.5 วินาที ขณะหน้านี้ยังเปิดอยู่<br><strong>4.</strong> เมื่อเปิดใหม่ ข้อมูลจะอ่านจากไฟล์ และต้องเชื่อมปลายทางอีกครั้ง ปุ่ม <strong>บันทึกสำเนา HTML</strong> ดาวน์โหลดไฟล์ที่รวมข้อมูลล่าสุดไว้ พร้อมส่งต่อได้<br><strong>โหมดใช้งาน:</strong> เปิดไฟล์จะเป็น Viewer กดปลดล็อก Editor เพื่อแก้ไข และล็อกกลับเมื่อเสร็จ โหมดนี้ช่วยป้องกันการแก้ไขโดยไม่ตั้งใจภายในหน้า HTML ไม่ใช่ระบบสิทธิ์ผู้ใช้บนเซิร์ฟเวอร์<br>ฉบับร่างในเบราว์เซอร์ช่วยกู้คืนบนเครื่องนี้ แต่ไม่ติดไปกับไฟล์ และอาจหายเมื่อเคลียร์ข้อมูลเบราว์เซอร์ หัวข้องานหลักใช้เก็บชื่อ ขอบเขตงาน พื้นที่ และผู้รับผิดชอบหลัก ส่วนงานย่อยเก็บรายละเอียดวันที่และผลงาน งานย่อยทุกแถวกด + ย่อย เพื่อแตกงานต่อได้ เช่น 1.1 → 1.1.1 → 1.1.1.1 และเลือกย้ายหัวข้อแม่ได้ในช่อง “อยู่ใต้งาน” หัวข้อที่มีงานย่อยกำหนดวันแผนเองได้ หรือเลือกใช้วันที่จากงานย่อย ส่วนผลงานยังสรุปจากงานระดับสุดท้าย ยอดรวมโครงการนับเฉพาะงานระดับสุดท้ายเพื่อไม่ให้นับซ้ำ กราฟนี้เป็นแผนงานแบบกำหนดวันที่เอง ยังไม่คำนวณงานต่อเนื่องหรือเส้นทางวิกฤตอัตโนมัติ</p></details></section>
+</main>
+<dialog id="unlock-dialog" aria-labelledby="unlock-title"><form id="unlock-form"><div class="dialog-head"><h2 id="unlock-title">ปลดล็อก Editor</h2><button type="button" class="close" data-close="unlock-dialog" aria-label="ปิด">×</button></div><div class="form-body"><p class="unlock-note field full">กรอกรหัสเพื่อเพิ่ม แก้ไข ลบงาน และบันทึกแผนงาน เปิดไฟล์ครั้งถัดไปจะเริ่มในโหมด Viewer เสมอ</p><label class="field full">รหัสปลดล็อก<input id="unlock-password" type="password" inputmode="numeric" autocomplete="current-password" required aria-describedby="unlock-error"></label><p class="error" id="unlock-error" role="alert"></p></div><div class="dialog-footer"><button type="button" data-close="unlock-dialog">ยกเลิก</button><button type="submit" class="primary">ปลดล็อก</button></div></form></dialog>
+<dialog id="task-dialog"><form id="task-form"><div class="dialog-head"><h2 id="dialog-title">เพิ่มงาน</h2><button type="button" class="close" data-close="task-dialog" aria-label="ปิด">×</button></div><div class="form-body"><div class="dialog-outline"><div class="dialog-outline-title">ตำแหน่งงานในโครงสร้าง</div><div id="task-outline" class="dialog-outline-tree" role="list" aria-label="ตำแหน่งงานที่กำลังเพิ่มหรือแก้ไข"></div></div><label class="field full">หัวข้องานหลัก<select id="f-group" required></select></label><div class="field full parent-field" id="parent-field"><label for="parent-trigger">อยู่ใต้งาน (เลือกได้หลายระดับ)</label><select id="f-parent" hidden aria-hidden="true" tabindex="-1"></select><button id="parent-trigger" type="button" class="parent-trigger" aria-haspopup="tree" aria-expanded="false" aria-controls="parent-picker"><span class="parent-trigger-label" id="parent-trigger-label">ใต้หัวข้องานหลักโดยตรง</span><span aria-hidden="true">▾</span></button><div class="parent-picker" id="parent-picker" hidden><input id="parent-search" type="search" placeholder="ค้นหาหัวข้อแม่ / WBS" aria-label="ค้นหาหัวข้อแม่"><div id="parent-options" class="parent-picker-list" role="tree" aria-label="เลือกหัวข้อแม่ตามลำดับงาน"></div></div></div><p id="f-summary-note" class="task-summary-note" hidden></p><label class="field full">ชื่องานย่อย<input id="f-name" required maxlength="160"></label><label class="field">พื้นที่ / อาคาร<input id="f-area" required maxlength="50" list="area-list"><datalist id="area-list"></datalist></label><label class="field">ผู้รับผิดชอบ (ถ้ามี)<input id="f-owner" maxlength="80"></label><label class="field">วันเริ่ม<input id="f-start" type="date"></label><label class="field">วันจบ<input id="f-end" type="date"></label><div class="date-plan-controls" id="date-plan-controls" hidden><span id="date-plan-status">วันที่สรุปจากงานย่อย</span><button id="use-child-dates" type="button">ใช้วันที่จากงานย่อย</button></div><label class="field">ผลงานจริง (%)<input id="f-progress" type="number" min="0" max="100" step="1" placeholder="ยังไม่ระบุ"></label><label class="field">หมวดงาน<select id="f-category"><option>งานแบบและเอกสาร</option><option>เตรียมการ</option><option>แบบและอนุมัติ</option><option>จัดซื้อวัสดุ</option><option>งานติดตั้ง</option><option>ตรวจและส่งมอบ</option></select></label><fieldset class="bar-color-editor"><legend>สีแถบงานบนปฏิทิน</legend><div class="bar-color-tools"><input type="color" id="task-bar-color" value="#72cdae" aria-label="เลือกสีแถบงาน"><span class="bar-color-name" id="task-color-name">สีเริ่มต้น</span><button type="button" id="task-color-reset">ใช้สีเริ่มต้น</button></div><div class="bar-color-presets" id="task-color-presets"><button type="button" data-bar-color="#72cdae" title="เขียว" aria-label="เลือกสีเขียว" style="--preset-color:#72cdae"></button><button type="button" data-bar-color="#6fa9f3" title="ฟ้า" aria-label="เลือกสีฟ้า" style="--preset-color:#6fa9f3"></button><button type="button" data-bar-color="#e7b55e" title="เหลือง" aria-label="เลือกสีเหลือง" style="--preset-color:#e7b55e"></button><button type="button" data-bar-color="#e78579" title="แดง" aria-label="เลือกสีแดง" style="--preset-color:#e78579"></button><button type="button" data-bar-color="#b49ae8" title="ม่วง" aria-label="เลือกสีม่วง" style="--preset-color:#b49ae8"></button><button type="button" data-bar-color="#df91b4" title="ชมพู" aria-label="เลือกสีชมพู" style="--preset-color:#df91b4"></button></div><div class="bar-color-preview" id="task-color-preview" aria-hidden="true"><i id="task-color-fill"></i></div><p class="bar-color-caption">ตัวอย่างสีช่วงแผนและผลงาน · ใช้กับแถบของหัวข้อนี้</p></fieldset><fieldset class="task-file-editor"><legend>โฟลเดอร์ / ไฟล์ประกอบงานนี้</legend><label class="field">ที่อยู่โฟลเดอร์อ้างอิง<input id="task-file-address" type="text" maxlength="2000" placeholder="เช่น C:\TA\PP17\C09\SUBMIT DWG" autocomplete="off"></label><div class="task-file-summary"><span id="task-file-summary">ยังไม่ได้เลือกโฟลเดอร์</span><strong id="task-file-count">0 ไฟล์</strong></div><div class="task-file-buttons"><button type="button" id="task-file-choose">เลือกโฟลเดอร์</button><button type="button" id="task-file-view">ดูรายการไฟล์ (0)</button><button type="button" id="task-file-clear">ยกเลิกการผูกโฟลเดอร์</button><button type="button" id="task-file-legacy" hidden>ใช้รายการเดิมของโครงการ</button></div><p>กดดูรายการแล้วติ๊กไฟล์ที่ต้องการแสดงใต้ชื่องาน · กด “ใช้รายการนี้กับงาน” และ “บันทึกงาน” เพื่อเก็บการเลือก</p></fieldset><p class="calendar-note">เว้นวันที่ ผู้รับผิดชอบ และ % ผลงานไว้ได้ หากยังไม่มีข้อมูล<br>วันทำงาน: จันทร์–เสาร์ · วันอาทิตย์เป็นวันหยุด<br>วันเริ่มหรือจบตรงวันอาทิตย์จะเลื่อนไปวันจันทร์ · <strong id="f-duration"></strong></p><p class="error" id="task-error" role="alert"></p></div><div class="dialog-footer"><button class="danger" id="delete" type="button">ลบงานนี้</button><button type="button" data-close="task-dialog">ยกเลิก</button><button class="primary" type="submit">บันทึกงาน</button></div></form></dialog>
+<dialog id="group-dialog" aria-labelledby="group-dialog-title"><form id="group-form"><div class="dialog-head"><h2 id="group-dialog-title">เพิ่มหัวข้องานหลัก</h2><button type="button" class="close" data-close="group-dialog" aria-label="ปิด">×</button></div><div class="form-body"><div class="dialog-outline"><div class="dialog-outline-title">หัวข้องานหลัก</div><div id="group-outline" class="dialog-outline-tree" role="list" aria-label="หัวข้องานหลักที่กำลังเพิ่มหรือแก้ไข"></div></div><label class="field full">หัวข้องานหลัก<input id="g-name" required maxlength="160"></label><label class="field">พื้นที่ / อาคาร (ถ้ามี)<input id="g-area" maxlength="50" list="area-list"></label><label class="field">ผู้รับผิดชอบหลัก (ถ้ามี)<input id="g-owner" maxlength="80"></label><label class="field full">รายละเอียด / ขอบเขตงาน<textarea id="g-note" maxlength="500"></textarea></label><fieldset class="bar-color-editor"><legend>สีแถบงานบนปฏิทิน</legend><div class="bar-color-tools"><input type="color" id="group-bar-color" value="#72cdae" aria-label="เลือกสีแถบงาน"><span class="bar-color-name" id="group-color-name">สีเริ่มต้น</span><button type="button" id="group-color-reset">ใช้สีเริ่มต้น</button></div><div class="bar-color-presets" id="group-color-presets"><button type="button" data-bar-color="#72cdae" title="เขียว" aria-label="เลือกสีเขียว" style="--preset-color:#72cdae"></button><button type="button" data-bar-color="#6fa9f3" title="ฟ้า" aria-label="เลือกสีฟ้า" style="--preset-color:#6fa9f3"></button><button type="button" data-bar-color="#e7b55e" title="เหลือง" aria-label="เลือกสีเหลือง" style="--preset-color:#e7b55e"></button><button type="button" data-bar-color="#e78579" title="แดง" aria-label="เลือกสีแดง" style="--preset-color:#e78579"></button><button type="button" data-bar-color="#b49ae8" title="ม่วง" aria-label="เลือกสีม่วง" style="--preset-color:#b49ae8"></button><button type="button" data-bar-color="#df91b4" title="ชมพู" aria-label="เลือกสีชมพู" style="--preset-color:#df91b4"></button></div><div class="bar-color-preview" id="group-color-preview" aria-hidden="true"><i id="group-color-fill"></i></div><p class="bar-color-caption">ตัวอย่างสีช่วงแผนและผลงาน · ใช้กับแถบของหัวข้อนี้</p></fieldset><p class="calendar-note">วันเริ่ม วันจบ จำนวนวันทำงาน และ % ความก้าวหน้า สรุปจากงานย่อยอัตโนมัติ<br>ความก้าวหน้าถ่วงน้ำหนักตามจำนวนวันทำงานของแต่ละงานย่อย</p><p class="error" id="group-error" role="alert"></p></div><div class="dialog-footer"><button id="delete-group" class="danger" type="button">ลบหัวข้องานหลัก</button><button type="button" data-close="group-dialog">ยกเลิก</button><button class="primary" type="submit">บันทึกหัวข้อ</button></div></form></dialog>
+<dialog id="project-dialog"><form id="project-form"><div class="dialog-head"><h2>ข้อมูลโครงการ</h2><button type="button" class="close" data-close="project-dialog" aria-label="ปิด">×</button></div><div class="form-body"><label class="field full">ชื่อโครงการ<input id="p-name" required maxlength="120"></label><label class="field full">รายละเอียด<input id="p-desc" maxlength="200"></label><label class="field">วันรายงานสถานะ<input id="p-report" type="date" required></label><label class="field">กำหนดส่งมอบ (ไม่นับวันอาทิตย์)<input id="p-handover" type="date"></label><p style="font-size:12px;color:var(--muted);line-height:1.7;grid-column:1/-1;margin:0">วันรายงานใช้คำนวณงานเลยกำหนดและเส้นสีส้มบนกราฟ กำหนดส่งมอบเว้นว่างไว้ได้จนกว่าจะมีข้อมูล</p></div><div class="dialog-footer"><button type="button" data-close="project-dialog">ยกเลิก</button><button class="primary" type="submit">บันทึกข้อมูล</button></div></form></dialog>
+<dialog id="order-dialog" aria-labelledby="order-title"><form id="order-form"><div class="dialog-head"><h2 id="order-title">วางรายการที่เลือก</h2><button type="button" class="close" data-close="order-dialog" aria-label="ยกเลิกการย้าย">×</button></div><div class="order-body"><div class="order-item"><span>รายการที่จะย้าย (พร้อมงานลูก)</span><strong id="order-source-label"></strong></div><div class="order-item"><span>รายการปลายทาง</span><strong id="order-target-label"></strong></div><fieldset class="order-placement"><legend>ตำแหน่งที่ต้องการ</legend><label><input id="order-before" type="radio" name="order-placement" value="before" checked>วางก่อนรายการปลายทาง</label><label><input id="order-after" type="radio" name="order-placement" value="after">วางหลังรายการปลายทาง</label></fieldset><p class="error" id="order-error" role="alert"></p></div><div class="dialog-footer"><button type="button" data-close="order-dialog">ยกเลิก</button><button type="submit" class="primary">ย้ายมาที่นี่</button></div></form></dialog>
+<dialog id="delete-dialog" aria-labelledby="delete-title" aria-describedby="delete-description"><div class="dialog-head"><h2 id="delete-title">ยืนยันลบข้อมูล</h2><button type="button" class="close" data-close="delete-dialog" aria-label="ปิด">×</button></div><div class="delete-body"><p id="delete-description">ตรวจชื่อและตำแหน่งรายการที่ต้องการลบ</p><div class="dialog-outline delete-outline"><div class="dialog-outline-title">รายการที่เลือก</div><div id="delete-outline" class="dialog-outline-tree" role="list" aria-label="ตำแหน่งรายการที่จะลบ"></div></div><p class="error" id="delete-error" role="alert"></p></div><div class="dialog-footer"><button type="button" data-close="delete-dialog">ยกเลิก</button><button type="button" class="danger-solid" id="confirm-delete">ยืนยันลบรายการ</button></div></dialog>
+<dialog id="file-dialog" aria-labelledby="file-dialog-title"><div class="dialog-head"><div><h2 id="file-dialog-title">ไฟล์ประกอบงาน</h2><p id="file-dialog-path" class="file-dialog-path"></p></div><button type="button" class="close" data-close="file-dialog" aria-label="ปิดรายการไฟล์">×</button></div><div class="file-section" id="file-section">
+ <div class="toolbar"><div><h3>รายการไฟล์ของงาน</h3><p>ค้นหาชื่อ กรองชนิดไฟล์ และเลือกโฟลเดอร์ย่อย</p></div><div class="filters"><button type="button" id="file-choose" data-file-edit class="primary">เลือกโฟลเดอร์</button><button type="button" id="file-fallback" data-file-edit hidden>เลือกโฟลเดอร์แบบสำรอง</button><button type="button" id="file-refresh" data-file-edit disabled>อ่านรายการใหม่</button><button type="button" id="file-stop" data-file-edit hidden>หยุดอ่าน</button><button type="button" id="file-remember" data-file-edit>ใช้รายการนี้กับงาน</button></div></div>
+ <div class="file-controls">
+  <label class="file-address">ที่อยู่โฟลเดอร์อ้างอิง (ใส่เองได้)<input id="file-address" type="text" maxlength="2000" placeholder="เช่น C:\TA\PP17\แบบ" autocomplete="off"><span>ใช้บันทึกที่อยู่ประกอบรายการ · ให้นำที่อยู่นี้ไปวางในหน้าต่างเลือกโฟลเดอร์เพื่อเปิดตำแหน่งจริง</span></label>
+  <label>ค้นหาชื่อ / ที่อยู่ย่อย<input id="file-search" type="search" placeholder="เช่น C04 SUBMIT"></label>
+  <label>ชนิดไฟล์<select id="file-extension"><option value="">ทุกชนิด</option></select></label>
+  <label>โฟลเดอร์ย่อย<select id="file-folder"><option value="">โฟลเดอร์หลัก</option></select></label>
+  <label>เรียงรายการ<select id="file-sort"><option value="name">ชื่อไฟล์ ก–ฮ / A–Z</option><option value="modified">แก้ไขล่าสุดก่อน</option><option value="size">ขนาดใหญ่ก่อน</option></select></label>
+  <label class="file-recursive"><input id="file-selected-only" type="checkbox">แสดงเฉพาะไฟล์ที่เลือกขึ้นตารางหลัก</label>
+  <label class="file-recursive"><input id="file-recursive" type="checkbox" checked>รวมไฟล์ในโฟลเดอร์ย่อยของตำแหน่งที่กรอง</label>
+ </div>
+ <p class="file-note" id="file-message" role="status" aria-live="polite">ยังไม่ได้เลือกโฟลเดอร์ · พิมพ์ที่อยู่เพียงอย่างเดียวยังอ่านไฟล์ไม่ได้ ต้องกดเลือกโฟลเดอร์และอนุญาตก่อน รายการนี้อ่านชื่อ ขนาด และวันแก้ไข โดยไม่แก้ไฟล์ต้นฉบับ</p>
+ <div class="file-selection-tools"><span id="file-selection-count" role="status" aria-live="polite">เลือกขึ้นตารางหลัก 0 ไฟล์</span><button type="button" id="file-select-filtered">เลือกทั้งหมดที่กรอง</button><button type="button" id="file-clear-filtered">ยกเลิกเลือกที่กรอง</button></div><div class="file-scroll"><table class="file-table"><thead><tr><th scope="col" class="file-check-cell"><label><input type="checkbox" id="file-select-page" aria-label="เลือกไฟล์ทั้งหมดในหน้านี้">ทั้งหน้า</label></th><th scope="col">ชื่อไฟล์</th><th scope="col">โฟลเดอร์ย่อย</th><th scope="col">ชนิด</th><th scope="col">ขนาด</th><th scope="col">แก้ไขล่าสุด</th></tr></thead><tbody id="file-rows"><tr><td colspan="6" class="file-empty">เลือกโฟลเดอร์เพื่อแสดงรายการ</td></tr></tbody></table></div>
+ <div class="foot"><span id="file-count">0 ไฟล์</span><div class="file-paging"><button type="button" id="file-prev" disabled>ก่อนหน้า</button><span id="file-page">หน้า 1 / 1</span><button type="button" id="file-next" disabled>ถัดไป</button></div></div>
+ <input id="file-directory-input" type="file" webkitdirectory multiple hidden>
+</div><div class="dialog-footer"><button type="button" data-close="file-dialog">ปิดรายการ</button></div></dialog>
+<div id="toast" role="status" hidden></div>
+<script id="schedule-data" type="application/json">
+{
+  "app": "ppline-master-schedule-v1",
+  "projectId": "ppline-example-20261027",
+  "updatedAt": 1793345688722,
+  "savedAt": "2026-10-30T07:34:48.722Z",
+  "project": {
+    "name": "PP-LINE · Finishes & Ceiling",
+    "description": "แผนงานแบบและเอกสาร PP17–PP20",
+    "reportDate": "2026-10-30",
+    "handover": null
+  },
+  "tasks": [
+    {
+      "id": "pp17-001",
+      "name": "C02-C03",
+      "groupId": "pp17",
+      "parentId": null,
+      "area": "C02-C03",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp17-002",
+      "name": "C04 C05 C08",
+      "groupId": "pp17",
+      "parentId": null,
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp17-003",
+      "name": "แบบรางไฟ",
+      "groupId": "pp17",
+      "parentId": "pp17-002",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp17-004",
+      "name": "SUBMIT DWG",
+      "groupId": "pp17",
+      "parentId": "pp17-003",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp17-005",
+      "name": "PART DWG",
+      "groupId": "pp17",
+      "parentId": "pp17-003",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp17-006",
+      "name": "ขอราคา",
+      "groupId": "pp17",
+      "parentId": "pp17-003",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp17-007",
+      "name": "FG / ราคา",
+      "groupId": "pp17",
+      "parentId": "pp17-003",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp17-008",
+      "name": "SOOM",
+      "groupId": "pp17",
+      "parentId": "pp17-003",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp17-009",
+      "name": "แบบแผ่น Varies",
+      "groupId": "pp17",
+      "parentId": "pp17-002",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp17-010",
+      "name": "SUBMIT DWG",
+      "groupId": "pp17",
+      "parentId": "pp17-009",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp17-011",
+      "name": "PART DWG",
+      "groupId": "pp17",
+      "parentId": "pp17-009",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp17-012",
+      "name": "ขอราคา",
+      "groupId": "pp17",
+      "parentId": "pp17-009",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp17-013",
+      "name": "FG / ราคา",
+      "groupId": "pp17",
+      "parentId": "pp17-009",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp17-014",
+      "name": "SOOM",
+      "groupId": "pp17",
+      "parentId": "pp17-009",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp17-015",
+      "name": "แบบแผ่น Varies TZP",
+      "groupId": "pp17",
+      "parentId": "pp17-002",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp17-016",
+      "name": "SUBMIT DWG",
+      "groupId": "pp17",
+      "parentId": "pp17-015",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp17-017",
+      "name": "PART DWG",
+      "groupId": "pp17",
+      "parentId": "pp17-015",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp17-018",
+      "name": "ขอราคา",
+      "groupId": "pp17",
+      "parentId": "pp17-015",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp17-019",
+      "name": "FG / ราคา",
+      "groupId": "pp17",
+      "parentId": "pp17-015",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp17-020",
+      "name": "SOOM",
+      "groupId": "pp17",
+      "parentId": "pp17-015",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp17-021",
+      "name": "C09",
+      "groupId": "pp17",
+      "parentId": null,
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp17-022",
+      "name": "แบบรางไฟ",
+      "groupId": "pp17",
+      "parentId": "pp17-021",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp17-023",
+      "name": "SUBMIT DWG",
+      "groupId": "pp17",
+      "parentId": "pp17-022",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp17-024",
+      "name": "PART DWG",
+      "groupId": "pp17",
+      "parentId": "pp17-022",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp17-025",
+      "name": "ขอราคา",
+      "groupId": "pp17",
+      "parentId": "pp17-022",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp17-026",
+      "name": "FG / ราคา",
+      "groupId": "pp17",
+      "parentId": "pp17-022",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp17-027",
+      "name": "SOOM",
+      "groupId": "pp17",
+      "parentId": "pp17-022",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp17-028",
+      "name": "แบบแผ่น Varies",
+      "groupId": "pp17",
+      "parentId": "pp17-021",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp17-029",
+      "name": "SUBMIT DWG",
+      "groupId": "pp17",
+      "parentId": "pp17-028",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp17-030",
+      "name": "PART DWG",
+      "groupId": "pp17",
+      "parentId": "pp17-028",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp17-031",
+      "name": "ขอราคา",
+      "groupId": "pp17",
+      "parentId": "pp17-028",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp17-032",
+      "name": "FG / ราคา",
+      "groupId": "pp17",
+      "parentId": "pp17-028",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp17-033",
+      "name": "SOOM",
+      "groupId": "pp17",
+      "parentId": "pp17-028",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp17-034",
+      "name": "C10",
+      "groupId": "pp17",
+      "parentId": null,
+      "area": "C10",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp17-035",
+      "name": "SUBMIT DWG",
+      "groupId": "pp17",
+      "parentId": "pp17-034",
+      "area": "C10",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp17-036",
+      "name": "PART DWG",
+      "groupId": "pp17",
+      "parentId": "pp17-034",
+      "area": "C10",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp17-037",
+      "name": "ขอราคา",
+      "groupId": "pp17",
+      "parentId": "pp17-034",
+      "area": "C10",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp17-038",
+      "name": "FG / ราคา",
+      "groupId": "pp17",
+      "parentId": "pp17-034",
+      "area": "C10",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp17-039",
+      "name": "SOOM",
+      "groupId": "pp17",
+      "parentId": "pp17-034",
+      "area": "C10",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp18-001",
+      "name": "C02-C03",
+      "groupId": "pp18",
+      "parentId": null,
+      "area": "C02-C03",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp18-002",
+      "name": "C04 C05 C08",
+      "groupId": "pp18",
+      "parentId": null,
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp18-003",
+      "name": "แบบรางไฟ",
+      "groupId": "pp18",
+      "parentId": "pp18-002",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp18-004",
+      "name": "SUBMIT DWG",
+      "groupId": "pp18",
+      "parentId": "pp18-003",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp18-005",
+      "name": "PART DWG",
+      "groupId": "pp18",
+      "parentId": "pp18-003",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp18-006",
+      "name": "ขอราคา",
+      "groupId": "pp18",
+      "parentId": "pp18-003",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp18-007",
+      "name": "FG / ราคา",
+      "groupId": "pp18",
+      "parentId": "pp18-003",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp18-008",
+      "name": "SOOM",
+      "groupId": "pp18",
+      "parentId": "pp18-003",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp18-009",
+      "name": "แบบแผ่น Varies",
+      "groupId": "pp18",
+      "parentId": "pp18-002",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp18-010",
+      "name": "SUBMIT DWG",
+      "groupId": "pp18",
+      "parentId": "pp18-009",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp18-011",
+      "name": "PART DWG",
+      "groupId": "pp18",
+      "parentId": "pp18-009",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp18-012",
+      "name": "ขอราคา",
+      "groupId": "pp18",
+      "parentId": "pp18-009",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp18-013",
+      "name": "FG / ราคา",
+      "groupId": "pp18",
+      "parentId": "pp18-009",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp18-014",
+      "name": "SOOM",
+      "groupId": "pp18",
+      "parentId": "pp18-009",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp18-015",
+      "name": "แบบแผ่น Varies TZP",
+      "groupId": "pp18",
+      "parentId": "pp18-002",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp18-016",
+      "name": "SUBMIT DWG",
+      "groupId": "pp18",
+      "parentId": "pp18-015",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp18-017",
+      "name": "PART DWG",
+      "groupId": "pp18",
+      "parentId": "pp18-015",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp18-018",
+      "name": "ขอราคา",
+      "groupId": "pp18",
+      "parentId": "pp18-015",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp18-019",
+      "name": "FG / ราคา",
+      "groupId": "pp18",
+      "parentId": "pp18-015",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp18-020",
+      "name": "SOOM",
+      "groupId": "pp18",
+      "parentId": "pp18-015",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp18-021",
+      "name": "C09",
+      "groupId": "pp18",
+      "parentId": null,
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp18-022",
+      "name": "แบบรางไฟ",
+      "groupId": "pp18",
+      "parentId": "pp18-021",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp18-023",
+      "name": "SUBMIT DWG",
+      "groupId": "pp18",
+      "parentId": "pp18-022",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp18-024",
+      "name": "PART DWG",
+      "groupId": "pp18",
+      "parentId": "pp18-022",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp18-025",
+      "name": "ขอราคา",
+      "groupId": "pp18",
+      "parentId": "pp18-022",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp18-026",
+      "name": "FG / ราคา",
+      "groupId": "pp18",
+      "parentId": "pp18-022",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp18-027",
+      "name": "SOOM",
+      "groupId": "pp18",
+      "parentId": "pp18-022",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp18-028",
+      "name": "แบบแผ่น Varies",
+      "groupId": "pp18",
+      "parentId": "pp18-021",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp18-029",
+      "name": "SUBMIT DWG",
+      "groupId": "pp18",
+      "parentId": "pp18-028",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp18-030",
+      "name": "PART DWG",
+      "groupId": "pp18",
+      "parentId": "pp18-028",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp18-031",
+      "name": "ขอราคา",
+      "groupId": "pp18",
+      "parentId": "pp18-028",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp18-032",
+      "name": "FG / ราคา",
+      "groupId": "pp18",
+      "parentId": "pp18-028",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp18-033",
+      "name": "SOOM",
+      "groupId": "pp18",
+      "parentId": "pp18-028",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp18-034",
+      "name": "C10",
+      "groupId": "pp18",
+      "parentId": null,
+      "area": "C10",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp18-035",
+      "name": "SUBMIT DWG",
+      "groupId": "pp18",
+      "parentId": "pp18-034",
+      "area": "C10",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp18-036",
+      "name": "PART DWG",
+      "groupId": "pp18",
+      "parentId": "pp18-034",
+      "area": "C10",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp18-037",
+      "name": "ขอราคา",
+      "groupId": "pp18",
+      "parentId": "pp18-034",
+      "area": "C10",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp18-038",
+      "name": "FG / ราคา",
+      "groupId": "pp18",
+      "parentId": "pp18-034",
+      "area": "C10",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp18-039",
+      "name": "SOOM",
+      "groupId": "pp18",
+      "parentId": "pp18-034",
+      "area": "C10",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp19-001",
+      "name": "C02-C03",
+      "groupId": "pp19",
+      "parentId": null,
+      "area": "C02-C03",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp19-002",
+      "name": "C04 C05 C08",
+      "groupId": "pp19",
+      "parentId": null,
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp19-003",
+      "name": "แบบรางไฟ",
+      "groupId": "pp19",
+      "parentId": "pp19-002",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp19-004",
+      "name": "SUBMIT DWG",
+      "groupId": "pp19",
+      "parentId": "pp19-003",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp19-005",
+      "name": "PART DWG",
+      "groupId": "pp19",
+      "parentId": "pp19-003",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp19-006",
+      "name": "ขอราคา",
+      "groupId": "pp19",
+      "parentId": "pp19-003",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp19-007",
+      "name": "FG / ราคา",
+      "groupId": "pp19",
+      "parentId": "pp19-003",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp19-008",
+      "name": "SOOM",
+      "groupId": "pp19",
+      "parentId": "pp19-003",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp19-009",
+      "name": "แบบแผ่น Varies",
+      "groupId": "pp19",
+      "parentId": "pp19-002",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp19-010",
+      "name": "SUBMIT DWG",
+      "groupId": "pp19",
+      "parentId": "pp19-009",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp19-011",
+      "name": "PART DWG",
+      "groupId": "pp19",
+      "parentId": "pp19-009",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp19-012",
+      "name": "ขอราคา",
+      "groupId": "pp19",
+      "parentId": "pp19-009",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp19-013",
+      "name": "FG / ราคา",
+      "groupId": "pp19",
+      "parentId": "pp19-009",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp19-014",
+      "name": "SOOM",
+      "groupId": "pp19",
+      "parentId": "pp19-009",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp19-015",
+      "name": "แบบแผ่น Varies TZP",
+      "groupId": "pp19",
+      "parentId": "pp19-002",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp19-016",
+      "name": "SUBMIT DWG",
+      "groupId": "pp19",
+      "parentId": "pp19-015",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp19-017",
+      "name": "PART DWG",
+      "groupId": "pp19",
+      "parentId": "pp19-015",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp19-018",
+      "name": "ขอราคา",
+      "groupId": "pp19",
+      "parentId": "pp19-015",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp19-019",
+      "name": "FG / ราคา",
+      "groupId": "pp19",
+      "parentId": "pp19-015",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp19-020",
+      "name": "SOOM",
+      "groupId": "pp19",
+      "parentId": "pp19-015",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp19-021",
+      "name": "C09",
+      "groupId": "pp19",
+      "parentId": null,
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp19-022",
+      "name": "แบบรางไฟ",
+      "groupId": "pp19",
+      "parentId": "pp19-021",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp19-023",
+      "name": "SUBMIT DWG",
+      "groupId": "pp19",
+      "parentId": "pp19-022",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp19-024",
+      "name": "PART DWG",
+      "groupId": "pp19",
+      "parentId": "pp19-022",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp19-025",
+      "name": "ขอราคา",
+      "groupId": "pp19",
+      "parentId": "pp19-022",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp19-026",
+      "name": "FG / ราคา",
+      "groupId": "pp19",
+      "parentId": "pp19-022",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp19-027",
+      "name": "SOOM",
+      "groupId": "pp19",
+      "parentId": "pp19-022",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp19-028",
+      "name": "แบบแผ่น Varies",
+      "groupId": "pp19",
+      "parentId": "pp19-021",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp19-029",
+      "name": "SUBMIT DWG",
+      "groupId": "pp19",
+      "parentId": "pp19-028",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp19-030",
+      "name": "PART DWG",
+      "groupId": "pp19",
+      "parentId": "pp19-028",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp19-031",
+      "name": "ขอราคา",
+      "groupId": "pp19",
+      "parentId": "pp19-028",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp19-032",
+      "name": "FG / ราคา",
+      "groupId": "pp19",
+      "parentId": "pp19-028",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp19-033",
+      "name": "SOOM",
+      "groupId": "pp19",
+      "parentId": "pp19-028",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp19-034",
+      "name": "C10",
+      "groupId": "pp19",
+      "parentId": null,
+      "area": "C10",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp19-035",
+      "name": "SUBMIT DWG",
+      "groupId": "pp19",
+      "parentId": "pp19-034",
+      "area": "C10",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp19-036",
+      "name": "PART DWG",
+      "groupId": "pp19",
+      "parentId": "pp19-034",
+      "area": "C10",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp19-037",
+      "name": "ขอราคา",
+      "groupId": "pp19",
+      "parentId": "pp19-034",
+      "area": "C10",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp19-038",
+      "name": "FG / ราคา",
+      "groupId": "pp19",
+      "parentId": "pp19-034",
+      "area": "C10",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp19-039",
+      "name": "SOOM",
+      "groupId": "pp19",
+      "parentId": "pp19-034",
+      "area": "C10",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp20-001",
+      "name": "C02-C03",
+      "groupId": "pp20",
+      "parentId": null,
+      "area": "C02-C03",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp20-002",
+      "name": "C04 C05 C08",
+      "groupId": "pp20",
+      "parentId": null,
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp20-003",
+      "name": "แบบรางไฟ",
+      "groupId": "pp20",
+      "parentId": "pp20-002",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp20-004",
+      "name": "SUBMIT DWG",
+      "groupId": "pp20",
+      "parentId": "pp20-003",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp20-005",
+      "name": "PART DWG",
+      "groupId": "pp20",
+      "parentId": "pp20-003",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp20-006",
+      "name": "ขอราคา",
+      "groupId": "pp20",
+      "parentId": "pp20-003",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp20-007",
+      "name": "FG / ราคา",
+      "groupId": "pp20",
+      "parentId": "pp20-003",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp20-008",
+      "name": "SOOM",
+      "groupId": "pp20",
+      "parentId": "pp20-003",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp20-009",
+      "name": "แบบแผ่น Varies",
+      "groupId": "pp20",
+      "parentId": "pp20-002",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp20-010",
+      "name": "SUBMIT DWG",
+      "groupId": "pp20",
+      "parentId": "pp20-009",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp20-011",
+      "name": "PART DWG",
+      "groupId": "pp20",
+      "parentId": "pp20-009",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp20-012",
+      "name": "ขอราคา",
+      "groupId": "pp20",
+      "parentId": "pp20-009",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp20-013",
+      "name": "FG / ราคา",
+      "groupId": "pp20",
+      "parentId": "pp20-009",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp20-014",
+      "name": "SOOM",
+      "groupId": "pp20",
+      "parentId": "pp20-009",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp20-015",
+      "name": "แบบแผ่น Varies TZP",
+      "groupId": "pp20",
+      "parentId": "pp20-002",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp20-016",
+      "name": "SUBMIT DWG",
+      "groupId": "pp20",
+      "parentId": "pp20-015",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp20-017",
+      "name": "PART DWG",
+      "groupId": "pp20",
+      "parentId": "pp20-015",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp20-018",
+      "name": "ขอราคา",
+      "groupId": "pp20",
+      "parentId": "pp20-015",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp20-019",
+      "name": "FG / ราคา",
+      "groupId": "pp20",
+      "parentId": "pp20-015",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp20-020",
+      "name": "SOOM",
+      "groupId": "pp20",
+      "parentId": "pp20-015",
+      "area": "C04 C05 C08",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp20-021",
+      "name": "C09",
+      "groupId": "pp20",
+      "parentId": null,
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp20-022",
+      "name": "แบบรางไฟ",
+      "groupId": "pp20",
+      "parentId": "pp20-021",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp20-023",
+      "name": "SUBMIT DWG",
+      "groupId": "pp20",
+      "parentId": "pp20-022",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp20-024",
+      "name": "PART DWG",
+      "groupId": "pp20",
+      "parentId": "pp20-022",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp20-025",
+      "name": "ขอราคา",
+      "groupId": "pp20",
+      "parentId": "pp20-022",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp20-026",
+      "name": "FG / ราคา",
+      "groupId": "pp20",
+      "parentId": "pp20-022",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp20-027",
+      "name": "SOOM",
+      "groupId": "pp20",
+      "parentId": "pp20-022",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp20-028",
+      "name": "แบบแผ่น Varies",
+      "groupId": "pp20",
+      "parentId": "pp20-021",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp20-029",
+      "name": "SUBMIT DWG",
+      "groupId": "pp20",
+      "parentId": "pp20-028",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp20-030",
+      "name": "PART DWG",
+      "groupId": "pp20",
+      "parentId": "pp20-028",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp20-031",
+      "name": "ขอราคา",
+      "groupId": "pp20",
+      "parentId": "pp20-028",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp20-032",
+      "name": "FG / ราคา",
+      "groupId": "pp20",
+      "parentId": "pp20-028",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp20-033",
+      "name": "SOOM",
+      "groupId": "pp20",
+      "parentId": "pp20-028",
+      "area": "C09",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp20-034",
+      "name": "C10",
+      "groupId": "pp20",
+      "parentId": null,
+      "area": "C10",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "section"
+    },
+    {
+      "id": "pp20-035",
+      "name": "SUBMIT DWG",
+      "groupId": "pp20",
+      "parentId": "pp20-034",
+      "area": "C10",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp20-036",
+      "name": "PART DWG",
+      "groupId": "pp20",
+      "parentId": "pp20-034",
+      "area": "C10",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp20-037",
+      "name": "ขอราคา",
+      "groupId": "pp20",
+      "parentId": "pp20-034",
+      "area": "C10",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp20-038",
+      "name": "FG / ราคา",
+      "groupId": "pp20",
+      "parentId": "pp20-034",
+      "area": "C10",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    },
+    {
+      "id": "pp20-039",
+      "name": "SOOM",
+      "groupId": "pp20",
+      "parentId": "pp20-034",
+      "area": "C10",
+      "owner": "",
+      "start": null,
+      "end": null,
+      "progress": null,
+      "category": "งานแบบและเอกสาร",
+      "nodeType": "task"
+    }
+  ],
+  "groups": [
+    {
+      "id": "pp17",
+      "name": "PP17",
+      "area": "",
+      "owner": "",
+      "note": ""
+    },
+    {
+      "id": "pp18",
+      "name": "PP18",
+      "area": "",
+      "owner": "",
+      "note": ""
+    },
+    {
+      "id": "pp19",
+      "name": "PP19",
+      "area": "",
+      "owner": "",
+      "note": ""
+    },
+    {
+      "id": "pp20",
+      "name": "PP20",
+      "area": "",
+      "owner": "",
+      "note": ""
+    }
+  ]
+}
+</script>
+<script>
+'use strict';
+const initialHTML=document.documentElement.outerHTML;
+const $=id=>document.getElementById(id);
+let state=JSON.parse($('schedule-data').textContent),fileHandle=null,dirty=false,saving=false,saveTimer=null,toastTimer=null,editingId=null,revision=0,savedRevision=0,isEditor=false;
+const draftKey='master-schedule-draft:'+state.projectId,DAY=86400000;
+const colorDrafts={task:null,group:null};
+const collapsedGroups=new Set();let editingGroupId=null,lastFilterKey=null,datePlanDraft=null;
+function ensureGroups(data){if(!Array.isArray(data.groups))data.groups=[];for(const t of data.tasks){if(!data.groups.some(g=>g.id===t.groupId)){const key=(t.category||'งานทั่วไป')+(t.category==='งานติดตั้ง'&&t.area&&t.area!=='ทั้งหมด'?' · '+t.area:'');let group=data.groups.find(g=>g.legacyKey===key);if(!group){group={id:'g'+Date.now().toString(36)+Math.random().toString(36).slice(2,7),name:key,area:t.area||'ทั้งหมด',owner:'',note:'',legacyKey:key};data.groups.push(group)}t.groupId=group.id}}
+ const map=new Map(data.tasks.map(t=>[t.id,t]));for(const t of data.tasks){if(!t.parentId||t.parentId===t.id||!map.has(t.parentId))t.parentId=null}
+ for(const t of data.tasks){const seen=new Set([t.id]);let ancestor=t;while(ancestor.parentId){if(seen.has(ancestor.parentId)){t.parentId=null;break}seen.add(ancestor.parentId);ancestor=map.get(ancestor.parentId)}}
+ for(const t of data.tasks){let root=t;while(root.parentId)root=map.get(root.parentId);t.groupId=root.groupId}return data}
+ensureGroups(state);
+const dateNumber=value=>value?Date.parse(value+'T00:00:00Z'):NaN;
+const hasPlan=t=>Number.isFinite(dateNumber(t.start))&&Number.isFinite(dateNumber(t.end))&&t.end>=t.start;
+const hasProgress=t=>typeof t.progress==='number'&&Number.isFinite(t.progress)&&t.progress>=0&&t.progress<=100;
+const dateISO=value=>new Date(value).toISOString().slice(0,10);
+const dayFormat=(value,year=false)=>!Number.isFinite(dateNumber(value))?'—':new Intl.DateTimeFormat('th-TH-u-ca-gregory',{day:'numeric',month:'short',...(year?{year:'numeric'}:{}),timeZone:'UTC'}).format(new Date(dateNumber(value)));
+function nextWorkingDay(value){const n=dateNumber(value);return Number.isFinite(n)&&new Date(n).getUTCDay()===0?dateISO(n+DAY):value}
+function workingDays(first,last){const start=dateNumber(first),end=dateNumber(last);if(!Number.isFinite(start)||!Number.isFinite(end)||end<start)return 0;const span=Math.round((end-start)/DAY)+1,weeks=Math.floor(span/7);let count=weeks*6;for(let i=weeks*7;i<span;i++)if(new Date(start+i*DAY).getUTCDay()!==0)count++;return count}
+const duration=t=>workingDays(t.start,t.end);
+function updateDurationPreview(){const start=$('f-start').value,end=$('f-end').value;$('f-duration').textContent=start&&end&&end>=start?workingDays(nextWorkingDay(start),nextWorkingDay(end))+' วันทำงาน':'เลือกวันเริ่มและวันจบ'}
+function normalizeDateInput(id){const el=$(id),next=nextWorkingDay(el.value);if(next!==el.value){el.value=next;toast('วันอาทิตย์เป็นวันหยุด เลื่อนเป็น '+dayFormat(next,true)+' แล้ว')}if(id==='f-start'||id==='f-end')updateDurationPreview()}
+function normalizeBarColor(value){return typeof value==='string'&&/^#[0-9a-f]{6}$/i.test(value.trim())?value.trim().toLowerCase():null}
+function barColorPaint(value){const color=normalizeBarColor(value);if(!color)return null;const base=[21,33,45],parts=[1,3,5].map((i,k)=>Math.round(parseInt(color.slice(i,i+2),16)*0.6+base[k]*0.4).toString(16).padStart(2,'0'));return {plan:'#'+parts.join(''),done:color}}
+function defaultBarPaint(kind){return kind==='group'?{plan:'#41636a',done:'#9bc7c4'}:kind==='summary'?{plan:'#39596a',done:'#88b5cf'}:{plan:'#355a55',done:'#72cdae'}}
+function renderBarColorEditor(prefix){const draft=colorDrafts[prefix];if(!draft)return;const paint=barColorPaint(draft.value)||defaultBarPaint(draft.kind);$(prefix+'-bar-color').value=draft.value||paint.done;$(prefix+'-color-name').textContent=draft.value||'สีเริ่มต้น';$(prefix+'-color-preview').style.backgroundColor=paint.plan;$(prefix+'-color-fill').style.backgroundColor=paint.done}
+function initBarColorEditor(prefix,record,kind){colorDrafts[prefix]={value:normalizeBarColor(record.barColor),kind};renderBarColorEditor(prefix)}
+function pickBarColor(prefix,value){if(!requireEditor()||!colorDrafts[prefix])return;const color=normalizeBarColor(value);if(!color)return;colorDrafts[prefix].value=color;renderBarColorEditor(prefix)}
+function resetBarColor(prefix){if(!requireEditor()||!colorDrafts[prefix])return;colorDrafts[prefix].value=null;renderBarColorEditor(prefix)}
+function timelineBars(t,origin,totalDays){if(!hasPlan(t))return'';const paint=barColorPaint(t.barColor),paintClass=paint?' custom-color':'',paintStyle=paint?';--custom-plan:'+paint.plan+';--custom-done:'+paint.done:'';const end=dateNumber(t.end),planned=duration(t),completed=planned*(hasProgress(t)?t.progress:0)/100;let cursor=dateNumber(t.start),counted=0,bars='';while(cursor<=end){const dow=new Date(cursor).getUTCDay();if(dow===0){cursor+=DAY;continue}const segmentEnd=Math.min(end,cursor+(6-dow)*DAY),days=Math.round((segmentEnd-cursor)/DAY)+1,left=(cursor-origin)/DAY/totalDays*100,width=days/totalDays*100,pct=Math.max(0,Math.min(100,(completed-counted)/days*100));bars+='<div class="bar '+(status(t)==='late'?'late':'')+paintClass+'" data-work-start="'+dateISO(cursor)+'" data-work-end="'+dateISO(segmentEnd)+'" style="left:calc('+left+'% + 1px);width:calc('+width+'% - 2px)'+paintStyle+'" title="'+escapeHTML(t.name)+' · '+dayFormat(dateISO(cursor))+' – '+dayFormat(dateISO(segmentEnd))+' · รวม '+planned+' วันทำงาน · ผลงาน '+(hasProgress(t)?t.progress+'%':'รอข้อมูล')+'"><i style="width:'+pct+'%"></i></div>';counted+=days;cursor=segmentEnd+DAY}return bars}
+const escapeHTML=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const status=t=>t.summaryStatus?t.summaryStatus:t.progress===100?'complete':!hasPlan(t)||!hasProgress(t)?'unscheduled':t.end<state.project.reportDate?'late':t.progress>0?'active':'pending';
+const statusNames={complete:'เสร็จแล้ว',late:'เลยกำหนด',active:'กำลังทำ',pending:'ยังไม่เริ่ม',unscheduled:'รอข้อมูล'};
+function toast(message){$('toast').textContent=message;$('toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').hidden=true,5500)}
+function requireEditor(){if(isEditor)return true;toast('กรุณาปลดล็อก Editor ก่อนแก้ไขหรือบันทึกไฟล์');return false}
+function applyRole(){document.body.dataset.role=isEditor?'editor':'viewer';$('access-mode').textContent=isEditor?'Editor · แก้ไขได้':'Viewer · ดูอย่างเดียว';$('access-mode').classList.toggle('editor',isEditor);$('access-description').textContent=isEditor?'เพิ่ม แก้ไข ลบงาน และบันทึกแผนงานได้':'ดูแผนงาน ค้นหา กรองข้อมูล พิมพ์ และบันทึกสำเนาได้';$('unlock-editor').hidden=isEditor;$('lock-viewer').hidden=!isEditor;$('lock-viewer').disabled=saving;document.querySelectorAll('[data-editor-only], .edit').forEach(el=>{el.hidden=!isEditor;if('disabled' in el)el.disabled=!isEditor||(el.id==='save'&&saving)});$('autosave').disabled=!isEditor;setFileScanning(fileScanning);refreshOrderUI()}
+function lockViewer(){if(saving){toast('กรุณารอให้บันทึกไฟล์เสร็จก่อนล็อก');return}cancelOrderMove();isEditor=false;clearTimeout(saveTimer);$('autosave').checked=false;['file-dialog','delete-dialog','task-dialog','project-dialog','group-dialog','unlock-dialog'].forEach(id=>{if($(id).open)$(id).close()});$('unlock-password').value='';applyRole();toast(dirty?'ล็อกเป็น Viewer แล้ว ยังมีข้อมูลที่ต้องปลดล็อกเพื่อบันทึก':'ล็อกเป็น Viewer แล้ว')}
+function draft(){try{localStorage.setItem(draftKey,JSON.stringify(state));$('draft-status').textContent='ฉบับร่างในเบราว์เซอร์: บันทึกแล้ว'}catch(e){$('draft-status').textContent='ฉบับร่าง: บันทึกไม่ได้ กรุณาเซฟ HTML'}}
+function saveStatus(){if(saving){$('save-status').textContent='กำลังบันทึกลงไฟล์…';return}if(fileHandle){$('save-status').textContent=dirty?'มีการแก้ไขที่ยังไม่ลงไฟล์':'บันทึกลงไฟล์แล้ว';$('save-detail').textContent=fileHandle.name+(state.savedAt?' · '+new Date(state.savedAt).toLocaleTimeString('th-TH'):'')}else{$('save-status').textContent=dirty?'มีการแก้ไข — ยังไม่ได้บันทึกลงไฟล์':'ข้อมูลจากไฟล์ HTML';$('save-detail').textContent='เลือกปลายทางด้วย “บันทึก HTML” หรือเชื่อมไฟล์เดิมก่อนเปิด Auto-save'}}
+function changed(){if(!requireEditor())return;state.updatedAt=Math.max(Date.now(),state.updatedAt+1);revision++;dirty=true;draft();render();saveStatus();clearTimeout(saveTimer);if($('autosave').checked&&fileHandle)saveTimer=setTimeout(()=>saveFile(false),1500)}
+function progressOf(tasks){if(!tasks.length||tasks.some(t=>!hasProgress(t)))return null;if(tasks.every(t=>t.progress===100))return 100;if(tasks.some(t=>!hasPlan(t)))return null;const days=tasks.reduce((n,t)=>n+duration(t),0);return days?Math.min(99,Math.round(tasks.reduce((n,t)=>n+duration(t)*t.progress,0)/days)):null}
+function taskChildren(id){return state.tasks.filter(t=>t.parentId===id)}
+function descendantIds(id){const result=new Set(),stack=taskChildren(id).map(t=>t.id);while(stack.length){const current=stack.pop();if(current===id||result.has(current))continue;result.add(current);stack.push(...taskChildren(current).map(t=>t.id))}return result}
+function leafTasks(tasks=state.tasks){const parents=new Set(tasks.map(t=>t.parentId).filter(Boolean));return tasks.filter(t=>!parents.has(t.id)&&t.nodeType!=='section')}
+function taskLeaves(task){const ids=descendantIds(task.id);if(!ids.size)return task.nodeType==='section'?[]:[task];return leafTasks(state.tasks.filter(t=>ids.has(t.id)))}
+function summarizeRecord(record,leaves){const owners=[...new Set(leaves.map(t=>t.owner).filter(Boolean))],allPlanned=leaves.length>0&&leaves.every(hasPlan),ownDates=record.dateMode==='manual',autoStart=allPlanned?leaves.reduce((v,t)=>t.start<v?t.start:v,leaves[0].start):null,autoEnd=allPlanned?leaves.reduce((v,t)=>t.end>v?t.end:v,leaves[0].end):null;return {...record,owner:record.owner||(owners.length===1?owners[0]:owners.length?'หลายผู้รับผิดชอบ':'—'),start:ownDates?record.planStart||null:autoStart,end:ownDates?record.planEnd||null:autoEnd,progress:progressOf(leaves),summaryStatus:leaves.length&&leaves.every(t=>t.progress===100)?'complete':leaves.some(t=>status(t)==='late')?'late':leaves.some(t=>status(t)==='active')?'active':!leaves.length||leaves.some(t=>status(t)==='unscheduled')?'unscheduled':'pending'}}
+function summarizeTask(task){return taskChildren(task.id).length||task.nodeType==='section'?summarizeRecord(task,taskLeaves(task)):task}
+function summarizeGroup(group){return summarizeRecord({...group,category:'งานหลัก'},leafTasks(state.tasks.filter(t=>t.groupId===group.id)))}
+function taskPaths(){const paths=new Map();function visit(task,code){if(paths.has(task.id))return;paths.set(task.id,code);taskChildren(task.id).forEach((child,i)=>visit(child,code+'.'+(i+1)))}state.groups.forEach((group,i)=>state.tasks.filter(t=>t.groupId===group.id&&!t.parentId).forEach((task,j)=>visit(task,(i+1)+'.'+(j+1))));return paths}
+function treeGuides(depth,ancestors=[],isLast=false,stem=false,anchor=25){const joint=anchor+1,line=(kind,x1,y1,x2,y2)=>'<line class="'+kind+'" x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" vector-effect="non-scaling-stroke"/>';let lines='<span class="tree-lines" aria-hidden="true"><svg class="tree-svg" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="butt" shape-rendering="crispEdges" focusable="false">';ancestors.forEach((continues,i)=>{if(continues){const x=i*22+8;lines+=line('tree-vertical',x,0,x,'100%')}});if(depth>0){const x=(depth-1)*22+8;lines+=line('tree-elbow-vertical'+(isLast?' last':''),x,0,x,isLast?joint:'100%');lines+=line('tree-elbow-horizontal',x,joint,x+22,joint)}if(stem){const x=depth*22+8;lines+=line('tree-stem',x,joint,x,'100%')}return lines+'</svg></span>'}
+function fillParentChoices(groupId,selected=''){const excluded=editingId?descendantIds(editingId):new Set();if(editingId)excluded.add(editingId);const paths=taskPaths();$('f-parent').innerHTML='<option value="">ใต้หัวข้องานหลักโดยตรง</option>'+state.tasks.filter(t=>t.groupId===groupId&&!excluded.has(t.id)).map(t=>'<option value="'+escapeHTML(t.id)+'">'+escapeHTML(paths.get(t.id)||'')+' · '+escapeHTML(t.name)+'</option>').join('');$('f-parent').value=selected&&!excluded.has(selected)&&state.tasks.some(t=>t.id===selected&&t.groupId===groupId)?selected:'';syncParentTrigger();if(!$('parent-picker').hidden)renderParentPicker()}
+function editingSummaryTask(){const current=editingId?state.tasks.find(t=>t.id===editingId):null;return current&&(taskChildren(current.id).length||current.nodeType==='section')?current:null}
+function updateDatePlanStatus(){const summary=editingSummaryTask();$('date-plan-controls').hidden=!summary;const manual=Boolean(summary&&datePlanDraft?.mode==='manual');$('date-plan-controls').classList.toggle('manual',manual);$('date-plan-status').textContent=manual?'วันแผนของหัวข้อนี้: กำหนดเอง':'วันแผนของหัวข้อนี้: สรุปจากงานย่อย'}
+function markManualDates(){if(!isEditor||!editingSummaryTask()||!datePlanDraft)return;datePlanDraft.mode='manual';updateDatePlanStatus()}
+function useChildDates(){if(!requireEditor())return;const current=editingSummaryTask();if(!current)return;const auto=summarizeRecord({...current,dateMode:'auto'},taskLeaves(current));$('f-start').value=auto.start||'';$('f-end').value=auto.end||'';datePlanDraft={mode:'auto',start:auto.start||null,end:auto.end||null};updateDatePlanStatus();updateDurationPreview()}
+function updateTaskSummaryNote(){updateTaskOutline();const current=editingSummaryTask(),parent=state.tasks.find(t=>t.id===$('f-parent').value);$('f-start').readOnly=false;$('f-end').readOnly=false;$('f-progress').readOnly=Boolean(current);$('f-summary-note').hidden=!current&&!parent;$('f-summary-note').textContent=current?'แก้ไขวันเริ่ม–จบเป็นแผนของหัวข้อนี้ได้ หรือกด “ใช้วันที่จากงานย่อย” เพื่อสรุปวันอัตโนมัติ ความก้าวหน้ายังคำนวณจากงานระดับสุดท้าย':parent?'กำลังเพิ่มหรือย้ายงานไว้ใต้ “'+parent.name+'” หัวข้อแม่สรุปความก้าวหน้าจากงานย่อย และกำหนดวันแผนแยกได้':'';updateDatePlanStatus()}
+
+function orderPeers(kind,record){return kind==='group'?state.groups:state.tasks.filter(t=>t.groupId===record.groupId&&(t.parentId||null)===(record.parentId||null))}
+
+let orderSelection=null,orderTarget=null;
+function orderRecord(kind,id){return (kind==='group'?state.groups:kind==='task'?state.tasks:[]).find(t=>t.id===id)}
+function orderLabel(kind,record){return (kind==='group'?String(state.groups.findIndex(g=>g.id===record.id)+1):taskPaths().get(record.id)||'')+' · '+record.name}
+function orderCompatible(kind,source,target){return Boolean(source&&target&&source.id!==target.id&&(kind==='group'||(source.groupId===target.groupId&&(source.parentId||null)===(target.parentId||null))))}
+function wbsMarkup(kind,record,code){return '<span class="wbs-code wbs-reorder" data-reorder-kind="'+kind+'" data-reorder-id="'+escapeHTML(record.id)+'" role="button" tabindex="'+(isEditor?'0':'-1')+'" aria-disabled="'+(!isEditor)+'" aria-pressed="false" title="'+escapeHTML(code)+' · คลิกเพื่อเลือกย้ายลำดับ" aria-label="เลือกย้ายลำดับ '+escapeHTML(code+' '+record.name)+'">'+escapeHTML(code)+'</span>'}
+function refreshOrderUI(){
+ if(!isEditor||!orderRecord(orderSelection?.kind,orderSelection?.id)){orderSelection=null;orderTarget=null}
+ const source=orderSelection?orderRecord(orderSelection.kind,orderSelection.id):null;
+ document.querySelectorAll('[data-reorder-id]').forEach(el=>{const selected=Boolean(source&&el.dataset.reorderKind===orderSelection.kind&&el.dataset.reorderId===source.id),peer=Boolean(source&&el.dataset.reorderKind===orderSelection.kind&&orderCompatible(orderSelection.kind,source,orderRecord(el.dataset.reorderKind,el.dataset.reorderId)));el.setAttribute('tabindex',isEditor?'0':'-1');el.setAttribute('aria-disabled',String(!isEditor));el.setAttribute('aria-pressed',String(selected));el.classList.toggle('is-order-picked',selected);el.classList.toggle('is-order-peer',peer)});
+ $('reorder-hint').hidden=!source;if(source)$('reorder-message').textContent='กำลังย้าย '+orderLabel(orderSelection.kind,source)+' · คลิกเลข WBS ปลายทางใต้หัวข้อแม่เดียวกัน แล้วเลือกวางก่อนหรือหลัง';
+}
+function cancelOrderMove(){const active=Boolean(orderSelection);orderSelection=null;orderTarget=null;if($('order-dialog').open)$('order-dialog').close();if(active)render()}
+function pickOrderNode(kind,id){
+ if(!requireEditor())return false;const record=orderRecord(kind,id);if(!record)return false;
+ if(!orderSelection){if(orderPeers(kind,record).length<2){toast('รายการนี้ไม่มีรายการอื่นภายใต้หัวข้อเดียวกันให้ย้ายลำดับ');return false}orderSelection={kind,id};refreshOrderUI();return true}
+ if(orderSelection.kind===kind&&orderSelection.id===id){cancelOrderMove();return true}
+ const source=orderRecord(orderSelection.kind,orderSelection.id);if(kind!==orderSelection.kind||!orderCompatible(kind,source,record)){toast('กรุณาคลิกปลายทางที่อยู่ภายใต้หัวข้อแม่เดียวกัน');return false}
+ orderTarget={kind,id};$('order-source-label').textContent=orderLabel(kind,source);$('order-target-label').textContent=orderLabel(kind,record);$('order-before').checked=true;$('order-after').checked=false;$('order-error').textContent='';$('order-dialog').showModal();return true;
+}
+function placeOrder(kind,id,targetId,position){
+ if(!requireEditor()||!['before','after'].includes(position))return false;
+ const record=orderRecord(kind,id),target=orderRecord(kind,targetId);if(!orderCompatible(kind,record,target))return false;
+ const peers=orderPeers(kind,record),ordered=peers.filter(t=>t!==record),targetIndex=ordered.indexOf(target);if(targetIndex<0)return false;ordered.splice(targetIndex+(position==='after'?1:0),0,record);
+ if(ordered.every((t,i)=>t===peers[i])){cancelOrderMove();toast('รายการอยู่ในตำแหน่งนี้แล้ว');return false}
+ const peerSet=new Set(peers);let index=0;const list=(kind==='group'?state.groups:state.tasks).map(t=>peerSet.has(t)?ordered[index++]:t);if(kind==='group')state.groups=list;else state.tasks=list;arrangeTaskTree();
+ orderSelection=null;orderTarget=null;if($('order-dialog').open)$('order-dialog').close();changed();toast('ย้าย '+record.name+' เป็นลำดับ '+orderLabel(kind,record).split(' · ')[0]+' แล้ว');document.querySelector('[data-reorder-kind="'+kind+'"][data-reorder-id="'+CSS.escape(id)+'"]')?.focus({preventScroll:true});return true;
+}
+
+function arrangeTaskTree(){
+ const children=new Map(),roots=new Map(),ordered=[],seen=new Set();
+ for(const task of state.tasks){const map=task.parentId?children:roots,key=task.parentId||task.groupId;if(!map.has(key))map.set(key,[]);map.get(key).push(task)}
+ function visit(task){if(seen.has(task))return;seen.add(task);ordered.push(task);for(const child of children.get(task.id)||[])visit(child)}
+ for(const group of state.groups)for(const root of roots.get(group.id)||[])visit(root);
+ // Preserve any unattached records rather than dropping data while arranging the tree.
+ for(const task of state.tasks)visit(task);state.tasks=ordered;
+}
+
+function taskRow(t,code,origin,totalDays,todayLeft,options={}){const group=options.group||null,main=Boolean(group),hasChildren=main||options.childCount>0||t.nodeType==='section',depth=options.depth||0,expanded=options.expanded!==false,s=status(t),key=(main?'group:':'task:')+t.id,name=hasChildren?'<button class="group-toggle" data-toggle-node="'+escapeHTML(key)+'" aria-expanded="'+expanded+'" aria-label="'+(expanded?'ยุบ ':'ขยาย ')+escapeHTML(code+' '+t.name)+'"><span class="group-arrow" aria-hidden="true">'+(expanded?'▾':'▸')+'</span><span>'+escapeHTML(t.name)+'</span></button>':'<div class="taskname leaf-name"><span class="tree-leaf-icon" aria-hidden="true"></span><span>'+escapeHTML(t.name)+'</span></div>',sub=(t.area||'ทั้งหมด')+' / '+(t.category||'งานหลัก')+(hasChildren?' · '+options.childCount+' งานย่อยโดยตรง':''),actions='<div class="group-actions"><button class="edit" '+(main?'data-add-child':'data-add-task-child')+'="'+escapeHTML(t.id)+'" title="เพิ่มงานย่อยภายใต้ '+escapeHTML(code)+'" aria-label="เพิ่มงานย่อยภายใต้ '+escapeHTML(code+' '+t.name)+'">+ ย่อย</button><button class="edit" '+(main?'data-edit-group':'data-edit')+'="'+escapeHTML(t.id)+'" aria-label="แก้ไข '+escapeHTML(code+' '+t.name)+'">แก้ไข</button></div>';return '<tr class="'+(main?'main-row':hasChildren?'nested-summary-row':'child-row')+'" data-'+(main?'group':'task')+'="'+escapeHTML(t.id)+'"><td class="code">'+wbsMarkup(main?'group':'task',t,code)+'</td><td class="tree-cell">'+treeGuides(depth,options.ancestorLines||[],Boolean(options.isLast),expanded&&options.visibleChildren>0)+'<div class="tree-content" style="--tree-depth:'+depth+'">'+name+'<div class="tasksub" title="'+escapeHTML(sub)+'">'+escapeHTML(sub)+'</div>'+(!main?taskFilesBadge(t):'')+(main&&group.note?'<div class="group-note">'+escapeHTML(group.note)+'</div>':'')+'</div></td><td>'+escapeHTML(t.owner||'—')+'</td><td class="num">'+(t.start||t.end?dayFormat(t.start)+'<br>'+dayFormat(t.end):'—')+'</td><td class="num">'+(hasPlan(t)?duration(t):'—')+'</td><td><div class="pct"><span class="pct-line"><i style="width:'+(hasProgress(t)?t.progress:0)+'%"></i></span>'+(hasProgress(t)?t.progress+'%':'—')+'</div></td><td><span class="pill '+s+'">'+(!options.childCount&&(main||t.nodeType==='section')?'รอเพิ่มงานย่อย':statusNames[s])+'</span></td><td>'+actions+'</td><td class="timeline-cell"><span class="today-line" style="left:'+todayLeft+'%"></span>'+(t.start?timelineBars(t,origin,totalDays):'')+'</td></tr>'}
+function render(){
+ $('project-title').textContent=state.project.name;$('project-subtitle').textContent=state.project.description;document.title=state.project.name+' · Master Schedule';
+ const leaves=leafTasks(),total=leaves.length,pct=progressOf(leaves);
+ $('overall').textContent=pct===null?'รอข้อมูล':pct+'%';$('overall-bar').style.width=(pct??0)+'%';$('completed').textContent=leaves.filter(t=>t.progress===100).length+' / '+total;$('active-count').textContent=leaves.filter(t=>status(t)==='active').length+' งานกำลังดำเนินการ';$('late-count').textContent=leaves.filter(t=>status(t)==='late').length;$('handover').textContent=dayFormat(state.project.handover,true);$('report-label').textContent='วันรายงาน '+dayFormat(state.project.reportDate,true);
+ const areas=[...new Set([...state.tasks.map(t=>t.area),...state.groups.map(g=>g.area)].filter(Boolean))].sort(),selected=$('area-filter').value||'all';$('area-filter').innerHTML='<option value="all">ทุกพื้นที่</option>'+areas.map(a=>'<option value="'+escapeHTML(a)+'">'+escapeHTML(a)+'</option>').join('');$('area-filter').value=areas.includes(selected)?selected:'all';$('area-list').innerHTML=areas.map(a=>'<option value="'+escapeHTML(a)+'">').join('');
+ const calendarDates=[dateNumber(state.project.reportDate),dateNumber(state.project.handover),...leaves.flatMap(t=>[dateNumber(t.start),dateNumber(t.end)]),...state.tasks.filter(t=>t.dateMode==='manual').flatMap(t=>[dateNumber(t.planStart),dateNumber(t.planEnd)])].filter(Number.isFinite);if(!calendarDates.length)calendarDates.push(dateNumber(dateISO(Date.now())));const min=Math.min(...calendarDates),max=Math.max(...calendarDates);
+ const weekday=new Date(min).getUTCDay(),start=min-((weekday+6)%7)*DAY,numberOfWeeks=Math.max(4,Math.ceil((max-start+DAY)/(7*DAY))),totalDays=numberOfWeeks*7,timelineWidth=totalDays*40;
+ $('range').textContent='ปฏิทิน '+dayFormat(dateISO(min),true)+' · '+state.groups.length+' งานหลัก / '+state.tasks.length+' งานย่อย';
+ const maxDepth=Math.max(0,...[...taskPaths().values()].map(code=>code.split('.').length-1)),nameWidth=Math.max(360,240+(maxDepth+1)*22);const widths=[96,nameWidth,130,115,58,92,85,100,timelineWidth];$('cols').innerHTML=widths.map(w=>'<col style="width:'+w+'px">').join('');$('schedule').style.width=widths.reduce((a,b)=>a+b,0)+'px';$('schedule').style.setProperty('--total-days',totalDays);$('schedule').style.setProperty('--week-count',numberOfWeeks);
+ const weekdayLabels=['จันทร์','อังคาร','พุธ','พฤหัสฯ','ศุกร์','เสาร์','อาทิตย์'];
+ $('weeks').innerHTML=Array.from({length:numberOfWeeks},(_,i)=>{const monday=start+i*7*DAY;return '<div class="week" style="width:'+(100/numberOfWeeks)+'%"><div class="week-label">สัปดาห์ '+String(i+1).padStart(2,'0')+' · '+dayFormat(dateISO(monday))+' – '+dayFormat(dateISO(monday+6*DAY))+'</div><div class="week-days">'+weekdayLabels.map((label,d)=>{const date=monday+d*DAY;return '<div class="day-head '+(d===5?'saturday':d===6?'sunday':'')+'" title="'+label+' '+dayFormat(dateISO(date),true)+'"><span>'+label+'</span><b>'+new Date(date).getUTCDate()+'</b></div>'}).join('')+'</div></div>'}).join('');
+ const query=$('search').value.toLowerCase().trim(),area=$('area-filter').value,filter=$('status-filter').value;
+ const hasFilters=Boolean(query||area!=='all'||filter!=='all'),filterKey=JSON.stringify([query,area,filter]);if(filterKey!==lastFilterKey){if(hasFilters)collapsedGroups.clear();lastFilterKey=filterKey}
+ const matches=(t,terms)=>(area==='all'||t.area===area)&&(filter==='all'||status(t)===filter)&&(!query||[t.name,t.area,t.owner||'',t.category||'',...terms].some(x=>String(x).toLowerCase().includes(query)));
+ function buildNode(task,code,depth,terms){const view=summarizeTask(task),nextTerms=[...terms,task.name,task.owner||''],children=taskChildren(task.id).map((child,i)=>buildNode(child,code+'.'+(i+1),depth+1,nextTerms));return {task,view,code,depth,children,match:!hasFilters||matches(view,terms)||children.some(c=>c.match)}}
+ const todayLeft=((dateNumber(state.project.reportDate)-start)/DAY+0.5)/totalDays*100;let rows='',shownChildren=0,shownGroups=0;
+ function appendNode(node,ancestorLines=[],isLast=false){if(!node.match)return;const expanded=!collapsedGroups.has('task:'+node.task.id),visibleChildren=node.children.filter(child=>child.match);shownChildren++;rows+=taskRow(node.view,node.code,start,totalDays,todayLeft,{depth:node.depth,childCount:node.children.length,expanded,ancestorLines,isLast,visibleChildren:visibleChildren.length});if(expanded)visibleChildren.forEach((child,i)=>appendNode(child,[...ancestorLines,!isLast],i===visibleChildren.length-1))}
+ state.groups.forEach((group,gi)=>{const roots=state.tasks.filter(t=>t.groupId===group.id&&!t.parentId),view=summarizeGroup(group),terms=[group.name,group.note||'',group.owner||''],nodes=roots.map((t,i)=>buildNode(t,(gi+1)+'.'+(i+1),1,terms));if(hasFilters&&!matches(view,[group.note||''])&&!nodes.some(n=>n.match))return;const expanded=!collapsedGroups.has('group:'+group.id),visibleNodes=nodes.filter(n=>n.match);shownGroups++;rows+=taskRow(view,String(gi+1),start,totalDays,todayLeft,{group,childCount:roots.length,expanded,visibleChildren:visibleNodes.length});if(expanded)visibleNodes.forEach((node,i)=>appendNode(node,[],i===visibleNodes.length-1))});
+ $('tasks').innerHTML=rows||'<tr><td colspan="9" class="empty">ไม่พบรายการงานตามเงื่อนไข · เพิ่มหัวข้องานหลักก่อนเพิ่มงานย่อย</td></tr>';
+ applyRole();
+ $('row-count').textContent='แสดง '+shownGroups+' งานหลัก / '+shownChildren+' งานย่อย จากทั้งหมด '+state.groups.length+' / '+state.tasks.length+' · ใช้คำนวณ '+total+' งานระดับสุดท้าย · สถานะ ณ '+dayFormat(state.project.reportDate,true)+(hasFilters?' · หัวข้อแม่สรุปจากงานระดับสุดท้ายทั้งหมด':'');
+}
+function openTask(id,groupId,parentId=null){if(!requireEditor())return;cancelOrderMove();if(!state.groups.length){toast('เพิ่มหัวข้องานหลักก่อนเพิ่มงานย่อย');openGroup();return}editingId=id||null;closeParentPicker();const parent=parentId?state.tasks.find(t=>t.id===parentId):null,group=state.groups.find(g=>g.id===(parent?.groupId||groupId))||state.groups[0],raw=id?state.tasks.find(x=>x.id===id):{name:'',groupId:group.id,parentId:parent?.id||null,area:parent?.area||group.area||'ทั้งหมด',owner:parent?.owner||group.owner||'',start:null,end:null,progress:null,category:parent?.category||'งานติดตั้ง'},t=id?summarizeTask(raw):raw;$('f-group').innerHTML=state.groups.map(g=>'<option value="'+escapeHTML(g.id)+'">'+escapeHTML(g.name)+' / '+escapeHTML(g.area)+'</option>').join('');$('f-group').value=raw.groupId;fillParentChoices(raw.groupId,raw.parentId||'');['name','area','owner','start','end','progress','category'].forEach(k=>$('f-'+k).value=(k==='owner'?raw.owner:t[k])??'');datePlanDraft={mode:raw.dateMode==='manual'?'manual':'auto',start:t.start||null,end:t.end||null};$('dialog-title').textContent=id?'แก้ไขงาน '+(taskPaths().get(id)||''):'เพิ่มงานย่อย';$('delete').hidden=!id;const hasChildren=id&&taskChildren(id).length>0;$('delete').disabled=Boolean(hasChildren);$('delete').title=hasChildren?'ย้ายหรือลบงานย่อยก่อนลบหัวข้อนี้':'';$('task-error').textContent='';initBarColorEditor('task',raw,taskChildren(raw.id).length||raw.nodeType==='section'?'summary':'task');updateTaskSummaryNote();updateDurationPreview();initTaskFiles(raw);$('task-dialog').showModal()}
+function openGroup(id){if(!requireEditor())return;cancelOrderMove();editingGroupId=id||null;const g=id?state.groups.find(x=>x.id===id):{name:'',area:'ทั้งหมด',owner:'',note:''};['name','area','owner','note'].forEach(k=>$('g-'+k).value=g[k]||'');$('group-dialog-title').textContent=id?'แก้ไขหัวข้องานหลัก':'เพิ่มหัวข้องานหลัก';$('group-error').textContent='';$('delete-group').hidden=!id;const hasChildren=id&&state.tasks.some(t=>t.groupId===id);$('delete-group').disabled=Boolean(hasChildren);$('delete-group').title=hasChildren?'ย้ายหรือลบงานย่อยก่อนลบหัวข้องานหลัก':'';initBarColorEditor('group',g,'group');updateGroupOutline();$('group-dialog').showModal()}
+function snapshot(){const copy=JSON.parse(JSON.stringify(state));copy.savedAt=new Date().toISOString();const doc=new DOMParser().parseFromString(initialHTML,'text/html');doc.getElementById('schedule-data').textContent=JSON.stringify(copy).replace(/</g,'\\u003c');doc.title=copy.project.name+' · Master Schedule';return {html:'<!doctype html>\n'+doc.documentElement.outerHTML,data:copy}}
+function filename(){return 'Master_Schedule_'+state.project.reportDate+'.html'}
+async function permission(handle,ask){const options={mode:'readwrite'};if(await handle.queryPermission(options)==='granted')return true;return ask&&await handle.requestPermission(options)==='granted'}
+async function saveFile(interactive=true){
+ if(!isEditor){if(interactive)requireEditor();return}
+ if(saving){if(interactive)toast('กำลังบันทึก กรุณารอสักครู่');return}clearTimeout(saveTimer);
+ if(!window.showSaveFilePicker||!window.isSecureContext){if(interactive){downloadHTML();toast('เบราว์เซอร์นี้ใช้การดาวน์โหลดสำเนา เปิด Chrome หรือ Edge เพื่อบันทึกทับไฟล์')}return}
+ saving=true;saveStatus();applyRole();
+ try{
+  if(!fileHandle){if(!interactive)return;fileHandle=await window.showSaveFilePicker({suggestedName:filename(),types:[{description:'Master Schedule HTML',accept:{'text/html':['.html']}}]});dirty=true;}
+  if(!await permission(fileHandle,interactive)){ $('autosave').checked=false;throw new Error('ต้องอนุญาตให้บันทึกไฟล์ก่อน กรุณากดบันทึก HTML อีกครั้ง') }
+  const version=revision,snap=snapshot(),stream=await fileHandle.createWritable();try{await stream.write(snap.html);await stream.close()}catch(err){try{await stream.abort()}catch(_){}throw err}
+  savedRevision=version;dirty=revision!==savedRevision;state.savedAt=snap.data.savedAt;draft();if(interactive)toast('บันทึกข้อมูลใน '+fileHandle.name+' แล้ว');
+ }catch(err){if(err.name!=='AbortError'){ $('autosave').checked=false;toast('บันทึกไม่สำเร็จ: '+err.message) }}finally{saving=false;applyRole();saveStatus();if(dirty&&$('autosave').checked&&fileHandle)saveTimer=setTimeout(()=>saveFile(false),1500)}
+}
+function downloadHTML(){const snap=snapshot(),blob=new Blob([snap.html],{type:'text/html;charset=utf-8'}),url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download=filename();link.click();setTimeout(()=>URL.revokeObjectURL(url),30000);toast('ส่งไฟล์สำเนาให้เบราว์เซอร์แล้ว ตรวจดูที่รายการดาวน์โหลด');}
+async function connect(){if(!requireEditor()||saving)return;if(!window.showOpenFilePicker||!window.isSecureContext){toast('เบราว์เซอร์นี้เชื่อมไฟล์ไม่ได้ ใช้บันทึกสำเนา HTML ได้');return}try{const [handle]=await window.showOpenFilePicker({multiple:false,types:[{description:'Master Schedule HTML',accept:{'text/html':['.html']}}]}),file=await handle.getFile(),doc=new DOMParser().parseFromString(await file.text(),'text/html'),node=doc.getElementById('schedule-data'),data=node?JSON.parse(node.textContent):null;if(!data||data.app!==state.app||data.projectId!==state.projectId){toast('กรุณาเลือกไฟล์ Master Schedule ของโครงการนี้');return}if(!isEditor)return;if(!await permission(handle,true)){toast('ยังไม่ได้รับสิทธิ์บันทึกไฟล์');return}if(!isEditor)return;fileHandle=handle;dirty=true;saveStatus();toast('เชื่อม '+handle.name+' แล้ว กดบันทึก HTML เพื่อเก็บข้อมูลปัจจุบัน')}catch(err){if(err.name!=='AbortError')toast('เชื่อมไฟล์ไม่ได้: '+err.message)}}
+$('task-form').addEventListener('submit',e=>{e.preventDefault();if(!requireEditor())return;const values={};['name','area','owner','start','end','category'].forEach(k=>values[k]=$('f-'+k).value.trim());values.progress=$('f-progress').value.trim()===''?null:Number($('f-progress').value);values.barColor=normalizeBarColor(colorDrafts.task?.value);values.groupId=$('f-group').value;if(!state.groups.some(g=>g.id===values.groupId)){$('task-error').textContent='กรุณาเลือกหัวข้องานหลัก';return}values.parentId=$('f-parent').value||null;const descendants=editingId?descendantIds(editingId):new Set();if(values.parentId&&(values.parentId===editingId||descendants.has(values.parentId)||!state.tasks.some(t=>t.id===values.parentId&&t.groupId===values.groupId))){$('task-error').textContent='เลือกหัวข้อแม่ไม่ได้ งานไม่สามารถอยู่ใต้ตัวเองหรืองานย่อยของตัวเอง';return}if(!values.name||!values.area){$('task-error').textContent='กรุณากรอกชื่อรายการและพื้นที่';return}if(editingId&&(taskChildren(editingId).length||state.tasks.find(t=>t.id===editingId).nodeType==='section')){const summary=summarizeTask(state.tasks.find(t=>t.id===editingId));values.progress=summary.progress}values.start=values.start||null;values.end=values.end||null;if((values.start&&!Number.isFinite(dateNumber(values.start)))||(values.end&&!Number.isFinite(dateNumber(values.end)))||(values.start&&values.end&&values.end<values.start)){$('task-error').textContent='วันที่ไม่ถูกต้อง หรือวันจบอยู่ก่อนวันเริ่ม';return}values.start=nextWorkingDay(values.start);values.end=nextWorkingDay(values.end);if(dateNumber(values.end)-dateNumber(values.start)>DAY*366*10){$('task-error').textContent='ระยะเวลารายการงานต้องไม่เกิน 10 ปี';return}if(values.progress!==null&&(!Number.isInteger(values.progress)||values.progress<0||values.progress>100)){$('task-error').textContent='ผลงานต้องเป็นจำนวนเต็มระหว่าง 0–100';return}if(taskFileDraft&&taskFileDraft.address!==$('task-file-address').value.trim()){taskFileDraft.address=$('task-file-address').value.trim();taskFileDirty=true}if(taskFileDirty)values.fileCatalog=cleanFileCatalog(taskFileDraft);if(editingId){const current=state.tasks.find(t=>t.id===editingId),summary=Boolean(taskChildren(editingId).length||current.nodeType==='section');if(summary){const changedDates=values.start!==(datePlanDraft?.start||null)||values.end!==(datePlanDraft?.end||null),manual=datePlanDraft?.mode==='manual'||changedDates;values.dateMode=manual?'manual':'auto';values.planStart=manual?values.start:null;values.planEnd=manual?values.end:null}else if(current.dateMode){values.dateMode='auto';values.planStart=null;values.planEnd=null}Object.assign(current,values);commitTaskFileHandle(current.id);for(const task of state.tasks)if(descendants.has(task.id))task.groupId=values.groupId}else{const created={id:'t'+Date.now().toString(36)+Math.random().toString(36).slice(2,6),...values};state.tasks.push(created);commitTaskFileHandle(created.id)}$('task-dialog').close();changed()});
+$('delete').onclick=()=>openDeleteDialog('task',editingId);
+$('tasks').onclick=e=>{const order=e.target.closest('[data-reorder-id]');if(order){pickOrderNode(order.dataset.reorderKind,order.dataset.reorderId);return}const files=e.target.closest('[data-task-files]');if(files){openTaskFileList(files.dataset.taskFiles,files.dataset.selectedOnly==='true');return}const toggle=e.target.closest('[data-toggle-node]');if(toggle){const key=toggle.dataset.toggleNode;if(collapsedGroups.has(key))collapsedGroups.delete(key);else collapsedGroups.add(key);render();const replacement=document.querySelector('[data-toggle-node="'+CSS.escape(key)+'"]');if(replacement)replacement.focus({preventScroll:true});return}const nested=e.target.closest('[data-add-task-child]');if(nested){openTask(null,null,nested.dataset.addTaskChild);return}const add=e.target.closest('[data-add-child]');if(add){openTask(null,add.dataset.addChild);return}const group=e.target.closest('[data-edit-group]');if(group){openGroup(group.dataset.editGroup);return}const button=e.target.closest('[data-edit]');if(button)openTask(button.dataset.edit)};
+$('tasks').addEventListener('keydown',e=>{if(!['Enter',' '].includes(e.key))return;const target=e.target.closest('[data-reorder-id]');if(target){e.preventDefault();pickOrderNode(target.dataset.reorderKind,target.dataset.reorderId)}});
+$('cancel-reorder').onclick=cancelOrderMove;
+$('order-dialog').addEventListener('close',cancelOrderMove);
+$('order-dialog').addEventListener('cancel',e=>{e.preventDefault();cancelOrderMove()});
+$('order-form').addEventListener('submit',e=>{e.preventDefault();if(!requireEditor())return;const source=orderSelection,target=orderTarget;if(!source||!target||source.kind!==target.kind||!orderCompatible(source.kind,orderRecord(source.kind,source.id),orderRecord(target.kind,target.id))){$('order-error').textContent='ตำแหน่งงานเปลี่ยนไป กรุณายกเลิกแล้วเลือกใหม่';return}if($('order-before').checked===$('order-after').checked){$('order-error').textContent='กรุณาเลือกวางก่อนหรือหลัง';return}placeOrder(source.kind,source.id,target.id,$('order-after').checked?'after':'before')});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&orderSelection&&!e.defaultPrevented){e.preventDefault();cancelOrderMove()}});
+$('add').onclick=()=>openTask();$('add-group').onclick=()=>openGroup();
+$('f-group').onchange=()=>{if(!isEditor)return;const group=state.groups.find(g=>g.id===$('f-group').value);fillParentChoices($('f-group').value);if(!editingId&&group){$('f-area').value=group.area||'ทั้งหมด';$('f-owner').value=group.owner||''}updateTaskSummaryNote()};
+$('f-parent').onchange=()=>{if(!isEditor)return;const parent=state.tasks.find(t=>t.id===$('f-parent').value);if(!editingId&&parent){$('f-area').value=parent.area;$('f-owner').value=parent.owner||'';$('f-category').value=parent.category||'งานติดตั้ง'}updateTaskSummaryNote();syncParentTrigger()};
+$('group-form').onsubmit=e=>{e.preventDefault();if(!requireEditor())return;const values={};['name','area','owner','note'].forEach(k=>values[k]=$('g-'+k).value.trim());values.barColor=normalizeBarColor(colorDrafts.group?.value);if(!values.name){$('group-error').textContent='กรุณากรอกหัวข้องานหลัก';return}if(editingGroupId){Object.assign(state.groups.find(g=>g.id===editingGroupId),values)}else{state.groups.push({id:'g'+Date.now().toString(36)+Math.random().toString(36).slice(2,7),...values})}$('group-dialog').close();changed()};
+$('delete-group').onclick=()=>openDeleteDialog('group',editingGroupId);
+$('expand-groups').onclick=()=>{collapsedGroups.clear();render()};$('collapse-groups').onclick=()=>{state.groups.forEach(g=>collapsedGroups.add('group:'+g.id));state.tasks.filter(t=>taskChildren(t.id).length).forEach(t=>collapsedGroups.add('task:'+t.id));render()};
+document.querySelectorAll('[data-close]').forEach(button=>button.onclick=()=>$(button.dataset.close).close());
+$('project-edit').onclick=()=>{if(!requireEditor())return;const p=state.project;$('p-name').value=p.name;$('p-desc').value=p.description;$('p-report').value=p.reportDate;$('p-handover').value=p.handover||'';$('project-dialog').showModal()};
+$('project-form').onsubmit=e=>{e.preventDefault();if(!requireEditor())return;if(!$('p-name').value.trim())return;state.project={name:$('p-name').value.trim(),description:$('p-desc').value.trim(),reportDate:$('p-report').value,handover:nextWorkingDay($('p-handover').value)||null};$('project-dialog').close();changed()};
+['f-start','f-end','p-handover'].forEach(id=>$(id).addEventListener('change',()=>normalizeDateInput(id)));
+['f-start','f-end'].forEach(id=>$(id).addEventListener('input',()=>{markManualDates();updateDurationPreview()}));
+$('use-child-dates').onclick=useChildDates;
+['search','area-filter','status-filter'].forEach(id=>$(id).addEventListener(id==='search'?'input':'change',render));
+$('save').onclick=()=>saveFile(true);$('download').onclick=downloadHTML;$('connect').onclick=connect;$('print').onclick=()=>window.print();
+$('autosave').onchange=()=>{if(!isEditor){$('autosave').checked=false;requireEditor();return}if($('autosave').checked&&!fileHandle){$('autosave').checked=false;toast('กดบันทึก HTML หรือเชื่อมไฟล์เดิมก่อนเปิด Auto-save');return}clearTimeout(saveTimer);if($('autosave').checked&&dirty)saveTimer=setTimeout(()=>saveFile(false),1500)};
+window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue=''}});
+let recoverable=null;try{const raw=localStorage.getItem(draftKey);if(raw){const data=JSON.parse(raw);if(data.app===state.app&&data.projectId===state.projectId&&data.updatedAt>state.updatedAt){recoverable=data;$('restore').hidden=false}}}catch(e){$('draft-status').textContent='ฉบับร่างในเบราว์เซอร์: ไม่พร้อมใช้งาน'}
+$('restore-draft').onclick=()=>{if(!requireEditor())return;if(recoverable){state=ensureGroups(recoverable);cancelOrderMove();loadSavedFileCatalog();collapsedGroups.clear();revision++;dirty=true;render();saveStatus();$('restore').hidden=true;toast('กู้คืนฉบับร่างแล้ว กรุณาบันทึก HTML เพื่อเก็บลงไฟล์')}};
+$('discard-draft').onclick=()=>{if(!requireEditor())return;$('restore').hidden=true;recoverable=null;draft()};
+$('unlock-editor').onclick=()=>{$('unlock-password').value='';$('unlock-error').textContent='';$('unlock-dialog').showModal();$('unlock-password').focus()};
+$('unlock-password').addEventListener('input',()=>{$('unlock-error').textContent=''});
+$('unlock-form').onsubmit=e=>{e.preventDefault();if($('unlock-password').value!=='123123'){$('unlock-error').textContent='รหัสไม่ถูกต้อง กรุณาลองอีกครั้ง';$('unlock-password').value='';$('unlock-password').focus();return}isEditor=true;$('unlock-password').value='';$('unlock-error').textContent='';$('unlock-dialog').close();applyRole();toast('ปลดล็อก Editor แล้ว สามารถแก้ไขแผนงานได้')};
+$('unlock-dialog').addEventListener('close',()=>{$('unlock-password').value='';$('unlock-error').textContent=''});
+$('lock-viewer').onclick=lockViewer;
+['task','group'].forEach(prefix=>{$(prefix+'-bar-color').addEventListener('input',()=>pickBarColor(prefix,$(prefix+'-bar-color').value));$(prefix+'-color-reset').onclick=()=>resetBarColor(prefix);$(prefix+'-color-presets').onclick=e=>{const preset=e.target.closest('[data-bar-color]');if(preset)pickBarColor(prefix,preset.dataset.barColor)}});
+
+let pendingDeletion=null;
+function outlinePath(groupId,taskId=null){const group=state.groups.find(g=>g.id===groupId);if(!group)return[];const result=[{id:group.id,code:String(state.groups.indexOf(group)+1),name:group.name}],paths=taskPaths(),seen=new Set(),branch=[];let task=taskId?state.tasks.find(t=>t.id===taskId):null;while(task&&!seen.has(task.id)){seen.add(task.id);branch.unshift({id:task.id,code:paths.get(task.id)||'…',name:task.name});task=task.parentId?state.tasks.find(t=>t.id===task.parentId):null}return result.concat(branch)}
+function outlineMarkup(nodes){return nodes.map((node,i)=>'<div class="outline-row'+(i===nodes.length-1?' is-target':'')+'" role="listitem" style="--tree-depth:'+i+'">'+treeGuides(i,Array.from({length:Math.max(0,i-1)},()=>false),true,i<nodes.length-1,21)+'<span class="outline-code">'+escapeHTML(node.code)+'</span><span class="outline-label">'+escapeHTML(node.name)+'</span></div>').join('')}
+function updateTaskOutline(){const groupId=$('f-group').value,parentId=$('f-parent').value||null,nodes=outlinePath(groupId,parentId),current=editingId?state.tasks.find(t=>t.id===editingId):null,unchanged=current&&current.groupId===groupId&&(current.parentId||null)===parentId;nodes.push({code:unchanged?(taskPaths().get(current.id)||'…'):'…',name:$('f-name').value.trim()||'งานย่อยใหม่'});$('task-outline').innerHTML=outlineMarkup(nodes)}
+function updateGroupOutline(){const group=editingGroupId?state.groups.find(g=>g.id===editingGroupId):null;$('group-outline').innerHTML=outlineMarkup([{code:String(group?state.groups.indexOf(group)+1:state.groups.length+1),name:$('g-name').value.trim()||'หัวข้องานหลักใหม่'}])}
+function openDeleteDialog(kind,id){if(!requireEditor()||!id)return;const record=kind==='task'?state.tasks.find(t=>t.id===id):state.groups.find(g=>g.id===id);if(!record)return;const hasChildren=kind==='task'?taskChildren(id).length>0:state.tasks.some(t=>t.groupId===id);if(hasChildren){$(kind==='task'?'task-error':'group-error').textContent='ย้ายหรือลบงานย่อยก่อนลบหัวข้อนี้';return}closeParentPicker();pendingDeletion={kind,id};$('delete-title').textContent=kind==='task'?'ยืนยันลบงานย่อย':'ยืนยันลบหัวข้องานหลัก';$('delete-description').textContent='ตรวจชื่อและตำแหน่งรายการที่ต้องการลบ';$('delete-error').textContent='';$('delete-outline').innerHTML=outlineMarkup(outlinePath(kind==='task'?record.groupId:id,kind==='task'?id:null));$('delete-dialog').showModal()}
+$('confirm-delete').onclick=()=>{if(!requireEditor()||!pendingDeletion)return;const {kind,id}=pendingDeletion,record=kind==='task'?state.tasks.find(t=>t.id===id):state.groups.find(g=>g.id===id);if(!record){$('delete-error').textContent='ไม่พบรายการนี้แล้ว กรุณาปิดหน้าต่างและตรวจรายการอีกครั้ง';return}if(kind==='task'?taskChildren(id).length>0:state.tasks.some(t=>t.groupId===id)){$('delete-error').textContent='หัวข้อนี้มีงานย่อย กรุณาย้ายหรือลบงานย่อยก่อน';return}if(kind==='task'){state.tasks=state.tasks.filter(t=>t.id!==id);collapsedGroups.delete('task:'+id)}else{state.groups=state.groups.filter(g=>g.id!==id);collapsedGroups.delete('group:'+id)}$('delete-dialog').close();$(kind==='task'?'task-dialog':'group-dialog').close();changed();toast('ลบรายการแล้ว')};
+$('delete-dialog').addEventListener('close',()=>{pendingDeletion=null;$('delete-error').textContent=''});
+$('f-name').addEventListener('input',updateTaskOutline);$('g-name').addEventListener('input',updateGroupOutline);
+
+function syncParentTrigger(){const parent=state.tasks.find(t=>t.id===$('f-parent').value),group=state.groups.find(g=>g.id===$('f-group').value),paths=taskPaths(),label=parent?(paths.get(parent.id)||'')+' · '+parent.name:group?(state.groups.indexOf(group)+1)+' '+group.name+' · ใต้หมวดหลักโดยตรง':'ใต้หัวข้องานหลักโดยตรง';$('parent-trigger-label').textContent=label;$('parent-trigger').title=label}
+function closeParentPicker(restoreFocus=false){$('parent-picker').hidden=true;$('parent-trigger').setAttribute('aria-expanded','false');if(restoreFocus)$('parent-trigger').focus({preventScroll:true})}
+function renderParentPicker(){const group=state.groups.find(g=>g.id===$('f-group').value);if(!group){$('parent-options').innerHTML='';return}const paths=taskPaths(),excluded=editingId?descendantIds(editingId):new Set();if(editingId)excluded.add(editingId);const query=$('parent-search').value.toLowerCase().trim(),selected=$('f-parent').value,rootCode=String(state.groups.indexOf(group)+1),rootMatch=!query||group.name.toLowerCase().includes(query);
+ function build(task,depth,inheritedMatch){const own=inheritedMatch||[task.name,paths.get(task.id)||''].some(s=>s.toLowerCase().includes(query)),children=taskChildren(task.id).filter(t=>!excluded.has(t.id)).map(t=>build(t,depth+1,own));return{task,depth,children,match:own||children.some(n=>n.match)}}
+ const roots=state.tasks.filter(t=>t.groupId===group.id&&!t.parentId&&!excluded.has(t.id)).map(t=>build(t,1,rootMatch)),visibleRoots=roots.filter(n=>n.match);let options='<button type="button" class="parent-option" role="treeitem" aria-level="1" aria-selected="'+(!selected)+'" tabindex="-1" data-parent-pick="" style="--tree-depth:0">'+treeGuides(0,[],false,visibleRoots.length>0,21)+'<span class="picker-code">'+rootCode+'</span><span class="picker-name">'+escapeHTML(group.name)+' · ใต้หมวดหลักโดยตรง</span></button>';
+ function append(node,ancestors,isLast){const children=node.children.filter(n=>n.match),code=paths.get(node.task.id)||'',title=code+' · '+node.task.name;options+='<button type="button" class="parent-option" role="treeitem" aria-level="'+(node.depth+1)+'" aria-selected="'+(selected===node.task.id)+'" '+(children.length?'aria-expanded="true" ':'')+'tabindex="-1" data-parent-pick="'+escapeHTML(node.task.id)+'" title="'+escapeHTML(title)+'" style="--tree-depth:'+node.depth+'">'+treeGuides(node.depth,ancestors,isLast,children.length>0,21)+'<span class="picker-code">'+escapeHTML(code)+'</span><span class="picker-name">'+escapeHTML(node.task.name)+'</span></button>';children.forEach((child,i)=>append(child,[...ancestors,!isLast],i===children.length-1))}
+ visibleRoots.forEach((node,i)=>append(node,[],i===visibleRoots.length-1));if(query&&!visibleRoots.length&&!rootMatch)options+='<div class="parent-picker-empty">ไม่พบหัวข้อที่ตรงกับคำค้น</div>';$('parent-options').innerHTML=options;
+}
+function openParentPicker(){if(!requireEditor())return;$('parent-search').value='';renderParentPicker();$('parent-picker').hidden=false;$('parent-trigger').setAttribute('aria-expanded','true');$('parent-search').focus()}
+function chooseParent(value){if(!requireEditor())return;const forbidden=editingId?descendantIds(editingId):new Set();if(editingId)forbidden.add(editingId);if(value&&(!state.tasks.some(t=>t.id===value&&t.groupId===$('f-group').value)||forbidden.has(value))){toast('ไม่สามารถเลือกหัวข้อนี้เป็นหัวข้อแม่ได้');return}$('f-parent').value=value;$('f-parent').onchange();syncParentTrigger();closeParentPicker(true)}
+$('parent-trigger').onclick=()=>{$('parent-picker').hidden?openParentPicker():closeParentPicker(true)};
+$('parent-search').addEventListener('input',renderParentPicker);
+$('parent-options').onclick=e=>{const button=e.target.closest('[data-parent-pick]');if(button)chooseParent(button.dataset.parentPick)};
+$('parent-picker').addEventListener('keydown',e=>{if(e.target===$('parent-search')&&!['ArrowDown','ArrowUp'].includes(e.key))return;const buttons=[...$('parent-options').querySelectorAll('[data-parent-pick]')],target=e.target.closest('[data-parent-pick]'),index=buttons.indexOf(target);let next=null;if(e.key==='ArrowDown')next=buttons[Math.min(buttons.length-1,index+1)];else if(e.key==='ArrowUp')next=buttons[Math.max(0,index-1)];else if(e.key==='Home')next=buttons[0];else if(e.key==='End')next=buttons.at(-1);if(next){e.preventDefault();next.focus()}});
+$('parent-trigger').addEventListener('keydown',e=>{if(e.key==='ArrowDown'){e.preventDefault();openParentPicker()}});
+$('task-dialog').addEventListener('close',()=>closeParentPicker());
+document.addEventListener('click',e=>{if(!$('parent-field').contains(e.target))closeParentPicker()});
+document.addEventListener('focusin',e=>{if(!$('parent-field').contains(e.target))closeParentPicker()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('parent-picker').hidden){e.preventDefault();e.stopPropagation();closeParentPicker(true)}});
+
+
+// FILE_CATALOG_START
+const FILE_LIMIT=20000,FILE_PAGE_SIZE=100;
+let fileCatalog=null,fileDirectoryHandle=null,fileScanToken=0,fileScanning=false,filePage=0,fileContext=null,fileInputContext=null,fileInputKeepSelection=false,fileFallbackKeepSelection=false;
+let taskFileDraft=null,taskFileDirty=false,taskFileHandle=null;
+const taskFileHandles=new Map();let fileFallbackNeeded=false;
+
+function selectedCatalogFiles(catalog){return Array.isArray(catalog?.files)?catalog.files.filter(f=>f?.selected===true):[]}
+function taskFilesBadge(task){const catalog=task.fileCatalog,count=Array.isArray(catalog?.files)?Math.min(catalog.files.length,FILE_LIMIT):0,selected=selectedCatalogFiles(catalog);return '<button type="button" class="task-files-badge" data-task-files="'+escapeHTML(task.id)+'" title="ดูรายการไฟล์ของ '+escapeHTML(task.name)+'" aria-label="ดูไฟล์ประกอบงาน '+escapeHTML(task.name)+' เลือก '+selected.length+' จาก '+count+' ไฟล์">ไฟล์ที่เลือก '+selected.length.toLocaleString('th-TH')+' / '+count.toLocaleString('th-TH')+'</button>'+(selected.length?'<ul class="task-file-preview">'+selected.slice(0,5).map(f=>'<li title="'+escapeHTML(f.path)+'">'+escapeHTML(f.path)+'</li>').join('')+'</ul>':'')+(selected.length>5?'<button type="button" class="task-selected-more" data-task-files="'+escapeHTML(task.id)+'" data-selected-only="true">ดูที่เลือกทั้งหมด ('+selected.length.toLocaleString('th-TH')+')</button>':'')}
+
+function initTaskFiles(task){taskFileDraft=cleanFileCatalog(task.fileCatalog);taskFileDirty=false;taskFileHandle=taskFileHandles.get(task.id)||null;$('task-file-address').value=taskFileDraft?.address||'';renderTaskFiles()}
+function renderTaskFiles(){const count=taskFileDraft?.files.length||0,selected=selectedCatalogFiles(taskFileDraft).length;$('task-file-summary').textContent=taskFileDraft?taskFileDraft.rootName:'ยังไม่ได้เลือกโฟลเดอร์';$('task-file-count').textContent='เลือก '+selected.toLocaleString('th-TH')+' / '+count.toLocaleString('th-TH')+' ไฟล์';$('task-file-view').textContent='เลือกไฟล์ / ดูรายการ ('+count.toLocaleString('th-TH')+')';$('task-file-clear').disabled=!taskFileDraft;$('task-file-legacy').hidden=!cleanFileCatalog(state.fileCatalog)}
+function commitTaskFileHandle(id){if(!taskFileDirty)return;if(taskFileHandle&&taskFileDraft)taskFileHandles.set(id,taskFileHandle);else taskFileHandles.delete(id)}
+function canEditFileContext(){return isEditor&&fileContext?.kind==='draft'&&$('task-dialog').open&&fileContext.taskId===editingId}
+function resetFileFilters(){filePage=0;$('file-selected-only').checked=false;$('file-search').value='';$('file-sort').value='name';$('file-recursive').checked=true;fileFilterOptions()}
+function showTaskFileDialog(context,catalog,handle,address,title,path){fileScanToken++;fileContext=context;fileCatalog=cleanFileCatalog(catalog);fileDirectoryHandle=handle;$('file-address').value=address||'';$('file-dialog-title').textContent=title;$('file-dialog-path').textContent=path;resetFileFilters();setFileScanning(false);renderFileCatalog();if(fileCatalog)fileCatalogNote(true);else fileMessage(context.kind==='draft'?'ยังไม่ได้เลือกโฟลเดอร์ · ใส่ที่อยู่เพื่ออ้างอิง แล้วกดเลือกโฟลเดอร์เพื่ออนุญาตให้อ่านไฟล์':'งานนี้ยังไม่ได้ผูกโฟลเดอร์ · เลือกโฟลเดอร์ได้ในหน้าแก้ไขงาน');$('file-dialog').showModal()}
+function openTaskDraftFiles(choose=false){if(!requireEditor()||!$('task-dialog').open)return;const path=outlinePath($('f-group').value,$('f-parent').value||null).map(n=>n.code+' '+n.name).join(' / ');showTaskFileDialog({kind:'draft',taskId:editingId},taskFileDraft,taskFileHandle,$('task-file-address').value.trim(),'ไฟล์ประกอบงาน · '+($('f-name').value.trim()||'งานใหม่'),path);if(choose)chooseFileDirectory()}
+function openTaskFileList(id,selectedOnly=false){const task=state.tasks.find(t=>t.id===id);if(!task)return;showTaskFileDialog({kind:'view',taskId:id},task.fileCatalog,null,task.fileCatalog?.address||'','ไฟล์ประกอบงาน · '+task.name,outlinePath(task.groupId,id).map(n=>n.code+' '+n.name).join(' / '));$('file-selected-only').checked=selectedOnly;renderFileCatalog()}
+function stopFileSession(){fileScanToken++;fileContext=null;fileInputContext=null;fileCatalog=null;fileDirectoryHandle=null;setFileScanning(false)}
+
+function cleanFileCatalog(raw){
+ if(!raw||!Array.isArray(raw.files))return null;
+ const files=raw.files.slice(0,FILE_LIMIT).filter(f=>f&&typeof f.name==='string'&&typeof f.path==='string').map(f=>({name:f.name.slice(0,1000),path:f.path.slice(0,8000),size:Number.isFinite(f.size)&&f.size>=0?f.size:0,modified:Number.isFinite(f.modified)&&f.modified>=0?f.modified:0,selected:f.selected===true}));
+ return {rootName:String(raw.rootName||'โฟลเดอร์').slice(0,1000),address:String(raw.address||'').slice(0,2000),scannedAt:typeof raw.scannedAt==='string'?raw.scannedAt:'',warning:String(raw.warning||'').slice(0,2000),files};
+}
+function fileExtension(name){const i=name.lastIndexOf('.');return i>0&&i<name.length-1?name.slice(i+1).toLowerCase():'__none__'}
+function fileParent(path){const i=path.lastIndexOf('/');return i<0?'':path.slice(0,i)}
+function fileSizeLabel(size){if(size<1024)return size+' B';const units=['KB','MB','GB','TB'];let n=size/1024,i=0;while(n>=1024&&i<units.length-1){n/=1024;i++}return n.toLocaleString('th-TH',{maximumFractionDigits:1})+' '+units[i]}
+function fileDateLabel(value){return value>0&&Number.isFinite(new Date(value).getTime())?new Date(value).toLocaleString('th-TH-u-ca-gregory'): '—'}
+function fileMessage(message){$('file-message').textContent=message}
+function fileCatalogNote(saved=false){if(!fileCatalog)return;fileMessage((saved?'รายการของงาน: ':'อ่านรายการแล้ว: ')+fileCatalog.rootName+' · '+fileCatalog.files.length.toLocaleString('th-TH')+' ไฟล์ · '+(fileCatalog.scannedAt?new Date(fileCatalog.scannedAt).toLocaleString('th-TH-u-ca-gregory'):'ไม่ระบุเวลา')+(fileCatalog.warning?' · '+fileCatalog.warning:'')+' · รายการเป็นข้อมูล ณ เวลาที่อ่าน'+(canEditFileContext()?' · ติ๊กไฟล์ที่ต้องการแสดงบนตารางหลัก แล้วกดใช้รายการนี้กับงานและบันทึกงาน':' · อ่านข้อมูลปัจจุบันได้โดยเลือกโฟลเดอร์ใหม่ในหน้าแก้ไขงาน'));}
+function setFileScanning(value){fileScanning=Boolean(value);const edit=canEditFileContext();for(const id of ['file-choose','file-fallback','file-refresh','file-stop','file-remember','file-select-filtered','file-clear-filtered'])$(id).hidden=!edit||(id==='file-stop'&&!value)||(id==='file-fallback'&&!fileFallbackNeeded);$('file-choose').disabled=Boolean(value);$('file-fallback').disabled=Boolean(value);$('file-refresh').disabled=Boolean(value)||!fileCatalog;$('file-remember').disabled=Boolean(value);$('file-address').readOnly=!edit;renderFileCatalog()}
+function fileFilterOptions(){
+ const extensions=new Set(),folders=new Set();
+ for(const f of fileCatalog?.files||[]){extensions.add(fileExtension(f.name));let p=fileParent(f.path);while(p){folders.add(p);p=fileParent(p)}}
+ $('file-extension').innerHTML='<option value="">ทุกชนิด</option>'+[...extensions].sort().map(e=>'<option value="'+escapeHTML(e)+'">'+(e==='__none__'?'ไม่มีนามสกุล':'.'+escapeHTML(e))+'</option>').join('');
+ $('file-folder').innerHTML='<option value="">โฟลเดอร์หลัก</option>'+[...folders].sort((a,b)=>a.localeCompare(b,'th',{numeric:true})).map(p=>'<option value="'+escapeHTML(p)+'">'+escapeHTML(p)+'</option>').join('');
+ $('file-extension').value='';$('file-folder').value='';filePage=0;
+}
+function filteredLocalFiles(){
+ const words=$('file-search').value.trim().toLowerCase().split(/\s+/).filter(Boolean),ext=$('file-extension').value,folder=$('file-folder').value,recursive=$('file-recursive').checked;
+ return (fileCatalog?.files||[]).filter(f=>{const parent=fileParent(f.path);return (!$('file-selected-only').checked||f.selected===true)&&(!ext||fileExtension(f.name)===ext)&&(recursive?(!folder||parent===folder||parent.startsWith(folder+'/')):parent===folder)&&words.every(w=>(f.name+' '+f.path).toLowerCase().includes(w))}).sort((a,b)=>($('file-sort').value==='modified'?b.modified-a.modified:$('file-sort').value==='size'?b.size-a.size:0)||a.path.localeCompare(b.path,'th',{numeric:true}));
+}
+
+function renderFileCatalog(){
+ const files=filteredLocalFiles(),pages=Math.max(1,Math.ceil(files.length/FILE_PAGE_SIZE));filePage=Math.max(0,Math.min(filePage,pages-1));const page=files.slice(filePage*FILE_PAGE_SIZE,(filePage+1)*FILE_PAGE_SIZE),editable=canEditFileContext()&&!fileScanning;
+ $('file-rows').innerHTML=page.map(f=>'<tr class="'+(f.selected?'file-is-selected':'')+'"><td class="file-check-cell"><input type="checkbox" data-file-selected="'+escapeHTML(f.path)+'" aria-label="แสดง '+escapeHTML(f.path)+' บนตารางหลัก" '+(f.selected?'checked ':'')+(!editable?'disabled ':'')+'></td><td>'+escapeHTML(f.name)+'</td><td>'+escapeHTML(fileParent(f.path)||'—')+'</td><td>'+escapeHTML(fileExtension(f.name)==='__none__'?'—':'.'+fileExtension(f.name))+'</td><td>'+fileSizeLabel(f.size)+'</td><td>'+escapeHTML(fileDateLabel(f.modified))+'</td></tr>').join('')||'<tr><td colspan="6" class="file-empty">'+(fileCatalog?'ไม่พบไฟล์ที่ตรงกับตัวกรอง':'เลือกโฟลเดอร์เพื่อแสดงรายการ')+'</td></tr>';
+ $('file-count').textContent='แสดง '+files.length.toLocaleString('th-TH')+' / '+(fileCatalog?.files.length||0).toLocaleString('th-TH')+' ไฟล์';$('file-page').textContent='หน้า '+(filePage+1)+' / '+pages;$('file-prev').disabled=filePage===0;$('file-next').disabled=filePage>=pages-1;
+ const selected=page.filter(f=>f.selected).length;$('file-select-page').checked=page.length>0&&selected===page.length;$('file-select-page').indeterminate=selected>0&&selected<page.length;$('file-select-page').disabled=!editable||!page.length;
+ $('file-selection-count').textContent='เลือกขึ้นตารางหลัก '+selectedCatalogFiles(fileCatalog).length.toLocaleString('th-TH')+' ไฟล์';$('file-select-filtered').disabled=!editable||!files.length;$('file-clear-filtered').disabled=!editable||!files.some(f=>f.selected);
+}
+function setCatalogFileSelected(path,selected){if(!canEditFileContext()||fileScanning||typeof selected!=='boolean')return false;const file=fileCatalog?.files.find(f=>f.path===path);if(!file)return false;file.selected=selected;renderFileCatalog();const replacement=[...$('file-rows').querySelectorAll('[data-file-selected]')].find(el=>el.dataset.fileSelected===path);replacement?.focus({preventScroll:true});return true}
+function selectCatalogScope(selected,scope='page'){if(!canEditFileContext()||fileScanning||typeof selected!=='boolean')return false;const filtered=filteredLocalFiles(),files=scope==='filtered'?filtered:filtered.slice(filePage*FILE_PAGE_SIZE,(filePage+1)*FILE_PAGE_SIZE);for(const file of files)file.selected=selected;renderFileCatalog();return true}
+
+function loadSavedFileCatalog(){if($('file-dialog').open)$('file-dialog').close();stopFileSession();taskFileDraft=null;taskFileDirty=false;taskFileHandle=null;taskFileHandles.clear();}
+
+function acceptFileCatalog(catalog,handle,keepSelection=false){
+ const next=cleanFileCatalog(catalog),sameFolder=fileCatalog&&next&&fileCatalog.rootName===next.rootName&&((handle&&handle===fileDirectoryHandle)||fileCatalog.address===next.address);
+ if(keepSelection&&sameFolder){const paths=new Set(selectedCatalogFiles(fileCatalog).map(f=>f.path));for(const file of next.files)file.selected=paths.has(file.path);const missing=paths.size-selectedCatalogFiles(next).length;if(missing>0)next.warning+=(next.warning?' · ':'')+'ไฟล์ที่เคยเลือกไม่พบ '+missing+' ไฟล์';}
+ fileCatalog=next;fileDirectoryHandle=handle;$('file-search').value='';$('file-selected-only').checked=false;fileFilterOptions();renderFileCatalog();fileCatalogNote();
+}
+
+async function scanFileDirectory(handle,keepSelection=false){
+ if(!canEditFileContext())return;const token=++fileScanToken,address=$('file-address').value.trim(),files=[],warnings=[];let reachedLimit=false,visited=0;setFileScanning(true);fileMessage('กำลังอ่านโฟลเดอร์ '+handle.name+'…');
+ async function walk(directory,prefix){
+  try{for await(const entry of directory.values()){
+   if(token!==fileScanToken||!canEditFileContext()||reachedLimit)return;
+   if(++visited%200===0){fileMessage('กำลังอ่าน '+handle.name+' · พบ '+files.length+' ไฟล์…');await new Promise(resolve=>setTimeout(resolve,0));if(token!==fileScanToken)return;}
+   const path=prefix+entry.name;
+   if(entry.kind==='directory')await walk(entry,path+'/');
+   else if(entry.kind==='file'){
+    if(files.length>=FILE_LIMIT){reachedLimit=true;return}
+    try{const f=await entry.getFile();if(token!==fileScanToken)return;files.push({name:entry.name,path,size:f.size,modified:f.lastModified})}catch(e){if(warnings.length<5)warnings.push('อ่านไม่ได้: '+path)}
+   }
+  }}catch(e){if(prefix==='')throw e;if(warnings.length<5)warnings.push('อ่านโฟลเดอร์ไม่ได้: '+prefix)}
+ }
+ try{await walk(handle,'');if(token!==fileScanToken||!canEditFileContext())return;if(reachedLimit)warnings.push('แสดงได้สูงสุด '+FILE_LIMIT.toLocaleString('th-TH')+' ไฟล์ กรุณาเลือกโฟลเดอร์ที่เล็กลงเพื่ออ่านให้ครบ');acceptFileCatalog({rootName:handle.name,address,scannedAt:new Date().toISOString(),warning:warnings.join(' · '),files},handle,keepSelection)}
+ catch(e){if(token===fileScanToken)fileMessage('อ่านโฟลเดอร์ไม่สำเร็จ กรุณาเลือกโฟลเดอร์อีกครั้ง · รายการเดิมยังอยู่')}
+ finally{if(token===fileScanToken)setFileScanning(false)}
+}
+async function chooseFileDirectory(keepSelection=false){
+ if(fileScanning||!canEditFileContext())return;const context=fileContext;
+ if(!window.showDirectoryPicker){openFallbackDirectoryInput(keepSelection);return}
+ try{const handle=await window.showDirectoryPicker({mode:'read'});if(context!==fileContext||!canEditFileContext())return;await scanFileDirectory(handle,keepSelection)}catch(e){if(context===fileContext&&canEditFileContext()&&e.name!=='AbortError'){fileFallbackNeeded=true;fileFallbackKeepSelection=keepSelection;setFileScanning(false);fileMessage('เปิดตัวเลือกโฟลเดอร์หลักไม่ได้ กด “เลือกโฟลเดอร์แบบสำรอง” เพื่ออ่านรายการ')}}
+}
+function importDirectoryFiles(list,keepSelection=false){
+ if(fileScanning||!canEditFileContext()||!list?.length)return;
+ const first=list[0].webkitRelativePath||list[0].name,rootName=first.includes('/')?first.split('/')[0]:'โฟลเดอร์ที่เลือก',files=Array.from(list).slice(0,FILE_LIMIT).map(f=>{const p=f.webkitRelativePath||f.name;return {name:f.name,path:p.includes('/')?p.slice(p.indexOf('/')+1):p,size:f.size,modified:f.lastModified}});
+ acceptFileCatalog({rootName,address:$('file-address').value.trim(),scannedAt:new Date().toISOString(),warning:list.length>FILE_LIMIT?'แสดงได้สูงสุด '+FILE_LIMIT+' ไฟล์ กรุณาเลือกโฟลเดอร์ที่เล็กลงเพื่ออ่านให้ครบ':'',files},null,keepSelection);setFileScanning(false);
+}
+function rememberFileCatalog(){if(!requireEditor()||!canEditFileContext()||fileScanning)return;if(!fileCatalog){toast('กรุณาเลือกโฟลเดอร์ก่อน');return}fileCatalog.address=$('file-address').value.trim();taskFileDraft=cleanFileCatalog(fileCatalog);taskFileHandle=fileDirectoryHandle;taskFileDirty=true;$('task-file-address').value=taskFileDraft.address;renderTaskFiles();$('file-dialog').close();toast('ใช้รายการไฟล์กับงานนี้แล้ว กดบันทึกงานเพื่อยืนยัน');}
+$('file-choose').onclick=()=>chooseFileDirectory(false);
+function openFallbackDirectoryInput(keepSelection=false){if(!canEditFileContext()||fileScanning)return;fileInputContext=fileContext;fileInputKeepSelection=keepSelection;$('file-directory-input').value='';$('file-directory-input').click()}
+$('file-fallback').onclick=()=>openFallbackDirectoryInput(fileFallbackKeepSelection);
+$('file-directory-input').onchange=e=>{if(fileInputContext===fileContext&&fileContext)importDirectoryFiles(e.target.files,fileInputKeepSelection);fileInputContext=null;e.target.value=''};
+$('file-refresh').onclick=async()=>{if(fileScanning||!canEditFileContext())return;if(fileDirectoryHandle)await scanFileDirectory(fileDirectoryHandle,true);else await chooseFileDirectory(true)};
+$('file-stop').onclick=()=>{if(!fileScanning)return;fileScanToken++;setFileScanning(false);fileMessage('หยุดอ่านแล้ว · รายการเดิมยังอยู่')};
+$('file-remember').onclick=rememberFileCatalog;
+$('file-rows').onchange=e=>{const input=e.target.closest('[data-file-selected]');if(input)setCatalogFileSelected(input.dataset.fileSelected,input.checked)};
+$('file-select-page').onchange=e=>selectCatalogScope(e.target.checked,'page');
+$('file-select-filtered').onclick=()=>selectCatalogScope(true,'filtered');
+$('file-clear-filtered').onclick=()=>selectCatalogScope(false,'filtered');
+for(const id of ['file-search','file-extension','file-folder','file-recursive','file-sort','file-selected-only'])$(id).addEventListener(id==='file-search'?'input':'change',()=>{filePage=0;renderFileCatalog()});
+$('file-prev').onclick=()=>{filePage--;renderFileCatalog()};$('file-next').onclick=()=>{filePage++;renderFileCatalog()};
+
+$('task-file-choose').onclick=()=>openTaskDraftFiles(true);
+$('task-file-view').onclick=()=>openTaskDraftFiles();
+$('task-file-clear').onclick=()=>{if(!requireEditor()||!$('task-dialog').open)return;taskFileDraft=null;taskFileHandle=null;taskFileDirty=true;$('task-file-address').value='';renderTaskFiles()};
+$('task-file-legacy').onclick=()=>{if(!requireEditor()||!$('task-dialog').open)return;const catalog=cleanFileCatalog(state.fileCatalog);if(!catalog)return;taskFileDraft=catalog;taskFileHandle=null;taskFileDirty=true;$('task-file-address').value=catalog.address;renderTaskFiles()};
+$('task-file-address').addEventListener('input',()=>{if(isEditor&&taskFileDraft)taskFileDirty=true});
+$('file-dialog').addEventListener('close',stopFileSession);
+$('task-dialog').addEventListener('close',()=>{if($('file-dialog').open)$('file-dialog').close();stopFileSession();taskFileDraft=null;taskFileHandle=null;taskFileDirty=false});
+loadSavedFileCatalog();
+// FILE_CATALOG_END
+
+let tableExpanded=false;
+function setTableExpanded(value){tableExpanded=Boolean(value);$('table-section').classList.toggle('table-expanded',tableExpanded);document.body.classList.toggle('table-expanded',tableExpanded);const button=$('table-fullsize');button.setAttribute('aria-expanded',String(tableExpanded));button.textContent=tableExpanded?'↙ กลับมุมมองปกติ':'⛶ ดูตารางเต็มจอ';button.title=tableExpanded?'กลับมุมมองปกติ (Esc)':'ขยายตารางให้เต็มพื้นที่หน้าต่าง';document.querySelectorAll('.top, main > :not(#table-section)').forEach(el=>el.inert=tableExpanded);if(!tableExpanded)button.focus({preventScroll:true})}
+$('table-fullsize').onclick=()=>setTableExpanded(!tableExpanded);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&tableExpanded&&!e.defaultPrevented&&!document.querySelector('dialog[open]')){e.preventDefault();setTableExpanded(false)}});
+render();saveStatus();
+</script>
+</body>
+</html>
