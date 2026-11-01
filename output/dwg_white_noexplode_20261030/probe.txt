@@ -1,0 +1,1829 @@
+TYPE Autodesk.AutoCAD.DatabaseServices.Entity
+ObjectId EdgeStyleId write=True
+ObjectId FaceStyleId write=True
+ObjectId VisualStyleId write=True
+Boolean ForceAnnoAllVisible write=True
+String BlockName write=False
+Mapper MaterialMapper write=True
+ObjectId MaterialId write=True
+String Material write=True
+Boolean ReceiveShadows write=True
+Boolean CastShadows write=True
+HyperLinkCollection Hyperlinks write=False
+Boolean CloneMeForDragging write=False
+Matrix3d CompoundObjectTransform write=False
+Extents3d GeometricExtents write=False
+Matrix3d Ecs write=False
+Boolean IsPlanar write=False
+CollisionType CollisionType write=False
+LineWeight LineWeight write=True
+Boolean Visible write=True
+Double LinetypeScale write=True
+ObjectId LinetypeId write=True
+String Linetype write=True
+ObjectId LayerId write=True
+String Layer write=True
+PlotStyleDescriptor PlotStyleNameId write=True
+String PlotStyleName write=True
+Transparency Transparency write=True
+EntityColor EntityColor write=False
+Int32 ColorIndex write=True
+Color Color write=True
+ObjectId BlockId write=False
+PaperOrientationStates PaperOrientation write=False
+AnnotativeStates Annotative write=True
+Boolean HasFields write=False
+Object AcadObject write=False
+Guid ClassID write=False
+FullDwgVersion ObjectBirthVersion write=False
+Boolean HasSaveVersionOverride write=True
+Boolean IsObjectIdsInFlux write=False
+DwgFiler UndoFiler write=False
+Boolean IsAProxy write=False
+Boolean IsTransactionResident write=False
+Boolean IsReallyClosing write=False
+Boolean IsCancelling write=False
+Boolean IsUndoing write=False
+Boolean IsNotifying write=False
+Boolean IsNewObject write=False
+Boolean IsModifiedGraphics write=False
+Boolean IsModifiedXData write=False
+Boolean IsModified write=False
+Boolean IsNotifyEnabled write=False
+Boolean IsWriteEnabled write=False
+Boolean IsReadEnabled write=False
+Boolean IsErased write=False
+Boolean IsEraseStatusToggled write=False
+ResultBuffer XData write=True
+DuplicateRecordCloning MergeStyle write=True
+ObjectId ExtensionDictionary write=False
+Drawable Drawable write=False
+Database Database write=False
+Handle Handle write=False
+ObjectId OwnerId write=True
+ObjectId ObjectId write=False
+ObjectId Id write=False
+Boolean IsPersistent write=False
+DrawStream DrawStream write=True
+Nullable`1 Bounds write=False
+DrawableType DrawableType write=False
+Boolean AutoDelete write=True
+Boolean IsDisposed write=False
+IntPtr UnmanagedObject write=False
+Void SetLayerId(Autodesk.AutoCAD.DatabaseServices.ObjectId, Boolean)
+Void SetPropertiesFrom(Autodesk.AutoCAD.DatabaseServices.Entity)
+Autodesk.AutoCAD.Geometry.Plane GetPlane()
+Void AddSubentityPaths(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath[])
+Void DeleteSubentityPaths(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath[])
+Void TransformSubentityPathsBy(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath[], Autodesk.AutoCAD.Geometry.Matrix3d)
+Boolean GetGripPointsAtSubentityPath(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath, Autodesk.AutoCAD.DatabaseServices.GripDataCollection, Double, Int32, Autodesk.AutoCAD.Geometry.Vector3d, Autodesk.AutoCAD.DatabaseServices.GetGripPointsFlags)
+Void MoveGripPointsAtSubentityPaths(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath[], IntPtr[], Autodesk.AutoCAD.Geometry.Vector3d, Autodesk.AutoCAD.DatabaseServices.MoveGripPointsFlags)
+Autodesk.AutoCAD.DatabaseServices.Extents3d GetSubentityGeometricExtents(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath)
+Autodesk.AutoCAD.DatabaseServices.FullSubentityPath[] GetSubentityPathsAtGraphicsMarker(Autodesk.AutoCAD.DatabaseServices.SubentityType, IntPtr, Autodesk.AutoCAD.Geometry.Point3d, Autodesk.AutoCAD.Geometry.Matrix3d, Autodesk.AutoCAD.DatabaseServices.ObjectId[])
+Autodesk.AutoCAD.DatabaseServices.FullSubentityPath[] GetSubentityPathsAtGraphicsMarker(Autodesk.AutoCAD.DatabaseServices.SubentityType, Int64, Autodesk.AutoCAD.Geometry.Point3d, Autodesk.AutoCAD.Geometry.Matrix3d, Int32, Autodesk.AutoCAD.DatabaseServices.ObjectId[])
+Autodesk.AutoCAD.Geometry.IntPtrCollection GetGraphicsMarkersAtSubentityPathIntPtr(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath)
+Void Highlight(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath, Boolean)
+Void Highlight()
+Void Unhighlight(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath, Boolean)
+Void Unhighlight()
+Void PushHighlight(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath, Autodesk.AutoCAD.GraphicsInterface.HighlightStyle)
+Void PopHighlight(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath)
+Autodesk.AutoCAD.GraphicsInterface.HighlightStyle HighlightState(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath)
+Void GetObjectSnapPoints(Autodesk.AutoCAD.DatabaseServices.ObjectSnapModes, Int32, Autodesk.AutoCAD.Geometry.Point3d, Autodesk.AutoCAD.Geometry.Point3d, Autodesk.AutoCAD.Geometry.Matrix3d, Autodesk.AutoCAD.Geometry.Point3dCollection, Autodesk.AutoCAD.Geometry.IntegerCollection, Autodesk.AutoCAD.Geometry.Matrix3d)
+Void GetObjectSnapPoints(Autodesk.AutoCAD.DatabaseServices.ObjectSnapModes, Int32, Autodesk.AutoCAD.Geometry.Point3d, Autodesk.AutoCAD.Geometry.Point3d, Autodesk.AutoCAD.Geometry.Matrix3d, Autodesk.AutoCAD.Geometry.Point3dCollection, Autodesk.AutoCAD.Geometry.IntegerCollection)
+Boolean IsContentSnappable()
+Boolean GetGripPoints(Autodesk.AutoCAD.DatabaseServices.GripDataCollection, Double, Int32, Autodesk.AutoCAD.Geometry.Vector3d, Autodesk.AutoCAD.DatabaseServices.GetGripPointsFlags)
+Void GetGripPoints(Autodesk.AutoCAD.Geometry.Point3dCollection, Autodesk.AutoCAD.Geometry.IntegerCollection, Autodesk.AutoCAD.Geometry.IntegerCollection)
+Void MoveGripPointsAt(Autodesk.AutoCAD.DatabaseServices.GripDataCollection, Autodesk.AutoCAD.Geometry.Vector3d, Autodesk.AutoCAD.DatabaseServices.MoveGripPointsFlags)
+Void MoveGripPointsAt(Autodesk.AutoCAD.Geometry.IntegerCollection, Autodesk.AutoCAD.Geometry.Vector3d)
+Void GetStretchPoints(Autodesk.AutoCAD.Geometry.Point3dCollection)
+Void MoveStretchPointsAt(Autodesk.AutoCAD.Geometry.IntegerCollection, Autodesk.AutoCAD.Geometry.Vector3d)
+Void IntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Plane, Autodesk.AutoCAD.Geometry.Point3dCollection, IntPtr, IntPtr)
+Void IntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Point3dCollection, IntPtr, IntPtr)
+Void IntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Plane, Autodesk.AutoCAD.Geometry.Point3dCollection, Int64, Int64)
+Void IntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Point3dCollection, Int64, Int64)
+Void BoundingBoxIntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Point3dCollection, IntPtr, IntPtr)
+Void BoundingBoxIntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Plane, Autodesk.AutoCAD.Geometry.Point3dCollection, IntPtr, IntPtr)
+Void BoundingBoxIntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Point3dCollection, Int64, Int64)
+Void BoundingBoxIntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Plane, Autodesk.AutoCAD.Geometry.Point3dCollection, Int64, Int64)
+Void List()
+Void TransformBy(Autodesk.AutoCAD.Geometry.Matrix3d)
+Autodesk.AutoCAD.DatabaseServices.Entity GetTransformedCopy(Autodesk.AutoCAD.Geometry.Matrix3d)
+Autodesk.AutoCAD.DatabaseServices.Entity GetSubentity(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath)
+Void Explode(Autodesk.AutoCAD.DatabaseServices.DBObjectCollection)
+Void RecordGraphicsModified(Boolean)
+Void Draw()
+Void SaveAs(Autodesk.AutoCAD.GraphicsInterface.WorldDraw, Autodesk.AutoCAD.DatabaseServices.SaveType)
+Void SetDatabaseDefaults(Autodesk.AutoCAD.DatabaseServices.Database)
+Void SetDatabaseDefaults()
+Void SetDragStatus(Autodesk.AutoCAD.DatabaseServices.DragStatus)
+Void SetGripStatus(Autodesk.AutoCAD.DatabaseServices.GripStatus)
+Void SetSubentityGripStatus(Autodesk.AutoCAD.DatabaseServices.GripStatus, Autodesk.AutoCAD.DatabaseServices.FullSubentityPath)
+Void JoinEntity(Autodesk.AutoCAD.DatabaseServices.Entity)
+Autodesk.AutoCAD.Geometry.IntegerCollection JoinEntities(Autodesk.AutoCAD.DatabaseServices.Entity[])
+Autodesk.AutoCAD.DatabaseServices.DBObject DeepClone(Autodesk.AutoCAD.DatabaseServices.DBObject, Autodesk.AutoCAD.DatabaseServices.IdMapping, Boolean)
+Autodesk.AutoCAD.DatabaseServices.DBObject WblockClone(Autodesk.AutoCAD.Runtime.RXObject, Autodesk.AutoCAD.DatabaseServices.IdMapping, Boolean)
+Autodesk.AutoCAD.DatabaseServices.DecomposeForSaveReplacementRecord DecomposeForSave(Autodesk.AutoCAD.DatabaseServices.DwgVersion)
+Void CreateExtensionDictionary()
+Void ReleaseExtensionDictionary()
+Void UpgradeOpen()
+Boolean UpgradeFromNotify()
+Void DowngradeOpen()
+Void DowngradeToNotify(Boolean)
+Void Cancel()
+Void Close()
+Void CloseAndPage(Boolean)
+Void Erase()
+Void Erase(Boolean)
+Void HandOverTo(Autodesk.AutoCAD.DatabaseServices.DBObject, Boolean, Boolean)
+Void SwapIdWith(Autodesk.AutoCAD.DatabaseServices.ObjectId, Boolean, Boolean)
+Void SwapReferences(Autodesk.AutoCAD.DatabaseServices.IdMapping)
+Void Audit(Autodesk.AutoCAD.DatabaseServices.AuditInfo)
+Void DwgIn(Autodesk.AutoCAD.DatabaseServices.DwgFiler)
+Void DwgOut(Autodesk.AutoCAD.DatabaseServices.DwgFiler)
+Void DxfIn(Autodesk.AutoCAD.DatabaseServices.DxfFiler)
+Void DxfOut(Autodesk.AutoCAD.DatabaseServices.DxfFiler)
+Void XDataTransformBy(Autodesk.AutoCAD.Geometry.Matrix3d)
+Autodesk.AutoCAD.DatabaseServices.ResultBuffer GetXDataForApplication(System.String)
+Byte[] GetBinaryDataForKey(System.String)
+Void SetBinaryDataForKey(System.String, Byte[])
+Void DisableUndoRecording(Boolean)
+Void ApplyPartialUndo(Autodesk.AutoCAD.DatabaseServices.DwgFiler, Autodesk.AutoCAD.Runtime.RXClass)
+Boolean HasPersistentReactor(Autodesk.AutoCAD.DatabaseServices.ObjectId)
+System.Collections.Generic.List`1[Autodesk.AutoCAD.Runtime.RXObject] GetReactors()
+System.Collections.Generic.List`1[Autodesk.AutoCAD.Runtime.RXObject] GetTransientReactors()
+Autodesk.AutoCAD.DatabaseServices.ObjectIdCollection GetPersistentReactorIds()
+Void SetObjectIdsInFlux()
+Autodesk.AutoCAD.DatabaseServices.FullDwgVersion GetObjectSaveVersion(Autodesk.AutoCAD.DatabaseServices.DxfFiler)
+Autodesk.AutoCAD.DatabaseServices.FullDwgVersion GetObjectSaveVersion(Autodesk.AutoCAD.DatabaseServices.DwgFiler)
+Autodesk.AutoCAD.DatabaseServices.ObjectId GetField(System.String)
+Autodesk.AutoCAD.DatabaseServices.ObjectId GetField()
+Autodesk.AutoCAD.DatabaseServices.ObjectId SetField(System.String, Autodesk.AutoCAD.DatabaseServices.Field)
+Autodesk.AutoCAD.DatabaseServices.ObjectId SetField(Autodesk.AutoCAD.DatabaseServices.Field)
+Void RemoveField(Autodesk.AutoCAD.DatabaseServices.ObjectId)
+Autodesk.AutoCAD.DatabaseServices.ObjectId RemoveField(System.String)
+Autodesk.AutoCAD.DatabaseServices.ObjectId RemoveField()
+Boolean SetFromStyle()
+Void ResetScaleDependentProperties()
+Void SetPaperOrientation(Boolean)
+Void ApplyPaperOrientationTransform(Autodesk.AutoCAD.DatabaseServices.Viewport)
+Boolean SupportsCollection(System.String)
+Boolean HasContext(Autodesk.AutoCAD.DatabaseServices.ObjectContext)
+Void AddContext(Autodesk.AutoCAD.DatabaseServices.ObjectContext)
+Void RemoveContext(Autodesk.AutoCAD.DatabaseServices.ObjectContext)
+Autodesk.AutoCAD.DatabaseServices.DBObjectEventExtender GetEventExtender(Boolean)
+Autodesk.AutoCAD.DatabaseServices.IParameter GetParameterInterface(System.String, Boolean)
+Int32 SetAttributes(Autodesk.AutoCAD.GraphicsInterface.DrawableTraits)
+Boolean WorldDraw(Autodesk.AutoCAD.GraphicsInterface.WorldDraw)
+Void ViewportDraw(Autodesk.AutoCAD.GraphicsInterface.ViewportDraw)
+Int32 ViewportDrawLogicalFlags(Autodesk.AutoCAD.GraphicsInterface.ViewportDraw)
+IntPtr X(Autodesk.AutoCAD.Runtime.RXClass)
+IntPtr QueryX(Autodesk.AutoCAD.Runtime.RXClass)
+Autodesk.AutoCAD.Runtime.RXClass GetRXClass()
+Int32 CompareTo(System.Object)
+System.Object Clone()
+Void CopyFrom(Autodesk.AutoCAD.Runtime.RXObject)
+Boolean Equals(System.Object)
+Int32 GetHashCode()
+Void Dispose()
+System.Object GetLifetimeService()
+System.Object InitializeLifetimeService()
+System.Type GetType()
+System.String ToString()
+TYPE Autodesk.AutoCAD.DatabaseServices.BlockTableRecord
+HyperLinkCollection Hyperlinks write=False
+BlockTableRecord IncludingErased write=False
+UnitsValue Units write=True
+Boolean IsDynamicBlock write=False
+BlockScaling BlockScaling write=True
+Boolean Explodable write=True
+ObjectId DrawOrderTableId write=False
+XrefStatus XrefStatus write=False
+Boolean IsUnloaded write=True
+ObjectId LayoutId write=True
+Boolean IsLayout write=False
+Boolean IsFromOverlayReference write=True
+Boolean IsFromExternalReference write=False
+Boolean IsAnonymous write=False
+Bitmap PreviewIcon write=True
+Boolean HasPreviewIcon write=False
+Boolean HasAttributeDefinitions write=False
+ObjectId BlockEndId write=False
+ObjectId BlockBeginId write=False
+Point3d Origin write=True
+String PathName write=True
+String Comments write=True
+Boolean IsResolved write=False
+Boolean IsDependent write=False
+String Name write=True
+PaperOrientationStates PaperOrientation write=False
+AnnotativeStates Annotative write=True
+Boolean HasFields write=False
+Object AcadObject write=False
+Guid ClassID write=False
+FullDwgVersion ObjectBirthVersion write=False
+Boolean HasSaveVersionOverride write=True
+Boolean IsObjectIdsInFlux write=False
+DwgFiler UndoFiler write=False
+Boolean IsAProxy write=False
+Boolean IsTransactionResident write=False
+Boolean IsReallyClosing write=False
+Boolean IsCancelling write=False
+Boolean IsUndoing write=False
+Boolean IsNotifying write=False
+Boolean IsNewObject write=False
+Boolean IsModifiedGraphics write=False
+Boolean IsModifiedXData write=False
+Boolean IsModified write=False
+Boolean IsNotifyEnabled write=False
+Boolean IsWriteEnabled write=False
+Boolean IsReadEnabled write=False
+Boolean IsErased write=False
+Boolean IsEraseStatusToggled write=False
+ResultBuffer XData write=True
+DuplicateRecordCloning MergeStyle write=True
+ObjectId ExtensionDictionary write=False
+Drawable Drawable write=False
+Database Database write=False
+Handle Handle write=False
+ObjectId OwnerId write=True
+ObjectId ObjectId write=False
+ObjectId Id write=False
+Boolean IsPersistent write=False
+DrawStream DrawStream write=True
+Nullable`1 Bounds write=False
+DrawableType DrawableType write=False
+Boolean AutoDelete write=True
+Boolean IsDisposed write=False
+IntPtr UnmanagedObject write=False
+Autodesk.AutoCAD.DatabaseServices.BlockTableRecordEnumerator GetEnumerator()
+Autodesk.AutoCAD.DatabaseServices.ObjectId AppendEntity(Autodesk.AutoCAD.DatabaseServices.Entity)
+Autodesk.AutoCAD.DatabaseServices.ObjectIdCollection GetBlockReferenceIds(Boolean, Boolean)
+Autodesk.AutoCAD.DatabaseServices.ObjectIdCollection GetErasedBlockReferenceIds()
+Autodesk.AutoCAD.DatabaseServices.ObjectIdCollection GetAnonymousBlockIds()
+Autodesk.AutoCAD.DatabaseServices.Database GetXrefDatabase(Boolean)
+Void AssumeOwnershipOf(Autodesk.AutoCAD.DatabaseServices.ObjectIdCollection)
+Void UpdateAnonymousBlocks()
+Autodesk.AutoCAD.DatabaseServices.DBObject DeepClone(Autodesk.AutoCAD.DatabaseServices.DBObject, Autodesk.AutoCAD.DatabaseServices.IdMapping, Boolean)
+Autodesk.AutoCAD.DatabaseServices.DBObject WblockClone(Autodesk.AutoCAD.Runtime.RXObject, Autodesk.AutoCAD.DatabaseServices.IdMapping, Boolean)
+Autodesk.AutoCAD.DatabaseServices.DecomposeForSaveReplacementRecord DecomposeForSave(Autodesk.AutoCAD.DatabaseServices.DwgVersion)
+Void CreateExtensionDictionary()
+Void ReleaseExtensionDictionary()
+Void UpgradeOpen()
+Boolean UpgradeFromNotify()
+Void DowngradeOpen()
+Void DowngradeToNotify(Boolean)
+Void Cancel()
+Void Close()
+Void CloseAndPage(Boolean)
+Void Erase()
+Void Erase(Boolean)
+Void HandOverTo(Autodesk.AutoCAD.DatabaseServices.DBObject, Boolean, Boolean)
+Void SwapIdWith(Autodesk.AutoCAD.DatabaseServices.ObjectId, Boolean, Boolean)
+Void SwapReferences(Autodesk.AutoCAD.DatabaseServices.IdMapping)
+Void Audit(Autodesk.AutoCAD.DatabaseServices.AuditInfo)
+Void DwgIn(Autodesk.AutoCAD.DatabaseServices.DwgFiler)
+Void DwgOut(Autodesk.AutoCAD.DatabaseServices.DwgFiler)
+Void DxfIn(Autodesk.AutoCAD.DatabaseServices.DxfFiler)
+Void DxfOut(Autodesk.AutoCAD.DatabaseServices.DxfFiler)
+Void XDataTransformBy(Autodesk.AutoCAD.Geometry.Matrix3d)
+Autodesk.AutoCAD.DatabaseServices.ResultBuffer GetXDataForApplication(System.String)
+Byte[] GetBinaryDataForKey(System.String)
+Void SetBinaryDataForKey(System.String, Byte[])
+Void DisableUndoRecording(Boolean)
+Void ApplyPartialUndo(Autodesk.AutoCAD.DatabaseServices.DwgFiler, Autodesk.AutoCAD.Runtime.RXClass)
+Boolean HasPersistentReactor(Autodesk.AutoCAD.DatabaseServices.ObjectId)
+System.Collections.Generic.List`1[Autodesk.AutoCAD.Runtime.RXObject] GetReactors()
+System.Collections.Generic.List`1[Autodesk.AutoCAD.Runtime.RXObject] GetTransientReactors()
+Autodesk.AutoCAD.DatabaseServices.ObjectIdCollection GetPersistentReactorIds()
+Void SetObjectIdsInFlux()
+Autodesk.AutoCAD.DatabaseServices.FullDwgVersion GetObjectSaveVersion(Autodesk.AutoCAD.DatabaseServices.DxfFiler)
+Autodesk.AutoCAD.DatabaseServices.FullDwgVersion GetObjectSaveVersion(Autodesk.AutoCAD.DatabaseServices.DwgFiler)
+Autodesk.AutoCAD.DatabaseServices.ObjectId GetField(System.String)
+Autodesk.AutoCAD.DatabaseServices.ObjectId GetField()
+Autodesk.AutoCAD.DatabaseServices.ObjectId SetField(System.String, Autodesk.AutoCAD.DatabaseServices.Field)
+Autodesk.AutoCAD.DatabaseServices.ObjectId SetField(Autodesk.AutoCAD.DatabaseServices.Field)
+Void RemoveField(Autodesk.AutoCAD.DatabaseServices.ObjectId)
+Autodesk.AutoCAD.DatabaseServices.ObjectId RemoveField(System.String)
+Autodesk.AutoCAD.DatabaseServices.ObjectId RemoveField()
+Boolean SetFromStyle()
+Void ResetScaleDependentProperties()
+Void SetPaperOrientation(Boolean)
+Void ApplyPaperOrientationTransform(Autodesk.AutoCAD.DatabaseServices.Viewport)
+Boolean SupportsCollection(System.String)
+Boolean HasContext(Autodesk.AutoCAD.DatabaseServices.ObjectContext)
+Void AddContext(Autodesk.AutoCAD.DatabaseServices.ObjectContext)
+Void RemoveContext(Autodesk.AutoCAD.DatabaseServices.ObjectContext)
+Autodesk.AutoCAD.DatabaseServices.DBObjectEventExtender GetEventExtender(Boolean)
+Autodesk.AutoCAD.DatabaseServices.IParameter GetParameterInterface(System.String, Boolean)
+Int32 SetAttributes(Autodesk.AutoCAD.GraphicsInterface.DrawableTraits)
+Boolean WorldDraw(Autodesk.AutoCAD.GraphicsInterface.WorldDraw)
+Void ViewportDraw(Autodesk.AutoCAD.GraphicsInterface.ViewportDraw)
+Int32 ViewportDrawLogicalFlags(Autodesk.AutoCAD.GraphicsInterface.ViewportDraw)
+IntPtr X(Autodesk.AutoCAD.Runtime.RXClass)
+IntPtr QueryX(Autodesk.AutoCAD.Runtime.RXClass)
+Autodesk.AutoCAD.Runtime.RXClass GetRXClass()
+Int32 CompareTo(System.Object)
+System.Object Clone()
+Void CopyFrom(Autodesk.AutoCAD.Runtime.RXObject)
+Boolean Equals(System.Object)
+Int32 GetHashCode()
+Void Dispose()
+System.Object GetLifetimeService()
+System.Object InitializeLifetimeService()
+System.Type GetType()
+System.String ToString()
+TYPE Autodesk.AutoCAD.DatabaseServices.MLeader
+Boolean ExtendLeaderToText write=True
+TextAttachmentDirection TextAttachmentDirection write=True
+MText MText write=True
+Point3d ToleranceLocation write=True
+Point3d TextLocation write=True
+Point3d BlockPosition write=True
+ObjectId MLeaderStyle write=True
+Boolean EnableAnnotationScale write=True
+BlockConnectionType BlockConnectionType write=True
+Double BlockRotation write=True
+Scale3d BlockScale write=True
+Color BlockColor write=True
+ObjectId BlockContentId write=True
+Boolean EnableFrameText write=True
+Double TextHeight write=True
+Color TextColor write=True
+TextAlignmentType TextAlignmentType write=True
+TextAngleType TextAngleType write=True
+TextAttachmentType TextAttachmentType write=True
+ObjectId TextStyleId write=True
+ContentType ContentType write=True
+Double ArrowSize write=True
+ObjectId ArrowSymbolId write=True
+Double DoglegLength write=True
+Boolean EnableDogleg write=True
+Boolean EnableLanding write=True
+Double LandingGap write=True
+LineWeight LeaderLineWeight write=True
+ObjectId LeaderLineTypeId write=True
+Color LeaderLineColor write=True
+LeaderType LeaderLineType write=True
+Int32 LeaderLineCount write=False
+Int32 LeaderCount write=False
+Double Scale write=True
+Vector3d Normal write=False
+ObjectId EdgeStyleId write=True
+ObjectId FaceStyleId write=True
+ObjectId VisualStyleId write=True
+Boolean ForceAnnoAllVisible write=True
+String BlockName write=False
+Mapper MaterialMapper write=True
+ObjectId MaterialId write=True
+String Material write=True
+Boolean ReceiveShadows write=True
+Boolean CastShadows write=True
+HyperLinkCollection Hyperlinks write=False
+Boolean CloneMeForDragging write=False
+Matrix3d CompoundObjectTransform write=False
+Extents3d GeometricExtents write=False
+Matrix3d Ecs write=False
+Boolean IsPlanar write=False
+CollisionType CollisionType write=False
+LineWeight LineWeight write=True
+Boolean Visible write=True
+Double LinetypeScale write=True
+ObjectId LinetypeId write=True
+String Linetype write=True
+ObjectId LayerId write=True
+String Layer write=True
+PlotStyleDescriptor PlotStyleNameId write=True
+String PlotStyleName write=True
+Transparency Transparency write=True
+EntityColor EntityColor write=False
+Int32 ColorIndex write=True
+Color Color write=True
+ObjectId BlockId write=False
+PaperOrientationStates PaperOrientation write=False
+AnnotativeStates Annotative write=True
+Boolean HasFields write=False
+Object AcadObject write=False
+Guid ClassID write=False
+FullDwgVersion ObjectBirthVersion write=False
+Boolean HasSaveVersionOverride write=True
+Boolean IsObjectIdsInFlux write=False
+DwgFiler UndoFiler write=False
+Boolean IsAProxy write=False
+Boolean IsTransactionResident write=False
+Boolean IsReallyClosing write=False
+Boolean IsCancelling write=False
+Boolean IsUndoing write=False
+Boolean IsNotifying write=False
+Boolean IsNewObject write=False
+Boolean IsModifiedGraphics write=False
+Boolean IsModifiedXData write=False
+Boolean IsModified write=False
+Boolean IsNotifyEnabled write=False
+Boolean IsWriteEnabled write=False
+Boolean IsReadEnabled write=False
+Boolean IsErased write=False
+Boolean IsEraseStatusToggled write=False
+ResultBuffer XData write=True
+DuplicateRecordCloning MergeStyle write=True
+ObjectId ExtensionDictionary write=False
+Drawable Drawable write=False
+Database Database write=False
+Handle Handle write=False
+ObjectId OwnerId write=True
+ObjectId ObjectId write=False
+ObjectId Id write=False
+Boolean IsPersistent write=False
+DrawStream DrawStream write=True
+Nullable`1 Bounds write=False
+DrawableType DrawableType write=False
+Boolean AutoDelete write=True
+Boolean IsDisposed write=False
+IntPtr UnmanagedObject write=False
+Autodesk.AutoCAD.Geometry.Plane GetPlane()
+Void SetPlane(Autodesk.AutoCAD.Geometry.Plane)
+Void MoveMLeader(Autodesk.AutoCAD.Geometry.Vector3d, Autodesk.AutoCAD.DatabaseServices.MoveType)
+Autodesk.AutoCAD.DatabaseServices.Extents3d GetContentGeomExtents()
+Int32 AddLeader()
+Void RemoveLeader(Int32)
+Int32 AddLeaderLine(Autodesk.AutoCAD.Geometry.Point3d)
+Int32 AddLeaderLine(Int32)
+Void RemoveLeaderLine(Int32)
+Void AddFirstVertex(Int32, Autodesk.AutoCAD.Geometry.Point3d)
+Void RemoveFirstVertex(Int32)
+Autodesk.AutoCAD.Geometry.Point3d GetFirstVertex(Int32)
+Void SetFirstVertex(Int32, Autodesk.AutoCAD.Geometry.Point3d)
+Void AddLastVertex(Int32, Autodesk.AutoCAD.Geometry.Point3d)
+Void RemoveLastVertex(Int32)
+Autodesk.AutoCAD.Geometry.Point3d GetLastVertex(Int32)
+Void SetLastVertex(Int32, Autodesk.AutoCAD.Geometry.Point3d)
+Int32 VerticesCount(Int32)
+Void SetVertex(Int32, Int32, Autodesk.AutoCAD.Geometry.Point3d)
+Autodesk.AutoCAD.Geometry.Point3d GetVertex(Int32, Int32)
+Int32 GetLeaderIndex(Int32)
+System.Collections.ArrayList GetLeaderLineIndexes(Int32)
+Void SetDogleg(Int32, Autodesk.AutoCAD.Geometry.Vector3d)
+Autodesk.AutoCAD.Geometry.Vector3d GetDogleg(Int32)
+Void SetLeaderLineType(Int32, Autodesk.AutoCAD.DatabaseServices.LeaderType)
+Autodesk.AutoCAD.DatabaseServices.LeaderType GetLeaderLineType(Int32)
+Void SetLeaderLineColor(Int32, Autodesk.AutoCAD.Colors.Color)
+Autodesk.AutoCAD.Colors.Color GetLeaderLineColor(Int32)
+Void SetLeaderLineTypeId(Int32, Autodesk.AutoCAD.DatabaseServices.ObjectId)
+Autodesk.AutoCAD.DatabaseServices.ObjectId GetLeaderLineTypeId(Int32)
+Void SetLeaderLineWeight(Int32, Autodesk.AutoCAD.DatabaseServices.LineWeight)
+Autodesk.AutoCAD.DatabaseServices.LineWeight GetLeaderLineWeight(Int32)
+Void SetDoglegLength(Int32, Double)
+Double GetDoglegLength(Int32)
+Void SetArrowSymbolId(Int32, Autodesk.AutoCAD.DatabaseServices.ObjectId)
+Autodesk.AutoCAD.DatabaseServices.ObjectId GetArrowSymbolId(Int32)
+Void SetArrowSize(Int32, Double)
+Double GetArrowSize(Int32)
+Void SetTextAttachmentType(Autodesk.AutoCAD.DatabaseServices.TextAttachmentType, Autodesk.AutoCAD.DatabaseServices.LeaderDirectionType)
+Autodesk.AutoCAD.DatabaseServices.TextAttachmentType GetTextAttachmentType(Autodesk.AutoCAD.DatabaseServices.LeaderDirectionType)
+Void getOverridedMLeaderStyle(Autodesk.AutoCAD.DatabaseServices.MLeaderStyle)
+Void SetContextDataManager(IntPtr)
+IntPtr getContextDataManager()
+Boolean HasContent()
+Void recomputeBreakPoints()
+Void PostMLeaderToDb(Autodesk.AutoCAD.DatabaseServices.Database)
+Autodesk.AutoCAD.Geometry.Point3d ConnectionPoint(Autodesk.AutoCAD.Geometry.Vector3d, Autodesk.AutoCAD.DatabaseServices.TextAttachmentDirection)
+Autodesk.AutoCAD.Geometry.Point3d ConnectionPoint(Autodesk.AutoCAD.Geometry.Vector3d)
+Autodesk.AutoCAD.DatabaseServices.AttributeReference GetBlockAttribute(Autodesk.AutoCAD.DatabaseServices.ObjectId)
+Void SetBlockAttribute(Autodesk.AutoCAD.DatabaseServices.ObjectId, Autodesk.AutoCAD.DatabaseServices.AttributeReference)
+System.Collections.ArrayList GetLeaderIndexes()
+Void SetLayerId(Autodesk.AutoCAD.DatabaseServices.ObjectId, Boolean)
+Void SetPropertiesFrom(Autodesk.AutoCAD.DatabaseServices.Entity)
+Void AddSubentityPaths(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath[])
+Void DeleteSubentityPaths(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath[])
+Void TransformSubentityPathsBy(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath[], Autodesk.AutoCAD.Geometry.Matrix3d)
+Boolean GetGripPointsAtSubentityPath(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath, Autodesk.AutoCAD.DatabaseServices.GripDataCollection, Double, Int32, Autodesk.AutoCAD.Geometry.Vector3d, Autodesk.AutoCAD.DatabaseServices.GetGripPointsFlags)
+Void MoveGripPointsAtSubentityPaths(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath[], IntPtr[], Autodesk.AutoCAD.Geometry.Vector3d, Autodesk.AutoCAD.DatabaseServices.MoveGripPointsFlags)
+Autodesk.AutoCAD.DatabaseServices.Extents3d GetSubentityGeometricExtents(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath)
+Autodesk.AutoCAD.DatabaseServices.FullSubentityPath[] GetSubentityPathsAtGraphicsMarker(Autodesk.AutoCAD.DatabaseServices.SubentityType, IntPtr, Autodesk.AutoCAD.Geometry.Point3d, Autodesk.AutoCAD.Geometry.Matrix3d, Autodesk.AutoCAD.DatabaseServices.ObjectId[])
+Autodesk.AutoCAD.DatabaseServices.FullSubentityPath[] GetSubentityPathsAtGraphicsMarker(Autodesk.AutoCAD.DatabaseServices.SubentityType, Int64, Autodesk.AutoCAD.Geometry.Point3d, Autodesk.AutoCAD.Geometry.Matrix3d, Int32, Autodesk.AutoCAD.DatabaseServices.ObjectId[])
+Autodesk.AutoCAD.Geometry.IntPtrCollection GetGraphicsMarkersAtSubentityPathIntPtr(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath)
+Void Highlight(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath, Boolean)
+Void Highlight()
+Void Unhighlight(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath, Boolean)
+Void Unhighlight()
+Void PushHighlight(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath, Autodesk.AutoCAD.GraphicsInterface.HighlightStyle)
+Void PopHighlight(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath)
+Autodesk.AutoCAD.GraphicsInterface.HighlightStyle HighlightState(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath)
+Void GetObjectSnapPoints(Autodesk.AutoCAD.DatabaseServices.ObjectSnapModes, Int32, Autodesk.AutoCAD.Geometry.Point3d, Autodesk.AutoCAD.Geometry.Point3d, Autodesk.AutoCAD.Geometry.Matrix3d, Autodesk.AutoCAD.Geometry.Point3dCollection, Autodesk.AutoCAD.Geometry.IntegerCollection, Autodesk.AutoCAD.Geometry.Matrix3d)
+Void GetObjectSnapPoints(Autodesk.AutoCAD.DatabaseServices.ObjectSnapModes, Int32, Autodesk.AutoCAD.Geometry.Point3d, Autodesk.AutoCAD.Geometry.Point3d, Autodesk.AutoCAD.Geometry.Matrix3d, Autodesk.AutoCAD.Geometry.Point3dCollection, Autodesk.AutoCAD.Geometry.IntegerCollection)
+Boolean IsContentSnappable()
+Boolean GetGripPoints(Autodesk.AutoCAD.DatabaseServices.GripDataCollection, Double, Int32, Autodesk.AutoCAD.Geometry.Vector3d, Autodesk.AutoCAD.DatabaseServices.GetGripPointsFlags)
+Void GetGripPoints(Autodesk.AutoCAD.Geometry.Point3dCollection, Autodesk.AutoCAD.Geometry.IntegerCollection, Autodesk.AutoCAD.Geometry.IntegerCollection)
+Void MoveGripPointsAt(Autodesk.AutoCAD.DatabaseServices.GripDataCollection, Autodesk.AutoCAD.Geometry.Vector3d, Autodesk.AutoCAD.DatabaseServices.MoveGripPointsFlags)
+Void MoveGripPointsAt(Autodesk.AutoCAD.Geometry.IntegerCollection, Autodesk.AutoCAD.Geometry.Vector3d)
+Void GetStretchPoints(Autodesk.AutoCAD.Geometry.Point3dCollection)
+Void MoveStretchPointsAt(Autodesk.AutoCAD.Geometry.IntegerCollection, Autodesk.AutoCAD.Geometry.Vector3d)
+Void IntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Plane, Autodesk.AutoCAD.Geometry.Point3dCollection, IntPtr, IntPtr)
+Void IntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Point3dCollection, IntPtr, IntPtr)
+Void IntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Plane, Autodesk.AutoCAD.Geometry.Point3dCollection, Int64, Int64)
+Void IntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Point3dCollection, Int64, Int64)
+Void BoundingBoxIntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Point3dCollection, IntPtr, IntPtr)
+Void BoundingBoxIntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Plane, Autodesk.AutoCAD.Geometry.Point3dCollection, IntPtr, IntPtr)
+Void BoundingBoxIntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Point3dCollection, Int64, Int64)
+Void BoundingBoxIntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Plane, Autodesk.AutoCAD.Geometry.Point3dCollection, Int64, Int64)
+Void List()
+Void TransformBy(Autodesk.AutoCAD.Geometry.Matrix3d)
+Autodesk.AutoCAD.DatabaseServices.Entity GetTransformedCopy(Autodesk.AutoCAD.Geometry.Matrix3d)
+Autodesk.AutoCAD.DatabaseServices.Entity GetSubentity(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath)
+Void Explode(Autodesk.AutoCAD.DatabaseServices.DBObjectCollection)
+Void RecordGraphicsModified(Boolean)
+Void Draw()
+Void SaveAs(Autodesk.AutoCAD.GraphicsInterface.WorldDraw, Autodesk.AutoCAD.DatabaseServices.SaveType)
+Void SetDatabaseDefaults(Autodesk.AutoCAD.DatabaseServices.Database)
+Void SetDatabaseDefaults()
+Void SetDragStatus(Autodesk.AutoCAD.DatabaseServices.DragStatus)
+Void SetGripStatus(Autodesk.AutoCAD.DatabaseServices.GripStatus)
+Void SetSubentityGripStatus(Autodesk.AutoCAD.DatabaseServices.GripStatus, Autodesk.AutoCAD.DatabaseServices.FullSubentityPath)
+Void JoinEntity(Autodesk.AutoCAD.DatabaseServices.Entity)
+Autodesk.AutoCAD.Geometry.IntegerCollection JoinEntities(Autodesk.AutoCAD.DatabaseServices.Entity[])
+Autodesk.AutoCAD.DatabaseServices.DBObject DeepClone(Autodesk.AutoCAD.DatabaseServices.DBObject, Autodesk.AutoCAD.DatabaseServices.IdMapping, Boolean)
+Autodesk.AutoCAD.DatabaseServices.DBObject WblockClone(Autodesk.AutoCAD.Runtime.RXObject, Autodesk.AutoCAD.DatabaseServices.IdMapping, Boolean)
+Autodesk.AutoCAD.DatabaseServices.DecomposeForSaveReplacementRecord DecomposeForSave(Autodesk.AutoCAD.DatabaseServices.DwgVersion)
+Void CreateExtensionDictionary()
+Void ReleaseExtensionDictionary()
+Void UpgradeOpen()
+Boolean UpgradeFromNotify()
+Void DowngradeOpen()
+Void DowngradeToNotify(Boolean)
+Void Cancel()
+Void Close()
+Void CloseAndPage(Boolean)
+Void Erase()
+Void Erase(Boolean)
+Void HandOverTo(Autodesk.AutoCAD.DatabaseServices.DBObject, Boolean, Boolean)
+Void SwapIdWith(Autodesk.AutoCAD.DatabaseServices.ObjectId, Boolean, Boolean)
+Void SwapReferences(Autodesk.AutoCAD.DatabaseServices.IdMapping)
+Void Audit(Autodesk.AutoCAD.DatabaseServices.AuditInfo)
+Void DwgIn(Autodesk.AutoCAD.DatabaseServices.DwgFiler)
+Void DwgOut(Autodesk.AutoCAD.DatabaseServices.DwgFiler)
+Void DxfIn(Autodesk.AutoCAD.DatabaseServices.DxfFiler)
+Void DxfOut(Autodesk.AutoCAD.DatabaseServices.DxfFiler)
+Void XDataTransformBy(Autodesk.AutoCAD.Geometry.Matrix3d)
+Autodesk.AutoCAD.DatabaseServices.ResultBuffer GetXDataForApplication(System.String)
+Byte[] GetBinaryDataForKey(System.String)
+Void SetBinaryDataForKey(System.String, Byte[])
+Void DisableUndoRecording(Boolean)
+Void ApplyPartialUndo(Autodesk.AutoCAD.DatabaseServices.DwgFiler, Autodesk.AutoCAD.Runtime.RXClass)
+Boolean HasPersistentReactor(Autodesk.AutoCAD.DatabaseServices.ObjectId)
+System.Collections.Generic.List`1[Autodesk.AutoCAD.Runtime.RXObject] GetReactors()
+System.Collections.Generic.List`1[Autodesk.AutoCAD.Runtime.RXObject] GetTransientReactors()
+Autodesk.AutoCAD.DatabaseServices.ObjectIdCollection GetPersistentReactorIds()
+Void SetObjectIdsInFlux()
+Autodesk.AutoCAD.DatabaseServices.FullDwgVersion GetObjectSaveVersion(Autodesk.AutoCAD.DatabaseServices.DxfFiler)
+Autodesk.AutoCAD.DatabaseServices.FullDwgVersion GetObjectSaveVersion(Autodesk.AutoCAD.DatabaseServices.DwgFiler)
+Autodesk.AutoCAD.DatabaseServices.ObjectId GetField(System.String)
+Autodesk.AutoCAD.DatabaseServices.ObjectId GetField()
+Autodesk.AutoCAD.DatabaseServices.ObjectId SetField(System.String, Autodesk.AutoCAD.DatabaseServices.Field)
+Autodesk.AutoCAD.DatabaseServices.ObjectId SetField(Autodesk.AutoCAD.DatabaseServices.Field)
+Void RemoveField(Autodesk.AutoCAD.DatabaseServices.ObjectId)
+Autodesk.AutoCAD.DatabaseServices.ObjectId RemoveField(System.String)
+Autodesk.AutoCAD.DatabaseServices.ObjectId RemoveField()
+Boolean SetFromStyle()
+Void ResetScaleDependentProperties()
+Void SetPaperOrientation(Boolean)
+Void ApplyPaperOrientationTransform(Autodesk.AutoCAD.DatabaseServices.Viewport)
+Boolean SupportsCollection(System.String)
+Boolean HasContext(Autodesk.AutoCAD.DatabaseServices.ObjectContext)
+Void AddContext(Autodesk.AutoCAD.DatabaseServices.ObjectContext)
+Void RemoveContext(Autodesk.AutoCAD.DatabaseServices.ObjectContext)
+Autodesk.AutoCAD.DatabaseServices.DBObjectEventExtender GetEventExtender(Boolean)
+Autodesk.AutoCAD.DatabaseServices.IParameter GetParameterInterface(System.String, Boolean)
+Int32 SetAttributes(Autodesk.AutoCAD.GraphicsInterface.DrawableTraits)
+Boolean WorldDraw(Autodesk.AutoCAD.GraphicsInterface.WorldDraw)
+Void ViewportDraw(Autodesk.AutoCAD.GraphicsInterface.ViewportDraw)
+Int32 ViewportDrawLogicalFlags(Autodesk.AutoCAD.GraphicsInterface.ViewportDraw)
+IntPtr X(Autodesk.AutoCAD.Runtime.RXClass)
+IntPtr QueryX(Autodesk.AutoCAD.Runtime.RXClass)
+Autodesk.AutoCAD.Runtime.RXClass GetRXClass()
+Int32 CompareTo(System.Object)
+System.Object Clone()
+Void CopyFrom(Autodesk.AutoCAD.Runtime.RXObject)
+Boolean Equals(System.Object)
+Int32 GetHashCode()
+Void Dispose()
+System.Object GetLifetimeService()
+System.Object InitializeLifetimeService()
+System.Type GetType()
+System.String ToString()
+TYPE Autodesk.AutoCAD.DatabaseServices.Table
+CellRange Cells write=False
+RowsCollection Rows write=False
+ColumnsCollection Columns write=False
+TableBreakOptions BreakOptions write=True
+TableBreakFlowDirection BreakFlowDirection write=True
+Boolean BreakEnabled write=True
+Boolean HasSubSelection write=False
+CellRange SubSelection write=True
+Boolean IsHeaderSuppressed write=True
+String TableStyleName write=False
+Boolean IsTitleSuppressed write=True
+FlowDirection FlowDirection write=True
+Double VerticalCellMargin write=True
+Double HorizontalCellMargin write=True
+Double MinimumTableHeight write=False
+Double MinimumTableWidth write=False
+Double Height write=True
+Double Width write=True
+Int32 NumColumns write=True
+Int32 NumRows write=True
+Vector3d Direction write=True
+ObjectId TableStyle write=True
+Double UnitFactor write=False
+UnitsValue BlockUnit write=True
+String Name write=False
+ObjectId AnonymousBlockTableRecord write=False
+ObjectId DynamicBlockTableRecord write=False
+Boolean IsDynamicBlock write=False
+DynamicBlockReferencePropertyCollection DynamicBlockReferencePropertyCollection write=False
+Boolean TreatAsBlockRefForExplode write=False
+AttributeCollection AttributeCollection write=False
+Matrix3d BlockTransform write=True
+Vector3d Normal write=True
+Double Rotation write=True
+Scale3d ScaleFactors write=True
+Point3d Position write=True
+ObjectId BlockTableRecord write=True
+ObjectId EdgeStyleId write=True
+ObjectId FaceStyleId write=True
+ObjectId VisualStyleId write=True
+Boolean ForceAnnoAllVisible write=True
+String BlockName write=False
+Mapper MaterialMapper write=True
+ObjectId MaterialId write=True
+String Material write=True
+Boolean ReceiveShadows write=True
+Boolean CastShadows write=True
+HyperLinkCollection Hyperlinks write=False
+Boolean CloneMeForDragging write=False
+Matrix3d CompoundObjectTransform write=False
+Extents3d GeometricExtents write=False
+Matrix3d Ecs write=False
+Boolean IsPlanar write=False
+CollisionType CollisionType write=False
+LineWeight LineWeight write=True
+Boolean Visible write=True
+Double LinetypeScale write=True
+ObjectId LinetypeId write=True
+String Linetype write=True
+ObjectId LayerId write=True
+String Layer write=True
+PlotStyleDescriptor PlotStyleNameId write=True
+String PlotStyleName write=True
+Transparency Transparency write=True
+EntityColor EntityColor write=False
+Int32 ColorIndex write=True
+Color Color write=True
+ObjectId BlockId write=False
+PaperOrientationStates PaperOrientation write=False
+AnnotativeStates Annotative write=True
+Boolean HasFields write=False
+Object AcadObject write=False
+Guid ClassID write=False
+FullDwgVersion ObjectBirthVersion write=False
+Boolean HasSaveVersionOverride write=True
+Boolean IsObjectIdsInFlux write=False
+DwgFiler UndoFiler write=False
+Boolean IsAProxy write=False
+Boolean IsTransactionResident write=False
+Boolean IsReallyClosing write=False
+Boolean IsCancelling write=False
+Boolean IsUndoing write=False
+Boolean IsNotifying write=False
+Boolean IsNewObject write=False
+Boolean IsModifiedGraphics write=False
+Boolean IsModifiedXData write=False
+Boolean IsModified write=False
+Boolean IsNotifyEnabled write=False
+Boolean IsWriteEnabled write=False
+Boolean IsReadEnabled write=False
+Boolean IsErased write=False
+Boolean IsEraseStatusToggled write=False
+ResultBuffer XData write=True
+DuplicateRecordCloning MergeStyle write=True
+ObjectId ExtensionDictionary write=False
+Drawable Drawable write=False
+Database Database write=False
+Handle Handle write=False
+ObjectId OwnerId write=True
+ObjectId ObjectId write=False
+ObjectId Id write=False
+Boolean IsPersistent write=False
+DrawStream DrawStream write=True
+Nullable`1 Bounds write=False
+DrawableType DrawableType write=False
+Boolean AutoDelete write=True
+Boolean IsDisposed write=False
+IntPtr UnmanagedObject write=False
+Double ColumnWidth(Int32)
+Void SetColumnWidth(Double)
+Void SetColumnWidth(Int32, Double)
+Double RowHeight(Int32)
+Void SetRowHeight(Double)
+Void SetRowHeight(Int32, Double)
+Double MinimumColumnWidth(Int32)
+Double MinimumRowHeight(Int32)
+Autodesk.AutoCAD.DatabaseServices.CellAlignment Alignment(Int32, Int32)
+Autodesk.AutoCAD.DatabaseServices.CellAlignment Alignment(Autodesk.AutoCAD.DatabaseServices.RowType)
+Void SetAlignment(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.CellAlignment)
+Void SetAlignment(Autodesk.AutoCAD.DatabaseServices.CellAlignment, Int32)
+Boolean IsBackgroundColorNone(Int32, Int32)
+Boolean IsBackgroundColorNone(Autodesk.AutoCAD.DatabaseServices.RowType)
+Void SetBackgroundColorNone(Int32, Int32, Boolean)
+Void SetBackgroundColorNone(Boolean, Int32)
+Autodesk.AutoCAD.Colors.Color BackgroundColor(Int32, Int32)
+Autodesk.AutoCAD.Colors.Color BackgroundColor(Autodesk.AutoCAD.DatabaseServices.RowType)
+Void SetBackgroundColor(Int32, Int32, Autodesk.AutoCAD.Colors.Color)
+Void SetBackgroundColor(Autodesk.AutoCAD.Colors.Color, Int32)
+Autodesk.AutoCAD.Colors.Color ContentColor(Int32, Int32)
+Autodesk.AutoCAD.Colors.Color ContentColor(Autodesk.AutoCAD.DatabaseServices.RowType)
+Void SetContentColor(Int32, Int32, Int32, Autodesk.AutoCAD.Colors.Color)
+Void SetContentColor(Int32, Int32, Autodesk.AutoCAD.Colors.Color)
+Void SetContentColor(Autodesk.AutoCAD.Colors.Color, Int32)
+Autodesk.AutoCAD.DatabaseServices.ObjectId TextStyle(Int32, Int32)
+Autodesk.AutoCAD.DatabaseServices.ObjectId TextStyle(Autodesk.AutoCAD.DatabaseServices.RowType)
+Void SetTextStyle(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.ObjectId)
+Void SetTextStyle(Autodesk.AutoCAD.DatabaseServices.ObjectId, Int32)
+Double TextHeight(Int32, Int32)
+Double TextHeight(Autodesk.AutoCAD.DatabaseServices.RowType)
+Void SetTextHeight(Int32, Int32, Int32, Double)
+Void SetTextHeight(Int32, Int32, Double)
+Void SetTextHeight(Double, Int32)
+Autodesk.AutoCAD.DatabaseServices.LineWeight GridLineWeight(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.CellEdgeMasks)
+Autodesk.AutoCAD.DatabaseServices.LineWeight GridLineWeight(Autodesk.AutoCAD.DatabaseServices.GridLineType, Autodesk.AutoCAD.DatabaseServices.RowType)
+Void SetGridLineWeight(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.GridLineType, Autodesk.AutoCAD.DatabaseServices.LineWeight)
+Void SetGridLineWeight(Int32, Int32, Int16, Autodesk.AutoCAD.DatabaseServices.LineWeight)
+Void SetGridLineWeight(Autodesk.AutoCAD.DatabaseServices.LineWeight, Int32, Int32)
+Autodesk.AutoCAD.Colors.Color GridColor(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.CellEdgeMasks)
+Autodesk.AutoCAD.Colors.Color GridColor(Autodesk.AutoCAD.DatabaseServices.GridLineType, Autodesk.AutoCAD.DatabaseServices.RowType)
+Void SetGridColor(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.GridLineType, Autodesk.AutoCAD.Colors.Color)
+Void SetGridColor(Int32, Int32, Int16, Autodesk.AutoCAD.Colors.Color)
+Void SetGridColor(Autodesk.AutoCAD.Colors.Color, Int32, Int32)
+Boolean GridVisibility(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.CellEdgeMasks)
+Boolean GridVisibility(Autodesk.AutoCAD.DatabaseServices.GridLineType, Autodesk.AutoCAD.DatabaseServices.RowType)
+Void SetGridVisibility(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.GridLineType, Autodesk.AutoCAD.DatabaseServices.Visibility)
+Void SetGridVisibility(Int32, Int32, Int16, Boolean)
+Void SetGridVisibility(Boolean, Int32, Int32)
+Autodesk.AutoCAD.DatabaseServices.TableStyleOverride[] TableStyleOverrides()
+Void ClearTableStyleOverrides(Int32)
+Autodesk.AutoCAD.DatabaseServices.TableCellType CellType(Int32, Int32)
+Void SetCellType(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.TableCellType)
+Void GetCellExtents(Int32, Int32, Boolean, Autodesk.AutoCAD.Geometry.Point3dCollection)
+Autodesk.AutoCAD.Geometry.Point3d AttachmentPoint(Int32, Int32)
+Autodesk.AutoCAD.DatabaseServices.TableStyleOverride[] CellStyleOverrides(Int32, Int32)
+Void DeleteCellContent(Int32, Int32)
+Autodesk.AutoCAD.DatabaseServices.RowType RowType(Int32)
+System.String TextStringConst(Int32, Int32)
+System.String TextString(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.FormatOption)
+System.String TextString(Int32, Int32)
+Void SetTextString(Int32, Int32, Int32, System.String)
+Void SetTextString(Int32, Int32, System.String)
+Autodesk.AutoCAD.DatabaseServices.ObjectId FieldId(Int32, Int32)
+Void SetFieldId(Int32, Int32, Int32, Autodesk.AutoCAD.DatabaseServices.ObjectId, Autodesk.AutoCAD.DatabaseServices.CellOption)
+Void SetFieldId(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.ObjectId)
+Autodesk.AutoCAD.DatabaseServices.RotationAngle TextRotation(Int32, Int32)
+Void SetTextRotation(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.RotationAngle)
+Boolean IsAutoScale(Int32, Int32)
+Void SetAutoScale(Int32, Int32, Boolean)
+Autodesk.AutoCAD.DatabaseServices.ObjectId BlockTableRecordId(Int32, Int32)
+Void SetBlockTableRecordId(Int32, Int32, Int32, Autodesk.AutoCAD.DatabaseServices.ObjectId, Boolean)
+Void SetBlockTableRecordId(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.ObjectId, Boolean)
+Double BlockScale(Int32, Int32)
+Void SetBlockScale(Int32, Int32, Double)
+Double BlockRotation(Int32, Int32)
+Void SetBlockRotation(Int32, Int32, Double)
+System.String GetBlockAttributeValue(Int32, Int32, Int32, Autodesk.AutoCAD.DatabaseServices.ObjectId)
+System.String GetBlockAttributeValue(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.ObjectId)
+Void SetBlockAttributeValue(Int32, Int32, Int32, Autodesk.AutoCAD.DatabaseServices.ObjectId, System.String)
+Void SetBlockAttributeValue(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.ObjectId, System.String)
+Void InsertColumns(Int32, Double, Int32)
+Void DeleteColumns(Int32, Int32)
+Void InsertRows(Int32, Double, Int32)
+Void DeleteRows(Int32, Int32)
+Void MergeCells(Autodesk.AutoCAD.DatabaseServices.CellRange)
+Void UnmergeCells(Autodesk.AutoCAD.DatabaseServices.CellRange)
+Boolean IsMergedCell(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.CellRange ByRef)
+Void GenerateLayout()
+Void RecomputeTableBlock(Boolean)
+Autodesk.AutoCAD.DatabaseServices.TableHitTestInfo HitTest(Autodesk.AutoCAD.Geometry.Point3d, Autodesk.AutoCAD.Geometry.Vector3d)
+Void ClearSubSelection()
+Autodesk.AutoCAD.DatabaseServices.DataType DataType(Int32, Int32)
+Autodesk.AutoCAD.DatabaseServices.DataType DataType(Autodesk.AutoCAD.DatabaseServices.RowType)
+Autodesk.AutoCAD.DatabaseServices.UnitType UnitType(Int32, Int32)
+Autodesk.AutoCAD.DatabaseServices.UnitType UnitType(Autodesk.AutoCAD.DatabaseServices.RowType)
+Void SetDataType(Int32, Int32, Int32, Autodesk.AutoCAD.DatabaseServices.DataTypeParameter)
+Void SetDataType(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.DataType, Autodesk.AutoCAD.DatabaseServices.UnitType)
+Void SetDataType(Autodesk.AutoCAD.DatabaseServices.DataType, Autodesk.AutoCAD.DatabaseServices.UnitType, Int32)
+System.String Format(Int32, Int32)
+System.String Format(Autodesk.AutoCAD.DatabaseServices.RowType)
+Void SetFormat(Int32, Int32, System.String)
+Void SetFormat(System.String, Int32)
+System.Object Value(Int32, Int32)
+Void SetValue(Int32, Int32, Int32, System.String, Autodesk.AutoCAD.DatabaseServices.ParseOption)
+Void SetValue(Int32, Int32, Int32, System.Object, Autodesk.AutoCAD.DatabaseServices.ParseOption)
+Void SetValue(Int32, Int32, Int32, System.Object)
+Void SetValue(Int32, Int32, System.String, Autodesk.AutoCAD.DatabaseServices.ParseOption)
+Void SetValue(Int32, Int32, System.Object)
+Void ResetValue(Int32, Int32)
+Autodesk.AutoCAD.DatabaseServices.TableHitTestInfo Select(Autodesk.AutoCAD.Geometry.Point3d, Autodesk.AutoCAD.Geometry.Vector3d, Autodesk.AutoCAD.Geometry.Vector3d, Boolean, Boolean, Autodesk.AutoCAD.DatabaseServices.FullSubentityPath[])
+Autodesk.AutoCAD.DatabaseServices.CellRange SelectSubRegion(Autodesk.AutoCAD.Geometry.Point3d, Autodesk.AutoCAD.Geometry.Point3d, Autodesk.AutoCAD.Geometry.Vector3d, Autodesk.AutoCAD.Geometry.Vector3d, Autodesk.AutoCAD.DatabaseServices.SelectType, Boolean, Boolean, Autodesk.AutoCAD.DatabaseServices.FullSubentityPath[])
+Void ReselectSubRegion(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath[])
+Void SetSize(Int32, Int32)
+Boolean CanInsertRow(Int32)
+Boolean CanInsertColumn(Int32)
+Void InsertRowsAndInherit(Int32, Int32, Int32)
+Void InsertColumnsAndInherit(Int32, Int32, Int32)
+Boolean CanDeleteRows(Int32, Int32)
+Boolean CanDeleteColumns(Int32, Int32)
+System.Collections.IEnumerator IEnumerable.GetEnumerator()
+Autodesk.AutoCAD.DatabaseServices.TableEnumerator GetEnumerator(Autodesk.AutoCAD.DatabaseServices.CellRange, Autodesk.AutoCAD.DatabaseServices.TableEnumeratorOption)
+Autodesk.AutoCAD.DatabaseServices.TableEnumerator GetEnumerator()
+Boolean IsEmpty(Int32, Int32)
+Autodesk.AutoCAD.DatabaseServices.CellRange GetMergeRange(Int32, Int32)
+Boolean IsContentEditable(Int32, Int32)
+Boolean IsFormatEditable(Int32, Int32)
+Autodesk.AutoCAD.DatabaseServices.CellStates GetCellState(Int32, Int32)
+Void SetCellState(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.CellStates)
+Int32 CreateContent(Int32, Int32, Int32)
+Int32 GetNumberOfContents(Int32, Int32)
+Void MoveContent(Int32, Int32, Int32, Int32)
+Void DeleteContent(Autodesk.AutoCAD.DatabaseServices.CellRange)
+Void DeleteContent(Int32, Int32, Int32)
+Void DeleteContent(Int32, Int32)
+Autodesk.AutoCAD.DatabaseServices.CellContentTypes GetContentTypes(Int32, Int32, Int32)
+Autodesk.AutoCAD.DatabaseServices.CellContentTypes GetContentTypes(Int32, Int32)
+System.Object GetValue(Int32, Int32, Int32, Autodesk.AutoCAD.DatabaseServices.FormatOption)
+System.Object GetValue(Int32, Int32, Int32)
+System.String GetDataFormat(Int32, Int32, Int32)
+System.String GetDataFormat(Int32, Int32)
+Void SetDataFormat(Int32, Int32, Int32, System.String)
+Void SetDataFormat(Int32, Int32, System.String)
+System.String GetTextString(Int32, Int32, Int32, Autodesk.AutoCAD.DatabaseServices.FormatOption)
+System.String GetTextString(Int32, Int32, Int32)
+Boolean HasFormula(Int32, Int32, Int32)
+System.String GetFormula(Int32, Int32, Int32)
+Void SetFormula(Int32, Int32, Int32, System.String)
+Autodesk.AutoCAD.DatabaseServices.ObjectId GetFieldId(Int32, Int32, Int32)
+Autodesk.AutoCAD.DatabaseServices.ObjectId GetBlockTableRecordId(Int32, Int32, Int32)
+System.Object GetCustomData(Int32, Int32, System.String)
+Int32 GetCustomData(Int32, Int32)
+Void SetCustomData(Int32, Int32, System.String, System.Object)
+Void SetCustomData(Int32, Int32, Int32)
+System.String GetCellStyle(Int32, Int32)
+Void SetCellStyle(Int32, Int32, System.String)
+Double GetMargin(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.CellMargins)
+Void SetMargin(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.CellMargins, Double)
+Autodesk.AutoCAD.Colors.Color GetContentColor(Int32, Int32, Int32)
+Autodesk.AutoCAD.DatabaseServices.DataTypeParameter GetDataType(Int32, Int32, Int32)
+Autodesk.AutoCAD.DatabaseServices.ObjectId GetTextStyleId(Int32, Int32, Int32)
+Void SetTextStyleId(Int32, Int32, Int32, Autodesk.AutoCAD.DatabaseServices.ObjectId)
+Double GetTextHeight(Int32, Int32, Int32)
+Double GetRotation(Int32, Int32, Int32)
+Void SetRotation(Int32, Int32, Int32, Double)
+Boolean GetIsAutoScale(Int32, Int32, Int32)
+Void SetIsAutoScale(Int32, Int32, Int32, Boolean)
+Double GetScale(Int32, Int32, Int32)
+Void SetScale(Int32, Int32, Int32, Double)
+Autodesk.AutoCAD.DatabaseServices.CellContentLayout GetContentLayout(Int32, Int32)
+Void SetContentLayout(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.CellContentLayout)
+Boolean GetMergeAllEnabled(Int32, Int32)
+Void SetMergeAllEnabled(Int32, Int32, Boolean)
+Autodesk.AutoCAD.DatabaseServices.CellProperties GetOverrides(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.GridLineType)
+Autodesk.AutoCAD.DatabaseServices.CellProperties GetOverrides(Int32, Int32, Int32)
+Void SetOverrides(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.GridLineType, Autodesk.AutoCAD.DatabaseServices.CellProperties)
+Void SetOverrides(Int32, Int32, Int32, Autodesk.AutoCAD.DatabaseServices.CellProperties)
+Void RemoveAllOverrides(Int32, Int32)
+Autodesk.AutoCAD.DatabaseServices.GridLineStyle GetGridLineStyle(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.GridLineType)
+Void SetGridLineStyle(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.GridLineType, Autodesk.AutoCAD.DatabaseServices.GridLineStyle)
+Autodesk.AutoCAD.DatabaseServices.LineWeight GetGridLineWeight(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.GridLineType)
+Autodesk.AutoCAD.DatabaseServices.ObjectId GetGridLinetype(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.GridLineType)
+Void SetGridLinetype(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.GridLineType, Autodesk.AutoCAD.DatabaseServices.ObjectId)
+Autodesk.AutoCAD.Colors.Color GetGridColor(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.GridLineType)
+Autodesk.AutoCAD.DatabaseServices.Visibility GetGridVisibility(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.GridLineType)
+Double GetGridDoubleLineSpacing(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.GridLineType)
+Void SetGridDoubleLineSpacing(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.GridLineType, Double)
+Autodesk.AutoCAD.DatabaseServices.GridPropertyParameter GetGridProperty(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.GridLineType)
+Void SetGridProperty(Autodesk.AutoCAD.DatabaseServices.CellRange, Autodesk.AutoCAD.DatabaseServices.GridLineType, Autodesk.AutoCAD.DatabaseServices.GridPropertyParameter)
+Void SetGridProperty(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.GridLineType, Autodesk.AutoCAD.DatabaseServices.GridPropertyParameter)
+Boolean IsLinked(Int32, Int32)
+Autodesk.AutoCAD.DatabaseServices.ObjectIdCollection GetDataLink(Autodesk.AutoCAD.DatabaseServices.CellRange)
+Autodesk.AutoCAD.DatabaseServices.ObjectIdCollection GetDataLink()
+Autodesk.AutoCAD.DatabaseServices.ObjectId GetDataLink(Int32, Int32)
+Void SetDataLink(Autodesk.AutoCAD.DatabaseServices.CellRange, Autodesk.AutoCAD.DatabaseServices.ObjectId, Boolean)
+Void SetDataLink(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.ObjectId, Boolean)
+Autodesk.AutoCAD.DatabaseServices.CellRange GetDataLinkRange(Int32, Int32)
+Void RemoveDataLink()
+Void RemoveDataLink(Int32, Int32)
+Void UpdateDataLink(Autodesk.AutoCAD.DatabaseServices.UpdateDirection, Autodesk.AutoCAD.DatabaseServices.UpdateOption)
+Void UpdateDataLink(Int32, Int32, Autodesk.AutoCAD.DatabaseServices.UpdateDirection, Autodesk.AutoCAD.DatabaseServices.UpdateOption)
+Double GetBreakHeight(Int32)
+Void SetBreakHeight(Int32, Double)
+Autodesk.AutoCAD.Geometry.Vector3d GetBreakOffset(Int32)
+Void SetBreakOffset(Int32, Autodesk.AutoCAD.Geometry.Vector3d)
+Double GetBreakSpacing()
+Void SetBreakSpacing(Double)
+Autodesk.AutoCAD.DatabaseServices.CellRange CopyFrom(Autodesk.AutoCAD.DatabaseServices.Table, Autodesk.AutoCAD.DatabaseServices.TableCopyOptions, Autodesk.AutoCAD.DatabaseServices.CellRange, Autodesk.AutoCAD.DatabaseServices.CellRange)
+Autodesk.AutoCAD.DatabaseServices.CellRange CopyFrom(Autodesk.AutoCAD.DatabaseServices.LinkedTableData, Autodesk.AutoCAD.DatabaseServices.TableCopyOptions, Autodesk.AutoCAD.DatabaseServices.CellRange, Autodesk.AutoCAD.DatabaseServices.CellRange)
+Void CopyFrom(Autodesk.AutoCAD.DatabaseServices.LinkedTableData, Autodesk.AutoCAD.DatabaseServices.TableCopyOptions)
+Void Fill(Autodesk.AutoCAD.DatabaseServices.CellRange, Autodesk.AutoCAD.DatabaseServices.CellRange, Autodesk.AutoCAD.DatabaseServices.TableFillOptions)
+System.String GetColumnName(Int32)
+Void SetColumnName(Int32, System.String)
+System.String GetToolTip(Int32, Int32)
+Void SetToolTip(Int32, Int32, System.String)
+Void SuppressRegenerateTable(Boolean)
+Autodesk.AutoCAD.DatabaseServices.Extents3d GeometryExtentsBestFit()
+Autodesk.AutoCAD.DatabaseServices.Extents3d GeometryExtentsBestFit(Autodesk.AutoCAD.Geometry.Matrix3d)
+Void ExplodeToOwnerSpace()
+Void ResetBlock()
+Void ConvertToStaticBlock(System.String)
+Void ConvertToStaticBlock()
+Void SetLayerId(Autodesk.AutoCAD.DatabaseServices.ObjectId, Boolean)
+Void SetPropertiesFrom(Autodesk.AutoCAD.DatabaseServices.Entity)
+Autodesk.AutoCAD.Geometry.Plane GetPlane()
+Void AddSubentityPaths(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath[])
+Void DeleteSubentityPaths(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath[])
+Void TransformSubentityPathsBy(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath[], Autodesk.AutoCAD.Geometry.Matrix3d)
+Boolean GetGripPointsAtSubentityPath(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath, Autodesk.AutoCAD.DatabaseServices.GripDataCollection, Double, Int32, Autodesk.AutoCAD.Geometry.Vector3d, Autodesk.AutoCAD.DatabaseServices.GetGripPointsFlags)
+Void MoveGripPointsAtSubentityPaths(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath[], IntPtr[], Autodesk.AutoCAD.Geometry.Vector3d, Autodesk.AutoCAD.DatabaseServices.MoveGripPointsFlags)
+Autodesk.AutoCAD.DatabaseServices.Extents3d GetSubentityGeometricExtents(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath)
+Autodesk.AutoCAD.DatabaseServices.FullSubentityPath[] GetSubentityPathsAtGraphicsMarker(Autodesk.AutoCAD.DatabaseServices.SubentityType, IntPtr, Autodesk.AutoCAD.Geometry.Point3d, Autodesk.AutoCAD.Geometry.Matrix3d, Autodesk.AutoCAD.DatabaseServices.ObjectId[])
+Autodesk.AutoCAD.DatabaseServices.FullSubentityPath[] GetSubentityPathsAtGraphicsMarker(Autodesk.AutoCAD.DatabaseServices.SubentityType, Int64, Autodesk.AutoCAD.Geometry.Point3d, Autodesk.AutoCAD.Geometry.Matrix3d, Int32, Autodesk.AutoCAD.DatabaseServices.ObjectId[])
+Autodesk.AutoCAD.Geometry.IntPtrCollection GetGraphicsMarkersAtSubentityPathIntPtr(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath)
+Void Highlight(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath, Boolean)
+Void Highlight()
+Void Unhighlight(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath, Boolean)
+Void Unhighlight()
+Void PushHighlight(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath, Autodesk.AutoCAD.GraphicsInterface.HighlightStyle)
+Void PopHighlight(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath)
+Autodesk.AutoCAD.GraphicsInterface.HighlightStyle HighlightState(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath)
+Void GetObjectSnapPoints(Autodesk.AutoCAD.DatabaseServices.ObjectSnapModes, Int32, Autodesk.AutoCAD.Geometry.Point3d, Autodesk.AutoCAD.Geometry.Point3d, Autodesk.AutoCAD.Geometry.Matrix3d, Autodesk.AutoCAD.Geometry.Point3dCollection, Autodesk.AutoCAD.Geometry.IntegerCollection, Autodesk.AutoCAD.Geometry.Matrix3d)
+Void GetObjectSnapPoints(Autodesk.AutoCAD.DatabaseServices.ObjectSnapModes, Int32, Autodesk.AutoCAD.Geometry.Point3d, Autodesk.AutoCAD.Geometry.Point3d, Autodesk.AutoCAD.Geometry.Matrix3d, Autodesk.AutoCAD.Geometry.Point3dCollection, Autodesk.AutoCAD.Geometry.IntegerCollection)
+Boolean IsContentSnappable()
+Boolean GetGripPoints(Autodesk.AutoCAD.DatabaseServices.GripDataCollection, Double, Int32, Autodesk.AutoCAD.Geometry.Vector3d, Autodesk.AutoCAD.DatabaseServices.GetGripPointsFlags)
+Void GetGripPoints(Autodesk.AutoCAD.Geometry.Point3dCollection, Autodesk.AutoCAD.Geometry.IntegerCollection, Autodesk.AutoCAD.Geometry.IntegerCollection)
+Void MoveGripPointsAt(Autodesk.AutoCAD.DatabaseServices.GripDataCollection, Autodesk.AutoCAD.Geometry.Vector3d, Autodesk.AutoCAD.DatabaseServices.MoveGripPointsFlags)
+Void MoveGripPointsAt(Autodesk.AutoCAD.Geometry.IntegerCollection, Autodesk.AutoCAD.Geometry.Vector3d)
+Void GetStretchPoints(Autodesk.AutoCAD.Geometry.Point3dCollection)
+Void MoveStretchPointsAt(Autodesk.AutoCAD.Geometry.IntegerCollection, Autodesk.AutoCAD.Geometry.Vector3d)
+Void IntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Plane, Autodesk.AutoCAD.Geometry.Point3dCollection, IntPtr, IntPtr)
+Void IntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Point3dCollection, IntPtr, IntPtr)
+Void IntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Plane, Autodesk.AutoCAD.Geometry.Point3dCollection, Int64, Int64)
+Void IntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Point3dCollection, Int64, Int64)
+Void BoundingBoxIntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Point3dCollection, IntPtr, IntPtr)
+Void BoundingBoxIntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Plane, Autodesk.AutoCAD.Geometry.Point3dCollection, IntPtr, IntPtr)
+Void BoundingBoxIntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Point3dCollection, Int64, Int64)
+Void BoundingBoxIntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Plane, Autodesk.AutoCAD.Geometry.Point3dCollection, Int64, Int64)
+Void List()
+Void TransformBy(Autodesk.AutoCAD.Geometry.Matrix3d)
+Autodesk.AutoCAD.DatabaseServices.Entity GetTransformedCopy(Autodesk.AutoCAD.Geometry.Matrix3d)
+Autodesk.AutoCAD.DatabaseServices.Entity GetSubentity(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath)
+Void Explode(Autodesk.AutoCAD.DatabaseServices.DBObjectCollection)
+Void RecordGraphicsModified(Boolean)
+Void Draw()
+Void SaveAs(Autodesk.AutoCAD.GraphicsInterface.WorldDraw, Autodesk.AutoCAD.DatabaseServices.SaveType)
+Void SetDatabaseDefaults(Autodesk.AutoCAD.DatabaseServices.Database)
+Void SetDatabaseDefaults()
+Void SetDragStatus(Autodesk.AutoCAD.DatabaseServices.DragStatus)
+Void SetGripStatus(Autodesk.AutoCAD.DatabaseServices.GripStatus)
+Void SetSubentityGripStatus(Autodesk.AutoCAD.DatabaseServices.GripStatus, Autodesk.AutoCAD.DatabaseServices.FullSubentityPath)
+Void JoinEntity(Autodesk.AutoCAD.DatabaseServices.Entity)
+Autodesk.AutoCAD.Geometry.IntegerCollection JoinEntities(Autodesk.AutoCAD.DatabaseServices.Entity[])
+Autodesk.AutoCAD.DatabaseServices.DBObject DeepClone(Autodesk.AutoCAD.DatabaseServices.DBObject, Autodesk.AutoCAD.DatabaseServices.IdMapping, Boolean)
+Autodesk.AutoCAD.DatabaseServices.DBObject WblockClone(Autodesk.AutoCAD.Runtime.RXObject, Autodesk.AutoCAD.DatabaseServices.IdMapping, Boolean)
+Autodesk.AutoCAD.DatabaseServices.DecomposeForSaveReplacementRecord DecomposeForSave(Autodesk.AutoCAD.DatabaseServices.DwgVersion)
+Void CreateExtensionDictionary()
+Void ReleaseExtensionDictionary()
+Void UpgradeOpen()
+Boolean UpgradeFromNotify()
+Void DowngradeOpen()
+Void DowngradeToNotify(Boolean)
+Void Cancel()
+Void Close()
+Void CloseAndPage(Boolean)
+Void Erase()
+Void Erase(Boolean)
+Void HandOverTo(Autodesk.AutoCAD.DatabaseServices.DBObject, Boolean, Boolean)
+Void SwapIdWith(Autodesk.AutoCAD.DatabaseServices.ObjectId, Boolean, Boolean)
+Void SwapReferences(Autodesk.AutoCAD.DatabaseServices.IdMapping)
+Void Audit(Autodesk.AutoCAD.DatabaseServices.AuditInfo)
+Void DwgIn(Autodesk.AutoCAD.DatabaseServices.DwgFiler)
+Void DwgOut(Autodesk.AutoCAD.DatabaseServices.DwgFiler)
+Void DxfIn(Autodesk.AutoCAD.DatabaseServices.DxfFiler)
+Void DxfOut(Autodesk.AutoCAD.DatabaseServices.DxfFiler)
+Void XDataTransformBy(Autodesk.AutoCAD.Geometry.Matrix3d)
+Autodesk.AutoCAD.DatabaseServices.ResultBuffer GetXDataForApplication(System.String)
+Byte[] GetBinaryDataForKey(System.String)
+Void SetBinaryDataForKey(System.String, Byte[])
+Void DisableUndoRecording(Boolean)
+Void ApplyPartialUndo(Autodesk.AutoCAD.DatabaseServices.DwgFiler, Autodesk.AutoCAD.Runtime.RXClass)
+Boolean HasPersistentReactor(Autodesk.AutoCAD.DatabaseServices.ObjectId)
+System.Collections.Generic.List`1[Autodesk.AutoCAD.Runtime.RXObject] GetReactors()
+System.Collections.Generic.List`1[Autodesk.AutoCAD.Runtime.RXObject] GetTransientReactors()
+Autodesk.AutoCAD.DatabaseServices.ObjectIdCollection GetPersistentReactorIds()
+Void SetObjectIdsInFlux()
+Autodesk.AutoCAD.DatabaseServices.FullDwgVersion GetObjectSaveVersion(Autodesk.AutoCAD.DatabaseServices.DxfFiler)
+Autodesk.AutoCAD.DatabaseServices.FullDwgVersion GetObjectSaveVersion(Autodesk.AutoCAD.DatabaseServices.DwgFiler)
+Autodesk.AutoCAD.DatabaseServices.ObjectId GetField(System.String)
+Autodesk.AutoCAD.DatabaseServices.ObjectId GetField()
+Autodesk.AutoCAD.DatabaseServices.ObjectId SetField(System.String, Autodesk.AutoCAD.DatabaseServices.Field)
+Autodesk.AutoCAD.DatabaseServices.ObjectId SetField(Autodesk.AutoCAD.DatabaseServices.Field)
+Void RemoveField(Autodesk.AutoCAD.DatabaseServices.ObjectId)
+Autodesk.AutoCAD.DatabaseServices.ObjectId RemoveField(System.String)
+Autodesk.AutoCAD.DatabaseServices.ObjectId RemoveField()
+Boolean SetFromStyle()
+Void ResetScaleDependentProperties()
+Void SetPaperOrientation(Boolean)
+Void ApplyPaperOrientationTransform(Autodesk.AutoCAD.DatabaseServices.Viewport)
+Boolean SupportsCollection(System.String)
+Boolean HasContext(Autodesk.AutoCAD.DatabaseServices.ObjectContext)
+Void AddContext(Autodesk.AutoCAD.DatabaseServices.ObjectContext)
+Void RemoveContext(Autodesk.AutoCAD.DatabaseServices.ObjectContext)
+Autodesk.AutoCAD.DatabaseServices.DBObjectEventExtender GetEventExtender(Boolean)
+Autodesk.AutoCAD.DatabaseServices.IParameter GetParameterInterface(System.String, Boolean)
+Int32 SetAttributes(Autodesk.AutoCAD.GraphicsInterface.DrawableTraits)
+Boolean WorldDraw(Autodesk.AutoCAD.GraphicsInterface.WorldDraw)
+Void ViewportDraw(Autodesk.AutoCAD.GraphicsInterface.ViewportDraw)
+Int32 ViewportDrawLogicalFlags(Autodesk.AutoCAD.GraphicsInterface.ViewportDraw)
+IntPtr X(Autodesk.AutoCAD.Runtime.RXClass)
+IntPtr QueryX(Autodesk.AutoCAD.Runtime.RXClass)
+Autodesk.AutoCAD.Runtime.RXClass GetRXClass()
+Int32 CompareTo(System.Object)
+System.Object Clone()
+Void CopyFrom(Autodesk.AutoCAD.Runtime.RXObject)
+Boolean Equals(System.Object)
+Int32 GetHashCode()
+Void Dispose()
+System.Object GetLifetimeService()
+System.Object InitializeLifetimeService()
+System.Type GetType()
+System.String ToString()
+TYPE Autodesk.AutoCAD.DatabaseServices.Cell
+Object Value write=True
+String ToolTip write=True
+String TextString write=True
+ObjectId DataLink write=True
+CellContentTypes ContentTypes write=False
+ObjectId FieldId write=True
+ObjectId BlockTableRecordId write=True
+Point3d AttachmentPoint write=False
+TableCellType CellType write=False
+Int32 Column write=False
+Int32 Row write=False
+CellContentsCollection Contents write=False
+Nullable`1 IsMerged write=False
+Boolean IsSingleCell write=False
+Cell Item write=False
+CellBorders Borders write=False
+Boolean CanInsertColumn write=False
+Boolean CanInsertRow write=False
+Boolean CanDeleteColumns write=False
+Boolean CanDeleteRows write=False
+Nullable`1 IsEmpty write=False
+Nullable`1 IsFormatEditable write=False
+Nullable`1 IsContentEditable write=False
+Nullable`1 IsLinked write=False
+Nullable`1 TextStyleId write=True
+Nullable`1 TextHeight write=True
+Nullable`1 IsMergeAllEnabled write=True
+Nullable`1 DataType write=True
+String DataFormat write=True
+Nullable`1 ContentLayout write=True
+Nullable`1 State write=True
+Color ContentColor write=True
+Color BackgroundColor write=True
+Nullable`1 IsBackgroundColorNone write=True
+Nullable`1 Alignment write=True
+String Style write=True
+Cell BottomRightPlusOne write=False
+Cell BottomRight write=False
+Cell TopLeft write=False
+Int32 RightColumn write=False
+Int32 BottomRow write=False
+Int32 LeftColumn write=False
+Int32 TopRow write=False
+Boolean IsNull write=False
+Table ParentTable write=False
+Autodesk.AutoCAD.Geometry.Point3dCollection GetExtents()
+System.String GetBlockAttributeValue(Autodesk.AutoCAD.DatabaseServices.ObjectId)
+Void SetBlockAttributeValue(Autodesk.AutoCAD.DatabaseServices.ObjectId, System.String)
+Void RemoveDataLink()
+Void UpdateDataLink(Autodesk.AutoCAD.DatabaseServices.UpdateDirection, Autodesk.AutoCAD.DatabaseServices.UpdateOption)
+System.String GetTextString(Autodesk.AutoCAD.DatabaseServices.FormatOption)
+System.Object GetValue(Autodesk.AutoCAD.DatabaseServices.FormatOption)
+Void SetValue(System.Object, Autodesk.AutoCAD.DatabaseServices.ParseOption)
+Void ResetValue()
+Autodesk.AutoCAD.DatabaseServices.CellRange GetMergeRange()
+Autodesk.AutoCAD.DatabaseServices.CellRange GetDataLinkRange()
+Boolean Equals(System.Object)
+Int32 GetHashCode()
+System.Collections.Generic.IEnumerator`1[Autodesk.AutoCAD.DatabaseServices.CellReference] GetEnumerator()
+System.Collections.IEnumerator IEnumerableGetEnumerator()
+Autodesk.AutoCAD.DatabaseServices.TableStyleOverride[] GetStyleOverrides()
+Void ClearStyleOverrides()
+System.Object GetCustomData(System.String)
+Void SetCustomData(System.String, System.Object)
+Void DeleteContent()
+Autodesk.AutoCAD.DatabaseServices.ObjectIdCollection GetDataLink()
+Void SetDataLink(Autodesk.AutoCAD.DatabaseServices.ObjectId, Boolean)
+System.Type GetType()
+System.String ToString()
+TYPE Autodesk.AutoCAD.DatabaseServices.LayerTableRecord
+Boolean HasOverrides write=False
+Boolean IsReconciled write=True
+Boolean IsHidden write=True
+String Description write=True
+ObjectId PlotStyleNameId write=True
+String PlotStyleName write=True
+LineWeight LineWeight write=True
+Boolean IsPlottable write=True
+ObjectId MaterialId write=True
+ObjectId LinetypeObjectId write=True
+Transparency Transparency write=True
+EntityColor EntityColor write=False
+Color Color write=True
+Boolean IsLocked write=True
+Boolean ViewportVisibilityDefault write=True
+Boolean IsOff write=True
+Boolean IsFrozen write=True
+Boolean IsUsed write=False
+Boolean IsResolved write=False
+Boolean IsDependent write=False
+String Name write=True
+PaperOrientationStates PaperOrientation write=False
+AnnotativeStates Annotative write=True
+Boolean HasFields write=False
+Object AcadObject write=False
+Guid ClassID write=False
+FullDwgVersion ObjectBirthVersion write=False
+Boolean HasSaveVersionOverride write=True
+Boolean IsObjectIdsInFlux write=False
+DwgFiler UndoFiler write=False
+Boolean IsAProxy write=False
+Boolean IsTransactionResident write=False
+Boolean IsReallyClosing write=False
+Boolean IsCancelling write=False
+Boolean IsUndoing write=False
+Boolean IsNotifying write=False
+Boolean IsNewObject write=False
+Boolean IsModifiedGraphics write=False
+Boolean IsModifiedXData write=False
+Boolean IsModified write=False
+Boolean IsNotifyEnabled write=False
+Boolean IsWriteEnabled write=False
+Boolean IsReadEnabled write=False
+Boolean IsErased write=False
+Boolean IsEraseStatusToggled write=False
+ResultBuffer XData write=True
+DuplicateRecordCloning MergeStyle write=True
+ObjectId ExtensionDictionary write=False
+Drawable Drawable write=False
+Database Database write=False
+Handle Handle write=False
+ObjectId OwnerId write=True
+ObjectId ObjectId write=False
+ObjectId Id write=False
+Boolean IsPersistent write=False
+DrawStream DrawStream write=True
+Nullable`1 Bounds write=False
+DrawableType DrawableType write=False
+Boolean AutoDelete write=True
+Boolean IsDisposed write=False
+IntPtr UnmanagedObject write=False
+Autodesk.AutoCAD.DatabaseServices.LayerViewportProperties GetViewportOverrides(Autodesk.AutoCAD.DatabaseServices.ObjectId)
+Void RemoveAllOverrides()
+Boolean HasViewportOverrides(Autodesk.AutoCAD.DatabaseServices.ObjectId)
+Autodesk.AutoCAD.DatabaseServices.DBObject DeepClone(Autodesk.AutoCAD.DatabaseServices.DBObject, Autodesk.AutoCAD.DatabaseServices.IdMapping, Boolean)
+Autodesk.AutoCAD.DatabaseServices.DBObject WblockClone(Autodesk.AutoCAD.Runtime.RXObject, Autodesk.AutoCAD.DatabaseServices.IdMapping, Boolean)
+Autodesk.AutoCAD.DatabaseServices.DecomposeForSaveReplacementRecord DecomposeForSave(Autodesk.AutoCAD.DatabaseServices.DwgVersion)
+Void CreateExtensionDictionary()
+Void ReleaseExtensionDictionary()
+Void UpgradeOpen()
+Boolean UpgradeFromNotify()
+Void DowngradeOpen()
+Void DowngradeToNotify(Boolean)
+Void Cancel()
+Void Close()
+Void CloseAndPage(Boolean)
+Void Erase()
+Void Erase(Boolean)
+Void HandOverTo(Autodesk.AutoCAD.DatabaseServices.DBObject, Boolean, Boolean)
+Void SwapIdWith(Autodesk.AutoCAD.DatabaseServices.ObjectId, Boolean, Boolean)
+Void SwapReferences(Autodesk.AutoCAD.DatabaseServices.IdMapping)
+Void Audit(Autodesk.AutoCAD.DatabaseServices.AuditInfo)
+Void DwgIn(Autodesk.AutoCAD.DatabaseServices.DwgFiler)
+Void DwgOut(Autodesk.AutoCAD.DatabaseServices.DwgFiler)
+Void DxfIn(Autodesk.AutoCAD.DatabaseServices.DxfFiler)
+Void DxfOut(Autodesk.AutoCAD.DatabaseServices.DxfFiler)
+Void XDataTransformBy(Autodesk.AutoCAD.Geometry.Matrix3d)
+Autodesk.AutoCAD.DatabaseServices.ResultBuffer GetXDataForApplication(System.String)
+Byte[] GetBinaryDataForKey(System.String)
+Void SetBinaryDataForKey(System.String, Byte[])
+Void DisableUndoRecording(Boolean)
+Void ApplyPartialUndo(Autodesk.AutoCAD.DatabaseServices.DwgFiler, Autodesk.AutoCAD.Runtime.RXClass)
+Boolean HasPersistentReactor(Autodesk.AutoCAD.DatabaseServices.ObjectId)
+System.Collections.Generic.List`1[Autodesk.AutoCAD.Runtime.RXObject] GetReactors()
+System.Collections.Generic.List`1[Autodesk.AutoCAD.Runtime.RXObject] GetTransientReactors()
+Autodesk.AutoCAD.DatabaseServices.ObjectIdCollection GetPersistentReactorIds()
+Void SetObjectIdsInFlux()
+Autodesk.AutoCAD.DatabaseServices.FullDwgVersion GetObjectSaveVersion(Autodesk.AutoCAD.DatabaseServices.DxfFiler)
+Autodesk.AutoCAD.DatabaseServices.FullDwgVersion GetObjectSaveVersion(Autodesk.AutoCAD.DatabaseServices.DwgFiler)
+Autodesk.AutoCAD.DatabaseServices.ObjectId GetField(System.String)
+Autodesk.AutoCAD.DatabaseServices.ObjectId GetField()
+Autodesk.AutoCAD.DatabaseServices.ObjectId SetField(System.String, Autodesk.AutoCAD.DatabaseServices.Field)
+Autodesk.AutoCAD.DatabaseServices.ObjectId SetField(Autodesk.AutoCAD.DatabaseServices.Field)
+Void RemoveField(Autodesk.AutoCAD.DatabaseServices.ObjectId)
+Autodesk.AutoCAD.DatabaseServices.ObjectId RemoveField(System.String)
+Autodesk.AutoCAD.DatabaseServices.ObjectId RemoveField()
+Boolean SetFromStyle()
+Void ResetScaleDependentProperties()
+Void SetPaperOrientation(Boolean)
+Void ApplyPaperOrientationTransform(Autodesk.AutoCAD.DatabaseServices.Viewport)
+Boolean SupportsCollection(System.String)
+Boolean HasContext(Autodesk.AutoCAD.DatabaseServices.ObjectContext)
+Void AddContext(Autodesk.AutoCAD.DatabaseServices.ObjectContext)
+Void RemoveContext(Autodesk.AutoCAD.DatabaseServices.ObjectContext)
+Autodesk.AutoCAD.DatabaseServices.DBObjectEventExtender GetEventExtender(Boolean)
+Autodesk.AutoCAD.DatabaseServices.IParameter GetParameterInterface(System.String, Boolean)
+Int32 SetAttributes(Autodesk.AutoCAD.GraphicsInterface.DrawableTraits)
+Boolean WorldDraw(Autodesk.AutoCAD.GraphicsInterface.WorldDraw)
+Void ViewportDraw(Autodesk.AutoCAD.GraphicsInterface.ViewportDraw)
+Int32 ViewportDrawLogicalFlags(Autodesk.AutoCAD.GraphicsInterface.ViewportDraw)
+IntPtr X(Autodesk.AutoCAD.Runtime.RXClass)
+IntPtr QueryX(Autodesk.AutoCAD.Runtime.RXClass)
+Autodesk.AutoCAD.Runtime.RXClass GetRXClass()
+Int32 CompareTo(System.Object)
+System.Object Clone()
+Void CopyFrom(Autodesk.AutoCAD.Runtime.RXObject)
+Boolean Equals(System.Object)
+Int32 GetHashCode()
+Void Dispose()
+System.Object GetLifetimeService()
+System.Object InitializeLifetimeService()
+System.Type GetType()
+System.String ToString()
+TYPE Autodesk.AutoCAD.DatabaseServices.LayerViewportProperties
+Boolean IsPlotStyleOverridden write=True
+ObjectId PlotStyleNameId write=True
+String PlotStyleName write=True
+Boolean IsTransparencyOverridden write=True
+Transparency Transparency write=True
+Boolean IsLineWeightOverridden write=True
+LineWeight LineWeight write=True
+Boolean IsLinetypeOverridden write=True
+ObjectId LinetypeObjectId write=True
+Boolean IsColorOverridden write=True
+Color Color write=True
+Void RemoveOverrides()
+System.Type GetType()
+System.String ToString()
+Boolean Equals(System.Object)
+Int32 GetHashCode()
+TYPE Autodesk.AutoCAD.DatabaseServices.AttributeReference
+MText MTextAttribute write=True
+Boolean IsMTextAttribute write=True
+Boolean LockPositionInBlock write=True
+Int32 FieldLength write=True
+Boolean IsPreset write=False
+Boolean IsVerifiable write=False
+Boolean IsConstant write=False
+Boolean Invisible write=True
+String Tag write=True
+AttachmentPoint Justify write=True
+TextVerticalMode VerticalMode write=True
+TextHorizontalMode HorizontalMode write=True
+Boolean IsMirroredInY write=True
+Boolean IsMirroredInX write=True
+ObjectId TextStyleId write=True
+String TextStyleName write=False
+String TextString write=True
+Double WidthFactor write=True
+Double Height write=True
+Double Rotation write=True
+Double Oblique write=True
+Double Thickness write=True
+Vector3d Normal write=True
+Boolean IsDefaultAlignment write=False
+Point3d AlignmentPoint write=True
+Point3d Position write=True
+ObjectId EdgeStyleId write=True
+ObjectId FaceStyleId write=True
+ObjectId VisualStyleId write=True
+Boolean ForceAnnoAllVisible write=True
+String BlockName write=False
+Mapper MaterialMapper write=True
+ObjectId MaterialId write=True
+String Material write=True
+Boolean ReceiveShadows write=True
+Boolean CastShadows write=True
+HyperLinkCollection Hyperlinks write=False
+Boolean CloneMeForDragging write=False
+Matrix3d CompoundObjectTransform write=False
+Extents3d GeometricExtents write=False
+Matrix3d Ecs write=False
+Boolean IsPlanar write=False
+CollisionType CollisionType write=False
+LineWeight LineWeight write=True
+Boolean Visible write=True
+Double LinetypeScale write=True
+ObjectId LinetypeId write=True
+String Linetype write=True
+ObjectId LayerId write=True
+String Layer write=True
+PlotStyleDescriptor PlotStyleNameId write=True
+String PlotStyleName write=True
+Transparency Transparency write=True
+EntityColor EntityColor write=False
+Int32 ColorIndex write=True
+Color Color write=True
+ObjectId BlockId write=False
+PaperOrientationStates PaperOrientation write=False
+AnnotativeStates Annotative write=True
+Boolean HasFields write=False
+Object AcadObject write=False
+Guid ClassID write=False
+FullDwgVersion ObjectBirthVersion write=False
+Boolean HasSaveVersionOverride write=True
+Boolean IsObjectIdsInFlux write=False
+DwgFiler UndoFiler write=False
+Boolean IsAProxy write=False
+Boolean IsTransactionResident write=False
+Boolean IsReallyClosing write=False
+Boolean IsCancelling write=False
+Boolean IsUndoing write=False
+Boolean IsNotifying write=False
+Boolean IsNewObject write=False
+Boolean IsModifiedGraphics write=False
+Boolean IsModifiedXData write=False
+Boolean IsModified write=False
+Boolean IsNotifyEnabled write=False
+Boolean IsWriteEnabled write=False
+Boolean IsReadEnabled write=False
+Boolean IsErased write=False
+Boolean IsEraseStatusToggled write=False
+ResultBuffer XData write=True
+DuplicateRecordCloning MergeStyle write=True
+ObjectId ExtensionDictionary write=False
+Drawable Drawable write=False
+Database Database write=False
+Handle Handle write=False
+ObjectId OwnerId write=True
+ObjectId ObjectId write=False
+ObjectId Id write=False
+Boolean IsPersistent write=False
+DrawStream DrawStream write=True
+Nullable`1 Bounds write=False
+DrawableType DrawableType write=False
+Boolean AutoDelete write=True
+Boolean IsDisposed write=False
+IntPtr UnmanagedObject write=False
+Void SetAttributeFromBlock(Autodesk.AutoCAD.DatabaseServices.AttributeDefinition, Autodesk.AutoCAD.Geometry.Matrix3d)
+Void SetAttributeFromBlock(Autodesk.AutoCAD.Geometry.Matrix3d)
+Void UpdateMTextAttribute()
+Int32 CorrectSpelling()
+Void AdjustAlignment(Autodesk.AutoCAD.DatabaseServices.Database)
+Void ConvertFieldToText()
+System.String getTextWithFieldCodes()
+Void SetLayerId(Autodesk.AutoCAD.DatabaseServices.ObjectId, Boolean)
+Void SetPropertiesFrom(Autodesk.AutoCAD.DatabaseServices.Entity)
+Autodesk.AutoCAD.Geometry.Plane GetPlane()
+Void AddSubentityPaths(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath[])
+Void DeleteSubentityPaths(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath[])
+Void TransformSubentityPathsBy(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath[], Autodesk.AutoCAD.Geometry.Matrix3d)
+Boolean GetGripPointsAtSubentityPath(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath, Autodesk.AutoCAD.DatabaseServices.GripDataCollection, Double, Int32, Autodesk.AutoCAD.Geometry.Vector3d, Autodesk.AutoCAD.DatabaseServices.GetGripPointsFlags)
+Void MoveGripPointsAtSubentityPaths(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath[], IntPtr[], Autodesk.AutoCAD.Geometry.Vector3d, Autodesk.AutoCAD.DatabaseServices.MoveGripPointsFlags)
+Autodesk.AutoCAD.DatabaseServices.Extents3d GetSubentityGeometricExtents(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath)
+Autodesk.AutoCAD.DatabaseServices.FullSubentityPath[] GetSubentityPathsAtGraphicsMarker(Autodesk.AutoCAD.DatabaseServices.SubentityType, IntPtr, Autodesk.AutoCAD.Geometry.Point3d, Autodesk.AutoCAD.Geometry.Matrix3d, Autodesk.AutoCAD.DatabaseServices.ObjectId[])
+Autodesk.AutoCAD.DatabaseServices.FullSubentityPath[] GetSubentityPathsAtGraphicsMarker(Autodesk.AutoCAD.DatabaseServices.SubentityType, Int64, Autodesk.AutoCAD.Geometry.Point3d, Autodesk.AutoCAD.Geometry.Matrix3d, Int32, Autodesk.AutoCAD.DatabaseServices.ObjectId[])
+Autodesk.AutoCAD.Geometry.IntPtrCollection GetGraphicsMarkersAtSubentityPathIntPtr(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath)
+Void Highlight(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath, Boolean)
+Void Highlight()
+Void Unhighlight(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath, Boolean)
+Void Unhighlight()
+Void PushHighlight(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath, Autodesk.AutoCAD.GraphicsInterface.HighlightStyle)
+Void PopHighlight(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath)
+Autodesk.AutoCAD.GraphicsInterface.HighlightStyle HighlightState(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath)
+Void GetObjectSnapPoints(Autodesk.AutoCAD.DatabaseServices.ObjectSnapModes, Int32, Autodesk.AutoCAD.Geometry.Point3d, Autodesk.AutoCAD.Geometry.Point3d, Autodesk.AutoCAD.Geometry.Matrix3d, Autodesk.AutoCAD.Geometry.Point3dCollection, Autodesk.AutoCAD.Geometry.IntegerCollection, Autodesk.AutoCAD.Geometry.Matrix3d)
+Void GetObjectSnapPoints(Autodesk.AutoCAD.DatabaseServices.ObjectSnapModes, Int32, Autodesk.AutoCAD.Geometry.Point3d, Autodesk.AutoCAD.Geometry.Point3d, Autodesk.AutoCAD.Geometry.Matrix3d, Autodesk.AutoCAD.Geometry.Point3dCollection, Autodesk.AutoCAD.Geometry.IntegerCollection)
+Boolean IsContentSnappable()
+Boolean GetGripPoints(Autodesk.AutoCAD.DatabaseServices.GripDataCollection, Double, Int32, Autodesk.AutoCAD.Geometry.Vector3d, Autodesk.AutoCAD.DatabaseServices.GetGripPointsFlags)
+Void GetGripPoints(Autodesk.AutoCAD.Geometry.Point3dCollection, Autodesk.AutoCAD.Geometry.IntegerCollection, Autodesk.AutoCAD.Geometry.IntegerCollection)
+Void MoveGripPointsAt(Autodesk.AutoCAD.DatabaseServices.GripDataCollection, Autodesk.AutoCAD.Geometry.Vector3d, Autodesk.AutoCAD.DatabaseServices.MoveGripPointsFlags)
+Void MoveGripPointsAt(Autodesk.AutoCAD.Geometry.IntegerCollection, Autodesk.AutoCAD.Geometry.Vector3d)
+Void GetStretchPoints(Autodesk.AutoCAD.Geometry.Point3dCollection)
+Void MoveStretchPointsAt(Autodesk.AutoCAD.Geometry.IntegerCollection, Autodesk.AutoCAD.Geometry.Vector3d)
+Void IntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Plane, Autodesk.AutoCAD.Geometry.Point3dCollection, IntPtr, IntPtr)
+Void IntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Point3dCollection, IntPtr, IntPtr)
+Void IntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Plane, Autodesk.AutoCAD.Geometry.Point3dCollection, Int64, Int64)
+Void IntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Point3dCollection, Int64, Int64)
+Void BoundingBoxIntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Point3dCollection, IntPtr, IntPtr)
+Void BoundingBoxIntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Plane, Autodesk.AutoCAD.Geometry.Point3dCollection, IntPtr, IntPtr)
+Void BoundingBoxIntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Point3dCollection, Int64, Int64)
+Void BoundingBoxIntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Plane, Autodesk.AutoCAD.Geometry.Point3dCollection, Int64, Int64)
+Void List()
+Void TransformBy(Autodesk.AutoCAD.Geometry.Matrix3d)
+Autodesk.AutoCAD.DatabaseServices.Entity GetTransformedCopy(Autodesk.AutoCAD.Geometry.Matrix3d)
+Autodesk.AutoCAD.DatabaseServices.Entity GetSubentity(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath)
+Void Explode(Autodesk.AutoCAD.DatabaseServices.DBObjectCollection)
+Void RecordGraphicsModified(Boolean)
+Void Draw()
+Void SaveAs(Autodesk.AutoCAD.GraphicsInterface.WorldDraw, Autodesk.AutoCAD.DatabaseServices.SaveType)
+Void SetDatabaseDefaults(Autodesk.AutoCAD.DatabaseServices.Database)
+Void SetDatabaseDefaults()
+Void SetDragStatus(Autodesk.AutoCAD.DatabaseServices.DragStatus)
+Void SetGripStatus(Autodesk.AutoCAD.DatabaseServices.GripStatus)
+Void SetSubentityGripStatus(Autodesk.AutoCAD.DatabaseServices.GripStatus, Autodesk.AutoCAD.DatabaseServices.FullSubentityPath)
+Void JoinEntity(Autodesk.AutoCAD.DatabaseServices.Entity)
+Autodesk.AutoCAD.Geometry.IntegerCollection JoinEntities(Autodesk.AutoCAD.DatabaseServices.Entity[])
+Autodesk.AutoCAD.DatabaseServices.DBObject DeepClone(Autodesk.AutoCAD.DatabaseServices.DBObject, Autodesk.AutoCAD.DatabaseServices.IdMapping, Boolean)
+Autodesk.AutoCAD.DatabaseServices.DBObject WblockClone(Autodesk.AutoCAD.Runtime.RXObject, Autodesk.AutoCAD.DatabaseServices.IdMapping, Boolean)
+Autodesk.AutoCAD.DatabaseServices.DecomposeForSaveReplacementRecord DecomposeForSave(Autodesk.AutoCAD.DatabaseServices.DwgVersion)
+Void CreateExtensionDictionary()
+Void ReleaseExtensionDictionary()
+Void UpgradeOpen()
+Boolean UpgradeFromNotify()
+Void DowngradeOpen()
+Void DowngradeToNotify(Boolean)
+Void Cancel()
+Void Close()
+Void CloseAndPage(Boolean)
+Void Erase()
+Void Erase(Boolean)
+Void HandOverTo(Autodesk.AutoCAD.DatabaseServices.DBObject, Boolean, Boolean)
+Void SwapIdWith(Autodesk.AutoCAD.DatabaseServices.ObjectId, Boolean, Boolean)
+Void SwapReferences(Autodesk.AutoCAD.DatabaseServices.IdMapping)
+Void Audit(Autodesk.AutoCAD.DatabaseServices.AuditInfo)
+Void DwgIn(Autodesk.AutoCAD.DatabaseServices.DwgFiler)
+Void DwgOut(Autodesk.AutoCAD.DatabaseServices.DwgFiler)
+Void DxfIn(Autodesk.AutoCAD.DatabaseServices.DxfFiler)
+Void DxfOut(Autodesk.AutoCAD.DatabaseServices.DxfFiler)
+Void XDataTransformBy(Autodesk.AutoCAD.Geometry.Matrix3d)
+Autodesk.AutoCAD.DatabaseServices.ResultBuffer GetXDataForApplication(System.String)
+Byte[] GetBinaryDataForKey(System.String)
+Void SetBinaryDataForKey(System.String, Byte[])
+Void DisableUndoRecording(Boolean)
+Void ApplyPartialUndo(Autodesk.AutoCAD.DatabaseServices.DwgFiler, Autodesk.AutoCAD.Runtime.RXClass)
+Boolean HasPersistentReactor(Autodesk.AutoCAD.DatabaseServices.ObjectId)
+System.Collections.Generic.List`1[Autodesk.AutoCAD.Runtime.RXObject] GetReactors()
+System.Collections.Generic.List`1[Autodesk.AutoCAD.Runtime.RXObject] GetTransientReactors()
+Autodesk.AutoCAD.DatabaseServices.ObjectIdCollection GetPersistentReactorIds()
+Void SetObjectIdsInFlux()
+Autodesk.AutoCAD.DatabaseServices.FullDwgVersion GetObjectSaveVersion(Autodesk.AutoCAD.DatabaseServices.DxfFiler)
+Autodesk.AutoCAD.DatabaseServices.FullDwgVersion GetObjectSaveVersion(Autodesk.AutoCAD.DatabaseServices.DwgFiler)
+Autodesk.AutoCAD.DatabaseServices.ObjectId GetField(System.String)
+Autodesk.AutoCAD.DatabaseServices.ObjectId GetField()
+Autodesk.AutoCAD.DatabaseServices.ObjectId SetField(System.String, Autodesk.AutoCAD.DatabaseServices.Field)
+Autodesk.AutoCAD.DatabaseServices.ObjectId SetField(Autodesk.AutoCAD.DatabaseServices.Field)
+Void RemoveField(Autodesk.AutoCAD.DatabaseServices.ObjectId)
+Autodesk.AutoCAD.DatabaseServices.ObjectId RemoveField(System.String)
+Autodesk.AutoCAD.DatabaseServices.ObjectId RemoveField()
+Boolean SetFromStyle()
+Void ResetScaleDependentProperties()
+Void SetPaperOrientation(Boolean)
+Void ApplyPaperOrientationTransform(Autodesk.AutoCAD.DatabaseServices.Viewport)
+Boolean SupportsCollection(System.String)
+Boolean HasContext(Autodesk.AutoCAD.DatabaseServices.ObjectContext)
+Void AddContext(Autodesk.AutoCAD.DatabaseServices.ObjectContext)
+Void RemoveContext(Autodesk.AutoCAD.DatabaseServices.ObjectContext)
+Autodesk.AutoCAD.DatabaseServices.DBObjectEventExtender GetEventExtender(Boolean)
+Autodesk.AutoCAD.DatabaseServices.IParameter GetParameterInterface(System.String, Boolean)
+Int32 SetAttributes(Autodesk.AutoCAD.GraphicsInterface.DrawableTraits)
+Boolean WorldDraw(Autodesk.AutoCAD.GraphicsInterface.WorldDraw)
+Void ViewportDraw(Autodesk.AutoCAD.GraphicsInterface.ViewportDraw)
+Int32 ViewportDrawLogicalFlags(Autodesk.AutoCAD.GraphicsInterface.ViewportDraw)
+IntPtr X(Autodesk.AutoCAD.Runtime.RXClass)
+IntPtr QueryX(Autodesk.AutoCAD.Runtime.RXClass)
+Autodesk.AutoCAD.Runtime.RXClass GetRXClass()
+Int32 CompareTo(System.Object)
+System.Object Clone()
+Void CopyFrom(Autodesk.AutoCAD.Runtime.RXObject)
+Boolean Equals(System.Object)
+Int32 GetHashCode()
+Void Dispose()
+System.Object GetLifetimeService()
+System.Object InitializeLifetimeService()
+System.Type GetType()
+System.String ToString()
+TYPE Autodesk.AutoCAD.DatabaseServices.Dimension
+Double Dimaltmzf write=True
+Double Dimmzf write=True
+String Dimaltmzs write=True
+String Dimmzs write=True
+ObjectId Dimblk2 write=True
+ObjectId Dimblk1 write=True
+ObjectId Dimblk write=True
+String Dimpost write=True
+String Dimapost write=True
+Int32 Dimzin write=True
+Boolean Dimupt write=True
+Int32 Dimtzin write=True
+Boolean Dimtxtdirection write=True
+Double Dimtxt write=True
+ObjectId TextStyleId write=True
+Double Dimtvp write=True
+Double Dimtsz write=True
+Double Dimtp write=True
+Int32 Dimtolj write=True
+Boolean Dimtol write=True
+Boolean Dimtoh write=True
+Boolean Dimtofl write=True
+Int32 Dimtmove write=True
+Double Dimtm write=True
+Boolean Dimtix write=True
+Boolean Dimtih write=True
+Color Dimtfillclr write=True
+Int32 Dimtfill write=True
+Double Dimtfac write=True
+Int32 Dimtdec write=True
+Int32 Dimtad write=True
+Boolean Dimsoxd write=True
+Boolean Dimse2 write=True
+Boolean Dimse1 write=True
+Boolean Dimsd2 write=True
+Boolean Dimsd1 write=True
+Double Dimscale write=True
+Boolean Dimsah write=True
+Double Dimrnd write=True
+String DimensionStyleName write=True
+Double CenterMarkSize write=False
+DimensionCenterMarkType CenterMarkType write=False
+Boolean ToleranceSuppressZeroInches write=True
+Boolean ToleranceSuppressZeroFeet write=True
+Boolean ToleranceSuppressTrailingZeros write=True
+Boolean ToleranceSuppressLeadingZeros write=True
+Boolean AltToleranceSuppressZeroInches write=True
+Boolean AltToleranceSuppressZeroFeet write=True
+Boolean AltToleranceSuppressTrailingZeros write=True
+Boolean AltToleranceSuppressLeadingZeros write=True
+Boolean AltSuppressZeroInches write=True
+Boolean AltSuppressZeroFeet write=True
+Boolean AltSuppressTrailingZeros write=True
+Boolean AltSuppressLeadingZeros write=True
+String AlternateSuffix write=True
+String AlternatePrefix write=True
+Boolean SuppressZeroInches write=True
+Boolean SuppressZeroFeet write=True
+Boolean SuppressTrailingZeros write=True
+Boolean SuppressLeadingZeros write=True
+Boolean SuppressAngularTrailingZeros write=True
+Boolean SuppressAngularLeadingZeros write=True
+String Suffix write=True
+String Prefix write=True
+LineWeight Dimlwe write=True
+LineWeight Dimlwd write=True
+Int32 Dimlunit write=True
+ObjectId Dimltype write=True
+ObjectId Dimltex2 write=True
+ObjectId Dimltex1 write=True
+Boolean Dimlim write=True
+Double Dimlfac write=True
+ObjectId Dimldrblk write=True
+Int32 Dimjust write=True
+Double Dimjogang write=True
+Double Dimgap write=True
+Double Dimfxlen write=True
+Boolean DimfxlenOn write=True
+Int32 Dimfrac write=True
+Double Dimexo write=True
+Double Dimexe write=True
+Char Dimdsep write=True
+Double Dimdli write=True
+Double Dimdle write=True
+Int32 Dimdec write=True
+Color Dimclrt write=True
+Color Dimclre write=True
+Color Dimclrd write=True
+Double Dimcen write=True
+Int32 Dimazin write=True
+Int32 Dimaunit write=True
+Int32 Dimatfit write=True
+Double Dimasz write=True
+Int32 Dimarcsym write=True
+Int32 Dimaltz write=True
+Int32 Dimaltu write=True
+Int32 Dimalttz write=True
+Int32 Dimalttd write=True
+Double Dimaltrnd write=True
+Double Dimaltf write=True
+Int32 Dimaltd write=True
+Boolean Dimalt write=True
+Int32 Dimadec write=True
+Boolean DynamicDimension write=True
+Double Measurement write=False
+Point3d DimBlockPosition write=False
+ObjectId DimBlockId write=True
+Double HorizontalRotation write=True
+Double TextLineSpacingFactor write=True
+LineSpacingStyle TextLineSpacingStyle write=True
+AttachmentPoint TextAttachment write=True
+ObjectId DimensionStyle write=True
+Double TextRotation write=True
+String DimensionText write=True
+Double Elevation write=True
+Vector3d Normal write=True
+Boolean UsingDefaultTextPosition write=True
+Point3d TextPosition write=True
+Vector2d TextDefinedSize write=True
+ObjectId EdgeStyleId write=True
+ObjectId FaceStyleId write=True
+ObjectId VisualStyleId write=True
+Boolean ForceAnnoAllVisible write=True
+String BlockName write=False
+Mapper MaterialMapper write=True
+ObjectId MaterialId write=True
+String Material write=True
+Boolean ReceiveShadows write=True
+Boolean CastShadows write=True
+HyperLinkCollection Hyperlinks write=False
+Boolean CloneMeForDragging write=False
+Matrix3d CompoundObjectTransform write=False
+Extents3d GeometricExtents write=False
+Matrix3d Ecs write=False
+Boolean IsPlanar write=False
+CollisionType CollisionType write=False
+LineWeight LineWeight write=True
+Boolean Visible write=True
+Double LinetypeScale write=True
+ObjectId LinetypeId write=True
+String Linetype write=True
+ObjectId LayerId write=True
+String Layer write=True
+PlotStyleDescriptor PlotStyleNameId write=True
+String PlotStyleName write=True
+Transparency Transparency write=True
+EntityColor EntityColor write=False
+Int32 ColorIndex write=True
+Color Color write=True
+ObjectId BlockId write=False
+PaperOrientationStates PaperOrientation write=False
+AnnotativeStates Annotative write=True
+Boolean HasFields write=False
+Object AcadObject write=False
+Guid ClassID write=False
+FullDwgVersion ObjectBirthVersion write=False
+Boolean HasSaveVersionOverride write=True
+Boolean IsObjectIdsInFlux write=False
+DwgFiler UndoFiler write=False
+Boolean IsAProxy write=False
+Boolean IsTransactionResident write=False
+Boolean IsReallyClosing write=False
+Boolean IsCancelling write=False
+Boolean IsUndoing write=False
+Boolean IsNotifying write=False
+Boolean IsNewObject write=False
+Boolean IsModifiedGraphics write=False
+Boolean IsModifiedXData write=False
+Boolean IsModified write=False
+Boolean IsNotifyEnabled write=False
+Boolean IsWriteEnabled write=False
+Boolean IsReadEnabled write=False
+Boolean IsErased write=False
+Boolean IsEraseStatusToggled write=False
+ResultBuffer XData write=True
+DuplicateRecordCloning MergeStyle write=True
+ObjectId ExtensionDictionary write=False
+Drawable Drawable write=False
+Database Database write=False
+Handle Handle write=False
+ObjectId OwnerId write=True
+ObjectId ObjectId write=False
+ObjectId Id write=False
+Boolean IsPersistent write=False
+DrawStream DrawStream write=True
+Nullable`1 Bounds write=False
+DrawableType DrawableType write=False
+Boolean AutoDelete write=True
+Boolean IsDisposed write=False
+IntPtr UnmanagedObject write=False
+Void ResetTextDefinedSize()
+Void SetDimstyleData(Autodesk.AutoCAD.DatabaseServices.DimStyleTableRecord)
+Autodesk.AutoCAD.DatabaseServices.DimStyleTableRecord GetDimstyleData()
+Void RecomputeDimensionBlock(Boolean)
+Void GenerateLayout()
+Void RemoveTextField()
+Void FieldToMText(Autodesk.AutoCAD.DatabaseServices.MText)
+Void FieldFromMText(Autodesk.AutoCAD.DatabaseServices.MText)
+System.String FormatMeasurement(Double, System.String)
+Void SetLayerId(Autodesk.AutoCAD.DatabaseServices.ObjectId, Boolean)
+Void SetPropertiesFrom(Autodesk.AutoCAD.DatabaseServices.Entity)
+Autodesk.AutoCAD.Geometry.Plane GetPlane()
+Void AddSubentityPaths(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath[])
+Void DeleteSubentityPaths(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath[])
+Void TransformSubentityPathsBy(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath[], Autodesk.AutoCAD.Geometry.Matrix3d)
+Boolean GetGripPointsAtSubentityPath(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath, Autodesk.AutoCAD.DatabaseServices.GripDataCollection, Double, Int32, Autodesk.AutoCAD.Geometry.Vector3d, Autodesk.AutoCAD.DatabaseServices.GetGripPointsFlags)
+Void MoveGripPointsAtSubentityPaths(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath[], IntPtr[], Autodesk.AutoCAD.Geometry.Vector3d, Autodesk.AutoCAD.DatabaseServices.MoveGripPointsFlags)
+Autodesk.AutoCAD.DatabaseServices.Extents3d GetSubentityGeometricExtents(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath)
+Autodesk.AutoCAD.DatabaseServices.FullSubentityPath[] GetSubentityPathsAtGraphicsMarker(Autodesk.AutoCAD.DatabaseServices.SubentityType, IntPtr, Autodesk.AutoCAD.Geometry.Point3d, Autodesk.AutoCAD.Geometry.Matrix3d, Autodesk.AutoCAD.DatabaseServices.ObjectId[])
+Autodesk.AutoCAD.DatabaseServices.FullSubentityPath[] GetSubentityPathsAtGraphicsMarker(Autodesk.AutoCAD.DatabaseServices.SubentityType, Int64, Autodesk.AutoCAD.Geometry.Point3d, Autodesk.AutoCAD.Geometry.Matrix3d, Int32, Autodesk.AutoCAD.DatabaseServices.ObjectId[])
+Autodesk.AutoCAD.Geometry.IntPtrCollection GetGraphicsMarkersAtSubentityPathIntPtr(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath)
+Void Highlight(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath, Boolean)
+Void Highlight()
+Void Unhighlight(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath, Boolean)
+Void Unhighlight()
+Void PushHighlight(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath, Autodesk.AutoCAD.GraphicsInterface.HighlightStyle)
+Void PopHighlight(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath)
+Autodesk.AutoCAD.GraphicsInterface.HighlightStyle HighlightState(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath)
+Void GetObjectSnapPoints(Autodesk.AutoCAD.DatabaseServices.ObjectSnapModes, Int32, Autodesk.AutoCAD.Geometry.Point3d, Autodesk.AutoCAD.Geometry.Point3d, Autodesk.AutoCAD.Geometry.Matrix3d, Autodesk.AutoCAD.Geometry.Point3dCollection, Autodesk.AutoCAD.Geometry.IntegerCollection, Autodesk.AutoCAD.Geometry.Matrix3d)
+Void GetObjectSnapPoints(Autodesk.AutoCAD.DatabaseServices.ObjectSnapModes, Int32, Autodesk.AutoCAD.Geometry.Point3d, Autodesk.AutoCAD.Geometry.Point3d, Autodesk.AutoCAD.Geometry.Matrix3d, Autodesk.AutoCAD.Geometry.Point3dCollection, Autodesk.AutoCAD.Geometry.IntegerCollection)
+Boolean IsContentSnappable()
+Boolean GetGripPoints(Autodesk.AutoCAD.DatabaseServices.GripDataCollection, Double, Int32, Autodesk.AutoCAD.Geometry.Vector3d, Autodesk.AutoCAD.DatabaseServices.GetGripPointsFlags)
+Void GetGripPoints(Autodesk.AutoCAD.Geometry.Point3dCollection, Autodesk.AutoCAD.Geometry.IntegerCollection, Autodesk.AutoCAD.Geometry.IntegerCollection)
+Void MoveGripPointsAt(Autodesk.AutoCAD.DatabaseServices.GripDataCollection, Autodesk.AutoCAD.Geometry.Vector3d, Autodesk.AutoCAD.DatabaseServices.MoveGripPointsFlags)
+Void MoveGripPointsAt(Autodesk.AutoCAD.Geometry.IntegerCollection, Autodesk.AutoCAD.Geometry.Vector3d)
+Void GetStretchPoints(Autodesk.AutoCAD.Geometry.Point3dCollection)
+Void MoveStretchPointsAt(Autodesk.AutoCAD.Geometry.IntegerCollection, Autodesk.AutoCAD.Geometry.Vector3d)
+Void IntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Plane, Autodesk.AutoCAD.Geometry.Point3dCollection, IntPtr, IntPtr)
+Void IntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Point3dCollection, IntPtr, IntPtr)
+Void IntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Plane, Autodesk.AutoCAD.Geometry.Point3dCollection, Int64, Int64)
+Void IntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Point3dCollection, Int64, Int64)
+Void BoundingBoxIntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Point3dCollection, IntPtr, IntPtr)
+Void BoundingBoxIntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Plane, Autodesk.AutoCAD.Geometry.Point3dCollection, IntPtr, IntPtr)
+Void BoundingBoxIntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Point3dCollection, Int64, Int64)
+Void BoundingBoxIntersectWith(Autodesk.AutoCAD.DatabaseServices.Entity, Autodesk.AutoCAD.DatabaseServices.Intersect, Autodesk.AutoCAD.Geometry.Plane, Autodesk.AutoCAD.Geometry.Point3dCollection, Int64, Int64)
+Void List()
+Void TransformBy(Autodesk.AutoCAD.Geometry.Matrix3d)
+Autodesk.AutoCAD.DatabaseServices.Entity GetTransformedCopy(Autodesk.AutoCAD.Geometry.Matrix3d)
+Autodesk.AutoCAD.DatabaseServices.Entity GetSubentity(Autodesk.AutoCAD.DatabaseServices.FullSubentityPath)
+Void Explode(Autodesk.AutoCAD.DatabaseServices.DBObjectCollection)
+Void RecordGraphicsModified(Boolean)
+Void Draw()
+Void SaveAs(Autodesk.AutoCAD.GraphicsInterface.WorldDraw, Autodesk.AutoCAD.DatabaseServices.SaveType)
+Void SetDatabaseDefaults(Autodesk.AutoCAD.DatabaseServices.Database)
+Void SetDatabaseDefaults()
+Void SetDragStatus(Autodesk.AutoCAD.DatabaseServices.DragStatus)
+Void SetGripStatus(Autodesk.AutoCAD.DatabaseServices.GripStatus)
+Void SetSubentityGripStatus(Autodesk.AutoCAD.DatabaseServices.GripStatus, Autodesk.AutoCAD.DatabaseServices.FullSubentityPath)
+Void JoinEntity(Autodesk.AutoCAD.DatabaseServices.Entity)
+Autodesk.AutoCAD.Geometry.IntegerCollection JoinEntities(Autodesk.AutoCAD.DatabaseServices.Entity[])
+Autodesk.AutoCAD.DatabaseServices.DBObject DeepClone(Autodesk.AutoCAD.DatabaseServices.DBObject, Autodesk.AutoCAD.DatabaseServices.IdMapping, Boolean)
+Autodesk.AutoCAD.DatabaseServices.DBObject WblockClone(Autodesk.AutoCAD.Runtime.RXObject, Autodesk.AutoCAD.DatabaseServices.IdMapping, Boolean)
+Autodesk.AutoCAD.DatabaseServices.DecomposeForSaveReplacementRecord DecomposeForSave(Autodesk.AutoCAD.DatabaseServices.DwgVersion)
+Void CreateExtensionDictionary()
+Void ReleaseExtensionDictionary()
+Void UpgradeOpen()
+Boolean UpgradeFromNotify()
+Void DowngradeOpen()
+Void DowngradeToNotify(Boolean)
+Void Cancel()
+Void Close()
+Void CloseAndPage(Boolean)
+Void Erase()
+Void Erase(Boolean)
+Void HandOverTo(Autodesk.AutoCAD.DatabaseServices.DBObject, Boolean, Boolean)
+Void SwapIdWith(Autodesk.AutoCAD.DatabaseServices.ObjectId, Boolean, Boolean)
+Void SwapReferences(Autodesk.AutoCAD.DatabaseServices.IdMapping)
+Void Audit(Autodesk.AutoCAD.DatabaseServices.AuditInfo)
+Void DwgIn(Autodesk.AutoCAD.DatabaseServices.DwgFiler)
+Void DwgOut(Autodesk.AutoCAD.DatabaseServices.DwgFiler)
+Void DxfIn(Autodesk.AutoCAD.DatabaseServices.DxfFiler)
+Void DxfOut(Autodesk.AutoCAD.DatabaseServices.DxfFiler)
+Void XDataTransformBy(Autodesk.AutoCAD.Geometry.Matrix3d)
+Autodesk.AutoCAD.DatabaseServices.ResultBuffer GetXDataForApplication(System.String)
+Byte[] GetBinaryDataForKey(System.String)
+Void SetBinaryDataForKey(System.String, Byte[])
+Void DisableUndoRecording(Boolean)
+Void ApplyPartialUndo(Autodesk.AutoCAD.DatabaseServices.DwgFiler, Autodesk.AutoCAD.Runtime.RXClass)
+Boolean HasPersistentReactor(Autodesk.AutoCAD.DatabaseServices.ObjectId)
+System.Collections.Generic.List`1[Autodesk.AutoCAD.Runtime.RXObject] GetReactors()
+System.Collections.Generic.List`1[Autodesk.AutoCAD.Runtime.RXObject] GetTransientReactors()
+Autodesk.AutoCAD.DatabaseServices.ObjectIdCollection GetPersistentReactorIds()
+Void SetObjectIdsInFlux()
+Autodesk.AutoCAD.DatabaseServices.FullDwgVersion GetObjectSaveVersion(Autodesk.AutoCAD.DatabaseServices.DxfFiler)
+Autodesk.AutoCAD.DatabaseServices.FullDwgVersion GetObjectSaveVersion(Autodesk.AutoCAD.DatabaseServices.DwgFiler)
+Autodesk.AutoCAD.DatabaseServices.ObjectId GetField(System.String)
+Autodesk.AutoCAD.DatabaseServices.ObjectId GetField()
+Autodesk.AutoCAD.DatabaseServices.ObjectId SetField(System.String, Autodesk.AutoCAD.DatabaseServices.Field)
+Autodesk.AutoCAD.DatabaseServices.ObjectId SetField(Autodesk.AutoCAD.DatabaseServices.Field)
+Void RemoveField(Autodesk.AutoCAD.DatabaseServices.ObjectId)
+Autodesk.AutoCAD.DatabaseServices.ObjectId RemoveField(System.String)
+Autodesk.AutoCAD.DatabaseServices.ObjectId RemoveField()
+Boolean SetFromStyle()
+Void ResetScaleDependentProperties()
+Void SetPaperOrientation(Boolean)
+Void ApplyPaperOrientationTransform(Autodesk.AutoCAD.DatabaseServices.Viewport)
+Boolean SupportsCollection(System.String)
+Boolean HasContext(Autodesk.AutoCAD.DatabaseServices.ObjectContext)
+Void AddContext(Autodesk.AutoCAD.DatabaseServices.ObjectContext)
+Void RemoveContext(Autodesk.AutoCAD.DatabaseServices.ObjectContext)
+Autodesk.AutoCAD.DatabaseServices.DBObjectEventExtender GetEventExtender(Boolean)
+Autodesk.AutoCAD.DatabaseServices.IParameter GetParameterInterface(System.String, Boolean)
+Int32 SetAttributes(Autodesk.AutoCAD.GraphicsInterface.DrawableTraits)
+Boolean WorldDraw(Autodesk.AutoCAD.GraphicsInterface.WorldDraw)
+Void ViewportDraw(Autodesk.AutoCAD.GraphicsInterface.ViewportDraw)
+Int32 ViewportDrawLogicalFlags(Autodesk.AutoCAD.GraphicsInterface.ViewportDraw)
+IntPtr X(Autodesk.AutoCAD.Runtime.RXClass)
+IntPtr QueryX(Autodesk.AutoCAD.Runtime.RXClass)
+Autodesk.AutoCAD.Runtime.RXClass GetRXClass()
+Int32 CompareTo(System.Object)
+System.Object Clone()
+Void CopyFrom(Autodesk.AutoCAD.Runtime.RXObject)
+Boolean Equals(System.Object)
+Int32 GetHashCode()
+Void Dispose()
+System.Object GetLifetimeService()
+System.Object InitializeLifetimeService()
+System.Type GetType()
+System.String ToString()

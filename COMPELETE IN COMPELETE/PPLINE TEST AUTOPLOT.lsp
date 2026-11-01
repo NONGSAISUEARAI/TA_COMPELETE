@@ -10097,7 +10097,15 @@
         (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
           (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
           (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
-          (setq ss_pre_filter_set_xx_obj_namefile (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "DRAWING_NO_val"))
+          (setq ss_pre_filter_set_xx_obj_namefile (strcat 
+                                                    
+                                                    (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "STATUS_val")
+                                                    "-"
+                                                    (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "DRAWING_NO_val")
+                                                    "-"
+                                                    (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "REV_NO_val")
+                                                  )
+          )
           
           (if (= (findfile (strcat curr_path_ "\\" ss_pre_filter_set_xx_obj_namefile ".dwg")) nil)
             (progn 

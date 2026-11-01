@@ -1,0 +1,6 @@
+(setq taoldtp (getvar "TRUSTEDPATHS"))
+(setvar "TRUSTEDPATHS" (strcat taoldtp ";C:\\TA\\TA_COMPELETE\\output\\dwg_white_noexplode_20261030\\work"))
+_.NETLOAD
+C:/TA/TA_COMPELETE/output/dwg_white_noexplode_20261030/work/WhiteNoExplode7.dll
+(setvar "TRUSTEDPATHS" taoldtp)
+TAWHITEAPPLY

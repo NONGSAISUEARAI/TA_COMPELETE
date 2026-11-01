@@ -1453,12 +1453,19 @@
         )
       ;
     )
-    (defun LM:CountItems (l / c l r x) 
+    (defun LM:CountItems (l show_count_ / c r x) 
       (while l 
-        (setq x (car l))
-        (setq c (length l))
-        (setq l (vl-remove x (cdr l)))
-        (setq r (cons (cons x (- c (length l))) r))
+        (setq x (car l)
+              c (length l)
+              l (vl-remove x (cdr l))
+              r (cons 
+                  (if show_count_ 
+                    (cons x (- c (length l)))
+                    x
+                  )
+                  r
+                )
+        )
       )
       (reverse r)
     )
@@ -63958,6 +63965,115 @@
         )
       )
     ;
+  )
+  (defun c:temp_fix_sc4 ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+      (setq ss_pre_filter_set_xx_ttb_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "Title Block_Under Ground_C1 v3" )))
+      (setq ss_pre_filter_set_xx_hed_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "000 - CKST_HEADING" )))
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_hed_i 0)
+      (setq ss_pre_filter_set_xx_hed_list_scval ())
+      (while (< ss_pre_filter_set_xx_hed_i (sslength ss_pre_filter_set_xx_hed_))
+        (setq ss_pre_filter_set_xx_hed_ename_ (ssname ss_pre_filter_set_xx_hed_ ss_pre_filter_set_xx_hed_i))
+        (setq ss_pre_filter_set_xx_hed_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_hed_ename_))
+        (setq ss_pre_filter_set_xx_hed_list_scval (cons (LM:vl-getattributevalue ss_pre_filter_set_xx_hed_obj_ "SCALE_VAL" ) ss_pre_filter_set_xx_hed_list_scval))
+        (setq ss_pre_filter_set_xx_hed_i (+ ss_pre_filter_set_xx_hed_i 1))
+      )
+      (setq ss_pre_filter_set_xx_hed_list_scval (vl-sort ss_pre_filter_set_xx_hed_list_scval '>))
+      (setq ss_pre_filter_set_xx_hed_list_scval (LM:CountItems ss_pre_filter_set_xx_hed_list_scval nil))
+      (setq SCALE_FOR_A1_val (LM:lst->str ss_pre_filter_set_xx_hed_list_scval ","))
+      (setq SCALE_FOR_A3_val (LM:lst->str 
+                               (mapcar 
+                                 '(lambda (x) (itoa (* (atoi x) 2)))
+                                 ss_pre_filter_set_xx_hed_list_scval
+                               )
+                               ","
+                             )
+      )
+    ;
+    (LM:vl-setattributevalue (vlax-ename->vla-object  (ssname ss_pre_filter_set_xx_ttb_ 0)) "SCALE_FOR_A1_val" (strcat "A1 = " SCALE_FOR_A1_val))
+    (LM:vl-setattributevalue (vlax-ename->vla-object  (ssname ss_pre_filter_set_xx_ttb_ 0)) "DWG_SCALE_val" (strcat "A3 = " SCALE_FOR_A3_val))
+  )
+  (defun c:temp_fix_sc5 ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+      (setq ss_pre_filter_set_xx_ttb_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "Title Block_Under Ground_C1 v3" )))
+      (setq ss_pre_filter_set_xx_hed_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "000 - CKST_HEADING_VAL" )))
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_hed_i 0)
+      (setq ss_pre_filter_set_xx_hed_list_scval ())
+      (while (< ss_pre_filter_set_xx_hed_i (sslength ss_pre_filter_set_xx_hed_))
+        (setq ss_pre_filter_set_xx_hed_ename_ (ssname ss_pre_filter_set_xx_hed_ ss_pre_filter_set_xx_hed_i))
+        (setq ss_pre_filter_set_xx_hed_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_hed_ename_))
+        (setq ss_pre_filter_set_xx_hed_list_scval (cons (LM:StringSubst "" "SCALE 1:" (LM:vl-getattributevalue ss_pre_filter_set_xx_hed_obj_ "SC_VAL" )) ss_pre_filter_set_xx_hed_list_scval))
+        (setq ss_pre_filter_set_xx_hed_i (+ ss_pre_filter_set_xx_hed_i 1))
+      )
+      (setq ss_pre_filter_set_xx_hed_list_scval (LM:CountItems ss_pre_filter_set_xx_hed_list_scval nil))
+      (setq SCALE_FOR_A1_val (LM:lst->str ss_pre_filter_set_xx_hed_list_scval ","))
+      (setq SCALE_FOR_A3_val (LM:lst->str 
+                               (mapcar 
+                                 '(lambda (x) (itoa (* (atoi x) 2)))
+                                 ss_pre_filter_set_xx_hed_list_scval
+                               )
+                               ","
+                             )
+      )
+    ;
+    (LM:vl-setattributevalue (vlax-ename->vla-object  (ssname ss_pre_filter_set_xx_ttb_ 0)) "SCALE_FOR_A1_val" (strcat "A1 = " SCALE_FOR_A1_val))
+    (LM:vl-setattributevalue (vlax-ename->vla-object  (ssname ss_pre_filter_set_xx_ttb_ 0)) "DWG_SCALE_val" (strcat "A3 = " SCALE_FOR_A3_val))
   )
 
 

@@ -11,11 +11,11 @@ export function rectangleFrame(rings){
  return {x:(p[0][0]+p[2][0])/2,y:(p[0][1]+p[2][1])/2,width,height,angle:Math.atan2(x[1],x[0])};
 }
 
-export function addBoxBatch(items,{group,material,matrix,depth,offset=0,areaId,edges,edgeMaterial}){
+export function addBoxBatch(items,{group,material,matrix,depth,offset=0,areaId,panelType,edges,edgeMaterial}){
  if(!items.length)return;
  const mesh=new THREE.InstancedMesh(new THREE.BoxGeometry(1,1,1),material,items.length);
  const transform=new THREE.Matrix4(),position=new THREE.Vector3(),rotation=new THREE.Quaternion(),scale=new THREE.Vector3(),axis=new THREE.Vector3(0,0,1);
- mesh.userData={areaId,panelKeys:items.map(item=>item.key)};
+ mesh.userData={areaId,panelType,panelKeys:items.map(item=>item.key)};
  const linePositions=edges?new Float32Array(items.length*72):null;let cursor=0;
  for(let i=0;i<items.length;i++){
   const {frame:f,rings}=items[i];position.set(f.x,f.y,offset);rotation.setFromAxisAngle(axis,f.angle);scale.set(f.width,f.height,depth);
