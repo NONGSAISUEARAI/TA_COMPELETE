@@ -1,0 +1,8 @@
+(setvar "SECURELOAD" 0)
+(setvar "FILEDIA" 0)
+(load "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/tmp/ta_facade_outline_validation/real_c06/trial.lsp")
+_.SAVEAS
+2018
+C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/outputs/fo_c06_trial/ESTIMATE_C06_REV02_FO_TRIAL.dwg
+_.QUIT
+

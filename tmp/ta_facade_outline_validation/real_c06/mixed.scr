@@ -1,0 +1,6 @@
+(setvar "SECURELOAD" 0)
+(setvar "FILEDIA" 0)
+(load "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/tmp/ta_facade_outline_validation/real_c06/mixed.lsp")
+_.QSAVE
+_.QUIT
+

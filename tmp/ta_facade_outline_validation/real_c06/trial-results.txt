@@ -1,0 +1,12 @@
+SOURCE: 14 panel polylines + 14 panel-code blocks + 1 existing INFO block; old outline excluded from input.
+Source panel area sum (m2)=8.35486451
+Existing outline area (m2)=9.14321644
+A: default exception list: selected=29; outlines=1; elapsed-ms=38968
+  skipped=((facade_1_INFO . 1))
+  outline-area-m2=9.14321644; vertices=12; info-name=facade_1_INFO; values=((AREA . 9.14) (MAT . ) (STATION . ) (FLOOR . )); length-inserts=0
+B: panel-code block added to exceptions: selected=29; outlines=1; elapsed-ms=688
+  skipped=((facade_1_INFO . 1) (000_CKST-FAMELINE_CEILING06_CODE_PANEL . 14))
+  outline-area-m2=9.14321644; vertices=12; info-name=facade_1_INFO; values=((AREA . 9.14) (MAT . ) (STATION . ) (FLOOR . )); length-inserts=0
+Outline difference from A (m2)=0.00000000
+Overall minus source panel area sum (m2)=0.78835193
+Selected sources unchanged=YES

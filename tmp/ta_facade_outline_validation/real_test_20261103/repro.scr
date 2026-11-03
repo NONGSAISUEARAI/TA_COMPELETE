@@ -1,0 +1,15 @@
+(setvar "SECURELOAD" 0)
+(setvar "FILEDIA" 0)
+(setq tfoi-root "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/tmp/ta_facade_outline_validation/real_test_20261103/")
+(load "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/tmp/ta_facade_outline_validation/real_c06/inspect.lsp")
+(load "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/GPT CODE/TA_FACADE_OUTLINE/TA_FACADE_OUTLINE.lsp")
+(setq tfoi-ss (ssget "_X" '((410 . "Model") (0 . "INSERT,LWPOLYLINE,POLYLINE,LINE,ARC,CIRCLE"))))
+(princ (strcat "\nREPRO INPUT COUNT=" (itoa (sslength tfoi-ss))))
+(setq tfoi-result (TFO:CommandBuild tfoi-ss))
+(setq tfoi-file (open (strcat tfoi-root "fo-result.lspdata") "w"))
+(foreach row tfoi-result (foreach entity (list (car row) (caddr row)) (prin1 (list "ENTITY" (vl-remove-if '(lambda (pair) (= (type (cdr pair)) 'ENAME)) (entget entity))) tfoi-file) (write-line "" tfoi-file)))
+(close tfoi-file)
+(princ (strcat "\nREPRO OUTPUT COUNT=" (itoa (length tfoi-result))))
+_.QUIT
+_Y
+

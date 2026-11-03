@@ -1,0 +1,14 @@
+(setvar "SECURELOAD" 0)
+_.UNDO
+_AUTO
+_OFF
+(setq tfot-root "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/GPT CODE/TA_FACADE_OUTLINE/")
+(load (strcat tfot-root "TA_FACADE_OUTLINE.lsp"))
+(load (strcat tfot-root "tests/TA_FACADE_OUTLINE_tests.lsp"))
+(setq tfot-result (TFO:CommandBuild (TFOT:Set (list tfot-a))))
+_.UNDO
+1
+(TFOT:AfterUndo)
+_.QUIT
+_Y
+

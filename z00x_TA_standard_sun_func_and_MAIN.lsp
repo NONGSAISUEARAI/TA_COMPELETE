@@ -12100,12 +12100,12 @@
       )
       (command "pselect" ss_pre_filter_set_xx_ "")
     )
-    (defun c:filter_object_and_selection_[ssspline] ()
+    (defun c:filter_object_and_selection_[sspline] ()
       (if  ;pre_select_ssget_or_post_select_ssget
         (= 
           (setq ss_pre_filter_set_xx_ (ssget "I" 
                                             (list 
-                                              (cons 0 "spline") ;type of object
+                                              (cons 0 "LWPOLYLINE") ;type of object
                                               ; (cons 8 "000 - GRID")   ;kind of layer
                                               ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                               ; (cons 62 1)           ;kind of color call sign with color code index
@@ -12117,7 +12117,7 @@
         (progn 
           (setq ss_pre_filter_set_xx_ (ssget 
                                         (list 
-                                          (cons 0 "spline") ;type of object
+                                          (cons 0 "LWPOLYLINE") ;type of object
                                           ; (cons 8 "000 - GRID")   ;kind of layer
                                           ; (cons 2 "000-GRIDLINE_DYN")       ;kind of nameblock
                                           ; (cons 62 1)           ;kind of color call sign with color code index
@@ -12129,13 +12129,7 @@
       )
 
       ;preloop_and_while
-        (setq ss_pre_filter_set_xx_i 0)
-        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
-          (command "pedit" ss_pre_filter_set_xx_ename_ "Y" "2"  "")
-      
-          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
-        )
+        (command "pselect"  ss_pre_filter_set_xx_ "" )
       ;
       
     )
@@ -21359,7 +21353,7 @@
           (=
             (setq ss_pre_filter_set_xx_ (ssget "i"
                                               (list
-                                                (cons 0 "INSERT") ;type of object
+                                                (cons 0 "INSERT,LWPOLYLINE") ;type of object
                                                 ; (cons 8 "000 - GRID")   ;kind of layer
                                                 ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                                 ; (cons 62 1)           ;kind of color call sign with color code index
@@ -21371,7 +21365,7 @@
           (progn
             (setq ss_pre_filter_set_xx_ (ssget
                                               (list
-                                                (cons 0 "INSERT") ;type of object
+                                                (cons 0 "INSERT,LWPOLYLINE") ;type of object
                                                 ; (cons 8 "000 - GRID")   ;kind of layer
                                                 ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
                                                 ; (cons 62 1)           ;kind of color call sign with color code index
@@ -21382,7 +21376,7 @@
           (sslength ss_pre_filter_set_xx_)
         )
       ;
-      ;
+      ;user-input blocklist 
         (setq blocklist_list_ (list 
                           "user_input"
                           "A$C31bb98ba"
@@ -21416,6 +21410,7 @@
       ;
       ;preloop_and_while
         (setq ss_pre_filter_set_xx_i 0)
+        (setq dictr_ (getstring "vertical or honlizontal :"))
         (while (and 
                 ;  (= (vla-get-objectname blocklist_input_obj_) "AcDbBlockReference")
                  (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
@@ -21430,24 +21425,159 @@
           (setq ssbol_vertex_list_3 (nth 3 (TA:assembly_coordinate_coner (list ss_pre_filter_set_xx_min_ ss_pre_filter_set_xx_max_ ))))
           (TA:vla-insertblock
             blocklist_input_obj_efname_
-            (nth 0 (TA:assembly_coordinate_coner (list ss_pre_filter_set_xx_min_ ss_pre_filter_set_xx_max_ )))
-            1
+            (nth 4 (TA:assembly_coordinate_coner (list ss_pre_filter_set_xx_min_ ss_pre_filter_set_xx_max_ )))
+            0.03
             (deg-to-rad 90)
           )
+          ;EXTENSION_FUNCTION
+            ;new_blk_entlast object
+              (setq newcode_ename (entlast))
+              (setq newcode_obj (vlax-ename->vla-object newcode_ename))
+              (setq newcode_obj_layer_ (vla-put-layer newcode_obj "009 - AHP_06_DATA_TEXT" ))
+              (setq newcode_obj_color_ (vla-put-color newcode_obj 256))
+              (setq overerall_size_ (TA:assembly_coordinate_coner (list ss_pre_filter_set_xx_min_ ss_pre_filter_set_xx_max_ )))
+              (setq overerall_size_1 (list 
+                                    (distance (nth 0 overerall_size_) (nth 1 overerall_size_))
+                                    (distance (nth 0 overerall_size_) (nth 3 overerall_size_))
+                                  )
+              )
+              (if (= dictr_  "v")
+                (progn 
+                  (LM:vl-setattributevalue newcode_obj "panel_length" (distance (nth 0 overerall_size_) (nth 3 overerall_size_)) )
+                  (LM:vl-setattributevalue newcode_obj "panel_width" (distance (nth 0 overerall_size_) (nth 1 overerall_size_))  )
+                )
+                ( list
+                  (LM:vl-setattributevalue newcode_obj "panel_length" (distance (nth 0 overerall_size_) (nth 1 overerall_size_)) )
+                  (LM:vl-setattributevalue newcode_obj "panel_width" (distance (nth 0 overerall_size_) (nth 3 overerall_size_)) )
+                )
+              )
+
+            ;
+          ;
+          
+          
+          
           (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
         )
       ;
       ; (setq bypass-for-kill_ss_
-      ;   (vl-catch-all-apply
-      ;     (function
-      ;       (lambda ()
-      ;         (getstring "\nHit [ENTER] to kill selection set ...")
-      ;         (TA:ss-erase ss_pre_filter_set_xx_)
-      ;       )
-      ;     )
-      ;   )
+        ;   (vl-catch-all-apply
+        ;     (function
+        ;       (lambda ()
+        ;         (getstring "\nHit [ENTER] to kill selection set ...")
+        ;         (TA:ss-erase ss_pre_filter_set_xx_)
+        ;       )
+        ;     )
+        ;   )
       ; )
-      
+
+    )
+    (defun c:intert_by_boundary-area_blk4[temp] ()
+      (setq vertext_seq_ 0)
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT,LWPOLYLINE") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT,LWPOLYLINE") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (setq new_code_ss_ (ssadd))
+        (setq dictr_ ;Get-string by keep previous value
+            (if
+              (or
+                (/= (setq dictr_val (getstring (strcat "\nvertical or honlizontal <" (if dictr_ dictr_ "") ">: ") ) ) "" )
+              )
+                (progn
+                  (setq dictr_ dictr_val)
+                  (setq dictr_keep_val_ dictr_val)
+                )
+              (setq dictr_val dictr_keep_val_)
+            )
+        )
+        (while (and 
+                ;  (= (vla-get-objectname blocklist_input_obj_) "AcDbBlockReference")
+                 (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+               )
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (setq ss_pre_filter_set_xx_obj_getboundingbox (vla-getboundingbox ss_pre_filter_set_xx_obj_ 'min_ 'max_)) 
+          (setq ss_pre_filter_set_xx_min_ (vlax-safearray->list min_)) 
+          (setq ss_pre_filter_set_xx_max_ (vlax-safearray->list max_)) 
+          
+          (setq ssbol_vertex_list_2 (nth 2 (TA:assembly_coordinate_coner (list ss_pre_filter_set_xx_min_ ss_pre_filter_set_xx_max_ ))))
+          (setq ssbol_vertex_list_3 (nth 3 (TA:assembly_coordinate_coner (list ss_pre_filter_set_xx_min_ ss_pre_filter_set_xx_max_ ))))
+          (TA:vla-insertblock
+            "000_CKST-FAMELINE_CEILING06_CODE_PANEL"
+            (nth 4 (TA:assembly_coordinate_coner (list ss_pre_filter_set_xx_min_ ss_pre_filter_set_xx_max_ )))
+            0.03
+            (deg-to-rad 90)
+          )
+          ;EXTENSION_FUNCTION
+            ;new_blk_entlast object
+              (setq newcode_ename (entlast))
+              (setq newcode_obj (vlax-ename->vla-object newcode_ename))
+              (setq newcode_obj_layer_ (vla-put-layer newcode_obj "009 - AHP_06_DATA_TEXT" ))
+              (setq newcode_obj_color_ (vla-put-color newcode_obj 256))
+              (setq overerall_size_ (TA:assembly_coordinate_coner (list ss_pre_filter_set_xx_min_ ss_pre_filter_set_xx_max_ )))
+              (setq overerall_size_1 (list 
+                                    (distance (nth 0 overerall_size_) (nth 1 overerall_size_))
+                                    (distance (nth 0 overerall_size_) (nth 3 overerall_size_))
+                                  )
+              )
+              (if (= dictr_ "v")
+                (progn 
+                  (LM:vl-setattributevalue newcode_obj "panel_length" (distance (nth 0 overerall_size_) (nth 3 overerall_size_)) )
+                  (LM:vl-setattributevalue newcode_obj "panel_width" (distance (nth 0 overerall_size_) (nth 1 overerall_size_))  )
+                )
+                ( list
+                  (LM:vl-setattributevalue newcode_obj "panel_length" (distance (nth 0 overerall_size_) (nth 1 overerall_size_)) )
+                  (LM:vl-setattributevalue newcode_obj "panel_width" (distance (nth 0 overerall_size_) (nth 3 overerall_size_)) )
+                )
+              )
+              (setq new_code_ss_ (ssadd newcode_ename new_code_ss_))
+
+            ;
+          ;
+          
+          
+          
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+      ; (setq bypass-for-kill_ss_
+        ;   (vl-catch-all-apply
+        ;     (function
+        ;       (lambda ()
+        ;         (getstring "\nHit [ENTER] to kill selection set ...")
+        ;         (TA:ss-erase ss_pre_filter_set_xx_)
+        ;       )
+        ;     )
+        ;   )
+      ; )
+      (command "pselect"  new_code_ss_ "" )
     )
     (defun c:insert_array_insarray ()
       (if 

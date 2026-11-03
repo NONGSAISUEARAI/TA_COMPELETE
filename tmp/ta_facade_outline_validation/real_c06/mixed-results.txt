@@ -1,0 +1,7 @@
+MIXED SOURCE: 11 panel blocks + 11 panel polylines + 1 panel line + 22 panel-code blocks. Selected=45; outlines=1; elapsed-ms=1328
+Outline area (m2)=17.73057036; vertices=14; info-name=facade_1_INFO; length-inserts=0
+  AREA=17.73
+  MAT=
+  STATION=
+  FLOOR=
+Selected source entities unchanged=YES

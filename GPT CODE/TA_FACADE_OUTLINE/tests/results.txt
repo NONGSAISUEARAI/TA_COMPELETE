@@ -1,0 +1,94 @@
+PASS Default exceptions contain the separate AREA and LENGTH block names
+PASS v1.4 disables length labels by default
+PASS v1.3 defaults to one overall envelope across gaps
+PASS Mixed Block + Pline creates one closed four-sided outline
+PASS Internal join is removed and outside area is 20000
+PASS Every visible attribute includes prefix and edge length
+PASS Only one outline, four length inserts and one info insert remain; temporary geometry removed
+PASS Source entities are unchanged
+PASS System variables restored
+PASS Labels are at side midpoints with outward clearance
+PASS Labels are real middle-centered LENGTH attributes
+PASS Overlapping plines union to the actual outer boundary
+PASS Concave L outline retains six sides and actual area
+PASS Disconnected objects produce two outlines and eight labels
+PASS Ring of panels labels outer loop only, omitting its hole
+PASS Circular arc remains a true bulge, not a faceted line
+PASS Arc labels use actual arc length and explicit decimal precision
+PASS Nested block applies mirror, independent XY scales, rotation and base point
+PASS Open unclosed area fails without output, leaks or source edits
+PASS Failure restores OSMODE, DELOBJ and DIMZIN
+PASS An open selected tail outside a closed shape fails atomically
+PASS Block made from lines and internal panel dividers creates one outside loop
+PASS Sloping side has prefix_120.42, midpoint offset outward and parallel rotation
+PASS Reference trapezoid includes both long lengths with prefix
+PASS Late error rolls back outline and already-created attribute blocks
+PASS Mirrored uniformly scaled circle remains two exact semicircular segments
+PASS Nonuniformly stretched curved block is rejected without approximation or leaks
+PASS Legacy 2D POLYLINE retains common WCS elevation
+PASS Overlapping circular plines retain the exact merged curved area
+PASS Rotated UCS preserves WCS outline and label geometry
+PASS LONGEST2 labels only 2010 and 2000 on the reference trapezoid
+PASS LONGEST2 retains full closed outline with two length inserts and one info insert
+PASS Two longest labels retain outward midpoint placement and readable rotation
+PASS Equal-length square and lowercase mode still create exactly two real attributes
+PASS Exact length ties resolve consistently by vertex order
+PASS Each disconnected component gets its own two longest labels
+PASS Stretched block selects its two transformed 300-unit sides
+PASS LONGEST2 ranks actual arc length rather than chord or display text
+PASS Invalid label mode fails before creating geometry and retains source
+PASS Information is one separate INSERT containing exactly AREA MAT STATION FLOOR attributes
+PASS AREA is the numeric outer-polyline area and metadata defaults fill independent fields
+PASS Information block is centered inside a rectangle at the outline elevation
+PASS Disconnected outlines each receive their own area value
+PASS Compatible information definitions are reused across outlines and runs
+PASS AREA conversion from mm2 to m2 uses its own factor and decimal precision
+PASS AREA includes exact circular-arc sector area
+PASS Concave outline places information at an interior point instead of outside bbox center
+PASS Information offset, text height, row spacing and elevation follow presets
+PASS Existing block missing required tags is preserved without creating a suffixed name
+PASS Late failure removes information blocks together with outlines and length labels
+PASS Invalid area factor fails without partial output or source edits
+PASS Separated panels create one full-width overall outline across their gap
+PASS Overall lengths and AREA include the joining gap, with only one information block
+PASS Overall joining leaves separated originals unchanged
+PASS Overall preserves the reference bottom-right step rather than making a bounding box
+PASS Two-row panel grid closes all exterior seams into one complete overall rectangle
+PASS Small assembly seams close without filling a large concave U opening
+PASS Large panel separation is still included in one overall outline
+PASS Overall combines transformed nested blocks and plines across a gap
+PASS Loose LINE endpoints restore a natural square corner without source edits
+PASS OVERALL closes a missing side in copies and preserves the original open polyline
+PASS Overall includes a selected open outside edge in its envelope
+PASS ALL labels the final overall sides, with one AREA MAT STATION FLOOR block
+PASS Invalid outline mode fails atomically
+PASS FO creates only the overall polyline and one information insert, even with stale ALL mode
+PASS FO never invokes LENGTH creation or creates its unused definition and layer
+PASS FO retains the correct overall AREA and four metadata attributes
+PASS FO's local NONE override preserves the caller's global label mode
+PASS FO ignores obsolete length settings and still emits only outline plus information
+PASS FO retains previously created LENGTH inserts and their attribute values
+PASS FO's SPLIT mode also creates only outlines and information blocks without LENGTH labels
+PASS AREA insertion always reuses its configured block despite prefix style and spacing changes
+PASS Existing AREA base point position height width rotation color and style are preserved
+PASS Additional attributes in an existing AREA block keep their defaults
+PASS Native insertion restores the user's UCS and attribute angle and layer settings
+PASS Changing prefix reuses the same AREA block while only the new reference gets new values
+PASS LENGTH independently reuses its configured original block across different prefixes
+PASS LENGTH honors its existing custom ATTDEF layout and leaves AREA definition separate
+PASS Missing LENGTH tag fails without changing the original or creating another block
+PASS AREA and LENGTH cannot be configured to share one block name
+PASS Mixed selection skips named blocks regardless of case and their different Z does not affect AREA
+PASS Excluded source references and definitions remain unchanged with no temporary geometry leaked
+PASS Nested exceptions are skipped while ordinary geometry and sibling blocks remain in the outline
+PASS Excluding a parent skips its entire subtree including otherwise unlisted child blocks
+PASS Exception names match whole names without excluding similar names
+PASS Exception entries are literal block names rather than wildcard patterns
+PASS An empty exception list restores ordinary inclusion of a previously excluded name
+PASS Selecting only excluded blocks creates no output and preserves the selected references
+PASS Invalid exception entries fail before output or source changes
+PASS Actual near-coincident panel seams retain all panels in one overall outline with one INFO
+PASS Near-coincident outline covers the left panel while preserving the genuine lower-left notch and sources
+PASS Reversing selection order retains the same overall area for near-coincident seams
+PASS One UNDO removes all output together and retains the source
+TOTAL PASS=93 FAIL=0

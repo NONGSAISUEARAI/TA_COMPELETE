@@ -1,0 +1,10 @@
+(setvar "SECURELOAD" 0)
+(setvar "FILEDIA" 0)
+(setq tfoi-root "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/tmp/ta_facade_outline_validation/real_c06/")
+(load (strcat tfoi-root "inspect.lsp"))
+_.DXFOUT
+C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/tmp/ta_facade_outline_validation/real_c06/source.dxf
+16
+_.QUIT
+_Y
+
