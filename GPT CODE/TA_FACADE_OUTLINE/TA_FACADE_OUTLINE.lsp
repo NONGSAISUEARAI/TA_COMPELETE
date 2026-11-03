@@ -17,7 +17,7 @@
 (setq offset_info_      '(0.0 0.0)) ; WCS XY offset from an automatic interior point
 (setq layer_info_       "TA-FACADE-INFO")
 (setq color_info_       2)          ; Yellow
-(setq tolerance_fo_     0.001)
+(setq tolerance_fo_     0.00001)
 ;
 ;;; TA_FACADE_OUTLINE v1.8 -- commands FO / FACADEOUTLINE.
 ;;; Standalone AutoLISP, AutoCAD for Windows with REGION/UNION support.

@@ -14506,6 +14506,96 @@
       )
       (setq selection_target_ selection_target_)
     )
+    (defun c:SFBx2_stackblk-to-list_ (  )
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ssblk_list_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ssblk_list_ (ssget
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ssblk_list_)
+        )
+      ;
+      ;preloop_and_while ;get_effectivename_from_selection_set
+        (setq ssblk_list_i 0)
+        (setq effectivename_list_ (list "ALL BLOCK"))
+        (if ssblk_list_
+          (progn
+            (while (< ssblk_list_i (sslength ssblk_list_))
+              (setq ssblk_list_ename_ (ssname ssblk_list_ ssblk_list_i))
+              (setq ssblk_list_obj_ (vlax-ename->vla-object ssblk_list_ename_))
+              (setq ssblk_list_effectivename_ (LM:effectivename ssblk_list_obj_))
+              (setq effectivename_list_ (cons ssblk_list_effectivename_ effectivename_list_))
+
+              (setq ssblk_list_i (+ ssblk_list_i 1))
+            )
+            (setq effectivename_list_ (LM:CountItems (reverse effectivename_list_) nil))
+          )
+        )
+      ;
+    )
+    (defun c:SFBx1_FINDING_SPECFILY_NAME_BLOCK (  )
+      (if effectivename_list_
+        (progn
+          ;selection_set_for_fillter_blk_name
+            (if  ;pre_select_ssget_or_post_select_ssget
+              (=
+                (setq ss_pre_filter_set_xx_ (ssget "i"
+                                                  (list
+                                                    (cons 0 "INSERT") ;type of object
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+                nil
+              )
+              (progn
+                (setq ss_pre_filter_set_xx_ (ssget
+                                                  (list
+                                                    (cons 0 "INSERT") ;type of object
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+              )
+              (sslength ss_pre_filter_set_xx_)
+            )
+          ;
+          (setq sdas (TA:choose_list_v4 effectivename_list_ "Select Block Name to find" sdas ) )
+          (if (= sdas "ALL BLOCK")
+            (progn
+              (setq result_filter_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ effectivename_list_  ) )
+            )
+            (setq result_filter_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list sdas )))
+          )
+          
+        )
+      )
+      (command "pselect"  result_filter_ "" )
+    )
     (defun c:find_area_ ()
       ;selection_set_for_fillter_blk_name
         (if  ;pre_select_ssget_or_post_select_ssget
@@ -15545,208 +15635,211 @@
     
   ;
   ;check-detecty FUNC
-    (defun c:Check_overlap_object_COBJ_ ()
+    (defun c:Check_overlap_object_COBJ_ (/ *error*
+                                    TA:COBJ-effectivename
+                                    TA:COBJ-ename+insertionpoint
+                                    ss_pre_filter_set_xx_
+                                    ss_pre_filter_set_xx_i
+                                    ss_pre_filter_set_xx_count_
+                                    ss_pre_filter_set_xx_ename_
+                                    ss_pre_filter_set_xx_obj_
+                                    tolerance_dist_
+                                    EFNAME_
+                                    EFNAME_obj_
+                                    EFNAME_MAIN_
+                                    cancel_
+                                    sum_list
+                                    sum_list_
+                                    sum_list_i
+                                    sum_list_count_
+                                    sum_list_obj_ins_
+                                    check_list_
+                                    check_list_scan_
+                                    check_duplicate_
+                                    check_final_
+                                    newssset_
+                                    percent
+                                 )
       ;Note By Code_Developer
-      ;This command is designed to work exclusively with a Block Object 
-      ;The principle of the code is to find objects in a selection set that overlap
-      ;If overlapping objects are found, the algorithm calculates the distance between their coordinates and selects the overlapping object based on the user-defined distance
+      ;This command is designed to work exclusively with a Block Object
+      ;The principle of the code is to find blocks with the same effective name
+      ;Duplicate checking uses insertion-point distance, not geometry intersection
+      ;Select extra blocks and keep one representative for each checked location
       ;Fully command must have sub-functions with names starting with TA: or LM:
       ;
       ;
-      
-      ;selection_set_for_fillter_blk_name
-        (if  ;pre_select_ssget_or_post_select_ssget
-          (=
-            (setq ss_pre_filter_set_xx_ (ssget "i"
-                                              (list
-                                                (cons 0 "INSERT") ;type of object
-                                                ; (cons 8 "000 - GRID")   ;kind of layer
-                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                                ; (cons 62 1)           ;kind of color call sign with color code index
-                                              )
-                                        )
-            )
-            nil
-          )
-          (progn
-            (setq ss_pre_filter_set_xx_ (ssget 
-                                              (list
-                                                (cons 0 "INSERT") ;type of object
-                                                ; (cons 8 "000 - GRID")   ;kind of layer
-                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
-                                                ; (cons 62 1)           ;kind of color call sign with color code index
-                                              )
-                                        )
-            )
-          )
-          (sslength ss_pre_filter_set_xx_)
-        )
-      ;
-      ;user_input_
-        (setq tolerance_dist_ (cond ( (getreal (strcat "\nspecify tolerance_dist_ <" (rtos (setq tolerance_dist_ (cond (tolerance_dist_) (0.001) ) ) ) "> : " ) ) ) (tolerance_dist_) ) )
-        ;while_select_block_on_condition_
-          (setq EFNAME_ nil)
-          (while (= EFNAME_ nil)
-            (setq EFNAME_ (car (entsel "specify EFNAME Object")))
-            (if
-              (and ;conditional_rule_for_select_object
-                (/= EFNAME_ nil)
-                (setq EFNAME_obj_ (vlax-ename->vla-object EFNAME_))
-                (= (vla-get-objectname EFNAME_obj_ ) "AcDbBlockReference")
-                ; (= (vla-get-isdynamicblock EFNAME_obj_ ) :vlax-true)
-                ; (/= (LM:getdynpropallowedvalues EFNAME_obj_ "view") nil)
-              )
-              (progn
-                (setq EFNAME_MAIN_ (LM:Effectivename EFNAME_obj_) )'
-                (setq EFNAME_ "notnil")
-              )
-              (alert "Object invalid Please try again")
-            )
-          )
-        ;
-      ;
-      ;preloop_and_while ;get_data_process_for_fillter_blk_name
-        (setq ss_pre_filter_set_xx_i 0)
-        (setq ss_pre_filter_set_xx_ii 1)
-        (setq sum_list_ ())
-        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
-          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
-          (if (= EFNAME_MAIN_ (LM:Effectivename ss_pre_filter_set_xx_obj_ ))
-            (progn
-              (setq sum_list (TA:ename+vla-get-insertionpoint ss_pre_filter_set_xx_obj_))
-              (setq sum_list_ (cons sum_list sum_list_))
-            )
-          )
-          ;screen process
-            (setq percent (fix (* (/ (float ss_pre_filter_set_xx_i) (sslength ss_pre_filter_set_xx_)) 100)))  
-            (princ (strcat "tranfering for_fillter_blk_name " (rtos ss_pre_filter_set_xx_i 2 0) "/" (rtos (sslength ss_pre_filter_set_xx_) 2 0)  " (" (rtos percent 2 0) "%" ")" "\n"))
-            (textscr)
-          ;
-          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
-        )
-      ;
-      ;preloop_and_while for_filter overlapped object
-        (setq ss_pre_filter_set_xx_i 0)
-        (setq newssset_ (ssadd))
-        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
-          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
-          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
-          (setq ss_pre_filter_set_xx_obj_ins_ (TA:ename+vla-get-insertionpoint ss_pre_filter_set_xx_obj_))
-          ; (command "pselect" ss_pre_filter_set_xx_ename_  "") 
-          ;preloop_and_while
-            (setq sum_list_i 0)
-            
-            (while (< sum_list_i (length sum_list_))
-              (setq sum_list_ename_ (nth  sum_list_i sum_list_))
-              
-              (if
-                (and
-                  (/= 
-                    (vl-princ-to-string (car sum_list_ename_))
-                    (vl-princ-to-string (car ss_pre_filter_set_xx_obj_ins_))
-                  )
-                  (< (distance (cadr ss_pre_filter_set_xx_obj_ins_) (cadr sum_list_ename_) ) tolerance_dist_ )
-                )
-                (progn
-                  (setq newssset_ (ssadd (car sum_list_ename_) newssset_ ))
-                  (setq newssset_ (ssadd (car ss_pre_filter_set_xx_obj_ins_) newssset_ ))
-                  
-                  (sslength newssset_)
-                )
-                
-              )
 
-              (setq sum_list_i (+ sum_list_i 1))
-              (sslength newssset_)
-            )
-          ;
-          ;screen process
-            (setq percent (fix (* (/ (float ss_pre_filter_set_xx_i) (sslength ss_pre_filter_set_xx_)) 100)))  
-            (princ (strcat "tranfering overlapped object " (rtos ss_pre_filter_set_xx_i 2 0) "/" (rtos (sslength ss_pre_filter_set_xx_) 2 0)  " (" (rtos percent 2 0) "%" ")" "\n"))
-            (textscr)
-          ;
-          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      ;sub_function_ effective block name
+        (defun TA:COBJ-effectivename (obj)
+          (if (vlax-property-available-p obj 'EffectiveName)
+            (vla-get-effectivename obj)
+            (vla-get-name obj)
+          )
         )
       ;
-      ;selection_process_ selection set for all overlapp object
-        ; (command "pselect"  newssset_ "") 
-      ;
-      ;seleciton set for single overlap object
-        ;preloop_and_while for duplicate ssget
-          (setq newssset_set2_ ())
-          (setq newssset_set2_ (ssadd))
-          (setq newssset_i 0)
-          (while (< newssset_i (sslength newssset_))
-            (setq newssset_ename_ (ssname newssset_ newssset_i))
-            (setq newssset_set2_ (ssadd newssset_ename_ newssset_set2_))
-            (setq newssset_i (+ newssset_i 1))
+      ;sub_function_ entity name and WCS insertion point
+        (defun TA:COBJ-ename+insertionpoint (obj)
+          (list
+            (vlax-vla-object->ename obj)
+            (vlax-safearray->list (vlax-variant-value (vla-get-insertionpoint obj)))
           )
-        ;
-        ;preloop_and_while main_idea for seleciton set for single overlap object
-          (setq newssset_i 0)
-          (setq check_set_ ())
-          (setq check_final_ (ssadd))
-          (while (< newssset_i (sslength newssset_))
-            (setq newssset_ename_ (ssname newssset_ newssset_i))
-            (setq newssset_obj_ins_ (TA:ename+vla-get-insertionpoint (vlax-ename->vla-object newssset_ename_)))
-            ; (command "pselect"  newssset_ename_ "") 
-            ;preloop_and_while
-              (setq newssset_set2_i 0)
-              (while (< newssset_set2_i (sslength newssset_set2_))
-                (setq newssset_ename_set2_ (ssname newssset_set2_ newssset_set2_i))   
-                (setq newssset_ename_set2_obj_ins_ (TA:ename+vla-get-insertionpoint (vlax-ename->vla-object newssset_ename_set2_)))
-                ; (command "pselect"  newssset_ename_set2_ "") 
-                  (if 
-                    (and
-                      (/= ;sameblock_checker
-                        (vl-princ-to-string newssset_ename_) 
-                        (vl-princ-to-string newssset_ename_set2_) 
-                      )
-                      (< ;distance checker
-                        (distance 
-                          (cadr newssset_obj_ins_)
-                          (cadr newssset_ename_set2_obj_ins_)
-                        )
-                        tolerance_dist_
-                      )
-                      (if
-                        (and
-                          (/=  ;sameblock_checker
-                            (vl-princ-to-string newssset_ename_)
-                            (vl-princ-to-string newssset_ename_set2_)
-                            
+        )
+      ;
+      ;error_handler_
+        (defun *error* (msg)
+          (if
+            (and msg (not (wcmatch (strcase msg) "*CANCEL*,*QUIT*,*BREAK*")))
+            (princ (strcat "\nError: " msg))
+          )
+          (princ)
+        )
+        (vl-load-com)
+      ;
+      ;selection_set_for_fillter_blk_name
+        (if ;pre_select_ssget_or_post_select_ssget
+          (not
+            (setq ss_pre_filter_set_xx_ (ssget "_I"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                            )
+                                      )
+          )
+        )
+      ;
+      (if ss_pre_filter_set_xx_
+        (progn
+          ;user_input_
+            (if
+              (not
+                (and
+                  (numberp *TA:COBJ-tolerance-dist_*)
+                  (> *TA:COBJ-tolerance-dist_* 0.0)
+                )
+              )
+              (setq *TA:COBJ-tolerance-dist_* 0.001)
+            )
+            (initget 6) ;reject zero and negative distances; allow Enter
+            (setq tolerance_dist_
+              (cond
+                ((getdist (strcat "\nSpecify tolerance_dist_ <"
+                                  (rtos *TA:COBJ-tolerance-dist_* 2 6)
+                                  "> : "
                           )
-                          (= (TA:member (vl-princ-to-string newssset_ename_) check_set_ ) nil)
-                        )
-                        (progn
-                          (setq check_set_ (cons (vl-princ-to-string newssset_ename_) check_set_ ))
-                          ; (setq newssset_set2_  (ssdel newssset_ename_set2_ newssset_set2_))
-                        )
-                        (setq ss "1")
+                 )
+                )
+                (*TA:COBJ-tolerance-dist_*)
+              )
+            )
+            (setq *TA:COBJ-tolerance-dist_* tolerance_dist_)
+            ;while_select_block_on_condition_
+              (setq EFNAME_MAIN_ nil)
+              (setq cancel_ nil)
+              (while (and (null EFNAME_MAIN_) (not cancel_))
+                (setq EFNAME_ (car (entsel "\nSpecify EFNAME Object <cancel>: ")))
+                (cond
+                  ((null EFNAME_)
+                    (setq cancel_ T)
+                  )
+                  ((= (vla-get-objectname
+                        (setq EFNAME_obj_ (vlax-ename->vla-object EFNAME_))
                       )
-                    )
-                    (progn
-                      
-                      (setq check_final_ (ssadd newssset_ename_ check_final_))
-                      (setq newssset_ (ssdel newssset_ename_ newssset_))
-                      (setq newssset_set2_ (ssdel newssset_ename_set2_ newssset_set2_))
-                      
-                      ; (command "pselect"  check_final_ "") 
-                    )
-                  )   
-                (setq newssset_set2_i (+ newssset_set2_i 1))
+                      "AcDbBlockReference"
+                   )
+                    (setq EFNAME_MAIN_ (TA:COBJ-effectivename EFNAME_obj_))
+                  )
+                  (T
+                    (alert "Object invalid Please try again")
+                  )
+                )
               )
             ;
-            
-
-            
-            (setq newssset_i (+ newssset_i 1))
+          ;
+          (if (not cancel_)
+            (progn
+              ;preloop_and_while ;get_data_process_for_fillter_blk_name
+                (setq ss_pre_filter_set_xx_i 0)
+                (setq ss_pre_filter_set_xx_count_ (sslength ss_pre_filter_set_xx_))
+                (setq sum_list_ ())
+                (while (< ss_pre_filter_set_xx_i ss_pre_filter_set_xx_count_)
+                  (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ (float ss_pre_filter_set_xx_i)))
+                  (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
+                  (if (= (strcase EFNAME_MAIN_) (strcase (TA:COBJ-effectivename ss_pre_filter_set_xx_obj_)))
+                    (progn
+                      (setq sum_list (TA:COBJ-ename+insertionpoint ss_pre_filter_set_xx_obj_))
+                      (setq sum_list_ (cons sum_list sum_list_))
+                    )
+                  )
+                  (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+                  ;screen process
+                    (setq percent (fix (* (/ (float ss_pre_filter_set_xx_i) ss_pre_filter_set_xx_count_) 100)))
+                    (princ (strcat "tranfering for_fillter_blk_name " (rtos ss_pre_filter_set_xx_i 2 0) "/" (rtos ss_pre_filter_set_xx_count_ 2 0) " (" (rtos percent 2 0) "%" ")" "\n"))
+                    (textscr)
+                  ;
+                )
+                (setq sum_list_ (reverse sum_list_)) ;preserve selection-set order
+              ;
+              ;preloop_and_while for_filter overlapped object
+                (setq sum_list_i 0)
+                (setq sum_list_count_ (length sum_list_))
+                (setq check_list_ ()) ;representatives that will be kept
+                (setq newssset_ (ssadd)) ;extra blocks that will be selected
+                (foreach sum_list_obj_ins_ sum_list_
+                  (setq check_duplicate_ nil)
+                  (setq check_list_scan_ check_list_)
+                  (while (and check_list_scan_ (not check_duplicate_))
+                    (if
+                      (< (distance (cadr sum_list_obj_ins_)
+                                   (cadr (car check_list_scan_))
+                         )
+                         tolerance_dist_
+                      )
+                      (setq check_duplicate_ T)
+                    )
+                    (setq check_list_scan_ (cdr check_list_scan_))
+                  )
+                  (if check_duplicate_
+                    (setq newssset_ (ssadd (car sum_list_obj_ins_) newssset_))
+                    (setq check_list_ (cons sum_list_obj_ins_ check_list_))
+                  )
+                  (setq sum_list_i (+ sum_list_i 1))
+                  ;screen process
+                    (setq percent (fix (* (/ (float sum_list_i) sum_list_count_) 100)))
+                    (princ (strcat "tranfering overlapped object " (rtos sum_list_i 2 0) "/" (rtos sum_list_count_ 2 0) " (" (rtos percent 2 0) "%" ")" "\n"))
+                    (textscr)
+                  ;
+                )
+              ;
+              ;selection_process_ selection set for extra overlapp object
+                (setq check_final_ newssset_)
+                (if (> (sslength check_final_) 0)
+                  (sssetfirst nil check_final_)
+                  (sssetfirst nil nil)
+                )
+                (princ (strcat "\nBlock name: " EFNAME_MAIN_
+                               " | Checked: " (itoa sum_list_count_)
+                               " | Kept: " (itoa (length check_list_))
+                               " | Duplicates selected: " (itoa (sslength check_final_))
+                       )
+                )
+              ;
+            )
+            (princ "\nCommand cancelled.")
           )
-          (command "pselect"  check_final_ "")
-        ;
-      ;
-    )
+        )
+        (princ "\nNo block selected.")
+      )
+      (princ)
+    ) 
     (defun c:Check_intersection_ckinsblk ()
       ;selection_set_for_fillter_blk_name
         (if  ;pre_select_ssget_or_post_select_ssget
