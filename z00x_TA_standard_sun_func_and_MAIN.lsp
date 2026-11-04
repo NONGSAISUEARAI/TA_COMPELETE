@@ -66491,3 +66491,244 @@
     )
   ;                                                                                                                         
 )
+
+
+(defun c:ROUND_PANEL_SIZE_UP ()
+  ;selection_set_for_filter_blk_name
+    (if
+      (=
+        (setq ss_pre_filter_set_xx_
+          (ssget "i"
+            (list
+              (cons 0 "INSERT") ;type of object
+            )
+          )
+        )
+        nil
+      )
+      (setq ss_pre_filter_set_xx_
+        (ssget
+          (list
+            (cons 0 "INSERT") ;type of object
+          )
+        )
+      )
+    )
+  ;
+
+  (if ss_pre_filter_set_xx_
+    (progn
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_
+            (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i)
+          )
+          (setq ss_pre_filter_set_xx_obj_
+            (vlax-ename->vla-object ss_pre_filter_set_xx_ename_)
+          )
+
+          ;panel_length
+            (setq panel_length_val_
+              (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_length")
+            )
+            (if
+              (and
+                panel_length_val_
+                (setq panel_length_num_ (distof panel_length_val_ 2))
+              )
+              (LM:vl-setattributevalue
+                ss_pre_filter_set_xx_obj_
+                "panel_length"
+                (rtos (LM:roundup panel_length_num_ 1.0) 2 0)
+              )
+            )
+          ;
+
+          ;panel_width
+            (setq panel_width_val_
+              (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_width")
+            )
+            (if
+              (and
+                panel_width_val_
+                (setq panel_width_num_ (distof panel_width_val_ 2))
+              )
+              (LM:vl-setattributevalue
+                ss_pre_filter_set_xx_obj_
+                "panel_width"
+                (rtos (LM:roundup panel_width_num_ 1.0) 2 0)
+              )
+            )
+          ;
+
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+    )
+    (princ "\nNo INSERT selected.")
+  )
+  (princ)
+)
+
+(defun c:SET_SELF_DRILL_NO8 ()
+  ;selection_set_for_filter_blk_name
+    (if
+      (=
+        (setq ss_pre_filter_set_xx_
+          (ssget "i"
+            (list
+              (cons 0 "INSERT") ;type of object
+            )
+          )
+        )
+        nil
+      )
+      (setq ss_pre_filter_set_xx_
+        (ssget
+          (list
+            (cons 0 "INSERT") ;type of object
+          )
+        )
+      )
+    )
+  ;
+
+  (if ss_pre_filter_set_xx_
+    (progn
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_
+            (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i)
+          )
+          (setq ss_pre_filter_set_xx_obj_
+            (vlax-ename->vla-object ss_pre_filter_set_xx_ename_)
+          )
+
+          (setq panel_length_val_
+            (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_length")
+          )
+
+          (if
+            (and
+              panel_length_val_
+              (setq panel_length_num_ (distof panel_length_val_ 2))
+            )
+            (LM:vl-setattributevalue
+              ss_pre_filter_set_xx_obj_
+              "SELF_DRILL_NO8"
+              (rtos
+                (LM:roundup (* (/ panel_length_num_ 300.0) 2) 1.0)
+                2
+                0
+              )
+            )
+          )
+
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+    )
+    (princ "\nNo INSERT selected.")
+  )
+  (princ)
+)
+(defun c:SET_PANEL_HARDWARE_QTY1 ()
+  ;selection_set_for_filter_blk_name
+    (if
+      (=
+        (setq ss_pre_filter_set_xx_
+          (ssget "i"
+            (list
+              (cons 0 "INSERT") ;type of object
+            )
+          )
+        )
+        nil
+      )
+      (setq ss_pre_filter_set_xx_
+        (ssget
+          (list
+            (cons 0 "INSERT") ;type of object
+          )
+        )
+      )
+    )
+  ;
+
+  (if ss_pre_filter_set_xx_
+    (progn
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_
+            (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i)
+          )
+          (setq ss_pre_filter_set_xx_obj_
+            (vlax-ename->vla-object ss_pre_filter_set_xx_ename_)
+          )
+
+          (setq panel_length_val_
+            (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_length")
+          )
+          (setq panel_width_val_
+            (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "panel_width")
+          )
+
+          (if
+            (and
+              panel_length_val_
+              panel_width_val_
+              (setq panel_length_num_ (distof panel_length_val_ 2))
+              (setq panel_width_num_ (distof panel_width_val_ 2))
+            )
+            (progn
+              ;ปัดขึ้นก่อน แล้วคูณ 2
+                (setq length_qty_
+                  (* 2.0
+                    (LM:roundup (/ panel_length_num_ 300.0) 1.0)
+                  )
+                )
+              ;
+
+              ;เส้นรอบรูป = 2 x (length + width)
+                (setq perimeter_qty_
+                  (LM:roundup
+                    (/ (* 2.0 (+ panel_length_num_ panel_width_num_)) 300.0)
+                    1.0
+                  )
+                )
+              ;
+
+              (LM:vl-setattributevalue
+                ss_pre_filter_set_xx_obj_
+                "SELF_DRILL_NO8"
+                (rtos perimeter_qty_ 2 0)
+              )
+              (LM:vl-setattributevalue
+                ss_pre_filter_set_xx_obj_
+                "BRACKET_A_VAL"
+                (rtos perimeter_qty_ 2 0)
+              )
+              (LM:vl-setattributevalue
+                ss_pre_filter_set_xx_obj_
+                "BRACKET_B_VAL"
+                (rtos perimeter_qty_ 2 0)
+              )
+              (LM:vl-setattributevalue
+                ss_pre_filter_set_xx_obj_
+                "Rivet_5-4_VAL"
+                (rtos (* perimeter_qty_ 2) 2 0)
+              )
+            )
+          )
+
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+    )
+    (princ "\nNo INSERT selected.")
+  )
+  (princ)
+)

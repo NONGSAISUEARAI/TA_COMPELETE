@@ -9,7 +9,7 @@
 (setq color_outline_    4)          ; Cyan
 (setq factor_area_ 0.000001) ; พื้นที่ mm² → m²        ; Square drawing units; use 0.000001 for mm2 -> m2
 (setq precision_area_   2)          ; AREA decimal places
-(setq mat_txt_          "")         ; MAT default value
+(setq mat_txt_          "")         ; MAT dฟefault value
 (setq station_txt_      "")         ; STATION default value
 (setq floor_txt_        "")         ; FLOOR default value
 (setq height_info_      10.0)       ; Information block text height
