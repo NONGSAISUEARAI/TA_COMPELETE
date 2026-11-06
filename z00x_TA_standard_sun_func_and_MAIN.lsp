@@ -1631,6 +1631,40 @@
         (setq filter_result_ (reverse filter_result_))
       ;
     )
+    (defun TA:wcmatch_list_rev02
+      (filter_string_list_ list_data_ strcase_val / filter_result_)
+
+      (setq filter_result_
+        (vl-remove-if-not
+          '(lambda (data_)
+            (and
+              (= (type data_) 'STR)
+              (vl-some
+                '(lambda (pattern_)
+                    (and
+                      (= (type pattern_) 'STR)
+                      ((lambda (data_compare_ pattern_compare_)
+                        (if (vl-string-search "*" pattern_)
+                          (wcmatch data_compare_ pattern_compare_)
+                          (= data_compare_ pattern_compare_)
+                        )
+                      )
+                      (if strcase_val data_ (strcase data_))
+                      (if strcase_val pattern_ (strcase pattern_))
+                      )
+                    )
+                  )
+                filter_string_list_
+              )
+            )
+          )
+          list_data_
+        )
+      )
+
+      ;คงพฤติกรรมเรียงกลับตามฟังก์ชันเดิม
+      (reverse filter_result_)
+    )
     (defun TA:list-to-ss (ename-lst ss-name)  
       (setq ss-name (ssadd))
       (if (= (type ename-lst) 'LIST)
@@ -66732,3 +66766,79 @@
   )
   (princ)
 )
+
+
+(defun c:findatttemp1 ()
+      (if (and 
+            ; (/= att-pre_filter_set_xx_ nil)
+            ; (= (TA:getkword "new input selection-set ?"  "Yes" "No"  att-pre_filter_set_xx_ "false") nil) ;พัง
+            (= 1 1)
+          )
+        (progn
+          ;selection_set_for_fillter_blk_name
+            (if  ;pre_select_ssget_or_post_select_ssget
+              (=
+                (setq att-pre_filter_set_xx_ (ssget "i"
+                                                  (list
+                                                    (cons 0 "INSERT") ;type of object
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+                nil
+              )
+              (progn
+                (setq att-pre_filter_set_xx_ (ssget
+                                                  (list
+                                                    (cons 0 "INSERT") ;type of object
+                                                    ; (cons 8 "000 - GRID")   ;kind of layer
+                                                    ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                    ; (cons 62 1)           ;kind of color call sign with color code index
+                                                  )
+                                            )
+                )
+              )
+              (sslength att-pre_filter_set_xx_)
+            )
+          ;
+        )
+      )
+      (setq att-value_multi-list_ (list "*E1_PL_02*" "*E1_PL_03*" "*E1_PL_04*" "*E1_PL_05*" 
+                                        "*E2_PL_07*" "*E2_PL_08*" "*E2_PL_09*" "*E2_PL_10*" 
+                                        "*E1_PL_06*" "*E4_PL_03*" "*E4_PL_04*" "*E4_PL_05*" 
+                                        "*E4_PL_06*" "*E4_PL_07*" "*E4_PL_01*"
+                                  )
+      )
+      ;preloop_and_while
+        (setq att-pre_filter_set_xx_i 0)
+        (setq att-pre_filter_set_xx_new-ss_ (ssadd))
+        (while (and 
+                 (= (type att-pre_filter_set_xx_) 'PICKSET)
+                 (< att-pre_filter_set_xx_i (sslength att-pre_filter_set_xx_))
+               )
+          (setq att-pre_filter_set_xx_ename_ (ssname att-pre_filter_set_xx_ att-pre_filter_set_xx_i)) 
+          (setq att-pre_filter_set_xx_obj_ (vlax-ename->vla-object  att-pre_filter_set_xx_ename_))
+          
+          (if (and 
+                (= (vla-get-hasattributes att-pre_filter_set_xx_obj_) :vlax-true)
+                (/= (setq att-pre_filter_set_xx_obj_val-list_ (nth 0 (LM:vl-getattributevalue-val-TA-Modifies att-pre_filter_set_xx_obj_)) ) nil)
+                ; (and 
+                ;   (= att-finder_mode "multi-name")
+                ; )
+              )
+            (progn 
+              (if (/= (setq att-pre_filter_set_xx_obj_match-val_ (TA:wcmatch_list_rev02 att-value_multi-list_ (list att-pre_filter_set_xx_obj_val-list_) nil)) nil)
+                (progn
+                  (setq att-pre_filter_set_xx_new-ss_ (ssadd att-pre_filter_set_xx_ename_ att-pre_filter_set_xx_new-ss_ ))
+                )
+              )
+            )
+          )
+          (setq att-pre_filter_set_xx_i (+ att-pre_filter_set_xx_i 1))
+        )
+      ;
+      (command "pselect"  att-pre_filter_set_xx_new-ss_ "" )
+    )
+

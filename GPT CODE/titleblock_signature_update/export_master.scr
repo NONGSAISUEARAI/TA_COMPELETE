@@ -1,0 +1,4 @@
+(setvar "FILEDIA" 0)
+(command "_.-WBLOCK" "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/GPT CODE/titleblock_signature_update/titleblock_master.dwg" "Title Block_Under Ground_C1 v3")
+_.QUIT
+_Y

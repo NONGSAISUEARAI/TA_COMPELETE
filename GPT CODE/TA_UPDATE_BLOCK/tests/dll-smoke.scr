@@ -1,0 +1,9 @@
+(setvar "TRUSTEDPATHS" "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/GPT CODE/TA_UPDATE_BLOCK;C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/GPT CODE/TA_UPDATE_BLOCK/bin/Release/net8.0-windows")
+_.NETLOAD
+"C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/GPT CODE/TA_UPDATE_BLOCK/bin/Release/net8.0-windows/TA_UPDATE_BLOCK.dll"
+(setq taub-smoke (vl-catch-all-apply '(lambda () (TA-UPDATE-BLOCK "" "" "" 1)) nil))
+(if (and (listp taub-smoke) (= 1 (cadr taub-smoke))) (princ "\nTAUB_DLL_REGISTRATION_PASSED\n") (princ "\nTAUB_DLL_REGISTRATION_FAILED\n"))
+(princ (list "PICKER-SYMBOL-TYPE" (type (eval 'TAUB-PICK-FOLDER)) "UPDATE-SYMBOL-TYPE" (type (eval 'TA-UPDATE-BLOCK))))
+_.QUIT
+_Y
+

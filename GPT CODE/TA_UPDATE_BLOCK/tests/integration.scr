@@ -1,0 +1,21 @@
+(setvar "TRUSTEDPATHS" "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/GPT CODE/TA_UPDATE_BLOCK;C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/GPT CODE/TA_UPDATE_BLOCK/tests/bin")
+_.NETLOAD
+"C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/GPT CODE/TA_UPDATE_BLOCK/tests/bin/TA_UPDATE_BLOCK_TESTS.dll"
+(setq taub-probe (TAUBTEST-PICKER-RESULT 1 "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE"))
+(princ (list "ACTUAL_PICKER_RETURN_TYPE" (type taub-probe) "VALUE" taub-probe))
+(setq taub-cancel (TAUBTEST-PICKER-RESULT 0 ""))
+(princ (list "ACTUAL_CANCEL_RETURN_TYPE" (type taub-cancel) "VALUE" taub-cancel))
+TAUBINTEGRATION
+(load "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/GPT CODE/TA_UPDATE_BLOCK/TA_UPDATE_BLOCK.lsp")
+(defun TAUB-PICK-FOLDER (initial) (TAUBTEST-PICKER-RESULT 1 (TAUBTEST-FIXTURE-PATH)))
+(setq taub-test-folder (TAUB:_pick-folder))
+(if (= 'STR (type taub-test-folder)) (princ "\nTAUB_DOTNET_TO_LISP_FOLDER_PASSED\n") (princ "\nTAUB_DOTNET_TO_LISP_FOLDER_FAILED\n"))
+(setq taub-test-files (TAUB:_folder-files taub-test-folder))
+(if (= 2 (length taub-test-files)) (princ "\nTAUB_SELECTED_FOLDER_DWG_ENUMERATION_PASSED\n") (princ "\nTAUB_SELECTED_FOLDER_DWG_ENUMERATION_FAILED\n"))
+(setq taub-test-run (TAUB:Run (strcat taub-test-folder "/MASTER.dwg") "TAUB_TEST_BLOCK" (list (strcat taub-test-folder "/TARGET.dwg")) nil))
+(if (and (= 1 (car taub-test-run)) (= 0 (cadr taub-test-run))) (princ "\nTAUB_LISP_REDEFINE_PASSED\n") (princ "\nTAUB_LISP_REDEFINE_FAILED\n"))
+(defun TAUB-PICK-FOLDER (initial) (TAUBTEST-PICKER-RESULT 0 ""))
+(if (and (null (TAUB:_pick-folder)) (= 'CANCEL *TAUB:pick-status*)) (princ "\nTAUB_DOTNET_CANCEL_PASSED\n") (princ "\nTAUB_DOTNET_CANCEL_FAILED\n"))
+_.QUIT
+_Y
+

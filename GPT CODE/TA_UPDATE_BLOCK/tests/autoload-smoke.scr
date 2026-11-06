@@ -1,0 +1,13 @@
+(setvar "TRUSTEDPATHS" "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/GPT CODE/TA_UPDATE_BLOCK;C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/GPT CODE/TA_UPDATE_BLOCK/bin/Release/net8.0-windows;C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/GPT CODE/TA_UPDATE_BLOCK/tests")
+(load "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/GPT CODE/TA_UPDATE_BLOCK/TA_UPDATE_BLOCK.lsp")
+(setvar "FILEDIA" 1)
+(setq taub-autoload-filedia (getvar "FILEDIA"))
+(if (not (TAUB:_ready-p)) (princ "\nTAUB_PRELOAD_MISSING_CONFIRMED\n") (princ "\nTAUB_PRELOAD_ALREADY_LOADED\n"))
+(if (TAUB:LoadDLL) (princ "\nTAUB_AUTOLOAD_PASSED\n") (princ "\nTAUB_AUTOLOAD_FAILED\n"))
+(if (= 'EXRXSUBR (type (eval 'TAUB-PICK-FOLDER))) (princ "\nTAUB_PICKER_REGISTRATION_PASSED\n") (princ "\nTAUB_PICKER_REGISTRATION_FAILED\n"))
+(if (= taub-autoload-filedia (getvar "FILEDIA")) (princ "\nTAUB_FILEDIA_RESTORED\n") (princ "\nTAUB_FILEDIA_FAILED\n"))
+(setq taub-autoload-result (TA-UPDATE-BLOCK "" "" "" 1))
+(if (and (listp taub-autoload-result) (= 1 (cadr taub-autoload-result))) (princ "\nTAUB_UPDATE_REGISTRATION_PASSED\n") (princ "\nTAUB_UPDATE_REGISTRATION_FAILED\n"))
+_.QUIT
+_Y
+

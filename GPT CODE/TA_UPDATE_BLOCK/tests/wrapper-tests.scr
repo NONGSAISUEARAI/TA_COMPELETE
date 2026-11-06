@@ -1,0 +1,6 @@
+(setvar "TRUSTEDPATHS" "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/GPT CODE/TA_UPDATE_BLOCK;C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/GPT CODE/TA_UPDATE_BLOCK/tests")
+(load "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/GPT CODE/TA_UPDATE_BLOCK/TA_UPDATE_BLOCK.lsp")
+(load "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/GPT CODE/TA_UPDATE_BLOCK/tests/wrapper-tests.lsp")
+_.QUIT
+_Y
+
