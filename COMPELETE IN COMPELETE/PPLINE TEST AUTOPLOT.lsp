@@ -5185,11 +5185,11 @@
       (setq CONTRACT_num_val_ 1)
       (setq REV_list_         (list 1)
             REV_VAL           "A"
-            REV_DATE_VAL       "23-12-2025" ;(TA:CDATE "/" "DDMMYYYY")
+            REV_DATE_VAL       (TA:CDATE "/" "DDMMYYYY")
             REV_DESC_VAL      "FIRST ISSUED"
             DWG_VAL           "TA"
-            CHK_VAL           "KEN" 
-            APP_VAL           "MK"
+            CHK_VAL           "DL" 
+            APP_VAL           "SP"
       )
       (setq DESIGNED_BY_DATE_val REV_DATE_VAL)
         ; (c:PPLINE_CKST_REWORK-TTB24_)
@@ -5248,6 +5248,7 @@
           (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object ss_pre_filter_set_xx_ename_))
           
           (TA:PPLINE_CKST_REWORK-REV_ ss_pre_filter_set_xx_obj_ REV_list_ REV_VAL REV_DATE_VAL REV_DESC_VAL DWG_VAL CHK_VAL APP_VAL)
+          (TA:PPLINE_CKST_REWORK-REV_ ss_pre_filter_set_xx_obj_ (list 2) "" "" "" "" "" "")
 
           
           (if
@@ -5275,6 +5276,7 @@
               )
               ; (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "REV_DATE_01" "27-10-2025")
               (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DESIGNED_BY_DATE_val" DESIGNED_BY_DATE_val )
+              (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DESIGNED_BY_val" "DL" )
               ;plot process
                 (if 
                   (findfile (setq filename (strcat "" (getvar 'DWGPREFIX)  pre-name_ ".pdf")))
@@ -5311,33 +5313,32 @@
             ;         "Y"
                 
             ; )
-              (command "-plot" 
-                    "Yes" ;Detailed Plot Configuration?
-                    (getvar "ctab")
-                    "DWG To PDF.pc3" ;Printer Name
-                    "ISO_full_bleed_A1_(841.00_x_594.00_MM)" ;Paper Size
-                    ;paper_size ;Paper Size
-                    "m" ;Paper Units Millimeters
-                    "Landscape" ;Orientation
-                    "No" ;Plot Upside Down
-                    "window" ;Plot Area
-                    (nth 0 main_bol) ;vla-getboundingbox
-                    (nth 2 main_bol) ;vla-getboundingbox
-                    ;llpt				;Lower left corner of window
-                    ;urpt				;Upper right corner of window
-                    "Fit" ;Plot Scale	"Fit"
-                    "Center" ;Plot Offset
-                    "yes" ;Use Plot Style?
-                    "A3_Standard (MRT-AGATE) - purple line - GEN.ctb" ;Plot Style Name
-                    "Yes" ;Plot Lineweights?
-                    "Y" ;scale lineweights
-                    "N"
-                    "N"
-                    filename ; Name file and Location
-                    "Y"
-                    "Y"
-                
-            )
+            (command "-plot" 
+                       "Yes" ;Detailed Plot Configuration?
+                       (getvar "ctab")
+                       "DWG To PDF.pc3" ;Printer Name
+                       "ISO_full_bleed_A1_(841.00_x_594.00_MM)" ;Paper Size
+                       ;paper_size ;Paper Size
+                       "m" ;Paper Units Millimeters
+                       "Landscape" ;Orientation
+                       "No" ;Plot Upside Down
+                       "window" ;Plot Area
+                       (nth 0 main_bol) ;vla-getboundingbox
+                       (nth 2 main_bol) ;vla-getboundingbox
+                       ;llpt				;Lower left corner of window
+                       ;urpt				;Upper right corner of window
+                       "Fit" ;Plot Scale	"Fit"
+                       "Center" ;Plot Offset
+                       "yes" ;Use Plot Style?
+                       "A3_Standard (MRT-AGATE) - purple line - GEN.ctb" ;Plot Style Name
+                       "Yes" ;Plot Lineweights?
+                       "Y" ;scale linewieghts
+                       "N"
+                       "N"
+                       filename ; Name file and Location
+                       "Y"
+                       "Y"
+              )
             
               
             
