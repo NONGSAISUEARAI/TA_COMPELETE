@@ -1,0 +1,30 @@
+(setvar "SECURELOAD" 0)
+_.UNDO
+_AUTO
+_OFF
+(setq tfot-root "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/GPT CODE/TA_FACADE_OUTLINE/")
+(load (strcat tfot-root "TA_FACADE_OUTLINE.lsp"))
+(load "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/tmp/ta_facade_outline_validation/fml_prefix_20261109/probe.lsp")
+(sssetfirst nil fmlp-ss)
+(c:FML)
+Max
+ACP-3MM
+(FMLP:Record "computer-default-MAX")
+(setq fmlp-definition (FMLP:Definition) prefix_maxlength_ "PANEL" factor_maxlength_ 0.001 precision_maxlength_ 3)
+(sssetfirst nil fmlp-ss)
+(c:FML)
+All
+ACP-3MM
+(FMLP:Record "custom-prefix-ALL-mm-to-m")
+(setq prefix_maxlength_ "")
+(TFO:MaxLengthBuild fmlp-ss "ACP-3MM")
+(FMLP:Record "empty-prefix-MAX")
+(FMLP:Finish)
+(load (strcat tfot-root "tests/TA_FACADE_OUTLINE_tests.lsp"))
+(setq tfot-result (TFO:CommandBuild (TFOT:Set (list tfot-a))))
+_.UNDO
+1
+(TFOT:AfterUndo)
+_.QUIT
+_Y
+

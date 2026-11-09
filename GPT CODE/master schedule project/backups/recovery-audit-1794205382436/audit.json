@@ -1,0 +1,69 @@
+{
+  "checkedAt": "2026-11-09T06:23:02.445Z",
+  "current": {
+    "groups": [
+      "PP17",
+      "PP18",
+      "PP19",
+      "PP20",
+      "MRT PURPLE LINE STANDARD DRAWING C1"
+    ],
+    "tasks": 165,
+    "updatedAt": 1794150993860
+  },
+  "candidate": {
+    "file": "backups/Master_Schedule_before_ExportReferenceFormat_1794199460452.html",
+    "groups": [
+      "PJ25-031",
+      "MRT PURPLE LINE STD DWG C1"
+    ],
+    "tasks": 57,
+    "updatedAt": 1794196109820
+  },
+  "gitEvidence": {
+    "workingTree": "clean before recovery",
+    "mainHistory": "b95afd0c (2026-11-09 03:25 +0700)",
+    "reflog": [
+      "2026-11-09 11:55:59 +0700 reset moving to HEAD",
+      "2026-11-09 11:56:12 +0700 pull fast-forward to b95afd0c",
+      "2026-11-09 11:56:45 +0700 commit effebd29"
+    ]
+  },
+  "differencesToPreserve": [
+    {
+      "id": "mrt-purple-line-std-dwg-c1",
+      "field": "name",
+      "value": "MRT PURPLE LINE STANDARD DRAWING C1"
+    }
+  ],
+  "note": "Recovery candidate selected after comparing IDs, task values and file catalogs. No meaningful PP dates/owners/progress present in current old tree. Not reverting Git history.",
+  "recoveredAt": "2026-11-09T06:33:43.028Z",
+  "result": {
+    "groups": [
+      "PJ25-031",
+      "MRT PURPLE LINE STANDARD DRAWING C1"
+    ],
+    "tasks": 57,
+    "workItems": 36,
+    "fileCatalogs": 6,
+    "selectedFiles": 14
+  },
+  "recoveredSha256": "86b284d6b01feeb5c7c01476314020fc9f090cdcf1d16851f4b74913a82d538e",
+  "validation": [
+    "JSON/JavaScript syntax",
+    "IDs/parent chains and WBS",
+    "Full app DOM simulation",
+    "Viewer and default hidden columns",
+    "Offline Excel export ZIP/CRC/XML/openpyxl read-back",
+    "HTML snapshot/reopen",
+    "Exact task and fileCatalog preservation against local sources"
+  ],
+  "restoredCode": {
+    "base": "verified local HTML backup",
+    "exportFeature": ".work/excel-export/export-feature.js",
+    "exportStyles": "reconstructed from previously verified reference specification in local README/AGENTS; no external workbook needed"
+  },
+  "gitCommitCreated": false,
+  "sourceWorkbookRestored": false,
+  "recoveryScope": "local project folder only; no further Z: access after user instruction"
+}
