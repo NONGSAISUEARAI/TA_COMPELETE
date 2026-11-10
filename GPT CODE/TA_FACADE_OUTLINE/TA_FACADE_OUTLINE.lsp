@@ -4,9 +4,11 @@
 ;
 ; ข้อมูลและโหมดการใส่ป้าย
 (setq block_maxlength_     "facade_1_MAXLEN") ; ชื่อบล็อกที่ใช้ซ้ำ ต้องมี Tag NAME และ LENGTH
-(setq mode_maxlength_      "MAX")           ; "ALL" = ทุกด้าน, "MAX" = ด้านยาวที่สุดหนึ่งด้านต่อชิ้น
-(setq name_maxlength_      "C10-STEEL")              ; วัสดุเริ่มต้นของ Tag NAME เช่น "ACP-3MM"
-(setq prefix_maxlength_    "C10-STEEL") ; Prefix ของ LENGTH; ใส่ "" เพื่อแสดงเฉพาะตัวเลข
+(setq mode_maxlength_      "MAX")           ; OVERALL / ALL LONG / ALL SHORT / MAX / CUSTOM
+; OVERALL = ทุกด้านแยกป้าย; ALL LONG/ALL SHORT = คู่ด้านของรูปเปิด 3 ด้านหรือปิด 4 ด้าน
+; CUSTOM = nentsel เลือก LINE/ช่วง LWPOLYLINE ทีละด้าน วนจน Enter หรือ Esc
+(setq name_maxlength_      "C10-C10")              ; วัสดุเริ่มต้นของ Tag NAME เช่น "ACP-3MM"
+(setq prefix_maxlength_    "C10-HOOKRAIL") ; Prefix ของ LENGTH; ใส่ "" เพื่อแสดงเฉพาะตัวเลข
 ;
 ; หน่วยและรูปแบบตัวเลข
 (setq factor_maxlength_    1.0)             ; 1.0 = หน่วยแบบเดิม, 0.001 = แปลง mm เป็น m
@@ -39,7 +41,7 @@
 (setq color_info_       2)          ; Yellow
 (setq tolerance_fo_     0.00001)
 ;
-;;; TA_FACADE_OUTLINE v1.11 -- FO / FACADEOUTLINE and FML / FACADEMAXLENGTH.
+;;; TA_FACADE_OUTLINE v1.13 -- FO / FACADEOUTLINE and FML / FACADEMAXLENGTH.
 ;;; Standalone AutoLISP, AutoCAD for Windows with REGION/UNION support.
 ;;; Input: 2D block references and polylines, on one WCS XY plane.
 ;;; Output: one overall envelope by default; SPLIT retains separate components.
@@ -980,9 +982,45 @@
     (setq rotation (TFO:Angle (+ rotation pi))))
   (list value point rotation index))
 
+;;; Keep prior preset/API names usable while exposing the five current modes.
+(defun TFO:FMLMode (mode / key)
+  (if (= (type mode) 'STR)
+    (progn
+      (setq key (strcase (vl-string-trim " " mode)))
+      (cond
+        ((member key '("OVERALL" "ALL")) "OVERALL")
+        ((member key '("ALL LONG" "ALLLONG" "LONG")) "ALL LONG")
+        ((member key '("ALL SHORT" "ALLSHORT" "SHORT")) "ALL SHORT")
+        ((member key '("MAX" "CUSTOM")) key)))))
+
+;;; Four corners: an open pline uses a virtual straight closing side only for
+;;; pair classification and outside placement, never for geometry or labels.
+(defun TFO:FourCornerChoice (vertices closed mode / frame edges lengths pair-a pair-b indices)
+  (TFO:Require (= 4 (length vertices))
+    "ALL LONG/ALL SHORT requires four corners (open 3 sides or closed 4 sides). Use OVERALL, MAX or CUSTOM.")
+  (setq frame (if closed vertices
+    (list (nth 0 vertices) (nth 1 vertices) (nth 2 vertices) (list (car (nth 3 vertices)) 0.0)))
+        edges (TFO:LoopEdges frame T)
+        lengths (mapcar '(lambda (edge) (TFO:EdgeLength (car edge) (cadr edge) (caddr edge))) edges))
+  (TFO:Require (vl-every '(lambda (value) (> value 1e-12)) lengths)
+    "Long/Short requires four nonzero sides in the four-corner frame.")
+  (setq pair-a (+ (nth 0 lengths) (nth 2 lengths))
+        pair-b (+ (nth 1 lengths) (nth 3 lengths)))
+  ;; An exact tie (a square) uses 0/2 as Long, 1/3 as Short.
+  (setq indices (if (eq (>= pair-a pair-b) (= (TFO:FMLMode mode) "ALL LONG")) '(0 2) '(1 3)))
+  (if (not closed) (setq indices (vl-remove 3 indices)))
+  (list indices (if (> (TFO:LoopArea frame) 0.0) -1.0 1.0)))
+
+(defun TFO:FourVertexSelectionP (ss / index data four)
+  (setq index 0 four T)
+  (repeat (sslength ss)
+    (setq data (entget (ssname ss index)) index (1+ index))
+    (if (not (and (= "LWPOLYLINE" (TFO:Get 0 data "")) (= 4 (TFO:Get 90 data 0)))) (setq four nil)))
+  (and (> (sslength ss) 0) four))
+
 (defun TFO:LengthSegments (entity mode / data normal vertices closed edges edge index
-                                      best best-index best-length value side result)
-  (setq data (entget entity))
+                                      best best-index best-length value side choice result)
+  (setq data (entget entity) mode (TFO:FMLMode mode))
   (TFO:Require (= "LWPOLYLINE" (TFO:Get 0 data "")) "FML accepts LWPOLYLINE only.")
   (setq normal (TFO:Get 210 data '(0.0 0.0 1.0)) vertices (TFO:LWVertices data)
         closed (= 1 (logand 1 (TFO:Get 70 data 0))))
@@ -991,15 +1029,17 @@
   (TFO:Require (> (length vertices) 1) "A polyline has fewer than two vertices.")
   (setq edges (TFO:LoopEdges vertices closed) index 0 best-length 0.0
         side (if (and closed (> (TFO:LoopArea vertices) 0.0)) -1.0 1.0))
+  (if (member mode '("ALL LONG" "ALL SHORT"))
+    (setq choice (TFO:FourCornerChoice vertices closed mode) side (cadr choice)))
   (foreach edge edges
     (setq value (TFO:EdgeLength (car edge) (cadr edge) (caddr edge)))
-    (if (and (= mode "ALL") (> value 1e-12))
+    (if (and (or (= mode "OVERALL") (and choice (member index (car choice)))) (> value 1e-12))
       (setq result (cons (TFO:SegmentLabelData data edge value index side) result)))
     (if (> value best-length)
       (setq best edge best-index index best-length value))
     (setq index (1+ index)))
   (TFO:Require (> best-length 1e-12) "A polyline has no nonzero segment.")
-  (if (= mode "ALL") (reverse result)
+  (if (or (= mode "OVERALL") choice) (reverse result)
     (list (TFO:SegmentLabelData data best best-length best-index side))))
 
 ;;; Preserve the original one-side internal API.
@@ -1026,11 +1066,7 @@
   (setq value (rtos (* edge-length factor_maxlength_) 2 precision_maxlength_))
   (if (= prefix_maxlength_ "") value (strcat prefix_maxlength_ "," value)))
 
-(defun TFO:SideLengthExecute (ss material mode / index source measured records record block insert result)
-  (TFO:Require (and (= (type ss) 'PICKSET) (> (sslength ss) 0)) "Select at least one LWPOLYLINE.")
-  (TFO:Require (and (= (type mode) 'STR) (member (strcase mode) '("ALL" "MAX")))
-    "FML mode must be ALL or MAX.")
-  (setq mode (strcase mode))
+(defun TFO:CheckLengthPreset (material)
   (TFO:Require (and (= (type material) 'STR) (= (type prefix_maxlength_) 'STR)
     (= (type block_maxlength_) 'STR) (snvalid block_maxlength_)
     (= (type layer_maxlength_) 'STR) (snvalid layer_maxlength_)
@@ -1039,7 +1075,20 @@
     (numberp height_maxlength_) (> height_maxlength_ 0.0)
     (numberp offset_maxlength_) (>= offset_maxlength_ 0.0)
     (= (type color_maxlength_) 'INT) (<= 1 color_maxlength_ 255))
-    "Invalid FML preset: check material/prefix strings, block/layer names, length factor/precision, size, offset and color.")
+    "Invalid FML preset: check material/prefix strings, block/layer names, length factor/precision, size, offset and color."))
+
+(defun TFO:InsertLengthRecord (source measured material block / insert)
+  (setq insert (TFO:InsertAttributes block (nth 1 measured) height_maxlength_ (nth 2 measured)
+    (list (cons "NAME" material) (cons "LENGTH" (TFO:SideLengthText (car measured))))
+    layer_maxlength_ color_maxlength_))
+  (list source insert (car measured) (nth 3 measured)))
+
+(defun TFO:SideLengthExecute (ss material mode / index source measured records record block result)
+  (TFO:Require (and (= (type ss) 'PICKSET) (> (sslength ss) 0)) "Select at least one LWPOLYLINE.")
+  (setq mode (TFO:FMLMode mode))
+  (TFO:Require (member mode '("OVERALL" "MAX" "ALL LONG" "ALL SHORT"))
+    "FML batch mode must be OVERALL, ALL LONG, ALL SHORT or MAX.")
+  (TFO:CheckLengthPreset material)
   ;; Validate/measure the entire selection before inserting any annotations.
   (setq index 0)
   (repeat (sslength ss)
@@ -1050,50 +1099,127 @@
   (TFO:Layer layer_maxlength_ color_maxlength_)
   (setq block (TFO:MaxLengthBlock))
   (foreach record (reverse records)
-    (setq insert (TFO:InsertAttributes block (nth 2 record) height_maxlength_ (nth 3 record)
-      (list (cons "NAME" material) (cons "LENGTH" (TFO:SideLengthText (cadr record))))
-      layer_maxlength_ color_maxlength_))
-    (setq result (cons (list (car record) insert (cadr record) (nth 4 record)) result)))
+    (setq result (cons (TFO:InsertLengthRecord (car record) (cdr record) material block) result)))
   (reverse result))
 
 (defun TFO:MaxLengthExecute (ss material) (TFO:SideLengthExecute ss material "MAX"))
 
-(defun TFO:SideLengthBuild (ss material mode / tfo-output tfo-problem saved result entity pair)
+(defun TFO:LengthBuild (operation arguments / tfo-output tfo-problem saved result entity pair)
   (setq saved (mapcar '(lambda (name) (cons name (getvar name))) '("CMDECHO" "OSMODE" "DIMZIN")))
   (command "_.UNDO" "_Begin")
   (setvar "CMDECHO" 0) (setvar "OSMODE" 0) (setvar "DIMZIN" 0)
-  (setq result (vl-catch-all-apply 'TFO:SideLengthExecute (list ss material mode)))
+  (setq result (vl-catch-all-apply operation arguments))
   (if (vl-catch-all-error-p result)
     (progn
       (foreach entity tfo-output (if (entget entity) (entdel entity)))
+      (if (and (not tfo-problem)
+        (wcmatch (strcase (vl-catch-all-error-message result)) "*CANCEL*,*BREAK*"))
+        (setq tfo-custom-cancelled T))
       (princ (strcat "\nFML: " (if tfo-problem tfo-problem (vl-catch-all-error-message result))))
       (setq result nil)))
   (foreach pair saved (setvar (car pair) (cdr pair)))
   (command "_.UNDO" "_End") result)
 
+(defun TFO:SideLengthBuild (ss material mode / tfo-custom-cancelled)
+  (TFO:LengthBuild 'TFO:SideLengthExecute (list ss material mode)))
+
 (defun TFO:MaxLengthBuild (ss material) (TFO:SideLengthBuild ss material "MAX"))
 
-(defun c:FML (/ ss mode default-mode material result)
+;;; nentsel returns a 4x3 ROW-vector matrix, unlike the 4x4 matrices above.
+;;; Transpose it before applying it to definition points (including nested blocks).
+(defun TFO:CustomLengthSegment (selection / entity data kind matrix vertices closed normal
+    edges edge vertex curved axes point z world value index best best-index best-distance near measured tolerance_fo_)
+  (setq tolerance_fo_ 1e-9 entity (car selection) data (entget entity) kind (TFO:Get 0 data "")
+        matrix (if (caddr selection)
+          (append (apply 'mapcar (cons 'list (caddr selection))) '((0.0 0.0 0.0 1.0)))
+          (TFO:Identity)))
+  (TFO:Require (member kind '("LINE" "LWPOLYLINE"))
+    "CUSTOM: select a LINE or one segment of a LWPOLYLINE.")
+  (if (= kind "LINE")
+    (setq vertices (list (list (TFO:Get 10 data nil) 0.0) (list (TFO:Get 11 data nil) 0.0)))
+    (progn
+      (setq vertices (TFO:LWVertices data) closed (= 1 (logand 1 (TFO:Get 70 data 0)))
+            normal (TFO:Get 210 data '(0.0 0.0 1.0))
+            edges (TFO:LoopEdges vertices closed)
+            curved (vl-some '(lambda (edge) (not (equal (caddr edge) 0.0 1e-14))) edges)
+            axes (TFO:Axes normal matrix curved))
+      (setq vertices (mapcar '(lambda (vertex)
+        (list (trans (append (TFO:XY (car vertex)) (list (TFO:Get 38 data 0.0))) normal 0)
+          (* (cadr axes) (cadr vertex)))) vertices))))
+  (foreach vertex vertices
+    (setq point (TFO:Transform matrix (car vertex) nil))
+    (if (null z) (setq z (caddr point)))
+    (TFO:Require (equal z (caddr point) 1e-8) "CUSTOM requires a segment parallel to WCS XY.")
+    (setq world (cons (list (TFO:XY point) (cadr vertex)) world)))
+  (setq world (reverse world) edges (TFO:LoopEdges world closed)
+        point (TFO:XY (trans (cadr selection) 1 0)) index 0)
+  (foreach edge edges
+    (setq value (TFO:EdgeLength (car edge) (cadr edge) (caddr edge)))
+    (if (> value 1e-12)
+      (progn
+        (setq near (distance point (TFO:NearestPoint edge point)))
+        (if (or (null best-distance) (< near best-distance))
+          (setq best edge best-index index best-distance near))))
+    (setq index (1+ index)))
+  (TFO:Require best "CUSTOM: the selected object has no nonzero segment.")
+  (setq measured (TFO:SegmentLabelData (list (cons 38 z) '(210 0.0 0.0 1.0)) best
+    (TFO:EdgeLength (car best) (cadr best) (caddr best)) best-index
+    (if (and closed (> (TFO:LoopArea world) 0.0)) -1.0 1.0)))
+  measured)
+
+(defun TFO:CustomLengthExecute (selection material / measured)
+  (TFO:CheckLengthPreset material)
+  (setq measured (TFO:CustomLengthSegment selection))
+  (TFO:Layer layer_maxlength_ color_maxlength_)
+  (list (TFO:InsertLengthRecord (car selection) measured material (TFO:MaxLengthBlock))))
+
+(defun TFO:CustomLengthBuild (selection material)
+  (TFO:LengthBuild 'TFO:CustomLengthExecute (list selection material)))
+
+(defun TFO:CustomPick ()
+  (nentsel "\nCUSTOM: pick LINE / pline side [Enter or Esc to finish]: "))
+
+(defun TFO:CustomLengthLoop (material / selection result count done tfo-custom-cancelled)
+  (setq count 0)
+  (while (not done)
+    (setq selection (vl-catch-all-apply 'TFO:CustomPick nil))
+    (cond
+      ((or (vl-catch-all-error-p selection) (null selection)) (setq done T))
+      (T
+        (setq result (TFO:CustomLengthBuild selection material))
+        (if result
+          (progn
+            (setq count (1+ count) name_maxlength_ material mode_maxlength_ "CUSTOM")
+            (princ (strcat "\nLENGTH = " (TFO:SideLengthText (nth 2 (car result)))))))
+        (if tfo-custom-cancelled (setq done T)))))
+  (princ (strcat "\nFML: CUSTOM - created " (itoa count) " NAME/LENGTH block(s).")) count)
+
+(defun c:FML (/ ss mode modes four default-mode material result)
   (setq ss (ssget "_I" '((0 . "LWPOLYLINE"))))
-  (if (not ss)
+  ;; Mode comes first so CUSTOM can start nentsel without a preliminary ssget.
+  (setq four (or (not ss) (TFO:FourVertexSelectionP ss))
+        modes (if four '("OVERALL" "ALL LONG" "ALL SHORT" "MAX" "CUSTOM") '("OVERALL" "MAX" "CUSTOM"))
+        default-mode (TFO:FMLMode mode_maxlength_))
+  (if (not (member default-mode modes)) (setq default-mode "MAX"))
+  (initget (if four "Overall AllLong AllShort Max Custom" "Overall Max Custom"))
+  (setq mode (getkword (strcat "\nLabel sides [" (if four "Overall/AllLong/AllShort/Max/Custom" "Overall/Max/Custom")
+    "] <" default-mode ">: "))
+        mode (if mode (TFO:FMLMode mode) default-mode))
+  (if (and (/= mode "CUSTOM") (not ss))
     (progn (princ "\nSelect LWPOLYLINEs for side-length labels: ")
       (setq ss (ssget '((0 . "LWPOLYLINE"))))))
-  (if ss
+  (if (or (= mode "CUSTOM") ss)
     (progn
-      (setq default-mode (if (and (= (type mode_maxlength_) 'STR)
-        (member (strcase mode_maxlength_) '("ALL" "MAX"))) (strcase mode_maxlength_) "MAX"))
-      (initget "All Max")
-      (setq mode (getkword (strcat "\nLabel sides [All/Max] <" default-mode ">: ")))
-      (setq mode (if mode (strcase mode) default-mode))
       (setq material (getstring T (strcat "\nMaterial NAME <" name_maxlength_ ">: ")))
       (if (= material "") (setq material name_maxlength_))
+      (if (= mode "CUSTOM") (TFO:CustomLengthLoop material)
       (if (setq result (TFO:SideLengthBuild ss material mode))
         (progn
           (setq name_maxlength_ material mode_maxlength_ mode)
           (princ (strcat "\nFML: " mode " - created " (itoa (length result))
-            " NAME/LENGTH block(s). Block: " block_maxlength_))))))
+            " NAME/LENGTH block(s). Block: " block_maxlength_)))))))
   (princ))
 
 (defun c:FACADEMAXLENGTH () (c:FML))
-(princ "\nTA_FACADE_OUTLINE v1.11 loaded. FO / FACADEOUTLINE; FML / FACADEMAXLENGTH (All/Max, NAME + LENGTH).")
+(princ "\nTA_FACADE_OUTLINE v1.13 loaded. FO / FACADEOUTLINE; FML / FACADEMAXLENGTH (Overall/AllLong/AllShort/Max/Custom, NAME + LENGTH).")
 (princ)

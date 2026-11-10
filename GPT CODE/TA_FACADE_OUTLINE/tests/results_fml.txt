@@ -1,0 +1,32 @@
+PASS Closed rectangle Long selects both opposite long sides and writes material plus current prefix format
+PASS Closed Long labels are outside the top and bottom midpoints
+PASS Closed rectangle Short selects both opposite short sides
+PASS Closed Short labels are outside both vertical sides and remain readable
+PASS All retains all four original rectangle sides
+PASS Legacy Max API still returns only one longest side on a four-vertex pline
+PASS Open four-vertex U has just one real Short side and creates no missing-side geometry
+PASS Open U Short label is outside the left side as in the reference image
+PASS Open U Long labels only its existing top and bottom sides
+PASS Existing All mode still labels only the three actual sides of an open U
+PASS Reversing open-U direction preserves its real Short side and outside placement
+PASS An open frame missing a long side labels only the one real Long side
+PASS An open frame missing a long side retains both real Short sides
+PASS Inactive last-vertex bulge of an open pline does not change Long classification
+PASS Closed clockwise rectangle selects the correct opposite Long pair
+PASS Rotated frame with reversed OCS normal retains Short lengths and the correct WCS elevation
+PASS Square ties split deterministically into two complementary opposite pairs
+PASS Long mode applies configured unit conversion, precision and the existing prefix separator
+PASS Short mode still supports an empty prefix without inserting a leading separator
+PASS Four-vertex curved sides use true arc lengths while keeping the opposite-side pair
+PASS Long/Short classification uses unrounded lengths rather than displayed text
+PASS Long rejects a mixed 4/3-vertex batch atomically and preserves every source
+PASS Short rejects non-four-vertex plines while All/Max remain available for them
+PASS Four-vertex frames with a zero-length side fail without partial labels
+PASS Failure on the second Long-side label cleans the first label and restores system variables
+PASS All new modes reuse the same NAME/LENGTH definition without creating a suffixed block
+PASS Native FML LONG prompt labels the real sides of closed/open four-vertex plines
+PASS Native FML SHORT prompt labels the real sides of closed/open four-vertex plines
+PASS Native FML SHORT prompt labels the real sides of closed/open four-vertex plines
+PASS A non-four-vertex selection offers All/Max and falls back from remembered Short to Max
+PASS One UNDO removes all Short labels for a mixed closed/open batch and retains the sources
+TOTAL PASS=31 FAIL=0

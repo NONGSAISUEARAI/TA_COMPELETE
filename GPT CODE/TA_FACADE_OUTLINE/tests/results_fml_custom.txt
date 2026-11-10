@@ -1,0 +1,22 @@
+PASS New mode names accept preset spaces and legacy aliases but removed LONG 1/SHORT 1 are invalid
+PASS OVERALL labels all eight actual sides individually without changing a bent pline
+PASS ALL LONG rejects a many-sided bent pline without partial annotations and directs the user to CUSTOM
+PASS CUSTOM labels only the clicked bottom segment of an eight-sided pline, not its perimeter
+PASS CUSTOM uses the true sloping segment length and its original vertex index
+PASS CUSTOM LINE inserts one real NAME/LENGTH block at its midpoint clearance and elevation
+PASS CUSTOM interprets nentsel pick points in the active UCS and restores the UCS after insertion
+PASS CUSTOM applies the nentsel 4x3 composite matrix to a rotated, mirrored, stretched nested LINE
+PASS CUSTOM picks a curved pline side and writes true arc length rather than its chord
+PASS CUSTOM rejects nonuniformly stretched curved plines without approximating or inserting a label
+PASS CUSTOM keeps the outside label and WCS elevation for a reversed-normal LWPOLYLINE
+PASS CUSTOM shares the configured unit conversion, precision and empty-prefix formatting
+PASS Unsupported CUSTOM picks preserve the source and leave no partial label
+PASS CUSTOM insertion failure removes only the failed label and restores system variables
+PASS CUSTOM loop continues after invalid picks, inserts immediately per valid pick, and finishes on nil
+PASS A cancel-style pick exception ends CUSTOM without losing completed labels or reading more picks
+PASS CUSTOM and batch modes reuse the original attribute block without changing its definition
+PASS Native CUSTOM nentsel loop picks LINE, bent pline segment and nested block then ends on Enter
+PASS One CUSTOM UNDO removes the last pick and retains the previous completed picks
+PASS Native OVERALL labels all sides individually on a many-vertex pline
+PASS One OVERALL UNDO removes the entire batch and preserves the bent source
+TOTAL PASS=21 FAIL=0

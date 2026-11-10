@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 const dir = path.dirname(fileURLToPath(import.meta.url));
-for (const file of ['../TA_FACADE_OUTLINE.lsp', 'TA_FACADE_OUTLINE_tests.lsp', 'fixtures/near_coincident_panels.lsp']) {
+for (const file of ['../TA_FACADE_OUTLINE.lsp', 'TA_FACADE_OUTLINE_tests.lsp', 'TA_FACADE_FML_tests.lsp', 'TA_FACADE_FML_custom_tests.lsp', 'fixtures/near_coincident_panels.lsp']) {
   const source = fs.readFileSync(path.resolve(dir, file), 'utf8');
   let depth = 0, line = 1, string = false, comment = false, escaped = false;
   const errors = [];

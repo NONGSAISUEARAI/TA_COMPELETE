@@ -1,0 +1,65 @@
+(setvar "SECURELOAD" 0)
+_.UNDO
+_AUTO
+_OFF
+(setq tfot-root "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/GPT CODE/TA_FACADE_OUTLINE/")
+(load (strcat tfot-root "TA_FACADE_OUTLINE.lsp"))
+(load (strcat tfot-root "tests/TA_FACADE_OUTLINE_tests.lsp"))
+(setq tfot-result (TFO:CommandBuild (TFOT:Set (list tfot-a))))
+_.UNDO
+1
+(TFOT:AfterUndo)
+(load (strcat tfot-root "tests/TA_FACADE_FML_tests.lsp"))
+(sssetfirst nil tf4-cmd-ss)
+(c:FML)
+AllLong
+LONG MAT
+(TF4:AfterCommand "LONG" 4 "LONG MAT")
+(sssetfirst nil tf4-cmd-ss)
+(c:FML)
+AllShort
+SHORT MAT
+(TF4:AfterCommand "SHORT" 3 "SHORT MAT")
+(sssetfirst nil tf4-cmd-ss)
+(c:FACADEMAXLENGTH)
+
+REUSE MAT
+(TF4:AfterCommand "SHORT" 3 "REUSE MAT")
+(TF4:PrepareOther)
+(sssetfirst nil tf4-other-ss)
+(c:FML)
+
+OTHER MAT
+(TF4:AfterOther)
+(TFO:SideLengthBuild (TF4:Set (list tf4-cmd-a tf4-cmd-b)) "UNDO MAT" "SHORT")
+_.UNDO
+1
+(TF4:AfterUndo)
+(load (strcat tfot-root "tests/TA_FACADE_FML_custom_tests.lsp"))
+(sssetfirst nil nil)
+_.ZOOM
+_Window
+-100,-100
+900,800
+(c:FML)
+Custom
+CUSTOM MAT
+250,400,25
+150,0,0
+500,600,25
+
+(TF5:AfterNativeCustom)
+_.UNDO
+1
+(TF5:AfterNativeUndo)
+(sssetfirst nil (TF4:Set (list tf5-bent)))
+(c:FML)
+Overall
+OVERALL MAT
+(TF5:AfterNativeOverall)
+_.UNDO
+1
+(TF5:Finish)
+_.QUIT
+_Y
+
