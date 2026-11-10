@@ -30,10 +30,11 @@
 (setq tf4-log (open (strcat tfot-root "tests/results_fml.txt") "w") tf4-pass 0 tf4-fail 0
       tf4-saved (mapcar '(lambda (name) (cons name (eval name)))
         '(block_maxlength_ mode_maxlength_ name_maxlength_ prefix_maxlength_ factor_maxlength_
-          precision_maxlength_ height_maxlength_ offset_maxlength_ layer_maxlength_ color_maxlength_ style_txt_))
+          precision_maxlength_ height_maxlength_ offset_maxlength_ offset_xy_maxlength_ layer_maxlength_ color_maxlength_ style_txt_))
       block_maxlength_ "TF4_LABEL" mode_maxlength_ "MAX" name_maxlength_ "TEST MAT"
       prefix_maxlength_ "TF4" factor_maxlength_ 1.0 precision_maxlength_ 2
-      height_maxlength_ 10.0 offset_maxlength_ 5.0 layer_maxlength_ "TF4-LABELS" color_maxlength_ 6 style_txt_ "Standard")
+      height_maxlength_ 10.0 offset_maxlength_ 5.0 offset_xy_maxlength_ '(0.0 0.0)
+      layer_maxlength_ "TF4-LABELS" color_maxlength_ 6 style_txt_ "Standard")
 
 (setq tf4-a (TF4:Rect 200.0 100.0) tf4-before (entget tf4-a) tf4-count (TF4:Count)
       tf4-result (TFO:SideLengthBuild (TF4:Set (list tf4-a)) "ALU" "LONG")
@@ -46,7 +47,7 @@
     (equal tf4-before (entget tf4-a))))
 (TF4:Assert "Closed Long labels are outside the top and bottom midpoints"
   (and (= 2 (length tf4-result))
-    (equal '((100.0 -17.5 0.0) (100.0 117.5 0.0)) (mapcar 'TF4:Position tf4-result) 1e-7)))
+    (equal '((100.0 -5.0 0.0) (100.0 105.0 0.0)) (mapcar 'TF4:Position tf4-result) 1e-7)))
 (TF4:Delete tf4-result)
 (setq tf4-result (TFO:SideLengthBuild (TF4:Set (list tf4-a)) "ALU" "SHORT"))
 (TF4:Assert "Closed rectangle Short selects both opposite short sides"
@@ -54,7 +55,7 @@
     (vl-every '(lambda (row) (= "TF4,100.00" (TF4:Value row "LENGTH"))) tf4-result)))
 (TF4:Assert "Closed Short labels are outside both vertical sides and remain readable"
   (and (= 2 (length tf4-result))
-    (equal '((217.5 50.0 0.0) (-17.5 50.0 0.0)) (mapcar 'TF4:Position tf4-result) 1e-7)
+    (equal '((205.0 50.0 0.0) (-5.0 50.0 0.0)) (mapcar 'TF4:Position tf4-result) 1e-7)
     (vl-every '(lambda (row) (equal (/ pi 2.0) (TFO:Get 50 (entget (cadr row)) 0.0) 1e-7)) tf4-result)))
 (TF4:Delete tf4-result)
 (setq tf4-result (TFO:SideLengthBuild (TF4:Set (list tf4-a)) "ALU" "ALL"))
@@ -73,12 +74,12 @@
   (and (= 1 (length tf4-result)) (= (+ tf4-count 1) (TF4:Count)) (= 1 (nth 3 (car tf4-result)))
     (equal 100.0 (nth 2 (car tf4-result)) 1e-7) (equal tf4-before (entget tf4-a))))
 (TF4:Assert "Open U Short label is outside the left side as in the reference image"
-  (and tf4-result (equal '(-17.5 50.0 0.0) (TF4:Position (car tf4-result)) 1e-7)))
+  (and tf4-result (equal '(-5.0 50.0 0.0) (TF4:Position (car tf4-result)) 1e-7)))
 (TF4:Delete tf4-result)
 (setq tf4-result (TFO:SideLengthBuild (TF4:Set (list tf4-a)) "OPEN U" "LONG"))
 (TF4:Assert "Open U Long labels only its existing top and bottom sides"
   (and (= 2 (length tf4-result)) (equal '(0 2) (mapcar '(lambda (row) (nth 3 row)) tf4-result))
-    (equal '((100.0 117.5 0.0) (100.0 -17.5 0.0)) (mapcar 'TF4:Position tf4-result) 1e-7)))
+    (equal '((100.0 105.0 0.0) (100.0 -5.0 0.0)) (mapcar 'TF4:Position tf4-result) 1e-7)))
 (TF4:Delete tf4-result)
 (setq tf4-result (TFO:SideLengthBuild (TF4:Set (list tf4-a)) "OPEN U" "ALL"))
 (TF4:Assert "Existing All mode still labels only the three actual sides of an open U" (= 3 (length tf4-result)))
@@ -86,7 +87,7 @@
 (setq tf4-a (TF4:Points '((200.0 0.0) (0.0 0.0) (0.0 100.0) (200.0 100.0)) nil)
       tf4-result (TFO:SideLengthBuild (TF4:Set (list tf4-a)) "REVERSED" "SHORT"))
 (TF4:Assert "Reversing open-U direction preserves its real Short side and outside placement"
-  (and (= 1 (length tf4-result)) (equal '(-17.5 50.0 0.0) (TF4:Position (car tf4-result)) 1e-7)))
+  (and (= 1 (length tf4-result)) (equal '(-5.0 50.0 0.0) (TF4:Position (car tf4-result)) 1e-7)))
 (TF4:Delete tf4-result) (entdel tf4-a)
 
 ;;; The missing side can instead be one of the long sides.
@@ -111,7 +112,7 @@
       tf4-result (TFO:SideLengthBuild (TF4:Set (list tf4-a)) "CLOCKWISE" "LONG"))
 (TF4:Assert "Closed clockwise rectangle selects the correct opposite Long pair"
   (and (= 2 (length tf4-result)) (equal '(1 3) (mapcar '(lambda (row) (nth 3 row)) tf4-result))
-    (equal '((100.0 117.5 0.0) (100.0 -17.5 0.0)) (mapcar 'TF4:Position tf4-result) 1e-7)))
+    (equal '((100.0 105.0 0.0) (100.0 -5.0 0.0)) (mapcar 'TF4:Position tf4-result) 1e-7)))
 (TF4:Delete tf4-result) (entdel tf4-a)
 
 (setq tf4-a (TF4:Poly '(((0.0 0.0) 0.0) ((141.4213562373095 141.4213562373095) 0.0)

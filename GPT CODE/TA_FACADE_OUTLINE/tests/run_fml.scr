@@ -60,6 +60,7 @@ OVERALL MAT
 _.UNDO
 1
 (TF5:Finish)
+(load (strcat tfot-root "tests/TA_FACADE_PLACEMENT_tests.lsp"))
 _.QUIT
 _Y
 

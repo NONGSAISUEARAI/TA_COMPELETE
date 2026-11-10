@@ -10,10 +10,10 @@
 (setq tf5-log (open (strcat tfot-root "tests/results_fml_custom.txt") "w") tf5-pass 0 tf5-fail 0
   tf5-saved (mapcar '(lambda (name) (cons name (eval name)))
     '(block_maxlength_ mode_maxlength_ name_maxlength_ prefix_maxlength_ factor_maxlength_ precision_maxlength_
-      height_maxlength_ offset_maxlength_ layer_maxlength_ color_maxlength_ style_txt_))
+      height_maxlength_ offset_maxlength_ offset_xy_maxlength_ layer_maxlength_ color_maxlength_ style_txt_))
   block_maxlength_ "TF5_LABEL" mode_maxlength_ "MAX" name_maxlength_ "TEST CUSTOM"
   prefix_maxlength_ "CUSTOM" factor_maxlength_ 1.0 precision_maxlength_ 2 height_maxlength_ 10.0
-  offset_maxlength_ 5.0 layer_maxlength_ "TF5-LABELS" color_maxlength_ 6 style_txt_ "Standard")
+  offset_maxlength_ 5.0 offset_xy_maxlength_ '(0.0 0.0) layer_maxlength_ "TF5-LABELS" color_maxlength_ 6 style_txt_ "Standard")
 (TF5:Assert "New mode names accept preset spaces and legacy aliases but removed LONG 1/SHORT 1 are invalid"
   (and (= "OVERALL" (TFO:FMLMode "OVERALL")) (= "OVERALL" (TFO:FMLMode "ALL"))
     (= "ALL LONG" (TFO:FMLMode "AllLong")) (= "ALL SHORT" (TFO:FMLMode "all short"))
@@ -34,7 +34,7 @@
   (and (= 1 (length tf5-result)) (= 5 (nth 3 (car tf5-result)))
     (= "CUSTOM,136.00" (TF4:Value (car tf5-result) "LENGTH"))
     (= "BENT" (TF4:Value (car tf5-result) "NAME")) (equal tf5-before (entget tf5-bent))
-    (equal '(166.0 -17.5 0.0) (TF4:Position (car tf5-result)) 1e-7)))
+    (equal '(166.0 -5.0 0.0) (TF4:Position (car tf5-result)) 1e-7)))
 (setq tf5-definition (TF4:Definition)) (TF4:Delete tf5-result)
 (setq tf5-result (TFO:CustomLengthBuild (list tf5-bent '(64.0 120.0 0.0)) "SLOPING"))
 (TF5:Assert "CUSTOM uses the true sloping segment length and its original vertex index"
@@ -46,14 +46,14 @@
   tf5-result (TFO:CustomLengthBuild (list tf5-line '(250.0 400.0 25.0)) "LINE"))
 (TF5:Assert "CUSTOM LINE inserts one real NAME/LENGTH block at its midpoint clearance and elevation"
   (and (= 1 (length tf5-result)) (= "CUSTOM,500.00" (TF4:Value (car tf5-result) "LENGTH"))
-    (equal '(236.0 410.5 25.0) (TF4:Position (car tf5-result)) 1e-7)
+    (equal '(246.0 403.0 25.0) (TF4:Position (car tf5-result)) 1e-7)
     (equal tf5-line-before (entget tf5-line))))
 (TF4:Delete tf5-result)
 (command "_.UCS" "_Z" 90.0)
 (setq tf5-ucs (list (getvar "UCSORG") (getvar "UCSXDIR") (getvar "UCSYDIR"))
   tf5-result (TFO:CustomLengthBuild (list tf5-line (trans '(250.0 400.0 25.0) 0 1)) "UCS"))
 (TF5:Assert "CUSTOM interprets nentsel pick points in the active UCS and restores the UCS after insertion"
-  (and (= 1 (length tf5-result)) (equal '(236.0 410.5 25.0) (TF4:Position (car tf5-result)) 1e-7)
+  (and (= 1 (length tf5-result)) (equal '(246.0 403.0 25.0) (TF4:Position (car tf5-result)) 1e-7)
     (equal tf5-ucs (list (getvar "UCSORG") (getvar "UCSXDIR") (getvar "UCSYDIR")) 1e-9)))
 (TF4:Delete tf5-result) (command "_.UCS" "_World")
 
@@ -73,7 +73,7 @@
   tf5-result (TFO:CustomLengthBuild tf5-selection "NESTED"))
 (TF5:Assert "CUSTOM applies the nentsel 4x3 composite matrix to a rotated, mirrored, stretched nested LINE"
   (and (= 1 (length tf5-result)) (= "CUSTOM,200.00" (TF4:Value (car tf5-result) "LENGTH"))
-    (equal '(482.5 600.0 25.0) (TF4:Position (car tf5-result)) 1e-7)
+    (equal '(495.0 600.0 25.0) (TF4:Position (car tf5-result)) 1e-7)
     (equal tf5-child-before (mapcar 'entget (list tf5-child tf5-inner tf5-nest)))))
 (TF4:Delete tf5-result)
 (setq tf5-curve (TF4:Poly '(((0.0 0.0) 0.5) ((200.0 0.0) 0.0) ((200.0 100.0) 0.0) ((0.0 100.0) 0.0)) T 0.0 nil)
@@ -92,7 +92,7 @@
   tf5-result (TFO:CustomLengthBuild (list tf5-curve '(-200.0 50.0 -25.0)) "REVERSED NORMAL"))
 (TF5:Assert "CUSTOM keeps the outside label and WCS elevation for a reversed-normal LWPOLYLINE"
   (and (= 1 (length tf5-result)) (= 1 (nth 3 (car tf5-result)))
-    (equal '(-217.5 50.0 -25.0) (TF4:Position (car tf5-result)) 1e-7)))
+    (equal '(-205.0 50.0 -25.0) (TF4:Position (car tf5-result)) 1e-7)))
 (TF4:Delete tf5-result) (entdel tf5-curve)
 (setq factor_maxlength_ 0.001 precision_maxlength_ 3 prefix_maxlength_ ""
   tf5-result (TFO:CustomLengthBuild (list tf5-line '(250.0 400.0 25.0)) "CONVERTED"))

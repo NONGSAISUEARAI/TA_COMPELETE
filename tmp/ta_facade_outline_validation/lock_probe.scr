@@ -1,0 +1,20 @@
+(setvar "SECURELOAD" 0)
+(setq lp-log (open "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/tmp/ta_facade_outline_validation/lock_probe.txt" "w"))
+(entmake '((0 . "BLOCK") (2 . "LP_LOCK") (70 . 2) (10 0.0 0.0 0.0)))
+(entmake '((0 . "ATTDEF") (100 . "AcDbEntity") (8 . "0") (100 . "AcDbText") (10 0.0 0.0 0.0) (40 . 1.0) (1 . "TEST") (7 . "Standard") (100 . "AcDbAttributeDefinition") (280 . 0) (3 . "NAME") (2 . "NAME") (70 . 0) (74 . 0) (280 . 1)))
+(entmake '((0 . "ENDBLK")))
+(setq lp-def (cdr (assoc -2 (tblsearch "BLOCK" "LP_LOCK"))))
+(write-line (strcat "DEF=" (vl-prin1-to-string (entget lp-def))) lp-log)
+(setvar "ATTREQ" 0)
+_.-INSERT
+LP_LOCK
+0,0
+1
+1
+0
+(setq lp-insert (entlast) lp-att (entnext lp-insert))
+(write-line (strcat "ATT=" (vl-prin1-to-string (entget lp-att))) lp-log)
+(write-line (strcat "COM=" (vl-prin1-to-string (vl-catch-all-apply '(lambda () (vlax-get-property (vlax-ename->vla-object lp-att) 'LockPosition))))) lp-log)
+(close lp-log)
+_.QUIT
+_Y

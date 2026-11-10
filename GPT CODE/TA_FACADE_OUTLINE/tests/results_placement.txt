@@ -1,0 +1,14 @@
+PASS FML insertion XY stays fixed when block/text scale changes from 2 to 200
+PASS New FML definitions and every inserted NAME/LENGTH reference have Lock Position with version 0 preserved
+PASS Lock Position keeps the attribute value editable
+PASS A zero distance and zero XY offset place the label exactly at the side midpoint even at scale 200
+PASS FO INFO uses the same unscaled WCS XY offset at text/block scales 2 and 200
+PASS All four new INFO ATTDEFs and AREA/MAT/STATION/FLOOR references have locked positions and editable values
+PASS The legacy separate LENGTH block is also created with Lock Position
+PASS CUSTOM adds XY in WCS after OCS conversion without mirroring or scaling the offset
+PASS CUSTOM source-block scales 1 and 3 keep the same drawing-unit normal and XY offsets
+PASS Reusing an unlocked definition locks all new attributes including extra tags while preserving the definition and old reference
+PASS Locking a reused block preserves its custom text positions, height, style, width and rotation
+PASS Invalid XY offset size fails before inserting labels and preserves the source
+PASS CUSTOM rejects a nonnumeric XY offset without partial output
+TOTAL PASS=13 FAIL=0

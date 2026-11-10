@@ -1,0 +1,333 @@
+---
+title: "TA UPDATE BLOCK"
+subtitle: "คู่มือใช้งานและบันทึกทางเทคนิค — AutoLISP v1.3"
+lang: th
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-copy: true
+    embed-resources: true
+---
+
+# วัตถุประสงค์
+
+เลือก Block ต้นแบบจากไฟล์ DWG ปัจจุบัน แล้วนำ definition ไป redefine Block ชื่อเดียวกันใน DWG ปลายทางที่ระบุ ผู้ใช้ทำงานผ่านคำสั่ง AutoLISP และ C# ประมวลผลฐานข้อมูล DWG ปลายทางโดยไม่เปิดหน้าต่างเอกสารทีละไฟล์
+
+ไฟล์ปัจจุบันเป็น **ต้นทาง** โปรแกรมไม่ Save หรือแก้ไขไฟล์นี้ การเปลี่ยนแปลงเกิดในไฟล์ปลายทางและถูกบันทึกอัตโนมัติเมื่อสำเร็จ
+
+| บทบาท | ตัวอย่าง | ผลที่ต้องการ |
+| --- | --- | --- |
+| ต้นทาง | `MASTER.dwg` ที่เปิดอยู่ มี `DOOR_01` เวอร์ชันใหม่ | อ่าน definition จาก Block ที่เลือก |
+| ปลายทาง | `A.dwg` มี `DOOR_01` เวอร์ชันเดิม | redefine ชื่อเดิมแล้วบันทึก |
+| ปลายทาง | `B.dwg` ยังไม่มี `DOOR_01` | เพิ่ม definition โดยไม่สร้าง reference ใหม่ |
+
+เอกสารนี้อ้างอิง [LISP](TA_UPDATE_BLOCK.lsp), [ตัวอัปเดต C#](src/UpdateBlock.cs), [ตัวเลือกโฟลเดอร์](src/FolderPicker.cs) และ [ชุดทดสอบ](tests/Integration.cs) ในโปรเจกต์นี้
+
+# สภาพแวดล้อมและโครงสร้างไฟล์
+
+สภาพแวดล้อมที่ build และเคยทดสอบผ่านคือ AutoCAD 2026 บน Windows x64 ใช้ .NET 8 และ Windows Forms สำหรับ dialog เลือกโฟลเดอร์ ยังไม่ได้ยืนยันกับ AutoCAD รุ่นอื่น, AutoCAD LT หรือ macOS
+
+```text
+TA_UPDATE_BLOCK/
+  README.md                         คู่มือเริ่มใช้งาน
+  TA_UPDATE_BLOCK.qmd                คู่มือฉบับนี้
+  TA_UPDATE_BLOCK.lsp                จุดเรียกใช้งานและ DLL loader
+  TA_UPDATE_BLOCK.csproj             โปรเจกต์ .NET 8 Windows x64
+  build.ps1                         Build ด้วย Roslyn ที่มากับ PowerShell 7
+  src/
+    UpdateBlock.cs                  Clone, redefine, attribute sync, save, backup
+    FolderPicker.cs                 Explorer dialog และ ResultBuffer
+  bin/Release/net8.0-windows/
+    TA_UPDATE_BLOCK.dll             DLL สำหรับใช้งานจริง
+  tests/
+    wrapper-tests.lsp               ทดสอบ LISP ด้วยฟังก์ชันจำลอง
+    wrapper-tests.scr               ตัวเรียก wrapper tests
+    dll-smoke.scr                   ตรวจ NETLOAD และชนิดฟังก์ชัน
+    autoload-smoke.scr              ตรวจโหลดอัตโนมัติและคืนค่า FILEDIA
+    Integration.cs                 สร้างและตรวจ DWG จำลอง
+    integration.scr                ตรวจข้าม C# → LISP และ redefine จริง
+    bin/TA_UPDATE_BLOCK_TESTS.dll    DLL ทดสอบแยกจากตัวใช้งานจริง
+```
+
+# ติดตั้งและโหลด
+
+## ตำแหน่งติดตั้งและ DLL loader
+
+1. ตรวจว่ามี `TA_UPDATE_BLOCK.lsp` และ `bin/Release/net8.0-windows/TA_UPDATE_BLOCK.dll`
+2. ใช้ `APPLOAD` โหลด LISP
+3. ตรวจข้อความ `TA_UPDATE_BLOCK v1.3 loaded (Explorer folder result fix).`
+4. พิมพ์ `TAUB` หรือ `TAUPDATEBLOCK` เพื่อให้ loader ตรวจและโหลด DLL ก่อนเริ่มงาน
+
+ใช้ `NETLOAD` ด้วยตนเองได้เช่นกัน แต่ไม่จำเป็นเมื่อ loader ค้นหา DLL และโหลดสำเร็จ
+
+ตัว loader ค้นหาในโฟลเดอร์ที่กำหนดด้วย `*TAUB:install-dir*`, โฟลเดอร์ของ LISP ที่ค้นพบผ่าน `findfile` และ Support Path โดยลองตำแหน่ง DLL ภายใต้ `bin/Release/net8.0-windows` และตำแหน่งข้าง LISP
+
+ค่าเริ่มต้นของ `*TAUB:install-dir*` ใน source เป็น path workspace ของเครื่องผู้พัฒนา หากย้ายติดตั้งและ LISP ไม่อยู่ใน Support Path ให้กำหนดใหม่:
+
+```lisp
+(setq *TAUB:install-dir* "D:/MyTools/TA_UPDATE_BLOCK")
+```
+
+การ APPLOAD ด้วย absolute path ไม่ได้ทำให้ loader รู้โฟลเดอร์ LISP เสมอไป จึงควรตั้งค่านี้เมื่อย้ายติดตั้ง
+
+หาก AutoCAD ปฏิเสธการโหลด ให้เพิ่มเฉพาะโฟลเดอร์ LISP และโฟลเดอร์ DLL ที่ใช้ใน `TRUSTEDPATHS` ผ่าน Options โปรแกรมไม่ลด `SECURELOAD` และไม่แก้ `TRUSTEDPATHS` ให้เอง ตัว loader ตั้ง `FILEDIA` เป็น 0 ชั่วคราวเพื่อส่ง path ให้ NETLOAD แล้วคืนค่าเดิม
+
+## อัปเกรดรุ่น
+
+| สิ่งที่เปลี่ยน | วิธีโหลดใหม่ |
+| --- | --- |
+| LISP v1.2 → v1.3 โดยใช้ DLL Explorer เดิม | APPLOAD LISP ใหม่ใน session เดิมได้ |
+| DLL ที่เคยโหลดอยู่แล้ว | บันทึกงานและเปิด AutoCAD ใหม่ก่อนโหลด DLL รุ่นใหม่ |
+| DLL ยังไม่เคยโหลด | APPLOAD LISP แล้วเรียก `TAUB` เพื่อโหลดอัตโนมัติ |
+
+loader ตรวจว่ามีทั้ง `TA-UPDATE-BLOCK` และ `TAUB-PICK-FOLDER` ก่อนเริ่มงาน โดยใช้ `type`/`eval` ไม่ใช้ `fboundp`
+
+# ขั้นตอนใช้งาน
+
+## เตรียมต้นทางและเลือก Block
+
+เปิดไฟล์ DWG ที่มี definition ใหม่ ไฟล์ต้องเคยบันทึกชื่อแล้ว แนะนำให้ Save การแก้ไขล่าสุดก่อนเรียกคำสั่ง
+
+หากต้นทางเปิดอยู่ C# อ่านจากฐานข้อมูลในหน่วยความจำของเอกสารนั้น จึงรวมการแก้ไขที่ยังไม่ได้ Save ด้วย โปรแกรมไม่บันทึกต้นทางให้โดยอัตโนมัติ
+
+```text
+Command: TAUB
+Select MASTER block reference from the current drawing:
+```
+
+คลิก Block reference หนึ่งตัว หากเป็น dynamic block โปรแกรมใช้ `EffectiveName` เมื่อ property นี้มีให้ เพื่อระบุชื่อ definition ต้นแบบ
+
+`TAUB` และ `TAUPDATEBLOCK` เป็นคำสั่งเดียวกัน ส่วน `TAUBFOLDER` เป็นคำสั่งเสริมสำหรับทดลองเลือกโฟลเดอร์ ไม่เปลี่ยน DWG และไม่จำเป็นต้องเรียกก่อนใช้งานหลัก
+
+## เลือกปลายทางแบบ Folder
+
+```text
+Targets [Folder/Files] <Folder>:
+```
+
+กด Enter หรือพิมพ์ `Folder` เพื่อเปิดหน้าต่างเลือกโฟลเดอร์แบบ File Explorer ใช้ช่อง Address วาง path แล้วเลือกโฟลเดอร์ปลายทางได้
+
+โปรแกรมเริ่ม dialog ที่โฟลเดอร์ DWG ปัจจุบัน หรือโฟลเดอร์ล่าสุดที่เลือกสำเร็จใน session นี้ ประมวลผล `.dwg` เฉพาะระดับโฟลเดอร์ที่เลือก ไม่รวมโฟลเดอร์ย่อย และแสดงจำนวนไฟล์ที่พบ
+
+กด Cancel แล้วจะไม่เริ่มอัปเดต หากเลือกโฟลเดอร์ว่างหรือไม่มี `.dwg` โปรแกรมจะแสดง `No DWG files found in this folder (subfolders are excluded).`
+
+## เลือกปลายทางแบบ Files
+
+พิมพ์ `Files` เพื่อเลือก DWG ปลายทางทีละไฟล์ เมื่อเลือกครบให้กด Cancel เพื่อจบการรวบรวม รายการที่เลือกไว้ยังถูกนำไปประมวลผล หาก Cancel ตั้งแต่ไฟล์แรกจะไม่เริ่มอัปเดต
+
+ไฟล์ปลายทางต้องปิดจาก AutoCAD session เดียวกันก่อน ไฟล์ต้นทางเองอาจอยู่ในรายชื่อจาก Folder แต่ C# จะไม่เขียนทับ และรายงานรายการนั้นเป็น `FAIL ... source drawing was skipped`
+
+## Backup และบันทึกผล
+
+```text
+Create timestamped .bak files? [Yes/No] <Yes>:
+```
+
+กด Enter เพื่อเปิด Backup โปรแกรมคัดลอกไฟล์เดิมก่อนเปิดแก้ไข ตัวอย่างชื่อ `A.TAUB_20261106_103000.bak` หากชื่อซ้ำจะเติมเลขท้าย ชื่อ Backup นี้แยกจาก `.bak` ตามปกติของ AutoCAD
+
+DWG ที่สำเร็จถูก Save อัตโนมัติด้วย `DwgVersion.Current` ของ AutoCAD ที่รัน หากต้องคืนไฟล์ ให้ปิด DWG นั้น คัดลอก Backup แล้วเปลี่ยนนามสกุลสำเนาเป็น `.dwg`
+
+# สิ่งที่ถูกเปลี่ยน
+
+## Definition และ references
+
+C# clone BlockTableRecord ที่เลือกจากต้นทางไปยัง BlockTable ของปลายทางโดยใช้ `WblockCloneObjects` และ `DuplicateRecordCloning.Replace`
+
+ชื่อ definition เดิมในปลายทางจะได้รับ definition ใหม่ ทำให้ reference ที่อ้างชื่อนั้นใช้รูปทรงที่อัปเดต โค้ดไม่ได้สร้าง reference ใหม่เมื่อปลายทางไม่มีชื่อนี้อยู่ก่อน แต่เพิ่ม definition ได้
+
+dependencies ที่ถูก clone เช่น nested block หรือ symbol record ที่มีชื่อซ้ำอาจได้รับผลจากการ Replace ด้วย จึงไม่ควรตีความว่าผลกระทบจำกัดเฉพาะชื่อ Block ชั้นนอกเสมอไป
+
+## Attribute
+
+โปรแกรมจับคู่ Attribute ด้วย Tag โดยไม่แยกตัวพิมพ์ใหญ่/เล็ก:
+
+| สถานะ Tag | การทำงาน |
+| --- | --- |
+| ยังอยู่ในต้นแบบ | ใช้ definition ใหม่และคืนค่า `TextString` เดิม |
+| เพิ่มใหม่ | สร้าง AttributeReference จาก default ของต้นแบบ |
+| ไม่มีในต้นแบบแล้ว | ลบ AttributeReference เดิมที่ไม่ตรงกับ definition ปัจจุบัน |
+| Constant attribute | ไม่สร้าง AttributeReference แยกผ่านขั้นตอน sync นี้ |
+
+ตำแหน่ง/รูปแบบ Attribute อาจเปลี่ยนตามต้นแบบ การเก็บค่าเดิมที่ทดสอบอยู่ในระดับ `TextString` ไม่ได้มีชุดทดสอบครบสำหรับ multiline attribute หรือรูปแบบพิเศษทุกชนิด
+
+## Dynamic block
+
+โค้ดเรียก `UpdateAnonymousBlocks()` และค้นหา references ใน anonymous definitions เพื่อ sync Attribute แต่ยังไม่มี integration fixture สำหรับ dynamic/nested block จึงยังไม่ยืนยันการรักษาค่า visibility, distance, lookup และ dynamic property ทุกชนิดราย reference
+
+# รายงานและความล้มเหลว
+
+```text
+TA UPDATE BLOCK: 2 succeeded, 1 failed.
+OK   D:\CAD\A.dwg
+OK   D:\CAD\B.dwg
+FAIL D:\CAD\C.dwg : target drawing is open; close it first
+```
+
+`OK` หมายถึงจบการอัปเดตและ Save ไฟล์นั้นแล้ว `FAIL` หมายถึงไฟล์นั้นทำงานไม่สำเร็จและโปรแกรมไปไฟล์ถัดไป `FATAL` ใช้เมื่อเตรียมข้อมูลรวมไม่ได้ เช่น ไม่พบ Block ในต้นทาง
+
+การประมวลผลเป็นรายไฟล์ ไม่มี transaction ครอบทั้ง batch หากไฟล์หลังล้มเหลว ไฟล์ก่อนหน้าที่ขึ้น `OK` ไม่ถูกย้อนกลับ การสร้าง Backup เกิดก่อนพยายามแก้ DWG จึงอาจมี Backup แม้ไฟล์นั้นจะรายงาน `FAIL` ในภายหลัง
+
+# API สำหรับโปรแกรมอื่น
+
+## AutoLISP API
+
+```lisp
+(setq result
+  (TAUB:Run
+    "D:/CAD/MASTER.dwg"
+    "MY_BLOCK"
+    '("D:/CAD/A.dwg" "D:/CAD/B.dwg")
+    T))
+```
+
+| Argument | ความหมาย |
+| --- | --- |
+| `source` | full path DWG ต้นทาง หากเปิดอยู่จะใช้ฐานข้อมูลของเอกสารนั้น |
+| `block` | ชื่อ definition ที่มีในต้นทาง |
+| `files` | list ของ full path DWG ปลายทาง |
+| `backup` | `T` เพื่อเปิด Backup, `nil` เพื่อปิด |
+
+ผลลัพธ์สำเร็จในการเรียก DLL เป็น list `(success-count failure-count report)` ตัวอย่าง `(2 0 "OK ...\nOK ...")` หาก loader หรือการเรียก DLL ล้มเหลว wrapper คืน `nil` และแสดงข้อความที่ Command line ต้อง APPLOAD LISP ก่อนเรียก API นี้
+
+## ฟังก์ชันที่ DLL เปิดให้ LISP
+
+```lisp
+;; ต้องโหลด DLL แล้วก่อนเรียกตรง
+(TA-UPDATE-BLOCK
+  "D:/CAD/MASTER.dwg"
+  "MY_BLOCK"
+  "D:/CAD/A.dwg|D:/CAD/B.dwg"
+  1)
+```
+
+ตัวเรียก C# รับปลายทางเป็น string คั่นด้วย `|` และ Backup เป็นเลข `1`/`0` ส่วน `TAUB:Run` จัดรูปแบบเหล่านี้ให้แล้ว
+
+`(TAUB-PICK-FOLDER "D:/CAD")` เปิด dialog และคืนค่าผ่าน ResultBuffer ในสภาพแวดล้อมที่ทดสอบ เมื่อเลือกสำเร็จ LISP ได้ list หนึ่งค่า เช่น `("D:\\CAD")` และเมื่อ Cancel ได้ `(nil)` ฟังก์ชัน `TAUB:_normalize-folder-result` ของ v1.3 แปลงเป็น string หรือ `nil` ก่อนตรวจ path และยอมรับ scalar จากตัวเลือกโฟลเดอร์ชนิดอื่นด้วย
+
+ไม่ควรเรียก `TAUB-PICK-FOLDER` แทนคำสั่งหลัก เพราะฟังก์ชันนี้มีหน้าที่เลือกโฟลเดอร์เท่านั้น
+
+# Build จาก source
+
+## Roslyn ที่มากับ PowerShell 7
+
+`build.ps1` ต้องใช้ PowerShell 7 ที่มี `Microsoft.CodeAnalysis.dll` และ `Microsoft.CodeAnalysis.CSharp.dll` ใน `$PSHOME` รวมถึง .NET 8 runtime และ Windows Desktop runtime ใต้ `C:\Program Files\dotnet\shared` สคริปต์เลือกเวอร์ชัน 8.x ล่าสุดที่พบ จึงไม่ต้องมี SDK สำหรับเส้นทางนี้
+
+รันจากโฟลเดอร์โปรเจกต์:
+
+```powershell
+& .\build.ps1
+# ผลลัพธ์: bin\Release\net8.0-windows\TA_UPDATE_BLOCK.dll
+
+& .\build.ps1 -Tests
+# ผลลัพธ์: tests\bin\TA_UPDATE_BLOCK_TESTS.dll
+```
+
+ค่าเริ่มต้นของ AutoCAD reference คือ `C:\Program Files\Autodesk\AutoCAD 2026` หากติดตั้งต่างตำแหน่ง ระบุ path ของ AutoCAD 2026 ที่ใช้:
+
+```powershell
+& .\build.ps1 -AutoCAD "D:\Autodesk\AutoCAD 2026"
+```
+
+## .NET 8 SDK
+
+```powershell
+dotnet build .\TA_UPDATE_BLOCK.csproj -c Release
+```
+
+อย่านำ `TA_UPDATE_BLOCK_TESTS.dll` ไปแทน DLL ใช้งานจริง เพราะมีคำสั่งสร้างและแก้ DWG จำลอง รวมถึงฟังก์ชันทดสอบเพิ่มอยู่ด้วย
+
+# การทดสอบและหลักฐาน {#testing}
+
+## สิ่งที่เคยทดสอบผ่าน
+
+การทดสอบก่อนจัดทำเอกสารนี้รันด้วย AutoCAD Core Console และ DWG จำลอง ผลที่ยืนยันได้ประกอบด้วย:
+
+| กลุ่ม | สิ่งที่ตรวจ |
+| --- | --- |
+| Loader | session ที่ไม่มี DLL, โหลดอัตโนมัติ, ลงทะเบียนทั้งสองฟังก์ชัน และคืนค่า FILEDIA |
+| ResultBuffer | path แบบ list จาก C# กลับ LISP และ Cancel แบบ `(nil)` |
+| Folder | แปลงผลเลือกโฟลเดอร์แล้ว enumerate DWG ที่มีอยู่จริง |
+| Redefine | geometry ใน definition เปลี่ยนจากเส้นยาว 5 เป็น 20 |
+| Reference | insertion point `(100, 200, 0)` ไม่เปลี่ยน |
+| Attribute | ค่า Tag เดิมคงอยู่, เพิ่ม Tag ใหม่และ default, ลบ Tag ที่ไม่มีแล้ว |
+| Backup | สร้าง `TARGET.TAUB_*.bak` |
+| ต้นทาง | SHA-256 ของ MASTER ก่อนและหลังอัปเดตตรงกัน |
+| LISP API | เรียก redefine ผ่าน `TAUB:Run` สำเร็จ |
+
+ไม่ได้ตรวจการคลิก native dialog จริงผ่าน GUI และไม่ได้ครอบคลุม dynamic/nested block ทุกกรณี การจัดทำเอกสารครั้งนี้ไม่ได้รันทดสอบ DWG ซ้ำ
+
+## รันชุดทดสอบ
+
+สคริปต์ `.scr` และ `Integration.cs` ปัจจุบันอ้าง absolute path ของ workspace เครื่องผู้พัฒนา ต้องปรับ path ก่อนใช้เครื่องอื่น ควรรันด้วยโปรไฟล์ทดสอบแยก เพราะ `.scr` ตั้ง TRUSTEDPATHS เฉพาะโฟลเดอร์ทดสอบ
+
+ตัวอย่างที่ workspace นี้ รันจากโฟลเดอร์โปรเจกต์:
+
+```powershell
+& .\build.ps1 -Tests
+
+& 'C:\Program Files\Autodesk\AutoCAD 2026\accoreconsole.exe' `
+  /i 'C:\Users\tawan.t\Documents\GitHub\TA_COMPELETE\Drawing1.dwg' `
+  /s 'C:\Users\tawan.t\Documents\GitHub\TA_COMPELETE\GPT CODE\TA_UPDATE_BLOCK\tests\integration.scr' `
+  /l en-US `
+  /isolate TAUB_DocTest 'C:\Users\tawan.t\Documents\GitHub\TA_COMPELETE\tmp\taub_doc_test_profile'
+```
+
+`Drawing1.dwg` เป็นเอกสารเริ่ม session ไม่ใช่เป้าหมายอัปเดตของ integration test ตัวทดสอบสร้าง MASTER/TARGET ใหม่ใน `tmp/taub_integration/<timestamp>` และปิด session โดยไม่ Save เอกสารเริ่มต้น
+
+ตรวจข้อความเหล่านี้ ไม่ควรใช้ exit code ของ Core Console เพียงอย่างเดียวตัดสินว่าทดสอบผ่าน:
+
+```text
+TAUB_INTEGRATION_PASSED
+TAUB_DOTNET_TO_LISP_FOLDER_PASSED
+TAUB_SELECTED_FOLDER_DWG_ENUMERATION_PASSED
+TAUB_LISP_REDEFINE_PASSED
+TAUB_DOTNET_CANCEL_PASSED
+```
+
+ใช้ `wrapper-tests.scr` สำหรับ LISP wrapper, `autoload-smoke.scr` สำหรับ auto-loader และ `dll-smoke.scr` สำหรับตรวจการลงทะเบียน โดยเริ่ม Core Console session ใหม่แยกแต่ละชุด เพื่อไม่ให้ฟังก์ชันจำลองใน wrapper tests ทับฟังก์ชันจริงจาก DLL
+
+# วิธีแก้ปัญหา
+
+| ข้อความหรืออาการ | สาเหตุที่ควรตรวจ | วิธีดำเนินการ |
+| --- | --- | --- |
+| `no function definition: TAUB-PICK-FOLDER` | session ไม่มีฟังก์ชันจาก DLL | APPLOAD v1.3 แล้วเรียก `TAUB`; หาก DLL เก่าค้าง ให้เปิด AutoCAD ใหม่ |
+| `TA_UPDATE_BLOCK.dll was not found...` | loader หา DLL ไม่เจอ | ตรวจโครงสร้างไฟล์และ `*TAUB:install-dir*` |
+| `DLL is not ready...` | NETLOAD ล้มเหลว หรือ DLL ไม่ครบฟังก์ชัน | อ่าน NETLOAD error ก่อนหน้าและตรวจ DLL ที่โหลด |
+| `No target drawings selected.` หลังเลือก Folder | อาจยังใช้ LISP รุ่นก่อนแก้ ResultBuffer | APPLOAD v1.3; รุ่นนี้แยก Cancel/ไม่มี DWG/ผล dialog ผิดรูปแบบ |
+| `No DWG files found in this folder...` | ไม่มี `.dwg` ในระดับที่เลือก | ตรวจโฟลเดอร์จริง รวมถึงไฟล์ที่อยู่ในโฟลเดอร์ย่อย |
+| `Selected folder does not exist or is inaccessible...` | path ไม่ผ่านการตรวจ directory | ตรวจ path, drive และการเข้าถึงโฟลเดอร์ |
+| `Unexpected folder picker result...` | ค่าไม่ใช่ path หรือ Cancel หลัง normalize | เก็บข้อความนี้เพื่อตรวจรูปแบบค่าจาก DLL |
+| `target drawing is open; close it first` | ปลายทางเปิดอยู่ใน session นี้ | บันทึกและปิดปลายทาง แล้วรันใหม่ |
+| `Block not found in source...` | API ระบุชื่อไม่ตรงกับต้นทาง | ตรวจชื่อ definition หรือเลือก reference ด้วยคำสั่งหลัก |
+
+ความผิดพลาดที่แก้แล้วในพัฒนาการของรุ่นนี้:
+
+- เลิกใช้ `fboundp` ซึ่งไม่ใช่ฟังก์ชัน AutoLISP ที่ใช้ได้ในงานนี้
+- เปลี่ยน Folder จากการเลือกไฟล์ตัวแทน/หน้าต่างต้นไม้ มาเป็น Explorer dialog ผ่าน C#
+- v1.2 เพิ่ม loader และตรวจทั้ง updater กับ picker ก่อนใช้งาน
+- v1.3 แก้ path แบบ list และ `(nil)` จาก .NET ซึ่งเคยทำให้เลือกโฟลเดอร์แล้ว LISP มองว่าไม่มีเป้าหมาย
+
+# ข้อจำกัด
+
+- ไม่รองรับ layout, Xref หรือ dependent block เป็น definition ต้นทาง
+- Folder ไม่ค้นหาโฟลเดอร์ย่อย
+- ไม่คงรูปแบบ DWG รุ่นเก่าโดยอัตโนมัติ บันทึกด้วย `DwgVersion.Current`
+- ตรวจเอกสารที่เปิดอยู่เฉพาะ AutoCAD session นี้ ไม่ตรวจทุก session หรือทุกเครื่อง
+- Replace อาจส่งผลต่อ dependencies ชื่อซ้ำที่เกี่ยวข้องกับการ clone
+- ไม่มี batch rollback; ใช้ Backup เพื่อคืนไฟล์ที่สำเร็จไปแล้วหากต้องการ
+- ไม่มีตัวเลือกข้ามไฟล์ที่ขาด Block โดยเฉพาะ ปลายทางที่ไม่มีชื่อจะได้รับ definition เพิ่ม
+- ไม่มีชุดทดสอบครบสำหรับ dynamic property, nested block, multiline attribute และไฟล์เฉพาะทางทุกชนิด
+
+# Render เอกสารนี้
+
+เมื่อมี Quarto CLI ให้รันจากโฟลเดอร์นี้:
+
+```powershell
+quarto render .\TA_UPDATE_BLOCK.qmd --to html
+```
+
+ได้ `TA_UPDATE_BLOCK.html` พร้อมสารบัญ เลขหัวข้อ ปุ่มคัดลอกโค้ด และ resources ฝังใน HTML เท่าที่ตัว render รองรับ ตัวอย่างโค้ดเป็น code fence ธรรมดา ไม่ใช่ executable cell จึงไม่รัน AutoCAD หรือชุดทดสอบขณะ render
+
+README เป็นทางเข้าฉบับสั้น ส่วน QMD นี้เป็นคู่มือรายละเอียด สามารถเปิด source อ่านได้แม้ยังไม่ได้ติดตั้ง Quarto

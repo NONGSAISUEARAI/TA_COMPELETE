@@ -7,8 +7,8 @@
 (setq mode_maxlength_      "MAX")           ; OVERALL / ALL LONG / ALL SHORT / MAX / CUSTOM
 ; OVERALL = ทุกด้านแยกป้าย; ALL LONG/ALL SHORT = คู่ด้านของรูปเปิด 3 ด้านหรือปิด 4 ด้าน
 ; CUSTOM = nentsel เลือก LINE/ช่วง LWPOLYLINE ทีละด้าน วนจน Enter หรือ Esc
-(setq name_maxlength_      "C10-C10")              ; วัสดุเริ่มต้นของ Tag NAME เช่น "ACP-3MM"
-(setq prefix_maxlength_    "C10-HOOKRAIL") ; Prefix ของ LENGTH; ใส่ "" เพื่อแสดงเฉพาะตัวเลข
+(setq name_maxlength_      "PP18-C10-STEEL")              ; วัสดุเริ่มต้นของ Tag NAME เช่น "ACP-3MM"
+(setq prefix_maxlength_    name_maxlength_) ; Prefix ของ LENGTH; ใส่ "" เพื่อแสดงเฉพาะตัวเลข
 ;
 ; หน่วยและรูปแบบตัวเลข
 (setq factor_maxlength_    1.0)             ; 1.0 = หน่วยแบบเดิม, 0.001 = แปลง mm เป็น m
@@ -16,7 +16,8 @@
 ;
 ; ขนาด ตำแหน่ง และการแสดงผล
 (setq height_maxlength_    50)            ; สเกลบล็อก / ความสูงข้อความของนิยามเริ่มต้น
-(setq offset_maxlength_    50)            ; ระยะเผื่อจากด้านที่ใส่ป้าย หน่วยตามแบบ
+(setq offset_maxlength_    0)            ; ระยะจากด้านถึงจุดแทรก หน่วยแบบ ไม่คูณสเกล/ความสูง
+(setq offset_xy_maxlength_ '(0.0 0.0))    ; เลื่อน X/Y ตาม WCS หลังหากึ่งกลางด้าน ไม่คูณสเกล
 (setq layer_maxlength_     "TA-PLINE-MAXLENGTH") ; เลเยอร์ของป้าย
 (setq color_maxlength_     6)               ; สี ACI 1-255 เช่น 1=แดง, 2=เหลือง, 4=ฟ้า, 6=ชมพู
 ;
@@ -36,12 +37,12 @@
 (setq floor_txt_        "")         ; FLOOR default value
 (setq height_info_      10.0)       ; Information block text height
 (setq spacing_info_     1.6)        ; Row spacing, in text heights
-(setq offset_info_      '(0.0 0.0)) ; WCS XY offset from an automatic interior point
+(setq offset_info_      '(0.0 0.0)) ; WCS XY offset in drawing units, independent of block scale
 (setq layer_info_       "TA-FACADE-INFO")
 (setq color_info_       2)          ; Yellow
 (setq tolerance_fo_     0.00001)
 ;
-;;; TA_FACADE_OUTLINE v1.13 -- FO / FACADEOUTLINE and FML / FACADEMAXLENGTH.
+;;; TA_FACADE_OUTLINE v1.14 -- FO / FACADEOUTLINE and FML / FACADEMAXLENGTH.
 ;;; Standalone AutoLISP, AutoCAD for Windows with REGION/UNION support.
 ;;; Input: 2D block references and polylines, on one WCS XY plane.
 ;;; Output: one overall envelope by default; SPLIT retains separate components.
@@ -713,15 +714,32 @@
       (TFO:Require (tblsearch "STYLE" style_txt_) (strcat "Text style not found: " style_txt_))
       (TFO:Require (entmake (list '(0 . "BLOCK") (cons 2 name) '(70 . 2) '(10 0.0 0.0 0.0)))
         "Cannot create label block.")
-      (entmake (list '(0 . "ATTDEF") '(8 . "0") '(62 . 0) '(10 0.0 0.0 0.0)
-        '(11 0.0 0.0 0.0) '(40 . 1.0) '(1 . "") '(2 . "LENGTH") '(3 . "Facade edge length")
-        '(70 . 0) '(72 . 1) '(74 . 2) (cons 7 style_txt_)))
+      (entmake (list '(0 . "ATTDEF") '(100 . "AcDbEntity") '(8 . "0") '(62 . 0)
+        '(100 . "AcDbText") '(10 0.0 0.0 0.0) '(11 0.0 0.0 0.0) '(40 . 1.0) '(1 . "")
+        '(72 . 1) (cons 7 style_txt_) '(100 . "AcDbAttributeDefinition") '(280 . 0)
+        '(3 . "Facade edge length") '(2 . "LENGTH") '(70 . 0) '(74 . 2) '(280 . 1)))
       (TFO:Require (entmake '((0 . "ENDBLK"))) "Cannot finish label block.")))
   (TFO:CheckBlockTags name '("LENGTH")))
 
+;;; DXF 280 occurs twice in the attribute subclass: version first, lock second.
+;;; Change only the position lock, preserving version and any Xrecord fields.
+(defun TFO:LockAttributeData (data / inside count result pair)
+  (setq count 0)
+  (foreach pair data
+    (cond
+      ((= (car pair) 100)
+        (if (and inside (< count 2)) (setq result (cons '(280 . 1) result)))
+        (setq inside (member (cdr pair) '("AcDbAttribute" "AcDbAttributeDefinition")) count 0))
+      ((and inside (= (car pair) 280))
+        (setq count (1+ count))
+        (if (= count 2) (setq pair '(280 . 1)))))
+    (setq result (cons pair result)))
+  (if (and inside (< count 2)) (setq result (cons '(280 . 1) result)))
+  (reverse result))
+
 ;;; Let AutoCAD instantiate attributes from the existing block definition.
 ;;; This preserves custom ATTDEF positions, text styles, base points and extra
-;;; attributes. Only known values on the NEW reference are changed by tag.
+;;; attributes. Known values and position locks change only on the NEW reference.
 (defun TFO:InsertAttributes (block point scale rotation values layer color /
                                  saved pair world switched before result entity data attribute value)
   (setq saved (mapcar '(lambda (name) (cons name (getvar name)))
@@ -750,10 +768,12 @@
   (setq attribute entity)
   (while (and (setq attribute (entnext attribute))
     (/= "SEQEND" (TFO:Get 0 (setq data (entget attribute)) "")))
-    (if (and (= "ATTRIB" (cdr (assoc 0 data)))
-      (setq value (assoc (strcase (TFO:Get 2 data "")) values)))
-      (TFO:Require (entmod (subst (cons 1 (cdr value)) (assoc 1 data) data))
-        (strcat "Cannot update attribute " (car value) " in " block))))
+    (if (= "ATTRIB" (cdr (assoc 0 data)))
+      (progn
+        (if (setq value (assoc (strcase (TFO:Get 2 data "")) values))
+          (setq data (subst (cons 1 (cdr value)) (assoc 1 data) data)))
+        (TFO:Require (entmod (TFO:LockAttributeData data))
+          (strcat "Cannot update/lock attribute " (TFO:Get 2 data "") " in " block)))))
   (entupd entity) entity)
 
 (defun TFO:Label (block point rotation edge-length / value)
@@ -772,9 +792,10 @@
       (list
         (list '(0 . "TEXT") '(8 . "0") '(62 . 0) (cons 10 label-point) (cons 11 label-point)
           '(40 . 1.0) (cons 1 (strcat (car row) ":")) '(50 . 0.0) '(72 . 0) '(73 . 2) (cons 7 style_txt_))
-        (list '(0 . "ATTDEF") '(8 . "0") '(62 . 0) (cons 10 value-point) (cons 11 value-point)
-          '(40 . 1.0) '(1 . "") (cons 2 (car row)) (cons 3 (car row)) '(50 . 0.0)
-          '(70 . 0) '(72 . 0) '(74 . 2) (cons 7 style_txt_)))))) result)
+        (list '(0 . "ATTDEF") '(100 . "AcDbEntity") '(8 . "0") '(62 . 0) '(100 . "AcDbText")
+          (cons 10 value-point) (cons 11 value-point) '(40 . 1.0) '(1 . "") '(50 . 0.0)
+          '(72 . 0) (cons 7 style_txt_) '(100 . "AcDbAttributeDefinition") '(280 . 0)
+          (cons 3 (car row)) (cons 2 (car row)) '(70 . 0) '(74 . 2) '(280 . 1)))))) result)
 
 (defun TFO:InfoBlock (/ name schema data ok finished)
   (setq name block_info_)
@@ -972,10 +993,10 @@
         midpoint (TFO:EdgePoint edge 0.5)
         ;; A circular segment's midpoint tangent is parallel to its chord.
         tangent (angle (car edge) (cadr edge))
-        ;; Default two-row label extends 1.25 text heights from its origin.
-        point (polar midpoint (+ tangent (* side (/ pi 2.0)))
-          (+ offset_maxlength_ (* 1.25 height_maxlength_)))
+        ;; All placement offsets are drawing units, independent of text/block scale.
+        point (polar midpoint (+ tangent (* side (/ pi 2.0))) offset_maxlength_)
         point (trans (append (TFO:XY point) (list (TFO:Get 38 data 0.0))) normal 0)
+        point (TFO:Add point (append offset_xy_maxlength_ '(0.0)))
         vector (trans (list (cos tangent) (sin tangent) 0.0) normal 0 T)
         rotation (TFO:Angle (atan (cadr vector) (car vector))))
   (if (and (> rotation (+ (/ pi 2.0) 1e-10)) (<= rotation (+ (* 1.5 pi) 1e-10)))
@@ -1054,17 +1075,18 @@
         "Cannot create maximum-length block.")
       (setq ok T)
       (foreach row '(("NAME" 0.75 "Material name") ("LENGTH" -0.75 "Segment length"))
-        (if (not (entmake (list '(0 . "ATTDEF") '(8 . "0") '(62 . 0)
+        (if (not (entmake (list '(0 . "ATTDEF") '(100 . "AcDbEntity") '(8 . "0") '(62 . 0) '(100 . "AcDbText")
           (cons 10 (list 0.0 (cadr row) 0.0)) (cons 11 (list 0.0 (cadr row) 0.0))
-          '(40 . 1.0) '(1 . "") (cons 2 (car row)) (cons 3 (caddr row))
-          '(70 . 0) '(72 . 1) '(74 . 2) (cons 7 style_txt_)))) (setq ok nil)))
+          '(40 . 1.0) '(1 . "") '(72 . 1) (cons 7 style_txt_)
+          '(100 . "AcDbAttributeDefinition") '(280 . 0) (cons 3 (caddr row)) (cons 2 (car row))
+          '(70 . 0) '(74 . 2) '(280 . 1)))) (setq ok nil)))
       (setq finished (entmake '((0 . "ENDBLK"))))
       (TFO:Require (and ok finished) "Cannot finish maximum-length block.")))
   (TFO:CheckBlockTags block_maxlength_ '("NAME" "LENGTH")))
 
 (defun TFO:SideLengthText (edge-length / value)
   (setq value (rtos (* edge-length factor_maxlength_) 2 precision_maxlength_))
-  (if (= prefix_maxlength_ "") value (strcat prefix_maxlength_ "," value)))
+  (if (= prefix_maxlength_ "") value (strcat prefix_maxlength_ "-" value ",1")))
 
 (defun TFO:CheckLengthPreset (material)
   (TFO:Require (and (= (type material) 'STR) (= (type prefix_maxlength_) 'STR)
@@ -1074,8 +1096,9 @@
     (= (type precision_maxlength_) 'INT) (<= 0 precision_maxlength_ 8)
     (numberp height_maxlength_) (> height_maxlength_ 0.0)
     (numberp offset_maxlength_) (>= offset_maxlength_ 0.0)
+    (listp offset_xy_maxlength_) (= 2 (length offset_xy_maxlength_)) (vl-every 'numberp offset_xy_maxlength_)
     (= (type color_maxlength_) 'INT) (<= 1 color_maxlength_ 255))
-    "Invalid FML preset: check material/prefix strings, block/layer names, length factor/precision, size, offset and color."))
+    "Invalid FML preset: check material/prefix strings, block/layer names, length factor/precision, size, distance/XY offsets and color."))
 
 (defun TFO:InsertLengthRecord (source measured material block / insert)
   (setq insert (TFO:InsertAttributes block (nth 1 measured) height_maxlength_ (nth 2 measured)
@@ -1221,5 +1244,5 @@
   (princ))
 
 (defun c:FACADEMAXLENGTH () (c:FML))
-(princ "\nTA_FACADE_OUTLINE v1.13 loaded. FO / FACADEOUTLINE; FML / FACADEMAXLENGTH (Overall/AllLong/AllShort/Max/Custom, NAME + LENGTH).")
+(princ "\nTA_FACADE_OUTLINE v1.14 loaded. FO / FACADEOUTLINE; FML / FACADEMAXLENGTH (Overall/AllLong/AllShort/Max/Custom, NAME + LENGTH).")
 (princ)
