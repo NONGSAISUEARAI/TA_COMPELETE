@@ -3328,6 +3328,9 @@
 
       ;remove special MText characters
       (setq mtext_string_
+        (_replace_all_ "" "\r\n" mtext_string_)
+      )
+      (setq mtext_string_
         (_replace_all_ "" "\\P" mtext_string_)
       )
 
@@ -6082,13 +6085,9 @@
       (setq prefix-str_list (list 
                            "user input"
                            "MRT PURPLE LINE  4\\PSTATION (PP17 - PP20)"
-                           "FL-PJ-26-008-PL1065V-\\PTYP-"
-                           "FL-PJ-26-008-PL2065V-\\PTYP-"
-                           "FL-PJ-26-008-PL2065V-\\PLOT-2-PART-"
-                           "FL-PJ-26-008-PL1065V-\\PLOT-2-PART-"
-                           "FL-PJ-26-031-HK-\\PMEP-PART-"
-                           "FL-PJ-26-031-\\PALU-PANEL-PART-"
-                           "FL-PJ-26-031-HK-\\PC10-PART-"
+                           "FL-PJ26-008-PL1065V-\\PLOT-2-PART-"
+                           "FL-PJ26-008-PL2065V-\\PLOT-1-PART-"
+
                          )
       )
       (setq prefix-str_sort_mode
@@ -15311,13 +15310,14 @@
     (defun c:current_zoom_curzoom ()
       (if (= cur-zoom_stopper_val nil)
         (progn
-          (setq cur-zoom_stopper_val 5000)
+          (setq cur-zoom_stopper_val 25)
         )
       )
       (if (> (sslength (setq curzoom_ssget_ (ssget "i"))) 1)
         (progn
           ;preloop_and_while
             (setq curzoom_ssget_i 0)
+            
             (setq cur-zoom_stopper_ nil)
             (while (and
                       (= (vl-catch-all-error-p cur-zoom_stopper_) nil)
@@ -15333,12 +15333,13 @@
               (setq curzoom_ssget_obj_bol_ (vla-getboundingbox curzoom_ssget_obj_ 'min_ 'max_)) 
               (setq rec_min_ (vlax-safearray->list min_)) 
               (setq rec_max_ (vlax-safearray->list max_))   
+              (setq rec_all_ (nth 4 (TA:assembly_coordinate_coner (list rec_min_ rec_max_))))
               (vla-zoomcenter 
                 (vlax-get-acad-object)
                 (vlax-3d-point (list 
-                                 (+ (car rec_max_) 0) 
-                                 (- (cadr rec_max_) 50) 
-                                 (+ (caddr rec_max_) 0) 
+                                 (+ (car rec_all_) 0) 
+                                 (+ (cadr rec_all_) 0) 
+                                 (+ (if (caddr rec_all_) (progn (caddr rec_all_) ) 0 ) 0) 
                                ) )
                 cur-zoom_stopper_val
               )
@@ -67126,16 +67127,81 @@
         (setq ss_pre_filter_set_xx_max_ (TA:get-ins-current (vlax-safearray->list max_))) 
         
         (setq ins_pos_ (nth ins_pos_ii (TA:assembly_coordinate_coner (list ss_pre_filter_set_xx_min_ ss_pre_filter_set_xx_max_) )))
-        (setq dist_1 (strcat "PP17-C10-Border-length" "-" (rtos (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "Distance1" ) 2 2) ",1"))
-        (setq att-set0 (list "name" "PP17-UPPER-BORDER-ACESSORIES-BORDER" )
+        (setq dist_1 (strcat "PP17-C10-UPPER PANEL" "-" (rtos (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "Distance1" ) 2 2) ",1"))
+        (setq att-set0 (list "name" "PP17-C10-UPPER&LOWER BORDER" )
                 att-set1 (list "acc_1" "BKK-A,12" )
                 att-set2 (list "acc_2" "BKK-B,12" )
-                att-set3 (list "acc_3" "Rivet,24" )
-                att-set4 (list "acc_4" "self-drilling No8 3/4,12" )
+                att-set3 (list "acc_3" "Rivet,48" )
+                att-set4 (list "acc_4" "self-drilling No8 3/4,24" )
                 att-set5 (list "acc_5" "BK50x50,2" )
                 att-set6 (list "acc_6" "BK50x50,2" )
                 att-set7 (list "acc_7" "EB-04,2" )
                 att-set8 (list "acc_8" dist_1 )
+          )
+        (TA:ATTRIBUTE_EDITOR "facade_1_acessoriesset" (trans ins_pos_ 1 0)  scc att-set0 att-set1 att-set2 att-set3 att-set4 att-set5 att-set6 att-set7 att-set8 )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+  )
+  (defun c:insacbox1-1 () ;pp17-lower-border
+    ;presetting_
+      (setq ins_pos_ii 4)
+      (setq scc 25)
+    ;
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_v2_ ss_pre_filter_set_xx_ (list 
+                                                                                 "IT3-M3-2026-0061-0069_แบบขอตัวอย่างสินค้าสั่งทำพิเศษ C10 MOCKUP PP18_20260823-001602[PP19][C10][C][LOWER-BORDER][BOT-VIEW]" 
+                                                                                 "000 - MCK__20260804-194028_PP18_C10_LC-LOWER-SOLID_SHEET_BOT_VIEW" 
+                                                                               )
+                                )
+    )
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (setq ss_pre_filter_set_xx_obj_getboundingbox (vla-getboundingbox ss_pre_filter_set_xx_obj_ 'min_ 'max_)) 
+        (setq ss_pre_filter_set_xx_min_ (TA:get-ins-current (vlax-safearray->list min_))) 
+        (setq ss_pre_filter_set_xx_max_ (TA:get-ins-current (vlax-safearray->list max_))) 
+        
+        (setq ins_pos_ (nth ins_pos_ii (TA:assembly_coordinate_coner (list ss_pre_filter_set_xx_min_ ss_pre_filter_set_xx_max_) )))
+        (setq dist_1 (strcat "PP17-C10-LOWER PANEL" "-" (rtos (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "Distance1" ) 2 2) ",1"))
+        (setq att-set0 (list "name" "PP17-C10-UPPER&LOWER BORDER" )
+                att-set1 (list "acc_1" dist_1 )
+                att-set2 (list "acc_2" "" )
+                att-set3 (list "acc_3" "" )
+                att-set4 (list "acc_4" "" )
+                att-set5 (list "acc_5" "" )
+                att-set6 (list "acc_6" "" )
+                att-set7 (list "acc_7" "" )
+                att-set8 (list "acc_8" "" )
           )
         (TA:ATTRIBUTE_EDITOR "facade_1_acessoriesset" (trans ins_pos_ 1 0)  scc att-set0 att-set1 att-set2 att-set3 att-set4 att-set5 att-set6 att-set7 att-set8 )
         (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
@@ -67464,6 +67530,201 @@
       )
     ;
   )
+  (defun c:insacbox7 () ;upper border pp19
+    ;presetting_
+      (setq ins_pos_ii 4)
+      (setq scc 10)
+    ;
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_v2_ ss_pre_filter_set_xx_ (list 
+                                                                                 "IT3-M3-2026-0061-0069_แบบขอตัวอย่างสินค้าสั่งทำพิเศษ C10 MOCKUP PP18_20260823-001602[PP19][C10][LC][RC][UPPER-BORDER]"
+                                                                                 "IT3-M3-2026-0061-0069_แบบขอตัวอย่างสินค้าสั่งทำพิเศษ C10 MOCKUP PP18_20260823-001602[PP19][C10][C][UPPER-BORDER][BOT-VIEW]"
+                                                                               ) 
+                                ) 
+    )
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (setq ss_pre_filter_set_xx_obj_getboundingbox (vla-getboundingbox ss_pre_filter_set_xx_obj_ 'min_ 'max_)) 
+        (setq ss_pre_filter_set_xx_min_ (TA:get-ins-current (vlax-safearray->list min_))) 
+        (setq ss_pre_filter_set_xx_max_ (TA:get-ins-current (vlax-safearray->list max_))) 
+        
+        (setq ins_pos_ (nth ins_pos_ii (TA:assembly_coordinate_coner (list ss_pre_filter_set_xx_min_ ss_pre_filter_set_xx_max_) )))
+        (setq dist_1 (strcat "PP19-C10-UPPER border" "-" (rtos (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "Distance1" ) 2 2) ",1"))
+        (setq att-set0 (list "name" "PP19-C10-UPPER Border-length" )
+              att-set1 (list "acc_1" "BKK-A,3" )
+              att-set2 (list "acc_2" "BKK-B,3" )
+              att-set3 (list "acc_3" "Rivet,12" )
+              att-set4 (list "acc_4" "self-drilling No8 3/4,3" )
+              att-set5 (list "acc_5" "STEEL-BK50x50,2" )
+              att-set6 (list "acc_6" "STEEL-BK50x50,2" )
+              att-set7 (list "acc_7" "EB-04,2" )
+              att-set8 (list "acc_8" dist_1 )
+        )
+        (TA:ATTRIBUTE_EDITOR "facade_1_acessoriesset" (trans ins_pos_ 1 0)  scc att-set0 att-set1 att-set2 att-set3 att-set4 att-set5 att-set6 att-set7 att-set8 )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+  )
+  (defun c:insacbox8 () ;upper border pp19
+    ;presetting_
+      (setq ins_pos_ii 4)
+      (setq scc 10)
+    ;
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_v2_ ss_pre_filter_set_xx_ (list 
+                                                                                 "000 - MCK__20260804-194028_PP18_C10_LC-LOWER-SOLID_SHEET_BOT_VIEW"
+                                                                                 "IT3-M3-2026-0061-0069_แบบขอตัวอย่างสินค้าสั่งทำพิเศษ C10 MOCKUP PP18_20260823-001602[PP19][C10][C][LOWER-BORDER][BOT-VIEW]"
+                                                                               ) 
+                                ) 
+    )
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (setq ss_pre_filter_set_xx_obj_getboundingbox (vla-getboundingbox ss_pre_filter_set_xx_obj_ 'min_ 'max_)) 
+        (setq ss_pre_filter_set_xx_min_ (TA:get-ins-current (vlax-safearray->list min_))) 
+        (setq ss_pre_filter_set_xx_max_ (TA:get-ins-current (vlax-safearray->list max_))) 
+        
+        (setq ins_pos_ (nth ins_pos_ii (TA:assembly_coordinate_coner (list ss_pre_filter_set_xx_min_ ss_pre_filter_set_xx_max_) )))
+        (setq dist_1 (strcat "PP19-C10-UPPER border" "-" (rtos (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "Distance1" ) 2 2) ",1"))
+        (setq att-set0 (list "name" "PP19-C10-LOWER Border-length" )
+              att-set1 (list "acc_1" dist_1 )
+              att-set2 (list "acc_2" "" )
+              att-set3 (list "acc_3" "" )
+              att-set4 (list "acc_4" "" )
+              att-set5 (list "acc_5" "" )
+              att-set6 (list "acc_6" "" )
+              att-set7 (list "acc_7" "" )
+              att-set8 (list "acc_8" dist_1 )
+        )
+        (TA:ATTRIBUTE_EDITOR "facade_1_acessoriesset" (trans ins_pos_ 1 0)  scc att-set0 att-set1 att-set2 att-set3 att-set4 att-set5 att-set6 att-set7 att-set8 )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+  )
+  (defun c:insacbox9 () ;hookon pp19
+    ;presetting_
+      (setq ins_pos_ii 4)
+      (setq scc 10)
+    ;
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_v2_ ss_pre_filter_set_xx_ (list 
+                                                                                 "010 - C10_PANEL_PANEL_PP17_BOT-VIEW"
+                                                                                ;  "010 - C10_PANEL_PANEL_PP17-E_BOT-VIEW"
+                                                                               ) 
+                                ) 
+    )
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (setq ss_pre_filter_set_xx_obj_getboundingbox (vla-getboundingbox ss_pre_filter_set_xx_obj_ 'min_ 'max_)) 
+        (setq ss_pre_filter_set_xx_min_ (TA:get-ins-current (vlax-safearray->list min_))) 
+        (setq ss_pre_filter_set_xx_max_ (TA:get-ins-current (vlax-safearray->list max_))) 
+        
+        (setq ins_pos_ (nth ins_pos_ii (TA:assembly_coordinate_coner (list ss_pre_filter_set_xx_min_ ss_pre_filter_set_xx_max_) )))
+        (setq dist_1 (strcat "PP19-300HK-PANEL" "-" (rtos (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "Distance1" ) 2 2) ",1"))
+        (setq att-set0 (list "name" "PP19-C10-PANEL" )
+          att-set1 (list "acc_1" "U-HOOK,1" )
+          att-set2 (list "acc_2" "V-HOOK,1" )
+          att-set3 (list "acc_3" "Rivet,4" )
+          att-set4 (list "acc_4" "LK-04,2" )
+          att-set5 (list "acc_5" "LK-01,1" )
+          att-set6 (list "acc_6" dist_1 )
+          att-set7 (list "acc_7" "" )
+          att-set8 (list "acc_8" "" )
+        )
+        (TA:ATTRIBUTE_EDITOR "facade_1_acessoriesset" (trans ins_pos_ 1 0)  scc att-set0 att-set1 att-set2 att-set3 att-set4 att-set5 att-set6 att-set7 att-set8 )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+  )
   (defun c:sumaray_acessories_box_sumacbox ()
     ;selection_set_for_fillter_blk_name
       (if
@@ -67634,18 +67895,325 @@
   )
 ;
 
+
+; ;selection_set_for_fillter_blk_name
+;   (if  ;pre_select_ssget_or_post_select_ssget
+;     (=
+;       (setq ss_pre_filter_set_xx_ (ssget "i"
+;                                         (list
+;                                           (cons 0 "INSERT") ;type of object
+;                                           ; (cons 8 "000 - GRID")   ;kind of layer
+;                                           ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+;                                           ; (cons 62 1)           ;kind of color call sign with color code index
+;                                         )
+;                                   )
+;       )
+;       nil
+;     )
+;     (progn
+;       (setq ss_pre_filter_set_xx_ (ssget
+;                                         (list
+;                                           (cons 0 "INSERT") ;type of object
+;                                           ; (cons 8 "000 - GRID")   ;kind of layer
+;                                           ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+;                                           ; (cons 62 1)           ;kind of color call sign with color code index
+;                                         )
+;                                   )
+;       )
+;     )
+;     (sslength ss_pre_filter_set_xx_)
+;   )
+;   (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ ss_pre_filter_set_xx_ "facade_1_MAXLEN"))
+; ;
+
+; ;preloop_and_while
+;   (setq ss_pre_filter_set_xx_i 0)
+;   (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+;     (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+;     (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+;     (LM:vl-setattributevalue
+;       ss_pre_filter_set_xx_obj_ 
+;       "length"
+;       (strcat 
+;         (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "length")
+;         ",1"
+;       )
+;     )
+;     (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+;   )
+; ;
   
 
+; (setq ss_mtext_number_
+;   (ssget "_X"
+;     (list
+;       (cons 0 "MTEXT")
+;       (cons 1 "#,##,###")
+;       (cons 8 "T E X T")
+;       (cons 62 4) ;Cyan
+;     )
+;   )
+; )
+; (if ss_mtext_number_
+;   (command "_.PSELECT" ss_mtext_number_ "")
+; )
 
-  (setq  xxxx  ;Get-string by keep previous value
+(defun c:PL2L ( / source_ source_obj_ text_ pos_ code_
+                 size_ mesh_pos_ louver_type_ new_text_
+                 target_ target_obj_
+              )
+  (vl-load-com)
+  ;get_source_text_by_nentsel_
+    (if (setq source_ (nentsel "\nSelect source TEXT: "))
       (if
-        (or
-          (/= (setq xxxx val (getstring (strcat "\nSpecify Pattern name <" (if  xxxx   xxxx  "") ">: ") ) ) "" )
+        (member
+          (cdr (assoc 0 (entget (car source_))))
+          '("TEXT" "MTEXT")
         )
-          (progn
-            (setq  xxxx   xxxx val)
-            (setq  xxxx_keep_val_  xxxx val)
+        (progn
+          (setq source_obj_ (vlax-ename->vla-object (car source_)))
+          (setq text_ (vla-get-TextString source_obj_))
+          (if (setq pos_ (vl-string-search " SIZE " (strcase text_)))
+            (progn
+              ;get_code_and_louver_type_
+                (setq code_ (vl-string-trim " " (substr text_ 1 pos_)))
+                (setq louver_type_
+                  (cond
+                    ((wcmatch (strcase code_) "PL-1065*")
+                      "Single"
+                    )
+                    ((wcmatch (strcase code_) "PL-2065*")
+                      "Double"
+                    )
+                    (T nil)
+                  )
+                )
+              ;
+              (if louver_type_
+                (progn
+                  ;get_size_and_remove_mesh_
+                    (setq size_ (substr text_ (+ pos_ 7)))
+
+                    (if (setq mesh_pos_ (vl-string-search "+ MESH" (strcase size_)))
+                      (setq size_ (substr size_ 1 mesh_pos_))
+                    )
+
+                    (setq size_
+                      (vl-list->string
+                        (vl-remove 32 (vl-string->list size_))
+                      )
+                    )
+                    (setq size_ (vl-string-translate "X" "x" size_))
+                  ;
+                  ;assemble_text_
+                    (setq new_text_
+                      (strcat
+                        code_
+                        " Vertical " louver_type_
+                        "\\PBank Louver "
+                        size_
+                        "mm."
+                      )
+                    )
+                  ;
+                  ;put_target_attribute_by_nentsel_
+                    (repeat 2
+                      (if (setq target_ (nentsel "\nSelect target Attribute: "))
+                        (if
+                          (= (cdr (assoc 0 (entget (car target_)))) "ATTRIB")
+                          (progn
+                            (setq target_obj_ (vlax-ename->vla-object (car target_)))
+                            (vla-put-TextString target_obj_ new_text_)
+                            (entupd (car target_))
+                          )
+                          (princ "\nTarget must be an Attribute.")
+                        )
+                      )
+                    )
+                  ;
+                )
+                (princ "\nSupported codes: PL-1065 / PL-2065.")
+              )
+            )
+            (princ "\nSource text does not contain ' Size '.")
           )
-        (setq  xxxx val  xxxx keep_val_)
+        )
+        (princ "\nSource must be TEXT or MTEXT.")
       )
+    )
+  ;
+  (princ)
+)
+(defun c:PPENT2ATT ( / ss_ i_ ename_ obj_
+                      code_ numeric_ ENTxx_ TYPEXXX_
+                      tag_ new_text_
+                   )
+  (vl-load-com)
+  ;selection_set_
+    (setq ss_ (ssget "_I" (list (cons 0 "INSERT"))))
+  ;
+  (if ss_
+    (progn
+      ;user_input_
+        (setq code_ "")
+        (while (= code_ "")
+          (setq code_ (getstring T "\nSpecify PP number or text (X = PP-XX ENT X): "))
+        )
+
+        ;check_numeric_string_
+          (setq numeric_
+            (vl-every
+              '(lambda (char_)
+                (and (>= char_ 48) (<= char_ 57))
+              )
+              (vl-string->list code_)
+            )
+          )
+        ;
+        ;get_ENT_when_numeric_
+          (if numeric_
+            (progn
+              (initget 5)
+              (setq ENTxx_ (getint "\nSpecify ENTxx: "))
+            )
+          )
+        ;
+        ;get_TYPE_string_
+          (setq TYPEXXX_ "")
+          (while (= TYPEXXX_ "")
+            (setq TYPEXXX_ (getstring T "\nSpecify TYPE (example 144+191): "))
+          )
+        ;
+        (setq tag_ "TTL_PJ_PART-CODE")
+      ;
+      ;assemble_text_
+        (setq new_text_
+          (cond
+            ((= (strcase code_) "X")
+              (strcat
+                "PP-XX ENT X"
+                " Type-" TYPEXXX_
+              )
+            )
+            (numeric_
+              (strcat
+                "PP" code_
+                "ENT" (itoa ENTxx_)
+                " Type-" TYPEXXX_
+              )
+            )
+            (T
+              (strcat
+                code_
+                " Type-" TYPEXXX_
+              )
+            )
+          )
+        )
+      ;
+      ;preloop_and_while
+        (setq i_ 0)
+        (while (< i_ (sslength ss_))
+          (setq ename_ (ssname ss_ i_))
+          (setq obj_ (vlax-ename->vla-object ename_))
+
+          (if (= (vla-get-HasAttributes obj_) :vlax-true)
+            (LM:vl-setattributevalue obj_ tag_ new_text_)
+          )
+
+          (setq i_ (+ i_ 1))
+        )
+      ;
+      (princ (strcat "\nText: " new_text_))
+    )
+    (princ "\nPlease select blocks before running the command.")
   )
+  (princ)
+)
+(defun c:TYPE2PPENT ( / ss_ i_ ename_ obj_
+                       code_ numeric_ ENTxx_ TYPEXXX_
+                       tag_ new_text_
+                    )
+  (vl-load-com)
+  ;selection_set_
+    (setq ss_ (ssget "_I" (list (cons 0 "INSERT"))))
+  ;
+  (if ss_
+    (progn
+      ;user_input_
+        ;get_TYPE_string_
+          (setq TYPEXXX_ "")
+          (while (= TYPEXXX_ "")
+            (setq TYPEXXX_ (getstring T "\nSpecify TYPE: "))
+          )
+        ;
+        ;get_PP_number_or_text_
+          (setq code_ "")
+          (while (= code_ "")
+            (setq code_ (getstring T "\nSpecify PP number or text <X = PP-XX ENT X>: "))
+          )
+        ;
+        ;check_numeric_string_
+          (setq numeric_
+            (vl-every
+              '(lambda (char_)
+                (and (>= char_ 48) (<= char_ 57))
+              )
+              (vl-string->list code_)
+            )
+          )
+        ;
+        ;get_ENT_when_numeric_
+          (if numeric_
+            (progn
+              (initget 5)
+              (setq ENTxx_ (getint "\nSpecify ENTxx: "))
+            )
+          )
+        ;
+        (setq tag_ "TTL_PJ_PART-CODE")
+      ;
+      ;assemble_text_
+        (setq new_text_
+          (cond
+            ((= (strcase code_) "X")
+              (strcat
+                "TYPE " TYPEXXX_
+                " PP-XX ENT X"
+              )
+            )
+            (numeric_
+              (strcat
+                "TYPE " TYPEXXX_
+                " PP-" code_
+                " ENT" (itoa ENTxx_)
+              )
+            )
+            (T
+              (strcat
+                "TYPE " TYPEXXX_
+                " " code_
+              )
+            )
+          )
+        )
+      ;
+      ;preloop_and_while
+        (setq i_ 0)
+        (while (< i_ (sslength ss_))
+          (setq ename_ (ssname ss_ i_))
+          (setq obj_ (vlax-ename->vla-object ename_))
+
+          (if (= (vla-get-HasAttributes obj_) :vlax-true)
+            (LM:vl-setattributevalue obj_ tag_ new_text_)
+          )
+
+          (setq i_ (+ i_ 1))
+        )
+      ;
+      (princ (strcat "\nText: " new_text_))
+    )
+    (princ "\nPlease select blocks before running the command.")
+  )
+  (princ)
+)

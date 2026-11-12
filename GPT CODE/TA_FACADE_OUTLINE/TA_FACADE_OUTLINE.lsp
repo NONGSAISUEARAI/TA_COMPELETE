@@ -1,6 +1,6 @@
 ;presetting c:FML / c:FACADEMAXLENGTH
 ; แก้ค่าที่ต้องการด้านล่าง บันทึกไฟล์ แล้ว APPLOAD ใหม่
-; ค่าโหมดและวัสดุยังเลือกเปลี่ยนได้ตอนใช้คำสั่ง และจำค่าล่าสุดใน session
+; ค่าโหมด วัสดุ และ Prefix ยังเลือกเปลี่ยนได้ตอนใช้คำสั่ง และจำค่าล่าสุดใน session
 ;
 ; ข้อมูลและโหมดการใส่ป้าย
 (setq block_maxlength_     "facade_1_MAXLEN") ; ชื่อบล็อกที่ใช้ซ้ำ ต้องมี Tag NAME และ LENGTH
@@ -1235,6 +1235,8 @@
     (progn
       (setq material (getstring T (strcat "\nMaterial NAME <" name_maxlength_ ">: ")))
       (if (= material "") (setq material name_maxlength_))
+      (setq prefix (getstring T (strcat "\nLENGTH prefix <" prefix_maxlength_ ">: ")))
+      (if (/= prefix "") (setq prefix_maxlength_ prefix))
       (if (= mode "CUSTOM") (TFO:CustomLengthLoop material)
       (if (setq result (TFO:SideLengthBuild ss material mode))
         (progn

@@ -1,0 +1,25 @@
+const fs=require('fs'),assert=require('assert/strict');
+const {boot}=require('./helpers/schedule-harness.cjs');
+const html=fs.readFileSync(process.argv[2]||'Master_Schedule.html','utf8'),app=boot(html),{run}=app;
+const id=run('leafTasks().find(t=>!t.start&&!t.end).id');app.context.targetId=id;
+const before=run('JSON.stringify(state)');assert.throws(()=>run("inlineUpdate('task',targetId,'owner','Test')"),/Editor/);assert.equal(run('JSON.stringify(state)'),before);
+run('isEditor=true');
+run("inlineUpdate('task',targetId,'owner','Tawan')");assert.equal(run('inlineRecord("task",targetId).owner'),'Tawan');
+run("inlineUpdate('task',targetId,'quantity','0')");assert.equal(run('inlineRecord("task",targetId).quantity'),0);
+run("inlineUpdate('task',targetId,'progress','80')");assert.equal(run('inlineRecord("task",targetId).progress'),80);
+for(const value of ['-1','101','2.5','abc'])assert.throws(()=>run(`inlineUpdate('task',targetId,'progress',${JSON.stringify(value)})`));
+run("inlineUpdate('task',targetId,'start','2026-11-08')");assert.equal(run('inlineRecord("task",targetId).start'),'2026-11-09');
+run("inlineUpdate('task',targetId,'end','2026-11-12')");assert.throws(()=>run("inlineUpdate('task',targetId,'end','2026-11-07')"));assert.equal(run('inlineRecord("task",targetId).end'),'2026-11-12');
+run("inlineUpdate('task',targetId,'actualStart','2026-11-10')");assert.equal(run('inlineRecord("task",targetId).start'),'2026-11-09');
+run("inlineUpdate('task',targetId,'approvedDate','2026-11-08')");assert.equal(run('inlineRecord("task",targetId).approvedDate'),'2026-11-08');
+assert.throws(()=>run("inlineUpdate('task',targetId,'end','2026-02-30')"));
+run("inlineUpdate('task',targetId,'progress','')");assert.equal(run('inlineRecord("task",targetId).progress'),null);
+app.context.groupId=run('state.groups[0].id');assert.throws(()=>run("inlineUpdate('group',groupId,'progress','30')"),/งานย่อย/);
+run("inlineUpdate('group',groupId,'start','2026-11-02')");assert.equal(run('state.groups[0].dateMode'),'manual');assert.equal(run('summarizeGroup(state.groups[0]).start'),'2026-11-02');
+run("inlineUpdate('group',groupId,'actualStart','2026-11-03')");assert.equal(run('state.groups[0].actualDateMode'),'manual');
+run('changed()');assert(run('dirty'));assert(run('revision')>0);assert.equal(run('JSON.parse(localStorage.getItem(draftKey)).tasks.find(t=>t.id===targetId).owner'),'Tawan');
+assert(app.elements.get('tasks').innerHTML.includes('data-inline-field="actualEnd"'));
+const reopened=boot(run('snapshot().html'));assert.equal(reopened.run('state.tasks.find(t=>t.id==='+JSON.stringify(id)+').owner'),'Tawan');
+assert.equal(reopened.run('isEditor'),false);
+console.log('PASS: inline edit permissions, values, date validation, Sunday adjustment, independent Plan/Actual, summary rules, drafts and snapshot reopening.');
+

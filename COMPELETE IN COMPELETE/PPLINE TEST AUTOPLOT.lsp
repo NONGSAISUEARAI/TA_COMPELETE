@@ -9803,6 +9803,19 @@
       (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list "300HK ORDER FROM CHINA REV.2-LOT 2_20260529-185614FLxx" "D5HU" "1eu" "2eu" "3eu" "D5HU_FAKE") ))
       ;preloop_and_while
         (setq ss_pre_filter_set_xx_i 0)
+        (setq part-code-val_ nil)
+        (while (and 
+                 (= part-code-val_ nil)
+                 (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+               )
+          (setq ss_pre_filter_set_xx_ename_ (ssname   ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (setq part-code-val_ (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "TTL_PJ_PART-CODE"))
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
         (setq External_ref_ename_ ())
         (while (and 
                 ; (= (type REV_list_) 'list)
@@ -9832,7 +9845,7 @@
                 (progn
                   (setq pre-name_ (strcat (TA:Mtext_format_to_text_ (strcat (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "DWG-NO") )) "-REV" (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "REV_VAL") ) )
                 )
-                (setq pre-name_ (TA:Mtext_format_to_text_ (strcat (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "DWG-NO") "[" (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "TTL_PJ_PART-CODE") "]"))) 
+                (setq pre-name_ (TA:Mtext_format_to_text_ (strcat (LM:vl-getattributevalue ss_pre_filter_set_xx_obj_ "DWG-NO") "[" part-code-val_ "]"))) 
               )
               ; (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "REV_DATE_01" "27-10-2025")
               ; (LM:vl-setattributevalue ss_pre_filter_set_xx_obj_ "DESIGNED_BY_DATE_val" DESIGNED_BY_DATE_val )
