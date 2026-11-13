@@ -1,0 +1,17 @@
+{
+  "htmlSHA256": "80452c8f9a89e5490fbdbbe44c4e4891c65850baf2088ab78ec6f9a38b2356af",
+  "groups": 3,
+  "tasks": 42,
+  "dataUnchangedFromBackup": true,
+  "checks": {
+    "HTMLImport": 73,
+    "DatabaseModel": 61,
+    "CSVImport": 65,
+    "Recovery": "PASS with historical fixture",
+    "InlineEdit": "PASS",
+    "JavaScriptSyntax": "PASS",
+    "duplicateHTMLIds": 0
+  },
+  "browserQA": "Not performed; VM/fake DOM only",
+  "serverStarted": false
+}

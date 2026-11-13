@@ -9733,22 +9733,9 @@
     ;
   )
   (defun c:Plotter_FLASPGPLOT()
-      ; ;return
-      ;   (command "ucs" "world")
-      ; ;
-      ;go_to_layout-process
-        ; (if 
-        ;   (or 
-        ;     (= (getvar "ctab") "model")
-        ;     (/= (getvar "ctab") "FAMING")
-        ;   )
-        ;   (progn 
-        ;     (setvar "ctab" "FAMING")
-            
-        ;   )
-        ;   (setvar "ctab" "FAMING")
-        ; )
-      ;
+    (setq name "TA_LAST_PAPER_VIEW")
+    (setq cur-view-center (getvar "VIEWCTR"))
+    (setq cur-view-size   (getvar "VIEWSIZE"))
       ;selection_set_for_fillter_blk_name
         (if (= x_checker_ nil)
           (progn
@@ -9805,7 +9792,10 @@
         (setq ss_pre_filter_set_xx_i 0)
         (setq part-code-val_ nil)
         (while (and 
-                 (= part-code-val_ nil)
+                 (or 
+                   (= part-code-val_ nil)
+                   (= part-code-val_ "")
+                 )
                  (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
                )
           (setq ss_pre_filter_set_xx_ename_ (ssname   ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
@@ -9891,7 +9881,11 @@
           (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
         )
       ;
-    ;
+    (vla-ZoomCenter 
+      (vlax-get-acad-object)
+      (vlax-3d-point cur-view-center)
+      cur-view-size
+    )
   )
   (defun c:Plotter_FLsort ()
     ;selection_set_for_fillter_blk_name

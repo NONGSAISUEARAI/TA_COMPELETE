@@ -1,0 +1,13 @@
+{
+  "dataUnchanged": true,
+  "groups": 3,
+  "tasks": 42,
+  "checks": {
+    "FileDisclosure": 19,
+    "HTMLImport": 73,
+    "DatabaseModel": 61,
+    "CSVImport": 65,
+    "InlineEdit": "PASS"
+  },
+  "browserQA": "Not performed; VM/fake DOM only"
+}

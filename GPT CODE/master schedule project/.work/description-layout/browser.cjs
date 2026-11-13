@@ -1,0 +1,32 @@
+const {chromium}=require('playwright'),assert=require('assert/strict'),fs=require('fs'),path=require('path'),{pathToFileURL}=require('url');
+(async()=>{const browser=await chromium.launch({channel:'msedge',headless:true});try{
+ const context=await browser.newContext({viewport:{width:1560,height:1050}}),page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(pathToFileURL(path.resolve('Master_Schedule.html')).href);await page.locator('#tasks tr').first().waitFor();
+ const original=await page.evaluate(()=>JSON.stringify(state)),initialTasks=await page.evaluate(()=>state.tasks.length);
+ // Add a memory-only LV4 example to check deep indentation and long names.
+ await page.evaluate(()=>{const parent=state.tasks.find(t=>databaseLevel(t)===3),catalog=state.tasks.find(t=>t.fileCatalog?.files?.some(f=>f.selected))?.fileCatalog;state.tasks.push({id:'layout-test-activity',name:'MATERIAL TAKEOFF / รายการงานยาวสำหรับทดสอบการยืดหดคอลัมน์',groupId:parent.groupId,parentId:parent.id,nodeType:'task',area:parent.area,owner:'',start:null,end:null,actualStart:null,actualEnd:null,progress:null,fileCatalog:structuredClone(catalog)});render()});
+ const baseline=await page.evaluate(()=>({state:JSON.stringify(state),revision,dirty,draft:localStorage.getItem(draftKey)}));
+ async function aligned(){const result=await page.locator('#tasks .task-files-disclosure>summary').evaluateAll(items=>items.map(el=>{const cell=el.closest('td'),a=el.getBoundingClientRect(),b=cell.getBoundingClientRect();return{delta:b.right-a.right,id:el.closest('details').dataset.filesTask}}));assert(result.length>0);assert(result.every(v=>Math.abs(v.delta-12)<2),JSON.stringify(result.filter(v=>Math.abs(v.delta-12)>=2)));}
+ await aligned();const handle=page.locator('#description-resize');await handle.scrollIntoViewIfNeeded();
+ const initialWidth=await page.evaluate(()=>currentDescriptionWidth()),initialTable=await page.locator('#schedule').evaluate(el=>parseFloat(el.style.width));
+ let box=await handle.boundingBox();await page.mouse.move(box.x+box.width/2,box.y+box.height/2);await page.mouse.down();await page.mouse.move(box.x+box.width/2+180,box.y+box.height/2,{steps:6});await page.mouse.up();
+ assert.equal(await page.evaluate(()=>currentDescriptionWidth()),initialWidth+180);assert.equal(await page.locator('#schedule').evaluate(el=>parseFloat(el.style.width)),initialTable+180);await aligned();
+ // Expanding files uses the full Description width and keeps the control on the edge.
+ const details=page.locator('details[data-files-task="layout-test-activity"]');await details.locator('summary').click();assert(await details.evaluate(el=>el.open));const link=await details.locator('.task-file-preview a').first().getAttribute('href');await aligned();
+ await handle.focus();await page.keyboard.press('Home');assert.equal(await page.evaluate(()=>currentDescriptionWidth()),280);await aligned();assert(await details.evaluate(el=>el.open));assert.equal(await details.locator('.task-file-preview a').first().getAttribute('href'),link);
+ await page.keyboard.press('ArrowRight');assert.equal(await page.evaluate(()=>currentDescriptionWidth()),300);
+ // Cancel an in-progress drag without changing the saved width.
+ box=await handle.boundingBox();await page.mouse.move(box.x+5,box.y+25);await page.mouse.down();await page.mouse.move(box.x+105,box.y+25,{steps:3});await page.keyboard.press('Escape');await page.mouse.up();assert.equal(await page.evaluate(()=>currentDescriptionWidth()),300);assert.equal(await page.evaluate(()=>localStorage.getItem(descriptionWidthKey)),'300');
+ await handle.dblclick();assert.equal(await page.evaluate(()=>currentDescriptionWidth()),initialWidth);assert.equal(await page.evaluate(()=>localStorage.getItem(descriptionWidthKey)),null);
+ await handle.focus();await page.keyboard.press('ArrowRight');assert.equal(await page.evaluate(()=>currentDescriptionWidth()),initialWidth+20);
+ const after=await page.evaluate(()=>({state:JSON.stringify(state),revision,dirty,draft:localStorage.getItem(draftKey)}));assert.deepEqual(after,baseline);
+ fs.mkdirSync('outputs/description-layout',{recursive:true});await page.locator('tr[data-task="layout-test-activity"]').scrollIntoViewIfNeeded();await page.screenshot({path:'outputs/description-layout/files-aligned.png'});
+ await page.reload();await page.locator('#tasks tr').first().waitFor();assert.equal(await page.evaluate(()=>JSON.stringify(state)),original);assert.equal(await page.evaluate(()=>state.tasks.length),initialTasks);assert.equal(await page.evaluate(()=>currentDescriptionWidth()),initialWidth+20);
+ await page.locator('#search').fill('C04');await aligned();assert.equal(await page.evaluate(()=>currentDescriptionWidth()),initialWidth+20);await page.locator('#search').fill('');
+ await page.locator('#toggle-drawing-core').click();await aligned();await page.locator('#toggle-drawing-core').click();
+ await page.locator('#table-fullsize').click();assert.equal(await page.evaluate(()=>currentDescriptionWidth()),initialWidth+20);await aligned();await page.locator('#table-fullsize').click();
+ await page.emulateMedia({media:'print'});assert.equal(await handle.isVisible(),false);await page.emulateMedia({media:'screen'});
+ // Touch users can reach the column edge after scrolling the table.
+ await page.setViewportSize({width:430,height:932});await handle.scrollIntoViewIfNeeded();box=await handle.boundingBox();const mobileReachable=box.x>=0&&box.x+box.width<=430;assert(mobileReachable,'Mobile users must be able to reach the resize edge');const mobileStart=await page.evaluate(()=>currentDescriptionWidth());await page.mouse.move(box.x+box.width/2,box.y+box.height/2);await page.mouse.down();await page.mouse.move(box.x+box.width/2-40,box.y+box.height/2,{steps:3});await page.mouse.up();assert.equal(await page.evaluate(()=>currentDescriptionWidth()),mobileStart-40);await page.screenshot({path:'outputs/description-layout/mobile-layout.png'});
+ assert.deepEqual(errors,[]);console.log(JSON.stringify({result:'PASS',browser:'Microsoft Edge headless',checks:'Right-edge file controls, pointer/keyboard resize, Escape/reset, expanded file links, no data/draft changes, reload preference, filters/hidden columns/fullscreen/print',initialTasks,initialWidth,mobileHandleReachable:mobileReachable,mobileHandle:box,javascriptErrors:errors}));
+ }finally{await browser.close()}})().catch(e=>{console.error(e);process.exitCode=1});

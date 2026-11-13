@@ -1,0 +1,50 @@
+const fs=require('fs'),assert=require('assert/strict'),crypto=require('crypto'),vm=require('vm');
+const file='Master_Schedule.html',backup=fs.readFileSync('.work/lv4/baseline-path.txt','utf8'),base=fs.readFileSync(backup+'/'+file,'utf8'),before=fs.readFileSync(file,'utf8'),hash=s=>crypto.createHash('sha256').update(s).digest('hex'),expected=fs.existsSync('.work/lv4/installed-hash.txt')?fs.readFileSync('.work/lv4/installed-hash.txt','utf8'):hash(base);
+assert.equal(hash(before),expected,'HTML changed outside this work; merge before patching');
+const pattern=/<script id="schedule-data" type="application\/json">([\s\S]*?)<\/script>/;JSON.parse(before.match(pattern)[1]);let h=base;
+function once(a,b){assert.equal(h.split(a).length,2,'Patch not unique: '+a.slice(0,90));h=h.replace(a,()=>b)}
+function fn(name,replacement){const start=h.indexOf('function '+name+'(');assert(start>=0,name);const end=h.indexOf('\nfunction ',start+10);assert(end>start,name+' end');h=h.slice(0,start)+replacement+'\n'+h.slice(end)}
+for(const name of ['databaseHeaders','databaseWork','databaseIdentity','databaseCaption','setDatabaseFieldState','configureDatabaseTaskForm','renderDatabaseParentPicker','prepareDatabaseTaskValues'])fn(name,'');
+once('function drawingCoreCells(',fs.readFileSync('.work/lv4/model.js','utf8')+'\nfunction drawingCoreCells(');
+const csv=fs.readFileSync('.work/lv4/csv.js','utf8');for(const name of ['readScheduleCSV','buildDatabaseCSVPlan','makeScheduleCSV']){const start=csv.indexOf('function '+name+'('),end=csv.indexOf('\nfunction ',start+10);fn(name,csv.slice(start,end<0?undefined:end))}
+once('length:22},(_,c)=>csvUnescape','length:24},(_,c)=>csvUnescape');
+once("!['group','section','task'].includes(type)","!['group','section','task','activity'].includes(type)");
+once('ต้องเป็น Group, Section หรือ Task','ต้องเป็น Group, Section, Task หรือ Activity');
+once("record.type==='task'&&record.hasChildren","['task','activity'].includes(record.type)&&record.hasChildren");
+once('function summarizeTask(task){return taskChildren(task.id).length||task.nodeType===\'section\'?summarizeRecord(task,taskLeaves(task)):task}',"function summarizeTask(task){if(taskChildren(task.id).length||task.nodeType==='section')return summarizeRecord(task,taskLeaves(task));return databaseLevel(task)===3&&task.dateMode==='manual'?{...task,start:task.planStart||null,end:task.planEnd||null}:task}");
+once("if(parentId&&isDatabaseGroup(databaseGroup(state.tasks.find(t=>t.id===parentId)||{}))&&state.tasks.find(t=>t.id===parentId)?.parentId){toast('เพิ่มงานได้ถึง LV3 ให้เลือก Product ระดับ LV2');return}","if(parentId&&databaseLevel(state.tasks.find(t=>t.id===parentId))>=4){toast('Activity เป็นระดับสุดท้าย เพิ่มต่อจาก LV4 ไม่ได้');return}");
+once("owner:parent?.owner||group.owner||'',start:null", "owner:databaseLevel(parent)===3?'':parent?.owner||group.owner||'',start:null");
+once("const dbActions=db&&!hasChildren?", "const dbActions=db&&databaseLevel(t)===4?");
+once("escapeHTML(db&&!hasChildren?'LV3 · Description':caption)","escapeHTML(caption)");
+once('Description / รายการงาน",360','Description / Activity / รายการงาน",360');
+once('<option value="work">LV3 · Description / PLAN–ACTUAL</option>','<option value="work">LV3 · Description</option><option value="activity">LV4 · Activity</option>');
+once('<label class="field full">Description / ชื่องานย่อย<input id="f-name"','<label class="field full" id="f-description-field" hidden>Description ของหัวข้อแม่<input id="f-description" readonly tabindex="-1"></label><label class="field full"><span id="f-name-label">Description / ชื่องานย่อย</span><input id="f-name"');
+once('<label for="parent-trigger">อยู่ใต้งาน (เลือกได้หลายระดับ)</label>','<label id="parent-field-label" for="parent-trigger">อยู่ใต้งาน (เลือกได้หลายระดับ)</label>');
+// Place level selection before choosing a parent, using the existing dialog.
+const levelBlock=h.match(/<label class="field full" id="f-db-level-field"[\s\S]*?<\/label>/)[0];h=h.replace(levelBlock,'');once('<label class="field full">หัวข้องานหลัก<select id="f-group"',levelBlock+'<label class="field full">หัวข้องานหลัก<select id="f-group"');
+once("if(!editingId&&$('f-db-level').value==='work')", "if(!editingId&&['work','activity'].includes($('f-db-level').value))");
+once("if(taskFileDirty)values.fileCatalog=cleanFileCatalog(taskFileDraft);if(editingId)","if(taskFileDirty)values.fileCatalog=cleanFileCatalog(taskFileDraft);if(!editingId||state.tasks.find(t=>t.id===editingId)?.parentId!==values.parentId)preserveDescriptionDates(state.tasks.find(t=>t.id===values.parentId));if(editingId)");
+once("for(const task of state.tasks)if(descendants.has(task.id))task.groupId=values.groupId", "for(const task of state.tasks)if(descendants.has(task.id)){task.groupId=values.groupId;if(isDatabaseGroup(state.groups.find(g=>g.id===values.groupId)))task.area=values.area}");
+once("โครงการฐานข้อมูลใช้ LV1 / LV2 / LV3 เท่านั้น","โครงการฐานข้อมูลใช้ LV1 / LV2 / LV3 / LV4 เท่านั้น");
+once("if(databaseIdentity(r.raw).some(v=>!v))", "if(databaseIdentity(r.raw).slice(0,5).some(v=>!v))");
+const xstart=h.indexOf('function buildExcelWorkbook('),xend=h.indexOf('\nfunction downloadExcelExport',xstart);let x=h.slice(xstart,xend);
+x=x.replace('days>16366','days>16360').replaceAll('22+days','24+days').replaceAll('21+days','23+days').replaceAll('22+i','24+i').replaceAll('monthStart=22','monthStart=24').replaceAll('monthStart<22','monthStart<24').replace('length:22','length:24');
+x=x.replace('item.core.product,t.name,','item.core.product,databaseDescription(item.raw)?.name||t.name,');
+x=x.replace("plan?'Plan':'Actual','Task',t.id,t.groupId,t.parentId||''", "plan?'Plan':'Actual',databaseLevel(item.raw)===4?'Activity':'Task',t.id,t.groupId,databaseProduct(item.raw)?.id||'',databaseActivityName(item.raw),databaseLevel(item.raw)===4?databaseDescription(item.raw)?.id||'':''");
+x=x.replace('[...layout.widths,14,30,28,28]','[...layout.widths,14,30,28,28,34,30]').replace('i>=18','[18,19,20,21,23].includes(i)').replace('min="23"','min="25"').replace('ref="A4:V','ref="A4:X').replaceAll('W$3','Y$3').replaceAll('sqref="W','sqref="Y');
+h=h.slice(0,xstart)+x+h.slice(xend);
+once("' งาน LV3 · '+rows.length*2", "' งานระดับสุดท้าย (Description / Activity) · '+rows.length*2");
+h=h.replace('ส่งออกฐานข้อมูลงาน LV3 พร้อมข้อมูล 5 ช่องครบทุกแถว','ส่งออกงานระดับสุดท้าย Description / Activity พร้อมข้อมูลโครงการครบทุกแถว');
+h=h.replace('ฐานข้อมูลงาน LV3:','ฐานข้อมูลงาน Description / Activity:').replace('อัปเดต / เพิ่มงาน LV3','อัปเดต / เพิ่ม Description / Activity');
+once('<tr><td>V</td><td>Product ID</td></tr>','<tr><td>V</td><td>Product ID</td></tr><tr><td>W</td><td>Activity (ว่างสำหรับ Description ที่ไม่มี Activity)</td></tr><tr><td>X</td><td>Description ID (หัวข้อแม่ของ Activity)</td></tr>');
+once('หากเพิ่มโครงการหรือ Product ใหม่ให้เว้น U/V ด้วย','หากเพิ่มโครงการหรือ Product ใหม่ให้เว้น U/V ด้วย · W ชื่อ Activity / X รหัส Description แม่');
+once('Rev03 · Plan / Actual','Rev04 · Description / Activity');
+h=h.replaceAll('Master_Schedule_Rev03_','Master_Schedule_Rev04_');
+once('<button type="button" id="csv-vba-download">ดาวน์โหลด VBA สำหรับ Excel</button>','');
+h=h.replace(/<details class="field full"><summary>วิธีส่งออกจาก Excel เดิมด้วย VBA<\/summary>[\s\S]*?<\/details>/,'');
+once("$('csv-vba-download').onclick=()=>csvDownload(CSV_VBA_TEXT,'Export_MasterSchedule_CSV.bas','text/plain;charset=utf-8');",'// Legacy VBA source is retained for historical files; CSV UTF-8 is the supported workflow.');
+once('ไฟล์นี้ไม่ใช่ UTF-8 ให้ส่งออกด้วย VBA หรือเลือก CSV UTF-8 ใน Excel','ไฟล์นี้ไม่ใช่ UTF-8 ให้บันทึกเป็น CSV UTF-8 ใน Excel');
+h=h.replace('</style>','.parent-option-context{cursor:default;opacity:.8}.parent-option-context:hover{background:transparent}#f-description[readonly]{background:#1b303d;color:#a7c6d2}#f-name-label{display:block}'+ '</style>');
+assert.equal(h.match(pattern)[1],base.match(pattern)[1],'Do not migrate or overwrite user task data');
+for(const m of h.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/g))if(!m[1].includes('application/json'))new vm.Script(m[2]);
+fs.writeFileSync(file,h);fs.writeFileSync('.work/lv4/installed-hash.txt',hash(h));console.log('Installed LV4; all embedded user data unchanged.');

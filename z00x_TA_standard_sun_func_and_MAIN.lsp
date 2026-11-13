@@ -21664,7 +21664,7 @@
       ;user-input blocklist 
         (setq blocklist_list_ (list 
                           "user_input"
-                          "A$C31bb98ba"
+                          "A$Ce1a8a797"
                           "000 - EXISTING_COLUMN"
                           "000 - CONCRETE_WALL"
                           "000 - CONCRETE_PRECAST"
@@ -21697,7 +21697,7 @@
         (setq ss_pre_filter_set_xx_i 0)
         ; (setq dictr_ (getstring "vertical or honlizontal :"))
         (while (and 
-                 (= (vla-get-objectname blocklist_input_obj_) "AcDbBlockReference")
+                ;  (= (vla-get-objectname blocklist_input_obj_) "AcDbBlockReference")
                  (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
                )
           (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
@@ -21710,9 +21710,9 @@
           (setq ssbol_vertex_list_3 (nth 3 (TA:assembly_coordinate_coner (list ss_pre_filter_set_xx_min_ ss_pre_filter_set_xx_max_ ))))
           (TA:vla-insertblock
             blocklist_input_obj_efname_
-            (nth 4 (TA:assembly_coordinate_coner (list ss_pre_filter_set_xx_min_ ss_pre_filter_set_xx_max_ )))
-            25
-            (deg-to-rad 90)
+            (nth 0 (TA:assembly_coordinate_coner (list ss_pre_filter_set_xx_min_ ss_pre_filter_set_xx_max_ )))
+            1
+            (deg-to-rad 0)
           )
           ;EXTENSION_FUNCTION
             ;new_blk_entlast object
@@ -23437,6 +23437,19 @@
         (trans point_ 0 1) ; ตอนนี้ใช้ UCS อื่น: แปลง WCS → UCS
       )
     )
+    (defun c:saveview(/ name)
+      (setq name "TA_LAST_PAPER_VIEW")
+      (setq cur-view-center (getvar "VIEWCTR"))
+      (setq cur-view-size   (getvar "VIEWSIZE"))
+    )
+    (defun c:loadview (/ name)
+      (vla-ZoomCenter 
+        (vlax-get-acad-object)
+        (vlax-3d-point cur-view-center)
+        cur-view-size
+      )
+    )
+
   ;
   ;VIEWPORT_FUNC
     (defun c:vp10asdasdas ()
