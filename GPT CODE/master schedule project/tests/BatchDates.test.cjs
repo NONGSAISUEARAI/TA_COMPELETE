@@ -1,0 +1,16 @@
+const fs=require('fs'),assert=require('assert/strict'),{boot}=require('./helpers/schedule-harness.cjs');
+const html=fs.readFileSync('Master_Schedule.html','utf8'),app=boot(html),{run,elements,context}=app;
+context.ids=JSON.parse(run('JSON.stringify(state.tasks.filter(t=>databaseLevel(t)===3&&!taskChildren(t.id).length).slice(0,2).map(t=>t.id))'));assert.equal(context.ids.length,2);
+const select=()=>run("batchDateKind='plan';batchDateSelection=new Map(ids.map(id=>['task:'+id,{kind:'task',id}]))");
+select();elements.get('batch-date-use-start').checked=true;elements.get('batch-date-use-end').checked=true;elements.get('batch-date-start').value='2027-01-03';elements.get('batch-date-end').value='2027-01-08';
+const before=run('JSON.stringify(state)');assert.equal(run('applyBatchDates()'),false);assert.equal(run('JSON.stringify(state)'),before);
+run('isEditor=true');assert.equal(run('applyBatchDates()'),true);assert.equal(run('batchDateSelection.size'),0);for(const id of context.ids){assert.equal(run('inlineRecord("task",'+JSON.stringify(id)+').start'),'2027-01-04');assert.equal(run('inlineRecord("task",'+JSON.stringify(id)+').end'),'2027-01-08')}
+select();elements.get('batch-date-use-end').checked=false;elements.get('batch-date-start').value='2027-02-01';const stable=run('JSON.stringify(state)'),revision=run('revision');assert.equal(run('applyBatchDates()'),false);assert.equal(run('JSON.stringify(state)'),stable);assert.equal(run('revision'),revision);
+elements.get('batch-date-use-end').checked=true;elements.get('batch-date-end').value='2027-02-06';assert.equal(run('applyBatchDates()'),true);
+select();run("batchDateKind='actual'");elements.get('batch-date-start').value='2027-03-01';elements.get('batch-date-end').value='2027-03-02';assert.equal(run('applyBatchDates()'),true);assert.equal(run('inlineRecord("task",ids[0]).start'),'2027-02-01');assert.equal(run('inlineRecord("task",ids[0]).actualStart'),'2027-03-01');
+select();elements.get('batch-date-start').value='';const s=run('JSON.stringify(state)');assert.equal(run('applyBatchDates()'),false);assert.equal(run('JSON.stringify(state)'),s);
+select();elements.get('batch-date-start').value='2027-04-01';elements.get('batch-date-end').value='2027-04-06';run('batchDateSelection.set("task:missing",{kind:"task",id:"missing"})');assert.equal(run('applyBatchDates()'),true,'Missing/deleted records are excluded from the current selection');
+run('batchDateKind="plan";batchDateSelection=new Map([["group:"+state.groups[0].id,{kind:"group",id:state.groups[0].id}]])');assert.equal(run('applyBatchDates()'),true);assert.equal(run('state.groups[0].dateMode'),'manual');assert.equal(run('state.groups[0].planStart'),'2027-04-01');
+select();run('cancelBatchDates()');assert.equal(run('batchDateSelection.size'),0);assert.equal(elements.get('batch-date-panel').hidden,true);
+const reopened=boot(run('snapshot().html'));assert.equal(reopened.run('state.tasks.find(t=>t.id==='+JSON.stringify(context.ids[0])+').start'),'2027-04-01');assert.equal(reopened.run('batchDateSelection.size'),0);
+assert.equal(fs.readFileSync('Master_Schedule.html','utf8'),html);console.log('PASS: batch permissions, simultaneous paired dates, Sunday handling, atomic invalid-date rejection, independent Actual, manual summary dates, cancel and snapshots.');

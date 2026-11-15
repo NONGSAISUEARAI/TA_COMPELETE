@@ -4,7 +4,7 @@ const root=path.join(__dirname,'..'),html=fs.readFileSync(path.join(root,'Master
 let checks=0;const check=(v,m)=>{assert(v,m);checks++},fresh=()=>{const b=boot(html);b.context.TextDecoder=TextDecoder;return b};
 const app=fresh(),{run,elements,context}=app,project=data.groups.find(g=>g.databaseModel),product=data.tasks.find(t=>t.groupId===project.id&&!t.parentId&&t.nodeType==='section'),description=data.tasks.find(t=>t.parentId===product.id&&t.nodeType==='task');
 context.projectID=project.id;context.productID=product.id;context.descID=description.id;
-const original=run('JSON.stringify(state)'),leafCount=run('leafTasks().length'),exportCount=run('excelExportRecords().length');
+const original=run('JSON.stringify(state)'),leafCount=run('leafTasks().length'),exportCount=run('excelExportRecords().length'),activityCount=run('state.tasks.filter(t=>databaseLevel(t)===4).length');
 assert.deepEqual(JSON.parse(run('JSON.stringify(state.tasks)')),data.tasks);checks++;
 check(new Set([...data.groups,...data.tasks].map(t=>t.id)).size===data.groups.length+data.tasks.length,'Existing IDs unique');
 check(run('taskPaths().size')===data.tasks.length,'All existing tasks reachable');
@@ -25,7 +25,7 @@ check(run('databaseLevel(state.tasks.find(t=>t.id===activityID))')===4&&run('sta
 check(run('taskPaths().get(activityID).split(".").length')===4,'Four-level WBS');
 check(run('state.tasks.find(t=>t.id===descID).dateMode')==='manual'&&run('summarizeTask(state.tasks.find(t=>t.id===descID)).start')==='2026-11-02','First Activity preserves existing parent Plan');
 check(run('state.tasks.find(t=>t.id===descID).actualDateMode')==='manual'&&run('summarizeTask(state.tasks.find(t=>t.id===descID)).actualEnd')==='2026-11-05','First Activity preserves existing parent Actual');
-check(run('summarizeTask(state.tasks.find(t=>t.id===descID)).progress')===null&&run('leafTasks().length')===leafCount,'Parent progress summarizes unknown Activity without double counting');
+check(run('summarizeTask(state.tasks.find(t=>t.id===descID)).progress')===0&&run('leafTasks().length')===leafCount,'Parent progress counts unknown Activity as zero without double counting');
 check(!elements.get('tasks').innerHTML.match(new RegExp('data-task="'+run('activityID')+'"[\\s\\S]*?</tr>'))[0].includes('data-add-task-child'),'Activity has no fifth-level button');
 run('$("task-dialog").close();openTask(null,null,activityID)');check(!elements.get('task-dialog').open,'Fifth level blocked directly');
 run('openTask(descID)');check(elements.get('f-progress').readOnly&&!elements.get('date-plan-controls').hidden,'Description with children summarizes % and allows manual Plan');
@@ -33,7 +33,7 @@ check(!elements.get('f-actual-controls').hidden,'Description exposes Actual summ
 run('useChildDates();useActualChildren("f");$("task-form").listeners.submit[0]({preventDefault(){}})');
 check(run('state.tasks.find(t=>t.id===descID).dateMode')==='auto'&&run('state.tasks.find(t=>t.id===descID).actualDateMode')==='auto','Parent can return to automatic dates independently');
 run('Object.assign(state.tasks.find(t=>t.id===activityID),{start:"2026-11-02",end:"2026-11-03",actualStart:"2026-11-03",actualEnd:"2026-11-04",progress:50});openTask(null,null,descID);$("f-name").value="ตรวจทานแบบ";$("task-form").listeners.submit[0]({preventDefault(){}});var secondID=state.tasks.at(-1).id;Object.assign(state.tasks.find(t=>t.id===secondID),{start:"2026-11-04",end:"2026-11-07",actualStart:"2026-11-05",actualEnd:"2026-11-06",progress:100});render()');
-check(run('summarizeTask(state.tasks.find(t=>t.id===descID)).progress')===83,'Parent progress weighted 2 and 4 working days');
+check(run('summarizeTask(state.tasks.find(t=>t.id===descID)).progress')===75,'Parent progress weights each Activity equally regardless of working days');
 check(run('summarizeTask(state.tasks.find(t=>t.id===descID)).start')==='2026-11-02'&&run('summarizeTask(state.tasks.find(t=>t.id===descID)).actualEnd')==='2026-11-06','Automatic Plan/Actual aggregate correctly');
 check(run('leafTasks().length')===leafCount+1&&run('excelExportRecords().length')===exportCount+1,'Two Activities replace one Description in totals/exports');
 run('openTask(descID);$("f-start").value="2026-12-01";$("f-end").value="2026-12-05";$("task-form").listeners.submit[0]({preventDefault(){}})');
@@ -43,7 +43,7 @@ run('inlineUpdate("task",activityID,"progress","0")');check(run('state.tasks.fin
 run('openTask(activityID);$("f-name").value="จัดทำแบบฉบับแก้";$("task-form").listeners.submit[0]({preventDefault(){}})');check(run('state.tasks.find(t=>t.id===activityID).name')==='จัดทำแบบฉบับแก้','Activity edit preserves ID');
 run('var currentCSV=makeScheduleCSV();var parsed=readScheduleCSV(currentCSV);var plan=buildCSVImportPlan(parsed)');
 check(run('plan.issues.length')===0&&run('plan.changedCount')===0,'Activity CSV no-change round trip');
-check(run('parsed.records.filter(r=>r.isActivity).length')===2,'CSV has separate Activity records');
+check(run('parsed.records.filter(r=>r.isActivity).length')===activityCount+2,'CSV has separate Activity records');
 check(run('parsed.records.find(r=>r.taskId===activityID).plan[4]')===description.name&&run('parsed.records.find(r=>r.taskId===activityID).activity')==='จัดทำแบบฉบับแก้','CSV E stays Description, W holds Activity');
 check(run('parsed.records.find(r=>r.taskId===activityID).descriptionId')===description.id&&run('parsed.records.find(r=>r.taskId===activityID).productId')===product.id,'CSV stores both Product ID and Description ID');
 const moved=boot(run('snapshot().html'));moved.context.descID=description.id;moved.context.aid=run('activityID');moved.run('isEditor=true;var targetProduct=state.tasks.find(t=>databaseLevel(t)===2&&t.groupId===state.tasks.find(d=>d.id===descID).groupId&&t.id!==state.tasks.find(d=>d.id===descID).parentId);openTask(descID);chooseParent(targetProduct.id);$("task-form").listeners.submit[0]({preventDefault(){}})');

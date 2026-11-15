@@ -1,0 +1,16 @@
+const fs=require('fs'),assert=require('assert/strict'),{boot}=require('./helpers/schedule-harness.cjs');
+const html=fs.readFileSync('Master_Schedule.html','utf8'),{run,context,elements}=boot(html);context.ids=JSON.parse(run('JSON.stringify(state.tasks.filter(t=>databaseLevel(t)===3&&!taskChildren(t.id).length).slice(0,2).map(t=>t.id))'));run('isEditor=true;var targets=ids.map(id=>({kind:"task",id}));var target=targets[0]');
+for(const [input,expected]of [['2027-01-03','2027-01-03'],['3/1/2027','2027-01-03'],['03/01/2570','2027-01-03'],['—',null]])assert.equal(run('clipboardDateValue('+JSON.stringify(input)+')'),expected);
+for(const bad of ['2027-02-30','1/2/27','abc','11/13/2027'])assert.throws(()=>run('clipboardDateValue('+JSON.stringify(bad)+')'));
+const initial=run('JSON.stringify(state)');run('var plan=datePastePlan(target,"start","03/01/2027\\t08/01/2027\\n04/01/2027\\t09/01/2027",targets)');assert.equal(run('JSON.stringify(state)'),initial);assert.equal(run('plan[0].values.start'),'2027-01-04');assert.equal(run('plan[1].values.end'),'2027-01-09');
+run('for(var update of plan)Object.assign(update.record,update.values)');assert.equal(run('dateCopyText(target,"start")'),'2027-01-04');
+run('batchDateKind="plan";batchDateSelection=new Map(targets.map(t=>["task:"+t.id,t]))');elements.get('batch-date-use-start').checked=true;elements.get('batch-date-use-end').checked=true;assert.equal(run('dateCopyText(target,"start")'),'2027-01-04\t2027-01-08\n2027-01-04\t2027-01-09');
+run('var fill=datePastePlan(target,"end","2027-01-10",targets)');assert.equal(run('fill.length'),2);assert.equal(run('fill[1].values.end'),'2027-01-11');
+const stable=run('JSON.stringify(state)');assert.throws(()=>run('datePastePlan(target,"start","2027-03-01",targets)'));assert.equal(run('JSON.stringify(state)'),stable);
+assert.throws(()=>run('datePastePlan(target,"start","2027-01-03\\n2027-01-04\\n2027-01-05",targets)'));
+assert.throws(()=>run('readDateClipboard("2027-01-03\\t2027-01-04\\textra")'));
+run('cancelBatchDates()');assert.equal(run('pasteScheduleDates(target,"actualStart","2027-02-01\\t2027-02-02")'),true);assert.equal(run('inlineRecord("task",ids[0]).actualStart'),'2027-02-01');assert.equal(run('inlineRecord("task",ids[0]).start'),'2027-01-04');
+assert.equal(run('pasteScheduleDates(target,"start","—")'),true);assert.equal(run('inlineRecord("task",ids[0]).start'),null);
+run('isEditor=false');assert.throws(()=>run('datePastePlan(target,"start","2027-01-01")'),/Editor/);
+const reopened=boot(run('snapshot().html'));assert.equal(reopened.run('state.tasks.find(t=>t.id==='+JSON.stringify(context.ids[0])+').actualEnd'),'2027-02-02');assert.equal(fs.readFileSync('Master_Schedule.html','utf8'),html);
+console.log('PASS: ISO/day-first/Buddhist dates, TSV pairs and rows, batch copy/fill, Sunday adjustment, atomic validation, blank clearing, separate Actual, Viewer and snapshot.');

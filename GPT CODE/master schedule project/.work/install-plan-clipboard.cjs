@@ -1,0 +1,15 @@
+const fs=require('node:fs'),assert=require('node:assert/strict');
+const file='Master_Schedule.html',before=fs.readFileSync(file,'utf8');let html=before;
+function replace(from,to){assert.equal(html.split(from).length,2,'Unique anchor: '+from.slice(0,90));html=html.replace(from,to)}
+replace('<h2 id="dialog-title">เพิ่มงาน</h2><button type="button" class="close" data-close="task-dialog" aria-label="ปิด">×</button>', '<h2 id="dialog-title">เพิ่มงาน</h2><div class="plan-clipboard-actions"><button type="button" id="copy-task-plan" data-editor-only="" title="คัดลอกแผนและงานย่อยจากหน้าต่างนี้">คัดลอกแผนงาน</button><button type="button" id="paste-task-plan" data-editor-only="" disabled="" title="วางแผนที่คัดลอกไว้ในหน้านี้">วางแผนงาน</button><button type="button" class="close" data-close="task-dialog" aria-label="ปิด">×</button></div>');
+replace('<div id="task-outline"', '<p id="plan-clipboard-note" class="plan-clipboard-note" role="status" hidden=""></p><div id="task-outline"');
+html=html.replace('</style>', '.plan-clipboard-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}.plan-clipboard-actions button:not(.close){font-size:12px;padding:8px 12px}.plan-clipboard-note{margin:0 0 10px;padding:10px 12px;background:#20382e;color:#b5dfce;border-radius:6px;font-size:12px;line-height:1.7}#task-dialog .dialog-head{gap:12px;flex-wrap:wrap}#task-dialog .dialog-head h2{min-width:0;overflow-wrap:anywhere}@media(max-width:759px){.plan-clipboard-actions{margin-left:auto;flex-wrap:wrap}.plan-clipboard-actions button:not(.close){padding:7px 9px}}\n</style>');
+replace("editingId=id||null;closeParentPicker();", "editingId=id||null;resetPlanPaste();closeParentPicker();");
+replace("configureDatabaseTaskForm(raw);$('task-dialog').showModal()", "configureDatabaseTaskForm(raw);refreshPlanClipboard();$('task-dialog').showModal()");
+replace("const values={};try{Object.assign(values,readDrawingFields('f'),readActualFields('f'))}", "const values={};let savedPlanTask=null;try{validatePlanPaste();Object.assign(values,readDrawingFields('f'),readActualFields('f'))}");
+replace('Object.assign(current,values);commitTaskFileHandle(current.id);', 'Object.assign(current,values);savedPlanTask=current;commitTaskFileHandle(current.id);');
+replace("state.tasks.push(created);commitTaskFileHandle(created.id)}$('task-dialog').close();changed()", "state.tasks.push(created);savedPlanTask=created;commitTaskFileHandle(created.id)}commitPlanPaste(savedPlanTask);$('task-dialog').close();changed()");
+const script=fs.readFileSync('.work/plan-clipboard.js','utf8');
+replace('render();saveStatus();\n</script>', script+'\nrender();saveStatus();\n</script>');
+assert.equal(html.match(/<script id="schedule-data" type="application\/json">([\s\S]*?)<\/script>/)[1],before.match(/<script id="schedule-data" type="application\/json">([\s\S]*?)<\/script>/)[1]);
+fs.mkdirSync('backups',{recursive:true});fs.writeFileSync('backups/Master_Schedule_before_plan_clipboard_'+Date.now()+'.html',before);fs.writeFileSync(file,html);console.log('Installed plan clipboard; saved schedule data unchanged.');

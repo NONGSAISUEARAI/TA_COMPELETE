@@ -19525,132 +19525,793 @@
 
 
 
-
-
-
-
-
-
-
-(defun c:DIM_ALL_POLYLINE_DIMPLALL ()
-  (_StartUndo doc)
-  ;special for me only work with CKST Drwaing Construction 
-    (setq DIM_E-C _global-dim_E-C_) ;Ref from C:dimsetting 
-    (setq DIM_C-C _global-dim_C-C_) ;Ref from C:dimsetting 
-    (setq DIM_C-E _global-dim_C-E_) ;Ref from C:dimsetting 
-    (setq DIM_E-E _global-dim_E-E_) ;Ref from C:dimsetting 
-    (setq dimprec 0 )
-  ;
-  ;Keep setting dimension
-    (setq acadObj (vlax-get-acad-object))
-    (setq doc (vla-get-ActiveDocument acadObj))
-    (setq modelSpace (vla-get-ModelSpace doc))
-    (setq layoutactive (vla-get-paperspace doc))
-    (initget "Yes No")
-    (setq ss_ ;Detect the variable's result in case of a function error
-      (vl-catch-all-apply 
-        (function 
-          (lambda () 
-            (setq setting_ (not (eq "No" (getkword "\nKeep setting dimension ? \nSpecify Dim Scale Overall [Yes/No] <Y>: " ))))
+  (defun c:DIM_ALL_POLYLINE_DIMPLALL ()
+    (_StartUndo doc)
+    ;special for me only work with CKST Drwaing Construction 
+      (setq DIM_E-C _global-dim_E-C_) ;Ref from C:dimsetting 
+      (setq DIM_C-C _global-dim_C-C_) ;Ref from C:dimsetting 
+      (setq DIM_C-E _global-dim_C-E_) ;Ref from C:dimsetting 
+      (setq DIM_E-E _global-dim_E-E_) ;Ref from C:dimsetting 
+      (setq dimprec 0 )
+    ;
+    ;Keep setting dimension
+      (setq acadObj (vlax-get-acad-object))
+      (setq doc (vla-get-ActiveDocument acadObj))
+      (setq modelSpace (vla-get-ModelSpace doc))
+      (setq layoutactive (vla-get-paperspace doc))
+      (initget "Yes No")
+      (setq ss_ ;Detect the variable's result in case of a function error
+        (vl-catch-all-apply 
+          (function 
+            (lambda () 
+              (setq setting_ (not (eq "No" (getkword "\nKeep setting dimension ? \nSpecify Dim Scale Overall [Yes/No] <Y>: " ))))
+            )
           )
         )
       )
-    )
-    (if ;Keep setting dimension
-      (and 
-        (= setting_ nil)
-        (= ss_ nil)
-      )
-      (progn
-        ;set model
-          (setq acadObj (vlax-get-acad-object))
-          (setq doc (vla-get-ActiveDocument acadObj))
-          (setq modelSpace (vla-get-ModelSpace doc))
-          (setq scl (cond ( (getreal (strcat "\nSpecify Dim Scale Overall <" (rtos (setq scl (cond (scl) (1.0) ) ) ) "> : " ) ) ) (scl) ) )
-          (setq lv_ (cond ( (getreal (strcat "\nSpecify Level <" (rtos (setq lv_ (cond (lv_) (1.0) ) ) ) "> : " ) ) ) (lv_) ) )
-          (setq dimprec (cond ( (getreal (strcat "\nSpecify _AIDIMPREC <" (rtos (setq dimprec (cond (dimprec) (1.0) ) ) ) "> : " ) ) ) (dimprec) ) )
-          (setq lv_add (* lv_ 1.25))
-          (if (and 
-                (= (wcmatch (getvar "DIMSTYLE") "*FAMELINE*") T )
-                (= (wcmatch (getvar "DIMSTYLE") "*CKST*") nil )
+      (if ;Keep setting dimension
+        (and 
+          (= setting_ nil)
+          (= ss_ nil)
+        )
+        (progn
+          ;set model
+            (setq acadObj (vlax-get-acad-object))
+            (setq doc (vla-get-ActiveDocument acadObj))
+            (setq modelSpace (vla-get-ModelSpace doc))
+            (setq scl (cond ( (getreal (strcat "\nSpecify Dim Scale Overall <" (rtos (setq scl (cond (scl) (1.0) ) ) ) "> : " ) ) ) (scl) ) )
+            (setq lv_ (cond ( (getreal (strcat "\nSpecify Level <" (rtos (setq lv_ (cond (lv_) (1.0) ) ) ) "> : " ) ) ) (lv_) ) )
+            (setq dimprec (cond ( (getreal (strcat "\nSpecify _AIDIMPREC <" (rtos (setq dimprec (cond (dimprec) (1.0) ) ) ) "> : " ) ) ) (dimprec) ) )
+            (setq lv_add (* lv_ 1.25))
+            (if (and 
+                  (= (wcmatch (getvar "DIMSTYLE") "*FAMELINE*") T )
+                  (= (wcmatch (getvar "DIMSTYLE") "*CKST*") nil )
+                )
+              (progn
+                (setq sc (* scl 10)) ; 5 = 50 2 = 20
+                (setq lv_add (* lv_ (* 0.80 1.25)))
               )
-            (progn
               (setq sc (* scl 10)) ; 5 = 50 2 = 20
+            )
+            (setq of_point 4.5); OF_DIM OFFSET FROM pt2 = 6 mm.
+            (setq hi_point 4); OF_DIM OFFSET FROM pt2 = 6 mm.
+            (setq OF_DIM (*(* (* scl 1) of_point) lv_add))
+            (setq HI_DIM (*(* (* scl 1) hi_point) lv_add))
+            (setvar "dimscale" sc )
+            ;while_select_block_on_condition_
+              (setq sss_ename_ nil)
+              (setq Er-msg_sss_ename_ nil)
+              (setq sss_obj_dimname_ nil)
+            ;
+          ;
+        )
+      )
+    ;
+    ;user input polyline
+    (setq ssss_ename_ (car (entsel "specify Object")))
+    (setq ssss_obj_ (vlax-ename->vla-object ssss_ename_))
+    (setq vtx_list_ (TA:Get_Pline_vertext_angle_case1 ssss_ename_))
+    ;
+    ;user input offset dim  
+      (setq offset (cond ( (getreal (strcat "\n specify offset dimension value <" (rtos (setq offset (cond (offset) (1.0) ) ) ) "> : " ) ) ) (offset) ) )
+    ;
+    ;preloop_and_while
+      (setq vtx_list_i 0)
+      (setq vtx_list_ii 1)
+      (setq global_selction_set_ (ssadd))
+      (while (< vtx_list_i (length vtx_list_))
+        (setq vtx_list_val-1_ (car (nth  vtx_list_i vtx_list_)))
+        (setq vtx_list_val-2_ (car (nth  vtx_list_ii vtx_list_)))
+        (if (= vtx_list_i 0)
+          (progn
+            (setq vtx_list_val-1_ (car (nth  0 vtx_list_)))
+            (setq vtx_list_val-end_ (car (nth  (- (length vtx_list_) 1) vtx_list_)))
+            (TA:add-parallel-dim vtx_list_val-1_ vtx_list_val-end_ (* -1 (* OF_DIM offset)))
+            ;new_blk_entlast object
+              (setq dim_ename (entlast))
+              (setq dim_obj_ (vlax-ename->vla-object dim_ename))
+            ;
+            (vla-put-stylename dim_obj_ DIM_E-E)
+            (vla-put-ScaleFactor  dim_obj_ sc )
+            ; (vlax-dump-object  dim_obj_  )
+            (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
+            ; (command "dimreassociate" dim_ename "" ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_cur-ins_ ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_next-ins_)
+            (command "_AIDIMPREC" dimprec dim_ename "" )
+            (setq global_selction_set_ (ssadd dim_ename  global_selction_set_))
+          )
+        )
+        (if (and
+              (/= vtx_list_val-1_ nil)
+              (/= vtx_list_val-2_ nil)
+            )
+          (progn
+            (TA:add-parallel-dim vtx_list_val-1_ vtx_list_val-2_ (* OF_DIM offset))
+            ;new_blk_entlast object
+              (setq dim_ename (entlast))
+              (setq dim_obj_ (vlax-ename->vla-object dim_ename))
+            ;
+            (vla-put-stylename dim_obj_ DIM_E-E)
+            (vla-put-ScaleFactor  dim_obj_ sc )
+            ; (vlax-dump-object  dim_obj_  )
+            (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
+            ; (command "dimreassociate" dim_ename "" ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_cur-ins_ ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_next-ins_)
+            (command "_AIDIMPREC" dimprec dim_ename "" )
+            (setq global_selction_set_ (ssadd dim_ename  global_selction_set_))
+            
+          )
+        )
+        (setq vtx_list_i (+ vtx_list_i 1))
+        (setq vtx_list_ii (+ vtx_list_ii 1))
+      )
+    ;
+    (command "pselect"  new_ss_dim_ "" )
+    (_endUndo doc)
+  )
+;REV03 - Dimension LINE / Polyline / Multiple Objects
+;Fix: AutoLISP LAST returns the last element directly.
+
+  ;Get LINE / 2D Polyline vertices in WCS
+    (defun TA:DIMPLALL3-get-vertices
+      (ename_ / ent_data_ ent_type_ flags_ elevation_
+                item_ vertex_ vertex_data_ pt_ vtx_list_
+      )
+      (setq ent_data_ (entget ename_))
+      (setq ent_type_ (cdr (assoc 0 ent_data_)))
+      (setq flags_ (cond ((cdr (assoc 70 ent_data_))) (0)))
+      (setq vtx_list_ nil)
+
+      (cond
+        ;LINE - WCS
+          ((= ent_type_ "LINE")
+            ;Reverse here because result is reversed at function end
+            (setq vtx_list_
+              (list
+                (cdr (assoc 11 ent_data_))
+                (cdr (assoc 10 ent_data_))
+              )
+            )
+          )
+        ;
+
+        ;LWPOLYLINE - OCS to WCS
+          ((= ent_type_ "LWPOLYLINE")
+            (setq elevation_
+              (cond
+                ((cdr (assoc 38 ent_data_)))
+                (0.0)
+              )
+            )
+
+            (foreach item_ ent_data_
+              (if (= (car item_) 10)
+                (progn
+                  (setq pt_
+                    (list
+                      (cadr item_)
+                      (caddr item_)
+                      elevation_
+                    )
+                  )
+                  (setq vtx_list_
+                    (cons
+                      (trans pt_ ename_ 0)
+                      vtx_list_
+                    )
+                  )
+                )
+              )
+            )
+          )
+        ;
+
+        ;Old 2D POLYLINE - skip fitted / 3D / mesh
+          ((and
+             (= ent_type_ "POLYLINE")
+             (= 0 (logand flags_ 94))
+           )
+            (setq elevation_
+              (cond
+                ((caddr (cdr (assoc 10 ent_data_))))
+                (0.0)
+              )
+            )
+            (setq vertex_ (entnext ename_))
+
+            (while
+              (and
+                vertex_
+                (/=
+                  (cdr (assoc 0 (entget vertex_)))
+                  "SEQEND"
+                )
+              )
+              (setq vertex_data_ (entget vertex_))
+
+              (if (= (cdr (assoc 0 vertex_data_)) "VERTEX")
+                (progn
+                  (setq pt_ (cdr (assoc 10 vertex_data_)))
+                  (setq pt_
+                    (list
+                      (car pt_)
+                      (cadr pt_)
+                      elevation_
+                    )
+                  )
+                  (setq vtx_list_
+                    (cons
+                      (trans pt_ ename_ 0)
+                      vtx_list_
+                    )
+                  )
+                )
+              )
+
+              (setq vertex_ (entnext vertex_))
+            )
+          )
+        ;
+      )
+
+      (reverse vtx_list_)
+    )
+  ;
+
+  ;Create rotated dimension for one pair of vertices
+    (defun TA:DIMPLALL3-add-dim
+      (space pt1 pt2 offset DIM_E-E sc linear_sc_ dimprec
+        / dx_ dy_ len_ ang_ dim_pt_ dim_obj_ result_
+      )
+      ;Check point structure before reading coordinates
+        (if
+          (and
+            (= (type pt1) 'LIST)
+            (= (type pt2) 'LIST)
+            (= (length pt1) 3)
+            (= (length pt2) 3)
+            (vl-every 'numberp pt1)
+            (vl-every 'numberp pt2)
+            (equal (caddr pt1) (caddr pt2) 1e-8)
+          )
+          (progn
+            ;Direction of current segment - WCS
+              (setq dx_ (- (car pt2) (car pt1)))
+              (setq dy_ (- (cadr pt2) (cadr pt1)))
+              (setq len_
+                (sqrt (+ (* dx_ dx_) (* dy_ dy_)))
+              )
+            ;
+
+            (if (> len_ 1e-8)
+              (progn
+                ;Rotation angle in radians
+                  (setq ang_ (atan dy_ dx_))
+                  (if (< ang_ 0.0)
+                    (setq ang_ (+ ang_ (* 2.0 pi)))
+                  )
+                ;
+
+                ;Middle point + perpendicular offset
+                  (setq dim_pt_
+                    (list
+                      (-
+                        (/ (+ (car pt1) (car pt2)) 2.0)
+                        (* offset (/ dy_ len_))
+                      )
+                      (+
+                        (/ (+ (cadr pt1) (cadr pt2)) 2.0)
+                        (* offset (/ dx_ len_))
+                      )
+                      (caddr pt1)
+                    )
+                  )
+                ;
+
+                ;Create dimension / apply TA settings
+                  (setq result_
+                    (vl-catch-all-apply
+                      (function
+                        (lambda ()
+                          (setq dim_obj_
+                            (vla-AddDimRotated
+                              space
+                              (vlax-3d-point pt1)
+                              (vlax-3d-point pt2)
+                              (vlax-3d-point dim_pt_)
+                              ang_
+                            )
+                          )
+                          (vla-put-StyleName dim_obj_ DIM_E-E)
+                          (vla-put-ScaleFactor dim_obj_ sc)
+                          (vla-put-LinearScaleFactor
+                            dim_obj_
+                            linear_sc_
+                          )
+                          (vla-put-PrimaryUnitsPrecision
+                            dim_obj_
+                            dimprec
+                          )
+                          (vla-Update dim_obj_)
+                          (vlax-vla-object->ename dim_obj_)
+                        )
+                      )
+                    )
+                  )
+                ;
+
+                ;Remove incomplete dimension if creation/settings fail
+                  (if (vl-catch-all-error-p result_)
+                    (progn
+                      (if dim_obj_
+                        (vl-catch-all-apply
+                          'vla-Delete
+                          (list dim_obj_)
+                        )
+                      )
+                      (princ
+                        (strcat
+                          "\nSkip dimension: "
+                          (vl-catch-all-error-message result_)
+                        )
+                      )
+                      nil
+                    )
+                    result_
+                  )
+                ;
+              )
+            )
+          )
+        )
+      ;
+    )
+  ;
+
+  (defun c:DIM_ALL_LINE_POLYLINE_DIMLALL
+    (/ *error* acadObj doc space undo_started_
+       DIM_E-E dimprec linear_sc_ setting_
+       ss_ ss_i ssss_ename_ ent_data_ ent_type_ flags_
+       normal_ valid_ closed_ vtx_list_ vtx_tail_
+       segment_list_ segment_ dim_ename result_
+       global_selction_set_ skipped_
+    )
+    (vl-load-com)
+
+    ;presetting 
+      (setq Pline_closed_value 1 )  ;0 = 1st & last vertex not connect, 1 = opersite
+    ;
+    ;Keep document / error handler
+      (setq acadObj (vlax-get-acad-object))
+      (setq doc (vla-get-ActiveDocument acadObj))
+
+      (defun *error* (msg_)
+        (if undo_started_
+          (vl-catch-all-apply
+            'vla-EndUndoMark
+            (list doc)
+          )
+        )
+
+        (if
+          (and
+            msg_
+            (not
+              (wcmatch
+                (strcase msg_)
+                "*CANCEL*,*QUIT*,*EXIT*,*BREAK*"
+              )
+            )
+          )
+          (progn
+            (princ (strcat "\nDIMPLALL3 Error: " msg_))
+
+            (princ "\nObject index = ")
+            (prin1 ss_i)
+
+            (princ "\nObject type = ")
+            (prin1 ent_type_)
+
+            (princ "\nVertex list = ")
+            (prin1 vtx_list_)
+
+            (princ "\nCurrent segment = ")
+            (prin1 segment_)
+          )
+        )
+        (princ)
+      )
+    ;
+
+    ;special for me only work with CKST Drawing Construction
+      (setq DIM_E-E
+        (if
+          (and
+            (= (type _global-dim_E-E_) 'STR)
+            (tblsearch "DIMSTYLE" _global-dim_E-E_)
+          )
+          _global-dim_E-E_ ;Ref from C:dimsetting
+          (getvar "DIMSTYLE")
+        )
+      )
+      (setq dimprec 0)
+
+      (setq linear_sc_
+        (if (numberp sss_obj_linearsc_)
+          sss_obj_linearsc_
+          (getvar "DIMLFAC")
+        )
+      )
+    ;
+
+    ;Keep setting dimension
+      (initget "Yes No")
+      (setq setting_
+        (not
+          (eq "No"
+            (getkword
+              "\nKeep setting dimension ? [Yes/No] <Yes>: "
+            )
+          )
+        )
+      )
+
+      (if
+        (or
+          (= setting_ nil)
+          (not
+            (and
+              (numberp sc)
+              (> sc 0)
+              (numberp OF_DIM)
+              (> OF_DIM 0)
+            )
+          )
+        )
+        (progn
+          ;set dimension
+            (setq scl
+              (if (and (numberp scl) (> scl 0)) scl 1.0)
+            )
+            (setq lv_
+              (if (and (numberp lv_) (> lv_ 0)) lv_ 1.0)
+            )
+
+            (initget 6)
+            (setq scl
+              (cond
+                ((getreal
+                  (strcat
+                    "\nSpecify Dim Scale Overall <"
+                    (rtos scl)
+                    "> : "
+                  )
+                ))
+                (scl)
+              )
+            )
+
+            (initget 6)
+            (setq lv_
+              (cond
+                ((getreal
+                  (strcat
+                    "\nSpecify Level <"
+                    (rtos lv_)
+                    "> : "
+                  )
+                ))
+                (lv_)
+              )
+            )
+
+            (initget 4)
+            (setq dimprec
+              (cond
+                ((getint
+                  "\nSpecify Dimension Precision [0-8] <0>: "
+                ))
+                (0)
+              )
+            )
+
+            (while (> dimprec 8)
+              (initget 4)
+              (setq dimprec
+                (cond
+                  ((getint
+                    "\nSpecify Dimension Precision [0-8] <0>: "
+                  ))
+                  (0)
+                )
+              )
+            )
+
+            (setq lv_add (* lv_ 1.25))
+
+            (if
+              (and
+                (wcmatch
+                  (strcase (getvar "DIMSTYLE"))
+                  "*FAMELINE*"
+                )
+                (not
+                  (wcmatch
+                    (strcase (getvar "DIMSTYLE"))
+                    "*CKST*"
+                  )
+                )
+              )
               (setq lv_add (* lv_ (* 0.80 1.25)))
             )
-            (setq sc (* scl 10)) ; 5 = 50 2 = 20
-          )
-          (setq of_point 4.5); OF_DIM OFFSET FROM pt2 = 6 mm.
-          (setq hi_point 4); OF_DIM OFFSET FROM pt2 = 6 mm.
-          (setq OF_DIM (*(* (* scl 1) of_point) lv_add))
-          (setq HI_DIM (*(* (* scl 1) hi_point) lv_add))
-          (setvar "dimscale" sc )
-          ;while_select_block_on_condition_
-            (setq sss_ename_ nil)
-            (setq Er-msg_sss_ename_ nil)
-            (setq sss_obj_dimname_ nil)
+
+            (setq sc (* scl 10)) ;5 = 50 / 2 = 20
+            (setq of_point 4.5)
+            (setq hi_point 4)
+            (setq OF_DIM (* scl of_point lv_add))
+            (setq HI_DIM (* scl hi_point lv_add))
           ;
+        )
+      )
+    ;
+
+    ;user input LINE / Polyline - current editing space
+      (princ "\nSelect LINE / Polyline objects: ")
+      (setq ss_
+        (ssget
+          (list
+            '(0 . "LINE,LWPOLYLINE,POLYLINE")
+            (cons 410
+              (if (= (getvar "CVPORT") 1)
+                (getvar "CTAB")
+                "Model"
+              )
+            )
+          )
+        )
+      )
+    ;
+
+    (if ss_
+      (progn
+        ;user input offset dim
+          (setq offset
+            (if (numberp offset) offset 1.0)
+          )
+          (setq offset
+            (cond
+              ((getreal
+                (strcat
+                  "\nSpecify offset dimension value <"
+                  (rtos offset)
+                  "> : "
+                )
+              ))
+              (offset)
+            )
+          )
+        ;
+
+        ;set current space / start undo
+          (setq space
+            (if (= (getvar "CVPORT") 1)
+              (vla-get-PaperSpace doc)
+              (vla-get-ModelSpace doc)
+            )
+          )
+          (vla-StartUndoMark doc)
+          (setq undo_started_ T)
+        ;
+
+        ;preloop_and_while objects
+          (setq ss_i 0)
+          (setq skipped_ 0)
+          (setq global_selction_set_ (ssadd))
+
+          (while (< ss_i (sslength ss_))
+            (setq ssss_ename_ (ssname ss_ ss_i))
+            (setq ent_data_ (entget ssss_ename_))
+            (setq ent_type_ (cdr (assoc 0 ent_data_)))
+
+            (setq flags_
+              (cond
+                ((cdr (assoc 70 ent_data_)))
+                (0)
+              )
+            )
+            (setq normal_
+              (cond
+                ((cdr (assoc 210 ent_data_)))
+                ('(0.0 0.0 1.0))
+              )
+            )
+
+            ;Reset data for each object
+              (setq vtx_list_ nil)
+              (setq segment_list_ nil)
+              (setq segment_ nil)
+              (setq closed_ nil)
+            ;
+
+            ;Accept LINE / horizontal 2D Polyline
+              (setq valid_
+                (and
+                  (or
+                    (/= ent_type_ "POLYLINE")
+                    (= 0 (logand flags_ 94))
+                  )
+                  (or
+                    (= ent_type_ "LINE")
+                    (equal normal_ '(0.0 0.0 1.0) 1e-8)
+                    (equal normal_ '(0.0 0.0 -1.0) 1e-8)
+                  )
+                )
+              )
+            ;
+
+            (if valid_
+              (progn
+                ;Get vertices directly from DXF
+                  (setq result_
+                    (vl-catch-all-apply
+                      'TA:DIMPLALL3-get-vertices
+                      (list ssss_ename_)
+                    )
+                  )
+
+                  (if (vl-catch-all-error-p result_)
+                    (princ
+                      (strcat
+                        "\nSkip object: "
+                        (vl-catch-all-error-message result_)
+                      )
+                    )
+                    (setq vtx_list_ result_)
+                  )
+                ;
+
+                (if (> (length vtx_list_) 1)
+                  (progn
+                    ;Detect closed Polyline
+                      (setq closed_
+                        (and
+                          (/= ent_type_ "LINE")
+                          (= 1 (logand flags_ 1))
+                        )
+                      )
+                    ;
+
+                    ;Open Polyline: first-to-last overall dimension
+                    ;LAST returns the full last point in AutoLISP
+                      (if
+                        (and
+                          (= Pline_closed_value 0)
+                          (/= ent_type_ "LINE")
+                          (= closed_ nil)
+                          (> (length vtx_list_) 2)
+                        )
+                        (setq segment_list_
+                          (list
+                            (list
+                              (car vtx_list_)
+                              (last vtx_list_)
+                              (* -1 OF_DIM offset)
+                            )
+                          )
+                        )
+                      )
+                    ;
+
+                    ;Closed Polyline: append first vertex at end
+                      (if
+                        (and
+                          closed_
+                          (not
+                            (equal
+                              (car vtx_list_)
+                              (last vtx_list_)
+                              1e-8
+                            )
+                          )
+                        )
+                        (setq vtx_list_
+                          (append
+                            vtx_list_
+                            (list (car vtx_list_))
+                          )
+                        )
+                      )
+                    ;
+
+                    ;preloop_and_while vertex pairs
+                    ;A-B / B-C / C-D ...
+                      (setq vtx_tail_ vtx_list_)
+
+                      (while (cdr vtx_tail_)
+                        (setq segment_list_
+                          (cons
+                            (list
+                              (car vtx_tail_)
+                              (cadr vtx_tail_)
+                              (* OF_DIM offset)
+                            )
+                            segment_list_
+                          )
+                        )
+
+                        (setq vtx_tail_ (cdr vtx_tail_))
+                      )
+                    ;
+
+                    ;Create dimension for every pair
+                      (foreach segment_ (reverse segment_list_)
+                        (setq dim_ename
+                          (TA:DIMPLALL3-add-dim
+                            space
+                            (car segment_)
+                            (cadr segment_)
+                            (caddr segment_)
+                            DIM_E-E
+                            sc
+                            linear_sc_
+                            dimprec
+                          )
+                        )
+
+                        (if dim_ename
+                          (setq global_selction_set_
+                            (ssadd
+                              dim_ename
+                              global_selction_set_
+                            )
+                          )
+                          (setq skipped_ (+ skipped_ 1))
+                        )
+                      )
+                    ;
+                  )
+                  (setq skipped_ (+ skipped_ 1))
+                )
+              )
+              (progn
+                (princ
+                  (strcat
+                    "\nSkip unsupported Polyline. Handle: "
+                    (cdr (assoc 5 ent_data_))
+                  )
+                )
+                (setq skipped_ (+ skipped_ 1))
+              )
+            )
+
+            (setq ss_i (+ ss_i 1))
+          )
+        ;
+
+        ;Select created dimensions / end undo
+          (vla-EndUndoMark doc)
+          (setq undo_started_ nil)
+
+          (if (> (sslength global_selction_set_) 0)
+            (sssetfirst nil global_selction_set_)
+          )
+
+          (princ
+            (strcat
+              "\nCreated "
+              (itoa (sslength global_selction_set_))
+              " dimensions. Skipped objects/segments: "
+              (itoa skipped_)
+              "."
+            )
+          )
         ;
       )
     )
-  ;
-  ;user input polyline
-  (setq ssss_ename_ (car (entsel "specify Object")))
-  (setq ssss_obj_ (vlax-ename->vla-object ssss_ename_))
-  (setq vtx_list_ (TA:Get_Pline_vertext_angle_case1 ssss_ename_))
-  ;
-  ;user input offset dim  
-    (setq offset (cond ( (getreal (strcat "\n specify offset dimension value <" (rtos (setq offset (cond (offset) (1.0) ) ) ) "> : " ) ) ) (offset) ) )
-  ;
-  ;preloop_and_while
-    (setq vtx_list_i 0)
-    (setq vtx_list_ii 1)
-    (setq global_selction_set_ (ssadd))
-    (while (< vtx_list_i (length vtx_list_))
-      (setq vtx_list_val-1_ (car (nth  vtx_list_i vtx_list_)))
-      (setq vtx_list_val-2_ (car (nth  vtx_list_ii vtx_list_)))
-      (if (= vtx_list_i 0)
-        (progn
-          (setq vtx_list_val-1_ (car (nth  0 vtx_list_)))
-          (setq vtx_list_val-end_ (car (nth  (- (length vtx_list_) 1) vtx_list_)))
-          (TA:add-parallel-dim vtx_list_val-1_ vtx_list_val-end_ (* -1 (* OF_DIM offset)))
-          ;new_blk_entlast object
-            (setq dim_ename (entlast))
-            (setq dim_obj_ (vlax-ename->vla-object dim_ename))
-          ;
-          (vla-put-stylename dim_obj_ DIM_E-E)
-          (vla-put-ScaleFactor  dim_obj_ sc )
-          ; (vlax-dump-object  dim_obj_  )
-          (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
-          ; (command "dimreassociate" dim_ename "" ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_cur-ins_ ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_next-ins_)
-          (command "_AIDIMPREC" dimprec dim_ename "" )
-          (setq global_selction_set_ (ssadd dim_ename  global_selction_set_))
-        )
-      )
-      (if (and
-            (/= vtx_list_val-1_ nil)
-            (/= vtx_list_val-2_ nil)
-          )
-        (progn
-          (TA:add-parallel-dim vtx_list_val-1_ vtx_list_val-2_ (* OF_DIM offset))
-          ;new_blk_entlast object
-            (setq dim_ename (entlast))
-            (setq dim_obj_ (vlax-ename->vla-object dim_ename))
-          ;
-          (vla-put-stylename dim_obj_ DIM_E-E)
-          (vla-put-ScaleFactor  dim_obj_ sc )
-          ; (vlax-dump-object  dim_obj_  )
-          (vla-put-linearscalefactor  dim_obj_ sss_obj_linearsc_ )
-          ; (command "dimreassociate" dim_ename "" ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_cur-ins_ ss_pre_filter_set_xx_inslist_sorted_highest_Y_ename_next-ins_)
-          (command "_AIDIMPREC" dimprec dim_ename "" )
-          (setq global_selction_set_ (ssadd dim_ename  global_selction_set_))
-          
-        )
-      )
-      (setq vtx_list_i (+ vtx_list_i 1))
-      (setq vtx_list_ii (+ vtx_list_ii 1))
+
+    (princ)
+  )
+
+  ;Shortcut command
+    (defun c:DIMPLALL3 ()
+      (c:DIM_ALL_LINE_POLYLINE_DIMLALL)
     )
   ;
-  (command "pselect"  new_ss_dim_ "" )
-  (_endUndo doc)
-)
