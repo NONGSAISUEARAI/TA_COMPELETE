@@ -1,0 +1,10 @@
+const fs=require('node:fs'),assert=require('node:assert/strict'),{boot}=require('./helpers/schedule-harness.cjs');
+const html=fs.readFileSync('Master_Schedule.html','utf8'),app=boot(html),before=app.run('JSON.stringify(state)');
+function unzip(buffer){const bytes=Buffer.from(buffer),files={};let offset=0;while(bytes.readUInt32LE(offset)===0x04034b50){const size=bytes.readUInt32LE(offset+18),nameLength=bytes.readUInt16LE(offset+26),extraLength=bytes.readUInt16LE(offset+28),start=offset+30+nameLength+extraLength;files[bytes.toString('utf8',offset+30,offset+30+nameLength)]=bytes.toString('utf8',start,start+size);offset=start+size}return files}
+const records=JSON.parse(app.run('JSON.stringify(excelExportRecords().map(r=>r.view.progress))'));
+const files=unzip(app.run('buildExcelWorkbook({calendar:true,start:"2026-11-01",end:"2026-11-30"}).bytes')),sheet=files['xl/worksheets/sheet1.xml'],styles=files['xl/styles.xml'];
+assert.match(sheet,/<c r="R4"[^>]*>[\s\S]*?<t[^>]*>ผลงาน<\/t>/);assert(sheet.includes('<autoFilter ref="A4:Y'));
+for(let i=0;i<records.length;i++){const planRow=i*2+5,actualRow=planRow+1,plan=(sheet.match(new RegExp('<c r="R'+planRow+'"[^>]*(?:\\/>|>[\\s\\S]*?<\\/c>)'))||[])[0]||'',actual=(sheet.match(new RegExp('<c r="R'+actualRow+'"[^>]*(?:\\/>|>[\\s\\S]*?<\\/c>)'))||[])[0]||'';assert(!/<v>/.test(plan),'Plan progress must be blank at R'+planRow);if(records[i]===null||records[i]===undefined)assert(!/<v>/.test(actual),'Unknown Actual progress must be blank');else assert(actual.includes('<v>'+records[i]/100+'</v>'),'Actual progress value at R'+actualRow)}
+assert(styles.includes('numFmtId="9"'));assert(sheet.includes('$T5=&quot;Actual&quot;'));assert(sheet.includes('ROUNDDOWN(($N5-$M5+1)*$R5,0)'));assert(sheet.includes('<conditionalFormatting sqref="Z5:BC'));
+assert.equal(app.run('JSON.stringify(state)'),before);assert.equal(fs.readFileSync('Master_Schedule.html','utf8'),html);
+console.log('PASS: Excel R is visible Actual-only progress, formatted as percent and drives the overlay rule over the Actual bar.');

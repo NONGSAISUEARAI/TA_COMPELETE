@@ -1,0 +1,22 @@
+const fs=require('node:fs'),assert=require('node:assert/strict'),path=require('node:path');
+const {boot,dataPattern}=require('./helpers/schedule-harness.cjs');
+const root=path.join(__dirname,'..'),savedHTML=fs.readFileSync(path.join(root,'Master_Schedule.html'),'utf8'),html=savedHTML.replace(dataPattern,()=>'<script id="schedule-data" type="application/json">'+fs.readFileSync(path.join(__dirname,'fixtures/before-lv3-database.json'),'utf8')+'</script>'),data=JSON.parse(html.match(dataPattern)[1]);
+const backup=JSON.parse(fs.readFileSync(path.join(root,'backups','Master_Schedule_before_ExportReferenceFormat_1794199460452.html'),'utf8').match(dataPattern)[1]);
+const audit=fs.readdirSync(path.join(root,'backups')).filter(n=>n.startsWith('recovery-audit-')).sort().at(-1);
+const original=JSON.parse(fs.readFileSync(path.join(root,'backups',audit,'current-data.json'),'utf8'));
+assert.equal(data.tasks.length,57);assert.equal(data.groups.length,2);assert.equal(data.groups[0].name,'PJ25-031');assert.equal(data.groups[1].name,original.groups[4].name);
+assert.deepEqual(data.tasks,backup.tasks);assert.deepEqual(data.project,original.project);
+const children=id=>data.tasks.filter(t=>t.parentId===id);
+const names=['MATERIAL TAKE OFF','ALU.TRAY TYPICAL PART','ALU.TRAY VARIES PART','ALU.TRAY TZP PART','ALU.CEILING HOOK ON PART FOR DOWNLIGHT & SMOKE DITECTOR','ALU.CEILING HOOK ON TZP PART'];
+for(const pp of ['pp17','pp18','pp19','pp20']){const areas=children(pp);assert.deepEqual(areas.map(t=>t.name),['C04 C05 C08 C09','C10']);assert.deepEqual(children(areas[0].id).map(t=>t.name),names);assert.deepEqual(children(areas[1].id).map(t=>t.name),['SHOP DWG','MATERIAL TAKE OFF','PART DWG']);}
+assert.equal(new Set([...data.groups,...data.tasks].map(t=>t.id)).size,59);
+const map=new Map(data.tasks.map(t=>[t.id,t]));for(const t of data.tasks){let node=t;const seen=new Set([t.id]);while(node.parentId){node=map.get(node.parentId);assert(node);assert.equal(node.groupId,t.groupId);assert(!seen.has(node.id));seen.add(node.id)}}
+assert.deepEqual(data.tasks.filter(t=>t.fileCatalog),original.tasks.filter(t=>t.fileCatalog));assert.equal(data.tasks.flatMap(t=>t.fileCatalog?.files||[]).filter(f=>f.selected).length,14);
+const app=boot(html),{run,elements}=app;assert.equal(run('leafTasks().length'),36);assert.equal(run('taskPaths().get("pp20-036")'),'1.4.2.3');assert.equal(run('taskPaths().size'),57);assert.equal(run('isEditor'),false);assert.equal(run('drawingCoreHidden'),true);assert.equal((elements.get('tasks').innerHTML.match(/<tr /g)||[]).length,59);
+run('openExcelExport()');assert(elements.get('excel-dialog').open);const before=run('JSON.stringify(state)'),revision=run('revision');const output=run('buildExcelWorkbook()');assert.equal(output.recordCount,59);assert.equal(output.days,28);
+const bytes=Buffer.from(output.bytes),files={};let offset=0;while(bytes.readUInt32LE(offset)===0x04034b50){const size=bytes.readUInt32LE(offset+18),n=bytes.readUInt16LE(offset+26),extra=bytes.readUInt16LE(offset+28),start=offset+30+n+extra;files[bytes.toString('utf8',offset+30,offset+30+n)]=bytes.toString('utf8',start,start+size);offset=start+size}
+assert.equal(Object.keys(files).length,8);assert(files['xl/styles.xml'].includes('FFFFC000'));assert(files['xl/styles.xml'].includes('FF404040'));assert(files['xl/styles.xml'].includes('Cordia New'));assert(files['xl/worksheets/sheet1.xml'].includes('_xlfn.NETWORKDAYS.INTL'));assert.equal((files['xl/worksheets/sheet1.xml'].match(/<conditionalFormatting /g)||[]).length,118);assert(!files['xl/worksheets/sheet1.xml'].includes('NaN'));assert.equal(run('JSON.stringify(state)'),before);assert.equal(run('revision'),revision);
+const reopened=boot(run('snapshot().html'));assert.deepEqual(JSON.parse(reopened.run('JSON.stringify(state.tasks)')),data.tasks);assert.deepEqual(JSON.parse(reopened.run('JSON.stringify(state.groups)')),data.groups);assert.equal(reopened.run('buildExcelWorkbook({calendar:false}).recordCount'),59);assert.equal(reopened.run('isEditor'),false);
+const saved=fs.readFileSync(path.join(root,'Master_Schedule.html'),'utf8');assert.equal(saved,savedHTML);
+
+console.log(JSON.stringify({result:'PASS',groups:data.groups.map(g=>g.name),tasks:data.tasks.length,workItems:36,selectedFiles:14,scope:'Recovered data matches verified local backup; preserved current MRT name/catalogs; IDs/tree/WBS; Viewer/default hidden columns; full app DOM render; offline Excel/styles/Gantt; snapshot/reopen; no mutations',browserQA:'Not performed',excelNativeQA:'Not repeated during recovery'},null,2));

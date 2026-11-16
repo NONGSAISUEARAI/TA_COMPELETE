@@ -1,0 +1,10 @@
+const fs=require('node:fs'),assert=require('node:assert/strict'),{boot}=require('./helpers/schedule-harness.cjs');
+const html=fs.readFileSync('Master_Schedule.html','utf8'),app=boot(html),before=app.run('JSON.stringify(state)');
+const bars=app.run(`timelineBars({id:'test-progress',name:'ทดสอบข้ามวันอาทิตย์',start:'2026-11-14',end:'2026-11-16',actualStart:'2026-11-14',actualEnd:'2026-11-16',progress:50,barColor:null},dateNumber('2026-11-14'),3)`);
+assert.equal((bars.match(/plan-bar/g)||[]).length,1,'Plan is one continuous bar across Sunday');
+assert.equal((bars.match(/actual-bar/g)||[]).length,1,'Actual is one continuous bar across Sunday');
+assert(bars.includes('data-work-start="2026-11-14"'));assert(bars.includes('data-work-end="2026-11-16"'));
+assert(bars.includes('actual-progress-fill'));assert(bars.includes('width:50%'));assert(bars.includes('actual-progress-label">50%</span>'));
+assert.equal(app.run(`workingDays('2026-11-14','2026-11-16')`),2,'Duration still excludes Sunday');
+assert.equal(app.run('JSON.stringify(state)'),before);assert.equal(fs.readFileSync('Master_Schedule.html','utf8'),html);
+console.log('PASS: HTML Plan/Actual bars cross Sunday, progress overlays Actual with a label, and workday duration still excludes Sunday.');

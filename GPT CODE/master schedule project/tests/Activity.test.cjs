@@ -73,11 +73,14 @@ check(reopened.run('state.tasks.find(t=>t.id==='+JSON.stringify(description.id)+
 assert.deepEqual(JSON.parse(run('JSON.stringify(state.tasks.filter(t=>t.fileCatalog))')),data.tasks.filter(t=>t.fileCatalog));checks++;
 const workbook=run('buildExcelWorkbook({calendar:true,start:"2026-11-02",end:"2026-11-29"})'),bytes=Buffer.from(workbook.bytes),files={};let off=0;while(bytes.readUInt32LE(off)===0x04034b50){const n=bytes.readUInt16LE(off+26),extra=bytes.readUInt16LE(off+28),size=bytes.readUInt32LE(off+18),start=off+30+n+extra;files[bytes.toString('utf8',off+30,off+30+n)]=bytes.toString('utf8',start,start+size);off=start+size}
 const sheet=files['xl/worksheets/sheet1.xml'];check(sheet.includes('r="W4"')&&sheet.includes('>Activity<')&&sheet.includes('>Description ID<'),'XLSX includes appended Activity metadata');
-check(sheet.includes('min="25" max="52"')&&sheet.includes('Y$3'),'Calendar starts Y after 24 metadata columns');
+check(sheet.includes('min="26" max="53"')&&sheet.includes('Z$3'),'Calendar starts Z after the visible Actual-only progress column');
 check(sheet.includes('r="Y3"')&&!sheet.includes('undefined')&&!sheet.includes('NaN'),'XLSX calendar and styles valid');
 check(sheet.includes('จัดทำแบบฉบับแก้')&&sheet.includes(description.id),'XLSX contains Activity and parent ID');
 check(workbook.recordCount===exportCount+1,'XLSX exports leaves only');
-check((sheet.match(/<conditionalFormatting /g)||[]).length===workbook.recordCount*2,'Plan and Actual Gantt for every leaf');
+check((sheet.match(/<conditionalFormatting /g)||[]).length===4,'One range rule each for today, Plan, Actual and progress overlay');
+check(sheet.includes('Z$3=TODAY()')&&!sheet.includes('WEEKDAY(Z$3,2)=1'),'XLSX includes today header without vertical week guides');
+check(sheet.includes('$T5=&quot;Plan&quot;')&&sheet.includes('$T5=&quot;Actual&quot;')&&sheet.includes('*$R5'),'Plan, Actual and progress use relative range formulas');
+check(files['xl/styles.xml'].includes('FFC00000')&&files['xl/styles.xml'].includes('FFC7E2DD')&&files['xl/styles.xml'].includes('FF73B7A9'),'Today, Plan and Actual colors retained');
 check(files['xl/styles.xml'].includes('FFFFC000')&&files['xl/styles.xml'].includes('FF404040'),'Existing reference palette retained');
 check(run('treeGuides(3,[true,false],true,false).includes("non-scaling-stroke")'),'Existing SVG tree method supports LV4');
 const ids=run('JSON.stringify([activityID,secondID])');run('state.tasks=state.tasks.filter(t=>![activityID,secondID].includes(t.id))');check(run('summarizeTask(state.tasks.find(t=>t.id===descID)).start')==='2026-12-01','Description without Activities retains manually edited plan');

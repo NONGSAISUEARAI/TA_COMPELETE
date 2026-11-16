@@ -65376,6 +65376,118 @@
     ;
     (command "pselect"   newss "" )
   )
+  (defun c:std*std*()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+      
+    ;
+    ;preloop_and_while
+      (setq newss (ssadd))
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (if (and 
+              (= (wcmatch (LM:effectivename ss_pre_filter_set_xx_obj_ ) "*ALU_TRAY_*") T)
+                (= (vl-catch-all-apply 
+                    (function 
+                      (lambda () 
+                        (= (wcmatch (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "lookup1") "*STD*") T)
+                      )
+                    )
+                  ) T)
+            )
+          (progn
+            (setq newss (ssadd ss_pre_filter_set_xx_ename_ newss))
+          )
+          
+        )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+    (command "pselect"   newss "" )
+  )
+  (defun c:stdvaries()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "INSERT") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+      
+    ;
+    ;preloop_and_while
+      (setq newss (ssadd))
+      (setq ss_pre_filter_set_xx_i 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (if (and 
+              (= (wcmatch (LM:effectivename ss_pre_filter_set_xx_obj_ ) "*ALU_TRAY_*") T)
+                (= (vl-catch-all-apply 
+                    (function 
+                      (lambda () 
+                        (= (wcmatch (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ "lookup1") "*VARIES*") T)
+                      )
+                    )
+                  ) T)
+            )
+          (progn
+            (setq newss (ssadd ss_pre_filter_set_xx_ename_ newss))
+          )
+          
+        )
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+    (command "pselect"   newss "" )
+  )
   
   (defun c:zoneup(/ newss)
     ;selection_set_for_fillter_blk_name
