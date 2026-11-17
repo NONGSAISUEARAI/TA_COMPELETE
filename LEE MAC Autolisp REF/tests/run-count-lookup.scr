@@ -1,0 +1,37 @@
+(setq ct:root "C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/LEE MAC Autolisp REF/tests/")
+(setq ct:savepath (vl-filename-mktemp "count-lookup-" ct:root ""))
+(vl-mkdir ct:savepath)
+(setq ct:secure (getvar "SECURELOAD"))
+(setq ct:olderror *error*)
+(defun *error* (msg) (setvar "SECURELOAD" ct:secure) (princ (strcat "\nTEST ERROR: " msg)) (princ))
+(setvar "SECURELOAD" 0)
+(load (strcat ct:root "count-core-generated.lsp"))
+(load (strcat ct:root "count-lookup-tests.lsp"))
+99
+2
+1
+
+
+
+0
+0
+_All
+
+Include
+1
+3
+
+Exclude
+2
+
+Include
+1
+1
+
+Include
+0
+(setvar "SECURELOAD" ct:secure)
+(setq *error* ct:olderror)
+_.QUIT
+_Yes
+
