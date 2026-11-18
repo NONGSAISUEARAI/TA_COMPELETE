@@ -1691,6 +1691,14 @@
       ;
       (setq result_list inskeeper_list_)
     )
+    (defun TA:UniqueList (lst / result_ item_)
+      (foreach item_ lst
+        (if (not (member item_ result_))
+          (setq result_ (cons item_ result_))
+        )
+      )
+      (reverse result_)
+    )
   
   ;
   ;Get_Data Document Ta Trai
@@ -14719,7 +14727,7 @@
       ;
       ;preloop_and_while ;get_effectivename_from_selection_set
         (setq ssblk_list_i 0)
-        (setq effectivename_list_ (list "ALL BLOCK"))
+        (setq effectivename_list_ ())
         (if ssblk_list_
           (progn
             (while (< ssblk_list_i (sslength ssblk_list_))
@@ -14730,7 +14738,7 @@
 
               (setq ssblk_list_i (+ ssblk_list_i 1))
             )
-            ; (setq effectivename_list_ (LM:CountItems (reverse effectivename_list_) nil))
+            (setq effectivename_list_ (LM:CountItems (reverse effectivename_list_) nil))
           )
         )
       ;
@@ -14767,21 +14775,63 @@
             )
           ;
           (setq result_ nil)
-          (setq effectivename_list_1 (foreach item_ effectivename_list_ 
-                                      (if (not (member item_ result_)) 
-                                        (setq result_ (append result_ (list item_)))
-                                      )
-                                    )
-          )
-          (setq sdas (TA:choose_list_v4 effectivename_list_1 "Select Block Name to find" sdas ) )
-          (if (= sdas "ALL BLOCK")
+          (if (and 
+                (= (type effectivename_list_) 'LIST)
+                (= (length effectivename_list_ ) 0)
+              )
             (progn
-              (setq result_filter_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ effectivename_list_1  ) )
+              ;preloop_and_while ;get_effectivename_from_selection_set
+                (setq ss_pre_filter_preselect_xx_i 0)
+                (setq effectivename_list_ ())
+                (setq ss_pre_filter_preselect_xx_ (ssget  (list (cons 0 "INSERT"))))
+                (if effectivename_list_
+                  (progn
+                    (while (< ss_pre_filter_preselect_xx_i (sslength ss_pre_filter_preselect_xx_))
+                      (setq ss_pre_filter_preselect_xx_ename_ (ssname ss_pre_filter_preselect_xx_ ss_pre_filter_preselect_xx_i))
+                      (setq ss_pre_filter_preselect_xx_obj_ (vlax-ename->vla-object ss_pre_filter_preselect_xx_ename_))
+                      (setq ss_pre_filter_preselect_xx_effectivename_ (LM:effectivename ss_pre_filter_preselect_xx_obj_))
+                      (setq effectivename_list_ (cons ss_pre_filter_preselect_xx_effectivename_ effectivename_list_))
+
+                      (setq ss_pre_filter_preselect_xx_i (+ ss_pre_filter_preselect_xx_i 1))
+                    )
+                    (setq effectivename_list_ (LM:CountItems (reverse effectivename_list_) nil))
+                    (setq effectivename_list_ (append (list "User Input" "All Block" ) effectivename_list_  ))
+                  )
+                )
+              ;
               
             )
-            (setq result_filter_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list sdas )))
+            effectivename_list_
+            
           )
-          
+          (setq sdas (TA:choose_list_v4 (append (list "User Input" "All Block" ) effectivename_list_  ) "Select Block Name to find" sdas ) )
+          (cond
+            ( 
+              (and 
+                (= sdas "ALL BLOCK")
+              )
+              (progn 
+                (setq result_filter_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list effectivename_list_) ) )
+              )
+            )
+            ( 
+              (and 
+                (= sdas "User Input")
+              )
+              (progn 
+                (setq result_filter_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list (LM:effectivename (vlax-ename->vla-object (car (entsel "specify LM:effectivename"))) ) ) ) )
+              )
+            )
+            ( 
+              (and 
+                (/= sdas "User Input")
+                (/= sdas "ALL BLOCK")
+              )
+              (progn 
+                (setq result_filter_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list sdas) ) )
+              )
+            )
+          )
         )
       )
       (command "pselect"  result_filter_ "" )

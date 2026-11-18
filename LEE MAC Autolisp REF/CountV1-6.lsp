@@ -1,18 +1,32 @@
 ; presetting
 ; Overall table scale relative to the current Table Style.
 ; 1.0 = original size, 2.0 = double size, 0.5 = half size.
-; Must be greater than zero. Applied to newly created tables only.
+; nil = follow preview_scale; both nil = original table size (1.0).
+; A numeric value must be greater than zero. Newly created tables only.
 ; This value comes directly from this file; saved .cfg does not override it.
-(setq count:table-scale 1.0)
+(setq count:table-scale 25)
 
-; 2. Merge adjacent equal block names in the Name column of Lookup tables.
+; 2. Merge adjacent equal block names in Lookup/Dynamic/Attribute tables.
 ; T = merge, nil = repeat the name on every row. New tables only.
-; Preview, Lookup value, and Count cells remain separate.
+; Preview, parameter value, and Count cells remain separate.
 (setq count:merge-name-cells T)
+
+; 3. Physical Preview scale: drawing convention 1 drawing unit = 1 mm.
+; 1.0 = 1:1 (1900 mm -> 1900 units), 0.1 = 1:10, 0.01 = 1:100.
+; nil = auto-fit (size follows table-scale). A number must be greater than zero.
+; Applied AFTER table-scale, so the requested Preview size is not multiplied again.
+; A representative source reference is copied, preserving its actual Scale/state.
+(setq count:preview_scale 1.0)
+
+; 4. Preview rotation: T = keep the representative source block's actual angle.
+; A number = absolute angle in degrees, counterclockwise from drawing +X.
+; Examples: 0 = horizontal, 90 = vertical, -45 = clockwise 45 degrees.
+; Applies in both physical-scale and auto-fit modes; source blocks are unchanged.
+(setq count:preview_rotation 0)
 
 ; Default settings for Count V1.6.
 ; Existing saved settings (.cfg / BLKCOUNTSETTINGS) take priority.
-; Lookup reports always show Name, Preview, Lookup value, and Count.
+; Selected Lookup, Dynamic, and Attribute fields each use their own column.
 (setq count:defaults
    '(
         (out "tab")       ; Output: "tab", "txt", "csv", "com"
@@ -24,7 +38,7 @@
         (ed3 "Block Name") ; Block name heading (normal count)
         (ed4 "Count")      ; Quantity heading (normal count)
         (srt "blk")        ; File/command sort: "blk" name then value, "qty" quantity
-                          ; Tables always group by block name, then Lookup value.
+                          ; Tables always group by block name, then parameter values.
         (ord "asc")        ; Order: "asc" ascending, "des" descending
     )
 )
@@ -92,6 +106,12 @@
 ;;  - Numbered Lookup/property value menus, All, saved preferences.     ;;
 ;;  - Multi-name Include/Exclude filter; Lookup report adds Name before;;
 ;;    Preview and separates quantities by block name and Lookup value. ;;
+;;  - 2026-11-18: Dynamic Parameter menu, typed values, All, independent ;;
+;;    saved preferences, and combined Lookup/Dynamic reports.          ;;
+;;  - Separate Lookup, Dynamic, Attribute columns; count by all values.;;
+;;  - Physical Preview scale in mm; source-sized copy and cell sizing. ;;
+;;  - Preview rotation: source angle (T) or absolute degrees; supports  ;;
+;;    both physical-scale and auto-fit Preview modes.                 ;;
 ;;----------------------------------------------------------------------;;
 
 (setq count:version "1-6")
@@ -134,10 +154,10 @@
         col
         des dir
         ed1 ed2 ed3 ed4
-        fil flt fnm fun
+        fil flt fnm fields headers fileheaders
         hgt
         idx ins
-        lst lookup
+        lst named
         ord out
         row range
         sel srt
@@ -242,11 +262,13 @@
                     )
                 )
             )
-            (setq lookup (cdr (assoc 'lookup flt))
-                  lst (count:buildreport sel lookup))
-            (if lookup
-                (setq ed3 (strcat "Lookup: " (car lookup))
-                      ed4 "Count" tg2 "1" tg3 "1"))
+            (setq fields (count:reportfields flt)
+                  named (not (null fields))
+                  lst (count:buildfilterreport sel fields))
+            (if named
+                (setq ed4 "Count" tg2 "1" tg3 "1"))
+            (setq headers (count:reportheaders fields tg2 tg3 ed2 ed3 ed4)
+                  fileheaders (count:reportheaders fields "0" tg3 ed2 ed3 ed4))
             (setq lst (count:sortreport lst (if (= "tab" out) "blk" srt) ord))
             (cond
                 (   (= "com" out)
@@ -258,11 +280,11 @@
                             (prinn (count:padbetween "" "" "-" 60))
                         )
                     )
-                    (prinn (count:padbetween (if lookup (strcat "Name / " ed3) ed3) ed4 " " 55))
+                    (prinn (count:lst->str fileheaders "\t"))
                     (prinn (count:padbetween "" "" "-"   60))
                     (if (= "1" tg3)
                         (foreach itm lst
-                            (prinn (count:lst->str (car (count:reporttextrows (list itm) "1" lookup)) "\t"))
+                            (prinn (count:lst->str (car (count:reporttextrows (list itm) "1" named)) "\t"))
                         )
                         (foreach itm lst (prinn (car itm)))
                     )
@@ -284,21 +306,16 @@
                             (vlax-get-property (count:acdoc) (if (= 1 (getvar 'cvport)) 'paperspace 'modelspace))
                             (vlax-3D-point (trans ins 1 0))
                             (+ (length lst) 2)
-                            (+ 1 (atoi tg2) (atoi tg3) (if lookup 1 0))
+                            (length headers)
                             (* 2.5 hgt)
                             (* hgt
                                 (max
                                     (apply 'max
                                         (mapcar 'strlen
-                                            (append
-                                                (if (= "1" tg2) (list ed2))
-                                                (if (= "1" tg3) (list ed4))
-                                                (if lookup (list "Name"))
-                                                (cons ed3 (apply 'append (count:reporttextrows lst tg3 lookup)))
-                                            )
+                                            (append headers (apply 'append (count:reporttextrows lst tg3 named)))
                                         )
                                     )
-                                    (if (= "1" tg1) (/ (strlen ed1) (+ 1 (atoi tg2) (atoi tg3) (if lookup 1 0))) 0)
+                                    (if (= "1" tg1) (/ (strlen ed1) (length headers)) 0)
                                 )
                             )
                         )
@@ -308,15 +325,13 @@
                     )
                     (vla-put-stylename tab (getvar 'ctablestyle))
                     (setq col 0)
-                    (mapcar
-                       '(lambda ( a b ) (if (= "1" a) (progn (vla-settext tab 1 col b) (setq col (1+ col)))))
-                        (list (if lookup "1" "0") tg2 "1" tg3)
-                        (list "Name" ed2 ed3 ed4)
-                    )
+                    (foreach txt headers
+                        (vla-settext tab 1 col txt)
+                        (setq col (1+ col)))
                     (setq row 2)
                     (foreach itm lst
                         (setq col -1)
-                        (if lookup (vla-settext tab row (setq col (1+ col)) (cadddr itm)))
+                        (if named (vla-settext tab row (setq col (1+ col)) (cadddr itm)))
                         (if (= "1" tg2)
                             (count:setblocktablerecord tab row (setq col (1+ col)) (caddr itm))
                         )
@@ -329,7 +344,7 @@
                         (vla-settext tab 0 0 ed1)
                         (vla-deleterows tab 0 1)
                     )
-                    (if lookup
+                    (if named
                         (foreach range (count:namemergegroups lst (if (= "1" tg1) 2 1) count:merge-name-cells)
                             (vla-mergecells tab (car range) (cdr range) 0 0)))
                     (setq tablescale (count:tablescalefactor))
@@ -340,6 +355,9 @@
                             (vla-scaleentity tab (vlax-3D-point (trans ins 1 0)) tablescale)
                         )
                     )
+                    (if (= "1" tg2)
+                        (count:applypreviews tab lst (if (= "1" tg1) 2 1)
+                                            (if named 1 0) (count:previewscalefactor)))
                 )
                 (   (setenv "LMac\\countdir" (count:fixdir (vl-filename-directory fnm)))
                     (if
@@ -352,10 +370,7 @@
                                 (if (= "1" tg1)
                                     (list (list ed1))
                                 )
-                                (if (= "1" tg3)
-                                    (cons (append (if lookup (list "Name")) (list ed3 ed4)) (count:reporttextrows lst tg3 lookup))
-                                    (cons (append (if lookup (list "Name")) (list ed3)) (count:reporttextrows lst tg3 lookup))
-                                )
+                                (cons fileheaders (count:reporttextrows lst tg3 named))
                             )
                             fnm
                         )
@@ -394,11 +409,90 @@
 ;;----------------------------------------------------------------------;;
 
 (defun count:tablescalefactor nil
-    (if (and (numberp count:table-scale) (< 0 count:table-scale))
-        count:table-scale
-        (progn
-            (princ "\nInvalid count:table-scale; using 1.0. Enter a number greater than zero in presetting.")
+    (cond
+        ((null count:table-scale)
+            (if (null count:preview_scale) 1.0 (count:previewscalefactor)))
+        ((and (numberp count:table-scale) (< 0 count:table-scale)) count:table-scale)
+        (t
+            (princ "\nInvalid count:table-scale; using 1.0. Use nil to follow Preview or a positive number.")
             1.0))
+)
+
+(defun count:previewscalefactor nil
+    (cond
+        ((null count:preview_scale) nil)
+        ((and (numberp count:preview_scale) (< 0 count:preview_scale)) count:preview_scale)
+        (t
+            (princ "\nInvalid count:preview_scale; using 1.0. Use nil for auto-fit or a positive scale.")
+            1.0))
+)
+
+(defun count:previewrotation nil
+    (cond
+        ((eq T count:preview_rotation) T)
+        ((numberp count:preview_rotation) count:preview_rotation)
+        (t
+            (princ "\nInvalid count:preview_rotation; using T. Use T for source angle or a number in degrees.")
+            T))
+)
+
+(defun count:rotationradians ( degrees / angle )
+    (setq angle (rem degrees 360.0))
+    (if (< angle 0.0) (setq angle (+ angle 360.0)))
+    (* pi (/ angle 180.0))
+)
+
+;; Build an isolated nested reference for the Preview. CopyObjects preserves
+;; dynamic state, attributes, rotation, mirroring and non-uniform source Scale.
+;; Existing source blocks/references are not changed.
+(defun count:makephysicalpreview ( ent rotation / obj blocks base name suffix block clone lo hi origin )
+    (setq obj (vlax-ename->vla-object ent)
+          blocks (vla-get-blocks (count:acdoc))
+          base (strcat "TA_COUNT_PREVIEW_" (vla-get-handle obj))
+          name base suffix 0 origin (vlax-3D-point '(0.0 0.0 0.0)))
+    (while (tblsearch "block" name)
+        (setq suffix (1+ suffix) name (strcat base "_" (itoa suffix))))
+    (setq block (vla-add blocks origin name)
+          clone (car (vlax-invoke (count:acdoc) 'copyobjects (list obj) block)))
+    (vla-move clone (vla-get-insertionpoint clone) origin)
+    (if (numberp rotation)
+        (vla-put-rotation clone (count:rotationradians rotation)))
+    (vla-getboundingbox clone 'lo 'hi)
+    (setq lo (vlax-safearray->list lo) hi (vlax-safearray->list hi))
+    (list name (abs (- (car hi) (car lo))) (abs (- (cadr hi) (cadr lo))))
+)
+
+;; Return final minimum (width height), including table cell margins.
+(defun count:previewcellsize ( width height scale horizontal vertical )
+    (list (+ (* width scale) (* 2.0 horizontal))
+          (+ (* height scale) (* 2.0 vertical)))
+)
+
+(defun count:applypreviews ( tab rows first col scale / row item ent data size width horizontal vertical rotation )
+    (setq row first width (vla-getcolumnwidth tab col)
+          horizontal (vla-get-horzcellmargin tab) vertical (vla-get-vertcellmargin tab)
+          rotation (count:previewrotation))
+    (if (vlax-property-available-p tab 'regeneratetablesuppressed t)
+        (vla-put-regeneratetablesuppressed tab :vlax-true))
+    (foreach item rows
+        (setq ent (car (cddddr item)))
+        (if (and ent (entget ent))
+            (progn
+                (setq data (count:makephysicalpreview ent rotation))
+                ;; Both modes use a rotated copy; only physical scale resizes cells.
+                (count:setblocktablerecord tab row col (car data))
+                (if scale
+                    (progn
+                        (setq size (count:previewcellsize (cadr data) (caddr data) scale horizontal vertical)
+                              width (max width (car size)))
+                        (vla-setautoscale tab row col :vlax-false)
+                        (vla-setblockscale tab row col scale)
+                        (vla-setrowheight tab row (max (vla-getrowheight tab row) (cadr size))))
+                    (vla-setautoscale tab row col :vlax-true))))
+        (setq row (1+ row)))
+    (vla-setcolumnwidth tab col width)
+    (if (vlax-property-available-p tab 'regeneratetablesuppressed t)
+        (vla-put-regeneratetablesuppressed tab :vlax-false))
 )
 
 (defun count:selectblocks ( fil all / selected )
@@ -467,11 +561,11 @@
     (princ "\nFilters support wildcards (* and ?); different types use AND.")
     (princ (strcat "\nSelected: " (itoa (sslength sel)) " blocks, "
                    (itoa (length (count:blocknames sel))) " block names."))
-    (princ "\nName optionally includes/excludes multiple names. Lookup rows show Name + value.")
+    (princ "\nName includes/excludes multiple names. Lookup, Dynamic and Attribute use separate report columns.")
     (while (not done)
-        (initget "Name Layer Visibility Lookup Attribute Clear Done")
+        (initget "Name Layer Visibility Lookup Dynamic Attribute Clear Done")
         (setq key (getkword
-            (strcat "\nFilter [Name/Layer/Visibility/Lookup/Attribute/Clear/Done] <Done>"
+            (strcat "\nFilter [Name/Layer/Visibility/Lookup/Dynamic/Attribute/Clear/Done] <Done>"
                     (count:filterdescription flt) ": "
             )
         ))
@@ -491,9 +585,12 @@
             ((= "Lookup" key)
                 (if (setq val (count:selectlookup sel flt))
                     (setq flt (count:setfilter 'lookup val flt))))
+            ((= "Dynamic" key)
+                (if (setq val (count:selectdynamic sel flt))
+                    (setq flt (count:setfilter 'dynamic val flt))))
             ((= "Attribute" key)
-                (if (/= "" (setq val (getstring t "\nAttribute TAG=VALUE (use *=VALUE for any tag) <cancel>: ")))
-                    (setq flt (count:setfilter 'attribute (count:splitfilter val "*") flt))))
+                (if (setq val (count:selectattribute sel flt))
+                    (setq flt (count:setfilter 'attribute val flt))))
         )
     )
     flt
@@ -516,7 +613,7 @@
 )
 
 (defun count:filterdescription ( flt / item key out )
-    (foreach key '(name layer visibility lookup attribute)
+    (foreach key '(name layer visibility lookup dynamic attribute)
         (if (setq item (assoc key flt))
             (setq out (cons
                 (strcat (vl-symbol-name key) "="
@@ -524,7 +621,7 @@
                         ((and (= key 'name) (listp (cdr item)))
                             (strcat (vl-symbol-name (cadr item)) ": "
                                     (if (cddr item) (count:lst->str (cddr item) ", ") "(none)")))
-                        ((= key 'lookup)
+                        ((member key '(lookup dynamic attribute))
                             (strcat (cadr item) "="
                                 (if (= 'all (caddr item)) "All"
                                     (count:variantstring (caddr item)))))
@@ -563,8 +660,10 @@
             (count:wcmatch (count:getvisibilitystate (vlax-ename->vla-object ent)) (cdr (assoc 'visibility flt))))
         (or (null (assoc 'lookup flt))
             (count:entitylookupentry ent (cdr (assoc 'lookup flt))))
+        (or (null (assoc 'dynamic flt))
+            (count:entitylookupentry ent (cdr (assoc 'dynamic flt))))
         (or (null (assoc 'attribute flt))
-            (count:matchattribute (vlax-ename->vla-object ent) (cdr (assoc 'attribute flt))))
+            (count:matchattributepairs (count:entityattributepairs ent) (cdr (assoc 'attribute flt))))
     )
 )
 
@@ -620,10 +719,11 @@
 )
 
 (defun count:lookupvalueequal ( a b )
-    (if (and (numberp a) (numberp b))
-        (= a b)
-        (and (= 'str (type a)) (= 'str (type b)) (= (strcase a) (strcase b)))
-    )
+    (cond
+        ((and (numberp a) (numberp b)) (= a b))
+        ((and (= 'str (type a)) (= 'str (type b))) (= (strcase a) (strcase b)))
+        ((and (listp a) (listp b) (= (length a) (length b)))
+            (vl-every 'count:lookupvalueequal a b)))
 )
 
 (defun count:appendvalue ( value values )
@@ -716,8 +816,27 @@
     choice
 )
 
-(defun count:lookupmemory ( / file line result memory key item value )
-    (if (setq file (open (strcat count:savepath "\\TA_count_V1-6_lookup.cfg") "r"))
+(defun count:dynamiccatalog ( sel / idx obj prop name records )
+    (setq idx 0)
+    (repeat (sslength sel)
+        (setq obj (vlax-ename->vla-object (ssname sel idx)) idx (1+ idx))
+        (foreach prop (count:getdynamicproperties obj)
+            (setq name (vla-get-propertyname prop)
+                  records (count:addlookuprecord name (count:propertyvalues prop) records))))
+    records
+)
+
+(defun count:propertymemorypath ( kind )
+    (strcat count:savepath "\\TA_count_V1-6_"
+            (cond ((eq 'dynamic kind) "dynamic")
+                  ((eq 'attribute kind) "attribute")
+                  (t "lookup")) ".cfg")
+)
+
+(defun count:lookupmemory nil (count:propertymemory 'lookup))
+
+(defun count:propertymemory ( kind / file line result memory key item value )
+    (if (setq file (open (count:propertymemorypath kind) "r"))
         (progn
             (setq line (read-line file))
             (close file)
@@ -738,42 +857,56 @@
                             memory))))))
 )
 
-(defun count:selectlookup ( sel flt / records memory last default index chosen key values old choice result candidate record value )
+(defun count:selectlookup ( sel flt ) (count:selectproperty sel flt 'lookup))
+
+(defun count:selectdynamic ( sel flt ) (count:selectproperty sel flt 'dynamic))
+
+(defun count:selectattribute ( sel flt ) (count:selectproperty sel flt 'attribute))
+
+(defun count:selectproperty ( sel flt kind / title records memory last default index chosen key values old choice result candidate record value )
     ;; An optional Name filter is retained in either menu order.
-    (setq candidate (count:filterselection sel (vl-remove (assoc 'lookup flt) flt)))
+    (setq title (cond ((eq 'dynamic kind) "Dynamic Parameter")
+                      ((eq 'attribute kind) "Attribute Tag") (t "Lookup"))
+          candidate (count:filterselection sel (vl-remove (assoc kind flt) flt)))
     (cond
         ((null candidate) (princ "\nNo blocks remain under the other filters."))
-        ((null (setq records (count:lookupcatalog candidate)))
-            (princ "\nNo Lookup properties were found in the selected blocks."))
+        ((null (setq records (cond ((eq 'dynamic kind) (count:dynamiccatalog candidate))
+                                  ((eq 'attribute kind) (count:attributecatalog candidate))
+                                  (t (count:lookupcatalog candidate)))))
+            (princ (strcat "\nNo " title " properties were found in the selected blocks.")))
         (t
-            (setq memory (count:lookupmemory) last (cdr (assoc 'last memory))
+            (setq memory (count:propertymemory kind) last (cdr (assoc 'last memory))
                   default 1 index 0)
-            (princ "\n--- Lookup properties (all block names) ---\n  0 = Back")
+            (princ (strcat "\n--- " title " properties ---\n  0 = Back"))
             (foreach record records
                 (setq index (1+ index))
                 (princ (strcat "\n  " (itoa index) " = " (cadr record)))
                 (if (equal (car record) last) (setq default index)))
-            (setq choice (count:menuint "\nSelect Lookup number" (length records) default))
+            (setq choice (count:menuint (strcat "\nSelect " title " number") (length records) default))
             (if (< 0 choice)
                 (progn
                     (setq chosen (nth (1- choice) records) key (car chosen)
                           values (caddr chosen) old (assoc key memory)
                           default 0 index 0)
                     (princ (strcat "\n--- " (cadr chosen)
-                                   " values ---\n  0 = All (separate row per used value)"))
+                                   " values ---\n  0 = All "
+                                   (if (eq 'attribute kind) "(any value; Tag must exist)"
+                                       "(separate row per used value)")))
                     (foreach value values
                         (setq index (1+ index))
                         (princ (strcat "\n  " (itoa index) " = " (vl-prin1-to-string value)))
                         (if (and old (count:lookupvalueequal value (cdr old)))
                             (setq default index)))
-                    (setq choice (count:menuint "\nSelect Lookup value number" (length values) default)
+                    (if (eq 'dynamic kind)
+                        (princ "\nValues include AllowedValues and current values from the selected blocks."))
+                    (setq choice (count:menuint (strcat "\nSelect " title " value number") (length values) default)
                           choice (if (= 0 choice) 'all (nth (1- choice) values))
                           result (list (cadr chosen) choice)
                           memory (count:setfilter 'last key memory)
                           memory (count:setfilter key choice memory))
                     (if (not (count:writecfg
-                                  (strcat count:savepath "\\TA_count_V1-6_lookup.cfg") (list memory)))
-                        (princ "\nLookup selected, but preferences could not be saved."))
+                                  (count:propertymemorypath kind) (list memory)))
+                        (princ (strcat "\n" title " selected, but preferences could not be saved.")))
                 )
             )
         )
@@ -806,14 +939,23 @@
     (count:lookupentry (vlax-ename->vla-object ent) spec)
 )
 
-;; Report rows: (display-label quantity preview-block-record-name effective-name).
+;; Report rows: (value-or-values quantity preview-block-record-name effective-name [source-ename]).
 ;; Keep the actual DXF 2 block record so dynamic previews show the selected state.
 (defun count:addreportrow ( value preview name rows / old )
     (if (setq old (vl-some
             '(lambda ( x ) (if (and (= (strcase name) (strcase (cadddr x)))
                                    (count:lookupvalueequal value (car x))) x)) rows))
-        (subst (list (car old) (1+ (cadr old)) (caddr old) (cadddr old)) old rows)
+        (subst (append (list (car old) (1+ (cadr old)) (caddr old) (cadddr old)) (cddddr old)) old rows)
         (append rows (list (list value 1 preview name))))
+)
+
+(defun count:addreportentity ( value preview name ent rows / result lastrow )
+    (setq result (count:addreportrow value preview name rows))
+    (if (< (length rows) (length result))
+        (progn
+            (setq lastrow (last result))
+            (setq result (subst (append lastrow (list ent)) lastrow result))))
+    result
 )
 
 (defun count:buildreport ( sel lookup / idx ent entry name rows )
@@ -822,21 +964,98 @@
         (setq ent (ssname sel idx) idx (1+ idx) name (count:effectivename ent))
         (if lookup
             (if (setq entry (count:entitylookupentry ent lookup))
-                (setq rows (count:addreportrow (car entry) (cdr (assoc 2 (entget ent))) name rows)))
-            (setq rows (count:addreportrow name name name rows))))
-    (mapcar '(lambda ( x ) (list (count:variantstring (car x)) (cadr x) (caddr x) (cadddr x))) rows)
+                (setq rows (count:addreportentity (car entry) (cdr (assoc 2 (entget ent))) name ent rows)))
+            (setq rows (count:addreportentity name name name ent rows))))
+    (mapcar '(lambda ( x ) (append (list (count:variantstring (car x)) (cadr x) (caddr x) (cadddr x)) (cddddr x))) rows)
 )
 
-(defun count:reportless ( a b field order / an bn av bv left right )
-    (setq an (strcase (cadddr a)) bn (strcase (cadddr b))
-          av (strcase (car a)) bv (strcase (car b)))
+;; Fields are ordered descriptors: (kind (property-name selected-value)).
+;; Parameter report rows retain a LIST of typed values in their first slot.
+;; Values are converted to individual cell strings only when writing output.
+(defun count:reportfields ( flt / kind spec fields )
+    (foreach kind '(lookup dynamic attribute)
+        (if (setq spec (cdr (assoc kind flt)))
+            (setq fields (append fields (list (list kind spec))))))
+    fields
+)
+
+(defun count:reportheadings ( fields )
+    (mapcar '(lambda ( field )
+        (strcat (cond ((eq 'lookup (car field)) "Lookup: ")
+                      ((eq 'dynamic (car field)) "Dynamic: ")
+                      (t "Attribute: "))
+                (caadr field))) fields)
+)
+
+(defun count:reportheaders ( fields preview quantity previewtitle nametitle counttitle )
+    (append
+        (if fields (list "Name"))
+        (if (= "1" preview) (list previewtitle))
+        (if fields (count:reportheadings fields) (list nametitle))
+        (if (= "1" quantity) (list counttitle)))
+)
+
+(defun count:reportfieldentry ( ent field / pair spec found )
+    (setq spec (cadr field))
+    (if (eq 'attribute (car field))
+        (progn
+            (foreach pair (count:entityattributepairs ent)
+                (if (and (= (strcase (car pair)) (strcase (car spec)))
+                         (or (eq 'all (cadr spec))
+                             (count:lookupvalueequal (cdr pair) (cadr spec))))
+                    (setq found (list (cdr pair)))))
+            found)
+        (count:entitylookupentry ent spec))
+)
+
+(defun count:buildfilterreport ( sel fields / idx ent field entry values valid rows )
+    (if (null fields)
+        (count:buildreport sel nil)
+        (progn
+            (setq idx 0)
+            (repeat (sslength sel)
+                (setq ent (ssname sel idx) idx (1+ idx) values nil valid t)
+                (foreach field fields
+                    (if (setq entry (count:reportfieldentry ent field))
+                        (setq values (append values entry))
+                        (setq valid nil)))
+                (if valid
+                    (setq rows (count:addreportentity values (cdr (assoc 2 (entget ent)))
+                                                   (count:effectivename ent) ent rows))))
+            rows))
+)
+
+(defun count:buildparameterreport ( sel lookup dynamic )
+    (count:buildfilterreport sel (count:reportfields
+        (list (cons 'lookup lookup) (cons 'dynamic dynamic))))
+)
+
+(defun count:comparecell ( a b )
+    (if (not (and (numberp a) (numberp b)))
+        (setq a (strcase (count:variantstring a)) b (strcase (count:variantstring b))))
+    (cond ((< a b) -1) ((> a b) 1) (t 0))
+)
+
+(defun count:comparevalues ( a b / result )
+    (if (not (listp a)) (setq a (list a)))
+    (if (not (listp b)) (setq b (list b)))
+    (setq result 0)
+    (while (and a b (= 0 result))
+        (setq result (count:comparecell (car a) (car b)) a (cdr a) b (cdr b)))
+    (if (= 0 result) (setq result (cond (a 1) (b -1) (t 0))))
+    result
+)
+
+(defun count:reportless ( a b field order / an bn compared )
+    (setq an (strcase (cadddr a)) bn (strcase (cadddr b)))
     (cond
-        ((and (= "blk" field) (/= an bn)) (setq left an right bn))
+        ((and (= "blk" field) (/= an bn)) (setq compared (count:comparecell an bn)))
         ((and (= "qty" field) (/= (cadr a) (cadr b)))
-            (setq left (cadr a) right (cadr b)))
-        ((/= av bv) (setq left av right bv))
-        ((/= an bn) (setq left an right bn)))
-    (and left (if (= "des" order) (> left right) (< left right)))
+            (setq compared (count:comparecell (cadr a) (cadr b))))
+        (t
+            (setq compared (count:comparevalues (car a) (car b)))
+            (if (= 0 compared) (setq compared (count:comparecell an bn)))))
+    (if (= "des" order) (> compared 0) (< compared 0))
 )
 
 (defun count:sortreport ( rows field order )
@@ -865,7 +1084,8 @@
 (defun count:reporttextrows ( rows quantity named )
     (mapcar '(lambda ( x )
         (append (if named (list (cadddr x)))
-                (if (= "1" quantity) (list (car x) (itoa (cadr x))) (list (car x))))) rows)
+                (if (listp (car x)) (mapcar 'count:variantstring (car x)) (list (car x)))
+                (if (= "1" quantity) (list (itoa (cadr x)))))) rows)
 )
 
 ;;----------------------------------------------------------------------;;
@@ -914,13 +1134,38 @@
     result
 )
 
-(defun count:matchattribute ( obj spec / att found )
+(defun count:attributepairs ( obj / att pairs )
     (foreach att (count:getattributes obj)
-        (if (and (count:wcmatch (vla-get-tagstring att) (car spec))
-                 (count:wcmatch (vla-get-textstring att) (cadr spec)))
+        (setq pairs (cons (cons (vla-get-tagstring att) (vla-get-textstring att)) pairs)))
+    (reverse pairs)
+)
+
+(defun count:entityattributepairs ( ent )
+    (count:attributepairs (vlax-ename->vla-object ent))
+)
+
+(defun count:attributecatalog ( sel / idx pair records )
+    (setq idx 0)
+    (repeat (sslength sel)
+        (foreach pair (count:entityattributepairs (ssname sel idx))
+            (setq records (count:addlookuprecord (car pair) (list (cdr pair)) records)))
+        (setq idx (1+ idx)))
+    records
+)
+
+;; Menu selections are literal Tag/value identities, not wildcard patterns.
+;; An ALL selection still requires the selected Tag to exist on the block.
+(defun count:matchattributepairs ( pairs spec / pair found )
+    (foreach pair pairs
+        (if (and (= (strcase (car pair)) (strcase (car spec)))
+                 (or (eq 'all (cadr spec)) (count:lookupvalueequal (cdr pair) (cadr spec))))
             (setq found t))
     )
     found
+)
+
+(defun count:matchattribute ( obj spec )
+    (count:matchattributepairs (count:attributepairs obj) spec)
 )
 
 ;;----------------------------------------------------------------------;;

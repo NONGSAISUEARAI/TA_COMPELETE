@@ -9,7 +9,13 @@ var child={id:'qa-copy-child',name:'ขอราคา',groupId:source.groupId,p
 state.tasks.push(child);
 taskFileHandles.set(source.id,{qa:'root'});taskFileHandles.set(child.id,{qa:'child'});
 var destActual={actualStart:'2026-11-04',actualEnd:'2026-11-05',actualDateMode:'manual',progress:30};Object.assign(dest,destActual);
-var baseline=JSON.stringify(state);openTask(source.id);$('f-note').value='edited before copy';$('f-currentInfo').value='แก้ก่อนคัดลอก';`);
+var baseline=JSON.stringify(state);`);
+run(`openQuickCopy(source.id)`);assert.equal(elements.get('quick-copy-dialog').open,true);assert.match(elements.get('quick-copy-summary').textContent,/งานย่อยทั้งหมด 1 รายการ/);
+assert.equal(run('copyTaskPlanFromRow(false)'),true);assert.equal(run('taskPlanClipboard.level'),3);assert.equal(run('taskPlanClipboard.children.length'),0,'Quick root copy excludes descendants');assert.equal(run('JSON.stringify(state)'),run('baseline'),'Quick root copy does not change data');
+run(`openQuickCopy(source.id)`);assert.equal(run('copyTaskPlanFromRow(true)'),true);assert.equal(run('taskPlanClipboard.children.length'),1,'Quick LV3 subtree includes LV4');assert.equal(run('taskPlanClipboard.children[0].plan.name'),'ขอราคา');assert.equal(run('taskPlanClipboard.children[0].plan.followMode'),undefined,'Tracking stars are not copied');assert.equal(run('JSON.stringify(state)'),run('baseline'));
+run(`var lv2=state.tasks.find(t=>t.id===source.parentId),lv2Count=descendantIds(lv2.id).size;openQuickCopy(lv2.id);copyTaskPlanFromRow(true)`);assert.equal(run('taskPlanClipboard.level'),2);assert.equal(run('taskPlanClipboard.children.length'),run('lv2Count'),'Quick LV2 subtree includes every LV3/LV4 descendant');
+run(`openQuickCopy(child.id)`);assert.equal(elements.get('quick-copy-dialog').open,false,'LV4 has no quick-copy flow');
+run(`openTask(source.id);$('f-note').value='edited before copy';$('f-currentInfo').value='แก้ก่อนคัดลอก';`);
 assert.equal(run('copyTaskPlan()'),true);
 assert.equal(run('JSON.stringify(state)'),run('baseline'));
 run('$("task-dialog").close();openTask(dest.id)');
@@ -45,6 +51,7 @@ assert.equal(run('taskChildren(dest.id).filter(t=>t.name==="ขอราคา")
 run('openTask(source.id)');assert.equal(run('pasteTaskPlan()'),false,'No accidental self duplication');
 run('$("task-dialog").close();openTask(source.parentId)');assert.equal(run('pasteTaskPlan()'),false,'No cross-level paste');
 run('isEditor=false');assert.equal(run('copyTaskPlan()'),false);assert.equal(run('pasteTaskPlan()'),false);
+assert.match(html,/id="quick-copy-dialog"/);assert.match(html,/dataset\.quickCopy/);assert.match(html,/className='quick-copy-button'/);
 const reopened=boot(run('snapshot().html'));assert.equal(reopened.run('state.tasks.filter(t=>t.id.startsWith("plan-")).length'),1);
 assert.equal(fs.readFileSync('Master_Schedule.html','utf8'),html);
-console.log('PASS: all Plan/Actual/progress/document/color/file fields and LV4 copy, selected files and handles, independent metadata, target identity, draft/cancel/repeat/level/Viewer guards, save/reopen.');
+console.log('PASS: quick LV2/LV3 root-or-subtree copy plus edit-dialog copy, all Plan/Actual/progress/document/color/file fields, LV4 children, selected files and handles, independent metadata, target identity, draft/cancel/repeat/level/Viewer guards, save/reopen.');

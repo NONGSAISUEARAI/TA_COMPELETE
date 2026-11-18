@@ -30,6 +30,21 @@ Include
 
 Include
 0
+1
+2
+
+
+1
+0
+1
+1
+
+
+2
+1
+1
+0
+0
 (setvar "SECURELOAD" ct:secure)
 (setq *error* ct:olderror)
 _.QUIT

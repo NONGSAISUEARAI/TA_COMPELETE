@@ -192,7 +192,7 @@
 (setq tf4-cmd-a (TF4:Rect 200.0 100.0)
       tf4-cmd-b (TF4:Points '((800.0 100.0) (600.0 100.0) (600.0 0.0) (800.0 0.0)) nil))
 (entmake '((0 . "LINE") (10 0.0 500.0 0.0) (11 100.0 500.0 0.0))) (setq tf4-cmd-line (entlast))
-(setq tf4-cmd-ss (TF4:Set (list tf4-cmd-a tf4-cmd-b tf4-cmd-line))
+(setq tf4-cmd-ss (TF4:Set (list tf4-cmd-a tf4-cmd-b))
       tf4-cmd-before (mapcar 'entget (list tf4-cmd-a tf4-cmd-b tf4-cmd-line)))
 (setvar "PICKFIRST" 1)
 (defun TF4:AfterCommand (mode expected-count material / ss index entity value ok)

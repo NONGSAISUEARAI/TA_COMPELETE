@@ -15,7 +15,7 @@
 (setq precision_maxlength_ 2)               ; จำนวนทศนิยม LENGTH: 0 ถึง 8
 ;
 ; ขนาด ตำแหน่ง และการแสดงผล
-(setq height_maxlength_    50)            ; สเกลบล็อก / ความสูงข้อความของนิยามเริ่มต้น
+(setq height_maxlength_    0.01)            ; สเกลบล็อก / ความสูงข้อความของนิยามเริ่มต้น
 (setq offset_maxlength_    0)            ; ระยะจากด้านถึงจุดแทรก หน่วยแบบ ไม่คูณสเกล/ความสูง
 (setq offset_xy_maxlength_ '(0.0 0.0))    ; เลื่อน X/Y ตาม WCS หลังหากึ่งกลางด้าน ไม่คูณสเกล
 (setq layer_maxlength_     "TA-PLINE-MAXLENGTH") ; เลเยอร์ของป้าย
@@ -1039,7 +1039,15 @@
     (if (not (and (= "LWPOLYLINE" (TFO:Get 0 data "")) (= 4 (TFO:Get 90 data 0)))) (setq four nil)))
   (and (> (sslength ss) 0) four))
 
-(defun TFO:LengthSegments (entity mode / data normal vertices closed edges edge index
+(defun TFO:LengthSegments (entity mode / kind)
+  (setq kind (TFO:Get 0 (entget entity) ""))
+  (if (= kind "LWPOLYLINE") (TFO:PolylineLengthSegments entity mode)
+    (progn
+      (TFO:Require (member (TFO:FMLMode mode) '("OVERALL" "MAX"))
+        "LINE/ARC/CIRCLE supports OVERALL, MAX or CUSTOM; paired modes require a four-corner pline.")
+      (list (TFO:CustomLengthSegment (list entity (trans (vlax-curve-getStartPoint entity) 0 1)))))))
+
+(defun TFO:PolylineLengthSegments (entity mode / data normal vertices closed edges edge index
                                       best best-index best-length value side choice result)
   (setq data (entget entity) mode (TFO:FMLMode mode))
   (TFO:Require (= "LWPOLYLINE" (TFO:Get 0 data "")) "FML accepts LWPOLYLINE only.")
@@ -1107,7 +1115,7 @@
   (list source insert (car measured) (nth 3 measured)))
 
 (defun TFO:SideLengthExecute (ss material mode / index source measured records record block result)
-  (TFO:Require (and (= (type ss) 'PICKSET) (> (sslength ss) 0)) "Select at least one LWPOLYLINE.")
+  (TFO:Require (and (= (type ss) 'PICKSET) (> (sslength ss) 0)) "Select LINE, ARC, CIRCLE or LWPOLYLINE.")
   (setq mode (TFO:FMLMode mode))
   (TFO:Require (member mode '("OVERALL" "MAX" "ALL LONG" "ALL SHORT"))
     "FML batch mode must be OVERALL, ALL LONG, ALL SHORT or MAX.")
@@ -1151,17 +1159,27 @@
 ;;; nentsel returns a 4x3 ROW-vector matrix, unlike the 4x4 matrices above.
 ;;; Transpose it before applying it to definition points (including nested blocks).
 (defun TFO:CustomLengthSegment (selection / entity data kind matrix vertices closed normal
-    edges edge vertex curved axes point z world value index best best-index best-distance near measured tolerance_fo_)
+    edges edge vertex curved axes point z world value index best best-index best-distance near measured tolerance_fo_ center radius start sweep)
   (setq tolerance_fo_ 1e-9 entity (car selection) data (entget entity) kind (TFO:Get 0 data "")
         matrix (if (caddr selection)
           (append (apply 'mapcar (cons 'list (caddr selection))) '((0.0 0.0 0.0 1.0)))
           (TFO:Identity)))
-  (TFO:Require (member kind '("LINE" "LWPOLYLINE"))
-    "CUSTOM: select a LINE or one segment of a LWPOLYLINE.")
+  (TFO:Require (member kind '("LINE" "LWPOLYLINE" "ARC" "CIRCLE"))
+    "CUSTOM: select LINE, ARC, CIRCLE or a LWPOLYLINE segment.")
   (if (= kind "LINE")
     (setq vertices (list (list (TFO:Get 10 data nil) 0.0) (list (TFO:Get 11 data nil) 0.0)))
     (progn
-      (setq vertices (TFO:LWVertices data) closed (= 1 (logand 1 (TFO:Get 70 data 0)))
+      (if (member kind '("ARC" "CIRCLE"))
+        (progn
+          (setq center (TFO:Get 10 data nil) radius (TFO:Get 40 data 0.0)
+                start (if (= kind "CIRCLE") 0.0 (TFO:Get 50 data 0.0))
+                sweep (if (= kind "CIRCLE") pi (TFO:Angle (- (TFO:Get 51 data 0.0) start)))
+                data (append data (list (cons 38 (caddr center))))
+                vertices (list (list (TFO:XY (polar center start radius)) (/ (sin (/ sweep 4.0)) (cos (/ sweep 4.0))))
+                  (list (TFO:XY (polar center (+ start sweep) radius)) (if (= kind "CIRCLE") 1.0 0.0)))
+                closed (= kind "CIRCLE")))
+        (setq vertices (TFO:LWVertices data) closed (= 1 (logand 1 (TFO:Get 70 data 0)))))
+      (setq
             normal (TFO:Get 210 data '(0.0 0.0 1.0))
             edges (TFO:LoopEdges vertices closed)
             curved (vl-some '(lambda (edge) (not (equal (caddr edge) 0.0 1e-14))) edges)
@@ -1186,7 +1204,7 @@
     (setq index (1+ index)))
   (TFO:Require best "CUSTOM: the selected object has no nonzero segment.")
   (setq measured (TFO:SegmentLabelData (list (cons 38 z) '(210 0.0 0.0 1.0)) best
-    (TFO:EdgeLength (car best) (cadr best) (caddr best)) best-index
+    (* (if (= kind "CIRCLE") 2.0 1.0) (TFO:EdgeLength (car best) (cadr best) (caddr best))) best-index
     (if (and closed (> (TFO:LoopArea world) 0.0)) -1.0 1.0)))
   measured)
 
@@ -1200,7 +1218,7 @@
   (TFO:LengthBuild 'TFO:CustomLengthExecute (list selection material)))
 
 (defun TFO:CustomPick ()
-  (nentsel "\nCUSTOM: pick LINE / pline side [Enter or Esc to finish]: "))
+  (nentsel "\nCUSTOM: pick LINE / ARC / CIRCLE / pline side [Enter or Esc to finish]: "))
 
 (defun TFO:CustomLengthLoop (material / selection result count done tfo-custom-cancelled)
   (setq count 0)
@@ -1218,7 +1236,7 @@
   (princ (strcat "\nFML: CUSTOM - created " (itoa count) " NAME/LENGTH block(s).")) count)
 
 (defun c:FML (/ ss mode modes four default-mode material result)
-  (setq ss (ssget "_I" '((0 . "LWPOLYLINE"))))
+  (setq ss (ssget "_I" '((0 . "LWPOLYLINE,LINE,ARC,CIRCLE"))))
   ;; Mode comes first so CUSTOM can start nentsel without a preliminary ssget.
   (setq four (or (not ss) (TFO:FourVertexSelectionP ss))
         modes (if four '("OVERALL" "ALL LONG" "ALL SHORT" "MAX" "CUSTOM") '("OVERALL" "MAX" "CUSTOM"))
@@ -1229,8 +1247,8 @@
     "] <" default-mode ">: "))
         mode (if mode (TFO:FMLMode mode) default-mode))
   (if (and (/= mode "CUSTOM") (not ss))
-    (progn (princ "\nSelect LWPOLYLINEs for side-length labels: ")
-      (setq ss (ssget '((0 . "LWPOLYLINE"))))))
+    (progn (princ "\nSelect LINE/ARC/CIRCLE/LWPOLYLINE for length labels: ")
+      (setq ss (ssget '((0 . "LWPOLYLINE,LINE,ARC,CIRCLE"))))))
   (if (or (= mode "CUSTOM") ss)
     (progn
       (setq material (getstring T (strcat "\nMaterial NAME <" name_maxlength_ ">: ")))

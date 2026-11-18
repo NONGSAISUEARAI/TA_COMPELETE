@@ -1,0 +1,9 @@
+(setq ct:secure (getvar "SECURELOAD"))
+(setvar "SECURELOAD" 0)
+_.NETLOAD
+"C:/Users/tawan.t/Documents/GitHub/TA_COMPELETE/LEE MAC Autolisp REF/tests/CountPreviewGeometry.dll"
+COUNTPREVIEWTEST
+(setvar "SECURELOAD" ct:secure)
+_.QUIT
+_Yes
+
