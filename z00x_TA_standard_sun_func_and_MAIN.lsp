@@ -14744,7 +14744,7 @@
       ;
     )
     (defun c:SFBx1_FINDING_SPECFILY_NAME_BLOCK (  )
-      (if effectivename_list_
+      (if (= 1 1)
         (progn
           ;selection_set_for_fillter_blk_name
             (if  ;pre_select_ssget_or_post_select_ssget
@@ -14775,7 +14775,8 @@
             )
           ;
           (setq result_ nil)
-          (if (and 
+          (if (and                       
+                (/= effectivename_list_ nil)
                 (= (type effectivename_list_) 'LIST)
                 (= (length effectivename_list_ ) 0)
               )
@@ -14795,20 +14796,20 @@
                       (setq ss_pre_filter_preselect_xx_i (+ ss_pre_filter_preselect_xx_i 1))
                     )
                     (setq effectivename_list_ (LM:CountItems (reverse effectivename_list_) nil))
-                    (setq effectivename_list_ (append (list "User Input" "All Block" ) effectivename_list_  ))
+                    
                   )
                 )
               ;
               
             )
-            effectivename_list_
+            (setq effectivename_list_ (LM:CountItems (reverse effectivename_list_) nil))
             
           )
-          (setq sdas (TA:choose_list_v4 (append (list "User Input" "All Block" ) effectivename_list_  ) "Select Block Name to find" sdas ) )
+          (setq sdas (TA:choose_list_v4 (append (list "User Input" "All BLOCK" ) effectivename_list_  ) "Select Block Name to find" sdas ) )
           (cond
             ( 
               (and 
-                (= sdas "ALL BLOCK")
+                (= sdas "All BLOCK")
               )
               (progn 
                 (setq result_filter_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list effectivename_list_) ) )

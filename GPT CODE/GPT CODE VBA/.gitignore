@@ -1,0 +1,2 @@
+# Keep the local VBA manual visible to Git despite the repository-wide *.md rule.
+!MANUAL_GUIDE.md
