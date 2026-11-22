@@ -1,0 +1,111 @@
+เลขที่ใบขอ BU2-DE-26106
+ 3. ในกรณีจ้างข้างนอกผลิต จะต้องให้แนบรายระเอียดให้ครบถ้วน (ตามรายละเอียดแนบ)JO PJ25-031
+ 4. กรุณาแนบแบบเพื่อผลิตที่สามารถผลิตได้ / ประกอบได้ / ติดตั้งได้ ทุกครั้ง6 12 69 NCCS
+วัสดุพิเศษ/ความหนาพิเศษ ด้านที่ต้อง ราคาต้นทุน
+code
+ความหนา ได้ข้อมูลจากจัดซื้อ (FL) กว้าง สูง ยาว CC SP PC Coat. ACP Coat. Other รหัสสีเทียบ or RAL ชนิดของสี ยี่ห้อ การพ่นสี ต่อหน่วย
+วัสดุพิเศษ/ความหนาพิเศษ Coat.Other ด้านที่ต้อง ราคาต้นทุน
+code
+ความหนา ได้ข้อมูลจากจัดซื้อ (FL) กว้าง สูง ยาว Alu/Steel/Other SP PC Coat. Other รหัสสีเทียบ or RAL ชนิดของสี ยี่ห้อ การพ่นสี ต่อหน่วย
+ตะวัน การติดตั้ง วิธีการประกอบและติดตั้งผู้ให้ราคา กำหนดเสร็จ
+22/11/26 ตำแหน่งที่ติดตั้งวันที่ วันเสร็จจริง
+FM-DE-CE-04 Rev.00 (10/10/60) แผ่นที่ 1/2
+วันที่ วันที่
+ผู้ขอราคา ผู้ตรวจสอบ / อนุมัติ
+สีที่ไม่ไช่มาตรฐานต้องการเทียบ
+จำนวน หน่วย หมายเหตุ
+ชื่อวัสดุ
+Aluminium Extrusion , Steel Tube Or Steel Profile
+ลำดับ
+ที่
+รายการ / รหัสชิ้นงาน
+วัสดุ ขนาดชิ้นงาน (mm.) รหัสของสีมาตรฐาน
+ ชื่อลูกค้าCKST 2. สีพิเศษจะต้องมีพื้นที่พ่นสีขั้นต่ำ1,000 ตร.ม.
+สินค้าพิเศษ
+ลำดับ
+ที่
+รายการ / รหัสชิ้นงาน
+วัสดุ ขนาดชิ้นงาน (mm.) รหัสของสีมาตรฐาน สีที่ไม่ไช่มาตรฐานต้องการเทียบ
+ใบขอราคาวัสดุสินค้าสั่งทำพิเศษ
+ ชื่อโครงการMRT PURPLE LINE 4 STATION (PP17 - PP20) 1. กรุณากรอกข้อมูลตามรายละเอียดให้ครบถ้วน
+จำนวน หน่วย หมายเหตุ
+ชื่อวัสดุ
+กำหนดการใช้งานวันที่
+เพื่อเสนอราคา
+เพื่อผลิต
+ฝ้าเพดาน แผงบังแดด ผนังหุ้มอาคาร อื่นๆ
+ภายในอาคาร ภายนอกอาคาร
+1 AL.1.2mm.thk.TRAY-LT 249x(1000+1000)mm. L=2000mm. / PJ25-031AL-TRAY-LT-VA-01 1 Alu.sheet, MF 1.2 249 2000 NS-1S-E0114 PE or PC CORNEL 1 ด้าน 10 ชิ้น PC21010087
+2 AL.1.2mm.thk.TRAY-LT 249x(1000+1400)mm. L=2400mm. / PJ25-031AL-TRAY-LT-VA-02 1 Alu.sheet, MF 1.2 249 2400 NS-1S-E0114 PE or PC CORNEL 1 ด้าน 2 ชิ้น PC21010087
+3 AL.1.2mm.thk.TRAY-LT 249x(1300+1100)mm. L=2400mm. / PJ25-031AL-TRAY-LT-VA-03 1 Alu.sheet, MF 1.2 249 2400 NS-1S-E0114 PE or PC CORNEL 1 ด้าน 8 ชิ้น PC21010087
+4 AL.1.2mm.thk.TRAY-LT 249x(1300+1400)mm. L=2700mm. / PJ25-031AL-TRAY-LT-VA-04 1 Alu.sheet, MF 1.2 249 2700 NS-1S-E0114 PE or PC CORNEL 1 ด้าน 2 ชิ้น PC21010087
+5 AL.1.2mm.thk.TRAY-LT 249x(1600+1100)mm. L=2700mm. / PJ25-031AL-TRAY-LT-VA-05 1 Alu.sheet, MF 1.2 249 2700 NS-1S-E0114 PE or PC CORNEL 1 ด้าน 2 ชิ้น PC21010087
+6 AL.1.2mm.thk.TRAY-LT 249x(1600+1100)mm. L=2700mm. / PJ25-031AL-TRAY-LT-VA-06 1 Alu.sheet, MF 1.2 249 2700 NS-1S-E0114 PE or PC CORNEL 1 ด้าน 2 ชิ้น PC21010087
+7 AL.1.2mm.thk.TRAY-LT 249x(2400+300)mm. L=2700mm. / PJ25-031AL-TRAY-LT-VA-07 1 Alu.sheet, MF 1.2 249 2700 S2214V PE or PC AKZO NOBEL 1 ด้าน 2 ชิ้น PC21010085
+8 AL.1.2mm.thk.TRAY-LT 249x(1100+1300)mm. L=2400mm. / PJ25-031AL-TRAY-LT-VA-08 1 Alu.sheet, MF 1.2 249 2400 SA-09101 WET-P or SP THAI PAINT 1 ด้าน 2 ชิ้น PC21010083
+9 AL.1.2mm.thk.TRAY-LT 249x(500+2200)mm. L=2700mm. / PJ25-031AL-TRAY-LT-VA-09 1 Alu.sheet, MF 1.2 249 2700 SA-09101 WET-P or SP THAI PAINT 1 ด้าน 1 ชิ้น PC21010083
+10 AL.1.2mm.thk.TRAY-LT 249x(1440+1260)mm. L=2700mm. / PJ25-031AL-TRAY-LT-VA-10 1 Alu.sheet, MF 1.2 249 2700 SA-09101 WET-P or SP THAI PAINT 1 ด้าน 1 ชิ้น PC21010083
+11 AL.1.2mm.thk.TRAY-LT 249x(1900+800)mm. L=2700mm. / PJ25-031AL-TRAY-LT-VA-11 1 Alu.sheet, MF 1.2 249 2700 SA-09101 WET-P or SP THAI PAINT 1 ด้าน 2 ชิ้น PC21010083
+12 AL.1.2mm.thk.TRAY-LT 249x(800+1000)mm. L=1800mm. / PJ25-031AL-TRAY-LT-VA-12 1 Alu.sheet, MF 1.2 249 1800 SD-9211 1 ด้าน 29 ชิ้น
+13 AL.1.2mm.thk.TRAY-LT 249x(900+900)mm. L=1800mm. / PJ25-031AL-TRAY-LT-VA-13 1 Alu.sheet, MF 1.2 249 1800 SD-9211 1 ด้าน 9 ชิ้น
+14 AL.1.2mm.thk.TRAY-LT 249x(1000+800)mm. L=1800mm. / PJ25-031AL-TRAY-LT-VA-14 1 Alu.sheet, MF 1.2 249 1800 SD-9211 1 ด้าน 34 ชิ้น
+15 AL.1.2mm.thk.TRAY-LT 249x(1100+700)mm. L=1800mm. / PJ25-031AL-TRAY-LT-VA-15 1 Alu.sheet, MF 1.2 249 1800 SD-9211 1 ด้าน 25 ชิ้น
+16 AL.1.2mm.thk.TRAY-LT 249x(950+1050)mm. L=2000mm. / PJ25-031AL-TRAY-LT-VA-16 1 Alu.sheet, MF 1.2 249 2000 SD-9211 1 ด้าน 4 ชิ้น
+17 AL.1.2mm.thk.TRAY-LT 249x(1000+1000)mm. L=2000mm. / PJ25-031AL-TRAY-LT-VA-17 1 Alu.sheet, MF 1.2 249 2000 SD-9211 1 ด้าน 31 ชิ้น
+18 AL.1.2mm.thk.TRAY-LT 249x(1000+1000)mm. L=2000mm. / PJ25-031AL-TRAY-LT-VA-18 1 Alu.sheet, MF 1.2 249 2000 SD-9211 1 ด้าน 1 ชิ้น
+19 AL.1.2mm.thk.TRAY-LT 249x(1020+980)mm. L=2000mm. / PJ25-031AL-TRAY-LT-VA-19 1 Alu.sheet, MF 1.2 249 2000 SD-9211 1 ด้าน 1 ชิ้น
+20 AL.1.2mm.thk.TRAY-LT 249x(1050+950)mm. L=2000mm. / PJ25-031AL-TRAY-LT-VA-20 1 Alu.sheet, MF 1.2 249 2000 SD-9211 1 ด้าน 1 ชิ้น
+เลขที่ใบขอ BU2-DE-26106
+ 3. ในกรณีจ้างข้างนอกผลิต จะต้องให้แนบรายระเอียดให้ครบถ้วน (ตามรายละเอียดแนบ)JO PJ25-031
+ 4. กรุณาแนบแบบเพื่อผลิตที่สามารถผลิตได้ / ประกอบได้ / ติดตั้งได้ ทุกครั้ง6 12 69 NCCS
+วัสดุพิเศษ/ความหนาพิเศษ ด้านที่ต้อง ราคาต้นทุน
+code
+ความหนา ได้ข้อมูลจากจัดซื้อ (FL) กว้าง สูง ยาว CC SP PC Coat. ACP Coat. Other รหัสสีเทียบ or RAL ชนิดของสี ยี่ห้อ การพ่นสี ต่อหน่วย
+วัสดุพิเศษ/ความหนาพิเศษ Coat.Other ด้านที่ต้อง ราคาต้นทุน
+code
+ความหนา ได้ข้อมูลจากจัดซื้อ (FL) กว้าง สูง ยาว Alu/Steel/Other SP PC Coat. Other รหัสสีเทียบ or RAL ชนิดของสี ยี่ห้อ การพ่นสี ต่อหน่วย
+ตะวัน การติดตั้ง วิธีการประกอบและติดตั้งผู้ให้ราคา กำหนดเสร็จ
+22/11/26 ตำแหน่งที่ติดตั้งวันที่ วันเสร็จจริง
+FM-DE-CE-04 Rev.00 (10/10/60) แผ่นที่ 2/2
+วันที่ วันที่
+ผู้ขอราคา ผู้ตรวจสอบ / อนุมัติ
+สีที่ไม่ไช่มาตรฐานต้องการเทียบ
+จำนวน หน่วย หมายเหตุ
+ชื่อวัสดุ
+Aluminium Extrusion , Steel Tube Or Steel Profile
+ลำดับ
+ที่
+รายการ / รหัสชิ้นงาน
+วัสดุ ขนาดชิ้นงาน (mm.) รหัสของสีมาตรฐาน
+ ชื่อลูกค้าCKST 2. สีพิเศษจะต้องมีพื้นที่พ่นสีขั้นต่ำ1,000 ตร.ม.
+สินค้าพิเศษ
+ลำดับ
+ที่
+รายการ / รหัสชิ้นงาน
+วัสดุ ขนาดชิ้นงาน (mm.) รหัสของสีมาตรฐาน สีที่ไม่ไช่มาตรฐานต้องการเทียบ
+ใบขอราคาวัสดุสินค้าสั่งทำพิเศษ
+ ชื่อโครงการMRT PURPLE LINE 4 STATION (PP17 - PP20) 1. กรุณากรอกข้อมูลตามรายละเอียดให้ครบถ้วน
+จำนวน หน่วย หมายเหตุ
+ชื่อวัสดุ
+กำหนดการใช้งานวันที่
+เพื่อเสนอราคา
+เพื่อผลิต
+ฝ้าเพดาน แผงบังแดด ผนังหุ้มอาคาร อื่นๆ
+ภายในอาคาร ภายนอกอาคาร
+21 AL.1.2mm.thk.TRAY-LT 249x(1100+900)mm. L=2000mm. / PJ25-031AL-TRAY-LT-VA-21) 1 Alu.sheet, MF 1.2 249 2000 SD-9211 1 ด้าน 11 ชิ้น
+22 AL.1.2mm.thk.TRAY-LT 249x(950+1450)mm. L=2400mm. / PJ25-031AL-TRAY-LT-VA-22) 1 Alu.sheet, MF 1.2 249 2400 SD-9211 1 ด้าน 2 ชิ้น
+23 AL.1.2mm.thk.TRAY-LT 249x(1100+1300)mm. L=2400mm. / PJ25-031AL-TRAY-LT-VA-23) 1 Alu.sheet, MF 1.2 249 2400 SD-9211 1 ด้าน 2 ชิ้น
+24 AL.1.2mm.thk.TRAY-LT 249x(1200+1200)mm. L=2400mm. / PJ25-031AL-TRAY-LT-VA-24) 1 Alu.sheet, MF 1.2 249 2400 SD-9211 1 ด้าน 28 ชิ้น
+25 AL.1.2mm.thk.TRAY-LT 249x(1300+1100)mm. L=2400mm. / PJ25-031AL-TRAY-LT-VA-25) 1 Alu.sheet, MF 1.2 249 2400 SD-9211 1 ด้าน 8 ชิ้น
+26 AL.1.2mm.thk.TRAY-LT 249x(1400+1000)mm. L=2400mm. / PJ25-031AL-TRAY-LT-VA-26) 1 Alu.sheet, MF 1.2 249 2400 SD-9211 1 ด้าน 38 ชิ้น
+27 AL.1.2mm.thk.TRAY-LT 249x(1400+1000)mm. L=2400mm. / PJ25-031AL-TRAY-LT-VA-27) 1 Alu.sheet, MF 1.2 249 2400 SD-9211 1 ด้าน 1 ชิ้น
+28 AL.1.2mm.(thk.) TRAY-SOLID-249x2400mm. / PJ25-031 AL-TRAY-SO-VA-01 1 Alu.sheet, MF 1.2 ** 249.0 51.2 2400.0 NS-1S-E0114 PE or PC Cornel 1 ด้าน 11 ชิ้น PC21010087
+29 AL.1.2mm.(thk.) TRAY-SOLID-249x2400mm. / PJ25-031 AL-TRAY-SO-VA-02 1 Alu.sheet, MF 1.2 ** 249.0 51.2 2400.0 NS-1S-E0114 PE or PC Cornel 1 ด้าน 4 ชิ้น PC21010087
+30 AL.1.2mm.(thk.) TRAY-SOLID-249x2400mm. / PJ25-031 AL-TRAY-SO-VA-03 1 Alu.sheet, MF 1.2 ** 249.0 51.2 2400.0 S2214V PE or PC Akzo Nobel 1 ด้าน 63 ชิ้น PC21010085
+31 AL.1.2mm.(thk.) TRAY-SOLID-249x2400mm. / PJ25-031 AL-TRAY-SO-VA-04 1 Alu.sheet, MF 1.2 ** 249.0 51.2 2400.0 S2214V PE or PC Akzo Nobel 1 ด้าน 1 ชิ้น PC21010085
+32 AL.1.2mm.(thk.) TRAY-SOLID-249x2600mm. / PJ25-031 AL-TRAY-SO-VA-05 1 Alu.sheet, MF 1.2 ** 249.0 51.2 2600.0 S2214V PE or PC Akzo Nobel 1 ด้าน 8 ชิ้น PC21010085
+33 AL.1.2mm.(thk.) TRAY-SOLID-249x2400mm. / PJ25-031 AL-TRAY-SO-VA-06 1 Alu.sheet, MF 1.2 ** 249.0 51.2 2400.0 SA-05611 WET-P or SP Thai Paint 1 ด้าน 41 ชิ้น PC21010082
+34 AL.1.2mm.(thk.) TRAY-SOLID-249x2400mm. / PJ25-031 AL-TRAY-SO-VA-07 1 Alu.sheet, MF 1.2 ** 249.0 51.2 2400.0 SA-09101 WET-P or SP Thai Paint 1 ด้าน 11 ชิ้น PC21010083
+35 AL.1.2mm.(thk.) TRAY-SOLID-249x2800mm. / PJ25-031 AL-TRAY-SO-VA-08 1 Alu.sheet, MF 1.2 ** 249.0 51.2 2800.0 SA-09101 WET-P or SP Thai Paint 1 ด้าน 1 ชิ้น PC21010083
+36 AL.1.2mm.(thk.) TRAY-SOLID-249x2400mm. / PJ25-031 AL-TRAY-SO-VA-09 1 Alu.sheet, MF 1.2 ** 249.0 51.2 2400.0 SD-9211 1 ด้าน 55 ชิ้น
+37 AL.1.2mm.(thk.) TRAY-SOLID-249x2400mm. / PJ25-031 AL-TRAY-SO-VA-10 1 Alu.sheet, MF 1.2 ** 249.0 51.2 2400.0 SD-9211 1 ด้าน 8 ชิ้น

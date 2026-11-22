@@ -1,0 +1,42 @@
+{
+  "openedInExcel": true,
+  "readOnly": true,
+  "worksheets": 2,
+  "quantity": 462.0,
+  "liveMaterialLookup": true,
+  "nativeControls": [
+    {
+      "sheet": "1",
+      "checkboxes": 8,
+      "states": [
+        -4146,
+        1,
+        1,
+        -4146,
+        1,
+        -4146,
+        -4146,
+        -4146
+      ],
+      "pageNumber": "1/2",
+      "printArea": "$A$1:$Z$45"
+    },
+    {
+      "sheet": "2",
+      "checkboxes": 8,
+      "states": [
+        -4146,
+        1,
+        1,
+        -4146,
+        1,
+        -4146,
+        -4146,
+        -4146
+      ],
+      "pageNumber": "2/2",
+      "printArea": "$A$1:$Z$45"
+    }
+  ],
+  "pdfPreview": "excel-native-preview.pdf"
+}

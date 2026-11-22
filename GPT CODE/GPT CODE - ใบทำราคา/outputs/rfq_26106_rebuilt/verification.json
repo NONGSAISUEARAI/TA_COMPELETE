@@ -1,0 +1,56 @@
+{
+  "document": "BU2-DE-26106",
+  "job": "PJ25-031",
+  "issueDate": "2026-11-22",
+  "dueDate": "2026-12-06",
+  "totalItems": 53,
+  "totalQty": 3740,
+  "groups": [
+    {
+      "group": "VA",
+      "items": 27,
+      "qty": 259
+    },
+    {
+      "group": "STD",
+      "items": 16,
+      "qty": 3278
+    },
+    {
+      "group": "SOLID",
+      "items": 10,
+      "qty": 203
+    }
+  ],
+  "pages": [
+    {
+      "page": 1,
+      "items": 20,
+      "qty": 169,
+      "firstItem": "1",
+      "lastItem": "20"
+    },
+    {
+      "page": 2,
+      "items": 20,
+      "qty": 3228,
+      "firstItem": "21",
+      "lastItem": "40"
+    },
+    {
+      "page": 3,
+      "items": 13,
+      "qty": 343,
+      "firstItem": "41",
+      "lastItem": "53"
+    }
+  ],
+  "colorQty": {
+    "NS-1S-E0114": 175,
+    "S2214V": 114,
+    "SA-09101": 61,
+    "SD-9211": 3215,
+    "SA-05611": 175
+  },
+  "templateUnchanged": true
+}

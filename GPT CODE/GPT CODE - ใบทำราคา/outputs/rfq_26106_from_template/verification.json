@@ -1,0 +1,35 @@
+{
+  "items": 37,
+  "qty": 462,
+  "pages": 2,
+  "removedItems": 16,
+  "removedQty": 3278,
+  "solidRange": [
+    28,
+    37
+  ],
+  "solidCodes": [
+    "01",
+    "10"
+  ],
+  "solidQty": 203,
+  "templateUnchanged": true,
+  "templateSHA256": "b7b4dda4d22fb6b46eab0cd41aebd72794d2a5112137affaef54279438691147",
+  "backup": "C:\\TA\\TA_COMPELETE\\GPT CODE\\GPT CODE - ใบทำราคา\\outputs\\rfq_26106_from_template\\history\\BU2-DE-26106-before-removing-examples.html",
+  "pageBreakdown": [
+    {
+      "page": 1,
+      "items": 20,
+      "qty": 169,
+      "firstItem": "1",
+      "lastItem": "20"
+    },
+    {
+      "page": 2,
+      "items": 17,
+      "qty": 293,
+      "firstItem": "21",
+      "lastItem": "37"
+    }
+  ]
+}

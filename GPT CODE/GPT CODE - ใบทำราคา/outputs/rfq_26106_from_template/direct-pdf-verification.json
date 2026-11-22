@@ -1,0 +1,39 @@
+{
+  "pages": 2,
+  "dimensions": [
+    [
+      792.0,
+      612.0
+    ],
+    [
+      792.0,
+      612.0
+    ]
+  ],
+  "title": "BU2-DE-26106_โครงการ MRT PURPLE LINE 4 STATION (PP17 - PP20) ถาดไฟ VA และ SOLID",
+  "vectorPaths": [
+    722,
+    722
+  ],
+  "images": [
+    1,
+    1
+  ],
+  "chars": [
+    4054,
+    3632
+  ],
+  "firstRow": true,
+  "thaiLabels": {
+    "ชื่อโครงการ": true,
+    "เพื่อผลิต": true,
+    "ภายในอาคาร": true,
+    "ชิ้น": true,
+    "จำนวน": true
+  },
+  "dataUnchanged": true,
+  "prototypeUnchanged": true,
+  "editedDataExport": true,
+  "extraPageExport": true,
+  "savedHtmlRoundtripExport": true
+}

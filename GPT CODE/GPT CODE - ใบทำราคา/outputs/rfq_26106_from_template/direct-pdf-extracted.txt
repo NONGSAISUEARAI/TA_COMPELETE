@@ -1,0 +1,81 @@
+เลขท่ีใบขอ BU2-DE-26106
+3. ในกรณจีา้งขา้งนอกผลติ จะตอ้งใหแ้นบรายระเอยีดใหค้รบถว้น (ตามรายละเอยีดแนบ) JO PJ25-031
+4. กรุณาแนบแบบเพอื่ผลติทสี่ามารถผลติได ้/ ประกอบได ้/ ตดิตงั้ได ้ทกุครงั้ 6 12 69 NCCS
+วสัดพุิเศษ/ความหนาพิเศษ ดา้นท่ีตอ้ง ราคาตน้ทนุ
+edoc
+ความหนา ไดข้อ้มลูจากจดัซือ้ (FL) กวา้ง สงู ยาว CC SP PC Coat. ACP Coat. Other รหสัสเีทียบ or RAL ชนิดของสี ย่ีหอ้ การพน่สี ตอ่หนว่ย
+วสัดพุิเศษ/ความหนาพิเศษ Coat.Other ดา้นท่ีตอ้ง ราคาตน้ทนุ
+edoc
+ใบขอราคาวัสดุสนิ ค้าส่ังทาำ พเิศษ เพอื่เสนอราคา
+ช่ือโครงการ MRT PURPLE LINE 4 STATION (PP17 - PP20) 1. กรุณากรอกขอ้มูลตามรายละเอยีดใหค้รบถว้น เพอื่ผลติ
+ช่ือลกูคา้ CKST 2. สพีเิศษจะตอ้งมพีนื้ทพี่น่สขีนั้ตา่ำ1,000 ตร.ม. กาำหนดการใช้งานวันที่
+สินค้าพิเศษ
+ลาำดบั วสัดุ ขนาดชิน้งาน (mm.) รหสัของสมีาตรฐาน สที่ีไมไ่ชม่าตรฐานตอ้งการเทียบ
+รายการ / รหสัชิน้งาน จาำนวน หนว่ย หมายเหตุ
+ท่ี ช่ือวสัดุ
+1 AL.1.2mm.thk.TRAY-LT 249x(1000+1000)mm. L=2000mm. / PJ25-031AL-TRAY-LT-VA-01 1 Alu.sheet, MF 1.2 249 2000 NS-1S-E0114 PE or PC CORNEL 1 ดา้น 10 ชิน้ PC21010087
+2 AL.1.2mm.thk.TRAY-LT 249x(1000+1400)mm. L=2400mm. / PJ25-031AL-TRAY-LT-VA-02 1 Alu.sheet, MF 1.2 249 2400 NS-1S-E0114 PE or PC CORNEL 1 ดา้น 2 ชิน้ PC21010087
+3 AL.1.2mm.thk.TRAY-LT 249x(1300+1100)mm. L=2400mm. / PJ25-031AL-TRAY-LT-VA-03 1 Alu.sheet, MF 1.2 249 2400 NS-1S-E0114 PE or PC CORNEL 1 ดา้น 8 ชิน้ PC21010087
+4 AL.1.2mm.thk.TRAY-LT 249x(1300+1400)mm. L=2700mm. / PJ25-031AL-TRAY-LT-VA-04 1 Alu.sheet, MF 1.2 249 2700 NS-1S-E0114 PE or PC CORNEL 1 ดา้น 2 ชิน้ PC21010087
+5 AL.1.2mm.thk.TRAY-LT 249x(1600+1100)mm. L=2700mm. / PJ25-031AL-TRAY-LT-VA-05 1 Alu.sheet, MF 1.2 249 2700 NS-1S-E0114 PE or PC CORNEL 1 ดา้น 2 ชิน้ PC21010087
+6 AL.1.2mm.thk.TRAY-LT 249x(1600+1100)mm. L=2700mm. / PJ25-031AL-TRAY-LT-VA-06 1 Alu.sheet, MF 1.2 249 2700 NS-1S-E0114 PE or PC CORNEL 1 ดา้น 2 ชิน้ PC21010087
+7 AL.1.2mm.thk.TRAY-LT 249x(2400+300)mm. L=2700mm. / PJ25-031AL-TRAY-LT-VA-07 1 Alu.sheet, MF 1.2 249 2700 S2214V PE or PC AKZO NOBEL 1 ดา้น 2 ชิน้ PC21010085
+8 AL.1.2mm.thk.TRAY-LT 249x(1100+1300)mm. L=2400mm. / PJ25-031AL-TRAY-LT-VA-08 1 Alu.sheet, MF 1.2 249 2400 SA-09101 WET-P or SP THAI PAINT 1 ดา้น 2 ชิน้ PC21010083
+9 AL.1.2mm.thk.TRAY-LT 249x(500+2200)mm. L=2700mm. / PJ25-031AL-TRAY-LT-VA-09 1 Alu.sheet, MF 1.2 249 2700 SA-09101 WET-P or SP THAI PAINT 1 ดา้น 1 ชิน้ PC21010083
+10 AL.1.2mm.thk.TRAY-LT 249x(1440+1260)mm. L=2700mm. / PJ25-031AL-TRAY-LT-VA-10 1 Alu.sheet, MF 1.2 249 2700 SA-09101 WET-P or SP THAI PAINT 1 ดา้น 1 ชิน้ PC21010083
+11 AL.1.2mm.thk.TRAY-LT 249x(1900+800)mm. L=2700mm. / PJ25-031AL-TRAY-LT-VA-11 1 Alu.sheet, MF 1.2 249 2700 SA-09101 WET-P or SP THAI PAINT 1 ดา้น 2 ชิน้ PC21010083
+12 AL.1.2mm.thk.TRAY-LT 249x(800+1000)mm. L=1800mm. / PJ25-031AL-TRAY-LT-VA-12 1 Alu.sheet, MF 1.2 249 1800 SD-9211 1 ดา้น 29 ชิน้
+13 AL.1.2mm.thk.TRAY-LT 249x(900+900)mm. L=1800mm. / PJ25-031AL-TRAY-LT-VA-13 1 Alu.sheet, MF 1.2 249 1800 SD-9211 1 ดา้น 9 ชิน้
+14 AL.1.2mm.thk.TRAY-LT 249x(1000+800)mm. L=1800mm. / PJ25-031AL-TRAY-LT-VA-14 1 Alu.sheet, MF 1.2 249 1800 SD-9211 1 ดา้น 34 ชิน้
+15 AL.1.2mm.thk.TRAY-LT 249x(1100+700)mm. L=1800mm. / PJ25-031AL-TRAY-LT-VA-15 1 Alu.sheet, MF 1.2 249 1800 SD-9211 1 ดา้น 25 ชิน้
+16 AL.1.2mm.thk.TRAY-LT 249x(950+1050)mm. L=2000mm. / PJ25-031AL-TRAY-LT-VA-16 1 Alu.sheet, MF 1.2 249 2000 SD-9211 1 ดา้น 4 ชิน้
+17 AL.1.2mm.thk.TRAY-LT 249x(1000+1000)mm. L=2000mm. / PJ25-031AL-TRAY-LT-VA-17 1 Alu.sheet, MF 1.2 249 2000 SD-9211 1 ดา้น 31 ชิน้
+18 AL.1.2mm.thk.TRAY-LT 249x(1000+1000)mm. L=2000mm. / PJ25-031AL-TRAY-LT-VA-18 1 Alu.sheet, MF 1.2 249 2000 SD-9211 1 ดา้น 1 ชิน้
+19 AL.1.2mm.thk.TRAY-LT 249x(1020+980)mm. L=2000mm. / PJ25-031AL-TRAY-LT-VA-19 1 Alu.sheet, MF 1.2 249 2000 SD-9211 1 ดา้น 1 ชิน้
+20 AL.1.2mm.thk.TRAY-LT 249x(1050+950)mm. L=2000mm. / PJ25-031AL-TRAY-LT-VA-20 1 Alu.sheet, MF 1.2 249 2000 SD-9211 1 ดา้น 1 ชิน้
+Aluminium Extrusion , Steel Tube Or Steel Profile
+ลาำดบั วสัดุ ขนาดชิน้งาน (mm.) รหสัของสมีาตรฐาน สที่ีไมไ่ชม่าตรฐานตอ้งการเทียบ
+รายการ / รหสัชิน้งาน จาำนวน หนว่ย หมายเหตุ
+ท่ี ช่ือวสัดุ ความหนา ไดข้อ้มลูจากจดัซือ้ (FL) กวา้ง สงู ยาว Alu/Steel/Other SP PC Coat. Other รหสัสเีทียบ or RAL ชนิดของสี ย่ีหอ้ การพน่สี ตอ่หนว่ย
+ผขู้อราคา ตะวนั ผตู้รวจสอบ / อนมุตัิ การตดิตงั้ วิธีการประกอบและตดิตงั้ ฝ้าเพดาน แผงบงัแดด ผนังหมุ้อาคาร อนื่ๆ ผใู้หร้าคา กาำหนดเสรจ็
+วนัท่ี 22/11/26 วนัท่ี ตาำแหนง่ท่ีตดิตงั้ ภายในอาคาร ภายนอกอาคาร วนัท่ี วนัเสรจ็จรงิ
+FM-DE-CE-04 Rev.00 (10/10/60) แผน่ท่ี 1/2
+เลขท่ีใบขอ BU2-DE-26106
+3. ในกรณจีา้งขา้งนอกผลติ จะตอ้งใหแ้นบรายระเอยีดใหค้รบถว้น (ตามรายละเอยีดแนบ) JO PJ25-031
+4. กรุณาแนบแบบเพอื่ผลติทสี่ามารถผลติได ้/ ประกอบได ้/ ตดิตงั้ได ้ทกุครงั้ 6 12 69 NCCS
+วสัดพุิเศษ/ความหนาพิเศษ ดา้นท่ีตอ้ง ราคาตน้ทนุ
+edoc
+ความหนา ไดข้อ้มลูจากจดัซือ้ (FL) กวา้ง สงู ยาว CC SP PC Coat. ACP Coat. Other รหสัสเีทียบ or RAL ชนิดของสี ย่ีหอ้ การพน่สี ตอ่หนว่ย
+วสัดพุิเศษ/ความหนาพิเศษ Coat.Other ดา้นท่ีตอ้ง ราคาตน้ทนุ
+edoc
+ใบขอราคาวัสดุสนิ ค้าส่ังทาำ พเิศษ เพอื่เสนอราคา
+ช่ือโครงการ MRT PURPLE LINE 4 STATION (PP17 - PP20) 1. กรุณากรอกขอ้มูลตามรายละเอยีดใหค้รบถว้น เพอื่ผลติ
+ช่ือลกูคา้ CKST 2. สพีเิศษจะตอ้งมพีนื้ทพี่น่สขีนั้ตา่ำ1,000 ตร.ม. กาำหนดการใช้งานวันที่
+สินค้าพิเศษ
+ลาำดบั วสัดุ ขนาดชิน้งาน (mm.) รหสัของสมีาตรฐาน สที่ีไมไ่ชม่าตรฐานตอ้งการเทียบ
+รายการ / รหสัชิน้งาน จาำนวน หนว่ย หมายเหตุ
+ท่ี ช่ือวสัดุ
+21 AL.1.2mm.thk.TRAY-LT 249x(1100+900)mm. L=2000mm. / PJ25-031AL-TRAY-LT-VA-21) 1 Alu.sheet, MF 1.2 249 2000 SD-9211 1 ดา้น 11 ชิน้
+22 AL.1.2mm.thk.TRAY-LT 249x(950+1450)mm. L=2400mm. / PJ25-031AL-TRAY-LT-VA-22) 1 Alu.sheet, MF 1.2 249 2400 SD-9211 1 ดา้น 2 ชิน้
+23 AL.1.2mm.thk.TRAY-LT 249x(1100+1300)mm. L=2400mm. / PJ25-031AL-TRAY-LT-VA-23) 1 Alu.sheet, MF 1.2 249 2400 SD-9211 1 ดา้น 2 ชิน้
+24 AL.1.2mm.thk.TRAY-LT 249x(1200+1200)mm. L=2400mm. / PJ25-031AL-TRAY-LT-VA-24) 1 Alu.sheet, MF 1.2 249 2400 SD-9211 1 ดา้น 28 ชิน้
+25 AL.1.2mm.thk.TRAY-LT 249x(1300+1100)mm. L=2400mm. / PJ25-031AL-TRAY-LT-VA-25) 1 Alu.sheet, MF 1.2 249 2400 SD-9211 1 ดา้น 8 ชิน้
+26 AL.1.2mm.thk.TRAY-LT 249x(1400+1000)mm. L=2400mm. / PJ25-031AL-TRAY-LT-VA-26) 1 Alu.sheet, MF 1.2 249 2400 SD-9211 1 ดา้น 38 ชิน้
+27 AL.1.2mm.thk.TRAY-LT 249x(1400+1000)mm. L=2400mm. / PJ25-031AL-TRAY-LT-VA-27) 1 Alu.sheet, MF 1.2 249 2400 SD-9211 1 ดา้น 1 ชิน้
+28 AL.1.2mm.(thk.) TRAY-SOLID-249x2400mm. / PJ25-031 AL-TRAY-SO-VA-01 1 Alu.sheet, MF 1.2 ** 249.0 51.2 2400.0 NS-1S-E0114 PE or PC Cornel 1 ดา้น 11 ชิน้ PC21010087
+29 AL.1.2mm.(thk.) TRAY-SOLID-249x2400mm. / PJ25-031 AL-TRAY-SO-VA-02 1 Alu.sheet, MF 1.2 ** 249.0 51.2 2400.0 NS-1S-E0114 PE or PC Cornel 1 ดา้น 4 ชิน้ PC21010087
+30 AL.1.2mm.(thk.) TRAY-SOLID-249x2400mm. / PJ25-031 AL-TRAY-SO-VA-03 1 Alu.sheet, MF 1.2 ** 249.0 51.2 2400.0 S2214V PE or PC Akzo Nobel 1 ดา้น 63 ชิน้ PC21010085
+31 AL.1.2mm.(thk.) TRAY-SOLID-249x2400mm. / PJ25-031 AL-TRAY-SO-VA-04 1 Alu.sheet, MF 1.2 ** 249.0 51.2 2400.0 S2214V PE or PC Akzo Nobel 1 ดา้น 1 ชิน้ PC21010085
+32 AL.1.2mm.(thk.) TRAY-SOLID-249x2600mm. / PJ25-031 AL-TRAY-SO-VA-05 1 Alu.sheet, MF 1.2 ** 249.0 51.2 2600.0 S2214V PE or PC Akzo Nobel 1 ดา้น 8 ชิน้ PC21010085
+33 AL.1.2mm.(thk.) TRAY-SOLID-249x2400mm. / PJ25-031 AL-TRAY-SO-VA-06 1 Alu.sheet, MF 1.2 ** 249.0 51.2 2400.0 SA-05611 WET-P or SP Thai Paint 1 ดา้น 41 ชิน้ PC21010082
+34 AL.1.2mm.(thk.) TRAY-SOLID-249x2400mm. / PJ25-031 AL-TRAY-SO-VA-07 1 Alu.sheet, MF 1.2 ** 249.0 51.2 2400.0 SA-09101 WET-P or SP Thai Paint 1 ดา้น 11 ชิน้ PC21010083
+35 AL.1.2mm.(thk.) TRAY-SOLID-249x2800mm. / PJ25-031 AL-TRAY-SO-VA-08 1 Alu.sheet, MF 1.2 ** 249.0 51.2 2800.0 SA-09101 WET-P or SP Thai Paint 1 ดา้น 1 ชิน้ PC21010083
+36 AL.1.2mm.(thk.) TRAY-SOLID-249x2400mm. / PJ25-031 AL-TRAY-SO-VA-09 1 Alu.sheet, MF 1.2 ** 249.0 51.2 2400.0 SD-9211 1 ดา้น 55 ชิน้
+37 AL.1.2mm.(thk.) TRAY-SOLID-249x2400mm. / PJ25-031 AL-TRAY-SO-VA-10 1 Alu.sheet, MF 1.2 ** 249.0 51.2 2400.0 SD-9211 1 ดา้น 8 ชิน้
+Aluminium Extrusion , Steel Tube Or Steel Profile
+ลาำดบั วสัดุ ขนาดชิน้งาน (mm.) รหสัของสมีาตรฐาน สที่ีไมไ่ชม่าตรฐานตอ้งการเทียบ
+รายการ / รหสัชิน้งาน จาำนวน หนว่ย หมายเหตุ
+ท่ี ช่ือวสัดุ ความหนา ไดข้อ้มลูจากจดัซือ้ (FL) กวา้ง สงู ยาว Alu/Steel/Other SP PC Coat. Other รหสัสเีทียบ or RAL ชนิดของสี ย่ีหอ้ การพน่สี ตอ่หนว่ย
+ผขู้อราคา ตะวนั ผตู้รวจสอบ / อนมุตัิ การตดิตงั้ วิธีการประกอบและตดิตงั้ ฝ้าเพดาน แผงบงัแดด ผนังหมุ้อาคาร อนื่ๆ ผใู้หร้าคา กาำหนดเสรจ็
+วนัท่ี 22/11/26 วนัท่ี ตาำแหนง่ท่ีตดิตงั้ ภายในอาคาร ภายนอกอาคาร วนัท่ี วนัเสรจ็จรงิ
+FM-DE-CE-04 Rev.00 (10/10/60) แผน่ท่ี 2/2

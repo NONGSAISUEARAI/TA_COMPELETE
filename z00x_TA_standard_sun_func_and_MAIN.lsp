@@ -14682,7 +14682,7 @@
                       )
                       (princ "argument is not array list")
                   )
-                ;      
+                ;
               (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
             )
           ;
@@ -14812,7 +14812,7 @@
                 (= sdas "All BLOCK")
               )
               (progn 
-                (setq result_filter_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ (list effectivename_list_) ) )
+                (setq result_filter_ (TA:EF_Filter_ss_set_V2_ ss_pre_filter_set_xx_ effectivename_list_ ) )
               )
             )
             ( 
@@ -14876,7 +14876,7 @@
           (setq area_i (+ area_i ss_pre_filter_set_xx_hon_obj_area_))
           (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
         )
-      ;  
+      ;
       ;convert sq.mm to sq.m
         (setq ss_pre_filter_set_xx_hon_obj_area_sqm (/ area_i 1000000))
       ;
