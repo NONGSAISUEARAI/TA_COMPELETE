@@ -58,6 +58,7 @@
 | [A_FUNC_CountUnique_V4.bas](A_FUNC_CountUnique_V4.bas) | `=COUNTUNIQUE_V4(C1,S1,C2,S2,[C3,S3],[C4,S4],[Heading],[RemoveBlank])` | รองรับ 2–4 เงื่อนไข; C1 เป็นแถว, C2–C4 เป็นหัวคอลัมน์ |
 | [A_FUNC_CountUnique_V5.bas](A_FUNC_CountUnique_V5.bas) | `=COUNTUNIQUE_V5(C1,S1,C2,S2,C3,S3,C4,S4,C5,S5,[Heading],[RemoveBlank])` | ต้องใส่ครบ **5** เงื่อนไข; C1 เป็นแถว, C2–C5 เป็นหัวคอลัมน์ |
 | [A_FUNC_CountUnique_V6.bas](A_FUNC_CountUnique_V6.bas) | `=COUNTUNIQUE_V6(Heading,IncludeEmpty,Range1,Sort1,Range2,Sort2,...)` | อย่างน้อย 2 คู่ Range/Sort; เพิ่มคู่ได้เพื่อเพิ่มระดับหัวคอลัมน์ |
+| [A_FUNC_CountUnique_V7.bas](A_FUNC_CountUnique_V7.bas) | `=COUNTUNIQUE_V7(Heading,IncludeEmpty,Range1,Sort1,Range2,Sort2,...)` | เหมือน V6 แต่ Sort แต่ละช่วงรับ `0`, `1`, `"1<"`, `"1>"`; ดู [คู่มือ V7](COUNTUNIQUE_V7_MANUAL.md) |
 
 สำหรับ V4/V5: `RemoveBlank=TRUE` (ค่าเริ่มต้น) ตัด **คอลัมน์ผลลัพธ์ที่ไม่มีจำนวนทุกแถวของ C1**; `FALSE` เก็บชุดหัวคอลัมน์ครบ แม้ไม่มีจำนวน ไม่ได้หมายถึงลบเซลล์ต้นทางที่ว่าง หากไม่ใส่ `Heading` สามารถใส่ `TRUE/FALSE` เป็น argument ท้ายแทนได้
 

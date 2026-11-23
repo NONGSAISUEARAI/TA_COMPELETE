@@ -1,5 +1,5 @@
 const fs=require('node:fs'),assert=require('node:assert/strict'),{boot}=require('./helpers/schedule-harness.cjs');
-const html=fs.readFileSync('Master_Schedule.html','utf8'),{run,elements}=boot(html);
+const html=fs.readFileSync('Master_Schedule.html','utf8'),{run,elements}=boot(html),initialPlanIds=Number(run('state.tasks.filter(t=>t.id.startsWith("plan-")).length'));
 run(`isEditor=true;
 var source=state.tasks.find(t=>databaseLevel(t)===3&&databaseProduct(t).product==='C04');
 var dest=state.tasks.find(t=>databaseLevel(t)===3&&databaseProduct(t).product==='C05');
@@ -52,6 +52,6 @@ run('openTask(source.id)');assert.equal(run('pasteTaskPlan()'),false,'No acciden
 run('$("task-dialog").close();openTask(source.parentId)');assert.equal(run('pasteTaskPlan()'),false,'No cross-level paste');
 run('isEditor=false');assert.equal(run('copyTaskPlan()'),false);assert.equal(run('pasteTaskPlan()'),false);
 assert.match(html,/id="quick-copy-dialog"/);assert.match(html,/dataset\.quickCopy/);assert.match(html,/className='quick-copy-button'/);
-const reopened=boot(run('snapshot().html'));assert.equal(reopened.run('state.tasks.filter(t=>t.id.startsWith("plan-")).length'),1);
+const reopened=boot(run('snapshot().html'));assert.equal(reopened.run('state.tasks.filter(t=>t.id.startsWith("plan-")).length'),initialPlanIds+1);
 assert.equal(fs.readFileSync('Master_Schedule.html','utf8'),html);
 console.log('PASS: quick LV2/LV3 root-or-subtree copy plus edit-dialog copy, all Plan/Actual/progress/document/color/file fields, LV4 children, selected files and handles, independent metadata, target identity, draft/cancel/repeat/level/Viewer guards, save/reopen.');

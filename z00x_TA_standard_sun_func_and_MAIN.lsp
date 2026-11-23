@@ -14805,7 +14805,15 @@
             (setq effectivename_list_ (LM:CountItems (reverse effectivename_list_) nil))
             
           )
-          (setq sdas (TA:choose_list_v4 (append (list "User Input" "All BLOCK" ) effectivename_list_  ) "Select Block Name to find" sdas ) )
+          
+          (setq sdas (TA:choose_list_v4 
+                       (append (list "User Input" "All BLOCK") 
+                               (setq effectivename_list_ (mapcar '(lambda (i) (nth i effectivename_list_ ) ) (vl-sort-i effectivename_list_ '< ) ) ) 
+                       )
+                       "Select Block Name to find"
+                       sdas
+                     )
+          )
           (cond
             ( 
               (and 
