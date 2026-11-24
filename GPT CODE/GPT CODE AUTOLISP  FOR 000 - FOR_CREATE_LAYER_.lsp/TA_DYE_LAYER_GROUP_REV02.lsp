@@ -676,7 +676,7 @@
   )
 )
 
-(defun c:DYING_OBJECT_LAYER_dyeobjlayer_ (/ *error* doc component members role selection result undo-open)
+(defun c:DYING_OBJECT_LAYER_dyeobjlayer_obj2layer_ (/ *error* doc component members role selection result undo-open)
   (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
   (defun *error* (message)
     (if undo-open (vla-EndUndoMark doc))

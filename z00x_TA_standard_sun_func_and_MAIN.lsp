@@ -40694,7 +40694,7 @@
     ;
     (command "pselect"  ss_code_filter_set_xx_newss "" )
   )
-  (defun c:PPLINE_CKST_insert_code_panel_ins310adc ()
+  (defun c:PPLINE_CKST_insert_code_panel_ins310adc ()5
     (setq panel_matt_type1_ ;Get-string by keep previous value
         (if
           (or
@@ -41610,7 +41610,7 @@
     ;
     (command "pselect"  ss_box_ss_ "" )
     
-  )
+  )5 5
   (defun c:PPLINE_CKST_insert_code_panel_ins400va ()
     (setq panel_matt_type1_ ;Get-string by keep previous value
         (if
