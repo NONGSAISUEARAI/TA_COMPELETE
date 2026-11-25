@@ -28,6 +28,18 @@
 
 .toolbar button{cursor:pointer}.toolbar button[aria-pressed=true]{background:#dceaf7;border-color:#6087a9}
 
+.pattern-overlay[hidden]{display:none}.pattern-overlay{position:fixed;inset:0;z-index:1000;background:#10283bb8;display:grid;place-items:center;padding:16px}
+.pattern-card{width:min(100%,340px);background:#fff;border:1px solid #a3b1be;border-radius:10px;box-shadow:0 16px 48px #0005;padding:20px;color:#172b3a;font:13px Tahoma,Arial,sans-serif}
+.pattern-card-head{display:flex;justify-content:space-between;align-items:center;gap:12px}.pattern-card h2{font-size:17px;margin:0}.pattern-close{border:0;background:transparent;font-size:24px;line-height:1;cursor:pointer;color:#3c5264}
+.pattern-help{margin:10px 0 16px;color:#3c5264}.pattern-pad{position:relative;display:grid;grid-template-columns:repeat(3,56px);grid-template-rows:repeat(4,56px);gap:14px;width:196px;margin:0 auto;touch-action:none;user-select:none}
+.pattern-lines{position:absolute;inset:0;width:196px;height:266px;pointer-events:none;overflow:visible}.pattern-dot{position:relative;z-index:1;display:grid;place-items:center;width:40px;height:40px;margin:8px;border:2px solid #66839b;border-radius:50%;background:#f6f9fc;color:#172b3a;font:700 17px Tahoma,Arial,sans-serif;cursor:crosshair;touch-action:none}
+.pattern-dot[data-dot="0"]{grid-column:2;grid-row:4}.pattern-dot.active{background:#dceaf7;border-color:#1768a5}.pattern-dot:focus-visible,.pattern-close:focus-visible{outline:2px solid #1768a5;outline-offset:3px}
+.pattern-status{min-height:20px;margin:16px 0 0;text-align:center;color:#3c5264}.pattern-status.error{color:#a12626}
+
+.stamp-rail[hidden]{display:none}.stamp-rail{position:fixed;z-index:900;left:0;top:50%;width:308px;height:min(72vh,520px);display:grid;grid-template-columns:284px 24px;transform:translate(calc(-100% + 24px),-50%);transition:transform .22s ease;filter:drop-shadow(2px 2px 8px #0003)}
+.stamp-rail:hover,.stamp-rail:focus-within{transform:translate(0,-50%)}.stamp-panel{background:#fff;border:1px solid #a3b1be;border-left:0;border-radius:0 8px 8px 0;padding:18px;overflow:auto;font:13px Tahoma,Arial,sans-serif;color:#172b3a}
+.stamp-panel h2{font-size:16px;margin:0 0 12px}.stamp-panel p{color:#52697a;line-height:1.5}.stamp-handle{align-self:center;height:114px;border:1px solid #6087a9;border-left:0;border-radius:0 7px 7px 0;background:#dceaf7;color:#244c6b;font:700 13px Tahoma,Arial,sans-serif;writing-mode:vertical-rl;cursor:pointer;padding:8px 2px}.stamp-handle:focus-visible{outline:2px solid #1768a5;outline-offset:2px}
+
 .summary{font-size:12px;margin-left:auto;color:#263e52}.workspace{padding:20px;overflow:auto}
 
 .pages{display:grid;gap:24px}.page-slot{position:relative;margin:0 auto}.paper{position:absolute;width:792px;height:612px;left:0;top:0;transform-origin:0 0;background:#fff;color:#000;overflow:hidden;box-shadow:0 1px 8px #0003}
@@ -78,7 +90,7 @@
 
 @media(max-width:600px){.file-settings label{flex:1 1 100%;min-width:0}}
 
-@media print{.file-settings{display:none!important}html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+@media print{.file-settings,.pattern-overlay,.stamp-rail{display:none!important}html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 
 </style></head><body>
 
@@ -90,11 +102,33 @@
 
 <button type="button" id="edit" aria-pressed="false">แก้ไขข้อมูล</button>
 
+<button type="button" id="unlock-button" aria-haspopup="dialog" aria-expanded="false" aria-pressed="false">ปลดล็อก</button>
+
 <label><input type="checkbox" id="strong-text" checked="">ตัวอักษรเข้ม</label>
 
 <button type="button" id="save">บันทึก HTML</button><button type="button" id="save-excel">ดาวน์โหลด Excel</button><button type="button" id="save-pdf">ดาวน์โหลด PDF</button><button type="button" id="print">พิมพ์</button><span class="summary" id="summary" aria-live="polite"></span>
 
 </header>
+
+<div id="pattern-overlay" class="pattern-overlay" hidden>
+  <section class="pattern-card" role="dialog" aria-modal="true" aria-labelledby="pattern-title">
+    <div class="pattern-card-head"><h2 id="pattern-title">ปลดล็อกด้วยลายลาก</h2><button type="button" id="pattern-close" class="pattern-close" aria-label="ปิด">×</button></div>
+    <p class="pattern-help">ลากเมาส์ต่อเนื่องผ่านตัวเลขตามลำดับที่ตั้งไว้</p>
+    <div id="pattern-pad" class="pattern-pad" aria-label="แป้นลายลาก 10 จุด">
+      <svg id="pattern-lines" class="pattern-lines" viewBox="0 0 196 266" aria-hidden="true"></svg>
+      <button type="button" class="pattern-dot" data-dot="1">1</button><button type="button" class="pattern-dot" data-dot="2">2</button><button type="button" class="pattern-dot" data-dot="3">3</button>
+      <button type="button" class="pattern-dot" data-dot="4">4</button><button type="button" class="pattern-dot" data-dot="5">5</button><button type="button" class="pattern-dot" data-dot="6">6</button>
+      <button type="button" class="pattern-dot" data-dot="7">7</button><button type="button" class="pattern-dot" data-dot="8">8</button><button type="button" class="pattern-dot" data-dot="9">9</button>
+      <button type="button" class="pattern-dot" data-dot="0">0</button>
+    </div>
+    <p id="pattern-status" class="pattern-status" role="status" aria-live="polite">เริ่มลากจากจุดแรก</p>
+  </section>
+</div>
+
+<aside id="stamp-rail" class="stamp-rail" aria-label="คลังตรา" hidden>
+  <div class="stamp-panel"><h2>คลังตรา</h2><p>ยังไม่มีตราในคลัง</p></div>
+  <button type="button" class="stamp-handle" aria-label="เปิดคลังตรา">คลังตรา</button>
+</aside>
 
 <section class="file-settings" aria-label="ตั้งชื่อไฟล์">
 
@@ -1211,6 +1245,7 @@ document.getElementById('save').addEventListener('click',()=>{
 
   saved.querySelectorAll('#save-pdf,#save-excel').forEach(button=>{button.disabled=false;button.removeAttribute('aria-busy');});saved.querySelector('#file-save-status').textContent='';
   saved.querySelector('#pages').replaceChildren();saved.querySelector('#edit').setAttribute('aria-pressed','false');
+  saved.querySelector('#pattern-overlay').hidden=true;saved.querySelector('#stamp-rail').hidden=true;const savedUnlock=saved.querySelector('#unlock-button');savedUnlock.textContent='ปลดล็อก';savedUnlock.setAttribute('aria-expanded','false');savedUnlock.setAttribute('aria-pressed','false');
 
   const blob=new Blob(['<!doctype html>\n'+saved.outerHTML],{type:'text/html;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');
 
@@ -1864,5 +1899,64 @@ document.getElementById('save-excel').addEventListener('click',async event=>{
   finally{button.disabled=false;button.removeAttribute('aria-busy');}
 });
 
+</script>
+<script>
+// Local UI gesture gate only. It does not authenticate a document or protect its source code.
+(() => {
+  const expected='089365';
+  const button=document.getElementById('unlock-button');
+  const overlay=document.getElementById('pattern-overlay');
+  const pad=document.getElementById('pattern-pad');
+  const lines=document.getElementById('pattern-lines');
+  const status=document.getElementById('pattern-status');
+  const stampRail=document.getElementById('stamp-rail');
+  const dots=[...pad.querySelectorAll('[data-dot]')];
+  let sequence=[],drawing=false,pointerId=null,unlocked=false;
+
+  function reset(message='เริ่มลากจากจุดแรก',error=false){
+    sequence=[];drawing=false;pointerId=null;
+    dots.forEach(dot=>dot.classList.remove('active'));
+    lines.replaceChildren();status.textContent=message;status.classList.toggle('error',error);
+  }
+  function close(){overlay.hidden=true;button.setAttribute('aria-expanded','false');reset();button.focus();}
+  function center(dot){const box=dot.getBoundingClientRect(),base=pad.getBoundingClientRect();return [box.left+box.width/2-base.left,box.top+box.height/2-base.top];}
+  function redraw(pointer){
+    lines.replaceChildren();if(!sequence.length)return;
+    const points=sequence.map(value=>center(dots.find(dot=>dot.dataset.dot===value)));
+    if(pointer)points.push(pointer);
+    const polyline=document.createElementNS('http://www.w3.org/2000/svg','polyline');
+    polyline.setAttribute('points',points.map(point=>point.join(',')).join(' '));
+    polyline.setAttribute('fill','none');polyline.setAttribute('stroke','#1768a5');polyline.setAttribute('stroke-width','4');polyline.setAttribute('stroke-linecap','round');polyline.setAttribute('stroke-linejoin','round');
+    lines.append(polyline);
+  }
+  function add(dot){if(!dot||sequence.includes(dot.dataset.dot))return;sequence.push(dot.dataset.dot);dot.classList.add('active');redraw();}
+  function atPointer(event){const hit=document.elementFromPoint(event.clientX,event.clientY);return hit?.closest('#pattern-pad [data-dot]')||null;}
+
+  button.addEventListener('click',()=>{
+    if(unlocked){unlocked=false;stampRail.hidden=true;button.textContent='ปลดล็อก';button.setAttribute('aria-pressed','false');return;}
+    overlay.hidden=false;button.setAttribute('aria-expanded','true');reset();document.getElementById('pattern-close').focus();
+  });
+  document.getElementById('pattern-close').addEventListener('click',close);
+  overlay.addEventListener('pointerdown',event=>{if(event.target===overlay)close();});
+  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!overlay.hidden)close();});
+  pad.addEventListener('pointerdown',event=>{
+    const dot=event.target.closest('[data-dot]');if(!dot)return;
+    event.preventDefault();reset('ลากต่อเนื่องจนถึงจุดสุดท้าย');drawing=true;pointerId=event.pointerId;
+    pad.setPointerCapture(pointerId);add(dot);
+  });
+  pad.addEventListener('pointermove',event=>{
+    if(!drawing||event.pointerId!==pointerId)return;
+    add(atPointer(event));
+    const box=pad.getBoundingClientRect();redraw([event.clientX-box.left,event.clientY-box.top]);
+  });
+  pad.addEventListener('pointerup',event=>{
+    if(!drawing||event.pointerId!==pointerId)return;
+    add(atPointer(event));drawing=false;
+    if(pad.hasPointerCapture(pointerId))pad.releasePointerCapture(pointerId);
+    if(sequence.join('')===expected){unlocked=true;stampRail.hidden=false;button.textContent='ล็อกอีกครั้ง';button.setAttribute('aria-pressed','true');close();}
+    else reset('ลายลากไม่ถูกต้อง ลองอีกครั้ง',true);
+  });
+  pad.addEventListener('pointercancel',()=>reset('ยกเลิกการลาก ลองอีกครั้ง'));
+})();
 </script>
 </body></html>
