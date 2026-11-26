@@ -1,0 +1,31 @@
+SECURELOAD
+0
+(load "C:/TA/TA_COMPELETE/tmp/ta_cell_area_test/real_v2.lsp")
+(setq tca:prompt nil tca:units "Millimeters" tca:min-area 0.5 tca:scale 12.0 tca:mat "PRESET MAT" tca:station "PRESET STATION" tca:floor "PRESET FLOOR" tca:block "tca_preset_test" tca:precision 3 tca:layer-info "TCA-PRESET-INFO" tca:color-info 4 tca:layer-boundary "TCA-PRESET-BOUNDARY" tca:color-boundary 6 tca:spacing 2.0 tca:offset '(100.0 50.0))
+TCAA2
+_All
+
+(setq TCT:labels (ssget "_X" '((0 . "INSERT") (2 . "tca_preset_test") (8 . "TCA-PRESET-INFO"))))
+(TCT:Assert (and TCT:labels (= 4 (sslength TCT:labels))) "no-prompt presets create four info blocks")
+(setq TCT:index 0)
+(repeat (sslength TCT:labels) (setq TCT:entity (ssname TCT:labels TCT:index) TCT:attrs (TCT:Attributes TCT:entity) TCT:data (entget TCT:entity) TCT:point (cdr (assoc 10 TCT:data)) TCT:index (1+ TCT:index)) (TCT:Assert (and (= "PRESET MAT" (cdr (assoc "MAT" TCT:attrs))) (= "PRESET STATION" (cdr (assoc "STATION" TCT:attrs))) (= "PRESET FLOOR" (cdr (assoc "FLOOR" TCT:attrs))) (equal 12.0 (cdr (assoc 41 TCT:data)) 1e-7) (member (car TCT:point) '(600.0 1600.0)) (member (cadr TCT:point) '(550.0 1550.0))) "preset metadata scale and offset applied"))
+(TCT:Assert (= 4 (cdr (assoc 62 (tblsearch "LAYER" "TCA-PRESET-INFO")))) "preset layer colour applied")
+(setq TCT:child (cdr (assoc -2 (tblsearch "BLOCK" "tca_preset_test"))))
+(while (/= "ATTDEF" (cdr (assoc 0 (entget TCT:child)))) (setq TCT:child (entnext TCT:child)))
+(TCT:Assert (equal 3.0 (caddr (assoc 11 (entget TCT:child))) 1e-7) "preset row spacing applied to new definition")
+(command-s "_.ERASE" (ssget "_X" '((8 . "TCA-PRESET-INFO,TCA-PRESET-BOUNDARY"))) "")
+(setq tca:prompt T)
+TCAA2
+_All
+
+
+
+
+
+
+
+(setq TCT:labels (ssget "_X" '((0 . "INSERT") (2 . "tca_preset_test") (8 . "TCA-PRESET-INFO"))))
+(TCT:Assert (and TCT:labels (= 4 (sslength TCT:labels))) "Enter accepts all preset input defaults")
+(princ (strcat "\nPRESET_TEST_FAILURES=" (itoa TCT:failures)))
+_.QUIT
+_Yes

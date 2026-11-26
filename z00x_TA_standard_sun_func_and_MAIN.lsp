@@ -3392,6 +3392,75 @@
         mtext_string_
       )
     )
+    (defun c:dynamicparamter_roundup_paraup ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "INSERT") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+        (setq ss_pre_filter_set_xx_ (TA:EF_Filter_ss_set_ 
+                                      ss_pre_filter_set_xx_
+                                      (setq Filter_target_obj_EFname_ (LM:effectivename 
+                                                                        (setq Filter_target_obj_ 
+                                                                                                 (
+                                                                                                 vlax-ename->vla-object
+                                                                                                 (setq Filter_target_ename_ 
+                                                                                                                            (
+                                                                                                                            car
+                                                                                                                            
+                                                                                                                            (
+                                                                                                                            entsel
+                                                                                                                            "specify TA:EF_Filter_ss_set_ Object"
+                                                                                                                            )
+                                                                                                                            )
+                                                                                                 )
+                                                                                                 )
+                                                                        )
+                                                                      )
+                                      )
+                                    )
+        )
+        (setq parameter_name_ (TA:choose_list_v4 (LM:getdynprops_nonvalue Filter_target_obj_ ) "specify parameter" sxxx))
+      ;
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (if (and 
+                (= (vla-get-isdynamicblock ss_pre_filter_set_xx_obj_) :vlax-true)
+                (/= (member sxxx (LM:getdynprops_nonvalue ss_pre_filter_set_xx_obj_ ) ) nil)
+              )
+            (progn
+              (LM:Setdynpropvalue ss_pre_filter_set_xx_obj_ parameter_name_ (LM:roundup (LM:getdynpropvalue ss_pre_filter_set_xx_obj_ parameter_name_  ) 1))
+            )
+          )
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+    )
   ;
   ;format_FUNC
     (defun format-all-workbook-list (data)
@@ -68526,6 +68595,48 @@
       (LM:writecsv (TA:PairList_to_CSVRows unique_list_item ) (strcat filepath filename_))
     )
     
+  )
+  (defun c:sumdim ()
+    ;selection_set_for_fillter_blk_name
+      (if  ;pre_select_ssget_or_post_select_ssget
+        (=
+          (setq ss_pre_filter_set_xx_ (ssget "i"
+                                            (list
+                                              (cons 0 "dimension") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+          nil
+        )
+        (progn
+          (setq ss_pre_filter_set_xx_ (ssget
+                                            (list
+                                              (cons 0 "dimension") ;type of object
+                                              ; (cons 8 "000 - GRID")   ;kind of layer
+                                              ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                              ; (cons 62 1)           ;kind of color call sign with color code index
+                                            )
+                                      )
+          )
+        )
+        (sslength ss_pre_filter_set_xx_)
+      )
+    ;
+    ;preloop_and_while
+      (setq ss_pre_filter_set_xx_i 0)
+      (setq cur-len-dim_ovl 0)
+      (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+        (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+        (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+        (setq cur-len-dim_ (vla-get-measurement ss_pre_filter_set_xx_obj_ ))
+        (setq cur-len-dim_ovl (+ cur-len-dim_ovl cur-len-dim_))
+        (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+      )
+    ;
+    (setq cur-len-dim_ovl_result_ cur-len-dim_ovl)
   )
 ;
 

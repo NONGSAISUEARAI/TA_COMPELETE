@@ -1153,15 +1153,6 @@
         )
       ;
     )
-    (defun LM:CountItems (l / c l r x) 
-      (while l 
-        (setq x (car l))
-        (setq c (length l))
-        (setq l (vl-remove x (cdr l)))
-        (setq r (cons (cons x (- c (length l))) r))
-      )
-      (reverse r)
-    )
 ;
 ;Get_Data Document Ta Trai
   (defun LM:getdocumentobject ( dwg / app dbx dwl err vrs )

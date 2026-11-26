@@ -1,0 +1,32 @@
+SECURELOAD
+0
+(load "C:/TA/TA_COMPELETE/tmp/ta_cell_area_test/real_v2.lsp")
+(setq tca:filter "Size" tca:min-width 1000.0 tca:min-length 1000.0)
+(setq TCT:faces (TCA:GridFaces (TCT:GridSS)))
+(TCT:Assert (TCA:AcceptFace (car TCT:faces) 1e-6 999.0) "size equality passes and old area threshold is ignored")
+(setq tca:min-width 1001.0)
+(TCT:Assert (not (TCA:AcceptFace (car TCT:faces) 1e-6 0.0)) "width below minimum is rejected")
+(setq tca:min-width 500.0 tca:min-length 1001.0)
+(TCT:Assert (not (TCA:AcceptFace (car TCT:faces) 1e-6 0.0)) "length below minimum is rejected")
+(TCT:Clear)
+(TCT:Path '((0.0 0.0 0.0) (500.0 0.0 0.0) (500.0 2000.0 0.0) (0.0 2000.0 0.0)))
+(TCT:Path '((3000.0 0.0 0.0) (5000.0 0.0 0.0) (5000.0 500.0 0.0) (3000.0 500.0 0.0)))
+(TCT:Path '((6000.0 0.0 0.0) (6499.0 0.0 0.0) (6499.0 2000.0 0.0) (6000.0 2000.0 0.0)))
+(setq tca:prompt T tca:min-width 0.0 tca:min-length 0.0)
+TCAA2
+_All
+
+Millimeters
+500
+2000
+25
+SIZE MAT
+SIZE STATION
+SIZE FLOOR
+(setq TCT:labels (ssget "_X" '((0 . "INSERT") (2 . "facade_1_INFO") (8 . "TA-FACADE-INFO"))))
+(TCT:Assert (and TCT:labels (= 2 (sslength TCT:labels))) "only two qualifying rectangles create blocks in either orientation")
+(setq TCT:index 0)
+(repeat (sslength TCT:labels) (setq TCT:attrs (TCT:Attributes (ssname TCT:labels TCT:index)) TCT:index (1+ TCT:index)) (TCT:Assert (and (equal 1.0 (atof (cdr (assoc "AREA" TCT:attrs))) 1e-6) (= "SIZE MAT" (cdr (assoc "MAT" TCT:attrs)))) "area and metadata still written correctly"))
+(princ (strcat "\nSIZE_TEST_FAILURES=" (itoa TCT:failures)))
+_.QUIT
+_Yes

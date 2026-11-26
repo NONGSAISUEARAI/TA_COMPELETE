@@ -1,0 +1,11 @@
+SECURELOAD
+0
+(load "C:/TA/TA_COMPELETE/GPT CODE/TA_CELL_AREA/TA_CELL_AREA.lsp")
+(TCA:InfoBlock)
+(setq probe-block (tblobjname "BLOCK" "facade_1_INFO"))
+(princ (entget probe-block))
+(setq probe-record (cdr (assoc 330 (entget probe-block))))
+(princ (entget probe-record))
+(princ (getvar "INSUNITS"))
+_.QUIT
+_Yes

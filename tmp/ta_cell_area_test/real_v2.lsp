@@ -1,4 +1,5 @@
 (load "C:/TA/TA_COMPELETE/GPT CODE/TA_CELL_AREA/TA_CELL_AREA.lsp")
+(setq tca:filter "Area")
 (setq TCT:failures 0)
 (defun TCT:Assert (condition name)
   (princ (strcat "\nTEST " name "=" (if condition "PASS" "FAIL")))

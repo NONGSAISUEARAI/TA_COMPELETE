@@ -984,15 +984,6 @@
         )
       ;
     )
-    (defun LM:CountItems (l / c l r x) 
-      (while l 
-        (setq x (car l))
-        (setq c (length l))
-        (setq l (vl-remove x (cdr l)))
-        (setq r (cons (cons x (- c (length l))) r))
-      )
-      (reverse r)
-    )
     (defun TA:find-all-indexes (val lst / idx result)
       (setq idx 0)
       (setq result '())

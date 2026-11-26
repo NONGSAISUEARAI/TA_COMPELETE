@@ -3,12 +3,16 @@
 ;;; T = prompt with preset defaults; nil = use presets after grid selection.
 (setq tca:prompt          T)
 (setq tca:units           "Millimeters") ; Drawing / Millimeters / Meters
+(setq tca:filter          "Size")        ; Size = width/length minima; Area = legacy area gate
+(setq tca:min-width       0.0)           ; Short side minimum, DRAWING units; equality accepted
+(setq tca:min-length      0.0)           ; Long side minimum, DRAWING units; equality accepted
 (setq tca:min-area        0.0)           ; Accept only Area > this value, in OUTPUT units
 (setq tca:scale           25.0)          ; Uniform information-block scale
 (setq tca:mat             "")            ; MAT for all accepted cells
 (setq tca:station         "")            ; STATION for all accepted cells
 (setq tca:floor           "")            ; FLOOR for all accepted cells
 (setq tca:block           "facade_1_INFO") ; Same default as TA_FACADE_OUTLINE
+(setq tca:block-units     4)             ; Attribute BLOCK units: 4 = Millimeters; 9 = Mils
 (setq tca:precision       2)             ; AREA decimal places, 0..8
 (setq tca:layer-boundary  "TA-CELL-BOUNDARY")
 (setq tca:color-boundary  3)             ; ACI colour when creating the layer
@@ -21,7 +25,7 @@
 
 ;;; TA_CELL_AREA -- AutoCAD for Windows
 ;;; TCA: pick inside cells; TCAP: selected POINT/CIRCLE centres.
-;;; v2.3 TCAA: automatic cells, information blocks and editable presets.
+;;; v2.5 TCAA: size/area filtering and information blocks with explicit units.
 ;;; Automatic mode builds its own graph and does not call BOUNDARY.
 ;;; Grid selection includes LINE, open/closed POLYLINE and XLINE.
 ;;; Requires closed coplanar 2D boundaries. Interior islands are ignored.
@@ -35,8 +39,12 @@
 (defun TCA:ValidatePresets ()
   (if (not (and (member tca:prompt '(T nil))
                 (member tca:units '("Drawing" "Millimeters" "Meters"))
+                (member tca:filter '("Size" "Area"))
+                (numberp tca:min-width) (>= tca:min-width 0.0)
+                (numberp tca:min-length) (>= tca:min-length 0.0)
                 (numberp tca:min-area) (>= tca:min-area 0.0)
                 (numberp tca:scale) (> tca:scale 0.0)
+                (= (type tca:block-units) 'INT) (<= 0 tca:block-units 24)
                 (= (type tca:precision) 'INT) (<= 0 tca:precision 8)
                 (numberp tca:spacing) (> tca:spacing 0.0)
                 (listp tca:offset) (= (length tca:offset) 2)
@@ -72,6 +80,23 @@
     ((= 1 (length result)) (car result))
     (T (foreach en result (entdel en)) nil)))
 
+(defun TCA:SetBlockUnits (name / block record data updated)
+  ;; BLOCK group 70 is flags. Units belong to group 70 on its owner BLOCK_RECORD.
+  (setq block (tblobjname "BLOCK" name)
+        record (if block (cdr (assoc 330 (entget block))))
+        data (if record (entget record)))
+  (if (not (and data (= "BLOCK_RECORD" (cdr (assoc 0 data)))))
+    (TCA:Fail (strcat "Cannot find block unit metadata: " name)))
+  (if (/= tca:block-units (cdr (assoc 70 data)))
+    (progn
+      (setq updated (if (assoc 70 data)
+                      (subst (cons 70 tca:block-units) (assoc 70 data) data)
+                      (append data (list (cons 70 tca:block-units)))))
+      (if (not (and (entmod updated)
+                    (= tca:block-units (cdr (assoc 70 (entget record))))))
+        (TCA:Fail (strcat "Cannot set block insertion units: " name)))))
+  name)
+
 (defun TCA:InfoBlock (/ name definition child data tags tag row y ok)
   (setq name tca:block)
   (if (not (tblsearch "BLOCK" name))
@@ -106,7 +131,7 @@
   (foreach tag '("AREA" "MAT" "STATION" "FLOOR")
     (if (/= 1 (length (vl-remove-if-not '(lambda (item) (= item tag)) tags)))
       (TCA:Fail (strcat name " must contain exactly one editable " tag " attribute."))))
-  name)
+  (TCA:SetBlockUnits name))
 
 ;;; Same position-lock handling as TFO:LockAttributeData. Keep attribute
 ;;; version/Xrecord fields; update only position-lock flag on new references.
@@ -129,12 +154,15 @@
         values (list (cons "AREA" (rtos area 2 tca:precision)) (cons "MAT" tca:mat)
                      (cons "STATION" tca:station) (cons "FLOOR" tca:floor))
         saved (mapcar '(lambda (v) (cons v (getvar v)))
-                 '("ATTREQ" "ATTDIA" "ANGBASE" "ANGDIR" "AUNITS" "CLAYER"))
+                 '("ATTREQ" "ATTDIA" "ANGBASE" "ANGDIR" "AUNITS" "CLAYER" "INSUNITS"))
         before (entlast))
   (setq result (vl-catch-all-apply
     '(lambda ()
        (setvar "ATTREQ" 0) (setvar "ATTDIA" 0) (setvar "ANGBASE" 0.0)
        (setvar "ANGDIR" 0) (setvar "AUNITS" 0) (setvar "CLAYER" tca:layer-info)
+       ;; Keep preset scale in drawing units despite block-unit conversion.
+       ;; Restore the drawing's INSUNITS immediately after this insertion.
+       (setvar "INSUNITS" tca:block-units)
        ;; Insert in current UCS: same plane and orientation as the new cell.
        ;; AutoCAD instantiates the existing ATTDEF layout and custom defaults.
        (command-s "_.-INSERT" block "_Scale" height "_Rotate" "0" "_non"
@@ -431,14 +459,33 @@
                                        (apply 'max (mapcar 'cadr physical))) 2.0) z))
               (if (TCA:Inside center physical) (setq seed center))
               (setq faces (cons (list physical seed area) faces))))))))
-  (princ (strcat "\nTA CELL AREA v2.3 - bounded cells found: " (itoa (length faces))))
+  (princ (strcat "\nTA CELL AREA v2.5 - bounded cells found: " (itoa (length faces))))
   (if (not faces)
     (princ "\nNo closed cells found. Check grid selection, gaps and UCS alignment."))
   (reverse faces))
 
+(defun TCA:FaceSize (face / points dx dy)
+  (setq points (car face)
+        dx (- (apply 'max (mapcar 'car points)) (apply 'min (mapcar 'car points)))
+        dy (- (apply 'max (mapcar 'cadr points)) (apply 'min (mapcar 'cadr points))))
+  (list (min dx dy) (max dx dy)))
+
+(defun TCA:AcceptFace (face factor minimum / size)
+  (if (= tca:filter "Size")
+    (progn
+      (setq size (TCA:FaceSize face))
+      (and (or (>= (car size) tca:min-width) (equal (car size) tca:min-width 1e-7))
+           (or (>= (cadr size) tca:min-length) (equal (cadr size) tca:min-length 1e-7))))
+    (> (* (caddr face) factor) minimum)))
+
+(defun TCA:ReadMinimum (label previous / answer)
+  (initget 4)
+  (setq answer (getreal (strcat "\n" label " <" (rtos previous 2 4) ">: ")))
+  (if answer answer previous))
+
 (defun TCA:PutFace (face height factor suffix number minimum / points area normal ocs en)
   (setq points (car face) area (* (caddr face) factor))
-  (if (> area minimum)
+  (if (TCA:AcceptFace face factor minimum)
     (progn
       (setq normal (trans '(0.0 0.0 1.0) 1 0 T)
             ocs (mapcar '(lambda (p) (trans p 1 normal)) points))
@@ -494,17 +541,20 @@
           (setq minimum tca:min-area)
           (if (eq batch 'Auto)
             (progn
-              (if tca:prompt
+              (if (= tca:filter "Size")
                 (progn
-                  (initget 4)
-                  (setq minimum (getreal (strcat "\nOnly write cells with area GREATER THAN (" suffix ") <"
-                                                (rtos tca:min-area 2 4) ">: ")))
-                  (if (not minimum) (setq minimum tca:min-area))))
-              (setq tca:min-area minimum)
-              (setq faces (vl-remove-if-not '(lambda (face) (> (* (caddr face) factor) minimum)) faces))
-              (princ (strcat "\nCells above threshold: " (itoa (length faces))))
+                  (princ "\nSize gate: short side = width, long side = length; DRAWING units.")
+                  (if tca:prompt
+                    (setq tca:min-width (TCA:ReadMinimum "Minimum WIDTH (short side, drawing units)" tca:min-width)
+                          tca:min-length (TCA:ReadMinimum "Minimum LENGTH (long side, drawing units)" tca:min-length))))
+                (progn
+                  (if tca:prompt
+                    (setq minimum (TCA:ReadMinimum (strcat "Only write cells with area GREATER THAN (" suffix ")") tca:min-area)))
+                  (setq tca:min-area minimum)))
+              (setq faces (vl-remove-if-not '(lambda (face) (TCA:AcceptFace face factor minimum)) faces))
+              (princ (strcat "\nCells passing filter: " (itoa (length faces))))
               (if (not faces)
-                (TCA:Fail "No cells exceed the threshold. No outlines or labels were created."))))
+                (TCA:Fail "No cells pass the filter. No outlines or labels were created."))))
           (setq height tca:scale)
           (if tca:prompt
             (progn
@@ -545,5 +595,22 @@
 (defun c:TCAP () (TCA:Run T))
 (defun c:TCAA () (TCA:Run 'Auto))
 (defun c:TCAA2 () (TCA:Run 'Auto))
-(princ "\nLoaded TA_CELL_AREA v2.3 (PRESETTING + info attributes). Commands: TCA, TCAP, TCAA / TCAA2.")
+(defun c:TCAUNIT (/ *error* marked)
+  (defun *error* (msg)
+    (if marked (command-s "_.UNDO" "_End"))
+    (if (and msg (not (wcmatch (strcase msg) "*CANCEL*,*QUIT*,*EXIT*")))
+      (princ (strcat "\nTCAUNIT error: " msg)))
+    (princ))
+  (TCA:ValidatePresets)
+  (if (not (tblsearch "BLOCK" tca:block))
+    (TCA:Fail (strcat "Block not found in this drawing: " tca:block)))
+  (command-s "_.UNDO" "_Begin") (setq marked T)
+  (TCA:InfoBlock)
+  (command-s "_.UNDO" "_End") (setq marked nil)
+  (princ (strcat "\nUpdated attribute block " tca:block " insertion units = "
+    (cond ((= tca:block-units 4) "Millimeters (mm)")
+          ((= tca:block-units 9) "Mils (0.001 inch)")
+          (T (itoa tca:block-units))) "."))
+  (princ))
+(princ "\nLoaded TA_CELL_AREA v2.5 (block units + info attributes). Commands: TCA, TCAP, TCAA / TCAA2, TCAUNIT.")
 (princ)
