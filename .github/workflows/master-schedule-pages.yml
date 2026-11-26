@@ -1,0 +1,57 @@
+name: Publish Master Schedule
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'GPT CODE/master schedule project/Master_Schedule.html'
+      - '.github/workflows/master-schedule-pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout only the application
+        uses: actions/checkout@v6
+        with:
+          sparse-checkout: 'GPT CODE/master schedule project/Master_Schedule.html'
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+
+      - name: Prepare static website and keep the original URL
+        shell: bash
+        run: |
+          set -euo pipefail
+          source='GPT CODE/master schedule project/Master_Schedule.html'
+          test -s "$source"
+          mkdir -p "_site/GPT CODE/master schedule project"
+          cp "$source" _site/index.html
+          cp "$source" "_site/GPT CODE/master schedule project/Master_Schedule.html"
+          touch _site/.nojekyll
+          cmp "$source" _site/index.html
+          cmp "$source" "_site/GPT CODE/master schedule project/Master_Schedule.html"
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload only the prepared website
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
