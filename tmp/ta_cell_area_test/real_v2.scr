@@ -1,0 +1,24 @@
+SECURELOAD
+0
+(load "C:/TA/TA_COMPELETE/tmp/ta_cell_area_test/real_v2.lsp")
+TCAA2
+_All
+
+Millimeters
+0
+40
+ALUMINIUM 3MM
+ST-01
+L02
+(setq TCT:labels (ssget "_X" '((0 . "INSERT") (2 . "facade_1_INFO") (8 . "TA-FACADE-INFO"))))
+(TCT:Assert (and TCT:labels (= 4 (sslength TCT:labels))) "TCAA actually writes four labels")
+(setq TCT:index 0)
+(repeat (sslength TCT:labels) (setq TCT:attrs (TCT:Attributes (ssname TCT:labels TCT:index)) TCT:index (1+ TCT:index)) (TCT:Assert (and (equal 1.0 (atof (cdr (assoc "AREA" TCT:attrs))) 1e-6) (= "ALUMINIUM 3MM" (cdr (assoc "MAT" TCT:attrs))) (= "ST-01" (cdr (assoc "STATION" TCT:attrs))) (= "L02" (cdr (assoc "FLOOR" TCT:attrs))) (= "KEEP-ME" (cdr (assoc "EXTRA" TCT:attrs)))) "all blocks have correct attributes and preserved extra default"))
+(TCT:Assert (equal TCT:defbefore (TCT:Definition)) "existing custom facade block definition unchanged")
+(setq TCT:after nil TCT:index 0)
+(repeat (sslength TCT:sources) (setq TCT:after (cons (entget (ssname TCT:sources TCT:index)) TCT:after) TCT:index (1+ TCT:index)))
+(TCT:Assert (equal TCT:before TCT:after) "source geometry unchanged")
+(TCT:Assert (equal TCT:vars (mapcar '(lambda (v) (cons v (getvar v))) '("CMDECHO" "OSMODE" "CLAYER" "PLINETYPE" "HPGAPTOL" "ATTREQ" "ATTDIA" "ANGBASE" "ANGDIR" "AUNITS"))) "system variables restored")
+(princ (strcat "\nREAL_TEST_FAILURES=" (itoa TCT:failures)))
+_.QUIT
+_Yes

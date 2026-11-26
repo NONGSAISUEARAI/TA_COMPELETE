@@ -1,0 +1,12 @@
+SECURELOAD
+0
+(load "C:/TA/TA_COMPELETE/tmp/ta_cell_area_test/real_v2.lsp")
+TCAA2
+_All
+
+Millimeters
+1.0
+(TCT:Assert (null (ssget "_X" '((8 . "TA-CELL-BOUNDARY,TA-FACADE-INFO")))) "no eligible area creates no output")
+(princ (strcat "\nTHRESHOLD_TEST_FAILURES=" (itoa TCT:failures)))
+_.QUIT
+_Yes

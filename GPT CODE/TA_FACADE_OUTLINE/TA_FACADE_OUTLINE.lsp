@@ -35,7 +35,7 @@
 (setq mat_txt_          "")         ; MAT dฟefault value
 (setq station_txt_      "")         ; STATION default value
 (setq floor_txt_        "")         ; FLOOR default value
-(setq height_info_      10.0)       ; Information block text height
+(setq height_info_      25)       ; Information block text height
 (setq spacing_info_     1.6)        ; Row spacing, in text heights
 (setq offset_info_      '(0.0 0.0)) ; WCS XY offset in drawing units, independent of block scale
 (setq layer_info_       "TA-FACADE-INFO")

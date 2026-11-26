@@ -1,0 +1,17 @@
+SECURELOAD
+0
+(load "C:/TA/TA_COMPELETE/tmp/ta_cell_area_test/auto_fixture.lsp")
+TCAA
+_All
+
+Millimeters
+40
+0
+(setq test-labels (ssget "_X" '((0 . "TEXT") (8 . "TA-CELL-AREA"))))
+(princ (strcat "\nTEST_AUTO_LABELS=" (itoa (sslength test-labels))))
+(princ (strcat "\nTEST_MINIMUM_FILTER=" (if (null (TCA:Measure test-grid '(500.0 500.0 0.0) 40.0 1e-6 " m2" nil 5 1.1)) "PASS" "FAIL")))
+(setq test-after nil test-index 0)
+(repeat (sslength test-grid) (setq test-after (cons (entget (ssname test-grid test-index)) test-after) test-index (1+ test-index)))
+(princ (strcat "\nTEST_SOURCES_UNCHANGED=" (if (equal test-sources test-after) "PASS" "FAIL")))
+_.QUIT
+_Yes
