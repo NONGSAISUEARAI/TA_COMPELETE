@@ -24,6 +24,13 @@
 ; Applies in both physical-scale and auto-fit modes; source blocks are unchanged.
 (setq count:preview_rotation 0)
 
+; 5. Decimal places for numeric Lookup/Dynamic values BEFORE filtering/grouping.
+; 2 = 1900 and 1900.0001 become 1900; 0 = whole numbers.
+; nil = exact numeric comparison. Allowed precision: integer 0..12.
+; Display uses the same precision, without padding trailing zeros.
+; Attribute strings, block geometry, Preview scales and Count are not rounded.
+(setq count:decimal_precision 2)
+
 ; Default settings for Count V1.6.
 ; Existing saved settings (.cfg / BLKCOUNTSETTINGS) take priority.
 ; Selected Lookup, Dynamic, and Attribute fields each use their own column.
@@ -112,6 +119,8 @@
 ;;  - Physical Preview scale in mm; source-sized copy and cell sizing. ;;
 ;;  - Preview rotation: source angle (T) or absolute degrees; supports  ;;
 ;;    both physical-scale and auto-fit Preview modes.                 ;;
+;;  - 2026-11-27: Numeric decimal precision before filtering/grouping  ;;
+;;    and display; preserves Attribute text and original geometry.     ;;
 ;;----------------------------------------------------------------------;;
 
 (setq count:version "1-6")
@@ -671,11 +680,37 @@
     (and value pattern (wcmatch (strcase value) (strcase pattern)))
 )
 
+(defun count:decimalprecision nil
+    (cond
+        ((null count:decimal_precision) nil)
+        ((and (= 'int (type count:decimal_precision)) (<= 0 count:decimal_precision 12))
+            count:decimal_precision)
+        (t 2))
+)
+
+;; RTOS/ATOF avoids 32-bit FIX overflow for large dimensions/high precision.
+;; Keep text identities (e.g. Attribute codes and leading zeros) unchanged.
+(defun count:roundvalue ( value / precision )
+    (cond
+        ((and (numberp value) (setq precision (count:decimalprecision)))
+            (atof (rtos value 2 precision)))
+        ((listp value) (mapcar 'count:roundvalue value))
+        (t value))
+)
+
+(defun count:numberstring ( value / precision result )
+    (setq precision (count:decimalprecision)
+          result (rtos (count:roundvalue value) 2 (if precision precision 12)))
+    (if (vl-string-search "." result)
+        (setq result (vl-string-right-trim "." (vl-string-right-trim "0" result))))
+    (if (member result '("-0" "" "-")) "0" result)
+)
+
 (defun count:variantstring ( value )
     (cond
         ((= 'str  (type value)) value)
         ((= 'int  (type value)) (itoa value))
-        ((= 'real (type value)) (rtos value 2 12))
+        ((= 'real (type value)) (count:numberstring value))
         ((vl-princ-to-string value))
     )
 )
@@ -720,13 +755,14 @@
 
 (defun count:lookupvalueequal ( a b )
     (cond
-        ((and (numberp a) (numberp b)) (= a b))
+        ((and (numberp a) (numberp b)) (= (count:roundvalue a) (count:roundvalue b)))
         ((and (= 'str (type a)) (= 'str (type b))) (= (strcase a) (strcase b)))
         ((and (listp a) (listp b) (= (length a) (length b)))
             (vl-every 'count:lookupvalueequal a b)))
 )
 
 (defun count:appendvalue ( value values )
+    (setq value (count:roundvalue value))
     (if (or (not (member (type value) '(str int real)))
             (vl-some '(lambda ( x ) (count:lookupvalueequal value x)) values))
         values
@@ -894,7 +930,8 @@
                                        "(separate row per used value)")))
                     (foreach value values
                         (setq index (1+ index))
-                        (princ (strcat "\n  " (itoa index) " = " (vl-prin1-to-string value)))
+                        (princ (strcat "\n  " (itoa index) " = "
+                            (if (numberp value) (count:variantstring value) (vl-prin1-to-string value))))
                         (if (and old (count:lookupvalueequal value (cdr old)))
                             (setq default index)))
                     (if (eq 'dynamic kind)
@@ -927,7 +964,7 @@
             (progn
                 (setq value (cdr pair))
                 (if (or (eq 'all (cadr spec)) (count:lookupvalueequal value (cadr spec)))
-                    (setq found (list value))))))
+                    (setq found (list (count:roundvalue value)))))))
     found
 )
 
@@ -942,6 +979,7 @@
 ;; Report rows: (value-or-values quantity preview-block-record-name effective-name [source-ename]).
 ;; Keep the actual DXF 2 block record so dynamic previews show the selected state.
 (defun count:addreportrow ( value preview name rows / old )
+    (setq value (count:roundvalue value))
     (if (setq old (vl-some
             '(lambda ( x ) (if (and (= (strcase name) (strcase (cadddr x)))
                                    (count:lookupvalueequal value (car x))) x)) rows))
@@ -1031,6 +1069,8 @@
 )
 
 (defun count:comparecell ( a b )
+    (if (and (numberp a) (numberp b))
+        (setq a (count:roundvalue a) b (count:roundvalue b)))
     (if (not (and (numberp a) (numberp b)))
         (setq a (strcase (count:variantstring a)) b (strcase (count:variantstring b))))
     (cond ((< a b) -1) ((> a b) 1) (t 0))

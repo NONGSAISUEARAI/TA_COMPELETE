@@ -6161,6 +6161,9 @@
       )
       (setq prefix-str_list (list 
                            "user input"
+                           "only number 0"
+                           "only number 00"
+                           "only number 000"
                            "MRT PURPLE LINE  4\\PSTATION (PP17 - PP20)"
                            "FL-PJ26-008-PL1065V-\\PLOT-2-PART-"
                            "FL-PJ26-008-PL2065V-\\PLOT-1-PART-"
@@ -6182,10 +6185,33 @@
         (while (< ss_pre_filter_set_xx_sorted_i (length ss_pre_filter_set_xx_sorted_))
           (setq ss_pre_filter_set_xx_sorted_ename_ (car (nth ss_pre_filter_set_xx_sorted_i ss_pre_filter_set_xx_sorted_ )))
           (setq ss_pre_filter_set_xx_sorted_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_sorted_ename_))
+          (if (= (wcmatch prefix-str_sort_mode "*number*") T)
+            (progn
+              (LM:vl-setattributevalue ss_pre_filter_set_xx_sorted_obj_ tag-target_sort_obj_tagname_ BLKATTsort_start_num)
+            )
+            
+          )
+          (if (and 
+                (= (wcmatch prefix-str_sort_mode "*user*") T)
+              )
+            (progn
+              (LM:vl-setattributevalue ss_pre_filter_set_xx_sorted_obj_ tag-target_sort_obj_tagname_ BLKATTsort_start_num_i)
+            )
+            
+          )
+          (if (and 
+                (/= (wcmatch prefix-str_sort_mode "*user*") T)
+                (/= (wcmatch prefix-str_sort_mode "*number*") T)
+              )
+            (progn
+              (LM:vl-setattributevalue ss_pre_filter_set_xx_sorted_obj_ tag-target_sort_obj_tagname_ BLKATTsort_start_num_i)
+            )
+            
+          )
           
-          (LM:vl-setattributevalue ss_pre_filter_set_xx_sorted_obj_ tag-target_sort_obj_tagname_ (strcat prefix-str_sort_mode BLKATTsort_start_num_i))
-          (LM:vl-setattributevalue ss_pre_filter_set_xx_sorted_obj_ "TTL_PJ_SHEET_NO" BLKATTsort_start_num_i)
-          (LM:vl-setattributevalue ss_pre_filter_set_xx_sorted_obj_ "TTL_PJ_TOTAL_NO" (TA:prefix_value_000 (length ss_pre_filter_set_xx_sorted_)))
+          ; (LM:vl-setattributevalue ss_pre_filter_set_xx_sorted_obj_ tag-target_sort_obj_tagname_ (strcat prefix-str_sort_mode BLKATTsort_start_num_i)) ;มีไว้ใช้ Fameline TTB
+          ; (LM:vl-setattributevalue ss_pre_filter_set_xx_sorted_obj_ "TTL_PJ_SHEET_NO" BLKATTsort_start_num_i) ;มีไว้ใช้ Fameline TTB
+          ; (LM:vl-setattributevalue ss_pre_filter_set_xx_sorted_obj_ "TTL_PJ_TOTAL_NO" (TA:prefix_value_000 (length ss_pre_filter_set_xx_sorted_))) ;มีไว้ใช้ Fameline TTB
           (setq BLKATTsort_start_num_i (TA:prefix_value_000 (setq BLKATTsort_start_num (+ BLKATTsort_start_num 1))))
           
           

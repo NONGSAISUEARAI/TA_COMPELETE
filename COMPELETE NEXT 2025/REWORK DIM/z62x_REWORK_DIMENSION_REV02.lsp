@@ -16192,6 +16192,54 @@
         )
       ;
     )
+    (defun c:DLEN ()
+      ;selection_set_for_fillter_blk_name
+        (if  ;pre_select_ssget_or_post_select_ssget
+          (=
+            (setq ss_pre_filter_set_xx_ (ssget "i"
+                                              (list
+                                                (cons 0 "dimension") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+            nil
+          )
+          (progn
+            (setq ss_pre_filter_set_xx_ (ssget
+                                              (list
+                                                (cons 0 "dimension") ;type of object
+                                                ; (cons 8 "000 - GRID")   ;kind of layer
+                                                ; (cons 2 "000-GRID_LINE_DYN")       ;kind of nameblock
+                                                ; (cons 62 1)           ;kind of color call sign with color code index
+                                              )
+                                        )
+            )
+          )
+          (sslength ss_pre_filter_set_xx_)
+        )
+      ;
+      ;user-input_
+        (setq input_length (cond ( (getint (strcat "\nspecify get input_length \n<" (rtos (setq input_length (cond (input_length) (1.0) ) ) ) "> : " ) ) ) (input_length) ) )
+      ;
+      ;preloop_and_while
+        (setq ss_pre_filter_set_xx_i 0)
+        (while (< ss_pre_filter_set_xx_i (sslength ss_pre_filter_set_xx_))
+          (setq ss_pre_filter_set_xx_ename_ (ssname ss_pre_filter_set_xx_ ss_pre_filter_set_xx_i))
+          (setq ss_pre_filter_set_xx_obj_ (vlax-ename->vla-object  ss_pre_filter_set_xx_ename_))
+          (if (= input_length 0 )
+            (progn
+              (vla-put-textoverride ss_pre_filter_set_xx_obj_ (strcat "LENGTH" ) )
+            )
+            (vla-put-textoverride ss_pre_filter_set_xx_obj_ (strcat "LENGTH" " " (rtos input_length 2 0)) )
+          )
+          
+          (setq ss_pre_filter_set_xx_i (+ ss_pre_filter_set_xx_i 1))
+        )
+      ;
+    )
   ;
   ;create_grid
     (defun c:create_grid_line_creg ()
@@ -19029,6 +19077,7 @@
     (c:move_dim_level_mvdim)
     (command "ucs" "W")
   )
+  
 ;
 ;AS-BUILT -DIMENSION
   (defun c:300Hk_asheaddims ()

@@ -1,0 +1,73 @@
+{
+  "version": 1,
+  "defaultPreset": "1:50",
+  "presets": [
+    {
+      "name": "ไม่ใช้ Annotative",
+      "annotative": false,
+      "scales": []
+    },
+    {
+      "name": "1:1",
+      "annotative": true,
+      "scales": [{ "name": "1:1", "paperUnits": 1.0, "drawingUnits": 1.0 }]
+    },
+    {
+      "name": "1:2",
+      "annotative": true,
+      "scales": [{ "name": "1:2", "paperUnits": 1.0, "drawingUnits": 2.0 }]
+    },
+    {
+      "name": "1:5",
+      "annotative": true,
+      "scales": [{ "name": "1:5", "paperUnits": 1.0, "drawingUnits": 5.0 }]
+    },
+    {
+      "name": "1:10",
+      "annotative": true,
+      "scales": [{ "name": "1:10", "paperUnits": 1.0, "drawingUnits": 10.0 }]
+    },
+    {
+      "name": "1:20",
+      "annotative": true,
+      "scales": [{ "name": "1:20", "paperUnits": 1.0, "drawingUnits": 20.0 }]
+    },
+    {
+      "name": "1:25",
+      "annotative": true,
+      "scales": [{ "name": "1:25", "paperUnits": 1.0, "drawingUnits": 25.0 }]
+    },
+    {
+      "name": "1:50",
+      "annotative": true,
+      "scales": [{ "name": "1:50", "paperUnits": 1.0, "drawingUnits": 50.0 }]
+    },
+    {
+      "name": "1:100",
+      "annotative": true,
+      "scales": [{ "name": "1:100", "paperUnits": 1.0, "drawingUnits": 100.0 }]
+    },
+    {
+      "name": "1:200",
+      "annotative": true,
+      "scales": [{ "name": "1:200", "paperUnits": 1.0, "drawingUnits": 200.0 }]
+    },
+    {
+      "name": "DETAIL 1:5 + 1:10",
+      "annotative": true,
+      "scales": [
+        { "name": "1:5", "paperUnits": 1.0, "drawingUnits": 5.0 },
+        { "name": "1:10", "paperUnits": 1.0, "drawingUnits": 10.0 }
+      ]
+    },
+    {
+      "name": "GENERAL 1:20 + 1:25 + 1:50",
+      "annotative": true,
+      "scales": [
+        { "name": "1:20", "paperUnits": 1.0, "drawingUnits": 20.0 },
+        { "name": "1:25", "paperUnits": 1.0, "drawingUnits": 25.0 },
+        { "name": "1:50", "paperUnits": 1.0, "drawingUnits": 50.0 }
+      ]
+    }
+  ]
+}

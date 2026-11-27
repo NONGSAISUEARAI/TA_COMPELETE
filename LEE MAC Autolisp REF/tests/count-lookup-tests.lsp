@@ -1,6 +1,7 @@
 ;; Run with run-count-lookup.scr in AutoCAD Core Console.
 ;; Native getint is exercised by the script; COM discovery is stubbed.
 (setq ct:failed 0 ct:passed 0)
+(setq count:decimal_precision 2)
 (defun ct:check ( label condition )
     (if condition
         (progn (setq ct:passed (1+ ct:passed)) (princ (strcat "\nPASS " label)))
@@ -322,5 +323,60 @@
 (setq count:preview_rotation "90")
 (ct:check "invalid rotation setting falls back to source" (eq T (count:previewrotation)))
 (setq count:preview_rotation T)
+(setq count:decimal_precision 2)
+(ct:check "round numeric Dynamic values before comparison"
+    (count:lookupvalueequal 1900 1900.0001))
+(ct:check "different rounded values remain distinct"
+    (not (count:lookupvalueequal 1900.004 1900.006)))
+(ct:check "round positive decimal values"
+    (equal 1.24 (count:roundvalue 1.2356) 0.0000001))
+(ct:check "round negative decimal values"
+    (equal -1.24 (count:roundvalue -1.2356) 0.0000001))
+(ct:check "numeric output matches grouping precision"
+    (= "1900" (count:variantstring 1900.0001)))
+(ct:check "fractional output rounds without extra zeros"
+    (= "1.24" (count:variantstring 1.2356)))
+(ct:check "rounded negative zero displays as zero"
+    (= "0" (count:variantstring -0.001)))
+(ct:check "menu catalog collapses numeric noise"
+    (= 1 (length (count:appendvalue 1900.0001 (count:appendvalue 1900.004 '(1900))))))
+(ct:check "text numeric Attribute identities unchanged"
+    (not (count:lookupvalueequal "001900.00" "1900")))
+(ct:check "text decimal Attribute identities unchanged"
+    (not (count:matchattributepairs '(("CODE" . "1900.00")) '("CODE" "1900.0"))))
+(ct:check "large values round without FIX overflow"
+    (equal 1234567890.12 (count:roundvalue 1234567890.12345) 0.000001))
+;; Native six-reference report: all six lengths round to 1900.00, but Name stays a grouping key.
+(setq ct:originaldata ct:data ct:rounddata nil ct:index 0)
+(foreach ct:length '(1900.0 1900.0001 1900.0049 1900.004 1900.0049 1900.0001)
+    (setq ct:ent (ssname ct:ss ct:index) ct:index (1+ ct:index)
+          ct:values (cdr (assoc ct:ent ct:data))
+          ct:rounddata (cons (cons ct:ent (subst (cons "Distance" ct:length)
+                                                (assoc "Distance" ct:values) ct:values)) ct:rounddata)))
+(setq ct:data ct:rounddata)
+(setq ct:roundedfiltered (count:filterselection ct:ss '((dynamic "Distance" 1900))))
+(ct:check "rounded Dynamic filter includes all six refs" (= 6 (sslength ct:roundedfiltered)))
+(setq ct:roundedreport (count:buildfilterreport ct:ss (count:reportfields '((dynamic "Distance" all)))))
+(ct:check "rounded report combines noisy lengths per block name" (= 3 (length ct:roundedreport)))
+(ct:check "rounded report count preserved" (= 6 (apply '+ (mapcar 'cadr ct:roundedreport))))
+(ct:check "rounded report outputs canonical length and quantity"
+    (equal '("CT-A" "1900" "2") (car (count:reporttextrows ct:roundedreport "1" t))))
+(ct:check "remembered raw numeric choice matches new precision"
+    (count:entitylookupentry (ssname ct:ss 0) '("Distance" 1900.0001)))
+(setq count:decimal_precision 4)
+(ct:check "changing precision changes numeric comparison"
+    (not (count:lookupvalueequal 1900 1900.0001)))
+(setq count:decimal_precision 0)
+(ct:check "zero decimal places supported"
+    (and (count:lookupvalueequal 1900.49 1900) (count:lookupvalueequal 1900.51 1901)))
+(setq count:decimal_precision nil)
+(ct:check "nil restores exact numeric comparison"
+    (not (count:lookupvalueequal 1900 1900.0001)))
+(ct:check "nil report preserves distinct original values"
+    (= 6 (length (count:buildfilterreport ct:ss (count:reportfields '((dynamic "Distance" all)))))))
+(setq count:decimal_precision -1)
+(ct:check "invalid precision safely uses two decimals"
+    (count:lookupvalueequal 1900 1900.0001))
+(setq ct:data ct:originaldata count:decimal_precision 2)
 (princ (strcat "\nCOUNT_LOOKUP_TESTS: " (itoa ct:passed) " passed, " (itoa ct:failed) " failed.\n"))
 (princ)
